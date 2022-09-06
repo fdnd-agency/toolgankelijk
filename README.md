@@ -8,5 +8,5 @@ De Vervoerregio is opdrachtgever van het openbaar vervoer per bus, tram en metro
 
 [Project board](https://github.com/fdnd-agency/vervoerregio-amsterdam/projects/1)  
 Styleguide  
-Content  
+[Content](checklist-toegankleijkheid-v0.2.xlsx)  
 API  
