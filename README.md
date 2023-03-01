@@ -11,7 +11,7 @@ De Vervoerregio is opdrachtgever van het openbaar vervoer per bus, tram en metro
 
 [REST API for Toolgankelijkheid](https://api.vervoerregio-amsterdam.fdnd.nl)
 
-[Living Styleguide]
+[Living Styleguide]()
 
 [Handboek Huisstijl](https://github.com/fdnd-agency/vervoerregio-amsterdam/blob/main/Vervoerregio%20Handboek_Huisstijl%202021.pdf)  
 
