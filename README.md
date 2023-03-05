@@ -9,7 +9,7 @@ De Vervoerregio is opdrachtgever van het openbaar vervoer per bus, tram en metro
 
 [Backlog](https://github.com/orgs/fdnd-agency/projects/8)
 
-[Sprintplanning Miro Board](https://miro.com/app/board/uXjVPhXSEn0=/?share_link_id=391672355459)
+[Sprintplanning Miro Board](https://miro.com/app/board/uXjVPhXSEn0=/?share_link_id=694598263794)
 
 [REST API Toolgankelijkheid](https://api.vervoerregio-amsterdam.fdnd.nl)
 
