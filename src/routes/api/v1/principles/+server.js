@@ -18,6 +18,7 @@ export async function GET({ url }) {
   const query = gql`
     query getPrincipes($first: Int, $skip: Int, $orderBy: PrincipeOrderByInput) {
       principes(first: $first, skip: $skip, orderBy: $orderBy) {
+        index
         titel
         slug
         beschrijving {
