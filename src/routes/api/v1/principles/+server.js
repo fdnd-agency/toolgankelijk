@@ -33,6 +33,11 @@ export async function GET({ url }) {
           tip {
             html
           }
+          succescriteria {
+            index
+            titel
+            niveau
+          }
         }
       }
       principesConnection {
