@@ -13,7 +13,7 @@ export async function GET({ url }) {
   let first = Number(url.searchParams.get('first') ?? 5)
   let skip = Number(url.searchParams.get('skip') ?? 0)
   let direction = url.searchParams.get('direction') === 'ASC' ? 'ASC' : 'DESC'
-  let orderBy = (url.searchParams.get('orderBy') ?? 'publishedAt') + '_' + direction
+  let orderBy = (url.searchParams.get('orderBy') ?? 'createdAt') + '_' + direction
 
   const query = gql`
     query getPrincipes($first: Int, $skip: Int, $orderBy: PrincipeOrderByInput) {
