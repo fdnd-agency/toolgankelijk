@@ -15,9 +15,15 @@
 		Websites: {
 			GET: '/docs/websites#get'
 		},
+		URLs: {
+			GET: '/docs/urls#get'
+		},
 		URL: {
 			GET: '/docs/url#get'
 		},
+		Checks: {
+			GET: '/docs/checks#get'
+		}
 		
 	};
 </script>

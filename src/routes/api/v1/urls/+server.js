@@ -12,10 +12,11 @@ const hygraph = new GraphQLClient(HYGRAPH_URL_HIGH_PERFORMANCE, {
 export async function GET({ url }) {
   let id = url.searchParams.get('id') ?? false
   const query = gql`
-    query getUrl($id: ID) {
-      url(where: {id: $id}) {
+    query getUrls {
+      urls {
         id
         url
+        createdAt
         website {
           id
           titel
