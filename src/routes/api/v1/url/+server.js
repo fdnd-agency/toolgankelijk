@@ -22,6 +22,8 @@ export async function GET({ url }) {
         }
         checks {
           id
+          createdAt
+          createdBy
           succescriteria {
             id
             index
