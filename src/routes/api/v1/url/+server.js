@@ -23,7 +23,10 @@ export async function GET({ url }) {
         checks {
           id
           createdAt
-          createdBy
+          createdBy {
+            id
+            name
+          }
           succescriteria {
             id
             index
