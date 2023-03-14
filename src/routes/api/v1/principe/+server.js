@@ -10,14 +10,12 @@ const hygraph = new GraphQLClient(HYGRAPH_URL_HIGH_PERFORMANCE, {
 })
 
 export async function GET({ url }) {
-  let first = Number(url.searchParams.get('first') ?? 5)
-  let skip = Number(url.searchParams.get('skip') ?? 0)
-  let direction = url.searchParams.get('direction') === 'DESC' ? 'DESC' : 'ASC'
-  let orderBy = (url.searchParams.get('orderBy') ?? 'createdAt') + '_' + direction
+  let id = url.searchParams.get('id') ?? false
 
   const query = gql`
-    query getPrincipes($first: Int, $skip: Int, $orderBy: PrincipeOrderByInput) {
-      principes(first: $first, skip: $skip, orderBy: $orderBy) {
+    query getPrincipe($id: ID) {
+      principe(where: {id: $id}) {
+        id
         index
         titel
         slug
@@ -25,6 +23,7 @@ export async function GET({ url }) {
           html
         }
         richtlijnen {
+          id
           index
           titel
           uitleg {
@@ -34,6 +33,7 @@ export async function GET({ url }) {
             html
           }
           succescriteria {
+            id
             index
             titel
             niveau
@@ -49,6 +49,6 @@ export async function GET({ url }) {
       }
     }
   `
-  const data = await hygraph.request(query, { first, skip, orderBy })
+  const data = await hygraph.request(query, { id })
   return new Response(JSON.stringify(data), responseInit)
 }

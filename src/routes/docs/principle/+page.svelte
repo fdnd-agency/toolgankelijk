@@ -1,1 +1,0 @@
-<h2>Principe</h2>
