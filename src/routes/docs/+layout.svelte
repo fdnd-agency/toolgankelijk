@@ -12,6 +12,9 @@
 			// PATCH: '/docs/method#patch',
 			// DELETE: '/docs/method#delete',
 		},
+		Websites: {
+			GET: '/docs/websites#get'
+		},
 		
 	};
 </script>
