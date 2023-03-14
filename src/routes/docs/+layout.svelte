@@ -15,6 +15,9 @@
 		Websites: {
 			GET: '/docs/websites#get'
 		},
+		URL: {
+			GET: '/docs/url#get'
+		},
 		
 	};
 </script>
