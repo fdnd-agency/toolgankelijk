@@ -1,6 +1,6 @@
 export const responseInit = {
   headers: {
-    'content-type': 'application/json',
+    'content-type': 'application/json;charset=utf-8',
     'Cache-Control': 'max-age=0',
     'Access-Control-Allow-Credentials': 'true',
     'Access-Control-Allow-Origin': '*',
