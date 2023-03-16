@@ -22,6 +22,17 @@ export async function GET({ url }) {
         index
         titel
         slug
+        checklistItems {
+          check
+          uitleg
+          tip
+          succescriteria {
+            id
+            index
+            titel
+            niveau
+          }
+        }
         beschrijving {
           html
         }
