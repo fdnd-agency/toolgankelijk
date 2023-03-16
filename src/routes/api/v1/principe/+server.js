@@ -41,9 +41,6 @@ export async function GET({ url }) {
           uitleg {
             html
           }
-          tip {
-            html
-          }
           succescriteria {
             id
             index
