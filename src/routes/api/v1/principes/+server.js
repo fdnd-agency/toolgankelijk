@@ -24,6 +24,7 @@ export async function GET({ url }) {
         slug
         checklistItems {
           check
+          vraag
           uitleg
           tip
           succescriteria {
