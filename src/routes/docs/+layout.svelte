@@ -16,7 +16,8 @@
 			GET: '/docs/websites#get'
 		},
 		URLs: {
-			GET: '/docs/urls#get'
+			GET: '/docs/urls#get',
+			POST: '/docs/urls#post'
 		},
 		URL: {
 			GET: '/docs/url#get'
