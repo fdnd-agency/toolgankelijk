@@ -23,7 +23,8 @@
 			GET: '/docs/url#get'
 		},
 		Checks: {
-			GET: '/docs/checks#get'
+			GET: '/docs/checks#get',
+			POST: '/docs/checks#post'
 		}
 		
 	};
