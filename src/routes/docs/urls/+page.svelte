@@ -2,9 +2,15 @@
 
 <h3 id="get">GET</h3>
 
-<ul><li>
-  <a href="/api/v1/urls">/api/v1/urls</a>
-</li></ul>
+<p>Combineer vooral de volgende query parameters:</p>
+
+<ul>
+  <li><a href="/api/v1/urls">/api/v1/urls</a></li>
+  <li><a href="/api/v1/urls?first=100">/api/v1/urls?first=100</a></li>
+  <li><a href="/api/v1/urls?orderBy=url">/api/v1/urls?orderBy=url</a></li>
+  <li><a href="/api/v1/urls?direction=DESC">/api/v1/urls?direction=DESC</a></li>
+  <li><a href="/api/v1/urls?skip=20">/api/v1/urls?skip=20</a></li>
+</ul>
 
 <h3 id="post">POST</h3>
 

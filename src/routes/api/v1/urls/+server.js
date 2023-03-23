@@ -4,9 +4,13 @@ import { responseInit } from '$lib/server/responseInit'
 
 export async function GET({ url }) {
   let id = url.searchParams.get('id') ?? false
+  let first = Number(url.searchParams.get('first') ?? 5)
+  let skip = Number(url.searchParams.get('skip') ?? 0)
+  let direction = url.searchParams.get('direction') === 'DESC' ? 'DESC' : 'ASC'
+  let orderBy = (url.searchParams.get('orderBy') ?? 'createdAt') + '_' + direction
   const query = gql`
-    query getUrls {
-      urls {
+    query getUrls($first: Int, $skip: Int, $orderBy: UrlOrderByInput) {
+      urls(first: $first, skip: $skip, orderBy: $orderBy) {
         id
         url
         createdAt
@@ -30,6 +34,13 @@ export async function GET({ url }) {
           }
         }
       }
+      urlsConnection {
+        pageInfo {
+          hasNextPage
+          hasPreviousPage
+          pageSize
+        }
+      }
     }
   `
   const hygraph = new GraphQLClient(HYGRAPH_URL_HIGH_PERFORMANCE, {
@@ -37,7 +48,7 @@ export async function GET({ url }) {
       Authorization: `Bearer ${HYGRAPH_KEY}`,
     },
   })
-  const data = await hygraph.request(query, { id })
+  const data = await hygraph.request(query, { id, first, skip, orderBy })
   return new Response(JSON.stringify(data), responseInit)
 }
 
