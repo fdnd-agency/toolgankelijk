@@ -16,7 +16,7 @@ De Vervoerregio is opdrachtgever van het openbaar vervoer per bus, tram en metro
 [Handboek Huisstijl](https://github.com/fdnd-agency/vervoerregio-amsterdam/blob/main/Vervoerregio%20Handboek_Huisstijl%202021.pdf)  
  
 ## Design
-Het ontwerp wordt gebaseerd op het prototype van Tom  
+Het ontwerp baseren op het prototype van Tom  
 
 [Prototype Tom](https://dull-cyan-seagull-hose.cyclic.app/)  
 [Repo Tom](https://github.com/tom-2810/the-web-is-for-everyone-interactive-functionality)
