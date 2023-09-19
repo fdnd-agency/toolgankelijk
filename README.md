@@ -22,7 +22,7 @@ Het ontwerp wordt gebaseerd op het prototype van Tom
 [Repo Tom](https://github.com/tom-2810/the-web-is-for-everyone-interactive-functionality)
 
 ## Functionaliteiten
-Voor functionaliteiten uitgaan van
+Functionaliteiten baseren op het prototype van Wesley, Rick & Daan
 
 [Prototype Wesley, Rick & Daan](https://vervoerregio-amsterdam-sprint11.adaptable.app/)  
 [Repo Wesley, Rick & Daan](https://github.com/WesleySchorel/connecting-people-realtime-web-app)
