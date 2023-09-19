@@ -17,7 +17,14 @@ De Vervoerregio is opdrachtgever van het openbaar vervoer per bus, tram en metro
  
 ## Design
 Het ontwerp wordt gebaseerd op het prototype van Tom  
+
 [Prototype Tom](https://dull-cyan-seagull-hose.cyclic.app/)  
 [Repo Tom](https://github.com/tom-2810/the-web-is-for-everyone-interactive-functionality)
+
+## Functionaliteiten
+Voor functionaliteiten uitgaan van
+
+[Prototype Wesley, Rick & Daan](https://vervoerregio-amsterdam-sprint11.adaptable.app/)
+[Repo Wesley, Rick & Daan](https://github.com/WesleySchorel/connecting-people-realtime-web-app)
 
 
