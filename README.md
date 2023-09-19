@@ -24,7 +24,7 @@ Het ontwerp wordt gebaseerd op het prototype van Tom
 ## Functionaliteiten
 Voor functionaliteiten uitgaan van
 
-[Prototype Wesley, Rick & Daan](https://vervoerregio-amsterdam-sprint11.adaptable.app/)
+[Prototype Wesley, Rick & Daan](https://vervoerregio-amsterdam-sprint11.adaptable.app/)  
 [Repo Wesley, Rick & Daan](https://github.com/WesleySchorel/connecting-people-realtime-web-app)
 
 
