@@ -27,4 +27,9 @@ Functionaliteiten baseren op het prototype van Wesley, Rick & Daan
 [Prototype Wesley, Rick & Daan](https://vervoerregio-amsterdam-sprint11.adaptable.app/)  
 [Repo Wesley, Rick & Daan](https://github.com/WesleySchorel/connecting-people-realtime-web-app)
 
+## Preferred tech stack
+
+Framework: [SvelteKit](https://kit.svelte.dev/)   
+Headless CMS: [Hygraph](https://hygraph.com/)
+
 
