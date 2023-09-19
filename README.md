@@ -16,16 +16,14 @@ De Vervoerregio is opdrachtgever van het openbaar vervoer per bus, tram en metro
 [Handboek Huisstijl](https://github.com/fdnd-agency/vervoerregio-amsterdam/blob/main/Vervoerregio%20Handboek_Huisstijl%202021.pdf)  
  
 ## Design
-Het ontwerp baseren op het prototype van Tom  
+De basis voor het design is gelegd in het prototype van Tom  
 
-[Prototype Tom](https://dull-cyan-seagull-hose.cyclic.app/)  
-[Repo Tom](https://github.com/tom-2810/the-web-is-for-everyone-interactive-functionality)
+Prototype Tom: [Live site](https://dull-cyan-seagull-hose.cyclic.app/) | [GitHub repo](https://github.com/tom-2810/the-web-is-for-everyone-interactive-functionality)  
 
 ## Functionaliteiten
-Functionaliteiten baseren op het prototype van Wesley, Rick & Daan
+De basis voor functionaliteiten en inhoud is gelegd in het prototype van Wesley, Rick & Daan
 
-[Prototype Wesley, Rick & Daan](https://vervoerregio-amsterdam-sprint11.adaptable.app/)  
-[Repo Wesley, Rick & Daan](https://github.com/WesleySchorel/connecting-people-realtime-web-app)
+Prototype Wesley, Rick & Daan: [Live site](https://vervoerregio-amsterdam-sprint11.adaptable.app/) | [GitHub repo](https://github.com/WesleySchorel/connecting-people-realtime-web-app)  
 
 ## Preferred tech stack
 
