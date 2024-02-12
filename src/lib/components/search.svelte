@@ -9,7 +9,7 @@
 		// Your client-side code to run after the component is mounted
 		document.querySelector('form').classList.remove('form-off');
 	});
-	
+
 	function submitPartner() {
 		let websites = document.querySelectorAll('.website');
 
