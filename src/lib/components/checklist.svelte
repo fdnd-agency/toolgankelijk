@@ -72,7 +72,7 @@
 			<article>
 				<div>
 					<span>Richtlijn {richtlijn.index}</span>
-					<h3>{richtlijn.titel}</h3>
+					<h2>{richtlijn.titel}</h2>
 				</div>
 				{#each richtlijn.succescriteria as succescriterium}
 					{#if succescriterium.niveau === selectedNiveau}
@@ -81,7 +81,7 @@
 								<label>
 									<div>
 										<span>Criteria {succescriterium.index} ({succescriterium.niveau})</span>
-										<h4>{succescriterium.titel}</h4>
+										<h3>{succescriterium.titel}</h3>
 									</div>
 									<input
 										name="check"
