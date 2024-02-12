@@ -19,7 +19,7 @@
 				<img
 					width="24"
 					src="{faviconAPI}{selectedPartner.homepage}/&size=128"
-					alt=""
+					alt="logo partner"
 				/>{selectedPartner.titel}
 			{:else}
 				<span>Partners overzicht</span>
@@ -35,7 +35,7 @@
 						><img
 							width="24"
 							src="{faviconAPI}{partner.homepage}/&size=256"
-							alt=""
+							alt="logo partner"
 						/>{partner.titel}</a
 					>
 				</li>

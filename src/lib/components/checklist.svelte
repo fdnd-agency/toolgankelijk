@@ -99,7 +99,7 @@
 		{/each}
 		{#if loading}
 			<div class="submit">
-				<img src={loadingIcon} alt="" height="32" width="32" />
+				<img src={loadingIcon} alt="laadt icoontje" height="32" width="32" />
 			</div>
 		{:else}
 			<button class="submit"> Opslaan </button>

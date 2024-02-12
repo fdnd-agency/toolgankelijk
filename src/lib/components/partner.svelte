@@ -45,7 +45,7 @@
 
 		labelValue.innerHTML = `${percentage}%`;
 
-		$: document.querySelector(`#icons-${website.id}`).style.display = 'flex';
+		document.querySelector(`#icons-${website.id}`).style.display = 'flex';
 	});
 
 	const faviconAPI =
@@ -96,7 +96,7 @@
 	<a href="{website.slug}?partner={website.slug}">
 		<section class="logo-partner-section">
 			<div>
-				<img height="60" src="{faviconAPI}{website.homepage}/&size=128" alt="" />
+				<img height="60" src="{faviconAPI}{website.homepage}/&size=128" alt="logo partner" />
 				<h2 class="name">{website.titel}</h2>
 			</div>
 			<div class="icons" id={`icons-${website.id}`}>

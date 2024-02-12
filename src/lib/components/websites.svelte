@@ -92,7 +92,7 @@
 	<a href="{params}/{website.slug}">
 		<section class="logo-partner-section">
 			<div>
-				<img height="60" src="{faviconAPI}{website.url}/&size=128" alt="" />
+				<img height="60" src="{faviconAPI}{website.url}/&size=128" alt="logo partner" />
 				<h2>{overzicht.titel} <span>/{website.slug}</span></h2>
 			</div>
 			<div class="icons" id={`icons-${website.id}`}>
