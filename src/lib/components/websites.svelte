@@ -42,7 +42,7 @@
 
 		labelValue.innerHTML = `${percentage}%`;
 
-		$: document.querySelector(`#icons-${website.id}`).style.display = 'flex';
+		document.querySelector(`#icons-${website.id}`).style.display = 'flex';
 	});
 
 	const faviconAPI =

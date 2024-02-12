@@ -55,7 +55,7 @@
 </aside>
 
 <style>
-	h5 {
+	h4 {
 		font-size: 1.5rem;
 		font-weight: 500;
 		font-family: 'Inter', sans-serif;
