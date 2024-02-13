@@ -3,6 +3,7 @@
 	import informationIcon from "$lib/assets/information_icon.svg";
 	// import darkmodeIcon from "$lib/assets/dark_mode_icon.svg";
 	import BreadCrumbs from '$lib/components/bread-crumbs.svelte';
+	import accountIcon from '$lib/assets/account_icon.svg';
 
 	export let params;
 	export let partners;
@@ -22,13 +23,13 @@
 					alt="information icon"
 				/>
 			</a>
-			<!-- <a href="/info">
+			<a href="/info">
 				<img
-					class="information-icon-img"
-					src={darkmodeIcon}
-					alt="information icon"
+					class="account-icon-img"
+					src={accountIcon}
+					alt="account icon"
 				/>
-			</a> -->
+			</a>
 		</div>
 	</nav>
 </header>
@@ -72,4 +73,11 @@
 			grid-row: 1;
 		}
 	}
+
+	.account-icon-img {
+		width: 2rem;
+		height: 1.6rem;
+		padding-right: 2rem;
+	}
+
 </style>
