@@ -23,7 +23,7 @@
 					alt="information icon"
 				/>
 			</a>
-			<a href="/info">
+			<a href="/login">
 				<img
 					class="account-icon-img"
 					src={accountIcon}
