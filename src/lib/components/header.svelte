@@ -1,40 +1,36 @@
 <script>
-	import logo from "$lib/assets/vervoerregio_amsterdam_logo.svg";
-	import informationIcon from "$lib/assets/information_icon.svg";
-	// import darkmodeIcon from "$lib/assets/dark_mode_icon.svg";
+	import logo from '$lib/assets/vervoerregio_amsterdam_logo.svg';
+	import informationIcon from '$lib/assets/information_icon.svg';
 	import BreadCrumbs from '$lib/components/bread-crumbs.svelte';
 	import accountIcon from '$lib/assets/account_icon.svg';
 
 	export let params;
 	export let partners;
 	export let websites;
+
 </script>
 
 <header>
 	<nav>
-		<a href="/" aria-label="Ga naar het overzicht met alle partners"><img src={logo} alt="Logo van Vervoerregio Amsterdam"></a>
+		<a href="/" aria-label="Ga naar het overzicht met alle partners"
+			><img src={logo} alt="Logo van Vervoerregio Amsterdam" /></a
+		>
 		<BreadCrumbs {params} {partners} {websites} />
 
 		<div class="options">
 			<a href="/info">
-				<img
-					class="information-icon-img"
-					src={informationIcon}
-					alt="information icon"
-				/>
+				<img class="information-icon-img" src={informationIcon} alt="information icon" />
 			</a>
 			<a href="/login">
-				<img
-					class="account-icon-img"
-					src={accountIcon}
-					alt="account icon"
-				/>
+				<img class="account-icon-img" src={accountIcon} alt="account icon" />
 			</a>
+			
 		</div>
 	</nav>
 </header>
 
 <style>
+
 	header {
 		position: sticky;
 		top: 0;
@@ -54,10 +50,11 @@
 	nav > a {
 		z-index: 2;
 	}
+
 	.options {
 		display: flex;
 		align-items: center;
-		gap: .8rem;
+		gap: 0.8rem;
 		margin-left: auto;
 		z-index: 2;
 	}

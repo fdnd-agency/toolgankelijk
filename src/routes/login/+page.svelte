@@ -17,10 +17,12 @@
 			<p>
 				<label for="login">Username</label>
 				<input type="text" name="login" placeholder="Username" required />
+                <span></span>
 			</p>
 			<p>
 				<label for="login">Password</label>
 				<input type="password" name="password" placeholder="Password" autocomplete="off" required />
+                <span></span>
 			</p>
 			<button type="submit" class="form-submit">Sign in</button>
 
@@ -46,6 +48,7 @@
 		flex-direction: column;
 		align-items: center;
 		width: 18rem;
+        background-color: var(--c-container);
 		border-color: var(--c-pink);
 		border-radius: 10px;
 		padding-left: 2rem;
@@ -65,6 +68,20 @@
 		padding-top: 1rem;
 	}
 
+    span::before {
+        content: " ";
+    }
+
+    input:user-invalid + span::before {
+        content: "Invalid input";
+        color: red;
+        font-size: 12px;
+    }
+
+    input:user-invalid + span {
+        animation: shake .6s ease-in-out;
+    }
+
 	label {
 		padding-bottom: 0.3rem;
 		font-size: 16px;
@@ -80,13 +97,65 @@
 		font-size: 16px;
 	}
 
+    @keyframes shake {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        10% {
+            transform: rotate(5deg);
+        }
+
+        20% {
+            transform: rotate(5deg);
+        }
+
+        30% {
+            transform: rotate(-5deg);
+        }
+
+        40% {
+            transform: rotate(5deg);
+        }
+
+        50% {
+            transform: rotate(-5deg);   
+        }
+
+        60% {
+            transform: rotate(5deg);
+        }
+
+        70% {
+            transform: rotate(-5deg);
+        }
+
+        80% {
+            transform: rotate(5deg);
+        }
+
+        90% {
+            transform: rotate(-5deg);
+        }
+
+        100% {
+            transform: rotate(0deg);
+        }
+    }
+
     input:user-invalid {
+        border: 1px solid red;
+        outline: none;
+        animation: shake .6s ease-in-out;
+    }
+
+    input:user-invalid:focus {
         border: 1px solid red;
     }
 
     input:focus {
-        outline: none;
         border: 1px solid var(--c-white);
+        outline: none;
     }
 
 	.form-submit {

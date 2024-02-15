@@ -42,12 +42,14 @@
 		display: flex;
 		justify-content: center;
 		margin-top: 3rem;
+        
 	}
 
 	.form-login {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+        background-color: var(--c-container);
 		width: 18rem;
 		border-color: var(--c-pink);
 		border-radius: 10px;
