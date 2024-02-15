@@ -28,6 +28,12 @@
 
 	/* modal button */
 	--c-modal-button: rgb(99, 99, 99);
+	--c-text-button: #ffffff;
+}
+
+.lightmode {
+	--c-background: white;
+	--c-container: rgb(185, 0, 95);
 }
 
 * {

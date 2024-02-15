@@ -21,7 +21,7 @@
 			</p>
 			<p>
 				<label for="login">Password</label>
-				<input type="password" name="password" placeholder="Password" autocomplete="off" required />
+				<input type="password" name="password" minlength="6" placeholder="Password" autocomplete="off" required />
                 <span></span>
 			</p>
 			<button type="submit" class="form-submit">Sign in</button>

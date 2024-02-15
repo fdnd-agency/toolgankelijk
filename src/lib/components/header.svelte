@@ -3,10 +3,15 @@
 	import informationIcon from '$lib/assets/information_icon.svg';
 	import BreadCrumbs from '$lib/components/bread-crumbs.svelte';
 	import accountIcon from '$lib/assets/account_icon.svg';
+	import darkMode from '$lib/assets/dark_mode_icon.svg';
 
 	export let params;
 	export let partners;
 	export let websites;
+
+	function toggleLightMode() {
+    document.body.classList.toggle("lightmode");
+  }
 
 </script>
 
@@ -24,12 +29,27 @@
 			<a href="/login">
 				<img class="account-icon-img" src={accountIcon} alt="account icon" />
 			</a>
-			
+			<a href=" ">
+				<button on:click={toggleLightMode}><img id="icon" src={darkMode} alt="darkmode icon" /></button>
+			</a>
+			<span class="lightmode"></span>
 		</div>
 	</nav>
 </header>
 
 <style>
+
+	.lightmode {
+		--c-background: white;
+		/* --c-white: black; */
+		--c-container: rgb(227, 0, 89);
+	}
+
+	button {
+		cursor: pointer;
+		background: none;
+		border: none;
+	}
 
 	header {
 		position: sticky;
@@ -43,7 +63,7 @@
 		display: flex;
 		align-items: center;
 		gap: 1rem;
-		background-color: #202020;
+		background-color: var(--c-background);
 		padding: 1em;
 		border-bottom: 2px solid #454545;
 	}
@@ -74,7 +94,6 @@
 	.account-icon-img {
 		width: 2rem;
 		height: 1.6rem;
-		padding-right: 2rem;
 	}
 
 </style>

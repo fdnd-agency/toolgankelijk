@@ -85,7 +85,7 @@
 		padding-right: 4em;
 		border-radius: 0.5em;
 		font-size: 1em;
-		background-color: #2c2c2c;
+		background-color: var(--c-container);
 		color: #ffffff;
 		border: none;
 		width: 100%;
@@ -146,7 +146,7 @@
 		align-items: center;
 		gap: 0.5rem;
 		color: #ffffff;
-		background-color: #393939;
+		background-color: var(--c-background);
 		padding: 12px 16px;
 		text-decoration: none;
 	}
@@ -172,12 +172,12 @@
 	}
 
 	.dropdown:hover button {
-		background-color: #2c2c2c;
+		background-color: var(--c-container);
 		border-radius: 0.5em 0.5em 0 0;
 	}
 
 	button:has(a:focus) {
-		background-color: #2c2c2c;
+		background-color: var(--c-container);
 		border-radius: 0.5em 0.5em 0 0;
 	}
 
