@@ -10,9 +10,20 @@
 	export let websites;
 
 	function toggleLightMode() {
-    document.body.classList.toggle("lightmode");
-  }
+		document.body.classList.toggle('lightmode');
+	}
 
+	import { onMount } from 'svelte';
+
+	let jsEnabled = false;
+
+	onMount(() => {
+		// JavaScript is enabled, toggle the class
+		jsEnabled = true;
+		let icon = document.querySelector('.disable-js');
+
+		icon.classList.toggle('disable-js');
+	});
 </script>
 
 <header>
@@ -29,16 +40,17 @@
 			<a href="/login">
 				<img class="account-icon-img" src={accountIcon} alt="account icon" />
 			</a>
-			<a href=" ">
-				<button on:click={toggleLightMode}><img id="icon" src={darkMode} alt="darkmode icon" /></button>
+			<a class="disable-js" href=" ">
+				<button on:click={toggleLightMode}
+					><img id="icon" src={darkMode} alt="darkmode icon" /></button
+				>
 			</a>
-			<span class="lightmode"></span>
+			<span class="lightmode" />
 		</div>
 	</nav>
 </header>
 
 <style>
-
 	.lightmode {
 		--c-background: white;
 		/* --c-white: black; */
@@ -79,6 +91,10 @@
 		z-index: 2;
 	}
 
+	.disable-js {
+		display: none;
+	}
+
 	@media only screen and (max-width: 990px) {
 		nav {
 			display: grid;
@@ -95,5 +111,4 @@
 		width: 2rem;
 		height: 1.6rem;
 	}
-
 </style>
