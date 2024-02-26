@@ -91,8 +91,7 @@
 		width: 100%;
 		height: 3.5rem;
 		text-align: left;
-		box-shadow: 0px -55px 0px 10px #202020;
-		transition: 0.2s;
+		box-shadow: 0px -55px 0px 10px var(--c-background);
 	}
 
 	button::after {
@@ -104,7 +103,7 @@
 	}
 
 	button span {
-		opacity: 0.6;
+		color: var(--c-grey);
 	}
 
 	.dropdown {
@@ -145,8 +144,8 @@
 		display: flex;
 		align-items: center;
 		gap: 0.5rem;
-		color: #ffffff;
-		background-color: var(--c-background);
+		color: var(--c-white);
+		background-color: var(--c-container);
 		padding: 12px 16px;
 		text-decoration: none;
 	}
@@ -158,7 +157,8 @@
 	}
 
 	ul a:hover {
-		background-color: #525252;
+		background-color: var(--c-white);
+		color: var(--c-text-header);
 	}
 
 	ul a:hover img {

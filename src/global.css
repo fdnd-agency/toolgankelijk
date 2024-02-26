@@ -9,7 +9,9 @@
 
 	/* Text */
 	--c-white: rgb(255, 255, 255);
+	--c-white2: white;
 	--c-grey: rgb(149, 149, 149);
+	--c-text-header: black;
 
 	/* body */
 	--c-background: rgb(30, 30, 30);
@@ -34,6 +36,11 @@
 .lightmode {
 	--c-background: white;
 	--c-container: rgb(185, 0, 95);
+	--c-pink: rgb(99, 99, 99);
+	--c-container-stroke: white;
+	--c-grey: white;
+	--c-white2: black
+	
 }
 
 * {
