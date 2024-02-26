@@ -1,5 +1,5 @@
 <script>
-	import logo from '$lib/assets/vervoerregio_amsterdam_logo.png';
+	import logo from '$lib/assets/svglogo.svg';
 	import logo2 from '$lib/assets/vervoerregio_amsterdam_logo_2.png';
 	import informationIcon from '$lib/assets/information_icon.svg';
 	import BreadCrumbs from '$lib/components/bread-crumbs.svelte';
