@@ -1,5 +1,6 @@
 <script>
-	import logo from '$lib/assets/vervoerregio_amsterdam_logo.svg';
+	import logo from '$lib/assets/vervoerregio_amsterdam_logo.png';
+	import logo2 from '$lib/assets/vervoerregio_amsterdam_logo_2.png';
 	import informationIcon from '$lib/assets/information_icon.svg';
 	import BreadCrumbs from '$lib/components/bread-crumbs.svelte';
 	import accountIcon from '$lib/assets/account_icon.svg';
@@ -9,13 +10,22 @@
 	export let partners;
 	export let websites;
 
+	let isLightMode = false;
+
 	function toggleLightMode() {
+		isLightMode = !isLightMode
 		document.body.classList.toggle('lightmode');
 		updateSVGColor1();
 		updateSVGColor2();
 		updateSVGColor3();
 		updateSVGColor4();
 	}
+
+	onMount(() => {
+    const logoImage = document.getElementById('logoImage');
+    logoImage.src = isLightMode ? logo2 : logo;
+  });
+
 
 	function updateSVGColor1() {
 		var path = document.getElementById('my-svg');
@@ -69,7 +79,7 @@
 <header>
 	<nav>
 		<a href="/" aria-label="Ga naar het overzicht met alle partners"
-			><img src={logo} alt="Logo van Vervoerregio Amsterdam" /></a
+			><img src={isLightMode ? logo2 : logo} id="logoImage" alt="Logo van Vervoerregio Amsterdam" /></a
 		>
 		<BreadCrumbs {params} {partners} {websites} />
 
