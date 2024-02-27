@@ -1,5 +1,6 @@
 <script>
 	import logo from '$lib/assets/svglogo.svg';
+	import logo3 from '$lib/assets/svglogo2.svg';
 	import logo2 from '$lib/assets/vervoerregio_amsterdam_logo_2.png';
 	import informationIcon from '$lib/assets/information_icon.svg';
 	import BreadCrumbs from '$lib/components/bread-crumbs.svelte';
@@ -23,7 +24,7 @@
 
 	onMount(() => {
 		const logoImage = document.getElementById('logoImage');
-		logoImage.src = isLightMode ? logo2 : logo;
+		logoImage.src = isLightMode ? logo3 : logo;
 	});
 
 	function updateSVGColor1() {
@@ -79,7 +80,7 @@
 	<nav>
 		<a href="/" aria-label="Ga naar het overzicht met alle partners"
 			><img
-				src={isLightMode ? logo2 : logo}
+				src={isLightMode ? logo3 : logo}
 				id="logoImage"
 				alt="Logo van Vervoerregio Amsterdam"
 			/></a

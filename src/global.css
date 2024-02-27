@@ -37,9 +37,10 @@
 	--c-background: white;
 	--c-container: rgb(185, 0, 95);
 	--c-pink: rgb(99, 99, 99);
+	/* --c-pink: black; */
 	--c-container-stroke: white;
 	--c-grey: white;
-	--c-white2: black
+	--c-white2: black;
 	
 }
 
