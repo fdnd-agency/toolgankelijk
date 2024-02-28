@@ -19,7 +19,7 @@
 				<img
 					width="24"
 					src="{faviconAPI}{selectedPartner.homepage}/&size=128"
-					alt=""
+					alt="logo partner"
 				/>{selectedPartner.titel}
 			{:else}
 				<span>Partners overzicht</span>
@@ -35,7 +35,7 @@
 						><img
 							width="24"
 							src="{faviconAPI}{partner.homepage}/&size=256"
-							alt=""
+							alt="logo partner"
 						/>{partner.titel}</a
 					>
 				</li>
@@ -85,14 +85,13 @@
 		padding-right: 4em;
 		border-radius: 0.5em;
 		font-size: 1em;
-		background-color: #2c2c2c;
+		background-color: var(--c-container);
 		color: #ffffff;
 		border: none;
 		width: 100%;
 		height: 3.5rem;
 		text-align: left;
-		box-shadow: 0px -55px 0px 10px #202020;
-		transition: 0.2s;
+		box-shadow: 0px -55px 0px 10px var(--c-background);
 	}
 
 	button::after {
@@ -104,7 +103,7 @@
 	}
 
 	button span {
-		opacity: 0.6;
+		color: var(--c-grey);
 	}
 
 	.dropdown {
@@ -145,8 +144,8 @@
 		display: flex;
 		align-items: center;
 		gap: 0.5rem;
-		color: #ffffff;
-		background-color: #393939;
+		color: var(--c-white);
+		background-color: var(--c-container);
 		padding: 12px 16px;
 		text-decoration: none;
 	}
@@ -158,7 +157,8 @@
 	}
 
 	ul a:hover {
-		background-color: #525252;
+		background-color: var(--c-white);
+		color: var(--c-text-header);
 	}
 
 	ul a:hover img {
@@ -172,12 +172,12 @@
 	}
 
 	.dropdown:hover button {
-		background-color: #2c2c2c;
+		background-color: var(--c-container);
 		border-radius: 0.5em 0.5em 0 0;
 	}
 
 	button:has(a:focus) {
-		background-color: #2c2c2c;
+		background-color: var(--c-container);
 		border-radius: 0.5em 0.5em 0 0;
 	}
 

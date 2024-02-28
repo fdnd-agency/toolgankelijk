@@ -72,7 +72,7 @@
 			<article>
 				<div>
 					<span>Richtlijn {richtlijn.index}</span>
-					<h3>{richtlijn.titel}</h3>
+					<h2>{richtlijn.titel}</h2>
 				</div>
 				{#each richtlijn.succescriteria as succescriterium}
 					{#if succescriterium.niveau === selectedNiveau}
@@ -81,7 +81,7 @@
 								<label>
 									<div>
 										<span>Criteria {succescriterium.index} ({succescriterium.niveau})</span>
-										<h4>{succescriterium.titel}</h4>
+										<h3>{succescriterium.titel}</h3>
 									</div>
 									<input
 										name="check"
@@ -99,7 +99,7 @@
 		{/each}
 		{#if loading}
 			<div class="submit">
-				<img src={loadingIcon} alt="" height="32" width="32" />
+				<img src={loadingIcon} alt="laadt icoontje" height="32" width="32" />
 			</div>
 		{:else}
 			<button class="submit"> Opslaan </button>
@@ -172,7 +172,7 @@
 	}
 
 	h3,
-	h4 {
+	h3 {
 		font-size: 1.2rem;
 		font-weight: 600;
 	}

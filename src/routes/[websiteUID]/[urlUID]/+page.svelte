@@ -46,7 +46,7 @@
 			<li>
 				<a href="{$page.url.pathname}/{principe.slug}">
 					<div class="principe">
-						<h3><span>{principe.titel}. </span> Principe {principe.index}</h3>
+						<h1><span>{principe.titel}. </span> Principe {principe.index}</h1>
 						<p>{principe.beschrijving.text}</p>
 						<div class="progress-container">
 							<progress
@@ -127,7 +127,7 @@
 
 	/* PRINCIPES */
 
-	h3 {
+	h1 {
 		font-size: 1.5em;
 		margin-bottom: 0.25em;
 	}
@@ -152,7 +152,7 @@
 	}
 
 	span {
-		color: var(--c-pink);
+		color: var(--c-orange);
 	}
 
 	.principe p {
@@ -201,7 +201,7 @@
 	}
 
 	progress[value]::-webkit-progress-value {
-		background-color: var(--c-pink);
+		background-color: var(--c-orange);
 		border-radius: 0.5em;
 	}
 

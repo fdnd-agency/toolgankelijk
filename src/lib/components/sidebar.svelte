@@ -32,7 +32,7 @@
 		{#each principes as principe}
 			<li>
 				<a href="/">
-					<h5>{principe.titel}</h5>
+					<h4>{principe.titel}</h4>
 					<span>Principe {principe.index}</span>
 					<div class="progress-container">
 						<progress
@@ -55,7 +55,7 @@
 </aside>
 
 <style>
-	h5 {
+	h4 {
 		font-size: 1.5rem;
 		font-weight: 500;
 		font-family: 'Inter', sans-serif;
