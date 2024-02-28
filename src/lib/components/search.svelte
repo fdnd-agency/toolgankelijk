@@ -9,7 +9,7 @@
 		// Your client-side code to run after the component is mounted
 		document.querySelector('form').classList.remove('form-off');
 	});
-	
+
 	function submitPartner() {
 		let websites = document.querySelectorAll('.website');
 
@@ -44,6 +44,10 @@
 		display: none;
 	}
 
+	label {
+		color: var(--c-white2);
+	}
+
 	input {
 		padding: 0.5em;
 		border: 1px solid var(--c-modal-button);
@@ -56,4 +60,10 @@
 		padding-left: 0.75em;
 	}
 	/* form end */
+
+	input::placeholder {
+		color: var(--c-grey);
+		opacity: 0.8;
+	}
+
 </style>

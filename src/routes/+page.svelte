@@ -65,7 +65,7 @@
 	}
 
 	a:hover {
-		opacity: 0.75;
+		background-color: var(--c-pink);
 	}
 
 	ul {

@@ -1,22 +1,22 @@
 <script>
 	export let params;
-	</script>
+</script>
 
 <section class="form-container">
-    <h2>Url toevoegen</h2>
-    <form method="POST" action="?/addUrl">
-        <label for="name">Pagina titel</label>
-        <input id="name" name="name" required type="text" />
+	<h2>Url toevoegen</h2>
+	<form method="POST" action="?/addUrl">
+		<label for="name">Pagina titel</label>
+		<input id="name" name="name" required type="text" />
 
-        <label for="url" class="url-label">Pagina url</label>
-        <input id="url" name="url" required type="url" />
-		<input id="slug" name="slug" type="name" value="{params}">
-        <button class="add-button">Toevoegen</button>
-    </form>
+		<label for="url" class="url-label">Pagina url</label>
+		<input id="url" name="url" required type="url" />
+		<input id="slug" name="slug" type="name" value={params} />
+		<button class="add-button">Toevoegen</button>
+	</form>
 </section>
 
 <style>
-    .form-container {
+	.form-container {
 		background-color: var(--c-container);
 		border: solid 1px var(--c-container-stroke);
 		border-radius: 0.5em;
@@ -73,6 +73,7 @@
 
 	.add-button:hover {
 		opacity: 0.75;
+
 	}
 
 	.url-label {

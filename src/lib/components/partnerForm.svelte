@@ -1,17 +1,29 @@
 <script>
+
+let isPopupOpen = true;
+
+function closePopup() {
+    isPopupOpen = false;
+    console.log("Pop-up gesloten");
+}
+
 </script>
 
+{#if isPopupOpen}
 <section class="form-container">
 	<h2>Partner toevoegen</h2>
 	<form method="POST" action="?/addPartner">
 		<label for="name">Partner titel</label>
 		<input id="name" name="name" required type="text" />
-
 		<label for="url" class="url-label">Partner homepagina URL</label>
 		<input id="url" name="url" required type="url" />
+		<div class="button-div">
 		<button class="add-button">Toevoegen</button>
+		<button on:click={closePopup} class="remove-button">Sluit</button>
+		</div>
 	</form>
 </section>
+{/if}
 
 <style>
 	.form-container {
@@ -41,6 +53,11 @@
 		margin-top: 1em;
 	}
 
+	.button-div {
+		display: flex;
+		flex-direction: row;
+	}
+
 	.add-button {
 		border: none;
 		background-color: var(--c-pink);
@@ -51,7 +68,26 @@
 		transition: 0.3s;
 		border-radius: 0.25em;
 		margin-top: 1em;
+		margin-right: 1rem;
 		font-size: 1em;
+	}
+
+	.remove-button {
+		border: none;
+		background-color: var(--c-container-stroke);
+		color: white;
+		padding: 0.5em 1em;
+		cursor: pointer;
+		text-decoration: none;
+		transition: 0.3s;
+		border-radius: 0.25em;
+		margin-top: 1em;
+		font-size: 1em;
+		transition: .2s ease-in;
+	}
+
+	.remove-button:hover {
+		background-color: var(--c-pink);
 	}
 
 	input[type='text'],
