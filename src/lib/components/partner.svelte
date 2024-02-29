@@ -173,7 +173,7 @@
 	}
 
 	li a:hover {
-		border: solid 1px var(--c-pink);
+		border: solid 1px var(--c-orange);
 	}
 
 	h2 {
@@ -240,7 +240,7 @@
 	}
 
 	progress[value]::-webkit-progress-value {
-		background-color: var(--c-pink);
+		background-color: var(--c-orange);
 		border-radius: 0.5em;
 		transition: 1s ease-out;
 	}

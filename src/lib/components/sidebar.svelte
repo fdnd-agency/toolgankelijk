@@ -124,7 +124,7 @@
 	}
 
 	progress[value]::-webkit-progress-value {
-		background-color: var(--c-pink);
+		background-color: var(--c-orange);
 		border-radius: 0.5em;
 	}
 
