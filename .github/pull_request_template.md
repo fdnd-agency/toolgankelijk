@@ -1,6 +1,6 @@
 # Description
 
-Please include a summary of the changes and the related issue.  
+Please include a summary of the changes and the related issue(s).  
 Please include relevant motivation and context, with a screenshot if necessary.  
 Please include a link to the live site, where the change is implemented.  
 
