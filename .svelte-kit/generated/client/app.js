@@ -10,15 +10,19 @@ export const nodes = [
 	() => import('./nodes/6'),
 	() => import('./nodes/7'),
 	() => import('./nodes/8'),
-	() => import('./nodes/9')
+	() => import('./nodes/9'),
+	() => import('./nodes/10'),
+	() => import('./nodes/11')
 ];
 
 export const server_loads = [0];
 
 export const dictionary = {
 		"/": [~3],
-		"/addPartner": [~8],
-		"/info": [9],
+		"/account": [8],
+		"/addPartner": [~9],
+		"/info": [10],
+		"/login": [11],
 		"/[websiteUID]": [~4,[2]],
 		"/[websiteUID]/addUrl": [~7,[2]],
 		"/[websiteUID]/[urlUID]": [~5,[2]],
