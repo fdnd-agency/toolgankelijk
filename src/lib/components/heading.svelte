@@ -44,7 +44,7 @@
 		align-items: center;
 		background-color: var(--c-container);
 		padding: clamp(1em, 6vw, 2em);
-		border-top: 12px solid var(--c-pink);
+		border-top: 12px solid #B5006C;
 		margin: 1em 1em;
 		border-radius: 0.5em;
 	}

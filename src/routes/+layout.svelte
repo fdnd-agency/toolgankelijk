@@ -24,6 +24,6 @@
 </script>
 
 <Header {params} {partners} {websites} />
-<main>
+<main id="main">
 	<slot />
 </main>

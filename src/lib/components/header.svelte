@@ -77,6 +77,7 @@
 </script>
 
 <header>
+	<a href="#main" class="visible-hidden">Jump directly to main content</a>
 	<nav>
 		<a href="/" aria-label="Ga naar het overzicht met alle partners"
 			><img
@@ -156,6 +157,23 @@
 		/* --c-white: black; */
 		--c-container: rgb(227, 0, 89);
 	}
+
+	.visible-hidden {
+    clip: rect(1px, 1px, 1px, 1px);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+}
+
+.visible-hidden:focus {
+    clip: auto;
+    height: auto;
+    overflow: auto;
+    position: absolute;
+    width: auto;
+}
 
 	button {
 		cursor: pointer;
