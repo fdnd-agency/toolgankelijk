@@ -22,7 +22,7 @@
 					alt="logo partner"
 				/>{selectedPartner.titel}
 			{:else}
-				<span>Partners overzicht</span>
+				Partners overzicht
 			{/if}
 		</button>
 		<ul>
@@ -86,7 +86,7 @@
 		border-radius: 0.5em;
 		font-size: 1em;
 		background-color: var(--c-container);
-		color: #ffffff;
+		color: var(--c-grey);;
 		border: none;
 		width: 100%;
 		height: 3.5rem;
@@ -100,10 +100,6 @@
 		right: 5%;
 		scale: 1.3;
 		transition: 0.2s;
-	}
-
-	button span {
-		color: var(--c-grey);
 	}
 
 	.dropdown {

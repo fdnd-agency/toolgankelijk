@@ -15,13 +15,13 @@
 		<fieldset class="form-login">
 			<h2>Login</h2>
 			<p>
-				<label for="login">Username</label>
-				<input type="text" name="login" placeholder="Username" required />
+				<label for="username">Username</label>
+				<input id="username" type="text" name="login" placeholder="Username" required />
                 <span></span>
 			</p>
 			<p>
-				<label for="login">Password</label>
-				<input type="password" name="password" minlength="6" placeholder="Password" autocomplete="off" required />
+				<label for="password">Password</label>
+				<input id="password" type="password" name="password" minlength="6" placeholder="Password" autocomplete="off" required />
                 <span></span>
 			</p>
 			<button type="submit" class="form-submit">Sign in</button>
@@ -58,7 +58,7 @@
 	}
 
 	h2 {
-		color: var(--c-pink);
+		color: white;
 		padding-bottom: 1rem;
 	}
 

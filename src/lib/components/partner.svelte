@@ -121,12 +121,12 @@
 	<form on:submit={submitted()} action="?/editPartner" method="POST">
 		<h3>Pas partner aan</h3>
 		<div class="fields-container">
-			<label for="slug">Naam</label>
-			<input type="text" name="name" id="slug" value={website.titel} />
+			<label for="name">Naam</label>
+			<input type="text" name="name" id="name" value={website.titel} />
 			<label for="slug">Slug</label>
 			<input type="text" name="slug" id="slug" value={website.slug} />
-			<label for="slug">URL</label>
-			<input type="url" name="url" id="slug" value={website.homepage} />
+			<label for="url">URL</label>
+			<input type="url" name="url" id="url" value={website.homepage} />
 			<input class="id-field" type="text" name="id" value={website.id} id={website.id} />
 		</div>
 		<div>
