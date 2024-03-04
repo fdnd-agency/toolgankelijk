@@ -1,6 +1,7 @@
 <script>
 	import logo from '$lib/assets/svglogo.svg';
 	import logo3 from '$lib/assets/svglogo2.svg';
+	import home from '$lib/assets/home_icon.svg';
 	import logo2 from '$lib/assets/vervoerregio_amsterdam_logo_2.png';
 	import informationIcon from '$lib/assets/information_icon.svg';
 	import BreadCrumbs from '$lib/components/bread-crumbs.svelte';
@@ -20,6 +21,7 @@
 		updateSVGColor2();
 		updateSVGColor3();
 		updateSVGColor4();
+		updateSVGColor5();
 	}
 
 	onMount(() => {
@@ -63,6 +65,15 @@
 		}
 	}
 
+	function updateSVGColor5() {
+		var path = document.getElementById('my-svg4');
+		if (document.body.classList.contains('lightmode')) {
+			path.setAttribute('fill', 'black');
+		} else {
+			path.setAttribute('fill', 'white');
+		}
+	}
+
 	import { onMount } from 'svelte';
 
 	let jsEnabled = false;
@@ -77,6 +88,7 @@
 </script>
 
 <header>
+	<a href="#main" class="visible-hidden">Jump directly to main content</a>
 	<nav>
 		<a href="/" aria-label="Ga naar het overzicht met alle partners"
 			><img
@@ -88,6 +100,21 @@
 		<BreadCrumbs {params} {partners} {websites} />
 
 		<div class="options">
+			<a href="/">
+				<svg
+					class="home-icon-img"
+					alt="back to homepage"
+					aria-hidden="true"
+					xmlns="http://www.w3.org/2000/svg"
+					viewBox="0 0 24 24"
+				>
+					<path
+						d="M11.3 3.3a1 1 0 0 1 1.4 0l6 6 2 2a1 1 0 0 1-1.4 1.4l-.3-.3V19a2 2 0 0 1-2 2h-3a1 1 0 0 1-1-1v-3h-2v3c0 .6-.4 1-1 1H7a2 2 0 0 1-2-2v-6.6l-.3.3a1 1 0 0 1-1.4-1.4l2-2 6-6Z"
+						fill="white"
+						id="my-svg4"
+					/>
+				</svg>
+			</a>
 			<a href="/info">
 				<svg
 					class="information-icon-img"
@@ -157,6 +184,24 @@
 		--c-container: rgb(227, 0, 89);
 	}
 
+	.visible-hidden {
+		clip: rect(1px, 1px, 1px, 1px);
+		height: 1px;
+		overflow: hidden;
+		color: white;
+		position: absolute;
+		white-space: nowrap;
+		width: 1px;
+	}
+
+	.visible-hidden:focus {
+		clip: auto;
+		height: auto;
+		overflow: auto;
+		position: absolute;
+		width: auto;
+	}
+
 	button {
 		cursor: pointer;
 		background: none;
@@ -210,5 +255,10 @@
 	.account-icon-img {
 		width: 2rem;
 		height: 1.6rem;
+	}
+
+	.home-icon-img {
+		width: 2.2rem;
+		height: 2rem;
 	}
 </style>

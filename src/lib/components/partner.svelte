@@ -92,41 +92,44 @@
 	}
 </script>
 
-<li class="website" class:container-off={containerOff}>
-	<a href="{website.slug}?partner={website.slug}">
-		<section class="logo-partner-section">
-			<div>
-				<img height="60" src="{faviconAPI}{website.homepage}/&size=128" alt="logo partner" />
-				<h2 class="name">{website.titel}</h2>
-			</div>
-			<div class="icons" id={`icons-${website.id}`}>
-				<button on:click={openEdit}><img src={pencil} alt="Verwijder icon" /></button>
-				<button on:click={openDelete}><img src={trash} alt="Verwijder icon" /></button>
-			</div>
-		</section>
+<ul>
+	<li class="website" class:container-off={containerOff}>
+		<a href="{website.slug}?partner={website.slug}">
+			<section class="logo-partner-section">
+				<div>
+					<img height="60" src="{faviconAPI}{website.homepage}/&size=128" alt="logo partner" />
+					<h2 class="name">{website.titel}</h2>
+				</div>
+				<div class="icons" id={`icons-${website.id}`}>
+					<button on:click={openEdit}><img src={pencil} alt="Verwijder icon" /></button>
+					<button on:click={openDelete}><img src={trash} alt="Verwijder icon" /></button>
+				</div>
+			</section>
 
-		<section class="more-info-section">
-			<span>Laatst bewerkt: {lastTime}</span>
+			<section class="more-info-section">
+				<span>Laatst bewerkt: {lastTime}</span>
 
-			<div class="progress-container">
-				<progress id="progress-partner" max="100" value="0" bind:this={progressbar} />
-				<label class="progress-percentage" for="progress-partner" bind:this={labelValue}>0%</label>
-			</div>
-		</section>
-	</a>
-</li>
+				<div class="progress-container">
+					<progress id="progress-partner" max="100" value="0" bind:this={progressbar} />
+					<label class="progress-percentage" for="progress-partner" bind:this={labelValue}>0%</label
+					>
+				</div>
+			</section>
+		</a>
+	</li>
+</ul>
 
 <!-- Popup voor het bewerken van de partner -->
-<div class="popup-edit" style="display: {openedEdit === website.id ? 'flex' : 'none'};">
+<article class="popup-edit" style="display: {openedEdit === website.id ? 'flex' : 'none'};">
 	<form on:submit={submitted()} action="?/editPartner" method="POST">
 		<h3>Pas partner aan</h3>
 		<div class="fields-container">
-			<label for="slug">Naam</label>
-			<input type="text" name="name" id="slug" value={website.titel} />
+			<label for="name">Naam</label>
+			<input type="text" name="name" id="name" value={website.titel} />
 			<label for="slug">Slug</label>
 			<input type="text" name="slug" id="slug" value={website.slug} />
-			<label for="slug">URL</label>
-			<input type="url" name="url" id="slug" value={website.homepage} />
+			<label for="url">URL</label>
+			<input type="url" name="url" id="url" value={website.homepage} />
 			<input class="id-field" type="text" name="id" value={website.id} id={website.id} />
 		</div>
 		<div>
@@ -134,7 +137,7 @@
 			<button on:click={closeEdit}>Nee</button>
 		</div>
 	</form>
-</div>
+</article>
 
 <!-- Popup voor het verwijderen van de partner -->
 <div class="popup-verwijder" style="display: {openedDelete === website.id ? 'flex' : 'none'};">
@@ -173,7 +176,7 @@
 	}
 
 	li a:hover {
-		border: solid 1px var(--c-pink);
+		border: solid 1px var(--c-orange);
 	}
 
 	h2 {
@@ -240,7 +243,7 @@
 	}
 
 	progress[value]::-webkit-progress-value {
-		background-color: var(--c-pink);
+		background-color: var(--c-orange);
 		border-radius: 0.5em;
 		transition: 1s ease-out;
 	}

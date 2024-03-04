@@ -148,7 +148,7 @@
 	}
 
 	.container-principes li:hover {
-		border: solid 1px var(--c-pink);
+		border: solid 1px var(--c-orange);
 	}
 
 	span {
