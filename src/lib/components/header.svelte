@@ -7,6 +7,7 @@
 	import BreadCrumbs from '$lib/components/bread-crumbs.svelte';
 	import accountIcon from '$lib/assets/account_icon.svg';
 	import darkMode from '$lib/assets/dark_mode_icon.svg';
+	import { onMount } from 'svelte';
 
 	export let params;
 	export let partners;
@@ -17,73 +18,28 @@
 	function toggleLightMode() {
 		isLightMode = !isLightMode;
 		document.body.classList.toggle('lightmode');
-		updateSVGColor1();
-		updateSVGColor2();
-		updateSVGColor3();
-		updateSVGColor4();
-		updateSVGColor5();
+		updateSVGColors();
+	}
+
+	function updateSVGColors() {
+		const elements = ['my-svg', 'my-svg2', 'my-svg3', 'my-circle', 'my-svg4'];
+		const fillColor = document.body.classList.contains('lightmode') ? 'black' : 'white';
+
+		elements.forEach((elementId) => {
+			const element = document.getElementById(elementId);
+			if (element) {
+				element.setAttribute('fill', fillColor);
+			}
+		});
 	}
 
 	onMount(() => {
 		const logoImage = document.getElementById('logoImage');
 		logoImage.src = isLightMode ? logo3 : logo;
-	});
 
-	function updateSVGColor1() {
-		var path = document.getElementById('my-svg');
-		if (document.body.classList.contains('lightmode')) {
-			path.setAttribute('fill', 'black');
-		} else {
-			path.setAttribute('fill', 'white');
-		}
-	}
-
-	function updateSVGColor2() {
-		var path = document.getElementById('my-svg2');
-		if (document.body.classList.contains('lightmode')) {
-			path.setAttribute('fill', 'black');
-		} else {
-			path.setAttribute('fill', 'white');
-		}
-	}
-
-	function updateSVGColor3() {
-		var path = document.getElementById('my-svg3');
-		if (document.body.classList.contains('lightmode')) {
-			path.setAttribute('fill', 'black');
-		} else {
-			path.setAttribute('fill', 'white');
-		}
-	}
-
-	function updateSVGColor4() {
-		var circle = document.getElementById('my-circle');
-		if (document.body.classList.contains('lightmode')) {
-			circle.setAttribute('fill', 'black');
-		} else {
-			circle.setAttribute('fill', 'white');
-		}
-	}
-
-	function updateSVGColor5() {
-		var path = document.getElementById('my-svg4');
-		if (document.body.classList.contains('lightmode')) {
-			path.setAttribute('fill', 'black');
-		} else {
-			path.setAttribute('fill', 'white');
-		}
-	}
-
-	import { onMount } from 'svelte';
-
-	let jsEnabled = false;
-
-	onMount(() => {
 		// JavaScript is enabled, toggle the class
-		jsEnabled = true;
-		let icon = document.querySelector('.disable-js');
-
-		icon.classList.toggle('disable-js');
+		const icon = document.querySelector('.disable-js');
+		icon?.classList.toggle('disable-js');
 	});
 </script>
 
@@ -153,7 +109,7 @@
 				</svg>
 			</a>
 			<a class="disable-js" href=" ">
-				<button on:click={toggleLightMode}>
+				<button class="toggle" on:click={toggleLightMode}>
 					<svg
 						id="icon"
 						alt="darkmode icon"

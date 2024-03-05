@@ -12,6 +12,7 @@
 	--c-white2: white;
 	--c-grey: rgb(149, 149, 149);
 	--c-text-header: black;
+	
 
 	/* body */
 	--c-background: rgb(30, 30, 30);
@@ -41,7 +42,6 @@
 	--c-container-stroke: white;
 	--c-grey: white;
 	--c-white2: black;
-	
 }
 
 * {

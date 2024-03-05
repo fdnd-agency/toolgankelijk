@@ -1,6 +1,7 @@
 <script>
 	import Header from '$lib/components/header.svelte';
 	import '../global.css';
+	import '../print.css';
 
 	import { page } from '$app/stores';
 	export let data;

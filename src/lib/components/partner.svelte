@@ -179,6 +179,12 @@
 		border: solid 1px var(--c-orange);
 	}
 
+	@media (inverted-colors: inverted) {
+		li a {
+			border: solid 1px white;
+		}
+	}
+
 	h2 {
 		font-size: 1.5em;
 		margin-top: 0.05em;
