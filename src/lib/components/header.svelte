@@ -13,12 +13,19 @@
 	export let partners;
 	export let websites;
 
+	let isDarkMode = true;
 	let isLightMode = false;
 
 	function toggleLightMode() {
-		isLightMode = !isLightMode;
-		document.body.classList.toggle('lightmode');
-		updateSVGColors();
+		if (localStorage.getItem('lightMode') === null) {
+			document.body.classList.add('lightmode');
+
+			localStorage.setItem('lightMode', isLightMode);
+		} else {
+			document.body.classList.remove('lightmode');
+			localStorage.removeItem('lightMode', isLightMode);
+			localStorage.setItem('darkMode', isDarkMode);
+		}
 	}
 
 	function updateSVGColors() {
@@ -33,9 +40,36 @@
 		});
 	}
 
+	// function checklightmode() {
+	// 	localStorage.setItem('darkMode', isDarkMode);
+
+	// 	if (localStorage.getItem('lightMode') === null) {
+	// 		document.body.classList.remove('lightmode');
+	// 		localStorage.setItem('lightMode', isLightMode);
+	// 	} else {
+	// 		document.body.classList.add('lightmode');
+	// 		localStorage.removeItem('lightMode', isLightMode);
+	// 		localStorage.setItem('darkMode', isDarkMode);
+	// 	}
+	// }
+
 	onMount(() => {
+		updateSVGColors();
+		// checklightmode();
+		if (localStorage.getItem('lightMode') === null) {
+			document.body.classList.remove('lightmode');
+		} else {
+			document.body.classList.add('lightmode');
+		}
+
 		const logoImage = document.getElementById('logoImage');
 		logoImage.src = isLightMode ? logo3 : logo;
+
+		// Check if there is a saved mode in LocalStorage
+		const savedLightMode = localStorage.getItem('lightMode');
+		if (savedLightMode !== null) {
+			isLightMode = savedLightMode === 'true';
+		}
 
 		// JavaScript is enabled, toggle the class
 		const icon = document.querySelector('.disable-js');
@@ -46,13 +80,9 @@
 <header>
 	<a href="#main" class="visible-hidden">Jump directly to main content</a>
 	<nav>
-		<a href="/" aria-label="Ga naar het overzicht met alle partners"
-			><img
-				src={isLightMode ? logo3 : logo}
-				id="logoImage"
-				alt="Logo van Vervoerregio Amsterdam"
-			/></a
-		>
+		<a href="/" aria-label="Ga naar het overzicht met alle partners">
+			<img src={isLightMode ? logo3 : logo} id="logoImage" alt="Logo van Vervoerregio Amsterdam" />
+		</a>
 		<BreadCrumbs {params} {partners} {websites} />
 
 		<div class="options">
