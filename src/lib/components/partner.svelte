@@ -153,7 +153,7 @@
 			<button on:click={closeDelete}>Nee</button>
 		</div>
 	</form>
-</div>
+</div>	
 
 <style>
 	li {

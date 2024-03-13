@@ -40,19 +40,6 @@
 		});
 	}
 
-	// function checklightmode() {
-	// 	localStorage.setItem('darkMode', isDarkMode);
-
-	// 	if (localStorage.getItem('lightMode') === null) {
-	// 		document.body.classList.remove('lightmode');
-	// 		localStorage.setItem('lightMode', isLightMode);
-	// 	} else {
-	// 		document.body.classList.add('lightmode');
-	// 		localStorage.removeItem('lightMode', isLightMode);
-	// 		localStorage.setItem('darkMode', isDarkMode);
-	// 	}
-	// }
-
 	onMount(() => {
 		updateSVGColors();
 		// checklightmode();
@@ -81,7 +68,7 @@
 	<a href="#main" class="visible-hidden">Jump directly to main content</a>
 	<nav>
 		<a href="/" aria-label="Ga naar het overzicht met alle partners">
-			<img src={isLightMode ? logo3 : logo} id="logoImage" alt="Logo van Vervoerregio Amsterdam" />
+			<img src={isLightMode ? logo3 : logo} class="vvr-logo" id="logoImage" alt="Logo van Vervoerregio Amsterdam" />
 		</a>
 		<BreadCrumbs {params} {partners} {websites} />
 
@@ -186,6 +173,16 @@
 		overflow: auto;
 		position: absolute;
 		width: auto;
+	}
+
+	@media print {
+		.vvr-logo {
+    		display: none;
+		}
+
+		.options {
+			display: none;
+		}
 	}
 
 	button {

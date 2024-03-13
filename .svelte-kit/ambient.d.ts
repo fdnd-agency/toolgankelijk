@@ -28,6 +28,7 @@
 declare module '$env/static/private' {
 	export const HYGRAPH_URL: string;
 	export const HYGRAPH_KEY: string;
+	export const FORM_KEY: string;
 	export const TERM_PROGRAM: string;
 	export const NODE: string;
 	export const INIT_CWD: string;
@@ -116,6 +117,7 @@ declare module '$env/dynamic/private' {
 	export const env: {
 		HYGRAPH_URL: string;
 		HYGRAPH_KEY: string;
+		FORM_KEY: string;
 		TERM_PROGRAM: string;
 		NODE: string;
 		INIT_CWD: string;
