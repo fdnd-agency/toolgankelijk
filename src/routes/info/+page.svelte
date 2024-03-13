@@ -151,7 +151,7 @@ const handleSubmit = async data => {
 	.content-container {
 		display: grid;
 		grid-template-columns: 1fr 1fr;
-		grid-template-rows: 1fr 1fr 1fr 1fr;
+		grid-template-rows: .3fr .5fr 1fr 1fr;
 		grid-template-areas:
 			'top top' 
 			'left right'
