@@ -3,6 +3,7 @@
 	import Partner from '$lib/components/partner.svelte';
 	import Search from '$lib/components/search.svelte';
 	import PartnerForm from '../lib/components/partnerForm.svelte';
+	import { onMount } from 'svelte';
 	export let data;
 
 	let heading = { titel: 'Partners overzicht' };
@@ -18,10 +19,16 @@
 	}
 
 	function scrollToTop(event) {
-    event.preventDefault();
-    const mainElement = document.getElementById('main');
-    mainElement.scrollIntoView({ behavior: 'smooth' });
-  }
+		event.preventDefault();
+		const mainElement = document.getElementById('main');
+		mainElement.scrollIntoView({ behavior: 'smooth' });
+	}
+
+	let popupVisible = true;
+
+	function handleClose() {
+		popupVisible = false;
+	}
 
 	// console.log(principes);
 </script>
@@ -29,8 +36,8 @@
 <Heading {heading} />
 
 <section>
-	<a href="/addPartner" on:click={openDialog}>Partner toevoegen</a>
-	<Search placeholderProp="Gvb"/>
+	<a class="add-partner" href="/addPartner" on:click={openDialog}>Partner toevoegen</a>
+	<Search placeholderProp="Gvb" />
 </section>
 
 {#if form?.success}
@@ -40,6 +47,28 @@
 {/if}
 
 <dialog><PartnerForm /></dialog>
+
+{#if popupVisible}
+	<div class="popup-overlay" />
+	<div class="zero-state">
+		<h1>Wettelijke verplichtingen</h1>
+		<p class="verplichtingen-paragraaf">
+			In Nederland zijn er ca. 2 miljoen mensen met een beperking. Als deze mensen uw website of app
+			niet kunnen gebruiken, dan zorgt dat dat deze mensen worden uitgesloten van de samenleving... <a
+				class="read-more"
+				href="/info">Lees meer</a
+			>
+		</p>
+		<h2>Vragen?</h2>
+		<p class="vragen-paragraaf">Voor vragen kunt u <a href="/info">hier terecht</a></p>
+		<h3>Wenst u contact op te nemen?</h3>
+		<p class="contact-paragraaf">
+			Indien u feedback heeft of om een andere reden een bericht wilt achterlaten, voel u vrij om
+			contact op te nemen met ...
+		</p>
+		<button id="close" class="close-popup" on:click={handleClose}>Sluit</button>
+	</div>
+{/if}
 
 <ul>
 	{#each data.websites as website}
@@ -56,7 +85,21 @@
 		margin: 0 0 1em 1em;
 	}
 
-	a {
+	.popup-overlay {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0, 0, 0, 0.5);
+		z-index: 3;
+	}
+
+    a {
+		color: rgb(40, 177, 223);
+	}
+
+	.add-partner {
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -72,8 +115,78 @@
 		text-decoration: none;
 	}
 
-	a:hover {
+	.add-partner:hover {
 		background-color: var(--c-pink);
+	}
+
+	.zero-state {
+		background-color: var(--c-background);
+		border: 2px solid var(--c-pink);
+		width: 25rem;
+		height: 24rem;
+		position: absolute;
+		z-index: 4;
+		transform: translate(-50%, -50%);
+		left: 50%;
+		top: 50%;
+		border-radius: 15px;
+		padding-left: 1rem;
+		padding-right: 1rem;
+	}
+
+	h1 {
+		font-size: 30px;
+		text-align: center;
+		margin-top: 1rem;
+	}
+
+	.verplichtingen-paragraaf {
+		font-weight: lighter;
+		font-size: 13px;
+		text-align: left;
+		margin-top: 1rem;
+		border-bottom: 2px solid white;
+		padding-bottom: 2rem;
+	}
+
+	h2 {
+		margin-top: 2rem;
+		font-size: 16px;
+	}
+
+	.vragen-paragraaf {
+		font-size: 13px;
+		font-weight: lighter;
+	}
+
+	h3 {
+		margin-top: 2rem;
+		font-size: 16px;
+	}
+
+	.contact-paragraaf {
+		font-size: 13px;
+		font-weight: lighter;
+		margin-bottom: 1rem;
+	}
+
+	.close-popup {
+		margin-bottom: 1rem;
+		border: none;
+		background-color: var(--c-pink);
+		border: 1px solid var(--c-pink);
+		color: white;
+		padding: 0.5em 1em;
+		cursor: pointer;
+		text-decoration: none;
+		transition: 0.3s;
+		border-radius: 0.25em;
+		font-size: 1em;
+		transition: 0.2s ease-in;
+	}
+
+	.close-popup:hover {
+		background-color: var(--c-container-stroke);
 	}
 
 	.btn-top {
@@ -90,7 +203,7 @@
 		cursor: pointer;
 		text-decoration: none;
 	}
-	
+
 	.btn-top:hover {
 		filter: saturate(1.2);
 	}
