@@ -93,6 +93,11 @@
 		width: 100%;
 		max-width: 30em;
 		border: none;
+		display: none;
+	}
+
+	dialog[open] {
+		display: block;
 	}
 
 	dialog::backdrop {
