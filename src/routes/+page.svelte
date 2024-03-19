@@ -56,11 +56,11 @@
 			In Nederland zijn er ca. 2 miljoen mensen met een beperking. Als deze mensen uw website of app
 			niet kunnen gebruiken, dan zorgt dat dat deze mensen worden uitgesloten van de samenleving... <a
 				class="read-more"
-				href="/info">Lees meer</a
+				href="/info/#wettelijk">Lees meer</a
 			>
 		</p>
 		<h2>Vragen?</h2>
-		<p class="vragen-paragraaf">Voor vragen kunt u <a href="/info">hier terecht</a></p>
+		<p class="vragen-paragraaf">Voor vragen kunt u <a href="/info/#wettelijk">hier terecht</a></p>
 		<h3>Wenst u contact op te nemen?</h3>
 		<p class="contact-paragraaf">
 			Indien u feedback heeft of om een andere reden een bericht wilt achterlaten, voel u vrij om
@@ -121,7 +121,7 @@
 
 	.zero-state {
 		background-color: var(--c-background);
-		border: 2px solid var(--c-pink);
+		border: 2px solid #B5006C;
 		width: 25rem;
 		height: 24rem;
 		position: absolute;
@@ -130,8 +130,9 @@
 		left: 50%;
 		top: 50%;
 		border-radius: 15px;
-		padding-left: 1rem;
-		padding-right: 1rem;
+		padding: 1rem;
+		padding-bottom: 0rem;
+		padding-top: 0rem;
 	}
 
 	h1 {
@@ -160,7 +161,7 @@
 	}
 
 	h3 {
-		margin-top: 2rem;
+		margin-top: 1rem;
 		font-size: 16px;
 	}
 
@@ -171,7 +172,7 @@
 	}
 
 	.close-popup {
-		margin-bottom: 1rem;
+		margin-bottom: 0em;
 		border: none;
 		background-color: var(--c-pink);
 		border: 1px solid var(--c-pink);

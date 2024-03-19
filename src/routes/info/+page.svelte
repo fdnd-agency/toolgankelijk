@@ -51,7 +51,7 @@ const handleSubmit = async data => {
 	</section>
 
 	<section class="left-container">
-		<h3>is uw website al toegankelijk?</h3>
+		<h3 id="wettelijk">is uw website al toegankelijk?</h3>
 		<br />
 		<p>
 			Binnen 2025 moet dit al! Voor overheden is dit al verplicht. En vanaf 2025 moet iedere nieuwe
