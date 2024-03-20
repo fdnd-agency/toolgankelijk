@@ -59,11 +59,11 @@
 				href="/info/#wettelijk">Lees meer</a
 			>
 		</p>
-		<h2>Vragen?</h2>
-		<p class="vragen-paragraaf">Voor vragen kunt u <a href="/info/#wettelijk">hier terecht</a></p>
-		<h3>Wenst u contact op te nemen?</h3>
+		<h2>Feedback?</h2>
+		<p class="vragen-paragraaf">Heeft u feedback voor ons? Dan kunt u <a href="/info/#wettelijk">hier terecht</a></p>
+		<h3>Vragen?</h3>
 		<p class="contact-paragraaf">
-			Indien u feedback heeft of om een andere reden een bericht wilt achterlaten, voel u vrij om
+			Indien u vragen heeft of om een andere reden een bericht wilt achterlaten, voel u vrij om
 			contact op te nemen met ...
 		</p>
 		<button id="close" class="close-popup" on:click={handleClose}>Sluit</button>
@@ -130,15 +130,16 @@
 		left: 50%;
 		top: 50%;
 		border-radius: 15px;
-		padding: 1rem;
+		padding-left: 1rem;
+		padding-right: 1rem;
 		padding-bottom: 0rem;
-		padding-top: 0rem;
+		padding-top: 1rem;
 	}
 
 	h1 {
 		font-size: 30px;
 		text-align: center;
-		margin-top: 1rem;
+		/* margin-top: 1rem; */
 	}
 
 	.verplichtingen-paragraaf {
@@ -148,6 +149,7 @@
 		margin-top: 1rem;
 		border-bottom: 2px solid white;
 		padding-bottom: 2rem;
+		line-height: 1.5;
 	}
 
 	h2 {
@@ -158,6 +160,7 @@
 	.vragen-paragraaf {
 		font-size: 13px;
 		font-weight: lighter;
+		line-height: 1.5;
 	}
 
 	h3 {
@@ -169,10 +172,10 @@
 		font-size: 13px;
 		font-weight: lighter;
 		margin-bottom: 1rem;
+		line-height: 1.5;
 	}
 
 	.close-popup {
-		margin-bottom: 0em;
 		border: none;
 		background-color: var(--c-pink);
 		border: 1px solid var(--c-pink);
@@ -275,4 +278,19 @@
 			display: none;
 		}
 	}
+
+	@media only screen and (max-width: 600px) {
+		.zero-state {
+			width: 20rem;
+			height: 28rem;
+		}
+	}
+
+	@media only screen and (max-width: 450px) {
+		.zero-state {
+			width: 17rem;
+			height: 29rem;
+		}
+	}
+
 </style>
