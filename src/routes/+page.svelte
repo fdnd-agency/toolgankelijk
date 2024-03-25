@@ -69,7 +69,14 @@ onMount(() => {
 {#if popupVisible}
 	<div class="popup-overlay" />
 	<div class="zero-state">
-		<h1>Wettelijke verplichtingen</h1>
+		<h1>Toolgankelijkheid</h1>
+		<p class="tool-info">
+			Deze tool wordt gebruikt voor het checken van de toegankelijkheid van uw website en app!
+			Na het gebruik van de checklist, wordt er een overzicht vertoond met een aantal stappen die
+			gevolgd kunnen worden voor het verbeteren van de toegankelijkheid. 
+		</p>
+
+		<h2>Wettelijke verplichtingen</h2>
 		<p class="verplichtingen-paragraaf">
 			In Nederland zijn er ca. 2 miljoen mensen met een beperking. Als deze mensen uw website of app
 			niet kunnen gebruiken, dan zorgt dat dat deze mensen worden uitgesloten van de samenleving... <a
@@ -143,7 +150,7 @@ onMount(() => {
 		background-color: var(--c-background);
 		border: 2px solid #b5006c;
 		width: 25rem;
-		height: 24rem;
+		height: 33rem;
 		position: absolute;
 		z-index: 4;
 		transform: translate(-50%, -50%);
@@ -160,6 +167,13 @@ onMount(() => {
 		font-size: 30px;
 		text-align: center;
 		/* margin-top: 1rem; */
+	}
+
+	.tool-info {
+		font-weight: lighter;
+		font-size: 13px;
+		line-height: 1.5;
+		margin-top: 1rem;
 	}
 
 	.verplichtingen-paragraaf {
