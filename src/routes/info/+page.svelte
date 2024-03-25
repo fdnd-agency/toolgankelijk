@@ -103,7 +103,7 @@ const handleSubmit = async data => {
                 <fieldset class="form-vraag">
                 <input type="hidden" name="access_key" value={data.vragen}>
                 <label for="name">Naam</label>
-                <input placeholder="name" type="text" name="name" required />
+                <input id="name" placeholder="name" type="text" name="name" required />
                 <label for="mail">Email</label>
                 <input placeholder="email" id="mail" type="email" name="email" required />
                 <label for="vraag">Uw vraag</label>

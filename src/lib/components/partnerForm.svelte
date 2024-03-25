@@ -1,29 +1,22 @@
 <script>
 
-let isPopupOpen = true;
-
-function closePopup() {
-    isPopupOpen = false;
-    console.log("Pop-up gesloten");
-}
-
 </script>
 
-{#if isPopupOpen}
+
 <section class="form-container">
 	<h2>Partner toevoegen</h2>
 	<form method="POST" action="?/addPartner">
 		<label for="name">Partner titel</label>
-		<input id="name" name="name" required type="text" />
+		<input id="name" name="name" type="text" />
 		<label for="url" class="url-label">Partner homepagina URL</label>
-		<input id="url" name="url" required type="url" />
+		<input id="url" name="url" type="url" />
 		<div class="button-div">
 		<button class="add-button">Toevoegen</button>
-		<button on:click={closePopup} class="remove-button">Sluit</button>
+		<button class="remove-button">Sluit</button>
 		</div>
 	</form>
 </section>
-{/if}
+
 
 <style>
 	.form-container {

@@ -4,7 +4,7 @@
 	import home from '$lib/assets/home_icon.svg';
 	import logo2 from '$lib/assets/vervoerregio_amsterdam_logo_2.png';
 	import informationIcon from '$lib/assets/information_icon.svg';
-	import BreadCrumbs from '$lib/components/bread-crumbs.svelte';
+	import BreadCrumbs from '$lib/components/breadCrumbs.svelte';
 	import accountIcon from '$lib/assets/account_icon.svg';
 	import darkMode from '$lib/assets/dark_mode_icon.svg';
 	import { onMount } from 'svelte';

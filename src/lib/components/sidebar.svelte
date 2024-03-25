@@ -61,7 +61,6 @@
     	background-color: var(--c-pink);
     	border-radius: 0.5em;
 	}	
-
 } */
 
 	h4 {

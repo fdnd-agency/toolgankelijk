@@ -18,6 +18,24 @@
 		el.preventDefault();
 	}
 
+	let closeButton;
+	let dialogRef;
+
+onMount(() => {
+	closeButton = document.querySelector('dialog button');
+	dialogRef = document.querySelector("dialog");
+
+	dialogRef.addEventListener("click", (event) => {
+      if (event.target === dialogRef) {
+        dialogRef.close();
+      }
+    });
+
+	closeButton.addEventListener('click', () => {
+		dialog.close();
+	});
+});
+
 	function scrollToTop(event) {
 		event.preventDefault();
 		const mainElement = document.getElementById('main');
@@ -60,7 +78,9 @@
 			>
 		</p>
 		<h2>Feedback?</h2>
-		<p class="vragen-paragraaf">Heeft u feedback voor ons? Dan kunt u <a href="/info/#wettelijk">hier terecht</a></p>
+		<p class="vragen-paragraaf">
+			Heeft u feedback voor ons? Dan kunt u <a href="/info/#wettelijk">hier terecht</a>
+		</p>
 		<h3>Vragen?</h3>
 		<p class="contact-paragraaf">
 			Indien u vragen heeft of om een andere reden een bericht wilt achterlaten, voel u vrij om
@@ -95,7 +115,7 @@
 		z-index: 3;
 	}
 
-    a {
+	a {
 		color: rgb(40, 177, 223);
 	}
 
@@ -121,7 +141,7 @@
 
 	.zero-state {
 		background-color: var(--c-background);
-		border: 2px solid #B5006C;
+		border: 2px solid #b5006c;
 		width: 25rem;
 		height: 24rem;
 		position: absolute;
@@ -132,7 +152,7 @@
 		border-radius: 15px;
 		padding-left: 1rem;
 		padding-right: 1rem;
-		padding-bottom: 0rem;
+		padding-bottom: 1rem;
 		padding-top: 1rem;
 	}
 
@@ -292,5 +312,4 @@
 			height: 29rem;
 		}
 	}
-
 </style>
