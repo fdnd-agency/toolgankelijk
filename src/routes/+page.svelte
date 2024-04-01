@@ -21,20 +21,20 @@
 	let closeButton;
 	let dialogRef;
 
-onMount(() => {
-	closeButton = document.querySelector('dialog button');
-	dialogRef = document.querySelector("dialog");
+	onMount(() => {
+		closeButton = document.querySelector('dialog button');
+		dialogRef = document.querySelector('dialog');
 
-	dialogRef.addEventListener("click", (event) => {
-      if (event.target === dialogRef) {
-        dialogRef.close();
-      }
-    });
+		dialogRef.addEventListener('click', (event) => {
+			if (event.target === dialogRef) {
+				dialogRef.close();
+			}
+		});
 
-	closeButton.addEventListener('click', () => {
-		dialog.close();
+		closeButton.addEventListener('click', () => {
+			dialog.close();
+		});
 	});
-});
 
 	function scrollToTop(event) {
 		event.preventDefault();
@@ -71,9 +71,9 @@ onMount(() => {
 	<div class="zero-state">
 		<h1>Toolgankelijkheid</h1>
 		<p class="tool-info">
-			Deze tool wordt gebruikt voor het checken van de toegankelijkheid van uw website en app!
-			Na het gebruik van de checklist, wordt er een overzicht vertoond met een aantal stappen die
-			gevolgd kunnen worden voor het verbeteren van de toegankelijkheid. 
+			Deze tool wordt gebruikt voor het checken van de toegankelijkheid van uw website en app! Na
+			het gebruik van de checklist, wordt er een overzicht vertoond met een aantal stappen die
+			gevolgd kunnen worden voor het verbeteren van de toegankelijkheid.
 		</p>
 
 		<h2>Wettelijke verplichtingen</h2>
@@ -145,22 +145,21 @@ onMount(() => {
 	.add-partner:hover {
 		background-color: var(--c-pink);
 	}
-
 	.zero-state {
 		background-color: var(--c-background);
 		border: 2px solid #b5006c;
-		width: 25rem;
-		height: 33rem;
+		max-width: 90%;
+		max-height: 90%;
 		position: absolute;
 		z-index: 4;
-		transform: translate(-50%, -50%);
+		border-radius: 15px;
+		padding: 1rem;
+		overflow-y: auto;
+		max-height: calc(100% - 2rem);
+		max-width: calc(100% - 2rem);
 		left: 50%;
 		top: 50%;
-		border-radius: 15px;
-		padding-left: 1rem;
-		padding-right: 1rem;
-		padding-bottom: 1rem;
-		padding-top: 1rem;
+		transform: translate(-50%, -50%);
 	}
 
 	h1 {
@@ -316,14 +315,14 @@ onMount(() => {
 	@media only screen and (max-width: 600px) {
 		.zero-state {
 			width: 20rem;
-			height: 28rem;
+			height: 35rem;
 		}
 	}
 
 	@media only screen and (max-width: 450px) {
 		.zero-state {
 			width: 17rem;
-			height: 29rem;
+			height: 38rem;
 		}
 	}
 </style>

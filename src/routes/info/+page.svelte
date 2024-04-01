@@ -116,6 +116,11 @@ const handleSubmit = async data => {
 </div>
 
 <style>
+
+	.text-container p {
+		max-width: 50rem;
+	}
+
 	.top-container {
 		grid-area: top;
 		display: flex;
