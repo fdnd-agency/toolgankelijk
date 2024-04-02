@@ -75,6 +75,13 @@
 		align-items: center;
 		gap: 0.5rem;
 	}
+
+	@media print {
+		.bread-crumbs {
+			display: none;
+		}
+	}
+
 	button {
 		position: relative;
 		display: flex;

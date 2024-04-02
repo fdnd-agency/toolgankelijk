@@ -55,6 +55,14 @@
 </aside>
 
 <style>
+
+	/* @media print {
+	progress[value]::-webkit-progress-value {
+    	background-color: var(--c-pink);
+    	border-radius: 0.5em;
+	}	
+} */
+
 	h4 {
 		font-size: 1.5rem;
 		font-weight: 500;

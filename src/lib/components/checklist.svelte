@@ -41,6 +41,12 @@
 	// 		await update();
 	// 	};
 	// };
+
+	function scrollToTop(event) {
+    event.preventDefault();
+    const mainElement = document.getElementById('main');
+    mainElement.scrollIntoView({ behavior: 'smooth' });
+  }
 </script>
 
 <section>
@@ -105,12 +111,24 @@
 			<button class="submit"> Opslaan </button>
 		{/if}
 	</form>
+	<a href="#main" class="btn-top" on:click={scrollToTop}>⬆</a>	
 </section>
 
 <style>
+
+	@media print {
+		.btn-top {
+			display: none;
+		}
+
+		.submit {
+			display: none;
+		}
+	}
+
 	.submit {
 		position: fixed;
-		bottom: 1rem;
+		bottom: 5rem;
 		right: 1rem;
 		font-size: 1.3rem;
 		padding: 0.4rem 0.8rem;
@@ -124,6 +142,25 @@
 	.submit:hover {
 		filter: saturate(1.2);
 	}
+
+	.btn-top {
+		position: fixed;
+		bottom: 1rem;
+		right: 1rem;
+		font-size: 1.3rem;
+		padding: 0.4rem 0.8rem;
+		background-color: var(--c-pink);
+		border: none;
+		color: white;
+		margin-top: 1rem;
+		border-radius: 4px;
+		cursor: pointer;
+		text-decoration: none;
+	}
+	.btn-top:hover {
+		filter: saturate(1.2);
+	}
+
 	button:active {
 		filter: saturate(1) brightness(0.9);
 	}

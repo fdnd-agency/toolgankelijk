@@ -21,7 +21,7 @@ export const dictionary = {
 		"/": [~3],
 		"/account": [8],
 		"/addPartner": [~9],
-		"/info": [10],
+		"/info": [~10],
 		"/login": [11],
 		"/[websiteUID]": [~4,[2]],
 		"/[websiteUID]/addUrl": [~7,[2]],

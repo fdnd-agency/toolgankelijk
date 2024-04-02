@@ -13,7 +13,7 @@
 <section class="form-container">
 	<form>
 		<fieldset class="form-login">
-			<h2>Login</h2>
+			<legend>Login</legend>
 			<p>
 				<label for="username">Username</label>
 				<input id="username" type="text" name="login" placeholder="Username" required />
@@ -57,9 +57,11 @@
 		padding-bottom: 1.5rem;
 	}
 
-	h2 {
-		color: white;
+	legend {
+		color: var(--c-white);
 		padding-bottom: 1rem;
+		text-align: center;
+		font-size: 38px;
 	}
 
 	p {

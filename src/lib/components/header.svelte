@@ -4,103 +4,76 @@
 	import home from '$lib/assets/home_icon.svg';
 	import logo2 from '$lib/assets/vervoerregio_amsterdam_logo_2.png';
 	import informationIcon from '$lib/assets/information_icon.svg';
-	import BreadCrumbs from '$lib/components/bread-crumbs.svelte';
+	import BreadCrumbs from '$lib/components/breadCrumbs.svelte';
 	import accountIcon from '$lib/assets/account_icon.svg';
 	import darkMode from '$lib/assets/dark_mode_icon.svg';
+	import { onMount } from 'svelte';
 
 	export let params;
 	export let partners;
 	export let websites;
 
+	let isDarkMode = true;
 	let isLightMode = false;
 
 	function toggleLightMode() {
-		isLightMode = !isLightMode;
-		document.body.classList.toggle('lightmode');
-		updateSVGColor1();
-		updateSVGColor2();
-		updateSVGColor3();
-		updateSVGColor4();
-		updateSVGColor5();
+		if (localStorage.getItem('lightMode') === null) {
+			document.body.classList.add('lightmode');
+
+			localStorage.setItem('lightMode', isLightMode);
+		} else {
+			document.body.classList.remove('lightmode');
+			localStorage.removeItem('lightMode', isLightMode);
+			localStorage.setItem('darkMode', isDarkMode);
+		}
 	}
 
+	// function updateSVGColors() {
+	// 	const elements = ['my-svg', 'my-svg2', 'my-svg3', 'my-circle', 'my-svg4'];
+	// 	const fillColor = document.body.classList.contains('lightmode') ? 'black' : 'white';
+
+	// 	elements.forEach((elementId) => {
+	// 		const element = document.getElementById(elementId);
+	// 		if (element) {
+	// 			element.setAttribute('fill', fillColor);
+	// 		}
+	// 	});
+	// }
+
 	onMount(() => {
+		// updateSVGColors();
+		// checklightmode();
+		if (localStorage.getItem('lightMode') === null) {
+			document.body.classList.remove('lightmode');
+		} else {
+			document.body.classList.add('lightmode');
+		}
+
 		const logoImage = document.getElementById('logoImage');
 		logoImage.src = isLightMode ? logo3 : logo;
-	});
 
-	function updateSVGColor1() {
-		var path = document.getElementById('my-svg');
-		if (document.body.classList.contains('lightmode')) {
-			path.setAttribute('fill', 'black');
-		} else {
-			path.setAttribute('fill', 'white');
+		// Check if there is a saved mode in LocalStorage
+		const savedLightMode = localStorage.getItem('lightMode');
+		if (savedLightMode !== null) {
+			isLightMode = savedLightMode === 'true';
 		}
-	}
 
-	function updateSVGColor2() {
-		var path = document.getElementById('my-svg2');
-		if (document.body.classList.contains('lightmode')) {
-			path.setAttribute('fill', 'black');
-		} else {
-			path.setAttribute('fill', 'white');
-		}
-	}
-
-	function updateSVGColor3() {
-		var path = document.getElementById('my-svg3');
-		if (document.body.classList.contains('lightmode')) {
-			path.setAttribute('fill', 'black');
-		} else {
-			path.setAttribute('fill', 'white');
-		}
-	}
-
-	function updateSVGColor4() {
-		var circle = document.getElementById('my-circle');
-		if (document.body.classList.contains('lightmode')) {
-			circle.setAttribute('fill', 'black');
-		} else {
-			circle.setAttribute('fill', 'white');
-		}
-	}
-
-	function updateSVGColor5() {
-		var path = document.getElementById('my-svg4');
-		if (document.body.classList.contains('lightmode')) {
-			path.setAttribute('fill', 'black');
-		} else {
-			path.setAttribute('fill', 'white');
-		}
-	}
-
-	import { onMount } from 'svelte';
-
-	let jsEnabled = false;
-
-	onMount(() => {
 		// JavaScript is enabled, toggle the class
-		jsEnabled = true;
-		let icon = document.querySelector('.disable-js');
-
-		icon.classList.toggle('disable-js');
+		const icon = document.querySelector('.disable-js');
+		icon?.classList.toggle('disable-js');
 	});
 </script>
 
 <header>
 	<a href="#main" class="visible-hidden">Jump directly to main content</a>
 	<nav>
-		<a href="/" aria-label="Ga naar het overzicht met alle partners"
-			><img
-				src={isLightMode ? logo3 : logo}
-				id="logoImage"
-				alt="Logo van Vervoerregio Amsterdam"
-			/></a
-		>
+		<a href="/" aria-label="Ga naar het overzicht met alle partners">
+			<img src={isLightMode ? logo3 : logo} class="vvr-logo" id="logoImage" alt="Logo van Vervoerregio Amsterdam" />
+		</a>
 		<BreadCrumbs {params} {partners} {websites} />
 
 		<div class="options">
-			<a href="/">
+			<a aria-label="home pagina" href="/">
 				<svg
 					class="home-icon-img"
 					alt="back to homepage"
@@ -110,29 +83,28 @@
 				>
 					<path
 						d="M11.3 3.3a1 1 0 0 1 1.4 0l6 6 2 2a1 1 0 0 1-1.4 1.4l-.3-.3V19a2 2 0 0 1-2 2h-3a1 1 0 0 1-1-1v-3h-2v3c0 .6-.4 1-1 1H7a2 2 0 0 1-2-2v-6.6l-.3.3a1 1 0 0 1-1.4-1.4l2-2 6-6Z"
-						fill="white"
+						
 						id="my-svg4"
 					/>
 				</svg>
 			</a>
-			<a href="/info">
+			<a aria-label="informatie pagina" href="/info">
 				<svg
 					class="information-icon-img"
 					alt="information icon"
 					width="24"
 					height="24"
 					viewBox="0 0 24 24"
-					fill="none"
 					xmlns="http://www.w3.org/2000/svg"
 				>
 					<path
 						id="my-svg3"
 						d="M10.8 8.4H13.2V6H10.8M12 21.6C6.708 21.6 2.4 17.292 2.4 12C2.4 6.708 6.708 2.4 12 2.4C17.292 2.4 21.6 6.708 21.6 12C21.6 17.292 17.292 21.6 12 21.6ZM12 0C10.4241 0 8.86371 0.310389 7.4078 0.913446C5.95189 1.5165 4.62902 2.40042 3.51472 3.51472C1.26428 5.76516 0 8.8174 0 12C0 15.1826 1.26428 18.2348 3.51472 20.4853C4.62902 21.5996 5.95189 22.4835 7.4078 23.0866C8.86371 23.6896 10.4241 24 12 24C15.1826 24 18.2348 22.7357 20.4853 20.4853C22.7357 18.2348 24 15.1826 24 12C24 10.4241 23.6896 8.86371 23.0866 7.4078C22.4835 5.95189 21.5996 4.62902 20.4853 3.51472C19.371 2.40042 18.0481 1.5165 16.5922 0.913446C15.1363 0.310389 13.5759 0 12 0ZM10.8 18H13.2V10.8H10.8V18Z"
-						fill="white"
+						
 					/>
 				</svg>
 			</a>
-			<a href="/login">
+			<a href="/login" aria-label="account">
 				<svg
 					class="account-icon-img"
 					alt="account icon"
@@ -143,30 +115,28 @@
 					data-name="Layer 1"
 					xmlns="http://www.w3.org/2000/svg"
 				>
-					<circle id="my-circle" class="cls-1" cx="12" cy="7.25" r="5.73" fill="white" />
+					<circle id="my-circle" class="cls-1" cx="12" cy="7.25" r="5.73"  />
 					<path
 						id="my-svg2"
 						class="cls-1"
 						d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05"
-						fill="white"
 					/>
 				</svg>
 			</a>
-			<a class="disable-js" href=" ">
-				<button on:click={toggleLightMode}>
+			<a aria-label="lightmode button" class="disable-js" href=" ">
+				<button aria-label="lightmode" class="toggle" on:click={toggleLightMode}>
 					<svg
 						id="icon"
 						alt="darkmode icon"
 						width="24"
 						height="24"
 						viewBox="0 0 24 24"
-						fill="none"
 						xmlns="http://www.w3.org/2000/svg"
 					>
 						<path
 							id="my-svg"
 							d="M12 24C18.6276 24 24 18.6276 24 12C24 5.3724 18.6276 0 12 0C5.3724 0 0 5.3724 0 12C0 18.6276 5.3724 24 12 24ZM12 21.6V2.4C14.5461 2.4 16.9879 3.41143 18.7882 5.21178C20.5886 7.01212 21.6 9.45392 21.6 12C21.6 14.5461 20.5886 16.9879 18.7882 18.7882C16.9879 20.5886 14.5461 21.6 12 21.6Z"
-							fill="white"
+							
 						/>
 					</svg>
 					<!-- <img id="icon" src={darkMode} alt="darkmode icon" /> -->
@@ -200,6 +170,16 @@
 		overflow: auto;
 		position: absolute;
 		width: auto;
+	}
+
+	@media print {
+		.vvr-logo {
+    		display: none;
+		}
+
+		.options {
+			display: none;
+		}
 	}
 
 	button {
@@ -236,6 +216,10 @@
 		z-index: 2;
 	}
 
+	.options svg {
+		fill: var(--c-white2);
+	}
+	
 	.disable-js {
 		display: none;
 	}

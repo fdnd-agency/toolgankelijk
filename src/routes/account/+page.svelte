@@ -13,7 +13,7 @@
 <section class="form-container">
 	<form>
 		<fieldset class="form-login">
-			<h2>Create an account</h2>
+			<legend>Create an account</legend>
 			<p>
 				<label for="login">Email</label>
 				<input type="email" name="mail" placeholder="Email" required />
@@ -59,9 +59,11 @@
 		padding-bottom: 1.5rem;
 	}
 
-	h2 {
-		color: var(--c-pink);
+	legend {
+		color: var(--c-white);
 		padding-bottom: 1rem;
+		text-align: center;
+		font-size: 28px;
 	}
 
 	p {

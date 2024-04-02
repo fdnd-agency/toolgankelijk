@@ -90,6 +90,7 @@
 			alert(form?.message);
 		}
 	}
+
 </script>
 
 <ul>
@@ -101,7 +102,7 @@
 					<h2 class="name">{website.titel}</h2>
 				</div>
 				<div class="icons" id={`icons-${website.id}`}>
-					<button on:click={openEdit}><img src={pencil} alt="Verwijder icon" /></button>
+					<button class="icon_pencil" on:click={openEdit}><img src={pencil} alt="Verwijder icon" /></button>
 					<button on:click={openDelete}><img src={trash} alt="Verwijder icon" /></button>
 				</div>
 			</section>
@@ -153,7 +154,7 @@
 			<button on:click={closeDelete}>Nee</button>
 		</div>
 	</form>
-</div>
+</div>	
 
 <style>
 	li {
@@ -179,6 +180,12 @@
 		border: solid 1px var(--c-orange);
 	}
 
+	@media (inverted-colors: inverted) {
+		li a {
+			border: solid 1px white;
+		}
+	}
+
 	h2 {
 		font-size: 1.5em;
 		margin-top: 0.05em;
@@ -195,8 +202,12 @@
 		display: none;
 		justify-content: space-between;
 		position: absolute;
-		right: 0;
+		right: 10px;
 		top: 0;
+	}
+
+	.icon_pencil {
+		padding-right: 15px;
 	}
 
 	a section button {
