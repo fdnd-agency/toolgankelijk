@@ -25,6 +25,10 @@
 			);
 		});
 	});
+
+	console.log(principes)
+
+
 </script>
 
 <aside>

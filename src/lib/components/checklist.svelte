@@ -52,7 +52,7 @@
 <section>
 	<div id="niveau-toggle" class="disabled">
 		<label>
-			Selecteer niveau
+			<p>Selecteer niveau</p>
 			<select bind:value={selectedNiveau} on:change={handleNiveauChange}>
 				<option value="A">Niveau A</option>
 				<option value="AA">Niveau AA</option>
@@ -225,6 +225,10 @@
 		justify-content: space-between;
 		align-items: center;
 		font-weight: 600;
+	}
+
+	label p {
+		color: var(--c-white2); 
 	}
 
 	label div {
