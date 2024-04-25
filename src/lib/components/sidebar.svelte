@@ -6,7 +6,6 @@
 	let criteriaPerPrincipe = {};
 	let baseUrl = `/${urlData.url.website.slug}/${urlData.url.slug}`;
 
-	console.log(urlData);
 	const criteriaSlice = urlData.url.checks.flatMap((check) =>
 		check.succescriteria.map((criteria) => criteria.index)
 	);
@@ -25,9 +24,6 @@
 			0
 		);
 	});
-
-	console.log(principes)
-
 
 </script>
 
@@ -60,13 +56,6 @@
 
 <style>
 
-	/* @media print {
-	progress[value]::-webkit-progress-value {
-    	background-color: var(--c-pink);
-    	border-radius: 0.5em;
-	}	
-} */
-
 	h4 {
 		font-size: 1.5rem;
 		font-weight: 500;
@@ -89,7 +78,6 @@
 		flex-grow: 400;
 		flex-basis: 0;
 		align-self: start;
-		/* z-index: ; */
 	}
 
 	li {

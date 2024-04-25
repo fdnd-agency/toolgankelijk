@@ -138,6 +138,7 @@
 		margin-top: 1rem;
 		border-radius: 4px;
 		cursor: pointer;
+		z-index: 2;
 	}
 	.submit:hover {
 		filter: saturate(1.2);
@@ -156,6 +157,7 @@
 		border-radius: 4px;
 		cursor: pointer;
 		text-decoration: none;
+		z-index: 2;
 	}
 	.btn-top:hover {
 		filter: saturate(1.2);
