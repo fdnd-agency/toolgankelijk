@@ -75,33 +75,37 @@
 		<input type="hidden" name="niveau" value={selectedNiveau} />
 		<input type="hidden" name="principe" value={toolboardData.principe.index} />
 		{#each richtlijnen as richtlijn}
-			<article>
+		<details>
+			<summary class="richtlijn-uitklapbaar">
 				<div>
 					<span>Richtlijn {richtlijn.index}</span>
 					<h2>{richtlijn.titel}</h2>
-				</div>
-				{#each richtlijn.succescriteria as succescriterium}
-					{#if succescriterium.niveau === selectedNiveau}
-						<details>
-							<summary>
-								<label>
-									<div>
-										<span>Criteria {succescriterium.index} ({succescriterium.niveau})</span>
-										<h3>{succescriterium.titel}</h3>
-									</div>
-									<input
-										name="check"
-										value={succescriterium.id}
-										type="checkbox"
-										checked={checkedSuccescriteria.find((e) => e.id === succescriterium.id)}
-									/>
-								</label>
-							</summary>
-							<div class="richtlijn-uitleg">{@html richtlijn.uitleg.html}</div>
-						</details>
-					{/if}
-				{/each}
-			</article>
+				<div>
+		</summary>
+		<article>
+			{#each richtlijn.succescriteria as succescriterium}
+				{#if succescriterium.niveau === selectedNiveau}
+					<details>
+						<summary class="criteria-uitklapbaar">
+							<label>
+								<div>
+									<span>Criteria {succescriterium.index} ({succescriterium.niveau})</span>
+									<h3>{succescriterium.titel}</h3>
+								</div>
+								<input
+									name="check"
+									value={succescriterium.id}
+									type="checkbox"
+									checked={checkedSuccescriteria.find((e) => e.id === succescriterium.id)}
+								/>
+							</label>
+						</summary>
+						<div class="richtlijn-uitleg">{@html richtlijn.uitleg.html}</div>
+					</details>
+				{/if}
+			{/each}
+		</article>
+	</details>
 		{/each}
 		{#if loading}
 			<div class="submit">
@@ -245,24 +249,28 @@
 		border-top: 1px solid var(--c-container-stroke);
 	}
 
-	summary {
+	.richtlijn-uitklapbaar:hover {
+		cursor: pointer;
+	}
+
+	.criteria-uitklapbaar {
 		display: flex;
 		flex-direction: row;
 		align-items: center;
 	}
 
-	summary::-webkit-details-marker {
+	.criteria-uitklapbaar::-webkit-details-marker {
 		display: none;
 	}
 
-	summary:before {
+	.criteria-uitklapbaar:before {
 		content: '🡒';
 		font-size: 1.5em;
 		color: #fff;
 		width: 30px;
 	}
 
-	details[open] summary:before {
+	details[open] .criteria-uitklapbaar:before {
 		content: '🡓';
 		color: var(--c-pink);
 	}

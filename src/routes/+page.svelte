@@ -148,7 +148,8 @@
 	.zero-state {
 		background-color: var(--c-background);
 		border: 2px solid #b5006c;
-		max-width: 90%;
+		/* max-width: 30%; */
+		width: 30rem;
 		max-height: 90%;
 		position: absolute;
 		z-index: 4;
@@ -156,7 +157,7 @@
 		padding: 1rem;
 		overflow-y: auto;
 		max-height: calc(100% - 2rem);
-		max-width: calc(100% - 2rem);
+		/* max-width: calc(100% - 2rem); */
 		left: 50%;
 		top: 50%;
 		transform: translate(-50%, -50%);

@@ -84,6 +84,10 @@
 		display: flex;
 	}
 
+	li:hover {
+		background-color: #3b3939;
+	}
+
 	a {
 		width: 100%;
 		height: 100%;
