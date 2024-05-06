@@ -47,6 +47,8 @@
     const mainElement = document.getElementById('main');
     mainElement.scrollIntoView({ behavior: 'smooth' });
   }
+
+  console.log(richtlijnen)
 </script>
 
 <section>
@@ -74,11 +76,15 @@
 	>
 		<input type="hidden" name="niveau" value={selectedNiveau} />
 		<input type="hidden" name="principe" value={toolboardData.principe.index} />
+
+		<!-- richtlijnen en succescriteria tekst wordt hier ingeladen! -->
+
 		{#each richtlijnen as richtlijn}
 			<article>
 				<div>
 					<span>Richtlijn {richtlijn.index}</span>
 					<h2>{richtlijn.titel}</h2>
+					<h3> {@html richtlijn.uitleg.html} </h3>
 				</div>
 				{#each richtlijn.succescriteria as succescriterium}
 					{#if succescriterium.niveau === selectedNiveau}
@@ -88,6 +94,7 @@
 									<div>
 										<span>Criteria {succescriterium.index} ({succescriterium.niveau})</span>
 										<h3>{succescriterium.titel}</h3>
+
 									</div>
 									<input
 										name="check"
@@ -97,7 +104,14 @@
 									/>
 								</label>
 							</summary>
-							<div class="richtlijn-uitleg">{@html richtlijn.uitleg.html}</div>
+
+							<!-- tekuitleg voor succescriterium -->
+							
+							<div class="richtlijn-uitleg">
+								{@html succescriterium.criteria && succescriterium.criteria.html }
+							</div>
+
+
 						</details>
 					{/if}
 				{/each}
