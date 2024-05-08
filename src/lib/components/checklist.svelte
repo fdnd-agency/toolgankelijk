@@ -85,7 +85,7 @@
 				<div>
 					<span>Richtlijn {richtlijn.index}</span>
 					<h2>{richtlijn.titel}</h2>
-					<h3> {@html richtlijn.uitleg.html} </h3>
+					<h3>{@html richtlijn.uitleg.html}</h3>
 				<div>
 		</summary>
 		<article>
@@ -97,6 +97,7 @@
 								<div>
 									<span>Criteria {succescriterium.index} ({succescriterium.niveau})</span>
 									<h3>{succescriterium.titel}</h3>
+									
 								</div>
 								<input
 									name="check"
