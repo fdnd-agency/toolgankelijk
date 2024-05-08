@@ -61,7 +61,7 @@
 
 	legend {
 		color: var(--c-white);
-		padding-bottom: 1rem;
+		padding-top: 2.5rem;
 		text-align: center;
 		font-size: 28px;
 	}

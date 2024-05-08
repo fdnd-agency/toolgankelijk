@@ -6,7 +6,6 @@
 	export let data;
 
 	export let form;
-
 	$: heading = {
 		titel: data.websitesData.website.titel,
 		homepage: data.urlData.url.url,
@@ -17,6 +16,7 @@
 	const richtlijnen = toolboardData.principe.richtlijnen;
 	const principes = data.toolboardData.principes;
 </script>
+
 
 <Heading {heading} />
 <section>

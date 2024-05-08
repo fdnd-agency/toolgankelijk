@@ -4,34 +4,34 @@
 	import { onMount } from 'svelte';
 	let successCriteriaMap = {};
 	let criteriaPerPrincipe = {};
+	let baseUrl = `/${urlData.url.website.slug}/${urlData.url.slug}`;
 
-	onMount(() => {
-		const criteriaSlice = urlData.url.checks.flatMap((check) =>
-			check.succescriteria.map((criteria) => criteria.index)
-		);
+	const criteriaSlice = urlData.url.checks.flatMap((check) =>
+		check.succescriteria.map((criteria) => criteria.index)
+	);
 
-		criteriaSlice.forEach((index) => {
-			const principleIndex = index.split('.')[0];
-			if (!successCriteriaMap[principleIndex]) {
-				successCriteriaMap[principleIndex] = [];
-			}
-			successCriteriaMap[principleIndex].push(index);
-		});
-
-		principes.forEach((principe) => {
-			criteriaPerPrincipe[principe.index] = principe.richtlijnen.reduce(
-				(total, richtlijn) => total + richtlijn.succescriteria.length,
-				0
-			);
-		});
+	criteriaSlice.forEach((index) => {
+		const principleIndex = index.split('.')[0];
+		if (!successCriteriaMap[principleIndex]) {
+			successCriteriaMap[principleIndex] = [];
+		}
+		successCriteriaMap[principleIndex].push(index);
 	});
+
+	principes.forEach((principe) => {
+		criteriaPerPrincipe[principe.index] = principe.richtlijnen.reduce(
+			(total, richtlijn) => total + richtlijn.succescriteria.length,
+			0
+		);
+	});
+
 </script>
 
 <aside>
 	<ul>
 		{#each principes as principe}
-			<li>
-				<a href="/">
+			<li data-sveltekit-reload>
+				<a href="{baseUrl}/{principe.slug}">
 					<h4>{principe.titel}</h4>
 					<span>Principe {principe.index}</span>
 					<div class="progress-container">
@@ -56,13 +56,6 @@
 
 <style>
 
-	/* @media print {
-	progress[value]::-webkit-progress-value {
-    	background-color: var(--c-pink);
-    	border-radius: 0.5em;
-	}	
-} */
-
 	h4 {
 		font-size: 1.5rem;
 		font-weight: 500;
@@ -85,11 +78,14 @@
 		flex-grow: 400;
 		flex-basis: 0;
 		align-self: start;
-		z-index: -1;
 	}
 
 	li {
 		display: flex;
+	}
+
+	li:hover {
+		background-color: #3b3939;
 	}
 
 	a {

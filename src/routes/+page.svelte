@@ -132,7 +132,7 @@
 		align-items: center;
 		border-radius: 0.25em;
 		padding: 0.5em 1em;
-		color: var(--c-white);
+		color: var(--c-white2);
 		background-color: var(--c-modal-button);
 		border: none;
 		font-weight: 600;
@@ -148,7 +148,8 @@
 	.zero-state {
 		background-color: var(--c-background);
 		border: 2px solid #b5006c;
-		max-width: 90%;
+		/* max-width: 30%; */
+		width: 30rem;
 		max-height: 90%;
 		position: absolute;
 		z-index: 4;
@@ -156,7 +157,7 @@
 		padding: 1rem;
 		overflow-y: auto;
 		max-height: calc(100% - 2rem);
-		max-width: calc(100% - 2rem);
+		/* max-width: calc(100% - 2rem); */
 		left: 50%;
 		top: 50%;
 		transform: translate(-50%, -50%);
@@ -165,6 +166,7 @@
 	h1 {
 		font-size: 30px;
 		text-align: center;
+		color: var(--c-white2);
 		/* margin-top: 1rem; */
 	}
 
@@ -173,6 +175,7 @@
 		font-size: 13px;
 		line-height: 1.5;
 		margin-top: 1rem;
+		color: var(--c-white2);
 	}
 
 	.verplichtingen-paragraaf {
@@ -180,20 +183,23 @@
 		font-size: 13px;
 		text-align: left;
 		margin-top: 1rem;
-		border-bottom: 2px solid white;
+		border-bottom: 2px solid var(--c-white2);
 		padding-bottom: 2rem;
 		line-height: 1.5;
+		color: var(--c-white2);
 	}
 
 	h2 {
 		margin-top: 2rem;
 		font-size: 16px;
+		color: var(--c-white2);
 	}
 
 	.vragen-paragraaf {
 		font-size: 13px;
 		font-weight: lighter;
 		line-height: 1.5;
+		color: var(--c-white2);
 	}
 
 	h3 {
@@ -206,6 +212,7 @@
 		font-weight: lighter;
 		margin-bottom: 1rem;
 		line-height: 1.5;
+		color: var(--c-white2);
 	}
 
 	.close-popup {
@@ -220,10 +227,6 @@
 		border-radius: 0.25em;
 		font-size: 1em;
 		transition: 0.2s ease-in;
-	}
-
-	.close-popup:hover {
-		background-color: var(--c-container-stroke);
 	}
 
 	.btn-top {

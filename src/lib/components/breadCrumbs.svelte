@@ -125,6 +125,7 @@
 
 	.seperator {
 		font-size: 1.5rem;
+		color: var(--c-white2);
 	}
 
 	ul {
