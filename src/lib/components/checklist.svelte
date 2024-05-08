@@ -85,6 +85,7 @@
 				<div>
 					<span>Richtlijn {richtlijn.index}</span>
 					<h2>{richtlijn.titel}</h2>
+					<h3> {@html richtlijn.uitleg.html} </h3>
 				<div>
 		</summary>
 		<article>
@@ -110,7 +111,7 @@
 						<div class="richtlijn-uitleg">
 							{@html succescriterium.criteria && succescriterium.criteria.html }
 						</div>
-						
+
 					</details>
 				{/if}
 			{/each}
