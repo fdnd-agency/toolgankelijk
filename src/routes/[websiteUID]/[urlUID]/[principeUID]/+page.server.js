@@ -11,7 +11,6 @@ import deleteCheck from '$lib/queries/deleteCheck';
 import { error } from '@sveltejs/kit';
 
 export const load = async ({ params }) => {
-	console.log('loading...')
 	const { websiteUID } = params;
 	const { urlUID } = params;
 	const { principeUID } = params;

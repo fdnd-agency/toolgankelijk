@@ -4,7 +4,6 @@
 	import knowledge from '$lib/assets/sharing_knowledge.svg';
 
     export let data 
-    console.log(data)
 
 	$: heading = { titel: 'Informatie' };
 
@@ -25,7 +24,6 @@ const handleSubmit = async data => {
   });
   const result = await response.json();
   if (result.success) {
-      console.log(result);
       status = result.message || "Success"
   }
 }

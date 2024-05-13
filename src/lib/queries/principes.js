@@ -18,11 +18,6 @@ export default function getQueryPrincipes(gql) {
 						id
 					}
 				}
-				succescriteria {
-					criteria {
-					  text
-					}
-				  }
 			}
 		}
 	`;

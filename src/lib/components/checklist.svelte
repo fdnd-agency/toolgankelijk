@@ -48,7 +48,6 @@
     mainElement.scrollIntoView({ behavior: 'smooth' });
   }
 
-  console.log(richtlijnen)
 </script>
 
 <section>
@@ -81,23 +80,24 @@
 
 		{#each richtlijnen as richtlijn}
 		<details>
+		<!-- <div class="richtlijn-div"> -->
 			<summary class="richtlijn-uitklapbaar">
-				<div>
 					<span>Richtlijn {richtlijn.index}</span>
+					<div>
 					<h2>{richtlijn.titel}</h2>
 					<h3>{@html richtlijn.uitleg.html}</h3>
 				<div>
 		</summary>
+		<!-- </div>	 -->
 		<article>
 			{#each richtlijn.succescriteria as succescriterium}
 				{#if succescriterium.niveau === selectedNiveau}
 					<details>
 						<summary class="criteria-uitklapbaar">
 							<label>
-								<div>
+								<div class="titels">
 									<span>Criteria {succescriterium.index} ({succescriterium.niveau})</span>
 									<h3>{succescriterium.titel}</h3>
-									
 								</div>
 								<input
 									name="check"
@@ -112,7 +112,6 @@
 						<div class="richtlijn-uitleg">
 							{@html succescriterium.criteria && succescriterium.criteria.html }
 						</div>
-
 					</details>
 				{/if}
 			{/each}
@@ -203,6 +202,11 @@
 		cursor: pointer;
 	}
 
+	.richtlijn-div {
+		display: flex;
+		flex-direction: column;
+	}
+
 	.richtlijn-uitleg {
 		padding-left: 3rem;
 	}
@@ -257,12 +261,30 @@
 		padding: 1em;
 	}
 
+	details[open] summary ~ * {
+  		animation: sweep .5s ease-in-out;
+		/* animation-iteration-count: infinite; */
+	}
+
+	@keyframes sweep {
+  0%    {opacity: 0; margin-top: -10px}
+  100%  {opacity: 1; margin-top: 15.2px}
+	}
+
 	section details:not(:nth-child(2)) {
 		border-top: 1px solid var(--c-container-stroke);
 	}
 
 	.richtlijn-uitklapbaar:hover {
 		cursor: pointer;
+	}
+
+	.richtlijn-uitklapbaar h2, h3 {
+		margin-left: 1.2rem;
+	}
+
+	span {
+		margin-left: .3rem;
 	}
 
 	.criteria-uitklapbaar {
