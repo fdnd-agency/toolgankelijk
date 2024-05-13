@@ -43,11 +43,10 @@
 	// };
 
 	function scrollToTop(event) {
-    event.preventDefault();
-    const mainElement = document.getElementById('main');
-    mainElement.scrollIntoView({ behavior: 'smooth' });
-  }
-
+		event.preventDefault();
+		const mainElement = document.getElementById('main');
+		mainElement.scrollIntoView({ behavior: 'smooth' });
+	}
 </script>
 
 <section>
@@ -79,44 +78,45 @@
 		<!-- richtlijnen en succescriteria tekst wordt hier ingeladen! -->
 
 		{#each richtlijnen as richtlijn}
-		<details>
-		<!-- <div class="richtlijn-div"> -->
-			<summary class="richtlijn-uitklapbaar">
+			<details>
+				<!-- <div class="richtlijn-div"> -->
+				<summary class="richtlijn-uitklapbaar">
 					<span>Richtlijn {richtlijn.index}</span>
 					<div>
-					<h2>{richtlijn.titel}</h2>
-					<h3>{@html richtlijn.uitleg.html}</h3>
-				<div>
-		</summary>
-		<!-- </div>	 -->
-		<article>
-			{#each richtlijn.succescriteria as succescriterium}
-				{#if succescriterium.niveau === selectedNiveau}
-					<details>
-						<summary class="criteria-uitklapbaar">
-							<label>
-								<div class="titels">
-									<span>Criteria {succescriterium.index} ({succescriterium.niveau})</span>
-									<h3>{succescriterium.titel}</h3>
+						<h2>{richtlijn.titel}</h2>
+						<h3>{@html richtlijn.uitleg.html}</h3>
+						<div />
+					</div></summary
+				>
+				<!-- </div>	 -->
+				<article>
+					{#each richtlijn.succescriteria as succescriterium}
+						{#if succescriterium.niveau === selectedNiveau}
+							<details>
+								<summary class="criteria-uitklapbaar">
+									<label>
+										<div class="titels">
+											<span>Criteria {succescriterium.index} ({succescriterium.niveau})</span>
+											<h3>{succescriterium.titel}</h3>
+										</div>
+										<input
+											name="check"
+											value={succescriterium.id}
+											type="checkbox"
+											checked={checkedSuccescriteria.find((e) => e.id === succescriterium.id)}
+										/>
+									</label>
+								</summary>
+								<!-- tekuitleg voor succescriterium -->
+
+								<div class="richtlijn-uitleg">
+									{@html succescriterium.criteria && succescriterium.criteria.html}
 								</div>
-								<input
-									name="check"
-									value={succescriterium.id}
-									type="checkbox"
-									checked={checkedSuccescriteria.find((e) => e.id === succescriterium.id)}
-								/>
-							</label>
-						</summary>
-						<!-- tekuitleg voor succescriterium -->
-							
-						<div class="richtlijn-uitleg">
-							{@html succescriterium.criteria && succescriterium.criteria.html }
-						</div>
-					</details>
-				{/if}
-			{/each}
-		</article>
-	</details>
+							</details>
+						{/if}
+					{/each}
+				</article>
+			</details>
 		{/each}
 		{#if loading}
 			<div class="submit">
@@ -126,11 +126,10 @@
 			<button class="submit"> Opslaan </button>
 		{/if}
 	</form>
-	<a href="#main" class="btn-top" on:click={scrollToTop}>⬆</a>	
+	<a href="#main" class="btn-top" on:click={scrollToTop}>⬆</a>
 </section>
 
 <style>
-
 	@media print {
 		.btn-top {
 			display: none;
@@ -250,7 +249,7 @@
 	}
 
 	label p {
-		color: var(--c-white2); 
+		color: var(--c-white2);
 	}
 
 	label div {
@@ -262,13 +261,19 @@
 	}
 
 	details[open] summary ~ * {
-  		animation: sweep .5s ease-in-out;
+		animation: sweep 0.5s ease-in-out;
 		/* animation-iteration-count: infinite; */
 	}
 
 	@keyframes sweep {
-  0%    {opacity: 0; margin-top: -10px}
-  100%  {opacity: 1; margin-top: 15.2px}
+		0% {
+			opacity: 0;
+			margin-top: -10px;
+		}
+		100% {
+			opacity: 1;
+			margin-top: 15.2px;
+		}
 	}
 
 	section details:not(:nth-child(2)) {
@@ -279,12 +284,13 @@
 		cursor: pointer;
 	}
 
-	.richtlijn-uitklapbaar h2, h3 {
+	.richtlijn-uitklapbaar h2,
+	h3 {
 		margin-left: 1.2rem;
 	}
 
 	span {
-		margin-left: .3rem;
+		margin-left: 0.3rem;
 	}
 
 	.criteria-uitklapbaar {
