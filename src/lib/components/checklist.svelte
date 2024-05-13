@@ -43,9 +43,9 @@
 	// };
 
 	function scrollToTop(event) {
-		event.preventDefault();
 		const mainElement = document.getElementById('main');
 		mainElement.scrollIntoView({ behavior: 'smooth' });
+		event.preventDefault();
 	}
 </script>
 
@@ -80,14 +80,14 @@
 		{#each richtlijnen as richtlijn}
 			<details>
 				<!-- <div class="richtlijn-div"> -->
-				<summary class="richtlijn-uitklapbaar">
+				<summary class="collapsible-summary">
 					<span>Richtlijn {richtlijn.index}</span>
 					<div>
 						<h2>{richtlijn.titel}</h2>
 						<h3>{@html richtlijn.uitleg.html}</h3>
 						<div />
-					</div></summary
-				>
+					</div>
+				</summary>
 				<!-- </div>	 -->
 				<article>
 					{#each richtlijn.succescriteria as succescriterium}
@@ -180,6 +180,7 @@
 	button:active {
 		filter: saturate(1) brightness(0.9);
 	}
+	
 	.submit:not(button) {
 		cursor: auto;
 		background-color: #a0004025;
@@ -260,8 +261,12 @@
 		padding: 1em;
 	}
 
+	summary::marker {
+		color: var(--c-pink);
+	}
+
 	details[open] summary ~ * {
-		animation: sweep 0.5s ease-in-out;
+		animation: sweep 0.25s ease-in-out;
 		/* animation-iteration-count: infinite; */
 	}
 
@@ -280,11 +285,11 @@
 		border-top: 1px solid var(--c-container-stroke);
 	}
 
-	.richtlijn-uitklapbaar:hover {
+	.collapsible-summary:hover {
 		cursor: pointer;
 	}
 
-	.richtlijn-uitklapbaar h2,
+	.collapsible-summary h2,
 	h3 {
 		margin-left: 1.2rem;
 	}
@@ -299,9 +304,9 @@
 		align-items: center;
 	}
 
-	.criteria-uitklapbaar::-webkit-details-marker {
-		display: none;
-	}
+	/* .criteria-uitklapbaar::-webkit-details-marker {
+		display: block;
+	} */
 
 	.criteria-uitklapbaar:before {
 		content: '🡒';
