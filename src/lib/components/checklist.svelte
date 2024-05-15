@@ -202,13 +202,13 @@
 		cursor: pointer;
 	}
 
-	.richtlijn-div {
-		display: flex;
-		flex-direction: column;
-	}
-
 	.richtlijn-uitleg {
 		padding-left: 3rem;
+	}
+	.titels {
+		display: flex;
+		flex-direction: column;
+		margin-top: -19px;
 	}
 
 	section {
@@ -263,11 +263,12 @@
 
 	summary::marker {
 		color: var(--c-pink);
+		cursor: pointer;
 	}
 
-	details[open] summary ~ * {
+	/* details[open] summary ~ * {
 		animation: sweep 0.25s ease-in-out;
-		/* animation-iteration-count: infinite; */
+		animation-iteration-count: infinite;
 	}
 
 	@keyframes sweep {
@@ -279,7 +280,7 @@
 			opacity: 1;
 			margin-top: 15.2px;
 		}
-	}
+	} */
 
 	section details:not(:nth-child(2)) {
 		border-top: 1px solid var(--c-container-stroke);
@@ -299,16 +300,16 @@
 	}
 
 	.criteria-uitklapbaar {
-		display: flex;
+		/* display: flex; */
 		flex-direction: row;
 		align-items: center;
 	}
 
 	/* .criteria-uitklapbaar::-webkit-details-marker {
-		display: block;
+		display: none;
 	} */
 
-	.criteria-uitklapbaar:before {
+	/* .criteria-uitklapbaar:before {
 		content: '🡒';
 		font-size: 1.5em;
 		color: #fff;
@@ -318,7 +319,7 @@
 	details[open] .criteria-uitklapbaar:before {
 		content: '🡓';
 		color: var(--c-pink);
-	}
+	} */
 
 	details > div {
 		font-size: 0.9em !important;
