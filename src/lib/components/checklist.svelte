@@ -47,6 +47,7 @@
 		mainElement.scrollIntoView({ behavior: 'smooth' });
 		event.preventDefault();
 	}
+
 </script>
 
 <section>
@@ -266,21 +267,21 @@
 		cursor: pointer;
 	}
 
-	/* details[open] summary ~ * {
+	details[open] summary ~ * {
 		animation: sweep 0.25s ease-in-out;
-		animation-iteration-count: infinite;
 	}
 
 	@keyframes sweep {
 		0% {
 			opacity: 0;
-			margin-top: -10px;
+			/* margin-top: -10px; */
 		}
 		100% {
 			opacity: 1;
-			margin-top: 15.2px;
+			/* margin-top: 15.2px; */
 		}
-	} */
+	}
+
 
 	section details:not(:nth-child(2)) {
 		border-top: 1px solid var(--c-container-stroke);
