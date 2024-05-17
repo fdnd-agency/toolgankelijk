@@ -204,7 +204,7 @@
 	}
 
 	.richtlijn-uitleg {
-		padding-left: 3rem;
+		padding-left: 2rem;
 	}
 	.titels {
 		display: flex;
@@ -218,7 +218,7 @@
 	}
 
 	form article:not(:first-child) {
-		margin-top: 1em;
+		margin-top: 1.5em;
 	}
 
 	form article {
@@ -235,10 +235,11 @@
 	h3 {
 		font-size: 1.2rem;
 		font-weight: 600;
+		margin-top: 1rem;
 	}
 
 	span {
-		font-weight: 100;
+		font-weight: 300;
 		font-family: 1em;
 	}
 
@@ -291,10 +292,20 @@
 		cursor: pointer;
 	}
 
-	.collapsible-summary h2,
-	h3 {
+	.collapsible-summary h2 {
 		margin-left: 1.2rem;
+		margin-bottom: 0.8rem;
+		margin-top: 0.8rem;
+		
 	}
+
+	.collapsible-summary h3 {
+		margin-left: 1.2rem;
+		margin-bottom: 0.8rem;
+		
+	}
+
+
 
 	span {
 		margin-left: 0.3rem;
