@@ -43,12 +43,11 @@
 	// };
 
 	function scrollToTop(event) {
-    event.preventDefault();
-    const mainElement = document.getElementById('main');
-    mainElement.scrollIntoView({ behavior: 'smooth' });
-  }
+		const mainElement = document.getElementById('main');
+		mainElement.scrollIntoView({ behavior: 'smooth' });
+		event.preventDefault();
+	}
 
-  console.log(richtlijnen)
 </script>
 
 <section>
@@ -80,44 +79,45 @@
 		<!-- richtlijnen en succescriteria tekst wordt hier ingeladen! -->
 
 		{#each richtlijnen as richtlijn}
-		<details>
-			<summary class="richtlijn-uitklapbaar">
-				<div>
+			<details>
+				<!-- <div class="richtlijn-div"> -->
+				<summary class="collapsible-summary">
 					<span>Richtlijn {richtlijn.index}</span>
-					<h2>{richtlijn.titel}</h2>
-					<h3>{@html richtlijn.uitleg.html}</h3>
-				<div>
-		</summary>
-		<article>
-			{#each richtlijn.succescriteria as succescriterium}
-				{#if succescriterium.niveau === selectedNiveau}
-					<details>
-						<summary class="criteria-uitklapbaar">
-							<label>
-								<div>
-									<span>Criteria {succescriterium.index} ({succescriterium.niveau})</span>
-									<h3>{succescriterium.titel}</h3>
-									
-								</div>
-								<input
-									name="check"
-									value={succescriterium.id}
-									type="checkbox"
-									checked={checkedSuccescriteria.find((e) => e.id === succescriterium.id)}
-								/>
-							</label>
-						</summary>
-						<!-- tekuitleg voor succescriterium -->
-							
-						<div class="richtlijn-uitleg">
-							{@html succescriterium.criteria && succescriterium.criteria.html }
-						</div>
+					<div>
+						<h2>{richtlijn.titel}</h2>
+						<h3>{@html richtlijn.uitleg.html}</h3>
+						<div />
+					</div>
+				</summary>
+				<!-- </div>	 -->
+				<article>
+					{#each richtlijn.succescriteria as succescriterium}
+						{#if succescriterium.niveau === selectedNiveau}
+							<details>
+								<summary class="criteria-uitklapbaar">
+									<label>
+										<div class="titels">
+											<span>Criteria {succescriterium.index} ({succescriterium.niveau})</span>
+											<h3>{succescriterium.titel}</h3>
+										</div>
+										<input
+											name="check"
+											value={succescriterium.id}
+											type="checkbox"
+											checked={checkedSuccescriteria.find((e) => e.id === succescriterium.id)}
+										/>
+									</label>
+								</summary>
+								<!-- tekuitleg voor succescriterium -->
 
-					</details>
-				{/if}
-			{/each}
-		</article>
-	</details>
+								<div class="richtlijn-uitleg">
+									{@html succescriterium.criteria && succescriterium.criteria.html}
+								</div>
+							</details>
+						{/if}
+					{/each}
+				</article>
+			</details>
 		{/each}
 		{#if loading}
 			<div class="submit">
@@ -127,11 +127,10 @@
 			<button class="submit"> Opslaan </button>
 		{/if}
 	</form>
-	<a href="#main" class="btn-top" on:click={scrollToTop}>⬆</a>	
+	<a href="#main" class="btn-top" on:click={scrollToTop}>⬆</a>
 </section>
 
 <style>
-
 	@media print {
 		.btn-top {
 			display: none;
@@ -182,6 +181,7 @@
 	button:active {
 		filter: saturate(1) brightness(0.9);
 	}
+	
 	.submit:not(button) {
 		cursor: auto;
 		background-color: #a0004025;
@@ -204,7 +204,12 @@
 	}
 
 	.richtlijn-uitleg {
-		padding-left: 3rem;
+		padding-left: 2rem;
+	}
+	.titels {
+		display: flex;
+		flex-direction: column;
+		margin-top: -19px;
 	}
 
 	section {
@@ -213,7 +218,7 @@
 	}
 
 	form article:not(:first-child) {
-		margin-top: 1em;
+		margin-top: 1.5em;
 	}
 
 	form article {
@@ -230,10 +235,11 @@
 	h3 {
 		font-size: 1.2rem;
 		font-weight: 600;
+		margin-top: 1rem;
 	}
 
 	span {
-		font-weight: 100;
+		font-weight: 300;
 		font-family: 1em;
 	}
 
@@ -246,7 +252,7 @@
 	}
 
 	label p {
-		color: var(--c-white2); 
+		color: var(--c-white2);
 	}
 
 	label div {
@@ -257,25 +263,65 @@
 		padding: 1em;
 	}
 
+	summary::marker {
+		color: var(--c-pink);
+		cursor: pointer;
+	}
+
+	details[open] summary ~ * {
+		animation: sweep 0.25s ease-in-out;
+	}
+
+	@keyframes sweep {
+		0% {
+			opacity: 0;
+			/* margin-top: -10px; */
+		}
+		100% {
+			opacity: 1;
+			/* margin-top: 15.2px; */
+		}
+	}
+
+
 	section details:not(:nth-child(2)) {
 		border-top: 1px solid var(--c-container-stroke);
 	}
 
-	.richtlijn-uitklapbaar:hover {
+	.collapsible-summary:hover {
 		cursor: pointer;
 	}
 
+	.collapsible-summary h2 {
+		margin-left: 1.2rem;
+		margin-bottom: 0.8rem;
+		margin-top: 0.8rem;
+		
+	}
+
+	.collapsible-summary h3 {
+		margin-left: 1.2rem;
+		margin-bottom: 0.8rem;
+		
+	}
+
+
+
+	span {
+		margin-left: 0.3rem;
+	}
+
 	.criteria-uitklapbaar {
-		display: flex;
+		/* display: flex; */
 		flex-direction: row;
 		align-items: center;
 	}
 
-	.criteria-uitklapbaar::-webkit-details-marker {
+	/* .criteria-uitklapbaar::-webkit-details-marker {
 		display: none;
-	}
+	} */
 
-	.criteria-uitklapbaar:before {
+	/* .criteria-uitklapbaar:before {
 		content: '🡒';
 		font-size: 1.5em;
 		color: #fff;
@@ -285,7 +331,7 @@
 	details[open] .criteria-uitklapbaar:before {
 		content: '🡓';
 		color: var(--c-pink);
-	}
+	} */
 
 	details > div {
 		font-size: 0.9em !important;

@@ -82,8 +82,10 @@ h3 {
 
 p {
 	font-size: 1rem;
-	font-weight: 500;
+	font-weight: 400;
 	font-family: 'Inter', sans-serif;
+	line-height: 141.667%;
+	letter-spacing: 0.0025rem;
 }
 
 /* Default layout */
@@ -95,7 +97,10 @@ p {
 }
 
 .richtlijn-uitleg > ul li {
-	padding: 0.2em 0;
+	padding: 0.3em 0;
+	font-size: 0.9rem;
+	line-height: 141.667%;
+	letter-spacing: 0.0025rem;
 }
 
 .disabled {
