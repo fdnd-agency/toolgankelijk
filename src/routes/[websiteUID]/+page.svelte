@@ -32,7 +32,7 @@
 <Heading {heading} />
 
 <section>
-	<a href="/{params}/addUrl" on:click={openDialog}>Project toevoegen</a>
+	<a href="/{params}/addUrl" on:click={openDialog}>Link van website toevoegen</a>
 	<Search placeholderProp = "Home"/>
 </section>
 
