@@ -66,7 +66,7 @@
 
 <dialog><PartnerForm /></dialog>
 
-{#if popupVisible}
+<!-- {#if popupVisible}
 	<div class="popup-overlay" />
 	<div class="zero-state">
 		<h1>Toolgankelijkheid</h1>
@@ -95,7 +95,7 @@
 		</p>
 		<button id="close" class="close-popup" on:click={handleClose}>Sluit</button>
 	</div>
-{/if}
+{/if} -->
 
 <ul>
 	{#each data.websites as website}
