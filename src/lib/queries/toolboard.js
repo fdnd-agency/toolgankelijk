@@ -25,6 +25,9 @@ export default function getQueryToolboard(gql, slugUrl, principeSlug) {
               titel
               index
               niveau
+              makkelijkeCriteria {
+                html
+              }
               criteria {
                 html
               }
