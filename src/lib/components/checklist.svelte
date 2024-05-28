@@ -112,6 +112,7 @@
 
 								<div class="richtlijn-uitleg">
 									{@html succescriterium.criteria && succescriterium.criteria.html}
+									{@html succescriterium.makkelijkeCriteria && succescriterium.makkelijkeCriteria.html}
 								</div>
 							</details>
 						{/if}

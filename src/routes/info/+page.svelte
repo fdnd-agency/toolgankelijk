@@ -1,4 +1,5 @@
 <script>
+	import { enhance } from '$app/forms'
 	import Heading from '$lib/components/heading.svelte';
 	import walking from '$lib/assets/walking_together.svg';
 	import knowledge from '$lib/assets/sharing_knowledge.svg';
@@ -27,6 +28,7 @@ const handleSubmit = async data => {
       status = result.message || "Success"
   }
 }
+
 
 </script>
 
@@ -106,7 +108,7 @@ const handleSubmit = async data => {
                 <input placeholder="email" id="mail" type="email" name="email" required />
                 <label for="vraag">Uw vraag</label>
                 <textarea id="vraag" name="message" required rows="3"></textarea>
-                <input class="form-button" type="submit" />
+                <button class="form-button" type="submit">Submit</button>
                 </fieldset>
             </form>
 		</section>
@@ -216,6 +218,15 @@ const handleSubmit = async data => {
         margin-bottom: .7rem;
 	}
 
+	input:valid {
+		border: 1px solid lightgreen;
+		transition: .3s ease-out;
+	}
+
+	/* input:invalid {
+		border: 1px solid red;
+	} */
+
     textarea {
         background-color: var(--c-container-stroke);
 		border: none;
@@ -226,12 +237,17 @@ const handleSubmit = async data => {
 		font-size: 16px;
     }
 
+	form:valid .form-button {
+		background-color: var(--c-pink);
+		border: 2px solid var(--c-pink);
+	}
+
     .form-button {
         margin-top: 1rem;
 		margin-bottom: 1rem;
-		background-color: var(--c-pink);
-		color: var(--c-white);
-		border: 2px solid var(--c-pink);
+		background-color: grey;
+		color: lightgray;
+		border: 2px solid grey;
 		width: 10rem;
 		height: 2.5rem;
 		border-radius: 20px;
