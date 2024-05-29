@@ -7,6 +7,7 @@
 	import { enhance } from '$app/forms';
 
 	import loadingIcon from '$lib/assets/loading.svg';
+	import { NoUndefinedVariablesRule } from 'graphql';
 
 	let loading = false;
 
@@ -47,6 +48,32 @@
 		mainElement.scrollIntoView({ behavior: 'smooth' });
 		event.preventDefault();
 	}
+
+	    // Functie die de display-stijl van de div aanpast
+    // Functie die de display-stijl van de divs aanpast
+    function translate(event) {
+        event.preventDefault(); // Voorkomt de standaard actie van de link
+        
+        const element1 = document.querySelectorAll('.richtlijn-criteria-1');
+        const element2 = document.querySelectorAll('.richtlijn-criteria-2');
+		const element3 = document.querySelector(".richtlijn-uitleg");
+		element3.classList.toggle("changed");
+
+		for(let i = 0; i < element3.length; i++){
+
+            if (element3[i].classList.contains("changed")) {
+				element1[i].style.display = "block";
+				element2[i].style.display = "none";
+				element3[i].classList.toggle("changed");
+				console.log(i)
+
+            } else {
+				element2[i].style.display = "block";
+				element1[i].style.display = "none";
+
+            }
+	}
+    }
 
 </script>
 
@@ -100,6 +127,7 @@
 											<span>Criteria {succescriterium.index} ({succescriterium.niveau})</span>
 											<h3>{succescriterium.titel}</h3>
 										</div>
+										<button class="btn-vertaling" on:click={translate}>Simpele vertaling</button>
 										<input
 											name="check"
 											value={succescriterium.id}
@@ -111,8 +139,12 @@
 								<!-- tekuitleg voor succescriterium -->
 
 								<div class="richtlijn-uitleg">
-									{@html succescriterium.criteria && succescriterium.criteria.html}
-									{@html succescriterium.makkelijkeCriteria && succescriterium.makkelijkeCriteria.html}
+									<div class="richtlijn-criteria-1">
+										<p id="uileg" class="tekst-criteria-1">{@html succescriterium.criteria && succescriterium.criteria.html}</p>
+									</div>
+									<div class="richtlijn-criteria-2">
+										<p id="uileg" class="tekst-criteria-2">{@html succescriterium.makkelijkeCriteria && succescriterium.makkelijkeCriteria.html}</p>
+									</div>
 								</div>
 							</details>
 						{/if}
@@ -125,12 +157,13 @@
 				<img src={loadingIcon} alt="laadt icoontje" height="32" width="32" />
 			</div>
 		{:else}
-			<button class="submit"> Opslaan </button>
+			<button type="submit" class="submit"> Opslaan </button>
 		{/if}
 	</form>
 	<a href="#main" class="btn-top" on:click={scrollToTop}>⬆</a>
 </section>
 
+<div class="changed"></div>
 <style>
 	@media print {
 		.btn-top {
@@ -140,6 +173,10 @@
 		.submit {
 			display: none;
 		}
+	}
+
+	.richtlijn-criteria-2{
+		display:none;
 	}
 
 	.submit {
@@ -363,6 +400,10 @@
 
 	#niveau-toggle {
 		margin-bottom: 1em;
+	}
+
+	.btn-vertaling {
+		color:var(--c-white)
 	}
 
 	@keyframes rotate {

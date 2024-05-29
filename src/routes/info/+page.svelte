@@ -8,27 +8,6 @@
 
 	$: heading = { titel: 'Informatie' };
 
-    let status = "";
-const handleSubmit = async data => {
-  status = 'Submitting...'
-  const formData = new FormData(data.currentTarget)
-  const object = Object.fromEntries(formData);
-  const json = JSON.stringify(object);
-
-  const response = await fetch("https://api.web3forms.com/submit", {
-      method: "POST",
-      headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-      },
-      body: json
-  });
-  const result = await response.json();
-  if (result.success) {
-      status = result.message || "Success"
-  }
-}
-
 
 </script>
 
@@ -99,15 +78,14 @@ const handleSubmit = async data => {
 				Indien u vragen heeft of mocht er nog enige onduidelijkheid bestaan, kunt u via 
                 onderstaand formulier contact met ons opnemen.
 			</p>
-            <form on:submit|preventDefault={handleSubmit}>
+            <form action="/info" method="POST">
                 <fieldset class="form-vraag">
-                <input type="hidden" name="access_key" value={data.vragen}>
                 <label for="name">Naam</label>
                 <input id="name" placeholder="name" type="text" name="name" required />
                 <label for="mail">Email</label>
                 <input placeholder="email" id="mail" type="email" name="email" required />
                 <label for="vraag">Uw vraag</label>
-                <textarea id="vraag" name="message" required rows="3"></textarea>
+                <textarea id="vraag" name="vraag" required rows="3"></textarea>
                 <button class="form-button" type="submit">Submit</button>
                 </fieldset>
             </form>
