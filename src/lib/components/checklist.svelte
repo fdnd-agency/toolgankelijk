@@ -10,30 +10,29 @@
 	import { NoUndefinedVariablesRule } from 'graphql';
 
 	let loading = false;
-
 	// console.log(toolboardData)
-
+	
 	const getSuccescriteriaByNiveau = (niveau) =>
-		toolboardData.url.checks[0]
-			? toolboardData.url.checks[0].succescriteria.filter((item) => item.niveau === niveau)
-			: [];
-
+	toolboardData.url.checks[0]
+	? toolboardData.url.checks[0].succescriteria.filter((item) => item.niveau === niveau)
+	: [];
+	
 	let filteredSuccescriteria = getSuccescriteriaByNiveau(selectedNiveau);
-
+	
 	const handleNiveauChange = (event) => {
 		selectedNiveau = event.target.value;
 		filteredSuccescriteria = getSuccescriteriaByNiveau(selectedNiveau);
 	};
-
+	
 	const checkedSuccescriteria = toolboardData.url.checks[0]
-		? toolboardData.url.checks[0].succescriteria
-		: [];
+	? toolboardData.url.checks[0].succescriteria
+	: [];
 	onMount(() => {
 		const niveauToggle = document.querySelector('#niveau-toggle');
 		console.log(niveauToggle);
 		niveauToggle.classList.toggle('disabled');
 	});
-
+	
 	// const updateChecklist = () => {
 	// 	loading = true;
 	// 	return async ({ update }) => {
@@ -49,30 +48,46 @@
 		event.preventDefault();
 	}
 
-	    // Functie die de display-stijl van de div aanpast
-    // Functie die de display-stijl van de divs aanpast
-    function translate(event) {
-        event.preventDefault(); // Voorkomt de standaard actie van de link
-        
-        const element1 = document.querySelectorAll('.richtlijn-criteria-1');
-        const element2 = document.querySelectorAll('.richtlijn-criteria-2');
-		const element3 = document.querySelector(".richtlijn-uitleg");
-		element3.classList.toggle("changed");
 
-		for(let i = 0; i < element3.length; i++){
+	// ndsajdashjkdas
+    function translate(event, criteriumNumber) {
+        console.log(event, criteriumNumber);
+		// Get clicked button with event.target
+		const button = event.target
+		//  
+		const activeSection = button.closest('details')
 
-            if (element3[i].classList.contains("changed")) {
-				element1[i].style.display = "block";
-				element2[i].style.display = "none";
-				element3[i].classList.toggle("changed");
-				console.log(i)
+		const uitleg = activeSection.querySelector('.richtlijn-uitleg')
 
-            } else {
-				element2[i].style.display = "block";
-				element1[i].style.display = "none";
+		uitleg.classList.toggle('moeiluk')
+		button.classList.toggle('moeiluk')
+		// if (!activeTranslations.includes(criteriumNumber)) {
+		// 	activeTranslations.push(criteriumNumber)
 
-            }
-	}
+		// } else {
+		// 	// remove element from array
+		// }
+
+		// console.log(activeTranslations);
+        // const element1 = document.querySelectorAll('.richtlijn-criteria-1');
+        // const element2 = document.querySelectorAll('.richtlijn-criteria-2');
+		// const element3 = document.querySelectorAll(".richtlijn-uitleg");
+
+		// for(let i = 0; i < element3.length; i++){
+		// 	console.log(element3[i].dataindex)
+	    //        if (element3[i].classList.contains("changed")) {
+		// 		element1[i].style.display = "block";
+		// 		element2[i].style.display = "none";
+		// 		element3[i].classList.toggle("changed");
+
+        //     } else {
+		// 		element2[i].style.display = "block";
+		// 		element1[i].style.display = "none";
+		// 		element3[i].classList.toggle("changed");
+
+        //     }
+		// }
+	// element3.classList.toggle("changed");
     }
 
 </script>
@@ -127,7 +142,12 @@
 											<span>Criteria {succescriterium.index} ({succescriterium.niveau})</span>
 											<h3>{succescriterium.titel}</h3>
 										</div>
-										<button class="btn-vertaling" on:click={translate}>Simpele vertaling</button>
+
+										<button type="button" class="btn-vertaling" on:click={(event) => translate(event, succescriterium.index)}>
+											Simpele vertaling
+										</button>
+										
+											
 										<input
 											name="check"
 											value={succescriterium.id}
@@ -138,7 +158,7 @@
 								</summary>
 								<!-- tekuitleg voor succescriterium -->
 
-								<div class="richtlijn-uitleg">
+								<div class="richtlijn-uitleg" aria-live="polite" dataindex="0">
 									<div class="richtlijn-criteria-1">
 										<p id="uileg" class="tekst-criteria-1">{@html succescriterium.criteria && succescriterium.criteria.html}</p>
 									</div>
@@ -157,10 +177,13 @@
 				<img src={loadingIcon} alt="laadt icoontje" height="32" width="32" />
 			</div>
 		{:else}
+		<div class="form-btn">
 			<button type="submit" class="submit"> Opslaan </button>
+			<a href="#main" class="btn-top" on:click={scrollToTop}>⬆</a>
+		</div>
 		{/if}
 	</form>
-	<a href="#main" class="btn-top" on:click={scrollToTop}>⬆</a>
+	
 </section>
 
 <div class="changed"></div>
@@ -404,6 +427,19 @@
 
 	.btn-vertaling {
 		color:var(--c-white)
+	}
+
+	.richtlijn-criteria-2 {
+		display: none;
+	}
+
+
+	:global(.richtlijn-uitleg.moeiluk .richtlijn-criteria-1) {
+		display: none;
+	}
+	:global(.richtlijn-uitleg.moeiluk div.richtlijn-criteria-2) {
+		/* Svelte is dom, groetjes Cyd */
+		display: block !important;
 	}
 
 	@keyframes rotate {
