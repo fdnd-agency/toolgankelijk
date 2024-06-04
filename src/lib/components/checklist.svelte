@@ -426,7 +426,19 @@
 	}
 
 	.btn-vertaling {
-		color:var(--c-white)
+		font-size: 1rem;
+		padding: 0.4rem 0.8rem;
+		background-color: var(--c-pink);
+		border: none;
+		color: white;
+		/* margin-top: 1rem; */
+		border-radius: 4px;
+		cursor: pointer;
+		z-index: 2;
+	}
+
+	.btn-vertaling:hover {
+		filter: saturate(1.2);
 	}
 
 	.richtlijn-criteria-2 {
