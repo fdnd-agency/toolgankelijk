@@ -31,7 +31,7 @@ export const actions = {
             "https://api-eu-central-1-shared-euc1-02.hygraph.com/v2/clbe0zp4u2fkz01uj486xdza4/master";
  
         // Hygraph autorisatie
-        const HYGRAPH_TOKEN = import.meta.env.VITE_HYGRAPH_KEY;
+        const HYGRAPH_TOKEN = import.meta.env.HYGRAPH_KEY;
         const headers = {
             Authorization: `Bearer ${HYGRAPH_TOKEN}`,
         };
