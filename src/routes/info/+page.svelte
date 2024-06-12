@@ -12,17 +12,19 @@
     let successMessage = '';
     let errorMessage = '';
 
-    function handleEnhance({ formElement }) {
+	function handleEnhance({ formElement }) {
         const handleSubmit = async ({ result }) => {
+            console.log(result)
             isSubmitting = false;
             successMessage = 'Verzonden!';
-            errorMessage = 'Er is iets fout gegaan';
+
 
             if (result.type === 'failure') {
-                errorMessage = result.data.error;
-            } else if (result.type === 'success') {
+                errorMessage = 'Er is iets fout gegaan';
+                errorMessage = result.data.data.error;
+            } else {
                 formElement.reset();
-                successMessage = result.data.message;
+                successMessage = result.data.data.message;
             }
         };
         return handleSubmit;
