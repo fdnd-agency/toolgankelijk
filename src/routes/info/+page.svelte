@@ -15,8 +15,8 @@
     function handleEnhance({ formElement }) {
         const handleSubmit = async ({ result }) => {
             isSubmitting = false;
-            successMessage = '';
-            errorMessage = '';
+            successMessage = 'Verzonden!';
+            errorMessage = 'Er is iets fout gegaan';
 
             if (result.type === 'failure') {
                 errorMessage = result.data.error;
