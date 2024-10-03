@@ -5,6 +5,9 @@ De Vervoerregio Amsterdam verbindt gemeenten en werkt aan een regio waar mensen 
 
 De Vervoerregio is opdrachtgever van het openbaar vervoer per bus, tram en metro. Hiervoor verlenen we concessies aan vervoerbedrijven en subsidie voor de exploitatie van het openbaar vervoer. Ook investeren we in nieuwe trams en metro’s.
 
+## Design Challenge
+...
+
 ## Resources
 
 [Backlog](https://github.com/orgs/fdnd-agency/projects/8/views/1?visibleFields=%5B%22Title%22%2C%22Assignees%22%2C%22Status%22%2C%22Labels%22%5D)
