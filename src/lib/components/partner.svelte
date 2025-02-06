@@ -26,7 +26,7 @@
 		let years = Math.floor(days / 365);
 
 		if (years > 0) {
-			lastTime = `${years}y geleden`;
+			lastTime = `${years}j geleden`;
 		} else if (years == 0 && days > 0) {
 			lastTime = `${days}d geleden`;
 		}else  {
