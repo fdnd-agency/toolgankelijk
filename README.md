@@ -23,7 +23,7 @@ De basis voor het design is gelegd in het prototype van Tom
 
 Prototype Tom: [Live site](https://dull-cyan-seagull-hose.cyclic.app/) | [GitHub repo](https://github.com/tom-2810/the-web-is-for-everyone-interactive-functionality)  
 
-## Functionaliteiten
+## Functionaliteitena
 De basis voor functionaliteiten en inhoud is gelegd in het prototype van Wesley, Rick & Daan
 
 Prototype Wesley, Rick & Daan: [Live site](https://vervoerregio-amsterdam-sprint11.adaptable.app/) | [GitHub repo](https://github.com/WesleySchorel/connecting-people-realtime-web-app)  
