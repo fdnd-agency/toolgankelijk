@@ -96,7 +96,7 @@
 				<h2>{overzicht.titel} <span>/{website.slug}</span></h2>
 			</div>
 			<div class="icons" id={`icons-${website.id}`}>
-				<button on:click={openEdit}><img src={pencil} alt="Verwijder icon" /></button>
+				<button on:click={openEdit}><img src={pencil} alt="Bewerk icon" /></button>
 				<button on:click={openDelete}><img src={trash} alt="Verwijder icon" /></button>
 			</div>
 		</section>

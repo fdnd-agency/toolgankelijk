@@ -102,7 +102,7 @@
 					<h2 class="name">{website.titel}</h2>
 				</div>
 				<div class="icons" id={`icons-${website.id}`}>
-					<button class="icon_pencil" on:click={openEdit}><img src={pencil} alt="Verwijder icon" /></button>
+					<button class="icon_pencil" on:click={openEdit}><img src={pencil} alt="Bewerk icon" /></button>
 					<button on:click={openDelete}><img src={trash} alt="Verwijder icon" /></button>
 				</div>
 			</section>
