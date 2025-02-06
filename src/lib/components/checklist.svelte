@@ -278,9 +278,6 @@
 		padding-left: 2rem;
 	}
 
-	#uitleg {
-		max-width: 30em;
-	}
 
 	.titels {
 		display: flex;
@@ -479,6 +476,20 @@
 		/* Svelte is dom, groetjes Cyd */
 		display: block !important;
 	}
+
+	:global(#uitleg p ) {
+    line-height: 1.5;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    max-width: 30em;
+  }
+  
+  :global(#uitleg ul) {
+    line-height: 1.5;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    max-width: 30em;
+  }
 
 	@keyframes rotate {
 		from {
