@@ -7,9 +7,11 @@ export async function load({ params }) {
 	let { websiteUID } = params
 	const queryPartner = getQueryPartner(gql);
 	const queryWebsite = getQueryWebsite(gql, websiteUID);
+	const partnersData = await hygraph.request(queryPartner);
+	const websitesData = await hygraph.request(queryWebsite);
 
 	return {
-		partnersData: hygraph.request(queryPartner),
-		websitesData: hygraph.request(queryWebsite)
+		partnersData,
+		websitesData
 	};
 }
