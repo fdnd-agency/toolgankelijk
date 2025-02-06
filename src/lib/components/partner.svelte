@@ -23,10 +23,13 @@
 		let minutes = timeDifference % 60;
 		let hours = Math.floor(timeDifference / 60);
 		let days = Math.floor(hours / 24);
+		let years = Math.floor(days / 365);
 
-		if (days > 0) {
+		if (years > 0) {
+			lastTime = `${years}y geleden`;
+		} else if (years == 0 && days > 0) {
 			lastTime = `${days}d geleden`;
-		} else {
+		}else  {
 			lastTime = `${hours}u en ${minutes}m geleden`;
 		}
 	} else {
