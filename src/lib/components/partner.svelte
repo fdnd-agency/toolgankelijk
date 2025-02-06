@@ -17,22 +17,22 @@
 	const updatedTime = new Date(website.updatedAt);
 	const currentTime = new Date();
 	const timeDifference = Math.floor((currentTime - updatedTime) / (60 * 1000)); // Verschil in minuten
-	console.log(timeDifference);
-	console.log(currentTime + updatedTime);
 
 	let lastTime;
-	if (timeDifference > 60) {
-		console.log("meer dan 60 minuten");
-		console.log(timeDifference % 60);
+	if (timeDifference >= 60) {
 		let minutes = timeDifference % 60;
 		let hours = Math.floor(timeDifference / 60);
-		lastTime = `${hours} uur en ${minutes} minuten geleden` ;
-	}else {
-		console.log("minder dan 60 minuten");
+		let days = Math.floor(hours / 24);
+
+		if (days > 0) {
+			lastTime = `${days}d geleden`;
+		} else {
+			lastTime = `${hours}u en ${minutes}m geleden`;
+		}
+	} else {
 		lastTime = timeDifference > 0 ? `${timeDifference} min geleden` : 'Zojuist';
 	}
 
-	
 
 	onMount(() => {
 		let random = Math.floor(Math.random() * 100);
@@ -123,7 +123,7 @@
 			</section>
 
 			<section class="more-info-section">
-				<span>Laatst bewerkt: {lastTime}</span>
+				<p>Laatst bewerkt: <span>{lastTime}</span></p>
 
 				<div class="progress-container">
 					<progress id="progress-partner" max="100" value="0" bind:this={progressbar} />
