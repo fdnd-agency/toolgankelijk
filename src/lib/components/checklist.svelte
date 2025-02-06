@@ -23,6 +23,13 @@
 		selectedNiveau = event.target.value;
 		filteredSuccescriteria = getSuccescriteriaByNiveau(selectedNiveau);
 	};
+
+	let simpleTranslation = true;
+
+    function toggleTranslation(event, criteriumNumber) {
+    simpleTranslation = !simpleTranslation;
+    translate(event, criteriumNumber);
+    }
 	
 	const checkedSuccescriteria = toolboardData.url.checks[0]
 	? toolboardData.url.checks[0].succescriteria
@@ -143,11 +150,14 @@
 											<h3>{succescriterium.titel}</h3>
 										</div>
 
-										<button type="button" class="btn-vertaling" on:click={(event) => translate(event, succescriterium.index)}>
-											Simpele vertaling
-										</button>
+										<button 
+                                            type="button" 
+                                            class="btn-vertaling" 
+                                            on:click={(event) => toggleTranslation(event, succescriterium.index)}
+                                            >
+                                            {simpleTranslation ? 'Officiële beschrijving' : 'Simpele beschrijving'}
+                                        </button>
 										
-											
 										<input
 											name="check"
 											value={succescriterium.id}
@@ -160,10 +170,10 @@
 
 								<div class="richtlijn-uitleg" aria-live="polite" dataindex="0">
 									<div class="richtlijn-criteria-1">
-										<p id="uileg" class="tekst-criteria-1">{@html succescriterium.criteria && succescriterium.criteria.html}</p>
+										<p id="uitleg" class="tekst-criteria-1">{@html succescriterium.makkelijkeCriteria && succescriterium.makkelijkeCriteria.html}</p>
 									</div>
 									<div class="richtlijn-criteria-2">
-										<p id="uileg" class="tekst-criteria-2">{@html succescriterium.makkelijkeCriteria && succescriterium.makkelijkeCriteria.html}</p>
+										<p id="uitleg" class="tekst-criteria-2">{@html succescriterium.criteria && succescriterium.criteria.html}</p>
 									</div>
 								</div>
 							</details>
@@ -267,6 +277,11 @@
 	.richtlijn-uitleg {
 		padding-left: 2rem;
 	}
+
+	#uitleg {
+		max-width: 30em;
+	}
+
 	.titels {
 		display: flex;
 		flex-direction: column;
