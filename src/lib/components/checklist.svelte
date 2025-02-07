@@ -23,6 +23,8 @@
 		selectedNiveau = event.target.value;
 		filteredSuccescriteria = getSuccescriteriaByNiveau(selectedNiveau);
 	};
+
+	let simpleTranslation = true;
 	
 	const checkedSuccescriteria = toolboardData.url.checks[0]
 	? toolboardData.url.checks[0].succescriteria
@@ -59,8 +61,14 @@
 
 		const uitleg = activeSection.querySelector('.richtlijn-uitleg')
 
+		/** de simpele vertaling wordt omgezet in true of false. op basis van de button die geklikt is en welke waarde die dan heeft. */
+		simpleTranslation = !simpleTranslation;
+
+		/** de tekst en button worden ook steeds omgedraaid op basis van de button (van officieel naar simpel) */
 		uitleg.classList.toggle('moeiluk')
 		button.classList.toggle('moeiluk')
+
+		
 		// if (!activeTranslations.includes(criteriumNumber)) {
 		// 	activeTranslations.push(criteriumNumber)
 
@@ -143,11 +151,14 @@
 											<h3>{succescriterium.titel}</h3>
 										</div>
 
-										<button type="button" class="btn-vertaling" on:click={(event) => translate(event, succescriterium.index)}>
-											Simpele vertaling
-										</button>
+										<button 
+                                            type="button" 
+                                            class="btn-vertaling" 
+                                            on:click={(event) => translate(event, succescriterium.index)}
+                                            >
+                                            {simpleTranslation ? 'Officiële beschrijving' : 'Simpele beschrijving'}
+                                        </button>
 										
-											
 										<input
 											name="check"
 											value={succescriterium.id}
@@ -160,10 +171,10 @@
 
 								<div class="richtlijn-uitleg" aria-live="polite" dataindex="0">
 									<div class="richtlijn-criteria-1">
-										<p id="uileg" class="tekst-criteria-1">{@html succescriterium.criteria && succescriterium.criteria.html}</p>
+										<p id="uitleg" class="tekst-criteria-1">{@html succescriterium.makkelijkeCriteria && succescriterium.makkelijkeCriteria.html}</p>
 									</div>
 									<div class="richtlijn-criteria-2">
-										<p id="uileg" class="tekst-criteria-2">{@html succescriterium.makkelijkeCriteria && succescriterium.makkelijkeCriteria.html}</p>
+										<p id="uitleg" class="tekst-criteria-2">{@html succescriterium.criteria && succescriterium.criteria.html}</p>
 									</div>
 								</div>
 							</details>
@@ -265,8 +276,10 @@
 	}
 
 	.richtlijn-uitleg {
-		padding-left: 2rem;
+		padding-left: 1rem;
 	}
+
+
 	.titels {
 		display: flex;
 		flex-direction: column;
@@ -464,6 +477,20 @@
 		/* Svelte is dom, groetjes Cyd */
 		display: block !important;
 	}
+
+	:global(#uitleg p ) {
+		line-height: 1.5;
+		margin-top: 1em;
+		margin-bottom: 1em;
+		max-width: 30em;
+    }
+  
+    :global(#uitleg ul) {
+		line-height: 1.5;
+		margin-top: 1em;
+		margin-bottom: 1em;
+		max-width: 30em;
+    }
 
 	@keyframes rotate {
 		from {
