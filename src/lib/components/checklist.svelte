@@ -25,11 +25,6 @@
 	};
 
 	let simpleTranslation = true;
-
-    function toggleTranslation(event, criteriumNumber) {
-    simpleTranslation = !simpleTranslation;
-    translate(event, criteriumNumber);
-    }
 	
 	const checkedSuccescriteria = toolboardData.url.checks[0]
 	? toolboardData.url.checks[0].succescriteria
@@ -66,8 +61,14 @@
 
 		const uitleg = activeSection.querySelector('.richtlijn-uitleg')
 
+		/** de simpele vertaling wordt omgezet in true of false. op basis van de button die geklikt is en welke waarde die dan heeft. */
+		simpleTranslation = !simpleTranslation;
+
+		/** de tekst en button worden ook steeds omgedraaid op basis van de button (van officieel naar simpel) */
 		uitleg.classList.toggle('moeiluk')
 		button.classList.toggle('moeiluk')
+
+		
 		// if (!activeTranslations.includes(criteriumNumber)) {
 		// 	activeTranslations.push(criteriumNumber)
 
@@ -153,7 +154,7 @@
 										<button 
                                             type="button" 
                                             class="btn-vertaling" 
-                                            on:click={(event) => toggleTranslation(event, succescriterium.index)}
+                                            on:click={(event) => translate(event, succescriterium.index)}
                                             >
                                             {simpleTranslation ? 'Officiële beschrijving' : 'Simpele beschrijving'}
                                         </button>
@@ -275,7 +276,7 @@
 	}
 
 	.richtlijn-uitleg {
-		padding-left: 2rem;
+		padding-left: 1rem;
 	}
 
 
@@ -478,18 +479,18 @@
 	}
 
 	:global(#uitleg p ) {
-    line-height: 1.5;
-    margin-top: 1em;
-    margin-bottom: 1em;
-    max-width: 30em;
-  }
+		line-height: 1.5;
+		margin-top: 1em;
+		margin-bottom: 1em;
+		max-width: 30em;
+    }
   
-  :global(#uitleg ul) {
-    line-height: 1.5;
-    margin-top: 1em;
-    margin-bottom: 1em;
-    max-width: 30em;
-  }
+    :global(#uitleg ul) {
+		line-height: 1.5;
+		margin-top: 1em;
+		margin-bottom: 1em;
+		max-width: 30em;
+    }
 
 	@keyframes rotate {
 		from {
