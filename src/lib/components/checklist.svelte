@@ -301,10 +301,6 @@
 		border: solid 1px var(--c-container-stroke);
 	}
 
-	article > div {
-		padding: 1em 1em 0 1em;
-	}
-
 	h3,
 	h3 {
 		font-size: 1.2rem;
