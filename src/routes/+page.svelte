@@ -112,16 +112,6 @@
 		margin: 0 0 1em 1em;
 	}
 
-	.popup-overlay {
-		position: fixed;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		background-color: rgba(0, 0, 0, 0.5);
-		z-index: 3;
-	}
-
 	a {
 		color: rgb(40, 177, 223);
 	}
@@ -144,89 +134,6 @@
 
 	.add-partner:hover {
 		background-color: var(--c-pink);
-	}
-	.zero-state {
-		background-color: var(--c-background);
-		border: 2px solid #b5006c;
-		/* max-width: 30%; */
-		width: 30rem;
-		max-height: 90%;
-		position: absolute;
-		z-index: 4;
-		border-radius: 15px;
-		padding: 1rem;
-		overflow-y: auto;
-		max-height: calc(100% - 2rem);
-		/* max-width: calc(100% - 2rem); */
-		left: 50%;
-		top: 50%;
-		transform: translate(-50%, -50%);
-	}
-
-	h1 {
-		font-size: 30px;
-		text-align: center;
-		color: var(--c-white2);
-		/* margin-top: 1rem; */
-	}
-
-	.tool-info {
-		font-weight: lighter;
-		font-size: 13px;
-		line-height: 1.5;
-		margin-top: 1rem;
-		color: var(--c-white2);
-	}
-
-	.verplichtingen-paragraaf {
-		font-weight: lighter;
-		font-size: 13px;
-		text-align: left;
-		margin-top: 1rem;
-		border-bottom: 2px solid var(--c-white2);
-		padding-bottom: 2rem;
-		line-height: 1.5;
-		color: var(--c-white2);
-	}
-
-	h2 {
-		margin-top: 2rem;
-		font-size: 16px;
-		color: var(--c-white2);
-	}
-
-	.vragen-paragraaf {
-		font-size: 13px;
-		font-weight: lighter;
-		line-height: 1.5;
-		color: var(--c-white2);
-	}
-
-	h3 {
-		margin-top: 1rem;
-		font-size: 16px;
-	}
-
-	.contact-paragraaf {
-		font-size: 13px;
-		font-weight: lighter;
-		margin-bottom: 1rem;
-		line-height: 1.5;
-		color: var(--c-white2);
-	}
-
-	.close-popup {
-		border: none;
-		background-color: var(--c-pink);
-		border: 1px solid var(--c-pink);
-		color: white;
-		padding: 0.5em 1em;
-		cursor: pointer;
-		text-decoration: none;
-		transition: 0.3s;
-		border-radius: 0.25em;
-		font-size: 1em;
-		transition: 0.2s ease-in;
 	}
 
 	.btn-top {
@@ -312,20 +219,6 @@
 		to {
 			transform: translateX(30vh);
 			display: none;
-		}
-	}
-
-	@media only screen and (max-width: 600px) {
-		.zero-state {
-			width: 20rem;
-			height: 35rem;
-		}
-	}
-
-	@media only screen and (max-width: 450px) {
-		.zero-state {
-			width: 17rem;
-			height: 38rem;
 		}
 	}
 </style>
