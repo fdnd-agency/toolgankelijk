@@ -21,7 +21,7 @@ export const load = async ({ params }) => {
 	const urlData = await hygraph.request(queryUrl);
 	const toolboardData = await hygraph.request(queryToolboard);
 
-	if (urlData.url.website.slug === websiteUID) {
+	if (urlData.url?.website.slug === websiteUID) {
 		// Your existing condition
 		if (toolboardData.principe === null) {
 			throw error(404, {
