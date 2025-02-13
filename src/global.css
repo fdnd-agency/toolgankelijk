@@ -86,9 +86,9 @@
 	--yellow-neutral: hsl(var(--yellow-h) var(--yellow-s) var(--yellow-l) / var(--neutral));
 	--yellow-dark: hsl(var(--yellow-h) var(--yellow-s) var(--yellow-l) / var(--dark));
 
-	--cyan-light: hsl(var(--yellow-h) var(--yellow-s) var(--yellow-l) / var(--light));
-	--cyan-neutral: hsl(var(--yellow-h) var(--yellow-s) var(--yellow-l) / var(--neutral));
-	--cyan-dark: hsl(var(--yellow-h) var(--yellow-s) var(--yellow-l) / var(--dark));
+	--cyan-light: hsl(var(--cyan-h) var(--cyan-s) var(--cyan-l) / var(--light));
+	--cyan-neutral: hsl(var(--cyan-h) var(--cyan-s) var(--cyan-l) / var(--neutral));
+	--cyan-dark: hsl(var(--cyan-h) var(--cyan-s) var(--cyan-l) / var(--dark));
 
 	--green-light: hsl(var(--green-h) var(--green-s) var(--green-l) / var(--light));
 	--green-neutral: hsl(var(--green-h) var(--green-s) var(--green-l) / var(--neutral));
