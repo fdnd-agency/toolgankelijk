@@ -12,7 +12,6 @@
 	--c-white2: white;
 	--c-grey: rgb(149, 149, 149);
 	--c-text-header: black;
-	
 
 	/* body */
 	--c-background: rgb(30, 30, 30);
@@ -105,6 +104,19 @@
 	--light-light: hsl(var(--light-h) var(--light-s) var(--light-l) / var(--light));
 	--light-neutral: hsl(var(--light-h) var(--light-s) var(--light-l) / var(--neutral));
 	--light-dark: hsl(var(--light-h) var(--light-s) var(--light-l) / var(--dark));
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+	/* HSL support */
+	--dark-h: 8;
+	--dark-s: 18;
+	--dark-l: 74;
+	
+	--light-h: 338;
+	--light-s: 18;
+	--light-l: 35;
+	}
 }
 
 .lightmode {
