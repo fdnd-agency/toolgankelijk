@@ -145,7 +145,6 @@
 						{#if succescriterium.niveau === selectedNiveau}
 							<details>
 								<summary class="criteria-uitklapbaar">
-									<label>
 										<div class="titels">
 											<span>Criteria {succescriterium.index} ({succescriterium.niveau})</span>
 											<h3>{succescriterium.titel}</h3>
@@ -165,7 +164,6 @@
 											type="checkbox"
 											checked={checkedSuccescriteria.find((e) => e.id === succescriterium.id)}
 										/>
-									</label>
 								</summary>
 								<!-- tekuitleg voor succescriterium -->
 
