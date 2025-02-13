@@ -68,10 +68,10 @@
 	--light-s: 18;
 	--light-l: 74;
 
-	/* HSL lightness */
-	--light: 0.2;
-	--neutral: 0.4;
-	--dark: 0.6;
+	/* HSL alpha */
+	--light: 0.8;
+	--neutral: 0.6;
+	--dark: 0.4;
 
 	/* HSL combinations */
 	--purple-light: hsl(var(--purple-h) var(--purple-s) var(--purple-l) / var(--light));
