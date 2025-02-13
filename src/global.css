@@ -32,6 +32,79 @@
 	/* modal button */
 	--c-modal-button: rgb(99, 99, 99);
 	--c-text-button: #ffffff;
+
+	/* HSL main */
+	--purple-h: 329;
+	--purple-s: 100; 
+	--purple-l: 36;
+
+	--pink-h: 336;
+	--pink-s: 100;
+	--pink-l: 45;
+
+	/* HSL contrast */
+	--yellow-h: 42;
+	--yellow-s: 100;
+	--yellow-l: 69;
+
+	--cyan-h: 187;
+	--cyan-s: 57;
+	--cyan-l: 54;
+
+	--green-h: 168;
+	--green-s: 65;
+	--green-l: 41;
+
+	--blue-h: 230;
+	--blue-s: 35;
+	--blue-l: 54;
+
+	/* HSL support */
+	--dark-h: 338;
+	--dark-s: 18;
+	--dark-l: 35;
+
+	--light-h: 8;
+	--light-s: 18;
+	--light-l: 74;
+
+	/* HSL lightness */
+	--light: 0.2;
+	--neutral: 0.4;
+	--dark: 0.6;
+
+	/* HSL combinations */
+	--purple-light: hsl(var(--purple-h) var(--purple-s) var(--purple-l) / var(--light));
+	--purple-neutral: hsl(var(--purple-h) var(--purple-s) var(--purple-l) / var(--neutral));
+	--purple-dark: hsl(var(--purple-h) var(--purple-s) var(--purple-l) / var(--dark));
+
+	--pink-light: hsl(var(--pink-h) var(--pink-s) var(--pink-l) / var(--light));
+	--pink-neutral: hsl(var(--pink-h) var(--pink-s) var(--pink-l) / var(--neutral));
+	--pink-dark: hsl(var(--pink-h) var(--pink-s) var(--pink-l) / var(--dark));
+
+	--yellow-light: hsl(var(--yellow-h) var(--yellow-s) var(--yellow-l) / var(--light));
+	--yellow-neutral: hsl(var(--yellow-h) var(--yellow-s) var(--yellow-l) / var(--neutral));
+	--yellow-dark: hsl(var(--yellow-h) var(--yellow-s) var(--yellow-l) / var(--dark));
+
+	--cyan-light: hsl(var(--yellow-h) var(--yellow-s) var(--yellow-l) / var(--light));
+	--cyan-neutral: hsl(var(--yellow-h) var(--yellow-s) var(--yellow-l) / var(--neutral));
+	--cyan-dark: hsl(var(--yellow-h) var(--yellow-s) var(--yellow-l) / var(--dark));
+
+	--green-light: hsl(var(--green-h) var(--green-s) var(--green-l) / var(--light));
+	--green-neutral: hsl(var(--green-h) var(--green-s) var(--green-l) / var(--neutral));
+	--green-dark: hsl(var(--green-h) var(--green-s) var(--green-l) / var(--dark));
+
+	--blue-light: hsl(var(--blue-h) var(--blue-s) var(--blue-l) / var(--light));
+	--blue-neutral: hsl(var(--blue-h) var(--blue-s) var(--blue-l) / var(--neutral));
+	--blue-dark: hsl(var(--blue-h) var(--blue-s) var(--blue-l) / var(--dark));
+
+	--dark-light: hsl(var(--dark-h) var(--dark-s) var(--dark-l) / var(--light));
+	--dark-neutral: hsl(var(--dark-h) var(--dark-s) var(--dark-l) / var(--neutral));
+	--dark-dark: hsl(var(--dark-h) var(--dark-s) var(--dark-l) / var(--dark));
+
+	--light-light: hsl(var(--light-h) var(--light-s) var(--light-l) / var(--light));
+	--light-neutral: hsl(var(--light-h) var(--light-s) var(--light-l) / var(--neutral));
+	--light-dark: hsl(var(--light-h) var(--light-s) var(--light-l) / var(--dark));
 }
 
 .lightmode {
