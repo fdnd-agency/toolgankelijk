@@ -145,13 +145,14 @@
 						{#if succescriterium.niveau === selectedNiveau}
 							<details>
 								<summary class="criteria-uitklapbaar">
-									<label>
-										<div class="titels">
-											<span>Criteria {succescriterium.index} ({succescriterium.niveau})</span>
+									<span>Criteria {succescriterium.index} ({succescriterium.niveau})</span>
+									<div class="row">
+									<div class="column">
 											<h3>{succescriterium.titel}</h3>
-										</div>
+									</div>
 
-										<button 
+									<div class="column">
+										<button
                                             type="button" 
                                             class="btn-vertaling" 
                                             on:click={(event) => translate(event, succescriterium.index)}
@@ -165,7 +166,8 @@
 											type="checkbox"
 											checked={checkedSuccescriteria.find((e) => e.id === succescriterium.id)}
 										/>
-									</label>
+									</div>
+								</div>
 								</summary>
 								<!-- tekuitleg voor succescriterium -->
 
@@ -385,6 +387,20 @@
 		/* display: flex; */
 		flex-direction: row;
 		align-items: center;
+	}
+
+	.row {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	.column {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		gap: 1rem;
 	}
 
 	/* .criteria-uitklapbaar::-webkit-details-marker {
