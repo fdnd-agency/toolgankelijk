@@ -4,8 +4,6 @@
     import walking from '$lib/assets/walking_together.svg';
     import knowledge from '$lib/assets/sharing_knowledge.svg';
 
-    export let data;
-
     $: heading = { titel: 'Informatie' };
 
     let isSubmitting = false;
@@ -142,7 +140,6 @@
 		display: flex;
 		align-items: flex-start;
 		justify-content: flex-start;
-		/* height: 20rem; */
 	}
 
 	.left-container {
