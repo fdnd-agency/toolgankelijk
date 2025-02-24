@@ -13,6 +13,7 @@
 	let openedDelete = null;
 	let openedEdit = null;
 	let totalSuccessCriteria = 0;
+	let route = false;
 
 	const updatedTime = new Date(website.updatedAt);
 	const currentTime = new Date();
@@ -110,6 +111,27 @@
 	}
 
 </script>
+
+
+<!-- new code -->
+<li class="partner-container">
+	<div class="button-container">
+		<input type="button">
+		<input type="button">
+	</div>
+
+	<article>
+		<img src="" alt="partner-logo">
+		<h2>Partner naam</h2>
+		<p>route</p>
+
+		<div class="progress-bar">
+			
+		</div>
+	</article>
+</li>
+
+
 
 <ul>
 	<li class="website" class:container-off={containerOff}>
