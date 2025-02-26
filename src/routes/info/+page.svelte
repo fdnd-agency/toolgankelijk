@@ -12,7 +12,6 @@
 
 	function handleEnhance({ formElement }) {
 		const handleSubmit = async ({ result }) => {
-			console.log(result);
 			isSubmitting = false;
 			successMessage = 'Verzonden!';
 

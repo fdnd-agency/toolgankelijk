@@ -17,8 +17,6 @@ export const actions = {
 		const formUrl = formData.get('url');
 		const formSlug = formData.get('slug');
 
-		console.log(name, formUrl, formSlug);
-
 		try {
 			let query = getQueryAddUrl(gql, name, formUrl, formSlug);
 			let hygraphCall = await hygraph.request(query);
