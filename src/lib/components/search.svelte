@@ -1,9 +1,9 @@
 <script>
-	// form submit
-	let input;
 	import { onMount } from 'svelte';
 
 	export let placeholderProp;
+
+	let input;
 
 	onMount(() => {
 		// Your client-side code to run after the component is mounted
@@ -30,7 +30,6 @@
 </form>
 
 <style>
-	/* form */
 	form {
 		margin: 0 1em;
 		display: flex;
@@ -59,7 +58,6 @@
 		font-weight: 600;
 		padding-left: 0.75em;
 	}
-	/* form end */
 
 	input::placeholder {
 		color: var(--c-grey);

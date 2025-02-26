@@ -1,16 +1,14 @@
 <script>
+	import { onMount } from 'svelte';
+	import { enhance } from '$app/forms';
+	import loadingIcon from '$lib/assets/loading.svg';
+
 	export let richtlijnen;
 	export let toolboardData;
 	export let selectedNiveau = 'A';
 
-	import { onMount } from 'svelte';
-	import { enhance } from '$app/forms';
-
-	import loadingIcon from '$lib/assets/loading.svg';
-	import { NoUndefinedVariablesRule } from 'graphql';
-
 	let loading = false;
-	// console.log(toolboardData)
+	let simpleTranslation = true;
 
 	const getSuccescriteriaByNiveau = (niveau) =>
 		toolboardData.url.checks[0]
@@ -24,25 +22,13 @@
 		filteredSuccescriteria = getSuccescriteriaByNiveau(selectedNiveau);
 	};
 
-	let simpleTranslation = true;
-
 	const checkedSuccescriteria = toolboardData.url.checks[0]
 		? toolboardData.url.checks[0].succescriteria
 		: [];
 	onMount(() => {
 		const niveauToggle = document.querySelector('#niveau-toggle');
-		console.log(niveauToggle);
 		niveauToggle.classList.toggle('disabled');
 	});
-
-	// const updateChecklist = () => {
-	// 	loading = true;
-	// 	return async ({ update }) => {
-	// 		loading = false;
-	// 		console.log(loading);
-	// 		await update();
-	// 	};
-	// };
 
 	function scrollToTop(event) {
 		const mainElement = document.getElementById('main');
@@ -50,50 +36,17 @@
 		event.preventDefault();
 	}
 
-	// ndsajdashjkdas
-	function translate(event, criteriumNumber) {
-		console.log(event, criteriumNumber);
-		// Get clicked button with event.target
+	function translate(event) {
 		const button = event.target;
-		//
 		const activeSection = button.closest('details');
-
 		const uitleg = activeSection.querySelector('.richtlijn-uitleg');
 
-		/** de simpele vertaling wordt omgezet in true of false. op basis van de button die geklikt is en welke waarde die dan heeft. */
+		/** De simpele vertaling wordt omgezet in true of false. op basis van de button die geklikt is en welke waarde die dan heeft. */
 		simpleTranslation = !simpleTranslation;
 
-		/** de tekst en button worden ook steeds omgedraaid op basis van de button (van officieel naar simpel) */
+		/** De tekst en button worden ook steeds omgedraaid op basis van de button (van officieel naar simpel) */
 		uitleg.classList.toggle('moeiluk');
 		button.classList.toggle('moeiluk');
-
-		// if (!activeTranslations.includes(criteriumNumber)) {
-		// 	activeTranslations.push(criteriumNumber)
-
-		// } else {
-		// 	// remove element from array
-		// }
-
-		// console.log(activeTranslations);
-		// const element1 = document.querySelectorAll('.richtlijn-criteria-1');
-		// const element2 = document.querySelectorAll('.richtlijn-criteria-2');
-		// const element3 = document.querySelectorAll(".richtlijn-uitleg");
-
-		// for(let i = 0; i < element3.length; i++){
-		// 	console.log(element3[i].dataindex)
-		//        if (element3[i].classList.contains("changed")) {
-		// 		element1[i].style.display = "block";
-		// 		element2[i].style.display = "none";
-		// 		element3[i].classList.toggle("changed");
-
-		//     } else {
-		// 		element2[i].style.display = "block";
-		// 		element1[i].style.display = "none";
-		// 		element3[i].classList.toggle("changed");
-
-		//     }
-		// }
-		// element3.classList.toggle("changed");
 	}
 </script>
 
@@ -124,10 +77,8 @@
 		<input type="hidden" name="principe" value={toolboardData.principe.index} />
 
 		<!-- richtlijnen en succescriteria tekst wordt hier ingeladen! -->
-
 		{#each richtlijnen as richtlijn}
 			<details>
-				<!-- <div class="richtlijn-div"> -->
 				<summary class="collapsible-summary">
 					<span>Richtlijn {richtlijn.index}</span>
 					<div>
@@ -136,7 +87,6 @@
 						<div />
 					</div>
 				</summary>
-				<!-- </div>	 -->
 				<article>
 					{#each richtlijn.succescriteria as succescriterium}
 						{#if succescriterium.niveau === selectedNiveau}
@@ -152,7 +102,7 @@
 											<button
 												type="button"
 												class="btn-vertaling"
-												on:click={(event) => translate(event, succescriterium.index)}
+												on:click={(event) => translate(event)}
 											>
 												{simpleTranslation ? 'Officiële beschrijving' : 'Simpele beschrijving'}
 											</button>
@@ -166,8 +116,8 @@
 										</div>
 									</div>
 								</summary>
-								<!-- tekuitleg voor succescriterium -->
 
+								<!-- tekuitleg voor succescriterium -->
 								<div class="richtlijn-uitleg" aria-live="polite" dataindex="0">
 									<div class="richtlijn-criteria-1">
 										<p id="uitleg" class="tekst-criteria-1">
@@ -203,16 +153,6 @@
 <div class="changed" />
 
 <style>
-	@media print {
-		.btn-top {
-			display: none;
-		}
-
-		.submit {
-			display: none;
-		}
-	}
-
 	.richtlijn-criteria-2 {
 		display: none;
 	}
@@ -231,6 +171,7 @@
 		cursor: pointer;
 		z-index: 2;
 	}
+
 	.submit:hover {
 		filter: saturate(1.2);
 	}
@@ -250,6 +191,7 @@
 		text-decoration: none;
 		z-index: 2;
 	}
+
 	.btn-top:hover {
 		filter: saturate(1.2);
 	}
@@ -265,9 +207,11 @@
 		border: 1px solid var(--c-pink);
 		border-radius: 4px;
 	}
+
 	.submit img {
 		animation: 0.8s rotate infinite;
 	}
+
 	select {
 		border-radius: 0.25em;
 		padding: 0.5em 1em;
@@ -281,12 +225,6 @@
 
 	.richtlijn-uitleg {
 		padding-left: 1rem;
-	}
-
-	.titels {
-		display: flex;
-		flex-direction: column;
-		margin-top: -19px;
 	}
 
 	section {
@@ -328,10 +266,6 @@
 		color: var(--c-white2);
 	}
 
-	label div {
-		margin-left: 1em;
-	}
-
 	details {
 		padding: 1em;
 	}
@@ -343,17 +277,6 @@
 
 	details[open] summary ~ * {
 		animation: sweep 0.25s ease-in-out;
-	}
-
-	@keyframes sweep {
-		0% {
-			opacity: 0;
-			/* margin-top: -10px; */
-		}
-		100% {
-			opacity: 1;
-			/* margin-top: 15.2px; */
-		}
 	}
 
 	section details:not(:nth-child(2)) {
@@ -380,7 +303,6 @@
 	}
 
 	.criteria-uitklapbaar {
-		/* display: flex; */
 		flex-direction: row;
 		align-items: center;
 	}
@@ -398,22 +320,6 @@
 		align-items: center;
 		gap: 1rem;
 	}
-
-	/* .criteria-uitklapbaar::-webkit-details-marker {
-		display: none;
-	} */
-
-	/* .criteria-uitklapbaar:before {
-		content: '🡒';
-		font-size: 1.5em;
-		color: #fff;
-		width: 30px;
-	}
-
-	details[open] .criteria-uitklapbaar:before {
-		content: '🡓';
-		color: var(--c-pink);
-	} */
 
 	details > div {
 		font-size: 0.9em !important;
@@ -463,7 +369,6 @@
 		background-color: var(--c-pink);
 		border: none;
 		color: white;
-		/* margin-top: 1rem; */
 		border-radius: 4px;
 		cursor: pointer;
 		z-index: 2;
@@ -480,8 +385,8 @@
 	:global(.richtlijn-uitleg.moeiluk .richtlijn-criteria-1) {
 		display: none;
 	}
+
 	:global(.richtlijn-uitleg.moeiluk div.richtlijn-criteria-2) {
-		/* Svelte is dom, groetjes Cyd */
 		display: block !important;
 	}
 
@@ -499,12 +404,31 @@
 		max-width: 30em;
 	}
 
+	@media print {
+		.btn-top {
+			display: none;
+		}
+
+		.submit {
+			display: none;
+		}
+	}
+
 	@keyframes rotate {
 		from {
 			transform: rotate(0deg);
 		}
 		to {
 			transform: rotate(360deg);
+		}
+	}
+
+	@keyframes sweep {
+		0% {
+			opacity: 0;
+		}
+		100% {
+			opacity: 1;
 		}
 	}
 </style>

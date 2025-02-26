@@ -1,7 +1,7 @@
 <script>
 	export let principes;
 	export let urlData;
-	import { onMount } from 'svelte';
+
 	let successCriteriaMap = {};
 	let criteriaPerPrincipe = {};
 	let baseUrl = `/${urlData.url.website.slug}/${urlData.url.slug}`;

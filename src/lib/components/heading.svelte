@@ -44,11 +44,11 @@
 	}
 
 	section img {
-		/* padding: .5rem; */
 		box-shadow: 0px 0px 0px 8px #202020;
 		border-radius: 0.3rem;
 		background-color: #202020;
 	}
+
 	h1 {
 		font-size: clamp(1.3rem, 4vw, 3.8rem);
 	}

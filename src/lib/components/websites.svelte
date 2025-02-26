@@ -1,21 +1,19 @@
 <script>
+	import { onMount } from 'svelte';
+	import trash from '$lib/assets/trash.svg';
+	import pencil from '$lib/assets/pencil.svg';
+
 	export let website;
 	export let overzicht;
 	export let params;
 	export let form;
 	export let principes;
 
-	import { onMount } from 'svelte';
-
-	import trash from '$lib/assets/trash.svg';
-	import pencil from '$lib/assets/pencil.svg';
-
 	let labelValue;
 	let progressbar;
-
 	let openedDelete = null;
 	let openedEdit = null;
-
+	let containerOff = false;
 	const updatedTime = new Date(website.updatedAt);
 	const currentTime = new Date();
 	const timeDifference = Math.floor((currentTime - updatedTime) / (60 * 1000));
@@ -47,8 +45,6 @@
 
 	const faviconAPI =
 		'https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=';
-
-	let containerOff = false;
 
 	function openDelete(event) {
 		event.preventDefault();
@@ -333,7 +329,6 @@
 	}
 
 	form p {
-		/* font-size: 0.9em; */
 		margin: 1.5em 0;
 		font-weight: 100;
 	}

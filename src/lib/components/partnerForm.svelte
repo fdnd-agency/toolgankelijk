@@ -1,6 +1,3 @@
-<script>
-</script>
-
 <section class="form-container">
 	<h2>Partner toevoegen</h2>
 	<form method="POST" action="?/addPartner">

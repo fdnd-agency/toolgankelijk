@@ -31,13 +31,10 @@
 			</li>
 			{#each partners.websites as partner}
 				<li>
-					<a href="/{partner.slug}"
-						><img
-							width="24"
-							src="{faviconAPI}{partner.homepage}/&size=256"
-							alt="logo partner"
-						/>{partner.titel}</a
-					>
+					<a href="/{partner.slug}">
+						<img width="24" src="{faviconAPI}{partner.homepage}/&size=256" alt="logo partner" />
+						{partner.titel}
+					</a>
 				</li>
 			{/each}
 		</ul>
@@ -72,12 +69,6 @@
 		display: flex;
 		align-items: center;
 		gap: 0.5rem;
-	}
-
-	@media print {
-		.bread-crumbs {
-			display: none;
-		}
 	}
 
 	button {
@@ -187,6 +178,12 @@
 		transform: scale(-1, -1);
 	}
 
+	@media print {
+		.bread-crumbs {
+			display: none;
+		}
+	}
+
 	@media only screen and (max-width: 990px) {
 		.bread-crumbs {
 			grid-row: 2;
@@ -201,6 +198,7 @@
 			width: 100%;
 		}
 	}
+
 	@media only screen and (max-width: 560px) {
 		.bread-crumbs {
 			display: flex;
