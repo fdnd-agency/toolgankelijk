@@ -1,8 +1,5 @@
-import { PUBLIC_API_KEY } from '$env/static/public';
 import { fail } from '@sveltejs/kit';
 import { request as graphqlRequest } from 'graphql-request';
-import { gql } from 'graphql-request';
-import { hygraph } from '$lib/utils/hygraph.js';
 
 export const actions = {
 	default: async ({ request }) => {
@@ -36,7 +33,7 @@ export const actions = {
 		};
 
 		try {
-			const postData = await graphqlRequest(endpoint, mutation, undefined, headers);
+			await graphqlRequest(endpoint, mutation, undefined, headers);
 			return { success: true, data: { message: 'Verzonden!' } };
 		} catch (err) {
 			return fail(500, {

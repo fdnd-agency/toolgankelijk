@@ -1,22 +1,17 @@
 import { gql } from 'graphql-request';
 import { hygraph } from '$lib/utils/hygraph.js';
-
 import getQueryAddUrl from '$lib/queries/addUrl';
 import getQueryWebsite from '$lib/queries/website';
 
 export async function load({ params }) {
 	const { websiteUID } = params;
 	let query = getQueryWebsite(gql, websiteUID);
-
 	return await hygraph.request(query).websitesData;
 }
 
 // the actions export is unique to sveltekit
 export const actions = {
-	addUrl: async ({ url, request }) => {
-		// get url partner value (slug)
-		// let partnerSlug = url.searchParams.get('partner')
-
+	addUrl: async ({ request }) => {
 		const formData = await request.formData();
 		const name = formData.get('name').toLowerCase();
 		const formUrl = formData.get('url');

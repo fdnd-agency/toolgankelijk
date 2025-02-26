@@ -143,12 +143,10 @@
 
 	.left-container {
 		grid-area: left;
-		/* height: 13rem; */
 	}
 
 	.right-container {
 		grid-area: right;
-		/* height: 13rem; */
 	}
 
 	.bot-left-container {
@@ -188,17 +186,12 @@
 	.bot-right-container {
 		padding: 2em;
 		background-color: var(--c-container);
-		/* border-top: 12px solid var(--c-pink); */
 		border-radius: 0.5em;
 	}
 
 	span {
 		color: var(--c-pink);
 	}
-
-	/* .text-container {
-    max-width: 50em;
-} */
 
 	.image-container {
 		margin-left: auto;
@@ -239,10 +232,6 @@
 		transition: 0.2s ease-out;
 	}
 
-	/* input:invalid {
-		border: 1px solid red;
-	} */
-
 	textarea {
 		background-color: var(--c-container-stroke);
 		border: none;
@@ -279,6 +268,7 @@
 	.success-message {
 		color: green;
 	}
+
 	.error-message {
 		color: red;
 	}

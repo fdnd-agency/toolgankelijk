@@ -1,11 +1,3 @@
-<!-- JS -->
-
-<script>
-	// import Heading from '$lib/components/heading.svelte';
-</script>
-
-<!-- HTML -->
-
 <svelte:head>
 	<title>Create Account · Vervoerregio Amsterdam</title>
 </svelte:head>
@@ -34,8 +26,6 @@
 		</fieldset>
 	</form>
 </section>
-
-<!-- CSS -->
 
 <style>
 	.form-container {

@@ -1,14 +1,11 @@
-// import { Actions } from '@sveltejs/kit';
+import { error } from '@sveltejs/kit';
 import { gql } from 'graphql-request';
 import { hygraph } from '$lib/utils/hygraph.js';
-
 import getQueryUrl from '$lib/queries/url';
 import getQueryToolboard from '$lib/queries/toolboard';
 import firstCheck from '$lib/queries/firstCheck';
 import addCheck from '$lib/queries/addCheck';
 import deleteCheck from '$lib/queries/deleteCheck';
-
-import { error } from '@sveltejs/kit';
 
 export const load = async ({ params }) => {
 	const { websiteUID } = params;
@@ -45,7 +42,7 @@ export const actions = {
 		const principeIndex = formData.get('principe');
 		const niveau = formData.get('niveau');
 
-		// see of the sent checks are already assigned to this project's checks
+		// see if the sent checks are already assigned to this project's checks
 		const { websiteUID, urlUID, principeUID } = params;
 		const slugUrl = urlUID;
 		const principeSlug = principeUID;
@@ -93,12 +90,10 @@ export const actions = {
 			}
 		}
 		console.log('===================');
-		// console.log(websiteUID, urlUID)
 
 		async function addCheckToList(succescriteriumId) {
 			try {
 				let getFirstCheckId = (await getFirstCheck()).firstCheckId;
-
 				let addCheckQuery = addCheck(gql, websiteUID, urlUID, getFirstCheckId, succescriteriumId);
 				let addCheckId = await hygraph.request(addCheckQuery);
 
@@ -118,7 +113,6 @@ export const actions = {
 		async function deleteCheckFromList(succescriteriumId) {
 			try {
 				let getFirstCheckId = (await getFirstCheck()).firstCheckId;
-
 				let deleteCheckQuery = deleteCheck(
 					gql,
 					websiteUID,
@@ -146,9 +140,7 @@ export const actions = {
 			try {
 				let firstCheckQuery = firstCheck(gql, websiteUID, urlUID);
 				let firstCheckResponse = await hygraph.request(firstCheckQuery);
-
 				let firstCheckId = firstCheckResponse.website.urls[0].checks[0].id;
-
 				return {
 					firstCheckId,
 					success: true
@@ -159,7 +151,6 @@ export const actions = {
 				};
 			}
 		}
-
 		return { success: true };
 	}
 };

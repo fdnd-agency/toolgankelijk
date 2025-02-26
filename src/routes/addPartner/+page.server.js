@@ -1,6 +1,5 @@
 import { gql } from 'graphql-request';
 import { hygraph } from '$lib/utils/hygraph.js';
-
 import getQueryAddPartner from '$lib/queries/addPartner';
 
 // the actions export is unique to sveltekit
@@ -9,6 +8,7 @@ export const actions = {
 		const formData = await request.formData();
 		const name = formData.get('name');
 		const url = formData.get('url');
+
 		// slugs moeten lowercase sinds het uniek is
 		const slug = name.toLowerCase();
 

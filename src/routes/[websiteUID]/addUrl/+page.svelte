@@ -1,6 +1,6 @@
 <script>
-	import UrlForm from '../../../lib/components/urlForm.svelte';
 	import { page } from '$app/stores';
+	import UrlForm from '$lib/components/urlForm.svelte';
 
 	export let form;
 

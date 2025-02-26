@@ -1,11 +1,3 @@
-<!-- JS -->
-
-<script>
-	// import Heading from '$lib/components/heading.svelte';
-</script>
-
-<!-- HTML -->
-
 <svelte:head>
 	<title>Login · Vervoerregio Amsterdam</title>
 </svelte:head>
@@ -41,8 +33,6 @@
 		</fieldset>
 	</form>
 </section>
-
-<!-- CSS -->
 
 <style>
 	.form-container {
@@ -107,52 +97,6 @@
 		font-size: 16px;
 	}
 
-	@keyframes shake {
-		0% {
-			transform: rotate(0deg);
-		}
-
-		10% {
-			transform: rotate(5deg);
-		}
-
-		20% {
-			transform: rotate(5deg);
-		}
-
-		30% {
-			transform: rotate(-5deg);
-		}
-
-		40% {
-			transform: rotate(5deg);
-		}
-
-		50% {
-			transform: rotate(-5deg);
-		}
-
-		60% {
-			transform: rotate(5deg);
-		}
-
-		70% {
-			transform: rotate(-5deg);
-		}
-
-		80% {
-			transform: rotate(5deg);
-		}
-
-		90% {
-			transform: rotate(-5deg);
-		}
-
-		100% {
-			transform: rotate(0deg);
-		}
-	}
-
 	input:user-invalid {
 		border: 1px solid red;
 		outline: none;
@@ -208,6 +152,52 @@
 		.form-login {
 			padding-left: 1rem;
 			padding-right: 1rem;
+		}
+	}
+
+	@keyframes shake {
+		0% {
+			transform: rotate(0deg);
+		}
+
+		10% {
+			transform: rotate(5deg);
+		}
+
+		20% {
+			transform: rotate(5deg);
+		}
+
+		30% {
+			transform: rotate(-5deg);
+		}
+
+		40% {
+			transform: rotate(5deg);
+		}
+
+		50% {
+			transform: rotate(-5deg);
+		}
+
+		60% {
+			transform: rotate(5deg);
+		}
+
+		70% {
+			transform: rotate(-5deg);
+		}
+
+		80% {
+			transform: rotate(5deg);
+		}
+
+		90% {
+			transform: rotate(-5deg);
+		}
+
+		100% {
+			transform: rotate(0deg);
 		}
 	}
 </style>
