@@ -1,10 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/svelte';
-import '@testing-library/jest-dom';
-import Checklist from '../lib/components/checklist.svelte';
+import Checklist from '$lib/components/checklist.svelte';
 
-/** unit test for issue #58 */
-describe('Checklist Component', () => {
+describe('/checklist.svelte', () => {
   it('controleert of de "officiële/simpele beschrijving" knop aanwezig is', () => {
     render(Checklist, {
       props: {
@@ -33,11 +31,11 @@ describe('Checklist Component', () => {
     });
 
     const vertalingKnop = screen.getByRole('button', {
-        name: (content, element) => {
-          const hasText = (text) => element.textContent.includes(text);
-          return hasText('Officiële beschrijving') || hasText('Simpele beschrijving');
-        },
-      });
+      name: (content, element) => {
+        const hasText = (text) => element.textContent.includes(text);
+        return hasText('Officiële beschrijving') || hasText('Simpele beschrijving');
+      },
+    });
     expect(vertalingKnop.textContent).toMatch(/Officiële beschrijving|Simpele beschrijving/);
   });
 });
