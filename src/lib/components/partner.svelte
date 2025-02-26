@@ -29,13 +29,12 @@
 			lastTime = `${years}j geleden`;
 		} else if (years == 0 && days > 0) {
 			lastTime = `${days}d geleden`;
-		}else  {
+		} else {
 			lastTime = `${hours}u en ${minutes}m geleden`;
 		}
 	} else {
 		lastTime = timeDifference > 0 ? `${timeDifference} min geleden` : 'Zojuist';
 	}
-
 
 	onMount(() => {
 		let random = Math.floor(Math.random() * 100);
@@ -108,7 +107,6 @@
 			alert(form?.message);
 		}
 	}
-
 </script>
 
 <ul>
@@ -120,7 +118,9 @@
 					<h2 class="name">{website.titel}</h2>
 				</div>
 				<div class="icons" id={`icons-${website.id}`}>
-					<button class="icon_pencil" on:click={openEdit}><img src={pencil} alt="Bewerk icon" /></button>
+					<button class="icon_pencil" on:click={openEdit}
+						><img src={pencil} alt="Bewerk icon" /></button
+					>
 					<button on:click={openDelete}><img src={trash} alt="Verwijder icon" /></button>
 				</div>
 			</section>
@@ -172,7 +172,7 @@
 			<button on:click={closeDelete}>Nee</button>
 		</div>
 	</form>
-</div>	
+</div>
 
 <style>
 	li {

@@ -4,12 +4,12 @@
 	export let websites;
 
 	const faviconAPI =
-		"https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=";
+		'https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=';
 
 	$: selectedPartner = params.websiteUID
 		? partners.websites.find(({ slug }) => slug === params.websiteUID)
-		: "";
-	$: selectedUrl = params.urlUID ? params.urlUID : "";
+		: '';
+	$: selectedUrl = params.urlUID ? params.urlUID : '';
 </script>
 
 <div class="bread-crumbs">
@@ -59,9 +59,7 @@
 				</li>
 				{#each websites.urls as website}
 					<li>
-						<a href="/{selectedPartner.slug}/{website.slug}"
-							>{website.slug}</a
-						>
+						<a href="/{selectedPartner.slug}/{website.slug}">{website.slug}</a>
 					</li>
 				{/each}
 			</ul>
@@ -93,7 +91,7 @@
 		border-radius: 0.5em;
 		font-size: 1em;
 		background-color: var(--c-container);
-		color: var(--c-grey);;
+		color: var(--c-grey);
 		border: none;
 		width: 100%;
 		height: 3.5rem;
@@ -194,7 +192,7 @@
 			grid-row: 2;
 			grid-column: span 2;
 		}
-		
+
 		.bread-crumbs .dropdown {
 			width: 100%;
 			min-width: min-content;

@@ -73,7 +73,6 @@
 
 	.add-button:hover {
 		opacity: 0.75;
-
 	}
 
 	.url-label {

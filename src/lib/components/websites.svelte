@@ -203,7 +203,7 @@
 	}
 
 	a section button:first-child {
-		margin-right: 0.6em
+		margin-right: 0.6em;
 	}
 
 	.more-info-section {

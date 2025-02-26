@@ -17,7 +17,6 @@
 	const principes = data.toolboardData.principes;
 </script>
 
-
 <Heading {heading} />
 <section>
 	{#if form?.success}

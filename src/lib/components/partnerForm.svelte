@@ -1,7 +1,5 @@
 <script>
-
 </script>
-
 
 <section class="form-container">
 	<h2>Partner toevoegen</h2>
@@ -11,12 +9,11 @@
 		<label for="url" class="url-label">Partner homepagina URL</label>
 		<input id="url" name="url" type="url" />
 		<div class="button-div">
-		<button class="add-button">Toevoegen</button>
-		<button class="remove-button">Sluit</button>
+			<button class="add-button">Toevoegen</button>
+			<button class="remove-button">Sluit</button>
 		</div>
 	</form>
 </section>
-
 
 <style>
 	.form-container {
@@ -76,7 +73,7 @@
 		border-radius: 0.25em;
 		margin-top: 1em;
 		font-size: 1em;
-		transition: .2s ease-in;
+		transition: 0.2s ease-in;
 	}
 
 	.remove-button:hover {

@@ -33,7 +33,7 @@
 
 <section>
 	<a href="/{params}/addUrl" on:click={openDialog}>Link van website toevoegen</a>
-	<Search placeholderProp = "Home"/>
+	<Search placeholderProp="Home" />
 </section>
 
 {#if form?.success}
