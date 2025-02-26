@@ -34,35 +34,6 @@
 		lastTime = timeDifference > 0 ? `${timeDifference} min geleden` : 'Zojuist';
 	}
 
-	onMount(() => {
-		let random = Math.floor(Math.random() * 100);
-		progressbar.value = random; // Set initial value
-
-		const websiteCriteria = website.urls.reduce((total, url) => {
-			url.checks.forEach((check) => {
-				total += check.succescriteria.length;
-			});
-			return total;
-		}, 0);
-
-		const totaalCriteria =
-			principes.reduce((total, principe) => {
-				principe.richtlijnen.forEach((richtlijn) => {
-					total += richtlijn.succescriteria.length;
-				});
-				return total;
-			}, 0) * website.urls.length; // Multiply totaalcriteria by the number of URLs
-
-		const percentage = Math.round((websiteCriteria / totaalCriteria) * 100);
-
-		progressbar.value = websiteCriteria;
-		progressbar.max = totaalCriteria;
-
-		labelValue.innerHTML = `${percentage}%`;
-
-		document.querySelector(`#icons-${website.id}`).style.display = 'flex';
-	});
-
 	const faviconAPI =
 		'https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=';
 
@@ -102,6 +73,35 @@
 			alert(form?.message);
 		}
 	}
+
+	onMount(() => {
+		let random = Math.floor(Math.random() * 100);
+		progressbar.value = random; // Set initial value
+
+		const websiteCriteria = website.urls.reduce((total, url) => {
+			url.checks.forEach((check) => {
+				total += check.succescriteria.length;
+			});
+			return total;
+		}, 0);
+
+		const totaalCriteria =
+			principes.reduce((total, principe) => {
+				principe.richtlijnen.forEach((richtlijn) => {
+					total += richtlijn.succescriteria.length;
+				});
+				return total;
+			}, 0) * website.urls.length; // Multiply totaalcriteria by the number of URLs
+
+		const percentage = Math.round((websiteCriteria / totaalCriteria) * 100);
+
+		progressbar.value = websiteCriteria;
+		progressbar.max = totaalCriteria;
+
+		labelValue.innerHTML = `${percentage}%`;
+
+		document.querySelector(`#icons-${website.id}`).style.display = 'flex';
+	});
 </script>
 
 <ul>

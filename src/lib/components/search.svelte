@@ -5,11 +5,6 @@
 
 	let input;
 
-	onMount(() => {
-		// Your client-side code to run after the component is mounted
-		document.querySelector('form').classList.remove('form-off');
-	});
-
 	function submitPartner() {
 		let websites = document.querySelectorAll('.website');
 
@@ -22,6 +17,11 @@
 			}
 		});
 	}
+
+	onMount(() => {
+		// Your client-side code to run after the component is mounted
+		document.querySelector('form').classList.remove('form-off');
+	});
 </script>
 
 <form class="form-off" on:input={submitPartner}>

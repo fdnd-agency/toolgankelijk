@@ -18,31 +18,6 @@
 	const currentTime = new Date();
 	const timeDifference = Math.floor((currentTime - updatedTime) / (60 * 1000));
 	const lastTime = timeDifference > 0 ? `${timeDifference} min geleden` : 'Zojuist';
-
-	onMount(() => {
-		const websiteCriteria = website.checks.reduce((total, check) => {
-			total += check.succescriteria.length;
-			return total;
-		}, 0);
-
-		const totaalCriteria =
-			principes.reduce((total, principe) => {
-				principe.richtlijnen.forEach((richtlijn) => {
-					total += richtlijn.succescriteria.length;
-				});
-				return total;
-			}, 0) * website.checks.length;
-
-		const percentage = Math.round((websiteCriteria / totaalCriteria) * 100);
-
-		progressbar.value = websiteCriteria;
-		progressbar.max = totaalCriteria;
-
-		labelValue.innerHTML = `${percentage}%`;
-
-		document.querySelector(`#icons-${website.id}`).style.display = 'flex';
-	});
-
 	const faviconAPI =
 		'https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=';
 
@@ -82,6 +57,30 @@
 			alert(form?.message);
 		}
 	}
+
+	onMount(() => {
+		const websiteCriteria = website.checks.reduce((total, check) => {
+			total += check.succescriteria.length;
+			return total;
+		}, 0);
+
+		const totaalCriteria =
+			principes.reduce((total, principe) => {
+				principe.richtlijnen.forEach((richtlijn) => {
+					total += richtlijn.succescriteria.length;
+				});
+				return total;
+			}, 0) * website.checks.length;
+
+		const percentage = Math.round((websiteCriteria / totaalCriteria) * 100);
+
+		progressbar.value = websiteCriteria;
+		progressbar.max = totaalCriteria;
+
+		labelValue.innerHTML = `${percentage}%`;
+
+		document.querySelector(`#icons-${website.id}`).style.display = 'flex';
+	});
 </script>
 
 <li class="website" class:container-off={containerOff}>

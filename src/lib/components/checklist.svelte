@@ -25,10 +25,6 @@
 	const checkedSuccescriteria = toolboardData.url.checks[0]
 		? toolboardData.url.checks[0].succescriteria
 		: [];
-	onMount(() => {
-		const niveauToggle = document.querySelector('#niveau-toggle');
-		niveauToggle.classList.toggle('disabled');
-	});
 
 	function scrollToTop(event) {
 		const mainElement = document.getElementById('main');
@@ -48,6 +44,11 @@
 		uitleg.classList.toggle('moeiluk');
 		button.classList.toggle('moeiluk');
 	}
+
+	onMount(() => {
+		const niveauToggle = document.querySelector('#niveau-toggle');
+		niveauToggle.classList.toggle('disabled');
+	});
 </script>
 
 <section>
