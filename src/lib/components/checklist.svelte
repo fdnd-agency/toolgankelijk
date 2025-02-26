@@ -41,8 +41,8 @@
 		simpleTranslation = !simpleTranslation;
 
 		/** De tekst en button worden ook steeds omgedraaid op basis van de button (van officieel naar simpel) */
-		uitleg.classList.toggle('moeiluk');
-		button.classList.toggle('moeiluk');
+		uitleg.classList.toggle('moeilijk');
+		button.classList.toggle('moeilijk');
 	}
 
 	onMount(() => {
@@ -383,11 +383,11 @@
 		display: none;
 	}
 
-	:global(.richtlijn-uitleg.moeiluk .richtlijn-criteria-1) {
+	:global(.richtlijn-uitleg.moeilijk .richtlijn-criteria-1) {
 		display: none;
 	}
 
-	:global(.richtlijn-uitleg.moeiluk div.richtlijn-criteria-2) {
+	:global(.richtlijn-uitleg.moeilijk div.richtlijn-criteria-2) {
 		display: block !important;
 	}
 
