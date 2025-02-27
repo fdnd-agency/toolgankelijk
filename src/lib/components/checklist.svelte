@@ -85,7 +85,6 @@
 					<div>
 						<h2>{richtlijn.titel}</h2>
 						<h3>{@html richtlijn.uitleg.html}</h3>
-						<div />
 					</div>
 				</summary>
 				<article>
@@ -150,8 +149,6 @@
 		{/if}
 	</form>
 </section>
-
-<div class="changed" />
 
 <style>
 	.richtlijn-criteria-2 {
