@@ -1,25 +1,42 @@
 <script>
+	// ================================
+	// Import
+	// ================================
+	import { onMount } from 'svelte';
+	import trash from '$lib/assets/trash.svg';
+	import pencil from '$lib/assets/pencil.svg';
+	// ================================
+	// Data Variables
+	// ================================
 	export let website;
 	export let form;
 	export let principes;
-	import { onMount } from 'svelte';
-
-	import trash from '$lib/assets/trash.svg';
-	import pencil from '$lib/assets/pencil.svg';
-
+	export let overzicht;
+	export let params;
+	export let isUrl = false;
+	// ================================
+	// Variables
+	// ================================
 	let labelValue;
 	let progressbar;
-
 	let openedDelete = null;
 	let openedEdit = null;
 	let totalSuccessCriteria = 0;
-	let route = false;
-
+	let lastTime;
+	let link;
+	let title;
+	let image;
+	let websiteCriteria;
+	let totaalCriteria;
+	const faviconAPI = 'https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=';
+	let containerOff = false;
+	// ================================
+	// Functions
+	// ================================
 	const updatedTime = new Date(website.updatedAt);
 	const currentTime = new Date();
 	const timeDifference = Math.floor((currentTime - updatedTime) / (60 * 1000)); // Verschil in minuten
 
-	let lastTime;
 	if (timeDifference >= 60) {
 		let minutes = timeDifference % 60;
 		let hours = Math.floor(timeDifference / 60);
@@ -27,52 +44,79 @@
 		let years = Math.floor(days / 365);
 
 		if (years > 0) {
-			lastTime = `${years}j geleden`;
+			lastTime = `${years}jaar geleden`;
 		} else if (years == 0 && days > 0) {
-			lastTime = `${days}d geleden`;
+			lastTime = `${days}dag(en) geleden`;
 		}else  {
-			lastTime = `${hours}u en ${minutes}m geleden`;
+			lastTime = `${hours}uur en ${minutes}min geleden`;
 		}
 	} else {
 		lastTime = timeDifference > 0 ? `${timeDifference} min geleden` : 'Zojuist';
 	}
 
+	if (isUrl) {
+		// show url
+		link = params + "/" + website.slug;
+		title = overzicht.titel + "<span>/" + website.slug + "</span>";
+		image = website.url;
 
-	onMount(() => {
-		let random = Math.floor(Math.random() * 100);
-		progressbar.value = random; // Set initial value
+		// websiteCriteria = website.urls.reduce((total, url) => {
+		// 		url.checks.forEach((check) => {
+		// 			total += check.succescriteria.length;
+		// 		});
+		// 		return total;
+		// 	}, 0);
 
-		const websiteCriteria = website.urls.reduce((total, url) => {
-			url.checks.forEach((check) => {
-				total += check.succescriteria.length;
-			});
+		// 	totaalCriteria =
+		// 		principes.reduce((total, principe) => {
+		// 			principe.richtlijnen.forEach((richtlijn) => {
+		// 				total += richtlijn.succescriteria.length;
+		// 			});
+		// 			return total;
+		// 		}, 0) * website.urls.length;
+	}else {
+		// show partner
+		link = website.slug + "?partner=" + website.slug;
+		title = website.titel;
+		image = website.homepage;
+
+		console.log(website);
+		console.log(principes);
+
+		const totaalChecks = website.urls.reduce((acc, url) => acc + url.checks.length, 0);
+		console.log(totaalChecks);
+
+		// haal urls object op van de website
+		websiteCriteria = website.urls.reduce((total, url) => {
+			total += url.checks?.succescriteria.length;
 			return total;
+			console.log(total);
 		}, 0);
 
-		const totaalCriteria =
+		// websiteCriteria = website.checks.reduce((total, check) => {
+		// 	total += check.succescriteria.length;
+		// 	return total;
+		// }, 0);
+
+		totaalCriteria =
 			principes.reduce((total, principe) => {
 				principe.richtlijnen.forEach((richtlijn) => {
 					total += richtlijn.succescriteria.length;
 				});
-				return total;
-			}, 0) * website.urls.length; // Multiply totaalcriteria by the number of URLs
+			return total;
+		}, 0) * website.checks.length;
 
-		const percentage = Math.round((websiteCriteria / totaalCriteria) * 100);
-
+		const percentage = Math.round((partnerCriterias / totalCriterias) * 100);
 		progressbar.value = websiteCriteria;
 		progressbar.max = totaalCriteria;
-
 		labelValue.innerHTML = `${percentage}%`;
-
 		document.querySelector(`#icons-${website.id}`).style.display = 'flex';
-	});
+	}
 
-	const faviconAPI =
-		'https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=';
+	// onMount(() => {
+	// });
 
-	// search, zo maakt sveltekit gebruik van de class
-	let containerOff = false;
-
+	//geen verandering
 	function openDelete(event) {
 		event.preventDefault();
 		openedDelete = openedDelete === website.id ? null : website.id;
@@ -80,12 +124,14 @@
 		window.scrollTo({ top: 0, behavior: 'smooth' });
 	}
 
+	//geen verandering
 	function closeDelete(event) {
 		event.preventDefault();
 		openedDelete = null;
 		document.body.style.overflowY = 'scroll';
 	}
 
+	//geen verandering
 	function openEdit(event) {
 		event.preventDefault();
 		openedEdit = openedEdit === website.id ? null : website.id;
@@ -93,12 +139,14 @@
 		window.scrollTo({ top: 0, behavior: 'smooth' });
 	}
 
+	//geen verandering
 	function closeEdit(event) {
 		event.preventDefault();
 		openedEdit = null;
 		document.body.style.overflowY = 'scroll';
 	}
 
+	//geen verandering
 	function submitted() {
 		if (form?.success) {
 			alert(form?.message);
@@ -109,72 +157,47 @@
 			alert(form?.message);
 		}
 	}
-
 </script>
 
+<li class="website" class:container-off={containerOff}> 
+	<a href={link}>
+		<section class="logo-partner-section">
+			<div>
+				<img height="60" src={faviconAPI + image + '/&size=128'} alt="logo partner"/>
+				<h2 class="name">{@html title}</h2>
+			</div>
+			<div class="icons" id={`icons-${website.id}`}>
+				<button class="icon_pencil" on:click={openEdit}><img src={pencil} alt="Bewerk icon"/></button>
+				<button on:click={openDelete}><img src={trash} alt="Verwijder icon"/></button>
+			</div>
+		</section>
 
-<!-- new code -->
-<li class="partner-container">
-	<div class="button-container">
-		<input type="button">
-		<input type="button">
-	</div>
+		<section class="more-info-section">
+			<p>Laatst bewerkt: <time>{lastTime}</time></p>
 
-	<article>
-		<img src="" alt="partner-logo">
-		<h2>Partner naam</h2>
-		<p>route</p>
-
-		<div class="progress-bar">
-			
-		</div>
-	</article>
+			<div class="progress-container">
+				<progress id="progress-partner" max="100" value="0" bind:this={progressbar}/>
+				<label class="progress-percentage" for="progress-partner" bind:this={labelValue}>0%</label>
+			</div>
+		</section>
+	</a>
 </li>
-
-
-
-<ul>
-	<li class="website" class:container-off={containerOff}>
-		<a href="{website.slug}?partner={website.slug}">
-			<section class="logo-partner-section">
-				<div>
-					<img height="60" src="{faviconAPI}{website.homepage}/&size=128" alt="logo partner" />
-					<h2 class="name">{website.titel}</h2>
-				</div>
-				<div class="icons" id={`icons-${website.id}`}>
-					<button class="icon_pencil" on:click={openEdit}><img src={pencil} alt="Bewerk icon" /></button>
-					<button on:click={openDelete}><img src={trash} alt="Verwijder icon" /></button>
-				</div>
-			</section>
-
-			<section class="more-info-section">
-				<p>Laatst bewerkt: <span>{lastTime}</span></p>
-
-				<div class="progress-container">
-					<progress id="progress-partner" max="100" value="0" bind:this={progressbar} />
-					<label class="progress-percentage" for="progress-partner" bind:this={labelValue}>0%</label
-					>
-				</div>
-			</section>
-		</a>
-	</li>
-</ul>
 
 <!-- Popup voor het bewerken van de partner -->
 <article class="popup-edit" style="display: {openedEdit === website.id ? 'flex' : 'none'};">
-	<form on:submit={submitted()} action="?/editPartner" method="POST">
+	<form on:submit={submitted} action="?/editPartner" method="POST">
 		<h3>Pas partner aan</h3>
 		<div class="fields-container">
 			<label for="name">Naam</label>
-			<input type="text" name="name" id="name" value={website.titel} />
+			<input type="text" name="name" id="name" value={website.titel}/>
 			<label for="slug">Slug</label>
-			<input type="text" name="slug" id="slug" value={website.slug} />
+			<input type="text" name="slug" id="slug" value={website.slug}/>
 			<label for="url">URL</label>
-			<input type="url" name="url" id="url" value={website.homepage} />
-			<input class="id-field" type="text" name="id" value={website.id} id={website.id} />
+			<input type="url" name="url" id="url" value={website.homepage}/>
+			<input class="id-field" type="text" name="id" value={website.id} id={website.id}/>
 		</div>
 		<div>
-			<input type="submit" value="Ja" />
+			<input type="submit" value="Ja"/>
 			<button on:click={closeEdit}>Nee</button>
 		</div>
 	</form>
@@ -182,7 +205,7 @@
 
 <!-- Popup voor het verwijderen van de partner -->
 <div class="popup-verwijder" style="display: {openedDelete === website.id ? 'flex' : 'none'};">
-	<form on:submit={submitted()} action="?/deletePartner" method="POST">
+	<form on:submit={submitted} action="?/deletePartner" method="POST">
 		<h3>Verwijder partner</h3>
 		<p>
 			Weet je zeker dat je <span>{website.slug}</span> wilt verwijderen? Deze actie kan niet ongedaan

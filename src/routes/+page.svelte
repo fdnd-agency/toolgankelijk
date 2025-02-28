@@ -99,7 +99,7 @@
 
 <ul>
 	{#each data.websites as website}
-		<Partner {website} {principes} />
+		<Partner {website} {principes} isUrl = {false} />
 	{/each}
 </ul>
 

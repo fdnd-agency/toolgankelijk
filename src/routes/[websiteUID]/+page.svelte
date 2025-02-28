@@ -1,6 +1,7 @@
 <script>
 	import Heading from '$lib/components/heading.svelte';
 	import Websites from '$lib/components/websites.svelte';
+	import Partner from '$lib/components/partner.svelte';
 	import { page } from '$app/stores';
 	import Search from '$lib/components/search.svelte';
 
@@ -46,7 +47,7 @@
 
 <ul>
 	{#each websites as website}
-		<Websites {website} {overzicht} {params} {principes} />
+		<Partner {website} {overzicht} {params} {principes} isUrl = {true} />
 	{/each}
 </ul>
 
