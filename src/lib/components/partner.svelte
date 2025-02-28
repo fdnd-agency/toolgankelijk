@@ -59,64 +59,35 @@
 		link = params + "/" + website.slug;
 		title = overzicht.titel + "<span>/" + website.slug + "</span>";
 		image = website.url;
-
-		// websiteCriteria = website.urls.reduce((total, url) => {
-		// 		url.checks.forEach((check) => {
-		// 			total += check.succescriteria.length;
-		// 		});
-		// 		return total;
-		// 	}, 0);
-
-		// 	totaalCriteria =
-		// 		principes.reduce((total, principe) => {
-		// 			principe.richtlijnen.forEach((richtlijn) => {
-		// 				total += richtlijn.succescriteria.length;
-		// 			});
-		// 			return total;
-		// 		}, 0) * website.urls.length;
 	}else {
 		// show partner
 		link = website.slug + "?partner=" + website.slug;
 		title = website.titel;
 		image = website.homepage;
 
-		console.log(website);
-		console.log(principes);
-
-		const totaalChecks = website.urls.reduce((acc, url) => acc + url.checks.length, 0);
-		console.log(totaalChecks);
-
-		// haal urls object op van de website
 		websiteCriteria = website.urls.reduce((total, url) => {
-			total += url.checks?.succescriteria.length;
+			url.checks.forEach((check) => {
+				total += check.succescriteria.length;
+			})
 			return total;
-			console.log(total);
 		}, 0);
 
-		// websiteCriteria = website.checks.reduce((total, check) => {
-		// 	total += check.succescriteria.length;
-		// 	return total;
-		// }, 0);
-
-		totaalCriteria =
-			principes.reduce((total, principe) => {
-				principe.richtlijnen.forEach((richtlijn) => {
-					total += richtlijn.succescriteria.length;
-				});
+		totaalCriteria = principes.reduce((total, principe) => {
+			principe.richtlijnen.forEach((richtlijn) => {
+				total += richtlijn.succescriteria.length;
+			})
 			return total;
-		}, 0) * website.checks.length;
+		}, 0) * website.urls.length;
 
-		const percentage = Math.round((partnerCriterias / totalCriterias) * 100);
+		onMount(() => {
+		const percentage = Math.round((websiteCriteria / totaalCriteria) * 100);
 		progressbar.value = websiteCriteria;
 		progressbar.max = totaalCriteria;
 		labelValue.innerHTML = `${percentage}%`;
 		document.querySelector(`#icons-${website.id}`).style.display = 'flex';
+	});
 	}
 
-	// onMount(() => {
-	// });
-
-	//geen verandering
 	function openDelete(event) {
 		event.preventDefault();
 		openedDelete = openedDelete === website.id ? null : website.id;
@@ -124,14 +95,12 @@
 		window.scrollTo({ top: 0, behavior: 'smooth' });
 	}
 
-	//geen verandering
 	function closeDelete(event) {
 		event.preventDefault();
 		openedDelete = null;
 		document.body.style.overflowY = 'scroll';
 	}
 
-	//geen verandering
 	function openEdit(event) {
 		event.preventDefault();
 		openedEdit = openedEdit === website.id ? null : website.id;
@@ -139,14 +108,12 @@
 		window.scrollTo({ top: 0, behavior: 'smooth' });
 	}
 
-	//geen verandering
 	function closeEdit(event) {
 		event.preventDefault();
 		openedEdit = null;
 		document.body.style.overflowY = 'scroll';
 	}
 
-	//geen verandering
 	function submitted() {
 		if (form?.success) {
 			alert(form?.message);
