@@ -1,29 +1,25 @@
 <script>
+	import { page } from '$app/stores';
 	import Heading from '$lib/components/heading.svelte';
 	import Websites from '$lib/components/websites.svelte';
-	import { page } from '$app/stores';
 	import Search from '$lib/components/search.svelte';
-
 	import UrlForm from '$lib/components/urlForm.svelte';
 
 	export let data;
-	const principes = data.partnersData.principes;
+	export let form;
 
 	$: heading = {
 		titel: data.websitesData.website.titel,
 		homepage: data.websitesData.website.homepage
 	};
-
-	// data voor websites component
 	$: websites = data.websitesData.website.urls;
 	$: overzicht = data.websitesData.website;
 	$: params = $page.params.websiteUID;
 
-	export let form;
+	const principes = data.partnersData.principes;
 
 	function openDialog(el) {
 		let dialog = document.querySelector('dialog');
-
 		dialog.showModal();
 		el.preventDefault();
 	}
@@ -33,7 +29,7 @@
 
 <section>
 	<a href="/{params}/addUrl" on:click={openDialog}>Link van website toevoegen</a>
-	<Search placeholderProp = "Home"/>
+	<Search placeholderProp="Home" />
 </section>
 
 {#if form?.success}
@@ -78,7 +74,6 @@
 		display: grid;
 		grid-template-columns: repeat(auto-fill, minmax(20em, 1fr));
 		gap: 1em;
-		/* position: relative; */
 		list-style-type: none;
 		margin: 0 1em;
 	}

@@ -1,54 +1,25 @@
 <script>
+	import { onMount } from 'svelte';
+	import trash from '$lib/assets/trash.svg';
+	import pencil from '$lib/assets/pencil.svg';
+
 	export let website;
 	export let overzicht;
 	export let params;
 	export let form;
 	export let principes;
 
-	import { onMount } from 'svelte';
-
-	import trash from '$lib/assets/trash.svg';
-	import pencil from '$lib/assets/pencil.svg';
-
 	let labelValue;
 	let progressbar;
-
 	let openedDelete = null;
 	let openedEdit = null;
-
+	let containerOff = false;
 	const updatedTime = new Date(website.updatedAt);
 	const currentTime = new Date();
 	const timeDifference = Math.floor((currentTime - updatedTime) / (60 * 1000));
 	const lastTime = timeDifference > 0 ? `${timeDifference} min geleden` : 'Zojuist';
-
-	onMount(() => {
-		const websiteCriteria = website.checks.reduce((total, check) => {
-			total += check.succescriteria.length;
-			return total;
-		}, 0);
-
-		const totaalCriteria =
-			principes.reduce((total, principe) => {
-				principe.richtlijnen.forEach((richtlijn) => {
-					total += richtlijn.succescriteria.length;
-				});
-				return total;
-			}, 0) * website.checks.length;
-
-		const percentage = Math.round((websiteCriteria / totaalCriteria) * 100);
-
-		progressbar.value = websiteCriteria;
-		progressbar.max = totaalCriteria;
-
-		labelValue.innerHTML = `${percentage}%`;
-
-		document.querySelector(`#icons-${website.id}`).style.display = 'flex';
-	});
-
 	const faviconAPI =
 		'https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=';
-
-	let containerOff = false;
 
 	function openDelete(event) {
 		event.preventDefault();
@@ -86,6 +57,30 @@
 			alert(form?.message);
 		}
 	}
+
+	onMount(() => {
+		const websiteCriteria = website.checks.reduce((total, check) => {
+			total += check.succescriteria.length;
+			return total;
+		}, 0);
+
+		const totaalCriteria =
+			principes.reduce((total, principe) => {
+				principe.richtlijnen.forEach((richtlijn) => {
+					total += richtlijn.succescriteria.length;
+				});
+				return total;
+			}, 0) * website.checks.length;
+
+		const percentage = Math.round((websiteCriteria / totaalCriteria) * 100);
+
+		progressbar.value = websiteCriteria;
+		progressbar.max = totaalCriteria;
+
+		labelValue.innerHTML = `${percentage}%`;
+
+		document.querySelector(`#icons-${website.id}`).style.display = 'flex';
+	});
 </script>
 
 <li class="website" class:container-off={containerOff}>
@@ -203,7 +198,7 @@
 	}
 
 	a section button:first-child {
-		margin-right: 0.6em
+		margin-right: 0.6em;
 	}
 
 	.more-info-section {
@@ -333,7 +328,6 @@
 	}
 
 	form p {
-		/* font-size: 0.9em; */
 		margin: 1.5em 0;
 		font-weight: 100;
 	}

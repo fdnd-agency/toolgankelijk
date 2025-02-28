@@ -1,5 +1,11 @@
-export default function getQueryPartner(gql, websiteSlug, urlSlug, firstCheckId, succescriteriumId) {
-    return gql`
+export default function getQueryPartner(
+	gql,
+	websiteSlug,
+	urlSlug,
+	firstCheckId,
+	succescriteriumId
+) {
+	return gql`
 	mutation addCheck {
         updateWebsite(
           where: {slug: "${websiteSlug}"}

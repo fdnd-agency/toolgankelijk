@@ -1,6 +1,5 @@
 import { gql } from 'graphql-request';
 import { hygraph } from '$lib/utils/hygraph.js';
-
 import getQueryUrl from '$lib/queries/url';
 import getQueryPrincipes from '$lib/queries/principes';
 

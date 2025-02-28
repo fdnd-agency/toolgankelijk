@@ -1,24 +1,22 @@
 <script>
-	export let website;
-	export let form;
-	export let principes;
 	import { onMount } from 'svelte';
-
 	import trash from '$lib/assets/trash.svg';
 	import pencil from '$lib/assets/pencil.svg';
 
+	export let website;
+	export let form;
+	export let principes;
+
 	let labelValue;
 	let progressbar;
-
+	let lastTime;
 	let openedDelete = null;
 	let openedEdit = null;
-	let totalSuccessCriteria = 0;
-
+	let containerOff = false;
 	const updatedTime = new Date(website.updatedAt);
 	const currentTime = new Date();
 	const timeDifference = Math.floor((currentTime - updatedTime) / (60 * 1000)); // Verschil in minuten
 
-	let lastTime;
 	if (timeDifference >= 60) {
 		let minutes = timeDifference % 60;
 		let hours = Math.floor(timeDifference / 60);
@@ -29,48 +27,15 @@
 			lastTime = `${years}j geleden`;
 		} else if (years == 0 && days > 0) {
 			lastTime = `${days}d geleden`;
-		}else  {
+		} else {
 			lastTime = `${hours}u en ${minutes}m geleden`;
 		}
 	} else {
 		lastTime = timeDifference > 0 ? `${timeDifference} min geleden` : 'Zojuist';
 	}
 
-
-	onMount(() => {
-		let random = Math.floor(Math.random() * 100);
-		progressbar.value = random; // Set initial value
-
-		const websiteCriteria = website.urls.reduce((total, url) => {
-			url.checks.forEach((check) => {
-				total += check.succescriteria.length;
-			});
-			return total;
-		}, 0);
-
-		const totaalCriteria =
-			principes.reduce((total, principe) => {
-				principe.richtlijnen.forEach((richtlijn) => {
-					total += richtlijn.succescriteria.length;
-				});
-				return total;
-			}, 0) * website.urls.length; // Multiply totaalcriteria by the number of URLs
-
-		const percentage = Math.round((websiteCriteria / totaalCriteria) * 100);
-
-		progressbar.value = websiteCriteria;
-		progressbar.max = totaalCriteria;
-
-		labelValue.innerHTML = `${percentage}%`;
-
-		document.querySelector(`#icons-${website.id}`).style.display = 'flex';
-	});
-
 	const faviconAPI =
 		'https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=';
-
-	// search, zo maakt sveltekit gebruik van de class
-	let containerOff = false;
 
 	function openDelete(event) {
 		event.preventDefault();
@@ -109,18 +74,48 @@
 		}
 	}
 
+	onMount(() => {
+		let random = Math.floor(Math.random() * 100);
+		progressbar.value = random; // Set initial value
+
+		const websiteCriteria = website.urls.reduce((total, url) => {
+			url.checks.forEach((check) => {
+				total += check.succescriteria.length;
+			});
+			return total;
+		}, 0);
+
+		const totaalCriteria =
+			principes.reduce((total, principe) => {
+				principe.richtlijnen.forEach((richtlijn) => {
+					total += richtlijn.succescriteria.length;
+				});
+				return total;
+			}, 0) * website.urls.length; // Multiply totaalcriteria by the number of URLs
+
+		const percentage = Math.round((websiteCriteria / totaalCriteria) * 100);
+
+		progressbar.value = websiteCriteria;
+		progressbar.max = totaalCriteria;
+
+		labelValue.innerHTML = `${percentage}%`;
+
+		document.querySelector(`#icons-${website.id}`).style.display = 'flex';
+	});
 </script>
 
 <ul>
 	<li class="website" class:container-off={containerOff}>
-		<a href="{website.slug}?partner={website.slug}">
+		<a href={website.slug}>
 			<section class="logo-partner-section">
 				<div>
 					<img height="60" src="{faviconAPI}{website.homepage}/&size=128" alt="logo partner" />
 					<h2 class="name">{website.titel}</h2>
 				</div>
 				<div class="icons" id={`icons-${website.id}`}>
-					<button class="icon_pencil" on:click={openEdit}><img src={pencil} alt="Bewerk icon" /></button>
+					<button class="icon_pencil" on:click={openEdit}>
+						<img src={pencil} alt="Bewerk icon" />
+					</button>
 					<button on:click={openDelete}><img src={trash} alt="Verwijder icon" /></button>
 				</div>
 			</section>
@@ -172,7 +167,7 @@
 			<button on:click={closeDelete}>Nee</button>
 		</div>
 	</form>
-</div>	
+</div>
 
 <style>
 	li {
@@ -196,12 +191,6 @@
 
 	li a:hover {
 		border: solid 1px var(--c-orange);
-	}
-
-	@media (inverted-colors: inverted) {
-		li a {
-			border: solid 1px white;
-		}
 	}
 
 	h2 {
@@ -300,6 +289,7 @@
 		justify-content: center;
 		align-items: center;
 	}
+
 	form {
 		width: 500px;
 		aspect-ratio: 2/1;
@@ -320,7 +310,6 @@
 	}
 
 	form p {
-		/* font-size: 0.9em; */
 		margin: 1.5em 0;
 		font-weight: 100;
 	}
@@ -379,5 +368,11 @@
 	form button:hover,
 	input[type='submit']:hover {
 		opacity: 0.75;
+	}
+
+	@media (inverted-colors: inverted) {
+		li a {
+			border: solid 1px white;
+		}
 	}
 </style>
