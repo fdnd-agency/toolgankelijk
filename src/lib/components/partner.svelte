@@ -215,24 +215,24 @@
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
-		gap: 2.25em;
+		gap: 1rem;
 		color: var(--c-text);
 		text-decoration: none;
 		background-color: var(--c-container);
 		padding: 1em;
-		border-radius: 0.5em;
-		border: solid 1px var(--c-container-stroke);
+		border-radius: 0.5rem;
+		border: solid 0.1rem var(--c-container-stroke);
 		width: 100%;
 		transition: 0.25s ease;
 	}
 
 	li a:hover {
-		border: solid 1px var(--c-orange);
+		border: solid 0.1rem var(--c-orange);
 	}
 
 	@media (inverted-colors: inverted) {
 		li a {
-			border: solid 1px white;
+			border: solid 0.1rem white;
 		}
 	}
 
@@ -242,22 +242,29 @@
 	}
 
 	.logo-partner-section {
-		position: relative;
 		display: flex;
 		align-items: flex-start;
 		justify-content: space-between;
+		position: relative;
+	}
+
+	.logo-partner-section div:nth-of-type(1) {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.5rem;
 	}
 
 	.icons {
 		display: flex;
 		justify-content: space-between;
 		position: absolute;
-		right: 10px;
+		right: 0.5rem;
 		top: 0;
 	}
 
 	.icon_pencil {
-		padding-right: 15px;
+		padding-right: 0.5rem;
 	}
 
 	a section button {
@@ -267,13 +274,13 @@
 	}
 
 	a section button:first-child {
-		margin-right: 0.6em;
+		margin-right: 0.5rem;
 	}
 
 	.more-info-section {
 		display: flex;
 		flex-direction: column;
-		font-size: 0.9em;
+		font-size: 1rem;
 	}
 
 	/* progress bar */
@@ -282,8 +289,8 @@
 		flex-direction: row;
 		justify-content: space-between;
 		align-items: flex-end;
-		gap: 1em;
-		margin-top: 0.25em;
+		gap: 1rem;
+		margin-top: 0.25rem;
 	}
 
 	progress {
@@ -300,12 +307,12 @@
 	/* chrome/safari */
 	progress[value]::-webkit-progress-bar {
 		background-color: var(--c-container-stroke);
-		border-radius: 0.5em;
+		border-radius: 0.5rem;
 	}
 
 	progress[value]::-webkit-progress-value {
 		background-color: var(--c-orange);
-		border-radius: 0.5em;
+		border-radius: 0.5rem;
 		transition: 1s ease-out;
 	}
 
@@ -333,12 +340,12 @@
 		align-items: center;
 	}
 	form {
-		width: 500px;
+		width: 30rem;
 		aspect-ratio: 2/1;
 		background-color: var(--c-container);
-		border-radius: 0.5em;
-		border: solid 1px var(--c-container-stroke);
-		padding: 1em;
+		border-radius: 0.5rem;
+		border: solid 0.1rem var(--c-container-stroke);
+		padding: 1rem;
 		display: flex;
 		align-items: flex-start;
 		justify-content: center;
@@ -348,12 +355,12 @@
 	form h3 {
 		border-bottom: 1px solid var(--c-container-stroke);
 		width: 100%;
-		padding-bottom: 5px;
+		padding-bottom: 1rem;
 	}
 
 	form p {
 		/* font-size: 0.9em; */
-		margin: 1.5em 0;
+		margin: 1.5rem 0;
 		font-weight: 100;
 	}
 
@@ -365,23 +372,23 @@
 	}
 
 	.fields-container {
-		margin: 1.5em 0;
+		margin: 1.5rem 0;
 	}
 
 	input[type='text'],
 	input[type='url'] {
 		width: 100%;
-		padding: 12px 10px;
+		padding: 1rem 0.5rem;
 		display: inline-block;
-		border: 1px solid #ccc;
-		border-radius: 4px;
+		border: 0.1rem solid #ccc;
+		border-radius: 0.5rem;
 		box-sizing: border-box;
-		max-width: 700px;
-		margin-top: 5px;
+		max-width: 30rem;
+		margin-top: 0.5rem;
 	}
 
 	form input[type='text'] {
-		margin-bottom: 1em;
+		margin-bottom: 1rem;
 	}
 
 	form .id-field {
@@ -391,21 +398,21 @@
 
 	form button,
 	input[type='submit'] {
-		border-radius: 0.25em;
-		padding: 0.5em 1em;
+		border-radius: 0.25rem;
+		padding: 0.5rem 1rem;
 		color: var(--c-white);
 		background-color: var(--c-pink);
 		border: none;
 		font-weight: 600;
-		font-size: 1em;
+		font-size: 1rem;
 		transition: 0.3s;
 		cursor: pointer;
-		width: 7.5em;
+		width: 7.5rem;
 	}
 
 	form button {
 		background-color: var(--c-modal-button);
-		margin-left: 0.5em;
+		margin-left: 0.5rem;
 	}
 
 	form button:hover,
