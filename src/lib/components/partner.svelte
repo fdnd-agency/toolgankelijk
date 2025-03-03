@@ -57,12 +57,10 @@
 	if (isUrl) {
 		// show url
 		link = params + "/" + website.slug;
-		title = overzicht.titel + "<span>/" + website.slug + "</span>";
 		image = website.url;
 	}else {
 		// show website
 		link = website.slug + "?partner=" + website.slug;
-		title = website.titel;
 		image = website.homepage;
 	}
 
@@ -97,7 +95,6 @@
 			}, 0) * website.urls.length;
 		}
 
-		
 		let percentage = Math.round((websiteCriteria / totaalCriteria) * 100);
 		if (isNaN(percentage)) {
 			percentage = 0;
@@ -150,7 +147,11 @@
 		<section class="logo-partner-section">
 			<div>
 				<img height="60" src={faviconAPI + image + '/&size=128'} alt="logo partner"/>
-				<h2 class="name">{@html title}</h2>
+				{#if isUrl}
+				<h2 class="name">/{website.slug}</h2>
+				{:else}
+				<h2 class="name">{website.titel}</h2>
+				{/if}
 			</div>
 			<div class="icons" id={`icons-${website.id}`}>
 				<button class="icon_pencil" on:click={openEdit}><img src={pencil} alt="Bewerk icon"/></button>
@@ -236,8 +237,8 @@
 	}
 
 	h2 {
-		font-size: 1.5em;
-		margin-top: 0.05em;
+		font-size: 1.5rem;
+		margin-top: 0.05rem;
 	}
 
 	.logo-partner-section {
