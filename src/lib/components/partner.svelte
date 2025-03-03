@@ -97,7 +97,11 @@
 			}, 0) * website.urls.length;
 		}
 
-		const percentage = Math.round((websiteCriteria / totaalCriteria) * 100);
+		
+		let percentage = Math.round((websiteCriteria / totaalCriteria) * 100);
+		if (isNaN(percentage)) {
+			percentage = 0;
+		}
 		progressbar.value = websiteCriteria;
 		progressbar.max = totaalCriteria;
 		labelValue.innerHTML = `${percentage}%`;
