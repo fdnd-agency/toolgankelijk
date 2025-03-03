@@ -46,7 +46,7 @@
 		if (years > 0) {
 			lastTime = `${years} jaar geleden`;
 		} else if (years == 0 && days > 0) {
-			lastTime = `${days} dag(en) geleden`;
+			lastTime = days > 0 ? `${days} dagen geleden` : `${days} dag geleden`
 		}else  {
 			lastTime = `${hours} uur en ${minutes} min geleden`;
 		}
