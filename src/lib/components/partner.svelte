@@ -44,11 +44,11 @@
 		let years = Math.floor(days / 365);
 
 		if (years > 0) {
-			lastTime = `${years}jaar geleden`;
+			lastTime = `${years} jaar geleden`;
 		} else if (years == 0 && days > 0) {
-			lastTime = `${days}dag(en) geleden`;
+			lastTime = `${days} dag(en) geleden`;
 		}else  {
-			lastTime = `${hours}uur en ${minutes}min geleden`;
+			lastTime = `${hours} uur en ${minutes} min geleden`;
 		}
 	} else {
 		lastTime = timeDifference > 0 ? `${timeDifference} min geleden` : 'Zojuist';
@@ -60,33 +60,48 @@
 		title = overzicht.titel + "<span>/" + website.slug + "</span>";
 		image = website.url;
 	}else {
-		// show partner
+		// show website
 		link = website.slug + "?partner=" + website.slug;
 		title = website.titel;
 		image = website.homepage;
+	}
 
-		websiteCriteria = website.urls.reduce((total, url) => {
-			url.checks.forEach((check) => {
+	onMount(() => {
+		if(isUrl) {
+			websiteCriteria = website.checks.reduce((total, check) => {
 				total += check.succescriteria.length;
-			})
-			return total;
-		}, 0);
+				return total;
+			}, 0);
 
-		totaalCriteria = principes.reduce((total, principe) => {
-			principe.richtlijnen.forEach((richtlijn) => {
-				total += richtlijn.succescriteria.length;
-			})
-			return total;
-		}, 0) * website.urls.length;
+			totaalCriteria =
+			principes.reduce((total, principe) => {
+				principe.richtlijnen.forEach((richtlijn) => {
+					total += richtlijn.succescriteria.length;
+				});
+				return total;
+			}, 0) * website.checks.length;
+		}else {
+			websiteCriteria = website.urls.reduce((total, url) => {
+				url.checks.forEach((check) => {
+					total += check.succescriteria.length;
+				});
+				return total;
+			}, 0);
 
-		onMount(() => {
+			totaalCriteria =
+			principes.reduce((total, principe) => {
+				principe.richtlijnen.forEach((richtlijn) => {
+					total += richtlijn.succescriteria.length;
+				});
+				return total;
+			}, 0) * website.urls.length;
+		}
+
 		const percentage = Math.round((websiteCriteria / totaalCriteria) * 100);
 		progressbar.value = websiteCriteria;
 		progressbar.max = totaalCriteria;
 		labelValue.innerHTML = `${percentage}%`;
-		document.querySelector(`#icons-${website.id}`).style.display = 'flex';
 	});
-	}
 
 	function openDelete(event) {
 		event.preventDefault();
@@ -229,7 +244,7 @@
 	}
 
 	.icons {
-		display: none;
+		display: flex;
 		justify-content: space-between;
 		position: absolute;
 		right: 10px;
