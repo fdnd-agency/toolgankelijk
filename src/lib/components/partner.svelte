@@ -30,40 +30,51 @@
 	let totaalCriteria;
 	const faviconAPI = 'https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=';
 	let containerOff = false;
+	let editFormAction;
+	let editFormTitle;
+	let editFormName;
+	let editFormSlug;
+	let editFormUrl;
+	let deleteFormAction;
+	let deleteFormTitle;
+	let deleteFormSlug;
 	// ================================
-	// Functions
+	// Checking if component should be partner or url type
 	// ================================
-	const updatedTime = new Date(website.updatedAt);
-	const currentTime = new Date();
-	const timeDifference = Math.floor((currentTime - updatedTime) / (60 * 1000)); // Verschil in minuten
-
-	if (timeDifference >= 60) {
-		let minutes = timeDifference % 60;
-		let hours = Math.floor(timeDifference / 60);
-		let days = Math.floor(hours / 24);
-		let years = Math.floor(days / 365);
-
-		if (years > 0) {
-			lastTime = `${years} jaar geleden`;
-		} else if (years == 0 && days > 0) {
-			lastTime = days <= 1 ? `${days} dag geleden` : `${days} dagen geleden`;
-		}else  {
-			lastTime = `${hours} uur en ${minutes} min geleden`;
-		}
-	} else {
-		lastTime = timeDifference > 0 ? `${timeDifference} min geleden` : 'Zojuist';
-	}
-
 	if (isUrl) {
 		// show url
 		link = params + "/" + website.slug;
 		image = website.url;
 		title = "/" + website.slug;
+
+		// edit form variables
+		editFormAction = "?/editPost";
+		editFormTitle = "Pas url aan";
+		editFormName = null;
+		editFormSlug = website.slug;
+		editFormUrl = website.url;
+
+		// delete form variables
+		deleteFormAction = "?/deletePost";
+		deleteFormTitle = "Verwijder url";
+		deleteFormSlug = website.slug;
 	}else {
 		// show website
 		link = website.slug + "?partner=" + website.slug;
 		image = website.homepage;
 		title = website.titel;
+
+		// edit form variables
+		editFormAction = "?/editPartner";
+		editFormTitle = "Pas partner aan";
+		editFormName = website.titel;
+		editFormSlug = website.slug;
+		editFormUrl = website.homepage;
+
+		// delete form variables
+		deleteFormAction = "?/deletePartner";
+		deleteFormTitle = "Verwijder partner";
+		deleteFormSlug = website.slug;
 	}
 
 	onMount(() => {
@@ -105,6 +116,30 @@
 		progressbar.max = totaalCriteria;
 		labelValue.innerHTML = `${percentage}%`;
 	});
+
+	// ================================
+	// Functions
+	// ================================
+	const updatedTime = new Date(website.updatedAt);
+	const currentTime = new Date();
+	const timeDifference = Math.floor((currentTime - updatedTime) / (60 * 1000)); // Verschil in minuten
+
+	if (timeDifference >= 60) {
+		let minutes = timeDifference % 60;
+		let hours = Math.floor(timeDifference / 60);
+		let days = Math.floor(hours / 24);
+		let years = Math.floor(days / 365);
+
+		if (years > 0) {
+			lastTime = `${years} jaar geleden`;
+		} else if (years == 0 && days > 0) {
+			lastTime = days <= 1 ? `${days} dag geleden` : `${days} dagen geleden`;
+		}else  {
+			lastTime = `${hours} uur en ${minutes} min geleden`;
+		}
+	} else {
+		lastTime = timeDifference > 0 ? `${timeDifference} min geleden` : 'Zojuist';
+	}
 
 	function openDelete(event) {
 		event.preventDefault();
@@ -170,15 +205,17 @@
 
 <!-- Popup voor het bewerken van de partner -->
 <article class="popup-edit" style="display: {openedEdit === website.id ? 'flex' : 'none'};">
-	<form on:submit={submitted} action="?/editPartner" method="POST">
-		<h3>Pas partner aan</h3>
+	<form on:submit={submitted} action="{editFormAction}" method="POST">
+		<h3>{editFormTitle}</h3>
 		<div class="fields-container">
+			{#if !isUrl}
 			<label for="name">Naam</label>
-			<input type="text" name="name" id="name" value={website.titel}/>
+			<input type="text" name="name" id="name" value={editFormName}/>
+			{/if}
 			<label for="slug">Slug</label>
-			<input type="text" name="slug" id="slug" value={website.slug}/>
+			<input type="text" name="slug" id="slug" value={editFormSlug}/>
 			<label for="url">URL</label>
-			<input type="url" name="url" id="url" value={website.homepage}/>
+			<input type="url" name="url" id="url" value={editFormUrl}/>
 			<input class="id-field" type="text" name="id" value={website.id} id={website.id}/>
 		</div>
 		<div>
@@ -190,10 +227,10 @@
 
 <!-- Popup voor het verwijderen van de partner -->
 <div class="popup-verwijder" style="display: {openedDelete === website.id ? 'flex' : 'none'};">
-	<form on:submit={submitted} action="?/deletePartner" method="POST">
-		<h3>Verwijder partner</h3>
+	<form on:submit={submitted} action="{deleteFormAction}" method="POST">
+		<h3>{deleteFormTitle}</h3>
 		<p>
-			Weet je zeker dat je <span>{website.slug}</span> wilt verwijderen? Deze actie kan niet ongedaan
+			Weet je zeker dat je <span>{deleteFormSlug}</span> wilt verwijderen? Deze actie kan niet ongedaan
 			worden gemaakt.
 		</p>
 		<input class="id-field" type="text" name="id" value={website.id} id={website.id} />
