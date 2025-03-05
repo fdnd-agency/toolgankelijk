@@ -146,7 +146,7 @@
 	<a href={link}>
 		<section class="logo-partner-section">
 			<div>
-				<img height="60" src={faviconAPI + image + '/&size=128'} alt="logo partner"/>
+				<img  class="partner-logo" height="60" src={faviconAPI + image + '/&size=128'} alt="logo partner"/>
 				{#if isUrl}
 				<h2 class="name">/{website.slug}</h2>
 				{:else}
@@ -252,6 +252,13 @@
 		flex-direction: column;
 		align-items: flex-start;
 		gap: 0.5rem;
+	}
+
+	.partner-logo {
+		width: 4rem;
+		height: 4rem;
+		border-radius: 0.5rem;
+		overflow: hidden;
 	}
 
 	.icons {
