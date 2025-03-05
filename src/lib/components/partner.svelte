@@ -154,7 +154,7 @@
 				{/if}
 			</div>
 			<div class="icons" id={`icons-${website.id}`}>
-				<button class="icon_pencil" on:click={openEdit}><img src={pencil} alt="Bewerk icon"/></button>
+				<button on:click={openEdit}><img src={pencil} alt="Bewerk icon"/></button>
 				<button on:click={openDelete}><img src={trash} alt="Verwijder icon"/></button>
 			</div>
 		</section>
@@ -238,7 +238,6 @@
 
 	h2 {
 		font-size: 1.5rem;
-		margin-top: 0.05rem;
 	}
 
 	.logo-partner-section {
@@ -259,12 +258,20 @@
 		display: flex;
 		justify-content: space-between;
 		position: absolute;
-		right: 0.5rem;
+		right: 0;
 		top: 0;
 	}
 
-	.icon_pencil {
-		padding-right: 0.5rem;
+	.icons button {
+		padding: 0.25rem;
+		border-radius: 0.5rem;
+		width: 2.5rem;
+		height: 2.5rem;
+	}
+
+	.icons button:hover {
+		background-color: var(--c-orange);
+		transition: 0.25s ease;
 	}
 
 	a section button {
