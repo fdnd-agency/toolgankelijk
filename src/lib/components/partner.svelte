@@ -58,10 +58,12 @@
 		// show url
 		link = params + "/" + website.slug;
 		image = website.url;
+		title = "/" + website.slug;
 	}else {
 		// show website
 		link = website.slug + "?partner=" + website.slug;
 		image = website.homepage;
+		title = website.titel;
 	}
 
 	onMount(() => {
@@ -147,11 +149,7 @@
 		<section class="logo-partner-section">
 			<div>
 				<img  class="partner-logo" height="60" src={faviconAPI + image + '/&size=128'} alt="logo partner"/>
-				{#if isUrl}
-				<h2 class="name">/{website.slug}</h2>
-				{:else}
-				<h2 class="name">{website.titel}</h2>
-				{/if}
+				<h2 class="name">{title}</h2>
 			</div>
 			<div class="icons" id={`icons-${website.id}`}>
 				<button on:click={openEdit}><img src={pencil} alt="Bewerk icon"/></button>
