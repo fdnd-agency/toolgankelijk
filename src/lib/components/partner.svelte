@@ -315,13 +315,15 @@
 
 	progress {
 		width: 100%;
+		border-radius: 0.5rem;
+		background-color: var(--c-container-stroke);
+		border: none;
+		overflow: hidden;
 	}
 
 	progress[value] {
-		/* Reset the default appearance */
 		-webkit-appearance: none;
 		appearance: none;
-		height: 60%;
 	}
 
 	/* chrome/safari */
@@ -331,6 +333,13 @@
 	}
 
 	progress[value]::-webkit-progress-value {
+		background-color: var(--c-orange);
+		border-radius: 0.5rem;
+		transition: 1s ease-out;
+	}
+
+	/* firefox */
+	progress[value]::-moz-progress-bar {
 		background-color: var(--c-orange);
 		border-radius: 0.5rem;
 		transition: 1s ease-out;
