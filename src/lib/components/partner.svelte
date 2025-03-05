@@ -295,6 +295,14 @@
 		font-size: 1rem;
 	}
 
+	.more-info-section p {
+		font-weight: 600;
+	}
+
+	.more-info-section p time {
+		font-weight: normal;
+	}
+
 	/* progress bar */
 	.progress-container {
 		display: flex;
