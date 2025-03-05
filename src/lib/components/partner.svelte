@@ -148,12 +148,12 @@
 	<a href={link}>
 		<section class="logo-partner-section">
 			<div>
-				<img  class="partner-logo" height="60" src={faviconAPI + image + '/&size=128'} alt="logo partner"/>
+				<img  class="partner-logo" width="60" height="60" src={faviconAPI + image + '/&size=128'} alt="logo partner"/>
 				<h2 class="name">{title}</h2>
 			</div>
 			<div class="icons" id={`icons-${website.id}`}>
-				<button on:click={openEdit}><img src={pencil} alt="Bewerk icon"/></button>
-				<button on:click={openDelete}><img src={trash} alt="Verwijder icon"/></button>
+				<button on:click={openEdit}><img  width="24" height="24" src={pencil} alt="Bewerk icon"/></button>
+				<button on:click={openDelete}><img width="24" height="24" src={trash} alt="Verwijder icon"/></button>
 			</div>
 		</section>
 
