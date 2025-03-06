@@ -13,11 +13,11 @@
 	let heading = { titel: 'Partners overzicht' };
 	const principes = data.principes;
 
-	function openDialog(el) {
-		let dialog = document.querySelector('dialog');
-		dialog.showModal();
-		el.preventDefault();
-	}
+	// function openDialog(el) {
+	// 	let dialog = document.querySelector('dialog');
+	// 	dialog.showModal();
+	// 	el.preventDefault();
+	// }
 
 	function scrollToTop(event) {
 		event.preventDefault();
@@ -25,20 +25,20 @@
 		mainElement.scrollIntoView({ behavior: 'smooth' });
 	}
 
-	onMount(() => {
-		closeButton = document.querySelector('dialog button');
-		dialogRef = document.querySelector('dialog');
+	// onMount(() => {
+	// 	closeButton = document.querySelector('dialog button');
+	// 	dialogRef = document.querySelector('dialog');
 
-		dialogRef.addEventListener('click', (event) => {
-			if (event.target === dialogRef) {
-				dialogRef.close();
-			}
-		});
+	// 	dialogRef.addEventListener('click', (event) => {
+	// 		if (event.target === dialogRef) {
+	// 			dialogRef.close();
+	// 		}
+	// 	});
 
-		closeButton.addEventListener('click', () => {
-			dialog.close();
-		});
-	});
+	// 	closeButton.addEventListener('click', () => {
+	// 		dialog.close();
+	// 	});
+	// });
 </script>
 
 <Heading {heading} />
@@ -54,7 +54,7 @@
 	<div class="toast"><p>{form?.message}</p></div>
 {/if}
 
-<dialog><AddForm  isUrl = {false}/></dialog>
+<AddForm  isUrl = {false}/>
 
 <ul>
 	{#each data.websites as website}

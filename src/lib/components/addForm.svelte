@@ -4,13 +4,16 @@
 	// ==============================
 	export let params;
 	export let isUrl;
+	export let toggleDialog;
 	// ==============================
 	// Variables
 	// ==============================
 	let title;
 	let action;
 	let urlTitle;
-
+	// ==============================
+	// Functions
+	// ==============================
 	if (isUrl) {
 		title = "Url toevoegen";
 		action = "?/addUrl";
@@ -20,30 +23,62 @@
 		action = "?/addPartner";
 		urlTitle = "Partner titel";
 	}
+
+	if (toggleDialog) {
+		dialog.showModal();
+	}
+
+	function closeForm() {
+		dialog.close();
+	}
 </script>
 
-<section class="form-container">
-	<h2>{title}</h2>
-	<form method="POST" action="{action}">
-		<label for="name">{urlTitle}</label>
-		<input id="name" name="name" required type="text" placeholder="type een titel..." />
+<dialog >
+	<section class="form-container">
+		<h2>{title}</h2>
+		<form method="POST" action="{action}">
+			<label for="name">{urlTitle}</label>
+			<input id="name" name="name" required type="text" placeholder="type een titel..." />
 
-		<label for="url" class="url-label">Url</label>
-		<input id="url" name="url" required type="url" placeholder="type een url link..."/>
+			<label for="url" class="url-label">Url</label>
+			<input id="url" name="url" required type="url" placeholder="type een url link..."/>
 
-		{#if isUrl}
-		<label for="url" class="url-label">Slug</label>
-		<input id="slug" name="slug" type="name" value={params} readonly/>
-		{/if}
+			{#if isUrl}
+			<label for="url" class="url-label">Slug</label>
+			<input id="slug" name="slug" type="name" value={params} readonly/>
+			{/if}
 
-		<div class="button-div">
-			<button class="add-button">Toevoegen</button>
-			<button class="remove-button">Sluit</button>
-		</div>
-	</form>
-</section>
+			<div class="button-div">
+				<button type="submit" class="add-button">Toevoegen</button>
+				<button class="remove-button" on:click={closeForm}>Sluit</button>
+			</div>
+		</form>
+	</section>
+</dialog>
 
 <style>
+	dialog {
+		background-color: var(--c-container);
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		overflow: visible;
+		width: 100%;
+		max-width: 30em;
+		border: none;
+		display: none;
+	}
+
+	dialog[open] {
+		display: block;
+	}
+
+	dialog::backdrop {
+		background-color: rgb(44, 44, 44);
+		opacity: 0.8;
+	}
+
 	.form-container {
 		background-color: var(--c-container);
 		border: solid 1px var(--c-container-stroke);
