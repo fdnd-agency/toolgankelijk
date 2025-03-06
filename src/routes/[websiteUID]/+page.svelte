@@ -3,7 +3,7 @@
 	import Heading from '$lib/components/heading.svelte';
 	import Websites from '$lib/components/websites.svelte';
 	import Search from '$lib/components/search.svelte';
-	import UrlForm from '$lib/components/urlForm.svelte';
+	import AddForm from '$lib/components/addForm.svelte';
 
 	export let data;
 	export let form;
@@ -38,7 +38,7 @@
 	<div class="toast"><p>{form?.message}</p></div>
 {/if}
 
-<dialog><UrlForm {params} /></dialog>
+<dialog><AddForm {params} isUrl = {true} /></dialog>
 
 <ul>
 	{#each websites as website}

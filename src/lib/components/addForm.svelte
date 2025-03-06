@@ -1,10 +1,41 @@
+<script>
+	// ==============================
+	// Data variables
+	// ==============================
+	export let params;
+	export let isUrl;
+	// ==============================
+	// Variables
+	// ==============================
+	let title;
+	let action;
+	let urlName;
+
+	if (isUrl) {
+		title = "Url toevoegen";
+		action = "?/addUrl";
+		urlName = "Url titel";
+	}else {
+		title = "Partner toevoegen";
+		action = "?/addPartner";
+		urlName = "Partner titel";
+	}
+</script>
+
 <section class="form-container">
-	<h2>Partner toevoegen</h2>
-	<form method="POST" action="?/addPartner">
-		<label for="name">Partner titel</label>
-		<input id="name" name="name" type="text" />
-		<label for="url" class="url-label">Partner homepagina URL</label>
-		<input id="url" name="url" type="url" />
+	<h2>{title}</h2>
+	<form method="POST" action="{action}">
+		<label for="name">{urlName}</label>
+		<input id="name" name="name" required type="text" />
+
+		<label for="url" class="url-label">Url</label>
+		<input id="url" name="url" required type="url" />
+
+		{#if isUrl}
+		<label for="url" class="url-label">Slug</label>
+		<input id="slug" name="slug" type="name" value={params} readonly/>
+		{/if}
+
 		<div class="button-div">
 			<button class="add-button">Toevoegen</button>
 			<button class="remove-button">Sluit</button>
@@ -77,8 +108,7 @@
 		background-color: var(--c-pink);
 	}
 
-	input[type='text'],
-	input[type='url'] {
+	input {
 		width: 100%;
 		padding: 12px 20px;
 		display: inline-block;
