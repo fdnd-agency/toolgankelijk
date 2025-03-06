@@ -9,27 +9,27 @@
 	// ==============================
 	let title;
 	let action;
-	let urlName;
+	let urlTitle;
 
 	if (isUrl) {
 		title = "Url toevoegen";
 		action = "?/addUrl";
-		urlName = "Url titel";
+		urlTitle = "Url titel";
 	}else {
 		title = "Partner toevoegen";
 		action = "?/addPartner";
-		urlName = "Partner titel";
+		urlTitle = "Partner titel";
 	}
 </script>
 
 <section class="form-container">
 	<h2>{title}</h2>
 	<form method="POST" action="{action}">
-		<label for="name">{urlName}</label>
-		<input id="name" name="name" required type="text" />
+		<label for="name">{urlTitle}</label>
+		<input id="name" name="name" required type="text" placeholder="type een titel..." />
 
 		<label for="url" class="url-label">Url</label>
-		<input id="url" name="url" required type="url" />
+		<input id="url" name="url" required type="url" placeholder="type een url link..."/>
 
 		{#if isUrl}
 		<label for="url" class="url-label">Slug</label>
