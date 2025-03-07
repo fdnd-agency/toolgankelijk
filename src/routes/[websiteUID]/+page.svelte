@@ -8,10 +8,10 @@
 	export let data;
 	export let form;
 
-	let toggle;
+	let dialogRef;
 
-	function openDialog() {
-		console.log("clicked!");
+	function handleDialog() {
+		dialogRef.open();
 	}
 
 	$: heading = {
@@ -23,20 +23,13 @@
 	$: params = $page.params.websiteUID;
 
 	const principes = data.partnersData.principes;
-
-	// function openDialog(el) {
-	// 	let dialog = document.querySelector('dialog');
-	// 	dialog.showModal();
-	// 	el.preventDefault();
-	// }
 </script>
 
 <Heading {heading} />
 
 <section>
-	<a href="/{params}/addUrl" on:click={openDialog}>Link van website toevoegen</a>
-	<button on:click={openDialog}>Url toevoegen</button>
-	<Search placeholderProp="Home" />
+	<button class="add-partner" on:click={handleDialog}>Url toevoegen</button>
+	<Search placeholderProp="Home"/>
 </section>
 
 {#if form?.success}
@@ -45,7 +38,7 @@
 	<div class="toast"><p>{form?.message}</p></div>
 {/if}
 
-<AddForm {params} isUrl = {true} toggleDialog = {toggle}/>
+<AddForm bind:this={dialogRef} isUrl = {true} {params}/>
 
 <ul>
 	{#each websites as website}
@@ -77,34 +70,32 @@
 		opacity: 0.75;
 	}
 
+	.add-partner {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		border-radius: 0.25em;
+		padding: 0.5em 1em;
+		color: var(--c-white2);
+		background-color: var(--c-modal-button);
+		border: none;
+		font-weight: 600;
+		font-size: 1em;
+		transition: 0.3s;
+		cursor: pointer;
+		text-decoration: none;
+	}
+
+	.add-partner:hover {
+		background-color: var(--c-pink);
+	}
+
 	ul {
 		display: grid;
 		grid-template-columns: repeat(auto-fill, minmax(20em, 1fr));
 		gap: 1em;
 		list-style-type: none;
 		margin: 0 1em;
-	}
-
-	dialog {
-		background-color: var(--c-container);
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-		overflow: visible;
-		width: 100%;
-		max-width: 30em;
-		border: none;
-		display: none;
-	}
-
-	dialog[open] {
-		display: block;
-	}
-
-	dialog::backdrop {
-		background-color: rgb(44, 44, 44);
-		opacity: 0.8;
 	}
 
 	.toast {

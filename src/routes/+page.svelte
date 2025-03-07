@@ -28,8 +28,7 @@
 <Heading {heading} />
 
 <section>
-	<!-- <a class="add-partner" href="/addPartner" on:click={openDialog}>Partner toevoegen</a> -->
-	<button on:click={handleDialog}>Open Dialog</button>
+	<button class="add-partner" on:click={handleDialog}>Partner toevoegen</button>
 	<Search placeholderProp="Gvb" />
 </section>
 
