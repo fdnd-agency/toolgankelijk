@@ -192,6 +192,10 @@
 		max-width: 700px;
 	}
 
+	input:focus {
+		outline: 0.1rem solid var(--c-orange);
+	}
+
 	.add-button:hover {
 		opacity: 0.75;
 	}
