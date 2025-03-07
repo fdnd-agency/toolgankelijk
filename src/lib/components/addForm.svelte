@@ -11,6 +11,7 @@
 	let action;
 	let urlTitle;
 	let dialog;
+	let tip;
 	// ==============================
 	// Functions
 	// ==============================
@@ -18,10 +19,12 @@
 		title = "Url toevoegen";
 		action = "?/addUrl";
 		urlTitle = "Url titel";
+		tip = "url";
 	}else {
 		title = "Partner toevoegen";
 		action = "?/addPartner";
 		urlTitle = "Partner titel";
+		tip = "website";
 	}
 
 	export function open() {
@@ -37,6 +40,11 @@
 <dialog bind:this={dialog}>
 	<section class="form-container">
 		<h2>{title}</h2>
+
+		<div class="tip-message" aria-label="tip message">
+			<p>Voeg een bestaande {tip} toe.</p>
+		</div>
+
 		<form method="POST" action="{action}">
 			<label for="name">{urlTitle}</label>
 			<input id="name" name="name" required type="text" placeholder="type een titel..." />
@@ -80,6 +88,35 @@
 		opacity: 0.8;
 	}
 
+	.tip-message {
+		background-color: var(--c-container-stroke);
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		border-radius: 0.5rem;
+		overflow: hidden;
+		width: 100%;
+	}
+
+	.tip-message::before {
+		content: "Tip";
+		width: 2rem;
+		height: 2.5rem;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		background-color: var(--c-orange);
+		color: var(--c-white);
+		font-weight: 600;
+		padding: 0.25rem;
+	}
+
+	.tip-message p {
+		padding: 0.25rem;
+		color: var(--c-white);
+		margin-left: 0.5rem;
+	}
+
 	.form-container {
 		background-color: var(--c-container);
 		border: solid 1px var(--c-container-stroke);
@@ -88,6 +125,7 @@
 		flex-direction: column;
 		justify-content: flex-start;
 		align-items: flex-start;
+		gap: 0.5rem;
 		padding: 1.2em;
 	}
 
