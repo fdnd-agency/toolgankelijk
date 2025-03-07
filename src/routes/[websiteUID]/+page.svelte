@@ -8,6 +8,12 @@
 	export let data;
 	export let form;
 
+	let toggle;
+
+	function openDialog() {
+		console.log("clicked!");
+	}
+
 	$: heading = {
 		titel: data.websitesData.website.titel,
 		homepage: data.websitesData.website.homepage
@@ -18,17 +24,18 @@
 
 	const principes = data.partnersData.principes;
 
-	function openDialog(el) {
-		let dialog = document.querySelector('dialog');
-		dialog.showModal();
-		el.preventDefault();
-	}
+	// function openDialog(el) {
+	// 	let dialog = document.querySelector('dialog');
+	// 	dialog.showModal();
+	// 	el.preventDefault();
+	// }
 </script>
 
 <Heading {heading} />
 
 <section>
 	<a href="/{params}/addUrl" on:click={openDialog}>Link van website toevoegen</a>
+	<button on:click={openDialog}>Url toevoegen</button>
 	<Search placeholderProp="Home" />
 </section>
 
@@ -38,7 +45,7 @@
 	<div class="toast"><p>{form?.message}</p></div>
 {/if}
 
-<dialog><AddForm {params} isUrl = {true} /></dialog>
+<AddForm {params} isUrl = {true} toggleDialog = {toggle}/>
 
 <ul>
 	{#each websites as website}

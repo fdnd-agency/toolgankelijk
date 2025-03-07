@@ -10,14 +10,9 @@
 
 	let closeButton;
 	let dialogRef;
+	let toggle;
 	let heading = { titel: 'Partners overzicht' };
 	const principes = data.principes;
-
-	// function openDialog(el) {
-	// 	let dialog = document.querySelector('dialog');
-	// 	dialog.showModal();
-	// 	el.preventDefault();
-	// }
 
 	function scrollToTop(event) {
 		event.preventDefault();
@@ -25,26 +20,16 @@
 		mainElement.scrollIntoView({ behavior: 'smooth' });
 	}
 
-	// onMount(() => {
-	// 	closeButton = document.querySelector('dialog button');
-	// 	dialogRef = document.querySelector('dialog');
-
-	// 	dialogRef.addEventListener('click', (event) => {
-	// 		if (event.target === dialogRef) {
-	// 			dialogRef.close();
-	// 		}
-	// 	});
-
-	// 	closeButton.addEventListener('click', () => {
-	// 		dialog.close();
-	// 	});
-	// });
+	function handleDialog() {
+		dialogRef.open();
+	}
 </script>
 
 <Heading {heading} />
 
 <section>
-	<a class="add-partner" href="/addPartner" on:click={openDialog}>Partner toevoegen</a>
+	<!-- <a class="add-partner" href="/addPartner" on:click={openDialog}>Partner toevoegen</a> -->
+	<button on:click={handleDialog}>Open Dialog</button>
 	<Search placeholderProp="Gvb" />
 </section>
 
@@ -54,7 +39,7 @@
 	<div class="toast"><p>{form?.message}</p></div>
 {/if}
 
-<AddForm  isUrl = {false}/>
+<AddForm bind:this={dialogRef} isUrl = {false}/>
 
 <ul>
 	{#each data.websites as website}
@@ -121,28 +106,6 @@
 		list-style-type: none;
 		margin: 0 1em;
 		margin-bottom: 1em;
-	}
-
-	dialog {
-		background-color: var(--c-container);
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-		overflow: visible;
-		width: 100%;
-		max-width: 30em;
-		border: none;
-		display: none;
-	}
-
-	dialog[open] {
-		display: block;
-	}
-
-	dialog::backdrop {
-		background-color: rgb(44, 44, 44);
-		opacity: 0.8;
 	}
 
 	.toast {

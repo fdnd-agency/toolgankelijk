@@ -4,13 +4,13 @@
 	// ==============================
 	export let params;
 	export let isUrl;
-	export let toggleDialog;
 	// ==============================
 	// Variables
 	// ==============================
 	let title;
 	let action;
 	let urlTitle;
+	let dialog;
 	// ==============================
 	// Functions
 	// ==============================
@@ -24,16 +24,17 @@
 		urlTitle = "Partner titel";
 	}
 
-	if (toggleDialog) {
-		dialog.showModal();
-	}
+	export function open() {
+        dialog.showModal();
+    }
 
-	function closeForm() {
-		dialog.close();
-	}
+    function close(event) {
+        event.preventDefault();
+        dialog.close();
+    }
 </script>
 
-<dialog >
+<dialog bind:this={dialog}>
 	<section class="form-container">
 		<h2>{title}</h2>
 		<form method="POST" action="{action}">
@@ -50,7 +51,7 @@
 
 			<div class="button-div">
 				<button type="submit" class="add-button">Toevoegen</button>
-				<button class="remove-button" on:click={closeForm}>Sluit</button>
+				<button class="remove-button" on:click={close}>Sluit</button>
 			</div>
 		</form>
 	</section>
