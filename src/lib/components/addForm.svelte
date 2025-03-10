@@ -84,8 +84,8 @@
 	}
 
 	dialog::backdrop {
-		background-color: rgb(44, 44, 44);
-		opacity: 0.8;
+		background-color: rgba(44, 44, 44, 0.75);
+		backdrop-filter: blur(0.5rem);
 	}
 
 	.form-container {
@@ -119,7 +119,7 @@
 	}
 
 	.tip-message::before {
-		content: "Tip";
+		content: "!";
 		width: 2rem;
 		height: 2.5rem;
 		display: flex;
@@ -138,11 +138,11 @@
 	}
 
 	form {
-		width: 100%;
 		display: flex;
 		flex-direction: column;
 		justify-content: flex-start;
 		align-items: flex-start;
+		width: 100%;
 	}
 
 	label {
@@ -154,11 +154,10 @@
 		width: 100%;
 		padding: 0.5rem 1rem;
 		display: inline-block;
-		border: 0.1rem solid var(--c-white);
 		border-radius: 0.25rem;
-		max-width: 30rem;
 		margin-bottom: 1rem;
 		font-size: 1rem;
+		border: none;
 	}
 
 	input:focus {
@@ -166,7 +165,7 @@
 	}
 
 	input:read-only {
-		background-color: grey;
+		background-color: var(--c-container-stroke);
 		color: var(--c-white);
 	}
 
@@ -201,6 +200,6 @@
 	}
 
 	.remove-button:hover {
-		background-color: var(--c-pink);
+		opacity: 0.75;
 	}
 </style>
