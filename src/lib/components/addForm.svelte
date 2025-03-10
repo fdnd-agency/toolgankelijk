@@ -104,7 +104,7 @@
 	h2 {
 		border-bottom: 0.1rem solid var(--c-container-stroke);
 		width: 100%;
-		padding-bottom: 0.25rem;
+		padding-bottom: 0.5rem;
 		color: var(--c-white);
 	}
 
@@ -113,7 +113,7 @@
 		display: flex;
 		flex-direction: row;
 		align-items: center;
-		border-radius: 0.5rem;
+		border-radius: 0.25rem;
 		overflow: hidden;
 		width: 100%;
 	}
@@ -121,7 +121,7 @@
 	.tip-message::before {
 		content: "!";
 		width: 2rem;
-		height: 2.5rem;
+		height: 2rem;
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -132,9 +132,8 @@
 	}
 
 	.tip-message p {
-		padding: 0.25rem;
+		padding: 0.5rem 1rem;
 		color: var(--c-white);
-		margin-left: 0.5rem;
 	}
 
 	form {
