@@ -57,7 +57,7 @@
 			<input id="slug" name="slug" type="name" value={params} readonly/>
 			{/if}
 
-			<div class="button-div">
+			<div class="button-div" aria-label="button container">
 				<button type="submit" class="add-button">Toevoegen</button>
 				<button class="remove-button" on:click={close}>Sluiten</button>
 			</div>
