@@ -176,6 +176,10 @@
 	}
 
 	button {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
 		font-size: 1rem;
 		border: none;
 		color: var(--c-white);
@@ -192,6 +196,25 @@
 
 	.remove-button {
 		background-color: var(--c-container-stroke);
+	}
+
+	.add-button:before, .remove-button::before {
+		content: "";
+		display: inline-block;
+		width: 1rem;
+		height: 1rem;
+		background-position: center;
+		background-size: contain;
+		background-repeat: no-repeat;
+		margin-right: 0.5rem;
+	}
+
+	.add-button::before {
+		background-image: url("/icons/send.svg");
+	}
+
+	.remove-button::before {
+		background-image: url("/icons/cancel.svg");
 	}
 
 	.add-button:hover {
