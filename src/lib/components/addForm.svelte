@@ -214,7 +214,7 @@
 	}
 
 	.remove-button::before {
-		background-image: url("/icons/cancel.svg");
+		background-image: url("/icons/close.svg");
 	}
 
 	.add-button:hover {
