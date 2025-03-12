@@ -1,6 +1,4 @@
 <script>
-	import { onMount } from "svelte";
-	import Close from '$lib/assets/close.svg';
 	// ==============================
 	// Data variables
 	// ==============================
@@ -14,19 +12,19 @@
 	let urlTitle;
 	let dialog;
 	let tip;
-	let invalid = "leeg";
+	let invalid;
 	// ==============================
 	// Functions
 	// ==============================
 	if (isUrl) {
 		title = "Url toevoegen";
 		action = "?/addUrl";
-		urlTitle = "Url titel";
+		urlTitle = "Titel";
 		tip = "url";
 	}else {
 		title = "Partner toevoegen";
 		action = "?/addPartner";
-		urlTitle = "Partner titel";
+		urlTitle = "Titel";
 		tip = "website";
 	}
 
@@ -43,33 +41,6 @@
 		const tipMessage = document.querySelector(".tip-message");
 		tipMessage.remove();
 	}
-
-	onMount(() => {
-	const inputName = document.querySelector("#name");
-	const inputUrl = document.querySelector("#url");
-	const invalidMessages = document.querySelectorAll(".invalid-message");
-
-	console.log(invalidMessages);
-
-	inputName.addEventListener("input", () => {
-		console.log("typing in name input");
-		const checkVal = inputName.checkValidity();
-			if (!checkVal) {
-				invalidMessages[0].innerHTML = "Geen geldige titel";
-			}
-	});
-
-	inputUrl.addEventListener("input", () => {
-		console.log("typing in url input");
-		const checkVal = inputUrl.checkValidity();
-			if (!checkVal) {
-				invalidMessages[1].classList.add
-				invalidMessages[1].innerHTML = "Geen geldige url";
-			}else {
-				invalidMessages[1].innerHTML = "Geldige url";
-			}
-	});
-});
 </script>
 
 <dialog bind:this={dialog}>
@@ -82,15 +53,21 @@
 		</div>
 
 		<form method="POST" action="{action}">
-			<label for="name">{urlTitle} <span class="invalid-message">{invalid}</span></label>
-			<input id="name" name="name" type="text" placeholder="type een titel..." />
+			<div class="input-container" aria-hidden="true">
+				<label for="name">{urlTitle}</label>
+				<input id="name" name="name" type="text" required placeholder="type een titel..." />
+			</div>
 
-			<label for="url" class="url-label">Url <span class="invalid-message">{invalid}</span></label>
-			<input id="url" name="url" type="url" placeholder="type een url link..."/>
+			<div class="input-container" aria-hidden="true">
+				<label for="url" class="url-label">Url</label>
+				<input id="url" name="url" type="url" required placeholder="type een url link..."/>
+			</div>
 
 			{#if isUrl}
-			<label for="slug" class="slug-label">Slug <span>niet aanpasbaar</span></label>
-			<input id="slug" name="slug" type="name" value={params} readonly/>
+			<div class="input-container" aria-hidden="true">
+				<label for="slug" class="slug-label">Slug</label>
+				<input id="slug" name="slug" type="name" value={params} readonly/>
+			</div>
 			{/if}
 
 			<div class="button-div" aria-label="button container">
@@ -192,35 +169,26 @@
 		width: 100%;
 	}
 
-	label {
-		color: var(--c-white);
-		margin-bottom: 1rem;
-	}
-
-	label span {
-		background-color: var(--c-orange);
-		padding: 0.25rem 0.5rem;
-		border-radius: 0.25rem;
-		margin-left: 0.5rem;
-	}
-
-	.invalid-message {
-		background-color: var(--c-container-stroke);
-		padding: 0.25rem 0.5rem;
-		border-radius: 0.25rem;
-		margin-left: 0.5rem;
-	}
-
-	.success-message {
-		background-color: greenyellow;
-	}
-
-	.error-message {
-		background-color: red;
-	}
-
 	.display-none {
 		display: none;
+	}
+
+	.input-container {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		gap: 1rem;
+		margin-bottom: 1rem;
+		width: 100%;
+		border-radius: 0.25rem;
+	}
+
+	label {
+		color: var(--c-white);
+		padding: 0.5rem 1rem;
+		border-radius: 0.25rem;
+		text-align: center;
+		width: 5rem;
 	}
 
 	input {
@@ -228,7 +196,6 @@
 		padding: 0.5rem 1rem;
 		display: inline-block;
 		border-radius: 0.25rem;
-		margin-bottom: 1rem;
 		font-size: 1rem;
 		border: none;
 	}
@@ -243,8 +210,11 @@
 	}
 
 	input:invalid {
-		background-color: rgb(248, 178, 178);
 		outline: 0.1rem solid red;
+	}
+
+	input:valid {
+		outline: 0.1rem solid limegreen;
 	}
 
 	.button-div {
