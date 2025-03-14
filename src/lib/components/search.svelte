@@ -1,19 +1,13 @@
 <script>
-	// form submit
-	let input;
 	import { onMount } from 'svelte';
 
 	export let placeholderProp;
 
-	onMount(() => {
-		// Your client-side code to run after the component is mounted
-		document.querySelector('form').classList.remove('form-off');
-	});
+	let input;
 
 	function submitPartner() {
 		let websites = document.querySelectorAll('.website');
 
-		// check condition
 		websites.forEach((website) => {
 			if (!website.innerText.toUpperCase().includes(input.toUpperCase())) {
 				website.classList.add('container-off');
@@ -22,6 +16,10 @@
 			}
 		});
 	}
+
+	onMount(() => {
+		document.querySelector('form').classList.remove('form-off');
+	});
 </script>
 
 <form class="form-off" on:input={submitPartner}>
@@ -30,7 +28,6 @@
 </form>
 
 <style>
-	/* form */
 	form {
 		margin: 0 1em;
 		display: flex;
@@ -59,11 +56,9 @@
 		font-weight: 600;
 		padding-left: 0.75em;
 	}
-	/* form end */
 
 	input::placeholder {
 		color: var(--c-grey);
 		opacity: 0.8;
 	}
-
 </style>

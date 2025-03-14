@@ -1,44 +1,36 @@
 <script>
-	// ==============================
-	// Data variables
-	// ==============================
 	export let params;
 	export let isUrl;
-	// ==============================
-	// Variables
-	// ==============================
+
 	let title;
 	let action;
 	let urlTitle;
 	let dialog;
 	let tip;
-	let invalid;
-	// ==============================
-	// Functions
-	// ==============================
+
 	if (isUrl) {
-		title = "Url toevoegen";
-		action = "?/addUrl";
-		urlTitle = "Titel";
-		tip = "url";
-	}else {
-		title = "Partner toevoegen";
-		action = "?/addPartner";
-		urlTitle = "Titel";
-		tip = "website";
+		title = 'Url toevoegen';
+		action = '?/addUrl';
+		urlTitle = 'Titel';
+		tip = 'url';
+	} else {
+		title = 'Partner toevoegen';
+		action = '?/addPartner';
+		urlTitle = 'Titel';
+		tip = 'website';
 	}
 
 	export function open() {
-        dialog.showModal();
-    }
+		dialog.showModal();
+	}
 
-    function close(event) {
-        event.preventDefault();
-        dialog.close();
-    }
+	function close(event) {
+		event.preventDefault();
+		dialog.close();
+	}
 
 	function closeTip() {
-		const tipMessage = document.querySelector(".tip-message");
+		const tipMessage = document.querySelector('.tip-message');
 		tipMessage.remove();
 	}
 </script>
@@ -49,10 +41,12 @@
 
 		<div class="tip-message" aria-label="tip message">
 			<p>Voeg een bestaande {tip} toe.</p>
-			<button on:click={closeTip}><img src="/icons/close.svg" width="24" height="24" alt="sluit"></button>
+			<button on:click={closeTip}>
+				<img src="/icons/close.svg" width="24" height="24" alt="sluit" />
+			</button>
 		</div>
 
-		<form method="POST" action="{action}">
+		<form method="POST" {action}>
 			<div class="input-container" aria-hidden="true">
 				<label for="name">{urlTitle}</label>
 				<input id="name" name="name" type="text" required placeholder="type een titel..." />
@@ -60,14 +54,14 @@
 
 			<div class="input-container" aria-hidden="true">
 				<label for="url" class="url-label">Url</label>
-				<input id="url" name="url" type="url" required placeholder="type een url link..."/>
+				<input id="url" name="url" type="url" required placeholder="type een url link..." />
 			</div>
 
 			{#if isUrl}
-			<div class="input-container" aria-hidden="true">
-				<label for="slug" class="slug-label">Slug</label>
-				<input id="slug" name="slug" type="name" value={params} readonly/>
-			</div>
+				<div class="input-container" aria-hidden="true">
+					<label for="slug" class="slug-label">Slug</label>
+					<input id="slug" name="slug" type="name" value={params} readonly />
+				</div>
 			{/if}
 
 			<div class="button-div" aria-label="button container">
@@ -134,7 +128,7 @@
 	}
 
 	.tip-message::before {
-		content: "!";
+		content: '!';
 		width: 2rem;
 		height: 100%;
 		display: flex;
@@ -169,10 +163,6 @@
 		width: 100%;
 	}
 
-	.display-none {
-		display: none;
-	}
-
 	.input-container {
 		display: flex;
 		flex-direction: row;
@@ -200,7 +190,8 @@
 		border: none;
 	}
 
-	input:focus, button:focus {
+	input:focus,
+	button:focus {
 		outline: 0.1rem solid var(--c-orange);
 	}
 
@@ -247,8 +238,9 @@
 		background-color: var(--c-container-stroke);
 	}
 
-	.add-button:before, .remove-button::before {
-		content: "";
+	.add-button:before,
+	.remove-button::before {
+		content: '';
 		display: inline-block;
 		width: 1rem;
 		height: 1rem;
@@ -259,11 +251,11 @@
 	}
 
 	.add-button::before {
-		background-image: url("/icons/send.svg");
+		background-image: url('/icons/send.svg');
 	}
 
 	.remove-button::before {
-		background-image: url("/icons/close.svg");
+		background-image: url('/icons/close.svg');
 	}
 
 	.add-button:hover {

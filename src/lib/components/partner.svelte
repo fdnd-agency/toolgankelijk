@@ -1,34 +1,24 @@
 <script>
-	// ================================
-	// Import
-	// ================================
 	import { onMount } from 'svelte';
 	import trash from '$lib/assets/trash.svg';
 	import pencil from '$lib/assets/pencil.svg';
-	// ================================
-	// Data Variables
-	// ================================
+
 	export let website;
 	export let form;
 	export let principes;
-	export let overzicht;
 	export let params;
 	export let isUrl = false;
-	// ================================
-	// Variables
-	// ================================
+
 	let labelValue;
 	let progressbar;
 	let openedDelete = null;
 	let openedEdit = null;
-	let totalSuccessCriteria = 0;
 	let lastTime;
 	let link;
 	let title;
 	let image;
 	let websiteCriteria;
 	let totaalCriteria;
-	const faviconAPI = 'https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=';
 	let containerOff = false;
 	let editFormAction;
 	let editFormTitle;
@@ -38,91 +28,47 @@
 	let deleteFormAction;
 	let deleteFormTitle;
 	let deleteFormSlug;
-	// ================================
-	// Checking if component should be partner or url type
-	// ================================
+	const updatedTime = new Date(website.updatedAt);
+	const currentTime = new Date();
+	const timeDifference = Math.floor((currentTime - updatedTime) / (60 * 1000)); // Verschil in minuten
+	const faviconAPI =
+		'https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=';
+
 	if (isUrl) {
 		// show url
-		link = params + "/" + website.slug;
+		link = params + '/' + website.slug;
 		image = website.url;
-		title = "/" + website.slug;
+		title = '/' + website.slug;
 
 		// edit form variables
-		editFormAction = "?/editPost";
-		editFormTitle = "Pas url aan";
+		editFormAction = '?/editPost';
+		editFormTitle = 'Pas url aan';
 		editFormName = null;
 		editFormSlug = website.slug;
 		editFormUrl = website.url;
 
 		// delete form variables
-		deleteFormAction = "?/deletePost";
-		deleteFormTitle = "Verwijder url";
+		deleteFormAction = '?/deletePost';
+		deleteFormTitle = 'Verwijder url';
 		deleteFormSlug = website.slug;
-	}else {
+	} else {
 		// show website
-		link = website.slug + "?partner=" + website.slug;
+		link = website.slug + '?partner=' + website.slug;
 		image = website.homepage;
 		title = website.titel;
 
 		// edit form variables
-		editFormAction = "?/editPartner";
-		editFormTitle = "Pas partner aan";
+		editFormAction = '?/editPartner';
+		editFormTitle = 'Pas partner aan';
 		editFormName = website.titel;
 		editFormSlug = website.slug;
 		editFormUrl = website.homepage;
 
 		// delete form variables
-		deleteFormAction = "?/deletePartner";
-		deleteFormTitle = "Verwijder partner";
+		deleteFormAction = '?/deletePartner';
+		deleteFormTitle = 'Verwijder partner';
 		deleteFormSlug = website.slug;
 	}
-
-	onMount(() => {
-		if(isUrl) {
-			websiteCriteria = website.checks.reduce((total, check) => {
-				total += check.succescriteria.length;
-				return total;
-			}, 0);
-
-			totaalCriteria =
-			principes.reduce((total, principe) => {
-				principe.richtlijnen.forEach((richtlijn) => {
-					total += richtlijn.succescriteria.length;
-				});
-				return total;
-			}, 0) * website.checks.length;
-		}else {
-			websiteCriteria = website.urls.reduce((total, url) => {
-				url.checks.forEach((check) => {
-					total += check.succescriteria.length;
-				});
-				return total;
-			}, 0);
-
-			totaalCriteria =
-			principes.reduce((total, principe) => {
-				principe.richtlijnen.forEach((richtlijn) => {
-					total += richtlijn.succescriteria.length;
-				});
-				return total;
-			}, 0) * website.urls.length;
-		}
-
-		let percentage = Math.round((websiteCriteria / totaalCriteria) * 100);
-		if (isNaN(percentage)) {
-			percentage = 0;
-		}
-		progressbar.value = websiteCriteria;
-		progressbar.max = totaalCriteria;
-		labelValue.innerHTML = `${percentage}%`;
-	});
-
-	// ================================
-	// Functions
-	// ================================
-	const updatedTime = new Date(website.updatedAt);
-	const currentTime = new Date();
-	const timeDifference = Math.floor((currentTime - updatedTime) / (60 * 1000)); // Verschil in minuten
 
 	if (timeDifference >= 60) {
 		let minutes = timeDifference % 60;
@@ -134,7 +80,7 @@
 			lastTime = `${years} jaar geleden`;
 		} else if (years == 0 && days > 0) {
 			lastTime = days <= 1 ? `${days} dag geleden` : `${days} dagen geleden`;
-		}else  {
+		} else {
 			lastTime = `${hours} uur en ${minutes} min geleden`;
 		}
 	} else {
@@ -177,18 +123,68 @@
 			alert(form?.message);
 		}
 	}
+
+	onMount(() => {
+		if (isUrl) {
+			websiteCriteria = website.checks.reduce((total, check) => {
+				total += check.succescriteria.length;
+				return total;
+			}, 0);
+
+			totaalCriteria =
+				principes.reduce((total, principe) => {
+					principe.richtlijnen.forEach((richtlijn) => {
+						total += richtlijn.succescriteria.length;
+					});
+					return total;
+				}, 0) * website.checks.length;
+		} else {
+			websiteCriteria = website.urls.reduce((total, url) => {
+				url.checks.forEach((check) => {
+					total += check.succescriteria.length;
+				});
+				return total;
+			}, 0);
+
+			totaalCriteria =
+				principes.reduce((total, principe) => {
+					principe.richtlijnen.forEach((richtlijn) => {
+						total += richtlijn.succescriteria.length;
+					});
+					return total;
+				}, 0) * website.urls.length;
+		}
+
+		let percentage = Math.round((websiteCriteria / totaalCriteria) * 100);
+		if (isNaN(percentage)) {
+			percentage = 0;
+		}
+		progressbar.value = websiteCriteria;
+		progressbar.max = totaalCriteria;
+		labelValue.innerHTML = `${percentage}%`;
+	});
 </script>
 
-<li class="website" class:container-off={containerOff}> 
+<li class="website" class:container-off={containerOff}>
 	<a href={link}>
 		<section class="logo-partner-section">
 			<div>
-				<img  class="partner-logo" width="60" height="60" src={faviconAPI + image + '/&size=128'} alt="logo partner"/>
+				<img
+					class="partner-logo"
+					width="60"
+					height="60"
+					src={faviconAPI + image + '/&size=128'}
+					alt="logo partner"
+				/>
 				<h2 class="name">{title}</h2>
 			</div>
 			<div class="icons" id={`icons-${website.id}`}>
-				<button on:click={openEdit}><img  width="24" height="24" src={pencil} alt="Bewerk icon"/></button>
-				<button on:click={openDelete}><img width="24" height="24" src={trash} alt="Verwijder icon"/></button>
+				<button on:click={openEdit}
+					><img width="24" height="24" src={pencil} alt="Bewerk icon" /></button
+				>
+				<button on:click={openDelete}
+					><img width="24" height="24" src={trash} alt="Verwijder icon" /></button
+				>
 			</div>
 		</section>
 
@@ -196,7 +192,7 @@
 			<p>Laatst bewerkt: <time>{lastTime}</time></p>
 
 			<div class="progress-container">
-				<progress id="progress-partner" max="100" value="0" bind:this={progressbar}/>
+				<progress id="progress-partner" max="100" value="0" bind:this={progressbar} />
 				<label class="progress-percentage" for="progress-partner" bind:this={labelValue}>0%</label>
 			</div>
 		</section>
@@ -205,21 +201,21 @@
 
 <!-- Popup voor het bewerken van de partner -->
 <article class="popup-edit" style="display: {openedEdit === website.id ? 'flex' : 'none'};">
-	<form on:submit={submitted} action="{editFormAction}" method="POST">
+	<form on:submit={submitted} action={editFormAction} method="POST">
 		<h3>{editFormTitle}</h3>
 		<div class="fields-container">
 			{#if !isUrl}
-			<label for="name">Naam</label>
-			<input type="text" name="name" id="name" value={editFormName}/>
+				<label for="name">Naam</label>
+				<input type="text" name="name" id="name" value={editFormName} />
 			{/if}
 			<label for="slug">Slug</label>
-			<input type="text" name="slug" id="slug" value={editFormSlug}/>
+			<input type="text" name="slug" id="slug" value={editFormSlug} />
 			<label for="url">URL</label>
-			<input type="url" name="url" id="url" value={editFormUrl}/>
-			<input class="id-field" type="text" name="id" value={website.id} id={website.id}/>
+			<input type="url" name="url" id="url" value={editFormUrl} />
+			<input class="id-field" type="text" name="id" value={website.id} id={website.id} />
 		</div>
 		<div>
-			<input type="submit" value="Ja"/>
+			<input type="submit" value="Ja" />
 			<button on:click={closeEdit}>Nee</button>
 		</div>
 	</form>
@@ -227,7 +223,7 @@
 
 <!-- Popup voor het verwijderen van de partner -->
 <div class="popup-verwijder" style="display: {openedDelete === website.id ? 'flex' : 'none'};">
-	<form on:submit={submitted} action="{deleteFormAction}" method="POST">
+	<form on:submit={submitted} action={deleteFormAction} method="POST">
 		<h3>{deleteFormTitle}</h3>
 		<p>
 			Weet je zeker dat je <span>{deleteFormSlug}</span> wilt verwijderen? Deze actie kan niet ongedaan
@@ -239,7 +235,7 @@
 			<button on:click={closeDelete}>Nee</button>
 		</div>
 	</form>
-</div>	
+</div>
 
 <style>
 	li {
@@ -263,12 +259,6 @@
 
 	li a:hover {
 		border: solid 0.1rem var(--c-orange);
-	}
-
-	@media (inverted-colors: inverted) {
-		li a {
-			border: solid 0.1rem white;
-		}
 	}
 
 	h2 {
@@ -340,7 +330,6 @@
 		font-weight: normal;
 	}
 
-	/* progress bar */
 	.progress-container {
 		display: flex;
 		flex-direction: row;
@@ -363,7 +352,6 @@
 		appearance: none;
 	}
 
-	/* chrome/safari */
 	progress[value]::-webkit-progress-bar {
 		background-color: var(--c-container-stroke);
 		border-radius: 0.5rem;
@@ -375,7 +363,6 @@
 		transition: 1s ease-out;
 	}
 
-	/* firefox */
 	progress[value]::-moz-progress-bar {
 		background-color: var(--c-orange);
 		border-radius: 0.5rem;
@@ -386,12 +373,10 @@
 		height: 85%;
 	}
 
-	/* search css */
 	.container-off {
 		display: none;
 	}
 
-	/* Popover formulieren */
 	.popup-verwijder,
 	.popup-edit {
 		position: absolute;
@@ -405,6 +390,7 @@
 		justify-content: center;
 		align-items: center;
 	}
+
 	form {
 		width: 30rem;
 		aspect-ratio: 2/1;
@@ -425,7 +411,6 @@
 	}
 
 	form p {
-		/* font-size: 0.9em; */
 		margin: 1.5rem 0;
 		font-weight: 100;
 	}
@@ -484,5 +469,11 @@
 	form button:hover,
 	input[type='submit']:hover {
 		opacity: 0.75;
+	}
+
+	@media (inverted-colors: inverted) {
+		li a {
+			border: solid 0.1rem white;
+		}
 	}
 </style>

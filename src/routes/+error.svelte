@@ -8,7 +8,7 @@
 
 <div class="content-container">
 	<h3><span>Oeps!</span> Er is iets mis gegaan.</h3>
-	<br>
+	<br />
 	<p>
 		De pagina die je zoekt, is helaas niet gevonden. Misschien heb je een verkeerde afslag genomen
 		of is er iets misgegaan tijdens het navigeren van onze tool. Probeer het opnieuw om op de juiste
@@ -18,7 +18,6 @@
 </div>
 
 <style>
-	/* container heading 1 */
 	section {
 		display: flex;
 		gap: 1rem;
@@ -42,7 +41,6 @@
 		max-width: 60em;
 	}
 
-	/* content container */
 	.content-container {
 		gap: 1rem;
 		background-color: var(--c-container);
@@ -53,7 +51,7 @@
 
 	a {
 		display: inline-block;
-        margin-top: 1.75em;
+		margin-top: 1.75em;
 		padding: 1rem;
 		font-size: 1rem;
 		cursor: pointer;
@@ -66,6 +64,6 @@
 	}
 
 	a:hover {
-        opacity: 0.75;
+		opacity: 0.75;
 	}
 </style>

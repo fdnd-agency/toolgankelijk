@@ -18,13 +18,11 @@
 	}
 
 	progress[value] {
-		/* Reset the default appearance */
 		-webkit-appearance: none;
 		appearance: none;
 		height: 10px;
 	}
 
-	/* chrome/safari */
 	progress[value]::-webkit-progress-bar {
 		background-color: var(--c-container-stroke);
 		border-radius: 0.5em;

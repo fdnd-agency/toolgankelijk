@@ -1,14 +1,11 @@
-// import { Actions } from '@sveltejs/kit';
 import { gql } from 'graphql-request';
 import { hygraph } from '$lib/utils/hygraph.js';
-
+import { error } from '@sveltejs/kit';
 import getQueryUrl from '$lib/queries/url';
 import getQueryToolboard from '$lib/queries/toolboard';
 import firstCheck from '$lib/queries/firstCheck';
 import addCheck from '$lib/queries/addCheck';
 import deleteCheck from '$lib/queries/deleteCheck';
-
-import { error } from '@sveltejs/kit';
 
 export const load = async ({ params }) => {
 	const { websiteUID } = params;
@@ -22,7 +19,6 @@ export const load = async ({ params }) => {
 	const toolboardData = await hygraph.request(queryToolboard);
 
 	if (urlData.url?.website.slug === websiteUID) {
-		// Your existing condition
 		if (toolboardData.principe === null) {
 			throw error(404, {
 				message: 'Principe bestaat niet'
@@ -92,8 +88,6 @@ export const actions = {
 				}
 			}
 		}
-		console.log('===================');
-		// console.log(websiteUID, urlUID)
 
 		async function addCheckToList(succescriteriumId) {
 			try {

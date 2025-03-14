@@ -1,11 +1,9 @@
 <script>
-	import Heading from '$lib/components/heading.svelte';
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
+	import Heading from '$lib/components/heading.svelte';
 
 	export let data;
-
-	const principes = data.principesData.principes;
 
 	$: heading = {
 		titel: data.websitesData.website.titel,
@@ -15,6 +13,7 @@
 
 	let successCriteriaMap = {};
 	let criteriaPerPrincipe = {};
+	const principes = data.principesData.principes;
 
 	onMount(() => {
 		const criteriaSlice = data.urlData.url.checks.flatMap((check) =>
@@ -46,7 +45,9 @@
 			<li>
 				<a href="{$page.url.pathname}/{principe.slug}">
 					<div class="principe">
-						<h1><span>{principe.titel}. </span> Principe {principe.index}</h1>
+						<h1>
+							<span>{principe.titel}.</span> Principe {principe.index}
+						</h1>
 						<p>{principe.beschrijving.text}</p>
 						<div class="progress-container">
 							<progress
@@ -74,58 +75,10 @@
 		box-sizing: border-box;
 	}
 
-	/* VOORTGANG
-	.container-voortgang-1 {
-		background-color: var(--c-container);
-		padding: 1em 1em;
-		margin: 1em;
-		border-radius: 0.5em;
-	}
-
-	.container-voortgang-2 {
-		display: flex;
-		flex-wrap: wrap;
-		border-radius: 0.5em;
-	}
-
-    .container-voortgang-2 p {
-		font-size: 1em;
-		max-width: 16rem;
-		margin-top: .25em;
-	}
-
-	.container-voortgang-2 ul {
-		list-style-type: none;
-		display: flex;
-		flex-wrap: wrap;
-		gap: 1em;
-		margin: 1em;
-	}
-
-	.container-voortgang-2 li {
-		background-color: var(--c-container-stroke);
-		padding: 1em;
-		border-radius: 0.5em;
-		min-width: 16em;
-	} */
-
 	li a {
 		text-decoration: none;
 		color: inherit;
 	}
-
-	/* VOORTGANG PRESTATIES */
-	/* .goed-bezig {
-		color: var(--c-green);
-		font-size: 1.25em;
-	}
-
-	.tip {
-		color: var(--c-orange);
-		font-size: 1.25em;
-	} */
-
-	/* PRINCIPES */
 
 	h1 {
 		font-size: 1.5em;
@@ -182,19 +135,16 @@
 		margin-top: 0.25em;
 	}
 
-	/* progress */
 	progress {
 		width: 100%;
 	}
 
 	progress[value] {
-		/* Reset the default appearance */
 		-webkit-appearance: none;
 		appearance: none;
 		height: 60%;
 	}
 
-	/* chrome/safari */
 	progress[value]::-webkit-progress-bar {
 		background-color: var(--c-container-stroke);
 		border-radius: 0.5em;
