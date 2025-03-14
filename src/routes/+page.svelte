@@ -1,27 +1,27 @@
 <script>
-	import { onMount } from 'svelte';
 	import Heading from '$lib/components/heading.svelte';
 	import Partner from '$lib/components/partner.svelte';
 	import Search from '$lib/components/search.svelte';
+	import { onMount } from 'svelte';
 	import AddForm from '$lib/components/addForm.svelte';
 
 	export let data;
 	export let form;
 
-	let closeButton;
-	let dialogRef;
-	let toggle;
 	let heading = { titel: 'Partners overzicht' };
 	const principes = data.principes;
+
+	function handleDialog() {
+		dialogRef.open();
+	}
+
+	let closeButton;
+	let dialogRef;
 
 	function scrollToTop(event) {
 		event.preventDefault();
 		const mainElement = document.getElementById('main');
 		mainElement.scrollIntoView({ behavior: 'smooth' });
-	}
-
-	function handleDialog() {
-		dialogRef.open();
 	}
 </script>
 
@@ -42,7 +42,7 @@
 
 <ul>
 	{#each data.websites as website}
-		<Partner {website} {principes} />
+		<Partner {website} {principes} isUrl = {false} />
 	{/each}
 </ul>
 
@@ -102,6 +102,7 @@
 		display: grid;
 		grid-template-columns: repeat(auto-fill, minmax(20em, 1fr));
 		gap: 1em;
+		/* position: relative; */
 		list-style-type: none;
 		margin: 0 1em;
 		margin-bottom: 1em;

@@ -1,18 +1,125 @@
 <script>
+	// ================================
+	// Import
+	// ================================
 	import { onMount } from 'svelte';
 	import trash from '$lib/assets/trash.svg';
 	import pencil from '$lib/assets/pencil.svg';
-
+	// ================================
+	// Data Variables
+	// ================================
 	export let website;
 	export let form;
 	export let principes;
-
+	export let overzicht;
+	export let params;
+	export let isUrl = false;
+	// ================================
+	// Variables
+	// ================================
 	let labelValue;
 	let progressbar;
-	let lastTime;
 	let openedDelete = null;
 	let openedEdit = null;
+	let totalSuccessCriteria = 0;
+	let lastTime;
+	let link;
+	let title;
+	let image;
+	let websiteCriteria;
+	let totaalCriteria;
+	const faviconAPI = 'https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=';
 	let containerOff = false;
+	let editFormAction;
+	let editFormTitle;
+	let editFormName;
+	let editFormSlug;
+	let editFormUrl;
+	let deleteFormAction;
+	let deleteFormTitle;
+	let deleteFormSlug;
+	// ================================
+	// Checking if component should be partner or url type
+	// ================================
+	if (isUrl) {
+		// show url
+		link = params + "/" + website.slug;
+		image = website.url;
+		title = "/" + website.slug;
+
+		// edit form variables
+		editFormAction = "?/editPost";
+		editFormTitle = "Pas url aan";
+		editFormName = null;
+		editFormSlug = website.slug;
+		editFormUrl = website.url;
+
+		// delete form variables
+		deleteFormAction = "?/deletePost";
+		deleteFormTitle = "Verwijder url";
+		deleteFormSlug = website.slug;
+	}else {
+		// show website
+		link = website.slug + "?partner=" + website.slug;
+		image = website.homepage;
+		title = website.titel;
+
+		// edit form variables
+		editFormAction = "?/editPartner";
+		editFormTitle = "Pas partner aan";
+		editFormName = website.titel;
+		editFormSlug = website.slug;
+		editFormUrl = website.homepage;
+
+		// delete form variables
+		deleteFormAction = "?/deletePartner";
+		deleteFormTitle = "Verwijder partner";
+		deleteFormSlug = website.slug;
+	}
+
+	onMount(() => {
+		if(isUrl) {
+			websiteCriteria = website.checks.reduce((total, check) => {
+				total += check.succescriteria.length;
+				return total;
+			}, 0);
+
+			totaalCriteria =
+			principes.reduce((total, principe) => {
+				principe.richtlijnen.forEach((richtlijn) => {
+					total += richtlijn.succescriteria.length;
+				});
+				return total;
+			}, 0) * website.checks.length;
+		}else {
+			websiteCriteria = website.urls.reduce((total, url) => {
+				url.checks.forEach((check) => {
+					total += check.succescriteria.length;
+				});
+				return total;
+			}, 0);
+
+			totaalCriteria =
+			principes.reduce((total, principe) => {
+				principe.richtlijnen.forEach((richtlijn) => {
+					total += richtlijn.succescriteria.length;
+				});
+				return total;
+			}, 0) * website.urls.length;
+		}
+
+		let percentage = Math.round((websiteCriteria / totaalCriteria) * 100);
+		if (isNaN(percentage)) {
+			percentage = 0;
+		}
+		progressbar.value = websiteCriteria;
+		progressbar.max = totaalCriteria;
+		labelValue.innerHTML = `${percentage}%`;
+	});
+
+	// ================================
+	// Functions
+	// ================================
 	const updatedTime = new Date(website.updatedAt);
 	const currentTime = new Date();
 	const timeDifference = Math.floor((currentTime - updatedTime) / (60 * 1000)); // Verschil in minuten
@@ -24,18 +131,15 @@
 		let years = Math.floor(days / 365);
 
 		if (years > 0) {
-			lastTime = `${years}j geleden`;
+			lastTime = `${years} jaar geleden`;
 		} else if (years == 0 && days > 0) {
-			lastTime = `${days}d geleden`;
-		} else {
-			lastTime = `${hours}u en ${minutes}m geleden`;
+			lastTime = days <= 1 ? `${days} dag geleden` : `${days} dagen geleden`;
+		}else  {
+			lastTime = `${hours} uur en ${minutes} min geleden`;
 		}
 	} else {
 		lastTime = timeDifference > 0 ? `${timeDifference} min geleden` : 'Zojuist';
 	}
-
-	const faviconAPI =
-		'https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=';
 
 	function openDelete(event) {
 		event.preventDefault();
@@ -73,81 +177,49 @@
 			alert(form?.message);
 		}
 	}
-
-	onMount(() => {
-		let random = Math.floor(Math.random() * 100);
-		progressbar.value = random; // Set initial value
-
-		const websiteCriteria = website.urls.reduce((total, url) => {
-			url.checks.forEach((check) => {
-				total += check.succescriteria.length;
-			});
-			return total;
-		}, 0);
-
-		const totaalCriteria =
-			principes.reduce((total, principe) => {
-				principe.richtlijnen.forEach((richtlijn) => {
-					total += richtlijn.succescriteria.length;
-				});
-				return total;
-			}, 0) * website.urls.length; // Multiply totaalcriteria by the number of URLs
-
-		const percentage = Math.round((websiteCriteria / totaalCriteria) * 100);
-
-		progressbar.value = websiteCriteria;
-		progressbar.max = totaalCriteria;
-
-		labelValue.innerHTML = `${percentage}%`;
-
-		document.querySelector(`#icons-${website.id}`).style.display = 'flex';
-	});
 </script>
 
-<ul>
-	<li class="website" class:container-off={containerOff}>
-		<a href={website.slug}>
-			<section class="logo-partner-section">
-				<div>
-					<img height="60" src="{faviconAPI}{website.homepage}/&size=128" alt="logo partner" />
-					<h2 class="name">{website.titel}</h2>
-				</div>
-				<div class="icons" id={`icons-${website.id}`}>
-					<button class="icon_pencil" on:click={openEdit}>
-						<img src={pencil} alt="Bewerk icon" />
-					</button>
-					<button on:click={openDelete}><img src={trash} alt="Verwijder icon" /></button>
-				</div>
-			</section>
+<li class="website" class:container-off={containerOff}> 
+	<a href={link}>
+		<section class="logo-partner-section">
+			<div>
+				<img  class="partner-logo" width="60" height="60" src={faviconAPI + image + '/&size=128'} alt="logo partner"/>
+				<h2 class="name">{title}</h2>
+			</div>
+			<div class="icons" id={`icons-${website.id}`}>
+				<button on:click={openEdit}><img  width="24" height="24" src={pencil} alt="Bewerk icon"/></button>
+				<button on:click={openDelete}><img width="24" height="24" src={trash} alt="Verwijder icon"/></button>
+			</div>
+		</section>
 
-			<section class="more-info-section">
-				<p>Laatst bewerkt: <span>{lastTime}</span></p>
+		<section class="more-info-section">
+			<p>Laatst bewerkt: <time>{lastTime}</time></p>
 
-				<div class="progress-container">
-					<progress id="progress-partner" max="100" value="0" bind:this={progressbar} />
-					<label class="progress-percentage" for="progress-partner" bind:this={labelValue}>0%</label
-					>
-				</div>
-			</section>
-		</a>
-	</li>
-</ul>
+			<div class="progress-container">
+				<progress id="progress-partner" max="100" value="0" bind:this={progressbar}/>
+				<label class="progress-percentage" for="progress-partner" bind:this={labelValue}>0%</label>
+			</div>
+		</section>
+	</a>
+</li>
 
 <!-- Popup voor het bewerken van de partner -->
 <article class="popup-edit" style="display: {openedEdit === website.id ? 'flex' : 'none'};">
-	<form on:submit={submitted()} action="?/editPartner" method="POST">
-		<h3>Pas partner aan</h3>
+	<form on:submit={submitted} action="{editFormAction}" method="POST">
+		<h3>{editFormTitle}</h3>
 		<div class="fields-container">
+			{#if !isUrl}
 			<label for="name">Naam</label>
-			<input type="text" name="name" id="name" value={website.titel} />
+			<input type="text" name="name" id="name" value={editFormName}/>
+			{/if}
 			<label for="slug">Slug</label>
-			<input type="text" name="slug" id="slug" value={website.slug} />
+			<input type="text" name="slug" id="slug" value={editFormSlug}/>
 			<label for="url">URL</label>
-			<input type="url" name="url" id="url" value={website.homepage} />
-			<input class="id-field" type="text" name="id" value={website.id} id={website.id} />
+			<input type="url" name="url" id="url" value={editFormUrl}/>
+			<input class="id-field" type="text" name="id" value={website.id} id={website.id}/>
 		</div>
 		<div>
-			<input type="submit" value="Ja" />
+			<input type="submit" value="Ja"/>
 			<button on:click={closeEdit}>Nee</button>
 		</div>
 	</form>
@@ -155,10 +227,10 @@
 
 <!-- Popup voor het verwijderen van de partner -->
 <div class="popup-verwijder" style="display: {openedDelete === website.id ? 'flex' : 'none'};">
-	<form on:submit={submitted()} action="?/deletePartner" method="POST">
-		<h3>Verwijder partner</h3>
+	<form on:submit={submitted} action="{deleteFormAction}" method="POST">
+		<h3>{deleteFormTitle}</h3>
 		<p>
-			Weet je zeker dat je <span>{website.slug}</span> wilt verwijderen? Deze actie kan niet ongedaan
+			Weet je zeker dat je <span>{deleteFormSlug}</span> wilt verwijderen? Deze actie kan niet ongedaan
 			worden gemaakt.
 		</p>
 		<input class="id-field" type="text" name="id" value={website.id} id={website.id} />
@@ -167,7 +239,7 @@
 			<button on:click={closeDelete}>Nee</button>
 		</div>
 	</form>
-</div>
+</div>	
 
 <style>
 	li {
@@ -178,43 +250,70 @@
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
-		gap: 2.25em;
+		gap: 1rem;
 		color: var(--c-text);
 		text-decoration: none;
 		background-color: var(--c-container);
 		padding: 1em;
-		border-radius: 0.5em;
-		border: solid 1px var(--c-container-stroke);
+		border-radius: 0.5rem;
+		border: solid 0.1rem var(--c-container-stroke);
 		width: 100%;
 		transition: 0.25s ease;
 	}
 
 	li a:hover {
-		border: solid 1px var(--c-orange);
+		border: solid 0.1rem var(--c-orange);
+	}
+
+	@media (inverted-colors: inverted) {
+		li a {
+			border: solid 0.1rem white;
+		}
 	}
 
 	h2 {
-		font-size: 1.5em;
-		margin-top: 0.05em;
+		font-size: 1.5rem;
 	}
 
 	.logo-partner-section {
-		position: relative;
 		display: flex;
 		align-items: flex-start;
 		justify-content: space-between;
+		position: relative;
+	}
+
+	.logo-partner-section div:nth-of-type(1) {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.5rem;
+	}
+
+	.partner-logo {
+		width: 4rem;
+		height: 4rem;
+		border-radius: 0.5rem;
+		overflow: hidden;
 	}
 
 	.icons {
-		display: none;
+		display: flex;
 		justify-content: space-between;
 		position: absolute;
-		right: 10px;
+		right: 0;
 		top: 0;
 	}
 
-	.icon_pencil {
-		padding-right: 15px;
+	.icons button {
+		padding: 0.25rem;
+		border-radius: 0.5rem;
+		width: 2.5rem;
+		height: 2.5rem;
+	}
+
+	.icons button:hover {
+		background-color: var(--c-orange);
+		transition: 0.25s ease;
 	}
 
 	a section button {
@@ -224,13 +323,21 @@
 	}
 
 	a section button:first-child {
-		margin-right: 0.6em;
+		margin-right: 0.5rem;
 	}
 
 	.more-info-section {
 		display: flex;
 		flex-direction: column;
-		font-size: 0.9em;
+		font-size: 1rem;
+	}
+
+	.more-info-section p {
+		font-weight: 600;
+	}
+
+	.more-info-section p time {
+		font-weight: normal;
 	}
 
 	/* progress bar */
@@ -239,30 +346,39 @@
 		flex-direction: row;
 		justify-content: space-between;
 		align-items: flex-end;
-		gap: 1em;
-		margin-top: 0.25em;
+		gap: 1rem;
+		margin-top: 0.25rem;
 	}
 
 	progress {
 		width: 100%;
+		border-radius: 0.5rem;
+		background-color: var(--c-container-stroke);
+		border: none;
+		overflow: hidden;
 	}
 
 	progress[value] {
-		/* Reset the default appearance */
 		-webkit-appearance: none;
 		appearance: none;
-		height: 60%;
 	}
 
 	/* chrome/safari */
 	progress[value]::-webkit-progress-bar {
 		background-color: var(--c-container-stroke);
-		border-radius: 0.5em;
+		border-radius: 0.5rem;
 	}
 
 	progress[value]::-webkit-progress-value {
 		background-color: var(--c-orange);
-		border-radius: 0.5em;
+		border-radius: 0.5rem;
+		transition: 1s ease-out;
+	}
+
+	/* firefox */
+	progress[value]::-moz-progress-bar {
+		background-color: var(--c-orange);
+		border-radius: 0.5rem;
 		transition: 1s ease-out;
 	}
 
@@ -289,14 +405,13 @@
 		justify-content: center;
 		align-items: center;
 	}
-
 	form {
-		width: 500px;
+		width: 30rem;
 		aspect-ratio: 2/1;
 		background-color: var(--c-container);
-		border-radius: 0.5em;
-		border: solid 1px var(--c-container-stroke);
-		padding: 1em;
+		border-radius: 0.5rem;
+		border: solid 0.1rem var(--c-container-stroke);
+		padding: 1rem;
 		display: flex;
 		align-items: flex-start;
 		justify-content: center;
@@ -306,11 +421,12 @@
 	form h3 {
 		border-bottom: 1px solid var(--c-container-stroke);
 		width: 100%;
-		padding-bottom: 5px;
+		padding-bottom: 1rem;
 	}
 
 	form p {
-		margin: 1.5em 0;
+		/* font-size: 0.9em; */
+		margin: 1.5rem 0;
 		font-weight: 100;
 	}
 
@@ -322,23 +438,23 @@
 	}
 
 	.fields-container {
-		margin: 1.5em 0;
+		margin: 1.5rem 0;
 	}
 
 	input[type='text'],
 	input[type='url'] {
 		width: 100%;
-		padding: 12px 10px;
+		padding: 1rem 0.5rem;
 		display: inline-block;
-		border: 1px solid #ccc;
-		border-radius: 4px;
+		border: 0.1rem solid #ccc;
+		border-radius: 0.5rem;
 		box-sizing: border-box;
-		max-width: 700px;
-		margin-top: 5px;
+		max-width: 30rem;
+		margin-top: 0.5rem;
 	}
 
 	form input[type='text'] {
-		margin-bottom: 1em;
+		margin-bottom: 1rem;
 	}
 
 	form .id-field {
@@ -348,31 +464,25 @@
 
 	form button,
 	input[type='submit'] {
-		border-radius: 0.25em;
-		padding: 0.5em 1em;
+		border-radius: 0.25rem;
+		padding: 0.5rem 1rem;
 		color: var(--c-white);
 		background-color: var(--c-pink);
 		border: none;
 		font-weight: 600;
-		font-size: 1em;
+		font-size: 1rem;
 		transition: 0.3s;
 		cursor: pointer;
-		width: 7.5em;
+		width: 7.5rem;
 	}
 
 	form button {
 		background-color: var(--c-modal-button);
-		margin-left: 0.5em;
+		margin-left: 0.5rem;
 	}
 
 	form button:hover,
 	input[type='submit']:hover {
 		opacity: 0.75;
-	}
-
-	@media (inverted-colors: inverted) {
-		li a {
-			border: solid 1px white;
-		}
 	}
 </style>

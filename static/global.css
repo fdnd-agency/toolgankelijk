@@ -1,6 +1,6 @@
 /* import font */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
 
 :root {
 	/* Main Colors */
@@ -34,7 +34,7 @@
 
 	/* HSL main */
 	--purple-h: 329;
-	--purple-s: 100;
+	--purple-s: 100; 
 	--purple-l: 36;
 
 	--pink-h: 336;
@@ -108,14 +108,14 @@
 
 @media (prefers-color-scheme: dark) {
 	:root {
-		/* HSL support */
-		--dark-h: 8;
-		--dark-s: 18;
-		--dark-l: 74;
-
-		--light-h: 338;
-		--light-s: 18;
-		--light-l: 35;
+	/* HSL support */
+	--dark-h: 8;
+	--dark-s: 18;
+	--dark-l: 74;
+	
+	--light-h: 338;
+	--light-s: 18;
+	--light-l: 35;
 	}
 }
 

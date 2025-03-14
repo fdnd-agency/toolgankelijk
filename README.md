@@ -4,15 +4,15 @@ Live link: [https://toolgankelijk.vercel.app/](https://toolgankelijk.vercel.app/
 
 ## Inhoudsopgave
 
-- [Beschrijving](#beschrijving)
-- [Kenmerken](#kenmerken)
-- [Installatie](#installatie)
-- [Bronnen](#bronnen)
-- [Licentie](#licentie)
+  * [Beschrijving](#beschrijving)
+  * [Kenmerken](#kenmerken)
+  * [Installatie](#installatie)
+  * [Bronnen](#bronnen)
+  * [Licentie](#licentie)
 
 ## Beschrijving
 
-De Toolgankelijkheid website voor Vervoerregio Amsterdam waarmee medewerkers intern hun partners kunnen controleren op de toegankelijkheid van hun websites.
+De Toolgankelijkheid website voor Vervoerregio Amsterdam waarmee medewerkers intern hun partners kunnen controleren op de toegankelijkheid van hun websites. 
 
 ![image](https://github.com/WesleySchorel/lose-your-head-the-client-case/assets/112857487/3044aca6-4b97-42b7-bc4d-501c73ca8a4a)
 
@@ -22,16 +22,15 @@ Dit project is ontwikkeld door middel van Sveltekit. De inhoud wordt opgehaald d
 
 Wij hebben de volgende technieken en technologiën gebruikt:
 
-- Svelte
-- Sveltekit
-- Hygraph
-- HTML
-- JS
-- CSS
-- Figma
+* Svelte
+* Sveltekit
+* Hygraph
+* HTML
+* JS
+* CSS
+* Figma
 
 ## Installatie
-
 ```
 1. Clone de repository
 2. Open de repo via github desktop

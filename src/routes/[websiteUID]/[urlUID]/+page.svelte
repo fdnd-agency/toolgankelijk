@@ -1,9 +1,11 @@
 <script>
+	import Heading from '$lib/components/heading.svelte';
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
-	import Heading from '$lib/components/heading.svelte';
 
 	export let data;
+
+	const principes = data.principesData.principes;
 
 	$: heading = {
 		titel: data.websitesData.website.titel,
@@ -11,7 +13,6 @@
 		url: data.urlData.url.slug
 	};
 
-	const principes = data.principesData.principes;
 	let successCriteriaMap = {};
 	let criteriaPerPrincipe = {};
 
@@ -73,10 +74,58 @@
 		box-sizing: border-box;
 	}
 
+	/* VOORTGANG
+	.container-voortgang-1 {
+		background-color: var(--c-container);
+		padding: 1em 1em;
+		margin: 1em;
+		border-radius: 0.5em;
+	}
+
+	.container-voortgang-2 {
+		display: flex;
+		flex-wrap: wrap;
+		border-radius: 0.5em;
+	}
+
+    .container-voortgang-2 p {
+		font-size: 1em;
+		max-width: 16rem;
+		margin-top: .25em;
+	}
+
+	.container-voortgang-2 ul {
+		list-style-type: none;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1em;
+		margin: 1em;
+	}
+
+	.container-voortgang-2 li {
+		background-color: var(--c-container-stroke);
+		padding: 1em;
+		border-radius: 0.5em;
+		min-width: 16em;
+	} */
+
 	li a {
 		text-decoration: none;
 		color: inherit;
 	}
+
+	/* VOORTGANG PRESTATIES */
+	/* .goed-bezig {
+		color: var(--c-green);
+		font-size: 1.25em;
+	}
+
+	.tip {
+		color: var(--c-orange);
+		font-size: 1.25em;
+	} */
+
+	/* PRINCIPES */
 
 	h1 {
 		font-size: 1.5em;
@@ -87,6 +136,7 @@
 		display: grid;
 		grid-template-columns: repeat(auto-fill, minmax(clamp(17rem, 40vw, 40rem), 1fr));
 		gap: 1em;
+
 		list-style-type: none;
 		margin: 0 1em;
 		margin-bottom: 1em;
@@ -114,6 +164,7 @@
 	.principe {
 		padding: 2em;
 		background-color: var(--c-container);
+
 		border-radius: 0.5em;
 		height: 100%;
 		border: solid 1px var(--c-container-stroke);

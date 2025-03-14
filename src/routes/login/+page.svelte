@@ -1,3 +1,11 @@
+<!-- JS -->
+
+<script>
+	// import Heading from '$lib/components/heading.svelte';
+</script>
+
+<!-- HTML -->
+
 <svelte:head>
 	<title>Login · Vervoerregio Amsterdam</title>
 </svelte:head>
@@ -9,20 +17,12 @@
 			<p>
 				<label for="username">Username</label>
 				<input id="username" type="text" name="login" placeholder="Username" required />
-				<span />
+                <span></span>
 			</p>
 			<p>
 				<label for="password">Password</label>
-				<input
-					id="password"
-					type="password"
-					name="password"
-					minlength="6"
-					placeholder="Password"
-					autocomplete="off"
-					required
-				/>
-				<span />
+				<input id="password" type="password" name="password" minlength="6" placeholder="Password" autocomplete="off" required />
+                <span></span>
 			</p>
 			<button type="submit" class="form-submit">Sign in</button>
 
@@ -33,6 +33,8 @@
 		</fieldset>
 	</form>
 </section>
+
+<!-- CSS -->
 
 <style>
 	.form-container {
@@ -46,7 +48,7 @@
 		flex-direction: column;
 		align-items: center;
 		width: 18rem;
-		background-color: var(--c-container);
+        background-color: var(--c-container);
 		border-color: var(--c-pink);
 		border-radius: 10px;
 		padding-left: 2rem;
@@ -68,19 +70,19 @@
 		padding-top: 1rem;
 	}
 
-	span::before {
-		content: ' ';
-	}
+    span::before {
+        content: " ";
+    }
 
-	input:user-invalid + span::before {
-		content: 'Invalid input';
-		color: red;
-		font-size: 12px;
-	}
+    input:user-invalid + span::before {
+        content: "Invalid input";
+        color: red;
+        font-size: 12px;
+    }
 
-	input:user-invalid + span {
-		animation: shake 0.6s ease-in-out;
-	}
+    input:user-invalid + span {
+        animation: shake .6s ease-in-out;
+    }
 
 	label {
 		padding-bottom: 0.3rem;
@@ -97,20 +99,66 @@
 		font-size: 16px;
 	}
 
-	input:user-invalid {
-		border: 1px solid red;
-		outline: none;
-		animation: shake 0.6s ease-in-out;
-	}
+    @keyframes shake {
+        0% {
+            transform: rotate(0deg);
+        }
 
-	input:user-invalid:focus {
-		border: 1px solid red;
-	}
+        10% {
+            transform: rotate(5deg);
+        }
 
-	input:focus {
-		border: 1px solid var(--c-white);
-		outline: none;
-	}
+        20% {
+            transform: rotate(5deg);
+        }
+
+        30% {
+            transform: rotate(-5deg);
+        }
+
+        40% {
+            transform: rotate(5deg);
+        }
+
+        50% {
+            transform: rotate(-5deg);   
+        }
+
+        60% {
+            transform: rotate(5deg);
+        }
+
+        70% {
+            transform: rotate(-5deg);
+        }
+
+        80% {
+            transform: rotate(5deg);
+        }
+
+        90% {
+            transform: rotate(-5deg);
+        }
+
+        100% {
+            transform: rotate(0deg);
+        }
+    }
+
+    input:user-invalid {
+        border: 1px solid red;
+        outline: none;
+        animation: shake .6s ease-in-out;
+    }
+
+    input:user-invalid:focus {
+        border: 1px solid red;
+    }
+
+    input:focus {
+        border: 1px solid var(--c-white);
+        outline: none;
+    }
 
 	.form-submit {
 		margin-top: 1rem;
@@ -148,56 +196,11 @@
 		padding-left: 1rem;
 	}
 
-	@media screen and (max-width: 380px) {
-		.form-login {
-			padding-left: 1rem;
-			padding-right: 1rem;
-		}
+    @media screen and (max-width: 380px) {
+        .form-login {
+		padding-left: 1rem;
+		padding-right: 1rem;
 	}
+    }
 
-	@keyframes shake {
-		0% {
-			transform: rotate(0deg);
-		}
-
-		10% {
-			transform: rotate(5deg);
-		}
-
-		20% {
-			transform: rotate(5deg);
-		}
-
-		30% {
-			transform: rotate(-5deg);
-		}
-
-		40% {
-			transform: rotate(5deg);
-		}
-
-		50% {
-			transform: rotate(-5deg);
-		}
-
-		60% {
-			transform: rotate(5deg);
-		}
-
-		70% {
-			transform: rotate(-5deg);
-		}
-
-		80% {
-			transform: rotate(5deg);
-		}
-
-		90% {
-			transform: rotate(-5deg);
-		}
-
-		100% {
-			transform: rotate(0deg);
-		}
-	}
 </style>

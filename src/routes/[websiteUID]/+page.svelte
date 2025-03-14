@@ -1,12 +1,13 @@
 <script>
-	import { page } from '$app/stores';
 	import Heading from '$lib/components/heading.svelte';
-	import Websites from '$lib/components/websites.svelte';
+	import Partner from '$lib/components/partner.svelte';
+	import { page } from '$app/stores';
 	import Search from '$lib/components/search.svelte';
 	import AddForm from '$lib/components/addForm.svelte';
 
 	export let data;
 	export let form;
+	const principes = data.partnersData.principes;
 
 	let dialogRef;
 
@@ -18,11 +19,11 @@
 		titel: data.websitesData.website.titel,
 		homepage: data.websitesData.website.homepage
 	};
+
+	// data voor websites component
 	$: websites = data.websitesData.website.urls;
 	$: overzicht = data.websitesData.website;
 	$: params = $page.params.websiteUID;
-
-	const principes = data.partnersData.principes;
 </script>
 
 <Heading {heading} />
@@ -42,7 +43,7 @@
 
 <ul>
 	{#each websites as website}
-		<Websites {website} {overzicht} {params} {principes} />
+		<Partner {website} {overzicht} {params} {principes} isUrl = {true} />
 	{/each}
 </ul>
 
@@ -94,6 +95,7 @@
 		display: grid;
 		grid-template-columns: repeat(auto-fill, minmax(20em, 1fr));
 		gap: 1em;
+		/* position: relative; */
 		list-style-type: none;
 		margin: 0 1em;
 	}
