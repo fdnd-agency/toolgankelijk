@@ -1,29 +1,25 @@
 <script>
-	import { onMount } from 'svelte';
 	import Heading from '$lib/components/heading.svelte';
 	import Partner from '$lib/components/partner.svelte';
 	import Search from '$lib/components/search.svelte';
-	import PartnerForm from '$lib/components/partnerForm.svelte';
-
+	import PartnerForm from '../lib/components/partnerForm.svelte';
+	import { onMount } from 'svelte';
 	export let data;
-	export let form;
 
-	let closeButton;
-	let dialogRef;
 	let heading = { titel: 'Partners overzicht' };
 	const principes = data.principes;
 
+	export let form;
+
 	function openDialog(el) {
 		let dialog = document.querySelector('dialog');
+
 		dialog.showModal();
 		el.preventDefault();
 	}
 
-	function scrollToTop(event) {
-		event.preventDefault();
-		const mainElement = document.getElementById('main');
-		mainElement.scrollIntoView({ behavior: 'smooth' });
-	}
+	let closeButton;
+	let dialogRef;
 
 	onMount(() => {
 		closeButton = document.querySelector('dialog button');
@@ -39,6 +35,20 @@
 			dialog.close();
 		});
 	});
+
+	function scrollToTop(event) {
+		event.preventDefault();
+		const mainElement = document.getElementById('main');
+		mainElement.scrollIntoView({ behavior: 'smooth' });
+	}
+
+	let popupVisible = true;
+
+	function handleClose() {
+		popupVisible = false;
+	}
+
+	// console.log(principes);
 </script>
 
 <Heading {heading} />
@@ -55,6 +65,37 @@
 {/if}
 
 <dialog><PartnerForm /></dialog>
+
+<!-- {#if popupVisible}
+	<div class="popup-overlay" />
+	<div class="zero-state">
+		<h1>Toolgankelijkheid</h1>
+		<p class="tool-info">
+			Deze tool wordt gebruikt voor het checken van de toegankelijkheid van uw website en app! Na
+			het gebruik van de checklist, wordt er een overzicht vertoond met een aantal stappen die
+			gevolgd kunnen worden voor het verbeteren van de toegankelijkheid.
+		</p>
+
+		<h2>Wettelijke verplichtingen</h2>
+		<p class="verplichtingen-paragraaf">
+			In Nederland zijn er ca. 2 miljoen mensen met een beperking. Als deze mensen uw website of app
+			niet kunnen gebruiken, dan zorgt dat dat deze mensen worden uitgesloten van de samenleving... <a
+				class="read-more"
+				href="/info/#wettelijk">Lees meer</a
+			>
+		</p>
+		<h2>Feedback?</h2>
+		<p class="vragen-paragraaf">
+			Heeft u feedback voor ons? Dan kunt u <a href="/info/#wettelijk">hier terecht</a>
+		</p>
+		<h3>Vragen?</h3>
+		<p class="contact-paragraaf">
+			Indien u vragen heeft of om een andere reden een bericht wilt achterlaten, voel u vrij om
+			contact op te nemen met ...
+		</p>
+		<button id="close" class="close-popup" on:click={handleClose}>Sluit</button>
+	</div>
+{/if} -->
 
 <ul>
 	{#each data.websites as website}
@@ -118,6 +159,7 @@
 		display: grid;
 		grid-template-columns: repeat(auto-fill, minmax(20em, 1fr));
 		gap: 1em;
+		/* position: relative; */
 		list-style-type: none;
 		margin: 0 1em;
 		margin-bottom: 1em;

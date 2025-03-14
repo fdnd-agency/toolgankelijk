@@ -1,30 +1,48 @@
 <script>
-	import { onMount } from 'svelte';
-	import { enhance } from '$app/forms';
-	import loadingIcon from '$lib/assets/loading.svg';
-
 	export let richtlijnen;
 	export let toolboardData;
 	export let selectedNiveau = 'A';
 
+	import { onMount } from 'svelte';
+	import { enhance } from '$app/forms';
+
+	import loadingIcon from '$lib/assets/loading.svg';
+	import { NoUndefinedVariablesRule } from 'graphql';
+
 	let loading = false;
-	let simpleTranslation = true;
-
+	// console.log(toolboardData)
+	
 	const getSuccescriteriaByNiveau = (niveau) =>
-		toolboardData.url.checks[0]
-			? toolboardData.url.checks[0].succescriteria.filter((item) => item.niveau === niveau)
-			: [];
-
+	toolboardData.url.checks[0]
+	? toolboardData.url.checks[0].succescriteria.filter((item) => item.niveau === niveau)
+	: [];
+	
 	let filteredSuccescriteria = getSuccescriteriaByNiveau(selectedNiveau);
-
+	
 	const handleNiveauChange = (event) => {
 		selectedNiveau = event.target.value;
 		filteredSuccescriteria = getSuccescriteriaByNiveau(selectedNiveau);
 	};
 
+	let simpleTranslation = true;
+	
 	const checkedSuccescriteria = toolboardData.url.checks[0]
-		? toolboardData.url.checks[0].succescriteria
-		: [];
+	? toolboardData.url.checks[0].succescriteria
+	: [];
+	onMount(() => {
+		const niveauToggle = document.querySelector('#niveau-toggle');
+		console.log(niveauToggle);
+		niveauToggle.classList.toggle('disabled');
+	});
+	
+	// const updateChecklist = () => {
+	// 	loading = true;
+	// 	return async ({ update }) => {
+	// 		loading = false;
+	// 		console.log(loading);
+	// 		await update();
+	// 	};
+	// };
 
 	function scrollToTop(event) {
 		const mainElement = document.getElementById('main');
@@ -32,23 +50,54 @@
 		event.preventDefault();
 	}
 
-	function translate(event) {
-		const button = event.target;
-		const activeSection = button.closest('details');
-		const uitleg = activeSection.querySelector('.richtlijn-uitleg');
 
-		/** De simpele vertaling wordt omgezet in true of false. op basis van de button die geklikt is en welke waarde die dan heeft. */
+	// ndsajdashjkdas
+    function translate(event, criteriumNumber) {
+        console.log(event, criteriumNumber);
+		// Get clicked button with event.target
+		const button = event.target
+		//  
+		const activeSection = button.closest('details')
+
+		const uitleg = activeSection.querySelector('.richtlijn-uitleg')
+
+		/** de simpele vertaling wordt omgezet in true of false. op basis van de button die geklikt is en welke waarde die dan heeft. */
 		simpleTranslation = !simpleTranslation;
 
-		/** De tekst en button worden ook steeds omgedraaid op basis van de button (van officieel naar simpel) */
-		uitleg.classList.toggle('moeilijk');
-		button.classList.toggle('moeilijk');
-	}
+		/** de tekst en button worden ook steeds omgedraaid op basis van de button (van officieel naar simpel) */
+		uitleg.classList.toggle('moeiluk')
+		button.classList.toggle('moeiluk')
 
-	onMount(() => {
-		const niveauToggle = document.querySelector('#niveau-toggle');
-		niveauToggle.classList.toggle('disabled');
-	});
+		
+		// if (!activeTranslations.includes(criteriumNumber)) {
+		// 	activeTranslations.push(criteriumNumber)
+
+		// } else {
+		// 	// remove element from array
+		// }
+
+		// console.log(activeTranslations);
+        // const element1 = document.querySelectorAll('.richtlijn-criteria-1');
+        // const element2 = document.querySelectorAll('.richtlijn-criteria-2');
+		// const element3 = document.querySelectorAll(".richtlijn-uitleg");
+
+		// for(let i = 0; i < element3.length; i++){
+		// 	console.log(element3[i].dataindex)
+	    //        if (element3[i].classList.contains("changed")) {
+		// 		element1[i].style.display = "block";
+		// 		element2[i].style.display = "none";
+		// 		element3[i].classList.toggle("changed");
+
+        //     } else {
+		// 		element2[i].style.display = "block";
+		// 		element1[i].style.display = "none";
+		// 		element3[i].classList.toggle("changed");
+
+        //     }
+		// }
+	// element3.classList.toggle("changed");
+    }
+
 </script>
 
 <section>
@@ -78,15 +127,19 @@
 		<input type="hidden" name="principe" value={toolboardData.principe.index} />
 
 		<!-- richtlijnen en succescriteria tekst wordt hier ingeladen! -->
+
 		{#each richtlijnen as richtlijn}
 			<details>
+				<!-- <div class="richtlijn-div"> -->
 				<summary class="collapsible-summary">
 					<span>Richtlijn {richtlijn.index}</span>
 					<div>
 						<h2>{richtlijn.titel}</h2>
 						<h3>{@html richtlijn.uitleg.html}</h3>
+						<div />
 					</div>
 				</summary>
+				<!-- </div>	 -->
 				<article>
 					{#each richtlijn.succescriteria as succescriterium}
 						{#if succescriterium.niveau === selectedNiveau}
@@ -94,41 +147,36 @@
 								<summary class="criteria-uitklapbaar">
 									<span>Criteria {succescriterium.index} ({succescriterium.niveau})</span>
 									<div class="row">
-										<div class="column">
+									<div class="column">
 											<h3>{succescriterium.titel}</h3>
-										</div>
-
-										<div class="column">
-											<button
-												type="button"
-												class="btn-vertaling"
-												on:click={(event) => translate(event)}
-											>
-												{simpleTranslation ? 'Officiële beschrijving' : 'Simpele beschrijving'}
-											</button>
-
-											<input
-												name="check"
-												value={succescriterium.id}
-												type="checkbox"
-												checked={checkedSuccescriteria.find((e) => e.id === succescriterium.id)}
-											/>
-										</div>
 									</div>
-								</summary>
 
+									<div class="column">
+										<button
+                                            type="button" 
+                                            class="btn-vertaling" 
+                                            on:click={(event) => translate(event, succescriterium.index)}
+                                            >
+                                            {simpleTranslation ? 'Officiële beschrijving' : 'Simpele beschrijving'}
+                                        </button>
+										
+										<input
+											name="check"
+											value={succescriterium.id}
+											type="checkbox"
+											checked={checkedSuccescriteria.find((e) => e.id === succescriterium.id)}
+										/>
+									</div>
+								</div>
+								</summary>
 								<!-- tekuitleg voor succescriterium -->
+
 								<div class="richtlijn-uitleg" aria-live="polite" dataindex="0">
 									<div class="richtlijn-criteria-1">
-										<p id="uitleg" class="tekst-criteria-1">
-											{@html succescriterium.makkelijkeCriteria &&
-												succescriterium.makkelijkeCriteria.html}
-										</p>
+										<p id="uitleg" class="tekst-criteria-1">{@html succescriterium.makkelijkeCriteria && succescriterium.makkelijkeCriteria.html}</p>
 									</div>
 									<div class="richtlijn-criteria-2">
-										<p id="uitleg" class="tekst-criteria-2">
-											{@html succescriterium.criteria && succescriterium.criteria.html}
-										</p>
+										<p id="uitleg" class="tekst-criteria-2">{@html succescriterium.criteria && succescriterium.criteria.html}</p>
 									</div>
 								</div>
 							</details>
@@ -142,17 +190,29 @@
 				<img src={loadingIcon} alt="laadt icoontje" height="32" width="32" />
 			</div>
 		{:else}
-			<div class="form-btn">
-				<button type="submit" class="submit"> Opslaan </button>
-				<a href="#main" class="btn-top" on:click={scrollToTop}>⬆</a>
-			</div>
+		<div class="form-btn">
+			<button type="submit" class="submit"> Opslaan </button>
+			<a href="#main" class="btn-top" on:click={scrollToTop}>⬆</a>
+		</div>
 		{/if}
 	</form>
+	
 </section>
 
+<div class="changed"></div>
 <style>
-	.richtlijn-criteria-2 {
-		display: none;
+	@media print {
+		.btn-top {
+			display: none;
+		}
+
+		.submit {
+			display: none;
+		}
+	}
+
+	.richtlijn-criteria-2{
+		display:none;
 	}
 
 	.submit {
@@ -169,7 +229,6 @@
 		cursor: pointer;
 		z-index: 2;
 	}
-
 	.submit:hover {
 		filter: saturate(1.2);
 	}
@@ -189,7 +248,6 @@
 		text-decoration: none;
 		z-index: 2;
 	}
-
 	.btn-top:hover {
 		filter: saturate(1.2);
 	}
@@ -197,7 +255,7 @@
 	button:active {
 		filter: saturate(1) brightness(0.9);
 	}
-
+	
 	.submit:not(button) {
 		cursor: auto;
 		background-color: #a0004025;
@@ -205,11 +263,9 @@
 		border: 1px solid var(--c-pink);
 		border-radius: 4px;
 	}
-
 	.submit img {
 		animation: 0.8s rotate infinite;
 	}
-
 	select {
 		border-radius: 0.25em;
 		padding: 0.5em 1em;
@@ -223,6 +279,13 @@
 
 	.richtlijn-uitleg {
 		padding-left: 1rem;
+	}
+
+
+	.titels {
+		display: flex;
+		flex-direction: column;
+		margin-top: -19px;
 	}
 
 	section {
@@ -264,6 +327,10 @@
 		color: var(--c-white2);
 	}
 
+	label div {
+		margin-left: 1em;
+	}
+
 	details {
 		padding: 1em;
 	}
@@ -277,6 +344,18 @@
 		animation: sweep 0.25s ease-in-out;
 	}
 
+	@keyframes sweep {
+		0% {
+			opacity: 0;
+			/* margin-top: -10px; */
+		}
+		100% {
+			opacity: 1;
+			/* margin-top: 15.2px; */
+		}
+	}
+
+
 	section details:not(:nth-child(2)) {
 		border-top: 1px solid var(--c-container-stroke);
 	}
@@ -289,18 +368,23 @@
 		margin-left: 1.2rem;
 		margin-bottom: 0.8rem;
 		margin-top: 0.8rem;
+		
 	}
 
 	.collapsible-summary h3 {
 		margin-left: 1.2rem;
 		margin-bottom: 0.8rem;
+		
 	}
+
+
 
 	span {
 		margin-left: 0.3rem;
 	}
 
 	.criteria-uitklapbaar {
+		/* display: flex; */
 		flex-direction: row;
 		align-items: center;
 	}
@@ -318,6 +402,22 @@
 		align-items: center;
 		gap: 1rem;
 	}
+
+	/* .criteria-uitklapbaar::-webkit-details-marker {
+		display: none;
+	} */
+
+	/* .criteria-uitklapbaar:before {
+		content: '🡒';
+		font-size: 1.5em;
+		color: #fff;
+		width: 30px;
+	}
+
+	details[open] .criteria-uitklapbaar:before {
+		content: '🡓';
+		color: var(--c-pink);
+	} */
 
 	details > div {
 		font-size: 0.9em !important;
@@ -367,6 +467,7 @@
 		background-color: var(--c-pink);
 		border: none;
 		color: white;
+		/* margin-top: 1rem; */
 		border-radius: 4px;
 		cursor: pointer;
 		z-index: 2;
@@ -380,37 +481,28 @@
 		display: none;
 	}
 
-	:global(.richtlijn-uitleg.moeilijk .richtlijn-criteria-1) {
+
+	:global(.richtlijn-uitleg.moeiluk .richtlijn-criteria-1) {
 		display: none;
 	}
-
-	:global(.richtlijn-uitleg.moeilijk div.richtlijn-criteria-2) {
+	:global(.richtlijn-uitleg.moeiluk div.richtlijn-criteria-2) {
+		/* Svelte is dom, groetjes Cyd */
 		display: block !important;
 	}
 
-	:global(#uitleg p) {
+	:global(#uitleg p ) {
 		line-height: 1.5;
 		margin-top: 1em;
 		margin-bottom: 1em;
 		max-width: 30em;
-	}
-
-	:global(#uitleg ul) {
+    }
+  
+    :global(#uitleg ul) {
 		line-height: 1.5;
 		margin-top: 1em;
 		margin-bottom: 1em;
 		max-width: 30em;
-	}
-
-	@media print {
-		.btn-top {
-			display: none;
-		}
-
-		.submit {
-			display: none;
-		}
-	}
+    }
 
 	@keyframes rotate {
 		from {
@@ -418,15 +510,6 @@
 		}
 		to {
 			transform: rotate(360deg);
-		}
-	}
-
-	@keyframes sweep {
-		0% {
-			opacity: 0;
-		}
-		100% {
-			opacity: 1;
 		}
 	}
 </style>

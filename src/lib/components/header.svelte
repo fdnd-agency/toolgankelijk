@@ -54,7 +54,6 @@
 				alt="Logo van Vervoerregio Amsterdam"
 			/>
 		</a>
-
 		<BreadCrumbs {params} {partners} {websites} />
 
 		<div class="options">

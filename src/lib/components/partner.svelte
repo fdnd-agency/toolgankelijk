@@ -239,7 +239,7 @@
 			<button on:click={closeDelete}>Nee</button>
 		</div>
 	</form>
-</div>
+</div>	
 
 <style>
 	li {
@@ -405,7 +405,6 @@
 		justify-content: center;
 		align-items: center;
 	}
-
 	form {
 		width: 30rem;
 		aspect-ratio: 2/1;
@@ -485,11 +484,5 @@
 	form button:hover,
 	input[type='submit']:hover {
 		opacity: 0.75;
-	}
-
-	@media (inverted-colors: inverted) {
-		li a {
-			border: solid 1px white;
-		}
 	}
 </style>
