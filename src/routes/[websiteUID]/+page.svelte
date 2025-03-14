@@ -3,11 +3,17 @@
 	import Partner from '$lib/components/partner.svelte';
 	import { page } from '$app/stores';
 	import Search from '$lib/components/search.svelte';
-
-	import UrlForm from '$lib/components/urlForm.svelte';
+	import AddForm from '$lib/components/addForm.svelte';
 
 	export let data;
+	export let form;
 	const principes = data.partnersData.principes;
+
+	let dialogRef;
+
+	function handleDialog() {
+		dialogRef.open();
+	}
 
 	$: heading = {
 		titel: data.websitesData.website.titel,
@@ -18,22 +24,13 @@
 	$: websites = data.websitesData.website.urls;
 	$: overzicht = data.websitesData.website;
 	$: params = $page.params.websiteUID;
-
-	export let form;
-
-	function openDialog(el) {
-		let dialog = document.querySelector('dialog');
-
-		dialog.showModal();
-		el.preventDefault();
-	}
 </script>
 
 <Heading {heading} />
 
 <section>
-	<a href="/{params}/addUrl" on:click={openDialog}>Link van website toevoegen</a>
-	<Search placeholderProp = "Home"/>
+	<button class="add-partner" on:click={handleDialog}>Url toevoegen</button>
+	<Search placeholderProp="Home"/>
 </section>
 
 {#if form?.success}
@@ -42,7 +39,7 @@
 	<div class="toast"><p>{form?.message}</p></div>
 {/if}
 
-<dialog><UrlForm {params} /></dialog>
+<AddForm bind:this={dialogRef} isUrl = {true} {params}/>
 
 <ul>
 	{#each websites as website}
@@ -74,6 +71,26 @@
 		opacity: 0.75;
 	}
 
+	.add-partner {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		border-radius: 0.25em;
+		padding: 0.5em 1em;
+		color: var(--c-white2);
+		background-color: var(--c-modal-button);
+		border: none;
+		font-weight: 600;
+		font-size: 1em;
+		transition: 0.3s;
+		cursor: pointer;
+		text-decoration: none;
+	}
+
+	.add-partner:hover {
+		background-color: var(--c-pink);
+	}
+
 	ul {
 		display: grid;
 		grid-template-columns: repeat(auto-fill, minmax(20em, 1fr));
@@ -81,28 +98,6 @@
 		/* position: relative; */
 		list-style-type: none;
 		margin: 0 1em;
-	}
-
-	dialog {
-		background-color: var(--c-container);
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-		overflow: visible;
-		width: 100%;
-		max-width: 30em;
-		border: none;
-		display: none;
-	}
-
-	dialog[open] {
-		display: block;
-	}
-
-	dialog::backdrop {
-		background-color: rgb(44, 44, 44);
-		opacity: 0.8;
 	}
 
 	.toast {

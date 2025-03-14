@@ -1,5 +1,5 @@
 <script>
-	import PartnerForm from '../../lib/components/partnerForm.svelte';
+	import AddForm from '$lib/components/addForm.svelte';
 
 	export let form;
 </script>
@@ -10,7 +10,7 @@
 		<p>Probeer een partner toe te voegen die nog niet in de lijst bestaat!</p>
 	</article>
 
-	<PartnerForm />
+	<AddForm />
 </section>
 
 {#if form?.success}
