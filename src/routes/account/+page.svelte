@@ -1,11 +1,3 @@
-<!-- JS -->
-
-<script>
-	// import Heading from '$lib/components/heading.svelte';
-</script>
-
-<!-- HTML -->
-
 <svelte:head>
 	<title>Create Account · Vervoerregio Amsterdam</title>
 </svelte:head>
@@ -35,21 +27,18 @@
 	</form>
 </section>
 
-<!-- CSS -->
-
 <style>
 	.form-container {
 		display: flex;
 		justify-content: center;
 		margin-top: 3rem;
-        
 	}
 
 	.form-login {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-        background-color: var(--c-container);
+		background-color: var(--c-container);
 		width: 18rem;
 		border-color: var(--c-pink);
 		border-radius: 10px;

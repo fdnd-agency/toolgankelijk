@@ -7,7 +7,6 @@
 	<form method="POST" action="?/addUrl">
 		<label for="name">Pagina titel</label>
 		<input id="name" name="name" required type="text" />
-
 		<label for="url" class="url-label">Pagina url</label>
 		<input id="url" name="url" required type="url" />
 		<input id="slug" name="slug" type="name" value={params} />
@@ -73,7 +72,6 @@
 
 	.add-button:hover {
 		opacity: 0.75;
-
 	}
 
 	.url-label {

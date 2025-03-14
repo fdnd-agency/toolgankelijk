@@ -4,19 +4,19 @@
 	import Sidebar from '$lib/components/sidebar.svelte';
 
 	export let data;
-
 	export let form;
+
 	$: heading = {
 		titel: data.websitesData.website.titel,
 		homepage: data.urlData.url.url,
 		url: data.urlData.url.slug
 	};
+
 	const toolboardData = data.toolboardData;
 	const urlData = data.urlData;
 	const richtlijnen = toolboardData.principe.richtlijnen;
 	const principes = data.toolboardData.principes;
 </script>
-
 
 <Heading {heading} />
 <section>
@@ -34,6 +34,7 @@
 		margin: 1em;
 		gap: 1em;
 	}
+
 	.toast {
 		position: fixed;
 		bottom: 5rem;

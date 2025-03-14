@@ -2,7 +2,7 @@
 	export let heading;
 
 	const faviconAPI =
-		"https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=";
+		'https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=';
 </script>
 
 <svelte:head>
@@ -14,16 +14,10 @@
 		/>
 	{:else if heading.homepage}
 		<title>Urls van {heading.titel}</title>
-		<meta
-			name="description"
-			content="Overzicht van alle urls van partner: {heading.titel}."
-		/>
+		<meta name="description" content="Overzicht van alle urls van partner: {heading.titel}." />
 	{:else}
 		<title>Partneroverzicht</title>
-		<meta
-			name="description"
-			content="Overzicht van alle Vervoerregio Amsterdam partners."
-		/>
+		<meta name="description" content="Overzicht van alle Vervoerregio Amsterdam partners." />
 	{/if}
 </svelte:head>
 
@@ -44,17 +38,17 @@
 		align-items: center;
 		background-color: var(--c-container);
 		padding: clamp(1em, 6vw, 2em);
-		border-top: 12px solid #B5006C;
+		border-top: 12px solid #b5006c;
 		margin: 1em 1em;
 		border-radius: 0.5em;
 	}
 
 	section img {
-		/* padding: .5rem; */
 		box-shadow: 0px 0px 0px 8px #202020;
 		border-radius: 0.3rem;
 		background-color: #202020;
 	}
+
 	h1 {
 		font-size: clamp(1.3rem, 4vw, 3.8rem);
 	}

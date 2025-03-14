@@ -1,5 +1,5 @@
 <script>
-	import PartnerForm from '../../lib/components/partnerForm.svelte';
+	import PartnerForm from '$lib/components/partnerForm.svelte';
 
 	export let form;
 </script>
@@ -86,4 +86,3 @@
 		}
 	}
 </style>
-
