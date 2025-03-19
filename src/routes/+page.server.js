@@ -36,7 +36,7 @@ export const actions = {
 			"/storingen/"
 		];
 
-		let urlName = urlArray[0].replace(/^\/|\/$/g, "");
+		let urlName = urlArray[0].replace(/^\/|\/$/g, '').toLowerCase();
 		let fullUrl = url + urlArray[0];
 		console.log(urlName);
 		console.log(fullUrl);
