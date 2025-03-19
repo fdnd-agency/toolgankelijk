@@ -5,6 +5,7 @@ import getQueryUpdatePartner from '$lib/queries/updatePartner';
 import getQueryPartner from '$lib/queries/partner';
 import getQueryAddPartner from '$lib/queries/addPartner';
 import getQueryAddUrl from '$lib/queries/addUrl';
+import Sitemapper from 'sitemapper';
 
 export async function load() {
 	let query = getQueryPartner(gql);
@@ -17,33 +18,39 @@ export const actions = {
 		const name = formData.get('name');
 		let url = formData.get('url');
 		const slug = name.toLowerCase();
+		let sitemapArray = [];
 
-		if (url.endsWith("/")) {
-			url = url.slice(0, -1);
-		}
+		url = url.endsWith('/') ? url : url + '/';
+	
+		// fetch the sitemap of an url
+		const siteMap = new Sitemapper({
+			url: url + 'sitemap.xml',
+			timeout: 15000,
+		});
 
-		// Temporary code, need to fetch the sitemap of an url
-		const urlArray = [
-			"/zoeken/",
-			"/zakelijk/",
-			"/contact/",
-			"/storingen/"
-		];
+		const { sites } = await siteMap.fetch();
+		sitemapArray = sites;
+		console.log("Array: " + sitemapArray);
 
+		// add data to hygraph
 		try {
 			let queryAddPartner = getQueryAddPartner(gql, name, url, slug);
 			await hygraph.request(queryAddPartner);
 
-			for (let link of urlArray) {
-				let fullUrl = url + link;
-				let urlName = link.replace(/^\/|\/$/g, '').toLowerCase();
-				let queryAddUrls = getQueryAddUrl(gql, urlName, fullUrl, slug);
+			for (let i = 0; i < 10; i++) {
+				let link = sitemapArray[i];
+				let path = link.replace(url, '');
+				if (path.startsWith("/")) {
+					path = path.slice(0, -1);
+				}
+				console.log("Path: " + path);
+				let queryAddUrls = getQueryAddUrl(gql, path, link, slug);
 				await hygraph.request(queryAddUrls);
 			}
 
 			return {
 				success: true,
-				message: `${name} met ${urlArray.length} bijhorende urls is toegevoegd.`
+				message: `${name} met ${sitemapArray.length} bijhorende urls is toegevoegd.`
 
 			};
 		} catch (error) {

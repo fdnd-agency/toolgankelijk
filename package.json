@@ -30,6 +30,8 @@
 		"fast-xml-parser": "^5.0.9",
 		"graphql": "^16.8.1",
 		"graphql-request": "^6.1.0",
-		"puppeteer": "^24.4.0"
+		"puppeteer": "^24.4.0",
+		"sitemap-parser": "^0.1.0",
+		"sitemapper": "^3.2.20"
 	}
 }
