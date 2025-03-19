@@ -30,15 +30,16 @@ export const actions = {
 			"/storingen/"
 		];
 
-		let urlName = urlArray[0].replace(/^\/|\/$/g, '').toLowerCase();
-		let fullUrl = url + urlArray[0];
-
 		try {
 			let queryAddPartner = getQueryAddPartner(gql, name, url, slug);
 			await hygraph.request(queryAddPartner);
 
-			let queryAddUrls = getQueryAddUrl(gql, urlName, fullUrl, slug);
-			await hygraph.request(queryAddUrls);
+			for (let link of urlArray) {
+				let fullUrl = url + link;
+				let urlName = link.replace(/^\/|\/$/g, '').toLowerCase();
+				let queryAddUrls = getQueryAddUrl(gql, urlName, fullUrl, slug);
+				await hygraph.request(queryAddUrls);
+			}
 
 			return {
 				success: true,

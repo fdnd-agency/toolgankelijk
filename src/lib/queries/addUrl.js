@@ -6,7 +6,7 @@ export default function getQueryAddUrl(gql, urlSlug, urlLink, websiteSlug) {
         ) {
           id
         }
-        publishUrl(where: {slug: "${urlSlug}"}) {
+        publishUrl(where: {url: "${urlLink}"}) {
           id
         }
       }
