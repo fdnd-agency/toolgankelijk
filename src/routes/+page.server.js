@@ -18,14 +18,8 @@ export const actions = {
 		let url = formData.get('url');
 		const slug = name.toLowerCase();
 
-		console.log(slug);
-
 		if (url.endsWith("/")) {
-			console.log("true");
 			url = url.slice(0, -1);
-			console.log(url);
-		}else {
-			console.log("false");
 		}
 
 		// Temporary code, need to fetch the sitemap of an url
@@ -38,8 +32,6 @@ export const actions = {
 
 		let urlName = urlArray[0].replace(/^\/|\/$/g, '').toLowerCase();
 		let fullUrl = url + urlArray[0];
-		console.log(urlName);
-		console.log(fullUrl);
 
 		try {
 			let queryAddPartner = getQueryAddPartner(gql, name, url, slug);
@@ -47,7 +39,6 @@ export const actions = {
 
 			let queryAddUrls = getQueryAddUrl(gql, urlName, fullUrl, slug);
 			await hygraph.request(queryAddUrls);
-			console.log("GraphQL Query:", queryAddUrls);
 
 			return {
 				success: true,
@@ -55,7 +46,6 @@ export const actions = {
 
 			};
 		} catch (error) {
-			console.log(error);
 			return {
 				message: `Er ging iets mis: ${error.message}`,
 				success: false
