@@ -41,8 +41,8 @@ export const actions = {
 				let link = sitemapArray[i];
 				const urlObject = new URL(link);
 				const path = urlObject.pathname;
-				console.log("Path: " + path);
-				
+				console.log("Path: " + cleanedPath);
+
 				let queryAddUrls = getQueryAddUrl(gql, path, link, slug);
 				await hygraph.request(queryAddUrls);
 			}
