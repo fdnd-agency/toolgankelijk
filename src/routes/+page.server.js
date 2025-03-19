@@ -15,7 +15,7 @@ export const actions = {
 	addPartner: async ({ request }) => {
 		const formData = await request.formData();
 		const name = formData.get('name');
-		const url = formData.get('url');
+		let url = formData.get('url');
 		const slug = name.toLowerCase();
 
 		console.log(url);
@@ -35,12 +35,22 @@ export const actions = {
 			"/storingen/"
 		];
 
+		const urlName = urlArray[0].replace(/^\/|\/$/g, "");
+
 		try {
 			let queryAddPartner = getQueryAddPartner(gql, name, url, slug);
 			await hygraph.request(queryAddPartner);
 
-			let queryAddUrls = getQueryAddUrl(gql, "ebs", "https://9292.nl/zakelijk/", "ebs");
+			let queryAddUrls = getQueryAddUrl(gql, urlName, urlArray[0], slug);
 			await hygraph.request(queryAddUrls);
+
+			// await Promise.all(
+			// 	urlArray.map(async (link) => {
+			// 		let queryAddUrls = getQueryAddUrl(gql, slug, link, slug);
+			// 		console.log('Query voor URL toevoegen:', queryAddUrls);
+			// 		return hygraph.request(queryAddUrls);
+			// 	})
+			// );
 
 			return {
 				success: true,
@@ -48,8 +58,9 @@ export const actions = {
 
 			};
 		} catch (error) {
+			console.log(error);
 			return {
-				message: 'Er ging wat mis, probeer het opnieuw.',
+				message: 'Er ging wat mis, probeer het opnieuw.' + error,
 				success: false
 			};
 		}
