@@ -18,7 +18,7 @@ export const actions = {
 		let url = formData.get('url');
 		const slug = name.toLowerCase();
 
-		console.log(url);
+		console.log(slug);
 
 		if (url.endsWith("/")) {
 			console.log("true");
@@ -28,6 +28,7 @@ export const actions = {
 			console.log("false");
 		}
 
+		// Temporary code, need to fetch the sitemap of an url
 		const urlArray = [
 			"/zoeken/",
 			"/zakelijk/",
@@ -35,22 +36,18 @@ export const actions = {
 			"/storingen/"
 		];
 
-		const urlName = urlArray[0].replace(/^\/|\/$/g, "");
+		let urlName = urlArray[0].replace(/^\/|\/$/g, "");
+		let fullUrl = url + urlArray[0];
+		console.log(urlName);
+		console.log(fullUrl);
 
 		try {
 			let queryAddPartner = getQueryAddPartner(gql, name, url, slug);
 			await hygraph.request(queryAddPartner);
 
-			let queryAddUrls = getQueryAddUrl(gql, urlName, urlArray[0], slug);
+			let queryAddUrls = getQueryAddUrl(gql, urlName, fullUrl, slug);
 			await hygraph.request(queryAddUrls);
-
-			// await Promise.all(
-			// 	urlArray.map(async (link) => {
-			// 		let queryAddUrls = getQueryAddUrl(gql, slug, link, slug);
-			// 		console.log('Query voor URL toevoegen:', queryAddUrls);
-			// 		return hygraph.request(queryAddUrls);
-			// 	})
-			// );
+			console.log("GraphQL Query:", queryAddUrls);
 
 			return {
 				success: true,
@@ -60,7 +57,7 @@ export const actions = {
 		} catch (error) {
 			console.log(error);
 			return {
-				message: 'Er ging wat mis, probeer het opnieuw.' + error,
+				message: `Er ging iets mis: ${error.message}`,
 				success: false
 			};
 		}
