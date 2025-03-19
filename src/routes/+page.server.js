@@ -39,11 +39,10 @@ export const actions = {
 
 			for (let i = 0; i < 10; i++) {
 				let link = sitemapArray[i];
-				let path = link.replace(url, '');
-				if (path.startsWith("/")) {
-					path = path.slice(0, -1);
-				}
+				const urlObject = new URL(link);
+				const path = urlObject.pathname;
 				console.log("Path: " + path);
+				
 				let queryAddUrls = getQueryAddUrl(gql, path, link, slug);
 				await hygraph.request(queryAddUrls);
 			}
