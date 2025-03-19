@@ -4,6 +4,7 @@ import getQueryDeletePartner from '$lib/queries/deletePartner';
 import getQueryUpdatePartner from '$lib/queries/updatePartner';
 import getQueryPartner from '$lib/queries/partner';
 import getQueryAddPartner from '$lib/queries/addPartner';
+import getQueryAddUrl from '$lib/queries/addUrl';
 
 export async function load() {
 	let query = getQueryPartner(gql);
@@ -17,14 +18,34 @@ export const actions = {
 		const url = formData.get('url');
 		const slug = name.toLowerCase();
 
+		console.log(url);
+
+		if (url.endsWith("/")) {
+			console.log("true");
+			url = url.slice(0, -1);
+			console.log(url);
+		}else {
+			console.log("false");
+		}
+
+		const urlArray = [
+			"/zoeken/",
+			"/zakelijk/",
+			"/contact/",
+			"/storingen/"
+		];
+
 		try {
-			let query = getQueryAddPartner(gql, name, url, slug);
-			let hygraphCall = await hygraph.request(query);
+			let queryAddPartner = getQueryAddPartner(gql, name, url, slug);
+			await hygraph.request(queryAddPartner);
+
+			let queryAddUrls = getQueryAddUrl(gql, "ebs", "https://9292.nl/zakelijk/", "ebs");
+			await hygraph.request(queryAddUrls);
 
 			return {
-				hygraphCall,
 				success: true,
-				message: name + ' is toegevoegd.'
+				message: `${name} met ${urlArray.length} bijhorende urls is toegevoegd.`
+
 			};
 		} catch (error) {
 			return {
