@@ -20,6 +20,7 @@ export const actions = {
 		const slug = name.toLowerCase();
 		let sitemapArray = [];
 
+		// check if url ends with a /
 		url = url.endsWith('/') ? url : url + '/';
 	
 		// fetch the sitemap of an url
@@ -30,7 +31,6 @@ export const actions = {
 
 		const { sites } = await siteMap.fetch();
 		sitemapArray = sites;
-		console.log("Array: " + sitemapArray);
 
 		// add data to hygraph
 		try {
@@ -41,7 +41,6 @@ export const actions = {
 				let link = sitemapArray[i];
 				const urlObject = new URL(link);
 				const path = urlObject.pathname;
-				console.log("Path: " + cleanedPath);
 
 				let queryAddUrls = getQueryAddUrl(gql, path, link, slug);
 				await hygraph.request(queryAddUrls);
