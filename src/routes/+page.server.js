@@ -37,12 +37,15 @@ export const actions = {
 			let queryAddPartner = getQueryAddPartner(gql, name, url, slug);
 			await hygraph.request(queryAddPartner);
 
-			for (let i = 0; i < 10; i++) {
+			for (let i = 0; i < 5; i++) {
+				// save each link from the sitemap array
 				let link = sitemapArray[i];
+				// create an url object for the link saved
 				const urlObject = new URL(link);
+				// fetch only the path name from the link
 				const path = urlObject.pathname;
 
-				let queryAddUrls = getQueryAddUrl(gql, path, link, slug);
+				let queryAddUrls = getQueryAddUrl(gql, `${path}-${slug}`, link, slug, path);
 				await hygraph.request(queryAddUrls);
 			}
 

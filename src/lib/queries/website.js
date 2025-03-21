@@ -7,6 +7,7 @@ export default function getQueryWebsite(gql, slug) {
 				urls {
 					id
 					url
+					name
 					updatedAt
 					slug
 					checks {

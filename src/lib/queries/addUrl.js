@@ -1,8 +1,8 @@
-export default function getQueryAddUrl(gql, urlSlug, urlLink, websiteSlug) {
+export default function getQueryAddUrl(gql, urlSlug, urlLink, websiteSlug, urlName) {
 	return gql`
     mutation {
         createUrl(
-          data: {url: "${urlLink}", slug: "${urlSlug}", website: {connect: {slug: "${websiteSlug}"}}}
+          data: {name: "${urlName}", url: "${urlLink}", slug: "${urlSlug}", website: {connect: {slug: "${websiteSlug}"}}}
         ) {
           id
         }

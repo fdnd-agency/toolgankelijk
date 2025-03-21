@@ -3,6 +3,7 @@ export default function getQueryUrl(gql, slug) {
 		query Url {
 			url(where: { slug: "${slug}" }) {
 				id
+				name
 				url
 				slug
 				updatedAt

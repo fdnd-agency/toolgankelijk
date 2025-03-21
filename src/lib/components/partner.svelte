@@ -38,7 +38,7 @@
 		// show url
 		link = params + '/' + website.slug;
 		image = website.url;
-		title = website.slug;
+		title = website.name;
 
 		// edit form variables
 		editFormAction = '?/editPost';
