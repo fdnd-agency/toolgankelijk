@@ -1,7 +1,7 @@
-export default function getQueryUrl(gql, url) {
+export default function getQueryUrl(gql, slug) {
 	return gql`
 		query Url {
-			url(where: { url: "${url}" }) {
+			url(where: { slug: "${slug}" }) {
 				id
 				url
 				slug
