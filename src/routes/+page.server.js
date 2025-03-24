@@ -18,19 +18,41 @@ export const actions = {
 		const name = formData.get('name');
 		let url = formData.get('url');
 		const slug = name.toLowerCase();
-		let sitemapArray = [];
+		let urlArray = [];
+		const sitemapArray = [
+			"sitemap.xml", "sitemap_index.xml", "sitemap.php", "sitemap.txt",
+			"sitemap-index.xml", "sitemap.xml.gz", "sitemap/", "sitemap/sitemap.xml",
+			"sitemapindex.xml", "sitemap/index.xml", "sitemap1.xml"];
 
 		// check if url ends with a /
 		url = url.endsWith('/') ? url : url + '/';
 	
 		// fetch the sitemap of an url
-		const siteMap = new Sitemapper({
-			url: url + 'sitemap.xml',
-			timeout: 15000,
-		});
+		for (let i = 0; i < sitemapArray.length; i++) {
+			try {
+				console.log(`Testing the path: ${url + sitemapArray[i]}`);
+				
+				const siteMap = new Sitemapper({
+					url: url + sitemapArray[i],
+					timeout: 15000,
+				});
 
-		const { sites } = await siteMap.fetch();
-		sitemapArray = sites;
+				const { sites } = await siteMap.fetch();
+				urlArray = sites || [];
+
+				if (urlArray.length > 0) {
+					console.log(`Sitemap found: ${urlArray}`);
+					break;
+				}
+			}
+			catch (error) {
+				console.log(`fout: ${error}`);
+			}
+		}
+
+		if (urlArray.length === 0) {
+			console.log("Sitemap is not found");
+		}
 
 		// add data to hygraph
 		try {
@@ -39,7 +61,7 @@ export const actions = {
 
 			for (let i = 0; i < 5; i++) {
 				// save each link from the sitemap array
-				let link = sitemapArray[i];
+				let link = urlArray[i];
 				// create an url object for the link saved
 				const urlObject = new URL(link);
 				// fetch only the path name from the link
@@ -51,7 +73,7 @@ export const actions = {
 
 			return {
 				success: true,
-				message: `${name} met ${sitemapArray.length} bijhorende urls is toegevoegd.`
+				message: `${name} met ${urlArray.length} bijhorende urls is toegevoegd.`
 
 			};
 		} catch (error) {
