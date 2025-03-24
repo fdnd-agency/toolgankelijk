@@ -67,7 +67,11 @@ export const actions = {
 				// fetch only the path name from the link
 				const path = urlObject.pathname;
 
-				let queryAddUrls = getQueryAddUrl(gql, `${path}-${slug}`, link, slug, path);
+				// replace all / with a - to make the slug work
+				let urlSlug = path + slug;
+				urlSlug = urlSlug.replace(/\//g, "-");
+
+				let queryAddUrls = getQueryAddUrl(gql, urlSlug, link, slug, path);
 				await hygraph.request(queryAddUrls);
 			}
 
