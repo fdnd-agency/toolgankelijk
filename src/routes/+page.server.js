@@ -31,7 +31,7 @@ export const actions = {
 		for (let i = 0; i < sitemapArray.length; i++) {
 			try {
 				console.log(`Testing the path: ${url + sitemapArray[i]}`);
-				
+
 				const siteMap = new Sitemapper({
 					url: url + sitemapArray[i],
 					timeout: 15000,
@@ -41,7 +41,7 @@ export const actions = {
 				urlArray = sites || [];
 
 				if (urlArray.length > 0) {
-					console.log(`Sitemap found: ${urlArray}`);
+					console.log("Sitemap found");
 					break;
 				}
 			}
