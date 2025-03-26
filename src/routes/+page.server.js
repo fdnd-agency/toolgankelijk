@@ -54,6 +54,8 @@ export const actions = {
 			console.log("Sitemap is not found");
 		}
 
+		console.log(urlArray[1]);
+
 		// add data to hygraph
 		try {
 			let queryAddPartner = getQueryAddPartner(gql, name, url, slug);
@@ -65,7 +67,6 @@ export const actions = {
 
 			async function processUrls() {
 				for (let i = 0; i < urlArray.length; i++) {
-					console.log(`attempt: ${i}`);
 					// save each link from the sitemap array
 					let link = urlArray[i];
 					// create an url object for the link saved
@@ -82,13 +83,12 @@ export const actions = {
 
 					// wait 10 loops then apply 2 seconds delay
 					if ((i + 1) % 10 === 0) {
-						console.log("Wachten na 10 requests...");
 						await delay(2000);
 					}
 				}
 			}
 
-			await processUrls();
+			processUrls();
 
 			return {
 				success: true,
