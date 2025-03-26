@@ -59,21 +59,36 @@ export const actions = {
 			let queryAddPartner = getQueryAddPartner(gql, name, url, slug);
 			await hygraph.request(queryAddPartner);
 
-			for (let i = 0; i < urlArray.length; i++) {
-				// save each link from the sitemap array
-				let link = urlArray[i];
-				// create an url object for the link saved
-				const urlObject = new URL(link);
-				// fetch only the path name from the link
-				const path = urlObject.pathname;
-
-				// replace all / with a - to make the slug work
-				let urlSlug = path + slug;
-				urlSlug = urlSlug.replace(/\//g, "-");
-
-				let queryAddUrls = getQueryAddUrl(gql, urlSlug, link, slug, path);
-				await hygraph.request(queryAddUrls);
+			async function delay(ms) {
+				return new Promise(resolve => setTimeout(resolve, ms));
 			}
+
+			async function processUrls() {
+				for (let i = 0; i < urlArray.length; i++) {
+					console.log(`attempt: ${i}`);
+					// save each link from the sitemap array
+					let link = urlArray[i];
+					// create an url object for the link saved
+					const urlObject = new URL(link);
+					// fetch only the path name from the link
+					const path = urlObject.pathname;
+
+					// replace all / with a - to make the slug work
+					let urlSlug = path + slug;
+					urlSlug = urlSlug.replace(/\//g, "-");
+
+					let queryAddUrls = getQueryAddUrl(gql, urlSlug, link, slug, path);
+					await hygraph.request(queryAddUrls);
+
+					// wait 10 loops then apply 2 seconds delay
+					if ((i + 1) % 10 === 0) {
+						console.log("Wachten na 10 requests...");
+						await delay(2000);
+					}
+				}
+			}
+
+			processUrls();
 
 			return {
 				success: true,
