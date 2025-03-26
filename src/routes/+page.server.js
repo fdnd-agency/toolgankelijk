@@ -88,7 +88,7 @@ export const actions = {
 				}
 			}
 
-			processUrls();
+			await processUrls();
 
 			return {
 				success: true,
