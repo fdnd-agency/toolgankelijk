@@ -5,6 +5,7 @@ import getQueryUpdatePartner from '$lib/queries/updatePartner';
 import getQueryPartner from '$lib/queries/partner';
 import getQueryAddPartner from '$lib/queries/addPartner';
 import getQueryAddUrl from '$lib/queries/addUrl';
+import getQueryUrl from '$lib/queries/url';
 import Sitemapper from 'sitemapper';
 
 export async function load() {
@@ -28,33 +29,76 @@ export const actions = {
 		url = url.endsWith('/') ? url : url + '/';
 	
 		// fetch the sitemap of an url
-		for (let i = 0; i < sitemapArray.length; i++) {
-			try {
-				console.log(`Testing the path: ${url + sitemapArray[i]}`);
+		// for (let i = 0; i < sitemapArray.length; i++) {
+		// 	try {
+		// 		console.log(`Testing the path: ${url + sitemapArray[i]}`);
 
-				const siteMap = new Sitemapper({
-					url: url + sitemapArray[i],
-					timeout: 15000,
-				});
+		// 		const siteMap = new Sitemapper({
+		// 			url: url + sitemapArray[i],
+		// 			timeout: 15000,
+		// 		});
 
-				const { sites } = await siteMap.fetch();
-				urlArray = sites || [];
+		// 		const { sites } = await siteMap.fetch();
+		// 		urlArray = sites || [];
 
-				if (urlArray.length > 0) {
+		// 		if (urlArray.length > 0) {
+		// 			console.log("Sitemap found");
+		// 			break;
+		// 		}
+		// 	}
+		// 	catch (error) {
+		// 		console.log(`fout: ${error}`);
+		// 	}
+		// }
+
+		// if (urlArray.length === 0) {
+		// 	console.log("Sitemap is not found");
+		// }
+
+		// Create an array of promises for the sitemap checks
+		const sitemapPromises = sitemapArray.map((sitemapPath) => {
+			return new Promise(async (resolve, reject) => {
+				try {
+					console.log(`Testing the path: ${url + sitemapPath}`);
+					
+					const siteMap = new Sitemapper({
+						url: url + sitemapPath,
+						timeout: 15000,
+					});
+
+					const { sites } = await siteMap.fetch();
+					if (sites && sites.length > 0) {
+						resolve(sites); // Return the found sites if the sitemap is valid
+					} else {
+						resolve([]); // Return an empty array if no sites found
+					}
+				} catch (error) {
+					reject(`Error with sitemap path: ${sitemapPath}, ${error}`);
+				}
+			});
+		});
+
+		// Wait for all the sitemap checks to finish
+		try {
+			const sitemapResults = await Promise.all(sitemapPromises);
+
+			// Loop over the results and check which sitemap returned sites
+			for (let i = 0; i < sitemapResults.length; i++) {
+				const result = sitemapResults[i];
+				if (result.length > 0) {
 					console.log("Sitemap found");
-					break;
+					urlArray = result; // Set the found sitemap URLs
+					break; // Exit the loop as we found a valid sitemap
 				}
 			}
-			catch (error) {
-				console.log(`fout: ${error}`);
+
+			if (urlArray.length === 0) {
+				console.log("Sitemap is not found");
 			}
+		} catch (error) {
+			console.log(`Error: ${error}`);
 		}
 
-		if (urlArray.length === 0) {
-			console.log("Sitemap is not found");
-		}
-
-		console.log(urlArray[1]);
 
 		// add data to hygraph
 		try {
@@ -67,6 +111,7 @@ export const actions = {
 
 			async function processUrls() {
 				for (let i = 0; i < urlArray.length; i++) {
+					console.log(`attempt: ${i}`);
 					// save each link from the sitemap array
 					let link = urlArray[i];
 					// create an url object for the link saved
@@ -81,9 +126,9 @@ export const actions = {
 					let queryAddUrls = getQueryAddUrl(gql, urlSlug, link, slug, path);
 					await hygraph.request(queryAddUrls);
 
-					// wait 10 loops then apply 2 seconds delay
-					if ((i + 1) % 10 === 0) {
-						await delay(2000);
+					// wait 5 loops then apply 0.1 seconds delay
+					if ((i + 1) % 5 === 0) {
+						await delay(100);
 					}
 				}
 			}
@@ -105,8 +150,18 @@ export const actions = {
 	deletePartner: async ({ request }) => {
 		const formData = await request.formData();
 		const id = formData.get('id');
-		let query = getQueryDeletePartner(gql, id);
-		return await hygraph.request(query);
+
+		let queryDelete = getQueryDeletePartner(gql, id);
+		const deleteResponse = await hygraph.request(queryDelete);
+		console.log(deleteResponse);
+
+		const websiteSlug = deleteResponse.deleteWebsite.slug;
+		console.log(websiteSlug);
+
+		let queryUrls = getQueryUrl(gql, websiteSlug);
+		await hygraph.request(queryUrls);
+
+		return await hygraph.request(queryDelete);
 	},
 	editPartner: async ({ request }) => {
 		const formData = await request.formData();
