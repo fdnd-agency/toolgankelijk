@@ -3,7 +3,6 @@ export default function getQueryDeletePartner(gql, id) {
 		mutation {
 			deleteWebsite(where: { id: "${id}" }) {
 				id
-				slug
 			}
 		}
 	`;

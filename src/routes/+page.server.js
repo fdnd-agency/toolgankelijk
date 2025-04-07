@@ -6,6 +6,8 @@ import getQueryPartner from '$lib/queries/partner';
 import getQueryAddPartner from '$lib/queries/addPartner';
 import getQueryAddUrl from '$lib/queries/addUrl';
 import getQueryUrl from '$lib/queries/url';
+import getQueryDeleteUrl from '$lib/queries/deleteUrl';
+import getQueryPartnerUrls from '$lib/queries/partnerUrls';
 import Sitemapper from 'sitemapper';
 
 export async function load() {
@@ -27,33 +29,6 @@ export const actions = {
 
 		// check if url ends with a /
 		url = url.endsWith('/') ? url : url + '/';
-	
-		// fetch the sitemap of an url
-		// for (let i = 0; i < sitemapArray.length; i++) {
-		// 	try {
-		// 		console.log(`Testing the path: ${url + sitemapArray[i]}`);
-
-		// 		const siteMap = new Sitemapper({
-		// 			url: url + sitemapArray[i],
-		// 			timeout: 15000,
-		// 		});
-
-		// 		const { sites } = await siteMap.fetch();
-		// 		urlArray = sites || [];
-
-		// 		if (urlArray.length > 0) {
-		// 			console.log("Sitemap found");
-		// 			break;
-		// 		}
-		// 	}
-		// 	catch (error) {
-		// 		console.log(`fout: ${error}`);
-		// 	}
-		// }
-
-		// if (urlArray.length === 0) {
-		// 	console.log("Sitemap is not found");
-		// }
 
 		// Create an array of promises for the sitemap checks
 		const sitemapPromises = sitemapArray.map((sitemapPath) => {
@@ -99,7 +74,6 @@ export const actions = {
 			console.log(`Error: ${error}`);
 		}
 
-
 		// add data to hygraph
 		try {
 			let queryAddPartner = getQueryAddPartner(gql, name, url, slug);
@@ -111,7 +85,7 @@ export const actions = {
 
 			async function processUrls() {
 				for (let i = 0; i < urlArray.length; i++) {
-					console.log(`attempt: ${i}`);
+					console.log(`url: ${i}`);
 					// save each link from the sitemap array
 					let link = urlArray[i];
 					// create an url object for the link saved
@@ -133,7 +107,8 @@ export const actions = {
 				}
 			}
 
-			processUrls();
+			await processUrls();
+			console.log('All urls added.');
 
 			return {
 				success: true,
@@ -150,18 +125,57 @@ export const actions = {
 	deletePartner: async ({ request }) => {
 		const formData = await request.formData();
 		const id = formData.get('id');
+		console.log(id);
 
+		let allUrls = [];
+		let skip = 0;
+		const batchSize = 100;
+
+		// fetch all partner urls
+		while (true) {
+			let queyryPartnerUrls = getQueryPartnerUrls(gql, id, skip, batchSize);
+			const { urls } = await hygraph.request(queyryPartnerUrls);
+		
+			if (!urls || urls.length === 0) break;
+		
+			allUrls.push(...urls);
+			skip += batchSize;
+		
+			// delay of 0.1 seconds
+			await delay(100);
+		}
+		console.log(allUrls.length);
+
+		// delete all urls
+		async function delay(ms) {
+			return new Promise(resolve => setTimeout(resolve, ms));
+		}
+
+		async function processUrls() {
+			for (let i = 0; i < allUrls.length; i++) {
+				console.log(`url: ${i}`);
+				// save each link from the sitemap array
+				let link = allUrls[i];
+
+				let queryDeleteUrls = getQueryDeleteUrl(gql, link.id);
+				await hygraph.request(queryDeleteUrls);
+
+				// wait 5 loops then apply 0.1 seconds delay
+				if ((i + 1) % 5 === 0) {
+					await delay(100);
+				}
+			}
+		}
+
+		await processUrls();
+		console.log('All urls deleted.')
+
+		// delete partner
 		let queryDelete = getQueryDeletePartner(gql, id);
 		const deleteResponse = await hygraph.request(queryDelete);
 		console.log(deleteResponse);
 
-		const websiteSlug = deleteResponse.deleteWebsite.slug;
-		console.log(websiteSlug);
-
-		let queryUrls = getQueryUrl(gql, websiteSlug);
-		await hygraph.request(queryUrls);
-
-		return await hygraph.request(queryDelete);
+		return deleteResponse;
 	},
 	editPartner: async ({ request }) => {
 		const formData = await request.formData();

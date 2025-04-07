@@ -35,7 +35,7 @@
 	<div class="toast"><p>{form?.message}</p></div>
 {/if}
 
-<AddForm bind:this={dialogRef} isUrl={false} />
+<AddForm bind:this={dialogRef} isUrl={false}/>
 
 <ul>
 	{#each data.websites as website}
