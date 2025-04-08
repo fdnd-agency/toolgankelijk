@@ -9,6 +9,8 @@ import getQueryUrl from '$lib/queries/url';
 import getQueryDeleteUrl from '$lib/queries/deleteUrl';
 import getQueryPartnerUrls from '$lib/queries/partnerUrls';
 import Sitemapper from 'sitemapper';
+import axios from 'axios';
+import { parseHTML } from 'linkedom';
 
 export async function load() {
 	let query = getQueryPartner(gql);
@@ -68,7 +70,40 @@ export const actions = {
 			}
 
 			if (urlArray.length === 0) {
-				console.log("Sitemap is not found");
+				console.log("Sitemap is not found, trying to extract URLs from the page");
+				try {
+					async function getAllLinks(pageUrl) {
+						const res = await axios.get(pageUrl);
+						const { document } = parseHTML(res.data);
+
+						const links = [...document.querySelectorAll('a')]
+							.map(a => a.getAttribute('href'))
+							.filter(href => href && !href.startsWith('#'))
+							.map(href => new URL(href, url).href)
+							.filter(href => href.startsWith(url));
+
+						return [...new Set(links)];
+					}
+
+					urlArray = await getAllLinks(url);
+					console.log("first batch:", urlArray);
+
+					const extraUrls = new Set(urlArray);
+					for (let i = 0; i < urlArray.length; i++) {
+						const link = urlArray[i];
+						try {
+							const links = await getAllLinks(link);
+							links.forEach(link => extraUrls.add(link));
+						} catch (error) {
+							console.log(`Error fetching links from ${link}: ${error}`);
+						}
+					}
+
+					urlArray = [...extraUrls];
+					console.log("All urls added to array");
+				}catch (error) {
+					console.log(`something went wrong: ${error}`);
+				}
 			}
 		} catch (error) {
 			console.log(`Error: ${error}`);
