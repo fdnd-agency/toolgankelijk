@@ -1,5 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
+	import { enhance } from '$app/forms';
 	import trash from '$lib/assets/trash.svg';
 	import pencil from '$lib/assets/pencil.svg';
 
@@ -13,6 +14,7 @@
 	let progressbar;
 	let openedDelete = null;
 	let openedEdit = null;
+	let openedAudit = null;
 	let lastTime;
 	let link;
 	let title;
@@ -113,6 +115,19 @@
 		document.body.style.overflowY = 'scroll';
 	}
 
+	function openAudit(event) {
+		event.preventDefault();
+		openedAudit = openedAudit === website.id ? null : website.id;
+		document.body.style.overflowY = 'hidden';
+		window.scrollTo({ top: 0, behavior: 'smooth' });
+	}
+
+	function closeAudit(event) {
+		event.preventDefault();
+		openedAudit = null;
+		document.body.style.overflowY = 'scroll';
+	}
+
 	function submitted() {
 		if (form?.success) {
 			alert(form?.message);
@@ -122,6 +137,11 @@
 		} else if (form?.success == false) {
 			alert(form?.message);
 		}
+	}
+
+	function handleSubmit(event) {
+		closeAudit(event);
+		submitted();
 	}
 
 	onMount(() => {
@@ -179,6 +199,11 @@
 				<h2 class="name">{title}</h2>
 			</div>
 			<div class="icons" id={`icons-${website.id}`}>
+				{#if !isUrl}
+					<button on:click={openAudit}>
+						<img width="24" height="24" src={pencil} alt="Audit icon" />
+					</button>
+				{/if}
 				<button on:click={openEdit}
 					><img width="24" height="24" src={pencil} alt="Bewerk icon" /></button
 				>
@@ -237,7 +262,40 @@
 	</form>
 </div>
 
+<!-- Popup for starting an audit -->
+<div class="popup-audit" style="display: {openedAudit === website.id ? 'flex' : 'none'};">
+	<form use:enhance on:submit={handleSubmit} action="?/auditPartner" method="POST">
+		<h3>Start Audit</h3>
+		<p>Weet je zeker dat je een audit wilt starten voor <span>{website.titel}</span>?</p>
+		<input class="id-field" type="text" name="id" value={website.id} id={website.id} />
+		<input
+			type="hidden"
+			name="urls"
+			id="urls"
+			value={JSON.stringify(website.urls?.map((item) => item.url))}
+		/>
+		<input type="hidden" name="slug" id="slug" value={website.slug} />
+		<div>
+			<input type="submit" value="Start" />
+			<button on:click={closeAudit}>Annuleren</button>
+		</div>
+	</form>
+</div>
+
 <style>
+	.popup-audit {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		bottom: 0;
+		left: 0;
+		display: none;
+		background-color: #2c2c2ce8;
+		z-index: 10;
+		justify-content: center;
+		align-items: center;
+	}
+
 	li {
 		display: flex;
 	}
@@ -312,7 +370,7 @@
 		border: none;
 	}
 
-	a section button:first-child {
+	a section button {
 		margin-right: 0.5rem;
 	}
 
