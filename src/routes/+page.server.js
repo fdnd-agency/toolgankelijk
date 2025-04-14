@@ -144,7 +144,7 @@ export const actions = {
 					const path = urlObject.pathname;
 
 					// replace all / with a - to make the slug work
-					let urlSlug = path + slug;
+					let urlSlug = slug + path;
 					urlSlug = urlSlug.replace(/\//g, "-");
 
 					let queryAddUrls = getQueryAddUrl(gql, urlSlug, link, slug, path);
