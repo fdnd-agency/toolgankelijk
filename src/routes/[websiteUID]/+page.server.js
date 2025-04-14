@@ -5,10 +5,16 @@ import getQueryWebsite from '$lib/queries/website';
 import getQueryDeleteUrl from '$lib/queries/deleteUrl';
 import getQueryUpdateUrl from '$lib/queries/updateUrl';
 
-export async function load({ params }) {
+export async function load({ params, url }) {
 	const { websiteUID } = params;
-	let query = getQueryWebsite(gql, websiteUID);
-	return await hygraph.request(query).websitesData;
+	const first = 1000;
+	const skip = 0;
+	const query = getQueryWebsite(gql, websiteUID, first, skip);
+	const data = await hygraph.request(query);
+
+	return {
+		websitesData: data
+	};
 }
 
 export const actions = {

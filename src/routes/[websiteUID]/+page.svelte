@@ -28,7 +28,7 @@
 
 <section>
 	<button class="add-partner" on:click={handleDialog}>Url toevoegen</button>
-	<Search placeholderProp="Home" />
+	<Search placeholderProp="Home"/>
 </section>
 
 {#if form?.success}

@@ -1,10 +1,10 @@
-export default function getQueryWebsite(gql, slug) {
+export default function getQueryWebsite(gql, slug, first = 100, skip = 0) {
 	return gql`
 		query Website {
 			website(where: { slug: "${slug}" }) {
 				titel
 				homepage
-				urls {
+				urls(first: ${first}, skip: ${skip}) {
 					id
 					url
 					name

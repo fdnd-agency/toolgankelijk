@@ -134,7 +134,7 @@ export const actions = {
 			}
 
 			async function processUrls() {
-				for (let i = 0; i < urlArray.length; i++) {
+				for (let i = 1; i < urlArray.length; i++) {
 					console.log(`url: ${i}`);
 					// save each link from the sitemap array
 					let link = urlArray[i];
@@ -206,7 +206,7 @@ export const actions = {
 		}
 
 		async function processUrls() {
-			for (let i = 0; i < allUrls.length; i++) {
+			for (let i = 1; i < allUrls.length; i++) {
 				console.log(`url: ${i}`);
 				// save each link from the sitemap array
 				let link = allUrls[i];
@@ -219,10 +219,6 @@ export const actions = {
 					console.error(`Error deleting ${link.id}: ${error.message}`);
 				}
 
-				// wait 5 loops then apply 0.1 seconds delay
-				// if ((i + 1) % 5 === 0) {
-				// 	await delay(100);
-				// }
 				await delay(150);
 			}
 		}
