@@ -27,7 +27,7 @@ export const actions = {
 		const sitemapArray = [
 			"sitemap.xml", "sitemap_index.xml", "sitemap.php", "sitemap.txt",
 			"sitemap-index.xml", "sitemap.xml.gz", "sitemap/", "sitemap/sitemap.xml",
-			"sitemapindex.xml", "sitemap/index.xml", "sitemap1.xml"];
+			"sitemapindex.xml", "sitemap/index.xml", "sitemap1.xml", "robots.txt"];
 
 		// check if url ends with a /
 		url = url.endsWith('/') ? url : url + '/';
@@ -72,37 +72,46 @@ export const actions = {
 			if (urlArray.length === 0) {
 				console.log("Sitemap is not found, trying to extract URLs from the page");
 				try {
-					async function getAllLinks(pageUrl) {
+					const visited = new Set();
+					const toVisit = [url]; // begin met de base URL
+
+					async function getLinksFromPage(pageUrl) {
 						const res = await axios.get(pageUrl);
 						const { document } = parseHTML(res.data);
 
 						const links = [...document.querySelectorAll('a')]
 							.map(a => a.getAttribute('href'))
 							.filter(href => href && !href.startsWith('#'))
-							.map(href => new URL(href, url).href)
-							.filter(href => href.startsWith(url));
+							.map(href => new URL(href, pageUrl).href) // resolve relative URLs
+							.filter(href => href.startsWith(url)); // alleen interne links
 
 						return [...new Set(links)];
 					}
 
-					urlArray = await getAllLinks(url);
-					console.log("first batch:", urlArray);
+					while (toVisit.length > 0) {
+						const currentUrl = toVisit.shift(); // neem de eerste URL uit de queue
 
-					const extraUrls = new Set(urlArray);
-					for (let i = 0; i < urlArray.length; i++) {
-						const link = urlArray[i];
+						if (visited.has(currentUrl)) continue; // skip als al bezocht
+						visited.add(currentUrl);
+
+						console.log(`Visiting: ${currentUrl}`);
+
 						try {
-							const links = await getAllLinks(link);
-							links.forEach(link => extraUrls.add(link));
+							const foundLinks = await getLinksFromPage(currentUrl);
+							for (const link of foundLinks) {
+								if (!visited.has(link) && !toVisit.includes(link)) {
+									toVisit.push(link); // voeg toe aan de queue als nog niet bezocht of gepland
+								}
+							}
 						} catch (error) {
-							console.log(`Error fetching links from ${link}: ${error}`);
+							console.log(`Error fetching ${currentUrl}: ${error.message}`);
 						}
 					}
 
-					urlArray = [...extraUrls];
-					console.log("All urls added to array");
-				}catch (error) {
-					console.log(`something went wrong: ${error}`);
+					urlArray = Array.from(visited); // alle unieke URLs
+					console.log("All URLs collected:", urlArray.length);
+				} catch (error) {
+					console.log(`Something went wrong: ${error}`);
 				}
 			}
 		} catch (error) {
@@ -133,12 +142,15 @@ export const actions = {
 					urlSlug = urlSlug.replace(/\//g, "-");
 
 					let queryAddUrls = getQueryAddUrl(gql, urlSlug, link, slug, path);
-					await hygraph.request(queryAddUrls);
-
-					// wait 5 loops then apply 0.1 seconds delay
-					if ((i + 1) % 5 === 0) {
-						await delay(100);
+					
+					try {
+						await hygraph.request(queryAddUrls);
+						console.log(`Added ${link}`);
+					} catch (error) {
+						console.error(`Error adding ${link}: ${error.message}`);
 					}
+
+					await delay(150);
 				}
 			}
 
@@ -177,7 +189,7 @@ export const actions = {
 			skip += batchSize;
 		
 			// delay of 0.1 seconds
-			await delay(100);
+			await delay(150);
 		}
 		console.log(allUrls.length);
 
@@ -193,12 +205,18 @@ export const actions = {
 				let link = allUrls[i];
 
 				let queryDeleteUrls = getQueryDeleteUrl(gql, link.id);
-				await hygraph.request(queryDeleteUrls);
+				try {
+					console.log(`Deleting ${link.id}`);
+					await hygraph.request(queryDeleteUrls);
+				}catch (error) {
+					console.error(`Error deleting ${link.id}: ${error.message}`);
+				}
 
 				// wait 5 loops then apply 0.1 seconds delay
-				if ((i + 1) % 5 === 0) {
-					await delay(100);
-				}
+				// if ((i + 1) % 5 === 0) {
+				// 	await delay(100);
+				// }
+				await delay(150);
 			}
 		}
 
