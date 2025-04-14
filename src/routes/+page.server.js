@@ -71,9 +71,10 @@ export const actions = {
 
 			if (urlArray.length === 0) {
 				console.log("Sitemap is not found, trying to extract URLs from the page");
+				// If no sitemap found, try to extract URLs from the page
 				try {
 					const visited = new Set();
-					const toVisit = [url]; // begin met de base URL
+					const toVisit = [url];
 
 					async function getLinksFromPage(pageUrl) {
 						const res = await axios.get(pageUrl);
@@ -82,25 +83,29 @@ export const actions = {
 						const links = [...document.querySelectorAll('a')]
 							.map(a => a.getAttribute('href'))
 							.filter(href => href && !href.startsWith('#'))
-							.map(href => new URL(href, pageUrl).href) // resolve relative URLs
-							.filter(href => href.startsWith(url)); // alleen interne links
+							.map(href => new URL(href, pageUrl).href)
+							.filter(href => href.startsWith(url));
 
 						return [...new Set(links)];
 					}
 
 					while (toVisit.length > 0) {
-						const currentUrl = toVisit.shift(); // neem de eerste URL uit de queue
+						// fetch the next URL to visit
+						const currentUrl = toVisit.shift();
 
-						if (visited.has(currentUrl)) continue; // skip als al bezocht
+						// if the URL is already visited, skip it
+						if (visited.has(currentUrl)) continue;
 						visited.add(currentUrl);
 
 						console.log(`Visiting: ${currentUrl}`);
 
+						// fetch the page and extract links
 						try {
 							const foundLinks = await getLinksFromPage(currentUrl);
 							for (const link of foundLinks) {
+								// add the link to the visited set
 								if (!visited.has(link) && !toVisit.includes(link)) {
-									toVisit.push(link); // voeg toe aan de queue als nog niet bezocht of gepland
+									toVisit.push(link);
 								}
 							}
 						} catch (error) {
@@ -108,7 +113,8 @@ export const actions = {
 						}
 					}
 
-					urlArray = Array.from(visited); // alle unieke URLs
+					// remove duplicates and filter out external links
+					urlArray = Array.from(visited);
 					console.log("All URLs collected:", urlArray.length);
 				} catch (error) {
 					console.log(`Something went wrong: ${error}`);
@@ -150,6 +156,7 @@ export const actions = {
 						console.error(`Error adding ${link}: ${error.message}`);
 					}
 
+					// delay of 0.15 seconds
 					await delay(150);
 				}
 			}
@@ -188,7 +195,7 @@ export const actions = {
 			allUrls.push(...urls);
 			skip += batchSize;
 		
-			// delay of 0.1 seconds
+			// delay of 0.15 seconds
 			await delay(150);
 		}
 		console.log(allUrls.length);
