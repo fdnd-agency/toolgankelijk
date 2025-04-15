@@ -1,4 +1,4 @@
-export default function getQueryWebsite(gql, slug, first = 100, skip = 0) {
+export default function getQueryWebsite(gql, slug, first = 20, skip = 0) {
 	return gql`
 		query Website {
 			website(where: { slug: "${slug}" }) {

@@ -7,13 +7,15 @@ import getQueryUpdateUrl from '$lib/queries/updateUrl';
 
 export async function load({ params, url }) {
 	const { websiteUID } = params;
-	const first = 1000;
-	const skip = 0;
+	const first = 20;
+	const skip = parseInt(url.searchParams.get('skip') || '0');;
 	const query = getQueryWebsite(gql, websiteUID, first, skip);
 	const data = await hygraph.request(query);
 
 	return {
-		websitesData: data
+		websitesData: data,
+		first,
+		skip
 	};
 }
 

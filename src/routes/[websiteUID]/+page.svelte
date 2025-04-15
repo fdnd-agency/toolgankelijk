@@ -8,6 +8,12 @@
 	export let data;
 	export let form;
 
+	let skip = data.skip;
+	let skipInput;
+	const first = data.first;
+	const hasPrevious = skip > 0;
+	const hasNext = data.websitesData.website.urls.length === first;
+
 	$: heading = {
 		titel: data.websitesData.website.titel,
 		homepage: data.websitesData.website.homepage
@@ -22,6 +28,21 @@
 	function handleDialog() {
 		dialogRef.open();
 	}
+
+	function handleSubmit(event) {
+		const form = event.target;
+		const button = event.submitter;
+
+		if (button.name === 'direction') {
+			if (button.value === 'prev') {
+				skipInput.value = Math.max(skip - first, 0);
+			} else if (button.value === 'next') {
+				skipInput.value = skip + first;
+			}
+		}
+
+		form.submit();
+	}
 </script>
 
 <Heading {heading} />
@@ -30,6 +51,12 @@
 	<button class="add-partner" on:click={handleDialog}>Url toevoegen</button>
 	<Search placeholderProp="Home"/>
 </section>
+
+<form method="GET" on:submit|preventDefault={handleSubmit}>
+	<input type="hidden" name="skip" bind:this={skipInput} />
+	<button type="submit" name="direction" value="prev" disabled={!hasPrevious}>Vorige</button>
+	<button type="submit" name="direction" value="next" disabled={!hasNext}>Volgende</button>
+</form>
 
 {#if form?.success}
 	<div class="toast"><p>{form?.message}</p></div>
