@@ -108,7 +108,6 @@
 		position: fixed;
 		bottom: 5rem;
 		right: 1rem;
-		height: 4rem;
 		width: 10rem;
 		backdrop-filter: blur(3px);
 		border-radius: 4px;

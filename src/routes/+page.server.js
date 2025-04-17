@@ -81,7 +81,6 @@ export const actions = {
 				message: data.message
 			};
 		} catch (error) {
-			console.error('Error:', error);
 			return {
 				success: false,
 				message: 'Er ging wat mis bij het starten van de audit!'
