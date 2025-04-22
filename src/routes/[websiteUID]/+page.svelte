@@ -4,6 +4,7 @@
 	import Partner from '$lib/components/partner.svelte';
 	import Search from '$lib/components/search.svelte';
 	import AddForm from '$lib/components/addForm.svelte';
+	import Pages from '$lib/components/pages.svelte';
 
 	export let data;
 	export let form;
@@ -13,6 +14,7 @@
 	const first = data.first;
 	const hasPrevious = skip > 0;
 	const hasNext = data.websitesData.website.urls.length === first;
+	const totalUrls = data.totalUrls;
 
 	$: heading = {
 		titel: data.websitesData.website.titel,
@@ -52,11 +54,14 @@
 	<Search placeholderProp="Home"/>
 </section>
 
+{#if (totalUrls + 20) > first && totalUrls != 0}
 <form method="GET" on:submit|preventDefault={handleSubmit}>
 	<input type="hidden" name="skip" bind:this={skipInput} />
 	<button type="submit" name="direction" value="prev" disabled={!hasPrevious}>Vorige</button>
+	<Pages amount={5}/>
 	<button type="submit" name="direction" value="next" disabled={!hasNext}>Volgende</button>
 </form>
+{/if}
 
 {#if form?.success}
 	<div class="toast"><p>{form?.message}</p></div>
@@ -79,7 +84,17 @@
 		margin: 0 0 1em 1em;
 	}
 
-	.add-partner {
+	form {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+		gap: 0.5rem;
+		margin-bottom: 1rem;
+		margin-left: 1rem;
+	}
+
+	.add-partner, form button {
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -95,8 +110,17 @@
 		text-decoration: none;
 	}
 
-	.add-partner:hover {
+	.add-partner:hover, form button:hover {
 		background-color: var(--c-pink);
+	}
+
+	form button:disabled {
+		opacity: 0.5;
+	}
+
+	form button:hover:disabled {
+		background-color: var(--c-modal-button);
+		cursor: not-allowed;
 	}
 
 	ul {
