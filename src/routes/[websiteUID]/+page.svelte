@@ -15,6 +15,7 @@
 	const hasPrevious = skip > 0;
 	const hasNext = data.websitesData.website.urls.length === first;
 	let totalUrls = data.totalUrls;
+	const currentPage = skip / first + 1;
 
 	$: heading = {
 		titel: data.websitesData.website.titel,
@@ -62,7 +63,7 @@
 <form method="GET" data-sveltekit-reload>
 	<!-- <input type="hidden" name="skip" bind:this={skipInput} /> -->
 	<button type="submit" name="skip" value={Math.max(skip - first, 0)} disabled={!hasPrevious}>← Prev</button>
-	<Pages amount={totalUrls} perPage={first}/>
+	<Pages amount={totalUrls} perPage={first} currentPage={currentPage}/>
 	<button type="submit" name="skip" value={skip + first} disabled={!hasNext}>Next →</button>
 </form>
 {/if}
