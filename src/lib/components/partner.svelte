@@ -263,6 +263,9 @@
 
 	h2 {
 		font-size: 1.5rem;
+		max-width: 20ch;
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
 
 	.logo-partner-section {

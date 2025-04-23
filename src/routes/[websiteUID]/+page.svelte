@@ -58,7 +58,7 @@
 <form method="GET" on:submit|preventDefault={handleSubmit}>
 	<input type="hidden" name="skip" bind:this={skipInput} />
 	<button type="submit" name="direction" value="prev" disabled={!hasPrevious}>Vorige</button>
-	<Pages amount={5}/>
+	<Pages amount={totalUrls}/>
 	<button type="submit" name="direction" value="next" disabled={!hasNext}>Volgende</button>
 </form>
 {/if}
