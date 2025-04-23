@@ -1,7 +1,7 @@
-export default function getQueryAddPartner(gql, name, url, slug) {
+export default function getQueryAddPartner(gql, name, url, slug, total) {
 	return gql`
   mutation {
-    createWebsite(data: {titel: "${name}", homepage: "${url}", slug: "${slug}"}) {
+    createWebsite(data: {titel: "${name}", homepage: "${url}", slug: "${slug}", totalUrls: ${total}}) {
       id
       titel
       homepage

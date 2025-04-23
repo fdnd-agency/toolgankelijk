@@ -4,7 +4,6 @@ import getQueryAddUrl from '$lib/queries/addUrl';
 import getQueryWebsite from '$lib/queries/website';
 import getQueryDeleteUrl from '$lib/queries/deleteUrl';
 import getQueryUpdateUrl from '$lib/queries/updateUrl';
-import getQueryTotalUrls from '$lib/queries/totalUrls';
 
 export async function load({ params, url }) {
 	const { websiteUID } = params;
@@ -14,17 +13,13 @@ export async function load({ params, url }) {
 	//fetch part of the urls for pages
 	const query = getQueryWebsite(gql, websiteUID, first, skip);
 	const data = await hygraph.request(query);
-
-	// fetch total urls from website
-	const queryTotal = getQueryTotalUrls(gql, websiteUID);
-	const dataTotal = await hygraph.request(queryTotal);
-	console.log(dataTotal.website.urls.length);
+	console.log(data);
 
 	return {
 		websitesData: data,
+		totalUrls: data.website.totalUrls,
 		first,
-		skip,
-		totalUrls: dataTotal.website.urls.length
+		skip
 	};
 }
 

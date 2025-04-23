@@ -14,7 +14,7 @@
 	const first = data.first;
 	const hasPrevious = skip > 0;
 	const hasNext = data.websitesData.website.urls.length === first;
-	const totalUrls = data.totalUrls;
+	let totalUrls = data.totalUrls;
 
 	$: heading = {
 		titel: data.websitesData.website.titel,
@@ -35,10 +35,14 @@
 		const form = event.target;
 		const button = event.submitter;
 
-		if (button.name === 'direction') {
-			if (button.value === 'prev') {
+		if (button.name === 'skip-previous') {
+			skipInput.value = Math.max(skip - first, 0);
+		} else if (button.name === 'skip-next') {
+			skipInput.value = skip + first;
+		} else if (button.name === 'skip') {
+			if (button.value < skipInput) {
 				skipInput.value = Math.max(skip - first, 0);
-			} else if (button.value === 'next') {
+			} else {
 				skipInput.value = skip + first;
 			}
 		}
@@ -54,12 +58,12 @@
 	<Search placeholderProp="Home"/>
 </section>
 
-{#if (totalUrls + 20) > first && totalUrls != 0}
-<form method="GET" on:submit|preventDefault={handleSubmit}>
-	<input type="hidden" name="skip" bind:this={skipInput} />
-	<button type="submit" name="direction" value="prev" disabled={!hasPrevious}>Vorige</button>
-	<Pages amount={totalUrls}/>
-	<button type="submit" name="direction" value="next" disabled={!hasNext}>Volgende</button>
+{#if (totalUrls > first)}
+<form method="GET" data-sveltekit-reload>
+	<!-- <input type="hidden" name="skip" bind:this={skipInput} /> -->
+	<button type="submit" name="skip" value={Math.max(skip - first, 0)} disabled={!hasPrevious}>← Prev</button>
+	<Pages amount={totalUrls} perPage={first}/>
+	<button type="submit" name="skip" value={skip + first} disabled={!hasNext}>Next →</button>
 </form>
 {/if}
 

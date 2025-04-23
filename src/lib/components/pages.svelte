@@ -1,13 +1,18 @@
 <script>
     export let amount;
+	export let perPage;
 
-    // create an array on basis of the amount value
-    let numbers = Array.from({ length: amount }, (_, i) => i + 1);
+	// calculate the amount of pages on basis of the total urls
+	$: pages = Math.ceil(amount / perPage);
+	console.log(pages);
+
+	// create an array on basis of the pages value to use it for the each loop
+	$: pageNumbers = Array.from({ length: pages },(_, i) => i + 1);
 </script>
 
 <ul class="pages-list">
-    {#each numbers as n}
-    <li><button type="button" value={n}>{n}</button></li>
+    {#each pageNumbers as p}
+    <li><button type="submit" name="skip" value={(p - 1) * perPage}>{p}</button></li>
     {/each}
 </ul>
 

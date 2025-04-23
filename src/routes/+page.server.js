@@ -126,7 +126,7 @@ export const actions = {
 
 		// add data to hygraph
 		try {
-			let queryAddPartner = getQueryAddPartner(gql, name, url, slug);
+			let queryAddPartner = getQueryAddPartner(gql, name, url, slug, urlArray.length);
 			await hygraph.request(queryAddPartner);
 
 			async function delay(ms) {

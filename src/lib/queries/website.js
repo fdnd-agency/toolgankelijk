@@ -16,6 +16,7 @@ export default function getQueryWebsite(gql, slug, first = 20, skip = 0) {
 						}
 					}
 				}
+				totalUrls
 			}
 			principes {
 				titel
