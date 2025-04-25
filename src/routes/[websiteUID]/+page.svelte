@@ -12,8 +12,6 @@
 	let skip = data.skip;
 	let skipInput;
 	const first = data.first;
-	const hasPrevious = skip > 0;
-	const hasNext = data.websitesData.website.urls.length === first;
 	let totalUrls = data.totalUrls;
 	const currentPage = skip / first + 1;
 
@@ -60,9 +58,7 @@
 </section>
 
 {#if (totalUrls > first)}
-<form method="GET" data-sveltekit-reload>
-	<Pages amount={totalUrls} perPage={first} currentPage={currentPage}/>
-</form>
+<Pages amount={totalUrls} perPage={first} currentPage={currentPage}/>
 {/if}
 
 {#if form?.success}
@@ -84,16 +80,6 @@
 		display: flex;
 		justify-content: space-between;
 		margin: 0 0 1em 1em;
-	}
-
-	form {
-		display: flex;
-		flex-direction: row;
-		justify-content: center;
-		align-items: center;
-		gap: 0.5rem;
-		margin-bottom: 1rem;
-		margin-left: 1rem;
 	}
 
 	.add-partner {

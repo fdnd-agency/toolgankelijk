@@ -12,9 +12,18 @@ import Sitemapper from 'sitemapper';
 import axios from 'axios';
 import { parseHTML } from 'linkedom';
 
-export async function load() {
-	let query = getQueryPartner(gql);
-	return await hygraph.request(query);
+export async function load({url}) {
+	const first = 20;
+	const skip = parseInt(url.searchParams.get('skip') || '0');
+
+	let query = getQueryPartner(gql, first, skip);
+	const data = await hygraph.request(query);
+	
+	return {
+		websites: data.websites,
+		first,
+		skip
+	};
 }
 
 export const actions = {

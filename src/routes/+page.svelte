@@ -3,9 +3,15 @@
 	import Partner from '$lib/components/partner.svelte';
 	import Search from '$lib/components/search.svelte';
 	import AddForm from '$lib/components/addForm.svelte';
+	import Pages from '$lib/components/pages.svelte';
 
 	export let data;
 	export let form;
+
+	let skip = data.skip;
+	const first = data.first;
+	let totalUrls = data.websites.length;
+	const currentPage = skip / first + 1;
 
 	let heading = { titel: 'Partners overzicht' };
 	let dialogRef;
@@ -28,6 +34,10 @@
 	<button class="add-partner" on:click={handleDialog}>Partner toevoegen</button>
 	<Search placeholderProp="Gvb" />
 </section>
+
+{#if (totalUrls > first)}
+<Pages amount={totalUrls} perPage={first} currentPage={currentPage}/>
+{/if}
 
 {#if form?.success}
 	<div class="toast"><p>{form?.message}</p></div>

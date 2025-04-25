@@ -48,6 +48,7 @@
 	$: pageNumbers = getPages();
 </script>
 
+<form method="GET" data-sveltekit-reload>
 <ul class="pages-list">
 	<li><button type="submit" class="button" name="skip" value={(currentPage - 2) * perPage} disabled={currentPage === 1}>◀ Vorige</button></li>
 
@@ -70,8 +71,19 @@
 	<li class="button-disabled button">{amount}</li>
 	<li><button type="submit" class="button" name="skip" value={currentPage * perPage} disabled={currentPage === pageCount}>Volgende ▶</button></li>
 </ul>
+</form>
 
 <style>
+	form {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+		gap: 0.5rem;
+		margin-bottom: 1rem;
+		margin-left: 1rem;
+	}
+	
 	.pages-list {
 		display: flex;
 		justify-content: center;
