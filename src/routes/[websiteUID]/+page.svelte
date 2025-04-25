@@ -61,10 +61,7 @@
 
 {#if (totalUrls > first)}
 <form method="GET" data-sveltekit-reload>
-	<!-- <input type="hidden" name="skip" bind:this={skipInput} /> -->
-	<button type="submit" name="skip" value={Math.max(skip - first, 0)} disabled={!hasPrevious}>← Prev</button>
 	<Pages amount={totalUrls} perPage={first} currentPage={currentPage}/>
-	<button type="submit" name="skip" value={skip + first} disabled={!hasNext}>Next →</button>
 </form>
 {/if}
 
@@ -99,7 +96,7 @@
 		margin-left: 1rem;
 	}
 
-	.add-partner, form button {
+	.add-partner {
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -115,17 +112,8 @@
 		text-decoration: none;
 	}
 
-	.add-partner:hover, form button:hover {
+	.add-partner:hover {
 		background-color: var(--c-pink);
-	}
-
-	form button:disabled {
-		opacity: 0.5;
-	}
-
-	form button:hover:disabled {
-		background-color: var(--c-modal-button);
-		cursor: not-allowed;
 	}
 
 	ul {

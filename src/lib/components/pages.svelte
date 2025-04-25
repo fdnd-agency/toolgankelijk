@@ -1,93 +1,112 @@
 <script>
-    export let amount;
+	export let amount;
 	export let perPage;
 	export let currentPage;
 
-	// calculate the amount of pages on basis of the total urls
 	$: pageCount = Math.ceil(amount / perPage);
 
-	// calculate the amount of buttons shown per block
-	const windowSize = 5;
-	$: mod = currentPage % windowSize;
+	function getPages() {
+		let pages = [];
 
-	// decide which block-index we should be showing
-	$: blockIndex = (() => {
-		if (currentPage === pageCount) {
-			return Math.floor((pageCount - 1) / windowSize);
-		}
-		// last in a block? (5,10,15…)
-		if (mod === 0) {
-		return currentPage / windowSize;
-		}
-		// first of a higher block? (6,11,16…)
-		if (mod === 1 && currentPage > windowSize) {
-		return Math.floor((currentPage - 1) / windowSize) - 1;
-		}
-		// otherwise stick with your “natural” block
-		return Math.floor((currentPage - 1) / windowSize);
-	})();
+		// always show first page
+		pages.push(1);
 
-	// compute the range [startPage…endPage]
-	$: startPage = blockIndex * windowSize + 1;
-	$: endPage   = Math.min(startPage + windowSize - 1, pageCount);
+		if (pageCount <= 6) {
+			// just show all pages if few
+			for (let i = 2; i < pageCount; i++) {
+				pages.push(i);
+			}
+		} else if (currentPage <= 4) {
+			// near the start
+			for (let i = 2; i <= 5; i++) {
+				pages.push(i);
+			}
+			pages.push("...");
+		} else if (currentPage >= pageCount - 3) {
+			// near the end
+			pages.push("...");
+			for (let i = pageCount - 4; i < pageCount; i++) {
+				pages.push(i);
+			}
+		} else {
+			// in the middle
+			pages.push("...");
+			pages.push(currentPage - 1);
+			pages.push(currentPage);
+			pages.push(currentPage + 1);
+			pages.push("...");
+		}
 
-	// now build [startPage, startPage+1, …, endPage]
-	$: pageNumbers = Array.from(
-		{ length: endPage - startPage + 1 },
-		(_, i) => startPage + i
-	);
+		// always show last page
+		if (pageCount > 1) {
+			pages.push(pageCount);
+		}
+
+		return pages;
+	}
+
+	$: pageNumbers = getPages();
 </script>
 
 <ul class="pages-list">
-    {#each pageNumbers as p}
-    <li><button type="submit" name="skip" value={(p - 1) * perPage} class:selected={p === currentPage}>{p}</button></li>
-    {/each}
-	{#if pageCount > windowSize}
-	<li class="button-preview">...</li>
-	{/if}
+	<li><button type="submit" class="button" name="skip" value={(currentPage - 2) * perPage} disabled={currentPage === 1}>◀ Vorige</button></li>
+
+	{#each pageNumbers as p}
+		{#if p === "..."}
+			<li class="button-disabled button">...</li>
+		{:else}
+			<li>
+				<button
+					type="submit"
+					class="button"
+					name="skip"
+					value={(p - 1) * perPage}
+					class:selected={p === currentPage}
+				>{p}</button>
+			</li>
+		{/if}
+	{/each}
+
+	<li class="button-disabled button">{amount}</li>
+	<li><button type="submit" class="button" name="skip" value={currentPage * perPage} disabled={currentPage === pageCount}>Volgende ▶</button></li>
 </ul>
 
 <style>
-    .pages-list {
+	.pages-list {
 		display: flex;
-		flex-direction: row;
 		justify-content: center;
 		align-items: center;
 		gap: 0.5rem;
-        list-style-type: "";
+		list-style: none;
+		padding: 0;
 	}
 
-	.pages-list li button {
-		border-radius: 0.25em;
-		padding: 0.5em 1em;
-		color: var(--c-white2);
+	.button {
+		border-radius: 0.25rem;
+		padding: 0.5rem 1rem;
 		background-color: var(--c-modal-button);
+		color: var(--c-white2);
 		border: none;
-		font-weight: 600;
-		font-size: 1em;
-		transition: 0.3s;
 		cursor: pointer;
+		transition: 0.3s;
+		font-size: 1rem;
 	}
 
-	.button-preview {
-		border-radius: 0.25em;
-		padding: 0.5em 1em;
-		color: var(--c-white2);
-		background-color: var(--c-modal-button);
-		border: none;
-		font-weight: 600;
-		font-size: 1em;
-		transition: 0.3s;
-		cursor: pointer;
+	.button:hover {
+		background-color: var(--c-pink);
+	}
+
+	.button-disabled {
 		opacity: 0.5;
 	}
 
-	.pages-list li button:hover {
+	.selected {
 		background-color: var(--c-pink);
+		font-weight: 900;
 	}
 
-	.pages-list li .selected {
-		font-weight: 900;
-		background-color: var(--c-pink);
+	.button:disabled {
+		cursor: default;
+		opacity: 0.5;
 	}
 </style>
