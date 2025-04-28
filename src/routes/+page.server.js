@@ -20,7 +20,7 @@ export async function load({url}) {
 	const data = await hygraph.request(query);
 	
 	return {
-		websites: data.websites,
+		websites: data,
 		first,
 		skip
 	};

@@ -12,19 +12,19 @@
 	let skip = data.skip;
 	let skipInput;
 	const first = data.first;
-	let totalUrls = data.totalUrls;
+	let totalUrls = data.websites.website.totalUrls;
 	const currentPage = skip / first + 1;
 
 	$: heading = {
-		titel: data.websitesData.website.titel,
-		homepage: data.websitesData.website.homepage
+		titel: data.websites.website.titel,
+		homepage: data.websites.website.homepage
 	};
-	$: websites = data.websitesData.website.urls;
-	$: overzicht = data.websitesData.website;
+	$: websites = data.websites.website.urls;
+	$: overzicht = data.websites.website;
 	$: params = $page.params.websiteUID;
 
 	let dialogRef;
-	const principes = data.partnersData.principes;
+	const principes = data.websites.principes;
 
 	function handleDialog() {
 		dialogRef.open();

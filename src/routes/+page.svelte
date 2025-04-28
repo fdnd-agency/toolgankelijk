@@ -10,12 +10,12 @@
 
 	let skip = data.skip;
 	const first = data.first;
-	let totalUrls = data.websites.length;
+	let totalUrls = data.websites.totalUrls;
 	const currentPage = skip / first + 1;
 
 	let heading = { titel: 'Partners overzicht' };
 	let dialogRef;
-	const principes = data.principes;
+	const principes = data.websites.principes;
 
 	function handleDialog() {
 		dialogRef.open();
@@ -48,7 +48,7 @@
 <AddForm bind:this={dialogRef} isUrl={false}/>
 
 <ul>
-	{#each data.websites as website}
+	{#each data.websites.websites as website}
 		<Partner {website} {principes} isUrl={false} />
 	{/each}
 </ul>

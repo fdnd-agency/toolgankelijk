@@ -13,11 +13,9 @@ export async function load({ params, url }) {
 	//fetch part of the urls for pages
 	const query = getQueryWebsite(gql, websiteUID, first, skip);
 	const data = await hygraph.request(query);
-	console.log(data);
 
 	return {
-		websitesData: data,
-		totalUrls: data.website.totalUrls,
+		websites: data,
 		first,
 		skip
 	};

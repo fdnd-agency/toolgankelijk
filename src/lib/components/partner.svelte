@@ -88,6 +88,7 @@
 	}
 
 	function openDelete(event) {
+		console.log("Delete");
 		event.preventDefault();
 		openedDelete = openedDelete === website.id ? null : website.id;
 		document.body.style.overflowY = 'hidden';
@@ -101,6 +102,7 @@
 	}
 
 	function openEdit(event) {
+		console.log("Edit");
 		event.preventDefault();
 		openedEdit = openedEdit === website.id ? null : website.id;
 		document.body.style.overflowY = 'hidden';
@@ -199,8 +201,9 @@
 	</a>
 </li>
 
+{#if openedEdit === website.id}
 <!-- Popup voor het bewerken van de partner -->
-<article class="popup-edit" style="display: {openedEdit === website.id ? 'flex' : 'none'};">
+<article class="popup-edit">
 	<form on:submit={submitted} action={editFormAction} method="POST">
 		<h3>{editFormTitle}</h3>
 		<div class="fields-container">
@@ -220,9 +223,11 @@
 		</div>
 	</form>
 </article>
+{/if}
 
+{#if openedDelete === website.id}
 <!-- Popup voor het verwijderen van de partner -->
-<div class="popup-verwijder" style="display: {openedDelete === website.id ? 'flex' : 'none'};">
+<div class="popup-verwijder">
 	<form on:submit={submitted} action={deleteFormAction} method="POST">
 		<h3>{deleteFormTitle}</h3>
 		<p>
@@ -236,6 +241,7 @@
 		</div>
 	</form>
 </div>
+{/if}
 
 <style>
 	li {
@@ -387,7 +393,7 @@
 		height: 100%;
 		bottom: 0;
 		left: 0;
-		display: none;
+		display: flex;
 		background-color: #2c2c2ce8;
 		z-index: 10;
 		justify-content: center;
