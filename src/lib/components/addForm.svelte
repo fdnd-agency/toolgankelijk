@@ -64,6 +64,13 @@
 				</div>
 			{/if}
 
+			{#if !isUrl}
+				<div class="input-container" aria-hidden="true">
+					<label for="sitemap" class="sitemap-label">Sitemap ophalen van partner</label>
+					<input id="sitemap" name="sitemap" type="checkbox"/>
+				</div>
+			{/if}
+
 			<div class="button-div" aria-label="button container">
 				<button type="submit" class="add-button">Toevoegen</button>
 				<button class="remove-button" on:click={close}>Sluiten</button>

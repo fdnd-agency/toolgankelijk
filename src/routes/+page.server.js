@@ -31,6 +31,7 @@ export const actions = {
 		const formData = await request.formData();
 		const name = formData.get('name');
 		let url = formData.get('url');
+		let toggleSitemap = formData.get('sitemap') === "on";
 		const slug = name.toLowerCase();
 		let urlArray = [];
 		const sitemapArray = [
@@ -38,6 +39,7 @@ export const actions = {
 			"sitemap-index.xml", "sitemap.xml.gz", "sitemap/", "sitemap/sitemap.xml",
 			"sitemapindex.xml", "sitemap/index.xml", "sitemap1.xml", "robots.txt"];
 
+		if (toggleSitemap) {
 		// check if url ends with a /
 		url = url.endsWith('/') ? url : url + '/';
 
@@ -132,12 +134,14 @@ export const actions = {
 		} catch (error) {
 			console.log(`Error: ${error}`);
 		}
+	}
 
 		// add data to hygraph
 		try {
 			let queryAddPartner = getQueryAddPartner(gql, name, url, slug, urlArray.length);
 			await hygraph.request(queryAddPartner);
 
+			if (toggleSitemap) {
 			async function delay(ms) {
 				return new Promise(resolve => setTimeout(resolve, ms));
 			}
@@ -172,6 +176,8 @@ export const actions = {
 
 			await processUrls();
 			console.log('All urls added.');
+
+		}
 
 			return {
 				success: true,
