@@ -38,6 +38,10 @@ export const actions = {
 			"sitemap.xml", "sitemap_index.xml", "sitemap.php", "sitemap.txt",
 			"sitemap-index.xml", "sitemap.xml.gz", "sitemap/", "sitemap/sitemap.xml",
 			"sitemapindex.xml", "sitemap/index.xml", "sitemap1.xml", "robots.txt"];
+		
+		function isValidUrl(url) {
+			return !url.includes('/document') && !url.includes('/documents');
+		}
 
 		if (toggleSitemap) {
 		// check if url ends with a /
@@ -56,7 +60,7 @@ export const actions = {
 
 					const { sites } = await siteMap.fetch();
 					if (sites && sites.length > 0) {
-						resolve(sites); // Return the found sites if the sitemap is valid
+						resolve(sites.filter(isValidUrl)); // Return the found sites if the sitemap is valid
 					} else {
 						resolve([]); // Return an empty array if no sites found
 					}
@@ -95,7 +99,8 @@ export const actions = {
 							.map(a => a.getAttribute('href'))
 							.filter(href => href && !href.startsWith('#'))
 							.map(href => new URL(href, pageUrl).href)
-							.filter(href => href.startsWith(url));
+							.filter(href => href.startsWith(url))
+							.filter(isValidUrl);
 
 						return [...new Set(links)];
 					}
