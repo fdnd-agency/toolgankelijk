@@ -272,7 +272,7 @@
 			type="hidden"
 			name="urls"
 			id="urls"
-			value={JSON.stringify(website.urls?.map((item) => item.url))}
+			value={JSON.stringify(website.urls?.map((item) => ({ url: item.url, slug: item.slug })))}
 		/>
 		<input type="hidden" name="slug" id="slug" value={website.slug} />
 		<div>
