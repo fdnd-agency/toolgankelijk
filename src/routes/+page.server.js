@@ -146,43 +146,57 @@ export const actions = {
 			let queryAddPartner = getQueryAddPartner(gql, name, url, slug, urlArray.length);
 			await hygraph.request(queryAddPartner);
 
+			console.log('Partner added.');
+
 			if (toggleSitemap) {
-			async function delay(ms) {
-				return new Promise(resolve => setTimeout(resolve, ms));
-			}
+				async function delay(ms) {
+					return new Promise(resolve => setTimeout(resolve, ms));
+				}
 
-			async function processUrls() {
-				for (let i = 1; i < urlArray.length; i++) {
-					console.log(`url: ${i}`);
-					// save each link from the sitemap array
-					let link = urlArray[i];
-					// create an url object for the link saved
-					const urlObject = new URL(link);
-					// fetch only the path name from the link
-					const path = urlObject.pathname;
+				let totalUrls = urlArray.length;
+				let failedUrls = {};
 
-					// replace all / with a - to make the slug work
-					let urlSlug = slug + path;
-					urlSlug = urlSlug.replace(/\//g, "-");
+				async function processUrls() {
+					for (let i = 1; i < urlArray.length; i++) {
+						console.log(`url: ${i}`);
+						// save each link from the sitemap array
+						let link = urlArray[i];
+						// create an url object for the link saved
+						const urlObject = new URL(link);
+						// fetch only the path name from the link
+						const path = urlObject.pathname;
 
-					let queryAddUrls = getQueryAddUrl(gql, urlSlug, link, slug, path);
-					
-					try {
-						await hygraph.request(queryAddUrls);
-						console.log(`Added ${link}`);
-					} catch (error) {
-						console.error(`Error adding ${link}: ${error.message}`);
+						// replace all / with a - to make the slug work
+						let urlSlug = slug + path;
+						urlSlug = urlSlug.replace(/\//g, "-");
+
+						let queryAddUrls = getQueryAddUrl(gql, urlSlug, link, slug, path);
+						
+						try {
+							await hygraph.request(queryAddUrls);
+							console.log(`Added ${link}`);
+						} catch (error) {
+							console.error(`Error adding ${link}: ${error.message}`);
+							totalUrls--;
+							failedUrls[link] = error.message; // Store the failed URL and error message
+						}
+
+						// delay of 0.15 seconds
+						await delay(150);
 					}
+				}
 
-					// delay of 0.15 seconds
-					await delay(150);
+				await processUrls();
+
+				// update url length again in case some urls failed to add
+				let queryAddPartner = getQueryUpdatePartner(gql, name, slug, url, totalUrls);
+				await hygraph.request(queryAddPartner);
+
+				console.log('All urls added.');
+				if (failedUrls.length > 0) {
+				console.log('Failed URLs:', failedUrls);
 				}
 			}
-
-			await processUrls();
-			console.log('All urls added.');
-
-		}
 
 			return {
 				success: true,
