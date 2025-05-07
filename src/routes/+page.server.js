@@ -8,6 +8,7 @@ import getQueryAddUrl from '$lib/queries/addUrl';
 import getQueryUrl from '$lib/queries/url';
 import getQueryDeleteUrl from '$lib/queries/deleteUrl';
 import getQueryPartnerUrls from '$lib/queries/partnerUrls';
+import getQueryUpdatePartnerUrls from '$lib/queries/update';
 import Sitemapper from 'sitemapper';
 import axios from 'axios';
 import { parseHTML } from 'linkedom';
@@ -187,13 +188,17 @@ export const actions = {
 				}
 
 				await processUrls();
-
 				// update url length again in case some urls failed to add
-				let queryAddPartner = getQueryUpdatePartner(gql, name, slug, url, totalUrls);
-				await hygraph.request(queryAddPartner);
+				try {
+					let getQueryUpdatePartnerUrls = getQueryUpdatePartnerUrls(gql, slug, totalUrls);
+					await hygraph.request(getQueryUpdatePartnerUrls);
+				}
+				catch (error) {
+					console.error(`Error updating the partner: ${error.message}`);
+				}
 
-				console.log('All urls added.');
-				if (failedUrls.length > 0) {
+				console.log(`All urls added: ${totalUrls}`);
+				if (Object.keys(failedUrls).length > 0) {
 				console.log('Failed URLs:', failedUrls);
 				}
 			}
