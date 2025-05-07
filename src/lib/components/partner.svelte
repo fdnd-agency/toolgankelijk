@@ -266,14 +266,15 @@
 {#if openedSitemap === website.id}
 <!-- Popup voor het verwijderen van de partner -->
 <div class="popup">
-	<form on:submit={submitted} action="/" method="POST">
+	<form on:submit={submitted} action="?/addPartner" method="POST">
 		<h3>Sitemap ophalen</h3>
 		<p>
-			Wil je de sitemap ophalen van de partner <span>{website.name}</span>?
+			Wil je de sitemap ophalen van de partner <span>{website.titel}</span>?
 		</p>
+		<input type="hidden" name="name" id="name" value={website.titel} />
+		<input type="hidden" name="url" id="url" value={website.homepage} />
 		<input type="hidden" name="slug" id="slug" value={website.slug} />
 		<input type="hidden" name="id" id="id" value={website.id} />
-		<input type="hidden" name="url" id="url" value={website.homepage} />
 		<input id="sitemap" name="sitemap" type="checkbox"/>
 		<div>
 			<input type="submit" value="Ja" />
