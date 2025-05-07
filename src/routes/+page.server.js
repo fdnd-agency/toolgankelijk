@@ -12,6 +12,7 @@ import getQueryUpdatePartnerUrls from '$lib/queries/updateUrlsPartner';
 import Sitemapper from 'sitemapper';
 import axios from 'axios';
 import { parseHTML } from 'linkedom';
+import { get } from 'svelte/store';
 
 export async function load({url}) {
 	const first = 20;
@@ -158,12 +159,14 @@ export const actions = {
 					return new Promise(resolve => setTimeout(resolve, ms));
 				}
 
+				console.log(`Url array length: ${urlArray.length}`);
 				let totalUrls = urlArray.length;
+				console.log(`Total urls: ${totalUrls}`);
 				let failedUrls = {};
 
 				async function processUrls() {
 					for (let i = 1; i < urlArray.length; i++) {
-						console.log(`url: ${i}`);
+						// console.log(`url: ${i}`);
 						// save each link from the sitemap array
 						let link = urlArray[i];
 						// create an url object for the link saved
@@ -178,11 +181,22 @@ export const actions = {
 						let queryAddUrls = getQueryAddUrl(gql, urlSlug, link, slug, path);
 						
 						try {
-							await hygraph.request(queryAddUrls);
-							console.log(`Added ${link}`);
+							// fetch urls from hygraph to check if the url already exists
+							let queryUrlCheck = getQueryUrl(gql, urlSlug)
+							await hygraph.request(queryUrlCheck);
+
+							// check if the url already exists in hygraph
+							if (queryUrlCheck.url) {
+								console.log(`Url already exists: ${urlCheck.url.slug}`);
+								totalUrls--;
+								console.log(`Total urls: ${totalUrls}`);
+							} else {
+								console.log(`Adding ${link}`);
+								// add the url to hygraph
+								await hygraph.request(queryAddUrls);
+							}
 						} catch (error) {
-							console.error(`Error adding ${link}: ${error.message}`);
-							totalUrls--;
+							// console.error(`Error adding ${link}: ${error.message}`);
 							failedUrls[link] = error.message; // Store the failed URL and error message
 						}
 
@@ -194,8 +208,9 @@ export const actions = {
 				await processUrls();
 				// update url length again in case some urls failed to add
 				try {
-					let getQueryUpdatePartnerUrls = getQueryUpdatePartnerUrls(gql, slug, totalUrls);
-					await hygraph.request(getQueryUpdateUrlsPartner);
+					let queryUpdatePartnerUrls = getQueryUpdatePartnerUrls(gql, slug, totalUrls);
+					await hygraph.request(queryUpdatePartnerUrls);
+					console.log('Partner updated.');
 				}
 				catch (error) {
 					console.error(`Error updating the partner: ${error.message}`);
