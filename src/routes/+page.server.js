@@ -34,6 +34,7 @@ export const actions = {
 		let url = formData.get('url');
 		let toggleSitemap = formData.get('sitemap') === "on";
 		const slug = name.toLowerCase();
+		const id = formData.get('id') || null;
 		let urlArray = [];
 		const sitemapArray = [
 			"sitemap.xml", "sitemap_index.xml", "sitemap.php", "sitemap.txt",
@@ -144,10 +145,13 @@ export const actions = {
 
 		// add data to hygraph
 		try {
-			let queryAddPartner = getQueryAddPartner(gql, name, url, slug, urlArray.length);
-			await hygraph.request(queryAddPartner);
-
-			console.log('Partner added.');
+			if (!id) {
+				let queryAddPartner = getQueryAddPartner(gql, name, url, slug, urlArray.length);
+				await hygraph.request(queryAddPartner);
+				console.log('Partner added.');
+			}else {
+				console.log("Partner already exists.");
+			}
 
 			if (toggleSitemap) {
 				async function delay(ms) {
