@@ -1,6 +1,10 @@
 <script>
+	import { enhance } from '$app/forms';
+
 	export let params;
 	export let isUrl;
+
+	let sending = false;
 
 	let title;
 	let action;
@@ -33,6 +37,36 @@
 		const tipMessage = document.querySelector('.tip-message');
 		tipMessage.remove();
 	}
+
+	function submitHandling(event) {
+		console.log('Form submitted');
+		// start loading animation
+		sending = true;
+
+		const formData = new FormData(event.target);
+		console.log('Form data:', Array.from(formData.entries()));
+
+		// send the form data to the server
+		fetch(action, {
+			method: 'POST',
+			body: formData,
+		});
+
+		if (response.ok) {
+			return response.json();
+		}
+
+		if (data.success) {
+			dialog.close();
+			window.location.reload();
+		}
+
+		// stop loading animation
+		sending = false;
+
+		// prevent the default form submission
+		event.preventDefault();
+	}
 </script>
 
 <dialog bind:this={dialog}>
@@ -46,7 +80,7 @@
 			</button>
 		</div>
 
-		<form method="POST" {action}>
+		<form method="POST" {action} on:submit={submitHandling}>
 			<div class="input-container" aria-hidden="true">
 				<label for="name">{urlTitle}</label>
 				<input id="name" name="name" type="text" required placeholder="type een titel..." />
@@ -75,6 +109,12 @@
 				<button type="submit" class="add-button">Toevoegen</button>
 				<button class="remove-button" on:click={close}>Sluiten</button>
 			</div>
+
+			{#if sending}
+				<div>
+					<p>Partner wordt toegevoegd...</p>
+				</div>
+			{/if}
 		</form>
 	</section>
 </dialog>
