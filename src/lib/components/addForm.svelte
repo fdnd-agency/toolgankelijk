@@ -1,5 +1,6 @@
 <script>
 	import { enhance } from '$app/forms';
+	import Loader from '$lib/components/loader.svelte';
 
 	export let params;
 	export let isUrl;
@@ -111,10 +112,7 @@
 			</div>
 
 			{#if sending}
-				<div class="loader-container" aria-label="loading message">
-					<span class="loader"></span>
-					<p>Partner wordt toegevoegd...</p>
-				</div>
+				<Loader process="Partner wordt toegevoegd" />
 			{/if}
 		</form>
 	</section>
@@ -312,46 +310,5 @@
 
 	.remove-button:hover {
 		opacity: 0.75;
-	}
-
-	.loader-container {
-		display: flex;
-		flex-direction: row;
-		justify-content: center;
-		align-items: center;
-		gap: 1rem;
-		width: 100%;
-		padding: 1rem 0;
-		background-color: var(--c-container-stroke);
-		border-radius: 0.25rem;
-		margin-top: 1rem;
-		color: var(--c-white);
-	}
-
-	.loader {
-        width: 48px;
-        height: 48px;
-		border-radius: 50%;
-		position: relative;
-		transform:rotate(45deg);
-		background: #fff;
-	}
-		
-	.loader::before {
-		content: "";
-		box-sizing: border-box;
-		position: absolute;
-		inset: 0px;
-		border-radius: 50%;
-		border:24px solid var(--c-pink);
-		animation: prixClipFix 2s infinite linear;
-	}
-
-	@keyframes prixClipFix {
-		0%   {clip-path:polygon(50% 50%,0 0,0 0,0 0,0 0,0 0)}
-		25%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 0,100% 0,100% 0)}
-		50%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,100% 100%,100% 100%)}
-		75%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,0 100%,0 100%)}
-		100% {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,0 100%,0 0)}
 	}
 </style>
