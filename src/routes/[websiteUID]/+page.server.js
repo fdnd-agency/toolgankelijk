@@ -6,10 +6,20 @@ import getQueryDeleteUrl from '$lib/queries/deleteUrl';
 import getQueryUpdateUrl from '$lib/queries/updateUrl';
 import createEmptyCheck from '$lib/queries/addEmptyCheck';
 
-export async function load({ params }) {
+export async function load({ params, url }) {
 	const { websiteUID } = params;
-	let query = getQueryWebsite(gql, websiteUID);
-	return await hygraph.request(query).websitesData;
+	const first = 20;
+	const skip = parseInt(url.searchParams.get('skip') || '0');
+
+	//fetch part of the urls for pages
+	const query = getQueryWebsite(gql, websiteUID, first, skip);
+	const data = await hygraph.request(query);
+
+	return {
+		websites: data,
+		first,
+		skip
+	};
 }
 
 export const actions = {

@@ -15,6 +15,7 @@
 	let openedDelete = null;
 	let openedEdit = null;
 	let openedAudit = null;
+	let openedSitemap = null;
 	let lastTime;
 	let link;
 	let title;
@@ -40,7 +41,7 @@
 		// show url
 		link = params + '/' + website.slug;
 		image = website.url;
-		title = '/' + website.slug;
+		title = website.name;
 
 		// edit form variables
 		editFormAction = '?/editPost';
@@ -90,6 +91,7 @@
 	}
 
 	function openDelete(event) {
+		console.log("Delete");
 		event.preventDefault();
 		openedDelete = openedDelete === website.id ? null : website.id;
 		document.body.style.overflowY = 'hidden';
@@ -103,6 +105,7 @@
 	}
 
 	function openEdit(event) {
+		console.log("Edit");
 		event.preventDefault();
 		openedEdit = openedEdit === website.id ? null : website.id;
 		document.body.style.overflowY = 'hidden';
@@ -121,10 +124,22 @@
 		document.body.style.overflowY = 'hidden';
 		window.scrollTo({ top: 0, behavior: 'smooth' });
 	}
+	function openSitemap(event) {
+		console.log("Sitemap");
+		event.preventDefault();
+		openedSitemap = openedSitemap === website.id ? null : website.id;
+		document.body.style.overflowY = 'hidden';
+		window.scrollTo({ top: 0, behavior: 'smooth' });
+	}
 
 	function closeAudit(event) {
 		event.preventDefault();
 		openedAudit = null;
+		document.body.style.overflowY = 'scroll';
+	}
+	function closeSitemap(event) {
+		event.preventDefault();
+		openedSitemap = null;
 		document.body.style.overflowY = 'scroll';
 	}
 
@@ -204,6 +219,11 @@
 						<img width="24" height="24" src={pencil} alt="Audit icon" />
 					</button>
 				{/if}
+			{#if !isUrl}
+				<button on:click={openSitemap}
+					><img width="24" height="24" src={pencil} alt="Sitemap icon" /></button
+				>
+			{/if}
 				<button on:click={openEdit}
 					><img width="24" height="24" src={pencil} alt="Bewerk icon" /></button
 				>
@@ -224,8 +244,9 @@
 	</a>
 </li>
 
+{#if openedEdit === website.id}
 <!-- Popup voor het bewerken van de partner -->
-<article class="popup-edit" style="display: {openedEdit === website.id ? 'flex' : 'none'};">
+<article class="popup">
 	<form on:submit={submitted} action={editFormAction} method="POST">
 		<h3>{editFormTitle}</h3>
 		<div class="fields-container">
@@ -245,9 +266,11 @@
 		</div>
 	</form>
 </article>
+{/if}
 
+{#if openedDelete === website.id}
 <!-- Popup voor het verwijderen van de partner -->
-<div class="popup-verwijder" style="display: {openedDelete === website.id ? 'flex' : 'none'};">
+<div class="popup">
 	<form on:submit={submitted} action={deleteFormAction} method="POST">
 		<h3>{deleteFormTitle}</h3>
 		<p>
@@ -261,6 +284,28 @@
 		</div>
 	</form>
 </div>
+{/if}
+
+{#if openedSitemap === website.id}
+<!-- Popup voor het verwijderen van de partner -->
+<div class="popup">
+	<form on:submit={submitted} action="?/addPartner" method="POST">
+		<h3>Sitemap ophalen</h3>
+		<p>
+			Wil je de sitemap ophalen van de partner <span>{website.titel}</span>?
+		</p>
+		<input type="hidden" name="name" id="name" value={website.titel} />
+		<input type="hidden" name="url" id="url" value={website.homepage} />
+		<input type="hidden" name="slug" id="slug" value={website.slug} />
+		<input type="hidden" name="id" id="id" value={website.id} />
+		<input id="sitemap" name="sitemap" type="checkbox"/>
+		<div>
+			<input type="submit" value="Ja" />
+			<button on:click={closeSitemap}>Nee</button>
+		</div>
+	</form>
+</div>
+{/if}
 
 <!-- Popup for starting an audit -->
 <div class="popup-audit" style="display: {openedAudit === website.id ? 'flex' : 'none'};">
@@ -321,6 +366,9 @@
 
 	h2 {
 		font-size: 1.5rem;
+		max-width: 20ch;
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
 
 	.logo-partner-section {
@@ -435,14 +483,13 @@
 		display: none;
 	}
 
-	.popup-verwijder,
-	.popup-edit {
+	.popup {
 		position: absolute;
 		width: 100%;
 		height: 100%;
 		bottom: 0;
 		left: 0;
-		display: none;
+		display: flex;
 		background-color: #2c2c2ce8;
 		z-index: 10;
 		justify-content: center;

@@ -4,23 +4,49 @@
 	import Partner from '$lib/components/partner.svelte';
 	import Search from '$lib/components/search.svelte';
 	import AddForm from '$lib/components/addForm.svelte';
+	import Pages from '$lib/components/pages.svelte';
 
 	export let data;
 	export let form;
 
+	let skip = data.skip;
+	let skipInput;
+	const first = data.first;
+	let totalUrls = data.websites.website.totalUrls;
+	const currentPage = skip / first + 1;
+
 	$: heading = {
-		titel: data.websitesData.website.titel,
-		homepage: data.websitesData.website.homepage
+		titel: data.websites.website.titel,
+		homepage: data.websites.website.homepage
 	};
-	$: websites = data.websitesData.website.urls;
-	$: overzicht = data.websitesData.website;
+	$: websites = data.websites.website.urls;
+	$: overzicht = data.websites.website;
 	$: params = $page.params.websiteUID;
 
 	let dialogRef;
-	const principes = data.partnersData.principes;
+	const principes = data.websites.principes;
 
 	function handleDialog() {
 		dialogRef.open();
+	}
+
+	function handleSubmit(event) {
+		const form = event.target;
+		const button = event.submitter;
+
+		if (button.name === 'skip-previous') {
+			skipInput.value = Math.max(skip - first, 0);
+		} else if (button.name === 'skip-next') {
+			skipInput.value = skip + first;
+		} else if (button.name === 'skip') {
+			if (button.value < skipInput) {
+				skipInput.value = Math.max(skip - first, 0);
+			} else {
+				skipInput.value = skip + first;
+			}
+		}
+
+		form.submit();
 	}
 </script>
 
@@ -28,8 +54,12 @@
 
 <section>
 	<button class="add-partner" on:click={handleDialog}>Url toevoegen</button>
-	<Search placeholderProp="Home" />
+	<Search placeholderProp="Home"/>
 </section>
+
+{#if (totalUrls > first)}
+<Pages amount={totalUrls} perPage={first} currentPage={currentPage}/>
+{/if}
 
 {#if form?.success}
 	<div class="toast"><p>{form?.message}</p></div>

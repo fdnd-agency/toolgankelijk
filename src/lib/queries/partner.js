@@ -1,7 +1,7 @@
-export default function getQueryPartner(gql) {
+export default function getQueryPartner(gql, first = 20, skip = 0) {
 	return gql`
 		query MyQuery {
-			websites(first: 20) {
+			websites(first: ${first}, skip: ${skip}) {
 				id
 				titel
 				slug
