@@ -2,6 +2,7 @@ import { gql } from 'graphql-request';
 import { hygraph } from '$lib/utils/hygraph.js';
 import getQueryAddUrl from '$lib/queries/addUrl';
 import getQueryWebsite from '$lib/queries/website';
+import createEmptyCheck from '$lib/queries/addEmptyCheck';
 
 export async function load({ params }) {
 	const { websiteUID } = params;
@@ -19,6 +20,8 @@ export const actions = {
 		try {
 			let query = getQueryAddUrl(gql, name, formUrl, formSlug);
 			let hygraphCall = await hygraph.request(query);
+			let createEmptyCheckEntry = createEmptyCheck(gql, formSlug, name);
+			await hygraph.request(createEmptyCheckEntry);
 
 			return {
 				hygraphCall,

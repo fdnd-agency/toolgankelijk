@@ -8,13 +8,9 @@ import addCheck from '$lib/queries/addCheck';
 import deleteCheck from '$lib/queries/deleteCheck';
 
 export const load = async ({ params }) => {
-	const { websiteUID } = params;
-	const { urlUID } = params;
-	const { principeUID } = params;
-	const slugUrl = urlUID;
-	const principeSlug = principeUID;
+	const { websiteUID, urlUID, principeUID } = params;
 	const queryUrl = getQueryUrl(gql, urlUID);
-	const queryToolboard = getQueryToolboard(gql, slugUrl, principeSlug);
+	const queryToolboard = getQueryToolboard(gql, urlUID, principeUID);
 	const urlData = await hygraph.request(queryUrl);
 	const toolboardData = await hygraph.request(queryToolboard);
 
@@ -36,67 +32,50 @@ export const load = async ({ params }) => {
 
 export const actions = {
 	updateChecklist: async ({ request, params }) => {
-		const formData = await request.formData();
-		const clientCheckedSuccesscriteria = formData.getAll('check');
-		const principeIndex = formData.get('principe');
-		const niveau = formData.get('niveau');
-
-		// see of the sent checks are already assigned to this project's checks
 		const { websiteUID, urlUID, principeUID } = params;
-		const slugUrl = urlUID;
-		const principeSlug = principeUID;
-		const queryToolboard = getQueryToolboard(gql, slugUrl, principeSlug);
+		const queryToolboard = getQueryToolboard(gql, urlUID, principeUID);
 		const toolboardData = await hygraph.request(queryToolboard);
+		const formData = await request.formData();
+		const checkedSuccesscriteria = formData.getAll('check'); // Array with Succescriteria ID's of the checked inputs of the form on the opened page
+		const principeIndex = formData.get('principe'); // Principe index (1, 2, 3, 4) of the form on the opened page
+		const niveau = formData.get('niveau'); // Niveau (A, AA or AAA) of the form on the opened page
 
-		// get only the succescriteria from the db which have the current principeIndex and niveau of the submitted form
-		const savedCheckedSuccescriteria = toolboardData.url.checks[0]
-			? toolboardData.url.checks[0].succescriteria.filter((obj) => {
-					return obj.niveau == niveau && obj.index[0] == principeIndex;
+		// Successcriteria with the principe index (1, 2, 3, 4) and niveau (A, AA, AAA) of the form on the opened page that where already checked and stored in the database
+		const currentlyStoredCheckedSuccesscriteria = toolboardData.url.checks[0]
+			? toolboardData.url.checks[0].succescriteria.filter((succescriterium) => {
+					return succescriterium.niveau == niveau && succescriterium.index[0] == principeIndex;
 			  })
 			: [];
 
-		if (clientCheckedSuccesscriteria.length > 0) {
-			for (const clientCheckedSuccesscriterium of clientCheckedSuccesscriteria) {
-				// is the form input selected AND saved to the db
-				if (savedCheckedSuccescriteria.find((obj) => obj.id === clientCheckedSuccesscriterium)) {
-					console.log(clientCheckedSuccesscriterium + ' is already true');
-				} else {
-					// the input is selected but cannot be found in the db, so it will be added
-					console.log(clientCheckedSuccesscriterium + ' is being added...');
-					await addCheckToList(clientCheckedSuccesscriterium);
+		if (checkedSuccesscriteria.length) {
+			// Add the checked successcriteria that are not already in the database to the database
+			for (const checkedSuccesscriterium of checkedSuccesscriteria) {
+				if (!currentlyStoredCheckedSuccesscriteria.find((succescriterium) => succescriterium.id === checkedSuccesscriterium)) {
+					await storeCheckedSuccesscriterium(checkedSuccesscriterium);
 				}
 			}
 
-			for (const savedCheckedSuccescriterium of savedCheckedSuccescriteria) {
-				// the saved check found in the db, is not selected in the form by the client
-				// so it should be disconnected from the db
-				if (!clientCheckedSuccesscriteria.find((obj) => obj === savedCheckedSuccescriterium.id)) {
-					console.log(savedCheckedSuccescriterium.id + ' is being removed...');
-					await deleteCheckFromList(savedCheckedSuccescriterium.id);
+			// Delete the successcriteria form the database that are not checked anymore
+			for (const successcriterium of currentlyStoredCheckedSuccesscriteria) {
+				if (!checkedSuccesscriteria.find((succescriterium) => succescriterium === successcriterium.id)) {
+					await deleteUncheckedSuccesscriterium(successcriterium.id);
 				}
 			}
 		} else {
-			// there are none checked inputs AND none are in the db connected
-			if (savedCheckedSuccescriteria == 0) {
-				console.log('all checks were already false');
-			} else {
-				console.log('all checks are being removed...');
-				// in case there is one or more checks in the db AND none are checked by the client
-				// disconnect these from the db
-				for (const savedCheckedSuccescriterium of savedCheckedSuccescriteria) {
-					await deleteCheckFromList(savedCheckedSuccescriterium.id);
+			if (!currentlyStoredCheckedSuccesscriteria == 0) {
+				// Delete all successcriteria from the database that are not checked anymore
+				for (const successcriterium of currentlyStoredCheckedSuccesscriteria) {
+					await deleteUncheckedSuccesscriterium(successcriterium.id);
 				}
 			}
 		}
 
-		async function addCheckToList(succescriteriumId) {
+		async function storeCheckedSuccesscriterium(succescriteriumId) {
 			try {
-				let getFirstCheckId = (await getFirstCheck()).firstCheckId;
-
-				let addCheckQuery = addCheck(gql, websiteUID, urlUID, getFirstCheckId, succescriteriumId);
+				let checkId = (await getCheckId()).checkId;
+				let addCheckQuery = addCheck(gql, websiteUID, urlUID, checkId, succescriteriumId);
 				let addCheckId = await hygraph.request(addCheckQuery);
 
-				console.log(succescriteriumId + ' is successfully added!');
 				return {
 					addCheckId,
 					success: true
@@ -109,23 +88,20 @@ export const actions = {
 			}
 		}
 
-		async function deleteCheckFromList(succescriteriumId) {
+		async function deleteUncheckedSuccesscriterium(succescriteriumId) {
 			try {
-				let getFirstCheckId = (await getFirstCheck()).firstCheckId;
-
+				let checkId = (await getCheckId()).checkId;
 				let deleteCheckQuery = deleteCheck(
 					gql,
 					websiteUID,
 					urlUID,
-					getFirstCheckId,
+					checkId,
 					succescriteriumId
 				);
-				let deleteCheckId = await hygraph.request(deleteCheckQuery);
-
-				console.log(succescriteriumId + ' is successfully removed!');
+				let deletedCheckId = await hygraph.request(deleteCheckQuery);
 
 				return {
-					deleteCheckId,
+					deletedCheckId,
 					success: true
 				};
 			} catch (error) {
@@ -136,15 +112,14 @@ export const actions = {
 			}
 		}
 
-		async function getFirstCheck() {
+		async function getCheckId() {
 			try {
-				let firstCheckQuery = firstCheck(gql, websiteUID, urlUID);
-				let firstCheckResponse = await hygraph.request(firstCheckQuery);
-
-				let firstCheckId = firstCheckResponse.website.urls[0].checks[0].id;
+				let getCheckIdQuery = firstCheck(gql, websiteUID, urlUID);
+				let getCheckIdResponse = await hygraph.request(getCheckIdQuery);
+				let checkId = getCheckIdResponse.website.urls[0].checks[0].id;
 
 				return {
-					firstCheckId,
+					checkId,
 					success: true
 				};
 			} catch (error) {

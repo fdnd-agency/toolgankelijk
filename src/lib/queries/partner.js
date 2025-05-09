@@ -9,6 +9,7 @@ export default function getQueryPartner(gql, first = 20, skip = 0) {
 				updatedAt
 				urls {
 					slug
+					url
 					checks {
 						succescriteria {
 							id

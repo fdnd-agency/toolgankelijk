@@ -299,5 +299,44 @@ export const actions = {
 		const url = formData.get('url');
 		let query = getQueryUpdatePartner(gql, name, slug, url, id);
 		return await hygraph.request(query);
+	},
+	auditPartner: async ({ request }) => {
+		const formData = await request.formData();
+		const urls = JSON.parse(formData.get('urls'));
+		const slug = formData.get('slug');
+
+		if (urls.length === 0) {
+			return {
+				success: false,
+				message: 'Geen URL\'s om te auditen.'
+			};
+		}
+	
+		try {
+			const response = await fetch('http://localhost:5174/api/specifiedUrls', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({ urls: urls, slug })
+			});
+	
+			if (!response.ok) {
+				const errorDetails = await response.text();
+				throw new Error(`Network response was not ok: ${errorDetails}`);
+			}
+	
+			const data = await response.json();
+	
+			return {
+				success: true,
+				message: data.message
+			};
+		} catch (error) {
+			return {
+				success: false,
+				message: 'Er ging wat mis bij het starten van de audit!'
+			};
+		}
 	}
 };

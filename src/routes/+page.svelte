@@ -40,9 +40,9 @@
 {/if}
 
 {#if form?.success}
-	<div class="toast"><p>{form?.message}</p></div>
+	<div class="toast success"><p>{form?.message}</p></div>
 {:else if form?.success == false}
-	<div class="toast"><p>{form?.message}</p></div>
+	<div class="toast error"><p>{form?.message}</p></div>
 {/if}
 
 <AddForm bind:this={dialogRef} isUrl={false}/>
@@ -118,17 +118,24 @@
 		position: fixed;
 		bottom: 5rem;
 		right: 1rem;
-		height: 4rem;
 		width: 10rem;
-		background-color: #a0004025;
 		backdrop-filter: blur(3px);
-		border: 1px solid var(--c-pink);
 		border-radius: 4px;
 		padding: 0.5rem;
-		text-shadow: 0px 0px 10px black;
+		text-shadow: 0px 0px 5px black;
 		animation: fade-out 4s forwards;
 		z-index: 2;
 	}
+
+    .toast.success {
+        background-color: #22ff0025;
+		border: 1px solid #22ff00;
+    }
+
+    .toast.error {
+        background-color: #a0004025;
+		border: 1px solid var(--c-pink);
+    }
 
 	@keyframes fade-out {
 		from {
