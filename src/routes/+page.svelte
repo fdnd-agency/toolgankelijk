@@ -3,13 +3,19 @@
 	import Partner from '$lib/components/partner.svelte';
 	import Search from '$lib/components/search.svelte';
 	import AddForm from '$lib/components/addForm.svelte';
+	import Pages from '$lib/components/pages.svelte';
 
 	export let data;
 	export let form;
 
+	let skip = data.skip;
+	const first = data.first;
+	let totalUrls = data.websites.totalUrls;
+	const currentPage = skip / first + 1;
+
 	let heading = { titel: 'Partners overzicht' };
 	let dialogRef;
-	const principes = data.principes;
+	const principes = data.websites.principes;
 
 	function handleDialog() {
 		dialogRef.open();
@@ -29,16 +35,20 @@
 	<Search placeholderProp="Gvb" />
 </section>
 
+{#if (totalUrls > first)}
+<Pages amount={totalUrls} perPage={first} currentPage={currentPage}/>
+{/if}
+
 {#if form?.success}
 	<div class="toast"><p>{form?.message}</p></div>
 {:else if form?.success == false}
 	<div class="toast"><p>{form?.message}</p></div>
 {/if}
 
-<AddForm bind:this={dialogRef} isUrl={false} />
+<AddForm bind:this={dialogRef} isUrl={false}/>
 
 <ul>
-	{#each data.websites as website}
+	{#each data.websites.websites as website}
 		<Partner {website} {principes} isUrl={false} />
 	{/each}
 </ul>
