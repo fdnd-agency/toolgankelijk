@@ -5,6 +5,7 @@ import getQueryWebsite from '$lib/queries/website';
 import getQueryDeleteUrl from '$lib/queries/deleteUrl';
 import getQueryUpdateUrl from '$lib/queries/updateUrl';
 import createEmptyCheck from '$lib/queries/addEmptyCheck';
+import getQueryDeleteChecks from '$lib/queries/deleteChecks';
 
 export async function load({ params, url }) {
 	const { websiteUID } = params;
@@ -26,6 +27,8 @@ export const actions = {
 	deletePost: async ({ request }) => {
 		const formData = await request.formData();
 		const id = formData.get('id');
+		const queryDeleteChecks = getQueryDeleteChecks(gql, id);
+		await hygraph.request(queryDeleteChecks);
 		let query = getQueryDeleteUrl(gql, id);
 		return await hygraph.request(query);
 	},
