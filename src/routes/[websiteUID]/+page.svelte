@@ -54,11 +54,11 @@
 
 <section>
 	<button class="add-partner" on:click={handleDialog}>Url toevoegen</button>
-	<Search placeholderProp="Home"/>
+	<Search placeholderProp="Home" />
 </section>
 
-{#if (totalUrls > first)}
-<Pages amount={totalUrls} perPage={first} currentPage={currentPage}/>
+{#if totalUrls > first}
+	<Pages amount={totalUrls} perPage={first} {currentPage} />
 {/if}
 
 {#if form?.success}

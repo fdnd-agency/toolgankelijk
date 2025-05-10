@@ -91,7 +91,7 @@
 	}
 
 	function openDelete(event) {
-		console.log("Delete");
+		console.log('Delete');
 		event.preventDefault();
 		openedDelete = openedDelete === website.id ? null : website.id;
 		document.body.style.overflowY = 'hidden';
@@ -105,7 +105,7 @@
 	}
 
 	function openEdit(event) {
-		console.log("Edit");
+		console.log('Edit');
 		event.preventDefault();
 		openedEdit = openedEdit === website.id ? null : website.id;
 		document.body.style.overflowY = 'hidden';
@@ -125,7 +125,7 @@
 		window.scrollTo({ top: 0, behavior: 'smooth' });
 	}
 	function openSitemap(event) {
-		console.log("Sitemap");
+		console.log('Sitemap');
 		event.preventDefault();
 		openedSitemap = openedSitemap === website.id ? null : website.id;
 		document.body.style.overflowY = 'hidden';
@@ -219,11 +219,11 @@
 						<img width="24" height="24" src={pencil} alt="Audit icon" />
 					</button>
 				{/if}
-			{#if !isUrl}
-				<button on:click={openSitemap}
-					><img width="24" height="24" src={pencil} alt="Sitemap icon" /></button
-				>
-			{/if}
+				{#if !isUrl}
+					<button on:click={openSitemap}
+						><img width="24" height="24" src={pencil} alt="Sitemap icon" /></button
+					>
+				{/if}
 				<button on:click={openEdit}
 					><img width="24" height="24" src={pencil} alt="Bewerk icon" /></button
 				>
@@ -245,66 +245,66 @@
 </li>
 
 {#if openedEdit === website.id}
-<!-- Popup voor het bewerken van de partner -->
-<article class="popup">
-	<form on:submit={submitted} action={editFormAction} method="POST">
-		<h3>{editFormTitle}</h3>
-		<div class="fields-container">
-			{#if !isUrl}
-				<label for="name">Naam</label>
-				<input type="text" name="name" id="name" value={editFormName} />
-			{/if}
-			<label for="slug">Slug</label>
-			<input type="text" name="slug" id="slug" value={editFormSlug} />
-			<label for="url">URL</label>
-			<input type="url" name="url" id="url" value={editFormUrl} />
-			<input class="id-field" type="text" name="id" value={website.id} id={website.id} />
-		</div>
-		<div>
-			<input type="submit" value="Ja" />
-			<button on:click={closeEdit}>Nee</button>
-		</div>
-	</form>
-</article>
+	<!-- Popup voor het bewerken van de partner -->
+	<article class="popup">
+		<form on:submit={submitted} action={editFormAction} method="POST">
+			<h3>{editFormTitle}</h3>
+			<div class="fields-container">
+				{#if !isUrl}
+					<label for="name">Naam</label>
+					<input type="text" name="name" id="name" value={editFormName} />
+				{/if}
+				<label for="slug">Slug</label>
+				<input type="text" name="slug" id="slug" value={editFormSlug} />
+				<label for="url">URL</label>
+				<input type="url" name="url" id="url" value={editFormUrl} />
+				<input class="id-field" type="text" name="id" value={website.id} id={website.id} />
+			</div>
+			<div>
+				<input type="submit" value="Ja" />
+				<button on:click={closeEdit}>Nee</button>
+			</div>
+		</form>
+	</article>
 {/if}
 
 {#if openedDelete === website.id}
-<!-- Popup voor het verwijderen van de partner -->
-<div class="popup">
-	<form on:submit={submitted} action={deleteFormAction} method="POST">
-		<h3>{deleteFormTitle}</h3>
-		<p>
-			Weet je zeker dat je <span>{deleteFormSlug}</span> wilt verwijderen? Deze actie kan niet ongedaan
-			worden gemaakt.
-		</p>
-		<input class="id-field" type="text" name="id" value={website.id} id={website.id} />
-		<div>
-			<input type="submit" value="Ja" />
-			<button on:click={closeDelete}>Nee</button>
-		</div>
-	</form>
-</div>
+	<!-- Popup voor het verwijderen van de partner -->
+	<div class="popup">
+		<form on:submit={submitted} action={deleteFormAction} method="POST">
+			<h3>{deleteFormTitle}</h3>
+			<p>
+				Weet je zeker dat je <span>{deleteFormSlug}</span> wilt verwijderen? Deze actie kan niet ongedaan
+				worden gemaakt.
+			</p>
+			<input class="id-field" type="text" name="id" value={website.id} id={website.id} />
+			<div>
+				<input type="submit" value="Ja" />
+				<button on:click={closeDelete}>Nee</button>
+			</div>
+		</form>
+	</div>
 {/if}
 
 {#if openedSitemap === website.id}
-<!-- Popup voor het verwijderen van de partner -->
-<div class="popup">
-	<form on:submit={submitted} action="?/addPartner" method="POST">
-		<h3>Sitemap ophalen</h3>
-		<p>
-			Wil je de sitemap ophalen van de partner <span>{website.titel}</span>?
-		</p>
-		<input type="hidden" name="name" id="name" value={website.titel} />
-		<input type="hidden" name="url" id="url" value={website.homepage} />
-		<input type="hidden" name="slug" id="slug" value={website.slug} />
-		<input type="hidden" name="id" id="id" value={website.id} />
-		<input id="sitemap" name="sitemap" type="checkbox"/>
-		<div>
-			<input type="submit" value="Ja" />
-			<button on:click={closeSitemap}>Nee</button>
-		</div>
-	</form>
-</div>
+	<!-- Popup voor het verwijderen van de partner -->
+	<div class="popup">
+		<form on:submit={submitted} action="?/addPartner" method="POST">
+			<h3>Sitemap ophalen</h3>
+			<p>
+				Wil je de sitemap ophalen van de partner <span>{website.titel}</span>?
+			</p>
+			<input type="hidden" name="name" id="name" value={website.titel} />
+			<input type="hidden" name="url" id="url" value={website.homepage} />
+			<input type="hidden" name="slug" id="slug" value={website.slug} />
+			<input type="hidden" name="id" id="id" value={website.id} />
+			<input id="sitemap" name="sitemap" type="checkbox" />
+			<div>
+				<input type="submit" value="Ja" />
+				<button on:click={closeSitemap}>Nee</button>
+			</div>
+		</form>
+	</div>
 {/if}
 
 <!-- Popup for starting an audit -->

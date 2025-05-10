@@ -21,20 +21,20 @@
 			for (let i = 2; i <= 5; i++) {
 				pages.push(i);
 			}
-			pages.push("...");
+			pages.push('...');
 		} else if (currentPage >= pageCount - 3) {
 			// near the end
-			pages.push("...");
+			pages.push('...');
 			for (let i = pageCount - 4; i < pageCount; i++) {
 				pages.push(i);
 			}
 		} else {
 			// in the middle
-			pages.push("...");
+			pages.push('...');
 			pages.push(currentPage - 1);
 			pages.push(currentPage);
 			pages.push(currentPage + 1);
-			pages.push("...");
+			pages.push('...');
 		}
 
 		// always show last page
@@ -49,28 +49,44 @@
 </script>
 
 <form method="GET" data-sveltekit-reload>
-<ul class="pages-list">
-	<li><button type="submit" class="button" name="skip" value={(currentPage - 2) * perPage} disabled={currentPage === 1}>◀ Vorige</button></li>
+	<ul class="pages-list">
+		<li>
+			<button
+				type="submit"
+				class="button"
+				name="skip"
+				value={(currentPage - 2) * perPage}
+				disabled={currentPage === 1}>◀ Vorige</button
+			>
+		</li>
 
-	{#each pageNumbers as p}
-		{#if p === "..."}
-			<li class="button-disabled button">...</li>
-		{:else}
-			<li>
-				<button
-					type="submit"
-					class="button"
-					name="skip"
-					value={(p - 1) * perPage}
-					class:selected={p === currentPage}
-				>{p}</button>
-			</li>
-		{/if}
-	{/each}
+		{#each pageNumbers as p}
+			{#if p === '...'}
+				<li class="button-disabled button">...</li>
+			{:else}
+				<li>
+					<button
+						type="submit"
+						class="button"
+						name="skip"
+						value={(p - 1) * perPage}
+						class:selected={p === currentPage}>{p}</button
+					>
+				</li>
+			{/if}
+		{/each}
 
-	<li class="button-disabled button">{amount}</li>
-	<li><button type="submit" class="button" name="skip" value={currentPage * perPage} disabled={currentPage === pageCount}>Volgende ▶</button></li>
-</ul>
+		<li class="button-disabled button">{amount}</li>
+		<li>
+			<button
+				type="submit"
+				class="button"
+				name="skip"
+				value={currentPage * perPage}
+				disabled={currentPage === pageCount}>Volgende ▶</button
+			>
+		</li>
+	</ul>
 </form>
 
 <style>
@@ -83,7 +99,7 @@
 		margin-bottom: 1rem;
 		margin-left: 1rem;
 	}
-	
+
 	.pages-list {
 		display: flex;
 		justify-content: center;

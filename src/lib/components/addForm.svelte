@@ -49,7 +49,7 @@
 		// send the form data to the server
 		fetch(action, {
 			method: 'POST',
-			body: formData,
+			body: formData
 		});
 
 		if (response.ok) {
@@ -101,7 +101,7 @@
 			{#if !isUrl}
 				<div class="input-container" aria-hidden="true">
 					<label for="sitemap" class="sitemap-label">Sitemap ophalen van partner</label>
-					<input id="sitemap" name="sitemap" type="checkbox"/>
+					<input id="sitemap" name="sitemap" type="checkbox" />
 				</div>
 			{/if}
 

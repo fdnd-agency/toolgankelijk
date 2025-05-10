@@ -1,9 +1,5 @@
-export default function createEmptyCheck(
-    gql,
-    websiteSlug,
-    urlSlug
-) {
-    return gql`
+export default function createEmptyCheck(gql, websiteSlug, urlSlug) {
+	return gql`
     mutation addCheck {
         updateWebsite(
           where: {slug: "${websiteSlug}"}

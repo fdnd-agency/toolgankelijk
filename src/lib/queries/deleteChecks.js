@@ -1,5 +1,5 @@
 export default function getQueryDeleteChecks(gql, urlId) {
-    return gql`
+	return gql`
         mutation {
             deleteManyChecksConnection(
                 where: { url: { id: "${urlId}" } }

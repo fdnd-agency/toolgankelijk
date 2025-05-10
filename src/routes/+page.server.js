@@ -34,14 +34,24 @@ export const actions = {
 		const formData = await request.formData();
 		const name = formData.get('name');
 		let url = formData.get('url');
-		let toggleSitemap = formData.get('sitemap') === "on";
+		let toggleSitemap = formData.get('sitemap') === 'on';
 		const slug = name.toLowerCase();
 		const id = formData.get('id') || null;
 		let urlArray = [];
 		const sitemapArray = [
-			"sitemap.xml", "sitemap_index.xml", "sitemap.php", "sitemap.txt",
-			"sitemap-index.xml", "sitemap.xml.gz", "sitemap/", "sitemap/sitemap.xml",
-			"sitemapindex.xml", "sitemap/index.xml", "sitemap1.xml", "robots.txt"];
+			'sitemap.xml',
+			'sitemap_index.xml',
+			'sitemap.php',
+			'sitemap.txt',
+			'sitemap-index.xml',
+			'sitemap.xml.gz',
+			'sitemap/',
+			'sitemap/sitemap.xml',
+			'sitemapindex.xml',
+			'sitemap/index.xml',
+			'sitemap1.xml',
+			'robots.txt'
+		];
 
 		function isValidUrl(url) {
 			return !url.includes('/document') && !url.includes('/documents');
@@ -59,7 +69,7 @@ export const actions = {
 
 						const siteMap = new Sitemapper({
 							url: url + sitemapPath,
-							timeout: 15000,
+							timeout: 15000
 						});
 
 						const { sites } = await siteMap.fetch();
@@ -82,14 +92,14 @@ export const actions = {
 				for (let i = 0; i < sitemapResults.length; i++) {
 					const result = sitemapResults[i];
 					if (result.length > 0) {
-						console.log("Sitemap found");
+						console.log('Sitemap found');
 						urlArray = result; // Set the found sitemap URLs
 						break; // Exit the loop as we found a valid sitemap
 					}
 				}
 
 				if (urlArray.length === 0) {
-					console.log("Sitemap is not found, trying to extract URLs from the page");
+					console.log('Sitemap is not found, trying to extract URLs from the page');
 					// If no sitemap found, try to extract URLs from the page
 					try {
 						const visited = new Set();
@@ -100,10 +110,10 @@ export const actions = {
 							const { document } = parseHTML(res.data);
 
 							const links = [...document.querySelectorAll('a')]
-								.map(a => a.getAttribute('href'))
-								.filter(href => href && !href.startsWith('#'))
-								.map(href => new URL(href, pageUrl).href)
-								.filter(href => href.startsWith(url))
+								.map((a) => a.getAttribute('href'))
+								.filter((href) => href && !href.startsWith('#'))
+								.map((href) => new URL(href, pageUrl).href)
+								.filter((href) => href.startsWith(url))
 								.filter(isValidUrl);
 
 							return [...new Set(links)];
@@ -135,7 +145,7 @@ export const actions = {
 
 						// remove duplicates and filter out external links
 						urlArray = Array.from(visited);
-						console.log("All URLs collected:", urlArray.length);
+						console.log('All URLs collected:', urlArray.length);
 					} catch (error) {
 						console.log(`Something went wrong: ${error}`);
 					}
@@ -152,12 +162,12 @@ export const actions = {
 				await hygraph.request(queryAddPartner);
 				console.log('Partner added.');
 			} else {
-				console.log("Partner already exists.");
+				console.log('Partner already exists.');
 			}
 
 			if (toggleSitemap) {
 				async function delay(ms) {
-					return new Promise(resolve => setTimeout(resolve, ms));
+					return new Promise((resolve) => setTimeout(resolve, ms));
 				}
 
 				console.log(`Url array length: ${urlArray.length}`);
@@ -177,13 +187,13 @@ export const actions = {
 
 						// replace all / with a - to make the slug work
 						let urlSlug = slug + path;
-						urlSlug = urlSlug.replace(/\//g, "-");
+						urlSlug = urlSlug.replace(/\//g, '-');
 
 						let queryAddUrls = getQueryAddUrl(gql, urlSlug, link, slug, path);
 
 						try {
 							// fetch urls from hygraph to check if the url already exists
-							let queryUrlCheck = getQueryUrl(gql, urlSlug)
+							let queryUrlCheck = getQueryUrl(gql, urlSlug);
 							await hygraph.request(queryUrlCheck);
 
 							// check if the url already exists in hygraph
@@ -214,8 +224,7 @@ export const actions = {
 					let queryUpdatePartnerUrls = getQueryUpdatePartnerUrls(gql, slug, totalUrls);
 					await hygraph.request(queryUpdatePartnerUrls);
 					console.log('Partner updated.');
-				}
-				catch (error) {
+				} catch (error) {
 					console.error(`Error updating the partner: ${error.message}`);
 				}
 
@@ -228,7 +237,6 @@ export const actions = {
 			return {
 				success: true,
 				message: `${name} met ${urlArray.length} bijhorende urls is toegevoegd.`
-
 			};
 		} catch (error) {
 			return {
@@ -263,7 +271,7 @@ export const actions = {
 
 		// delete all urls
 		async function delay(ms) {
-			return new Promise(resolve => setTimeout(resolve, ms));
+			return new Promise((resolve) => setTimeout(resolve, ms));
 		}
 
 		async function deleteChecks(hygraph, gql, urlId) {
@@ -303,7 +311,7 @@ export const actions = {
 		}
 
 		await deleteAllUrlsAndChecks();
-		console.log('All checks and urls deleted.')
+		console.log('All checks and urls deleted.');
 
 		// delete partner
 		let queryDelete = getQueryDeletePartner(gql, id);
@@ -329,7 +337,7 @@ export const actions = {
 		if (urls.length === 0) {
 			return {
 				success: false,
-				message: 'Geen URL\'s om te auditen.'
+				message: "Geen URL's om te auditen."
 			};
 		}
 

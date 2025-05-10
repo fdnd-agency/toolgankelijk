@@ -35,8 +35,8 @@
 	<Search placeholderProp="Gvb" />
 </section>
 
-{#if (totalUrls > first)}
-<Pages amount={totalUrls} perPage={first} currentPage={currentPage}/>
+{#if totalUrls > first}
+	<Pages amount={totalUrls} perPage={first} {currentPage} />
 {/if}
 
 {#if form?.success}
@@ -45,7 +45,7 @@
 	<div class="toast error"><p>{form?.message}</p></div>
 {/if}
 
-<AddForm bind:this={dialogRef} isUrl={false}/>
+<AddForm bind:this={dialogRef} isUrl={false} />
 
 <ul>
 	{#each data.websites.websites as website}
@@ -127,15 +127,15 @@
 		z-index: 2;
 	}
 
-    .toast.success {
-        background-color: #22ff0025;
+	.toast.success {
+		background-color: #22ff0025;
 		border: 1px solid #22ff00;
-    }
+	}
 
-    .toast.error {
-        background-color: #a0004025;
+	.toast.error {
+		background-color: #a0004025;
 		border: 1px solid var(--c-pink);
-    }
+	}
 
 	@keyframes fade-out {
 		from {

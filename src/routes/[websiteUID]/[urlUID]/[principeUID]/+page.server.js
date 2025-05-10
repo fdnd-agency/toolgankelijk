@@ -50,14 +50,20 @@ export const actions = {
 		if (checkedSuccesscriteria.length) {
 			// Add the checked successcriteria that are not already in the database to the database
 			for (const checkedSuccesscriterium of checkedSuccesscriteria) {
-				if (!currentlyStoredCheckedSuccesscriteria.find((succescriterium) => succescriterium.id === checkedSuccesscriterium)) {
+				if (
+					!currentlyStoredCheckedSuccesscriteria.find(
+						(succescriterium) => succescriterium.id === checkedSuccesscriterium
+					)
+				) {
 					await storeCheckedSuccesscriterium(checkedSuccesscriterium);
 				}
 			}
 
 			// Delete the successcriteria form the database that are not checked anymore
 			for (const successcriterium of currentlyStoredCheckedSuccesscriteria) {
-				if (!checkedSuccesscriteria.find((succescriterium) => succescriterium === successcriterium.id)) {
+				if (
+					!checkedSuccesscriteria.find((succescriterium) => succescriterium === successcriterium.id)
+				) {
 					await deleteUncheckedSuccesscriterium(successcriterium.id);
 				}
 			}
@@ -91,13 +97,7 @@ export const actions = {
 		async function deleteUncheckedSuccesscriterium(succescriteriumId) {
 			try {
 				let checkId = (await getCheckId()).checkId;
-				let deleteCheckQuery = deleteCheck(
-					gql,
-					websiteUID,
-					urlUID,
-					checkId,
-					succescriteriumId
-				);
+				let deleteCheckQuery = deleteCheck(gql, websiteUID, urlUID, checkId, succescriteriumId);
 				let deletedCheckId = await hygraph.request(deleteCheckQuery);
 
 				return {
