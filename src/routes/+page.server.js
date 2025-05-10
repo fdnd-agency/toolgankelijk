@@ -1,5 +1,6 @@
 import { gql } from 'graphql-request';
 import { hygraph } from '$lib/utils/hygraph.js';
+import { parseHTML } from 'linkedom';
 import getQueryDeletePartner from '$lib/queries/deletePartner';
 import getQueryUpdatePartner from '$lib/queries/updatePartner';
 import getQueryPartner from '$lib/queries/partner';
@@ -11,16 +12,16 @@ import getQueryPartnerUrls from '$lib/queries/partnerUrls';
 import getQueryUpdatePartnerUrls from '$lib/queries/updateUrlsPartner';
 import Sitemapper from 'sitemapper';
 import axios from 'axios';
-import { parseHTML } from 'linkedom';
-import { get } from 'svelte/store';
+import createEmptyCheck from '$lib/queries/addEmptyCheck';
+import getQueryDeleteChecks from '$lib/queries/deleteChecks';
 
-export async function load({url}) {
+export async function load({ url }) {
 	const first = 20;
 	const skip = parseInt(url.searchParams.get('skip') || '0');
 
 	let query = getQueryPartner(gql, first, skip);
 	const data = await hygraph.request(query);
-	
+
 	return {
 		websites: data,
 		first,
@@ -41,108 +42,108 @@ export const actions = {
 			"sitemap.xml", "sitemap_index.xml", "sitemap.php", "sitemap.txt",
 			"sitemap-index.xml", "sitemap.xml.gz", "sitemap/", "sitemap/sitemap.xml",
 			"sitemapindex.xml", "sitemap/index.xml", "sitemap1.xml", "robots.txt"];
-		
+
 		function isValidUrl(url) {
 			return !url.includes('/document') && !url.includes('/documents');
 		}
 
 		if (toggleSitemap) {
-		// check if url ends with a /
-		url = url.endsWith('/') ? url : url + '/';
+			// check if url ends with a /
+			url = url.endsWith('/') ? url : url + '/';
 
-		// Create an array of promises for the sitemap checks
-		const sitemapPromises = sitemapArray.map((sitemapPath) => {
-			return new Promise(async (resolve, reject) => {
-				try {
-					console.log(`Testing the path: ${url + sitemapPath}`);
-					
-					const siteMap = new Sitemapper({
-						url: url + sitemapPath,
-						timeout: 15000,
-					});
+			// Create an array of promises for the sitemap checks
+			const sitemapPromises = sitemapArray.map((sitemapPath) => {
+				return new Promise(async (resolve, reject) => {
+					try {
+						console.log(`Testing the path: ${url + sitemapPath}`);
 
-					const { sites } = await siteMap.fetch();
-					if (sites && sites.length > 0) {
-						resolve(sites.filter(isValidUrl)); // Return the found sites if the sitemap is valid
-					} else {
-						resolve([]); // Return an empty array if no sites found
-					}
-				} catch (error) {
-					reject(`Error with sitemap path: ${sitemapPath}, ${error}`);
-				}
-			});
-		});
+						const siteMap = new Sitemapper({
+							url: url + sitemapPath,
+							timeout: 15000,
+						});
 
-		// Wait for all the sitemap checks to finish
-		try {
-			const sitemapResults = await Promise.all(sitemapPromises);
-
-			// Loop over the results and check which sitemap returned sites
-			for (let i = 0; i < sitemapResults.length; i++) {
-				const result = sitemapResults[i];
-				if (result.length > 0) {
-					console.log("Sitemap found");
-					urlArray = result; // Set the found sitemap URLs
-					break; // Exit the loop as we found a valid sitemap
-				}
-			}
-
-			if (urlArray.length === 0) {
-				console.log("Sitemap is not found, trying to extract URLs from the page");
-				// If no sitemap found, try to extract URLs from the page
-				try {
-					const visited = new Set();
-					const toVisit = [url];
-
-					async function getLinksFromPage(pageUrl) {
-						const res = await axios.get(pageUrl);
-						const { document } = parseHTML(res.data);
-
-						const links = [...document.querySelectorAll('a')]
-							.map(a => a.getAttribute('href'))
-							.filter(href => href && !href.startsWith('#'))
-							.map(href => new URL(href, pageUrl).href)
-							.filter(href => href.startsWith(url))
-							.filter(isValidUrl);
-
-						return [...new Set(links)];
-					}
-
-					while (toVisit.length > 0) {
-						// fetch the next URL to visit
-						const currentUrl = toVisit.shift();
-
-						// if the URL is already visited, skip it
-						if (visited.has(currentUrl)) continue;
-						visited.add(currentUrl);
-
-						console.log(`Visiting: ${currentUrl}`);
-
-						// fetch the page and extract links
-						try {
-							const foundLinks = await getLinksFromPage(currentUrl);
-							for (const link of foundLinks) {
-								// add the link to the visited set
-								if (!visited.has(link) && !toVisit.includes(link)) {
-									toVisit.push(link);
-								}
-							}
-						} catch (error) {
-							console.log(`Error fetching ${currentUrl}: ${error.message}`);
+						const { sites } = await siteMap.fetch();
+						if (sites && sites.length > 0) {
+							resolve(sites.filter(isValidUrl)); // Return the found sites if the sitemap is valid
+						} else {
+							resolve([]); // Return an empty array if no sites found
 						}
+					} catch (error) {
+						reject(`Error with sitemap path: ${sitemapPath}, ${error}`);
 					}
+				});
+			});
 
-					// remove duplicates and filter out external links
-					urlArray = Array.from(visited);
-					console.log("All URLs collected:", urlArray.length);
-				} catch (error) {
-					console.log(`Something went wrong: ${error}`);
+			// Wait for all the sitemap checks to finish
+			try {
+				const sitemapResults = await Promise.all(sitemapPromises);
+
+				// Loop over the results and check which sitemap returned sites
+				for (let i = 0; i < sitemapResults.length; i++) {
+					const result = sitemapResults[i];
+					if (result.length > 0) {
+						console.log("Sitemap found");
+						urlArray = result; // Set the found sitemap URLs
+						break; // Exit the loop as we found a valid sitemap
+					}
 				}
+
+				if (urlArray.length === 0) {
+					console.log("Sitemap is not found, trying to extract URLs from the page");
+					// If no sitemap found, try to extract URLs from the page
+					try {
+						const visited = new Set();
+						const toVisit = [url];
+
+						async function getLinksFromPage(pageUrl) {
+							const res = await axios.get(pageUrl);
+							const { document } = parseHTML(res.data);
+
+							const links = [...document.querySelectorAll('a')]
+								.map(a => a.getAttribute('href'))
+								.filter(href => href && !href.startsWith('#'))
+								.map(href => new URL(href, pageUrl).href)
+								.filter(href => href.startsWith(url))
+								.filter(isValidUrl);
+
+							return [...new Set(links)];
+						}
+
+						while (toVisit.length > 0) {
+							// fetch the next URL to visit
+							const currentUrl = toVisit.shift();
+
+							// if the URL is already visited, skip it
+							if (visited.has(currentUrl)) continue;
+							visited.add(currentUrl);
+
+							console.log(`Visiting: ${currentUrl}`);
+
+							// fetch the page and extract links
+							try {
+								const foundLinks = await getLinksFromPage(currentUrl);
+								for (const link of foundLinks) {
+									// add the link to the visited set
+									if (!visited.has(link) && !toVisit.includes(link)) {
+										toVisit.push(link);
+									}
+								}
+							} catch (error) {
+								console.log(`Error fetching ${currentUrl}: ${error.message}`);
+							}
+						}
+
+						// remove duplicates and filter out external links
+						urlArray = Array.from(visited);
+						console.log("All URLs collected:", urlArray.length);
+					} catch (error) {
+						console.log(`Something went wrong: ${error}`);
+					}
+				}
+			} catch (error) {
+				console.log(`Error: ${error}`);
 			}
-		} catch (error) {
-			console.log(`Error: ${error}`);
 		}
-	}
 
 		// add data to hygraph
 		try {
@@ -150,7 +151,7 @@ export const actions = {
 				let queryAddPartner = getQueryAddPartner(gql, name, url, slug, urlArray.length);
 				await hygraph.request(queryAddPartner);
 				console.log('Partner added.');
-			}else {
+			} else {
 				console.log("Partner already exists.");
 			}
 
@@ -165,7 +166,7 @@ export const actions = {
 				let failedUrls = {};
 
 				async function processUrls() {
-					for (let i = 1; i < urlArray.length; i++) {
+					for (let i = 0; i < urlArray.length; i++) {
 						// console.log(`url: ${i}`);
 						// save each link from the sitemap array
 						let link = urlArray[i];
@@ -179,7 +180,7 @@ export const actions = {
 						urlSlug = urlSlug.replace(/\//g, "-");
 
 						let queryAddUrls = getQueryAddUrl(gql, urlSlug, link, slug, path);
-						
+
 						try {
 							// fetch urls from hygraph to check if the url already exists
 							let queryUrlCheck = getQueryUrl(gql, urlSlug)
@@ -194,6 +195,8 @@ export const actions = {
 								console.log(`Adding ${link}`);
 								// add the url to hygraph
 								await hygraph.request(queryAddUrls);
+								let createEmptyCheckEntry = createEmptyCheck(gql, slug, urlSlug);
+								await hygraph.request(createEmptyCheckEntry);
 							}
 						} catch (error) {
 							// console.error(`Error adding ${link}: ${error.message}`);
@@ -247,12 +250,12 @@ export const actions = {
 		while (true) {
 			let queyryPartnerUrls = getQueryPartnerUrls(gql, id, skip, batchSize);
 			const { urls } = await hygraph.request(queyryPartnerUrls);
-		
+
 			if (!urls || urls.length === 0) break;
-		
+
 			allUrls.push(...urls);
 			skip += batchSize;
-		
+
 			// delay of 0.15 seconds
 			await delay(150);
 		}
@@ -263,26 +266,44 @@ export const actions = {
 			return new Promise(resolve => setTimeout(resolve, ms));
 		}
 
-		async function processUrls() {
-			for (let i = 1; i < allUrls.length; i++) {
-				console.log(`url: ${i}`);
-				// save each link from the sitemap array
-				let link = allUrls[i];
+		async function deleteChecks(hygraph, gql, urlId) {
+			const queryDeleteChecks = getQueryDeleteChecks(gql, urlId);
+			try {
+				console.log(`Deleting checks for URL: ${urlId}`);
+				await hygraph.request(queryDeleteChecks);
+			} catch (error) {
+				console.error(`Error deleting checks for URL ${urlId}: ${error.message}`);
+			}
+		}
 
-				let queryDeleteUrls = getQueryDeleteUrl(gql, link.id);
-				try {
-					console.log(`Deleting ${link.id}`);
-					await hygraph.request(queryDeleteUrls);
-				}catch (error) {
-					console.error(`Error deleting ${link.id}: ${error.message}`);
-				}
+		async function deleteUrl(hygraph, gql, urlId) {
+			const queryDeleteUrls = getQueryDeleteUrl(gql, urlId);
+			try {
+				console.log(`Deleting URL: ${urlId}`);
+				await hygraph.request(queryDeleteUrls);
+			} catch (error) {
+				console.error(`Error deleting URL ${urlId}: ${error.message}`);
+			}
+		}
 
+		async function deleteAllUrlsAndChecks() {
+			for (let i = 0; i < allUrls.length; i++) {
+				console.log(`Processing URL: ${i}`);
+				const link = allUrls[i];
+
+				// Delete associated checks
+				await deleteChecks(hygraph, gql, link.id);
+
+				// Delete the URL
+				await deleteUrl(hygraph, gql, link.id);
+
+				// Delay of 0.15 seconds
 				await delay(150);
 			}
 		}
 
-		await processUrls();
-		console.log('All urls deleted.')
+		await deleteAllUrlsAndChecks();
+		console.log('All checks and urls deleted.')
 
 		// delete partner
 		let queryDelete = getQueryDeletePartner(gql, id);
@@ -311,7 +332,7 @@ export const actions = {
 				message: 'Geen URL\'s om te auditen.'
 			};
 		}
-	
+
 		try {
 			const response = await fetch('http://localhost:5174/api/specifiedUrls', {
 				method: 'POST',
@@ -320,14 +341,14 @@ export const actions = {
 				},
 				body: JSON.stringify({ urls: urls, slug })
 			});
-	
+
 			if (!response.ok) {
 				const errorDetails = await response.text();
 				throw new Error(`Network response was not ok: ${errorDetails}`);
 			}
-	
+
 			const data = await response.json();
-	
+
 			return {
 				success: true,
 				message: data.message
