@@ -124,6 +124,7 @@
 		document.body.style.overflowY = 'hidden';
 		window.scrollTo({ top: 0, behavior: 'smooth' });
 	}
+	
 	function openSitemap(event) {
 		console.log('Sitemap');
 		event.preventDefault();
@@ -137,6 +138,7 @@
 		openedAudit = null;
 		document.body.style.overflowY = 'scroll';
 	}
+
 	function closeSitemap(event) {
 		event.preventDefault();
 		openedSitemap = null;

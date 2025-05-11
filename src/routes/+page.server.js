@@ -14,6 +14,10 @@ import Sitemapper from 'sitemapper';
 import axios from 'axios';
 import createEmptyCheck from '$lib/queries/addEmptyCheck';
 import getQueryDeleteChecks from '$lib/queries/deleteChecks';
+import getQueryTestIdsByUrl from '$lib/queries/getTestIdsByUrl';
+import getQueryTestNodeIdsByTest from '$lib/queries/getTestNodeIdsByTest';
+import getQueryDeleteTestNode from '$lib/queries/deleteTestNode';
+import getQueryDeleteTest from '$lib/queries/deleteTest';
 
 export async function load({ url }) {
 	const first = 20;
@@ -269,7 +273,6 @@ export const actions = {
 		}
 		console.log(allUrls.length);
 
-		// delete all urls
 		async function delay(ms) {
 			return new Promise((resolve) => setTimeout(resolve, ms));
 		}
@@ -294,10 +297,54 @@ export const actions = {
 			}
 		}
 
-		async function deleteAllUrlsAndChecks() {
+		async function getTestIdsByUrl(urlId) {
+			const query = getQueryTestIdsByUrl(gql, urlId);
+			const { url } = await hygraph.request(query);
+			return url?.tests?.map((t) => t.id) || [];
+		}
+
+		async function getTestNodeIdsByTest(testId) {
+			const query = getQueryTestNodeIdsByTest(gql, testId);
+			const { test } = await hygraph.request(query);
+			return test?.testNodes?.map((n) => n.id) || [];
+		}
+
+		async function deleteTestNode(testNodeId) {
+			const query = getQueryDeleteTestNode(gql, testNodeId);
+			try {
+				console.log(`Deleting TestNode: ${testNodeId}`);
+				await hygraph.request(query);
+			} catch (error) {
+				console.error(`Error deleting TestNode ${testNodeId}: ${error.message}`);
+			}
+		}
+
+		async function deleteTest(testId) {
+			const query = getQueryDeleteTest(gql, testId);
+			try {
+				console.log(`Deleting Test: ${testId}`);
+				await hygraph.request(query);
+			} catch (error) {
+				console.error(`Error deleting Test ${testId}: ${error.message}`);
+			}
+		}
+
+		async function deleteAllUrlsChecksTestsAndTestNodes() {
 			for (let i = 0; i < allUrls.length; i++) {
 				console.log(`Processing URL: ${i}`);
 				const link = allUrls[i];
+
+				// Delete associated TestNodes and Tests
+				const testIds = await getTestIdsByUrl(link.id);
+				for (const testId of testIds) {
+					const testNodeIds = await getTestNodeIdsByTest(testId);
+					for (const testNodeId of testNodeIds) {
+						await deleteTestNode(testNodeId);
+						await delay(100);
+					}
+					await deleteTest(testId);
+					await delay(100);
+				}
 
 				// Delete associated checks
 				await deleteChecks(hygraph, gql, link.id);
@@ -310,8 +357,8 @@ export const actions = {
 			}
 		}
 
-		await deleteAllUrlsAndChecks();
-		console.log('All checks and urls deleted.');
+		await deleteAllUrlsChecksTestsAndTestNodes();
+		console.log('All checks, tests, testNodes, and urls deleted.');
 
 		// delete partner
 		let queryDelete = getQueryDeletePartner(gql, id);
