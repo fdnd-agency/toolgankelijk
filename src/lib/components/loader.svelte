@@ -20,6 +20,7 @@
 		border-radius: 0.25rem;
 		margin-top: 1rem;
 		color: var(--c-white);
+		overflow: hidden;
 	}
 
 	.loader {
@@ -39,6 +40,10 @@
 		border-radius: 50%;
 		border:24px solid var(--c-pink);
 		animation: prixClipFix 2s infinite linear;
+	}
+
+	p {
+		width: 80%;
 	}
 
 	@keyframes prixClipFix {
