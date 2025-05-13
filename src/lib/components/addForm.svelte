@@ -1,11 +1,11 @@
 <script>
-	import { enhance } from '$app/forms';
 	import Loader from '$lib/components/loader.svelte';
 
 	export let params;
 	export let isUrl;
 
 	let sending = false;
+	let message = '';
 
 	let title;
 	let action;
@@ -20,7 +20,7 @@
 		tip = 'url';
 	} else {
 		title = 'Partner toevoegen';
-		action = '?/addPartner';
+		action = '/';
 		urlTitle = 'Titel';
 		tip = 'website';
 	}
@@ -39,34 +39,63 @@
 		tipMessage.remove();
 	}
 
-	function submitHandling(event) {
-		console.log('Form submitted');
+	async function submitHandling(event) {
+		// prevent default form submission
+		event.preventDefault();
+
 		// start loading animation
 		sending = true;
 
+		// handle form submission
 		const formData = new FormData(event.target);
-		console.log('Form data:', Array.from(formData.entries()));
 
-		// send the form data to the server
-		fetch(action, {
+		const postRes = await fetch(action, {
 			method: 'POST',
-			body: formData,
+			body: formData
 		});
 
-		if (response.ok) {
-			return response.json();
+		if (!postRes.ok) {
+			console.error('POST-fout', postRes.status);
+			sending = false;
+			return;
 		}
 
-		if (data.success) {
-			dialog.close();
-			window.location.reload();
+		// Check if the response is a stream
+		if (!postRes.body) {
+			console.error('Geen stream ontvangen');
+			sending = false;
+			return;
 		}
 
-		// stop loading animation
+		// Stream reading
+		const reader = postRes.body.getReader();
+		const decoder = new TextDecoder();
+		let buffer = '';
+		let done = false;
+
+		while (!done) {
+			const { value, done: streamDone } = await reader.read();
+			if (streamDone) break;
+
+			buffer += decoder.decode(value, { stream: true });
+			const parts = buffer.split('\n\n');
+			buffer = parts.pop();
+
+			for (const part of parts) {
+				if (!part.startsWith('data:')) continue;
+				const payload = JSON.parse(part.replace(/^data:\s*/, ''));
+				message = payload.status || payload.error;
+
+				if (payload.status === 'Klaar!') {
+					done = true;
+					break;
+				}
+			}
+		}
+
 		sending = false;
-
-		// prevent the default form submission
-		event.preventDefault();
+		dialog.close();
+		window.location.reload();
 	}
 </script>
 
@@ -81,38 +110,39 @@
 			</button>
 		</div>
 
-		<form method="POST" {action} on:submit={submitHandling}>
-			<div class="input-container" aria-hidden="true">
+		<!-- 6) Verwijder action/method, gebruik alleen on:submit|preventDefault -->
+		<form on:submit|preventDefault={submitHandling}>
+			<div class="input-container">
 				<label for="name">{urlTitle}</label>
 				<input id="name" name="name" type="text" required placeholder="type een titel..." />
 			</div>
 
-			<div class="input-container" aria-hidden="true">
-				<label for="url" class="url-label">Url</label>
+			<div class="input-container">
+				<label for="url">Url</label>
 				<input id="url" name="url" type="url" required placeholder="type een url link..." />
 			</div>
 
 			{#if isUrl}
-				<div class="input-container" aria-hidden="true">
-					<label for="slug" class="slug-label">Slug</label>
-					<input id="slug" name="slug" type="name" value={params} readonly />
+				<div class="input-container">
+					<label for="slug">Slug</label>
+					<input id="slug" name="slug" value={params} readonly />
 				</div>
 			{/if}
 
 			{#if !isUrl}
-				<div class="input-container" aria-hidden="true">
-					<label for="sitemap" class="sitemap-label">Sitemap ophalen van partner</label>
-					<input id="sitemap" name="sitemap" type="checkbox"/>
+				<div class="input-container">
+					<label for="sitemap">Sitemap ophalen</label>
+					<input id="sitemap" name="sitemap" type="checkbox" />
 				</div>
 			{/if}
 
-			<div class="button-div" aria-label="button container">
+			<div class="button-div">
 				<button type="submit" class="add-button">Toevoegen</button>
 				<button class="remove-button" on:click={close}>Sluiten</button>
 			</div>
 
 			{#if sending}
-				<Loader process="Partner wordt toegevoegd" />
+				<Loader process={message} />
 			{/if}
 		</form>
 	</section>
