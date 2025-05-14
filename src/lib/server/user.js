@@ -43,3 +43,40 @@ export async function createUser(email, username, password) {
 	};
 	return user;
 }
+
+export async function getUserPasswordHash(userId) {
+	const query = gql`
+		query GetGebruikerWachtwoord($id: ID!) {
+			gebruiker(where: { id: $id }) {
+				wachtwoord
+			}
+		}
+	`;
+	const data = await hygraph.request(query, { id: userId });
+	if (!data.gebruiker) {
+		throw new Error('Invalid user ID');
+	}
+	return data.gebruiker.wachtwoord;
+}
+
+export async function getUserFromEmail(email) {
+	const query = gql`
+		query GetGebruikerFromEmail($email: String!) {
+			gebruiker(where: { email: $email }) {
+				id
+				email
+				gebruikersnaam
+			}
+		}
+	`;
+	const data = await hygraph.request(query, { email });
+	if (!data.gebruiker) {
+		return null;
+	}
+	const user = {
+		id: data.gebruiker.id,
+		email: data.gebruiker.email,
+		gebruikersnaam: data.gebruiker.gebruikersnaam
+	};
+	return user;
+}

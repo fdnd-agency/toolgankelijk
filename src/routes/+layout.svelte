@@ -22,7 +22,7 @@
 	});
 </script>
 
-<Header {params} {partners} {websites} />
+<Header {params} {partners} {websites} user={data.gebruiker} />
 
 <main id="main">
 	<slot />

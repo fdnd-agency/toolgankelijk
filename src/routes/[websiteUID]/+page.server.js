@@ -1,5 +1,6 @@
 import { gql } from 'graphql-request';
 import { hygraph } from '$lib/utils/hygraph.js';
+import { redirect } from '@sveltejs/kit';
 import getQueryAddUrl from '$lib/queries/addUrl';
 import getQueryWebsite from '$lib/queries/website';
 import getQueryDeleteUrl from '$lib/queries/deleteUrl';
@@ -11,12 +12,14 @@ import getQueryTestNodeIdsByTest from '$lib/queries/getTestNodeIdsByTest';
 import getQueryDeleteTestNode from '$lib/queries/deleteTestNode';
 import getQueryDeleteTest from '$lib/queries/deleteTest';
 
-export async function load({ params, url }) {
+export async function load(event) {
+	const { params, url, locals } = event;
 	const { websiteUID } = params;
+	if (locals.sessie === null || locals.gebruiker === null) {
+		throw redirect(302, '/login');
+	}
 	const first = 20;
 	const skip = parseInt(url.searchParams.get('skip') || '0');
-
-	//fetch part of the urls for pages
 	const query = getQueryWebsite(gql, websiteUID, first, skip);
 	const data = await hygraph.request(query);
 

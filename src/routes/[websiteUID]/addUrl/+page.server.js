@@ -1,11 +1,15 @@
 import { gql } from 'graphql-request';
 import { hygraph } from '$lib/utils/hygraph.js';
+import { redirect } from '@sveltejs/kit';
 import getQueryAddUrl from '$lib/queries/addUrl';
 import getQueryWebsite from '$lib/queries/website';
 import createEmptyCheck from '$lib/queries/addEmptyCheck';
 
-export async function load({ params }) {
+export async function load({ params, locals }) {
 	const { websiteUID } = params;
+	if (!locals?.sessie || !locals?.gebruiker) {
+		throw redirect(302, '/login');
+	}
 	let query = getQueryWebsite(gql, websiteUID);
 	return await hygraph.request(query).websitesData;
 }
