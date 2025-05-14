@@ -1,14 +1,17 @@
 import { gql } from 'graphql-request';
 import { hygraph } from '$lib/utils/hygraph.js';
-import { error } from '@sveltejs/kit';
+import { error, redirect } from '@sveltejs/kit';
 import getQueryUrl from '$lib/queries/url';
 import getQueryToolboard from '$lib/queries/toolboard';
 import firstCheck from '$lib/queries/firstCheck';
 import addCheck from '$lib/queries/addCheck';
 import deleteCheck from '$lib/queries/deleteCheck';
 
-export const load = async ({ params }) => {
+export const load = async ({ params, locals }) => {
 	const { websiteUID, urlUID, principeUID } = params;
+	if (!locals?.sessie || !locals?.gebruiker) {
+		throw redirect(302, '/login');
+	}
 	const queryUrl = getQueryUrl(gql, urlUID);
 	const queryToolboard = getQueryToolboard(gql, urlUID, principeUID);
 	const urlData = await hygraph.request(queryUrl);

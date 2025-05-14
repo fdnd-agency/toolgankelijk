@@ -1,6 +1,8 @@
 import { gql } from 'graphql-request';
 import { hygraph } from '$lib/utils/hygraph.js';
 import { parseHTML } from 'linkedom';
+import { fail, redirect } from '@sveltejs/kit';
+import { deleteSessionTokenCookie, invalidateSession } from '$lib/server/session';
 import getQueryDeletePartner from '$lib/queries/deletePartner';
 import getQueryUpdatePartner from '$lib/queries/updatePartner';
 import getQueryPartner from '$lib/queries/partner';
@@ -19,7 +21,11 @@ import getQueryTestNodeIdsByTest from '$lib/queries/getTestNodeIdsByTest';
 import getQueryDeleteTestNode from '$lib/queries/deleteTestNode';
 import getQueryDeleteTest from '$lib/queries/deleteTest';
 
-export async function load({ url }) {
+export async function load(event) {
+	const { url, locals } = event;
+	if (locals.sessie === null || locals.gebruiker === null) {
+		throw redirect(302, '/login');
+	}
 	const first = 20;
 	const skip = parseInt(url.searchParams.get('skip') || '0');
 
@@ -34,6 +40,16 @@ export async function load({ url }) {
 }
 
 export const actions = {
+	signout: async function (event) {
+		if (event.locals.sessie === null) {
+			return fail(401, {
+				message: 'Not authenticated'
+			});
+		}
+		invalidateSession(event.locals.sessie.id);
+		deleteSessionTokenCookie(event);
+		throw redirect(302, '/login');
+	},
 	addPartner: async ({ request }) => {
 		const formData = await request.formData();
 		const name = formData.get('name');

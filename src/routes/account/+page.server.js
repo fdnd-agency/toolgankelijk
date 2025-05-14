@@ -1,8 +1,16 @@
-import { fail } from '@sveltejs/kit';
+import { fail, redirect } from '@sveltejs/kit';
 import { checkEmailAvailability, verifyEmailInput, isValidEmailDomain } from '$lib/server/email';
 import { createUser, verifyUsernameInput, checkUsernameAvailability } from '$lib/server/user';
 import { verifyPasswordStrength } from '$lib/server/password';
 import { createSession, generateSessionToken, setSessionTokenCookie } from '$lib/server/session';
+
+export function load(event) {
+	const { locals } = event;
+	if (locals.sessie !== null && locals.gebruiker !== null) {
+		throw redirect(302, '/');
+	}
+	return {};
+}
 
 export const actions = {
 	default: action
