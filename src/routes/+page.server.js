@@ -40,16 +40,6 @@ export async function load(event) {
 }
 
 export const actions = {
-	signout: async function (event) {
-		if (event.locals.sessie === null) {
-			return fail(401, {
-				message: 'Not authenticated'
-			});
-		}
-		invalidateSession(event.locals.sessie.id);
-		deleteSessionTokenCookie(event);
-		throw redirect(302, '/login');
-	},
 	addPartner: async ({ request }) => {
 		const formData = await request.formData();
 		const name = formData.get('name');

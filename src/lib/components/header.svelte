@@ -1,6 +1,5 @@
 <script>
 	import { onMount } from 'svelte';
-	import { enhance } from '$app/forms';
 	import logoDarkMode from '$lib/assets/logoDarkMode.svg';
 	import logoLightMode from '$lib/assets/logoLightMode.svg';
 	import BreadCrumbs from '$lib/components/breadCrumbs.svelte';
@@ -25,6 +24,12 @@
 			localStorage.setItem('lightMode', `${isLightMode}`);
 		}
 	}
+
+	async function handleSignOut(event) {
+        event.preventDefault();
+        await fetch('/logout', { method: 'POST' });
+        window.location.href = '/login';
+    }
 
 	onMount(() => {
 		const savedLightMode = localStorage.getItem('lightMode');
@@ -129,9 +134,7 @@
 			</a>
 			<span class="lightmode" />
 			{#if user}
-				<form method="post" action="?/signout" use:enhance>
-					<button class="signout-btn">Sign out</button>
-				</form>
+				<button on:click={handleSignOut} class="signout-btn">Sign out</button>
 			{/if}
 		</div>
 	</nav>
