@@ -5,7 +5,7 @@
 	export let isUrl;
 
 	let sending = false;
-	let message = '';
+	let logs = [];
 
 	let title;
 	let action;
@@ -46,6 +46,8 @@
 		// start loading animation
 		sending = true;
 
+		logs = [];
+
 		// handle form submission
 		const formData = new FormData(event.target);
 
@@ -83,10 +85,14 @@
 
 			for (const part of parts) {
 				if (!part.startsWith('data:')) continue;
-				const payload = JSON.parse(part.replace(/^data:\s*/, ''));
-				message = payload.status || payload.error;
+				const { status, type, error } = JSON.parse(part.replace(/^data:\s*/, ''));
+				if (error) {
+					logs = [...logs, { status: error, type: 'error' }];
+				} else {
+					logs = [...logs, { status, type }];
+				}
 
-				if (payload.status === 'Klaar!') {
+				if (status === 'Alle urls zijn toegevoegd') {
 					done = true;
 					break;
 				}
@@ -142,7 +148,7 @@
 			</div>
 
 			{#if sending}
-				<Loader process={message} />
+				<Loader itemArray={logs} />
 			{/if}
 		</form>
 	</section>
