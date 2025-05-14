@@ -1,5 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
+	import { enhance } from '$app/forms';
 	import logoDarkMode from '$lib/assets/logoDarkMode.svg';
 	import logoLightMode from '$lib/assets/logoLightMode.svg';
 	import BreadCrumbs from '$lib/components/breadCrumbs.svelte';
@@ -7,6 +8,7 @@
 	export let params;
 	export let partners;
 	export let websites;
+	export let user = null;
 
 	let isLightMode = false;
 
@@ -87,25 +89,27 @@
 					/>
 				</svg>
 			</a>
-			<a href="/login" aria-label="account">
-				<svg
-					class="account-icon-img"
-					alt="account icon"
-					width="800px"
-					height="800px"
-					viewBox="0 0 24 24"
-					id="Layer_1"
-					data-name="Layer 1"
-					xmlns="http://www.w3.org/2000/svg"
-				>
-					<circle id="my-circle" class="cls-1" cx="12" cy="7.25" r="5.73" />
-					<path
-						id="my-svg2"
-						class="cls-1"
-						d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05"
-					/>
-				</svg>
-			</a>
+			{#if !user}
+				<a href="/login" aria-label="account">
+					<svg
+						class="account-icon-img"
+						alt="account icon"
+						width="800px"
+						height="800px"
+						viewBox="0 0 24 24"
+						id="Layer_1"
+						data-name="Layer 1"
+						xmlns="http://www.w3.org/2000/svg"
+					>
+						<circle id="my-circle" class="cls-1" cx="12" cy="7.25" r="5.73" />
+						<path
+							id="my-svg2"
+							class="cls-1"
+							d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05"
+						/>
+					</svg>
+				</a>
+			{/if}
 			<a aria-label="lightmode button" class="disable-js" href=" ">
 				<button aria-label="lightmode" class="toggle" on:click={toggleLightMode}>
 					<svg
@@ -124,11 +128,35 @@
 				</button>
 			</a>
 			<span class="lightmode" />
+			{#if user}
+				<form method="post" action="?/signout" use:enhance>
+					<button class="signout-btn">Sign out</button>
+				</form>
+			{/if}
 		</div>
 	</nav>
 </header>
 
 <style>
+	.signout-btn {
+		background-color: var(--c-pink);
+		color: var(--c-white);
+		border: 2px solid var(--c-pink);
+		border-radius: 20px;
+		width: 8rem;
+		height: 2.2rem;
+		font-size: 1rem;
+		font-weight: 600;
+		cursor: pointer;
+		transition: background 0.2s, color 0.2s, border 0.2s;
+	}
+
+	.signout-btn:hover {
+		background-color: transparent;
+		color: var(--c-pink);
+		border: 2px solid var(--c-pink);
+	}
+
 	.lightmode {
 		--c-background: white;
 		--c-container: rgb(227, 0, 89);
