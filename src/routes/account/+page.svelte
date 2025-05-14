@@ -1,28 +1,56 @@
+<script>
+	import { enhance } from '$app/forms';
+
+	export let form;
+</script>
+
 <svelte:head>
 	<title>Create Account · Vervoerregio Amsterdam</title>
 </svelte:head>
 
 <section class="form-container">
-	<form>
+	<form method="post" use:enhance>
 		<fieldset class="form-login">
 			<legend>Create an account</legend>
 			<p>
-				<label for="login">Email</label>
-				<input type="email" name="mail" placeholder="Email" required />
+				<label for="email">Email</label>
+				<input id="email" type="email" name="email" placeholder="Email" required />
 			</p>
 			<p>
-				<label for="login">Username</label>
-				<input type="text" name="name" placeholder="Username" autocomplete="on" required />
+				<label for="username">Username</label>
+				<input
+					id="username"
+					type="text"
+					name="username"
+					placeholder="Username"
+					autocomplete="on"
+					required
+				/>
 			</p>
 			<p>
-				<label for="login">Password</label>
-				<input type="password" name="password" placeholder="Password" autocomplete="off" required />
+				<label for="password">Password</label>
+				<input
+					id="password"
+					type="password"
+					name="password"
+					placeholder="Password"
+					autocomplete="off"
+					required
+				/>
 			</p>
 			<p>
-				<label for="login">Confirm Password</label>
-				<input type="password" name="password" placeholder="Password" autocomplete="off" required />
+				<label for="confirm-password">Confirm Password</label>
+				<input
+					id="confirm-password"
+					type="password"
+					name="confirm-password"
+					placeholder="Password"
+					autocomplete="off"
+					required
+				/>
 			</p>
 			<button type="submit" class="form-submit">Create</button>
+			<p style="color: red;">{form?.message ?? ''}</p>
 		</fieldset>
 	</form>
 </section>
