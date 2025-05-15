@@ -68,7 +68,7 @@
 		{/if}
 	{/each}
 
-	<li class="button-disabled button">{amount}</li>
+	<li class="button-disabled button">{pageCount}</li>
 	<li><button type="submit" class="button" name="skip" value={currentPage * perPage} disabled={currentPage === pageCount}>Volgende ▶</button></li>
 </ul>
 </form>

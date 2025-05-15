@@ -109,6 +109,7 @@
 	<section class="form-container">
 		<h2>{title}</h2>
 
+		{#if !sending}
 		<div class="tip-message" aria-label="tip message">
 			<p>Voeg een bestaande {tip} toe.</p>
 			<button on:click={closeTip}>
@@ -145,11 +146,12 @@
 				<button type="submit" class="add-button">Toevoegen</button>
 				<button class="remove-button" on:click={close}>Sluiten</button>
 			</div>
-
-			{#if sending}
-				<Loader itemArray={logs} />
-			{/if}
 		</form>
+		{/if}
+
+		{#if sending}
+				<Loader itemArray={logs} />
+		{/if}
 	</section>
 </dialog>
 
