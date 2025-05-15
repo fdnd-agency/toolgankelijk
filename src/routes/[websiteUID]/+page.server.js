@@ -94,16 +94,27 @@ export const actions = {
 		let query = getQueryUpdateUrl(gql, slug, url, id);
 		return await hygraph.request(query);
 	},
-	addUrl: async ({ url, request }) => {
+	addUrl: async ({ request, params }) => {
 		const formData = await request.formData();
 		const name = formData.get('name').toLowerCase();
-		const formUrl = formData.get('url');
-		const formSlug = formData.get('slug');
+		const urlLink = formData.get('url');
+		let urlSlug = formData.get('slug');
+		const websiteSlug = params.websiteUID;
+
+		if (!urlSlug || urlSlug === 'undefined') {
+			try {
+				const urlObj = new URL(urlLink);
+				const path = urlObj.pathname;
+				urlSlug = websiteSlug + path.replace(/\//g, '-');
+			} catch {
+				urlSlug = websiteSlug + '-' + name;
+			}
+		}
 
 		try {
-			let query = getQueryAddUrl(gql, name, formUrl, formSlug);
+			let query = getQueryAddUrl(gql, urlSlug, urlLink, websiteSlug, name);
 			let hygraphCall = await hygraph.request(query);
-			let createEmptyCheckEntry = createEmptyCheck(gql, formSlug, name);
+			let createEmptyCheckEntry = createEmptyCheck(gql, urlSlug, name);
 			await hygraph.request(createEmptyCheckEntry);
 
 			return {

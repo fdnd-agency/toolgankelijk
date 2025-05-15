@@ -26,10 +26,10 @@
 	}
 
 	async function handleSignOut(event) {
-        event.preventDefault();
-        await fetch('/logout', { method: 'POST' });
-        window.location.href = '/login';
-    }
+		event.preventDefault();
+		await fetch('/logout', { method: 'POST' });
+		window.location.href = '/login';
+	}
 
 	onMount(() => {
 		const savedLightMode = localStorage.getItem('lightMode');

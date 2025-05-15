@@ -1,8 +1,7 @@
 import { gql } from 'graphql-request';
 import { hygraph } from '$lib/utils/hygraph.js';
 import { parseHTML } from 'linkedom';
-import { fail, redirect } from '@sveltejs/kit';
-import { deleteSessionTokenCookie, invalidateSession } from '$lib/server/session';
+import { redirect } from '@sveltejs/kit';
 import getQueryDeletePartner from '$lib/queries/deletePartner';
 import getQueryUpdatePartner from '$lib/queries/updatePartner';
 import getQueryPartner from '$lib/queries/partner';
