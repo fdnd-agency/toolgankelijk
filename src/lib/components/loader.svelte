@@ -19,7 +19,6 @@
 </script>
 
 <details class="loader-container" aria-hidden="true" open>
-    <!-- <span class="loader" aria-label="loading-icon"></span> -->
 	<summary>Logs ({logCount})</summary>
 	<ul class="log-list" role="log" aria-live="polite" bind:this={logList}>
 		{#each itemArray as item}
