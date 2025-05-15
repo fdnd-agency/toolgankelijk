@@ -44,7 +44,7 @@
 		gap: 0.5rem;
 		width: 100%;
 		margin-top: 0.5rem;
-		max-height: 10rem;
+		max-height: 20rem;
 		overflow-y: auto;
 	}
 

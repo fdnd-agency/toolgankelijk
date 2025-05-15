@@ -5,6 +5,10 @@ import getQueryWebsite from '$lib/queries/website';
 import getQueryDeleteUrl from '$lib/queries/deleteUrl';
 import getQueryUpdateUrl from '$lib/queries/updateUrl';
 
+function delay(ms) {
+	return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 export async function load({ params, url }) {
 	const { websiteUID } = params;
 	const first = 20;
@@ -13,6 +17,7 @@ export async function load({ params, url }) {
 	//fetch part of the urls for pages
 	const query = getQueryWebsite(gql, websiteUID, first, skip);
 	const data = await hygraph.request(query);
+	await delay(150);
 
 	return {
 		websites: data,

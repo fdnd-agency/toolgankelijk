@@ -150,7 +150,8 @@
 		{/if}
 
 		{#if sending}
-				<Loader itemArray={logs} />
+			<p class="tip-message">Versturen...</p>
+			<Loader itemArray={logs} />
 		{/if}
 	</section>
 </dialog>
