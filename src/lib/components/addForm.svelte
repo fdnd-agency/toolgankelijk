@@ -150,7 +150,9 @@
 		{/if}
 
 		{#if sending}
-			<p class="tip-message">Versturen...</p>
+			<div class="tip-message" aria-label="tip message">
+				<p>Partner data wordt opgehaald en toegevoegd...</p>
+			</div>
 			<Loader itemArray={logs} />
 		{/if}
 	</section>
