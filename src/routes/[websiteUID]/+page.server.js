@@ -39,12 +39,13 @@ export const actions = {
 
 	addUrl: async ({ url, request }) => {
 		const formData = await request.formData();
-		const name = formData.get('name').toLowerCase();
-		const formUrl = formData.get('url');
-		const formSlug = formData.get('slug');
+		const name = formData.get('name');
+		const slug = formData.get('name').toLowerCase();
+		const urlLink = formData.get('url');
+		const websiteSlug = formData.get('slug');
 
 		try {
-			let query = getQueryAddUrl(gql, name, formUrl, formSlug);
+			let query = getQueryAddUrl(gql, slug, urlLink, websiteSlug, name);
 			let hygraphCall = await hygraph.request(query);
 
 			return {

@@ -116,7 +116,6 @@
 			</button>
 		</div>
 
-		<!-- 6) Verwijder action/method, gebruik alleen on:submit|preventDefault -->
 		<form on:submit|preventDefault={submitHandling}>
 			<div class="input-container">
 				<label for="name">{urlTitle}</label>
