@@ -177,7 +177,11 @@ export async function POST({ request }) {
       let closed = false;
       const safeClose = () => {
         if (!closed) {
-          controller.close();
+          try {
+            controller.close();
+          } catch (error) {
+            console.error('Error closing stream:', error);
+          }
           closed = true;
         }
       };
