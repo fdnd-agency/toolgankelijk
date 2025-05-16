@@ -174,6 +174,13 @@ export async function POST({ request }) {
   const stream = new ReadableStream({
     start(controller) {
       const enc = new TextEncoder();
+      let closed = false;
+      const safeClose = () => {
+        if (!closed) {
+          controller.close();
+          closed = true;
+        }
+      };
       const sendUpdate = async msg => controller.enqueue(enc.encode(`data: ${JSON.stringify(msg)}\n\n`));
 
       (async () => {
@@ -204,7 +211,7 @@ export async function POST({ request }) {
         } catch (err) {
           await sendUpdate({ status: err.message, type: 'error' });
         } finally {
-          controller.close();
+          safeClose();
         }
       })();
     }

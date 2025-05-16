@@ -12,6 +12,7 @@
 	let urlTitle;
 	let dialog;
 	let tip;
+	let partner;
 
 	if (isUrl) {
 		title = 'Url toevoegen';
@@ -120,7 +121,7 @@
 		<form on:submit|preventDefault={submitHandling}>
 			<div class="input-container">
 				<label for="name">{urlTitle}</label>
-				<input id="name" name="name" type="text" required placeholder="type een titel..." />
+				<input id="name" name="name" type="text" required placeholder="type een titel..." bind:value={partner} />
 			</div>
 
 			<div class="input-container">
@@ -151,7 +152,7 @@
 
 		{#if sending}
 			<div class="tip-message" aria-label="tip message">
-				<p>Partner data wordt opgehaald en toegevoegd...</p>
+				<p><span>{partner}</span> wordt opgehaald en toegevoegd...</p>
 			</div>
 			<Loader itemArray={logs} />
 		{/if}
@@ -350,5 +351,12 @@
 
 	.remove-button:hover {
 		opacity: 0.75;
+	}
+
+	span {
+		display: contents;
+		color: var(--c-pink);
+		font-weight: 900;
+		text-transform: uppercase;
 	}
 </style>
