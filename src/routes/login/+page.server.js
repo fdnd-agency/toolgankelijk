@@ -27,7 +27,7 @@ export const actions = {
 
 		if (email === '' || password === '') {
 			return fail(400, {
-				message: 'Please enter your email and password.',
+				message: 'Please enter your email and password',
 				email
 			});
 		}
