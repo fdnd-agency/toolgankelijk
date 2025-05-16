@@ -3,33 +3,42 @@
 	export let perPage;
 	export let currentPage;
 
-	$: pageCount = Math.ceil(amount / perPage);
+	// calculate the number of pages
+	let pageCount =  Math.ceil(amount / perPage);
+
+	// Amount of buttons to show
+	$: pageNumbers = getPages();
+
+	// calculate the skip values for the previous and next buttons
 	$: prevSkip = Math.max((currentPage - 2) * perPage, 0);
   	$: nextSkip = Math.min(currentPage * perPage, (pageCount - 1) * perPage);
 
+	// calculate the skip values for the pageNumbers buttons
 	function getPages() {
 		const pages = [];
-		pages.push(1);
-
-		if (pageCount <= 6) {
-		for (let i = 2; i < pageCount; i++) pages.push(i);
-		} else if (currentPage <= 4) {
-		for (let i = 2; i <= 5; i++) pages.push(i);
-		pages.push('...');
-		} else if (currentPage >= pageCount - 3) {
-		pages.push('...');
-		for (let i = pageCount - 4; i < pageCount; i++) pages.push(i);
+		if (pageCount <= 5) {
+			for (let i = 1; i <= pageCount; i++) {
+				pages.push(i);
+			}
+		} else if (currentPage <= 3) {
+			for (let i = 1; i <= 5; i++) {
+				pages.push(i);
+			}
+			pages.push('...');
+		} else if (currentPage >= pageCount - 2) {
+			pages.push('...');
+			for (let i = pageCount - 3; i <= pageCount; i++) {
+				if (i > 0 && i <= pageCount) pages.push(i);
+			}
 		} else {
-		pages.push('...');
-		pages.push(currentPage - 1, currentPage, currentPage + 1);
-		pages.push('...');
+			pages.push('...');
+			for (let i = currentPage - 1; i <= currentPage + 1; i++) {
+				if (i > 0 && i <= pageCount) pages.push(i);
+			}
+			pages.push('...');
 		}
-
-		if (pageCount > 1) pages.push(pageCount);
 		return pages;
 	}
-
-	$: pageNumbers = getPages();
 </script>
 
 <form method="GET" data-sveltekit-reload>
@@ -47,12 +56,13 @@
 					name="skip"
 					value={(p - 1) * perPage}
 					class:selected={p === currentPage}
-				>{p}</button>
+					>{p}
+				</button>
 			</li>
 		{/if}
 	{/each}
 
-	<li class="button-disabled button">{pageCount}</li>
+	<!-- <li class="button-disabled button">{pageCount}</li> -->
 	<li><button type="submit" class="button" name="skip" value={nextSkip} disabled={currentPage === pageCount}>Volgende ▶</button></li>
 </ul>
 </form>
