@@ -46,7 +46,7 @@ describe('src/routes/account/+page.server.js', () => {
 
 		// Act
 		const callLoad = () => load({ locals });
-		
+
 		// Assert
 		expect(callLoad).toThrow();
 	});
@@ -55,7 +55,12 @@ describe('src/routes/account/+page.server.js', () => {
 		// Arrange
 		event.request.formData.mockResolvedValue({
 			get: (key) =>
-				({ email: 'test@vervoerregio.nl', username: 'John', password: 'T3$tT3$t', 'confirm-password': 'T3$tT3$t22' }[key])
+				({
+					email: 'test@vervoerregio.nl',
+					username: 'John',
+					password: 'T3$tT3$t',
+					'confirm-password': 'T3$tT3$t22'
+				}[key])
 		});
 
 		// Act
@@ -70,12 +75,12 @@ describe('src/routes/account/+page.server.js', () => {
 		// Arrange
 		event.request.formData.mockResolvedValue({
 			get: (key) =>
-			({
-				email: undefined,
-				username: undefined,
-				password: undefined,
-				'confirm-password': undefined
-			}[key])
+				({
+					email: undefined,
+					username: undefined,
+					password: undefined,
+					'confirm-password': undefined
+				}[key])
 		});
 
 		// Act
@@ -104,7 +109,9 @@ describe('src/routes/account/+page.server.js', () => {
 		// Arrange
 		event.request.formData.mockResolvedValue({
 			get: (key) =>
-				({ email: 'bad', username: 'John', password: 'T3$tT3$t', 'confirm-password': 'T3$tT3$t' }[key])
+				({ email: 'bad', username: 'John', password: 'T3$tT3$t', 'confirm-password': 'T3$tT3$t' }[
+					key
+				])
 		});
 		emailModule.verifyEmailInput.mockReturnValue(false);
 
@@ -120,7 +127,12 @@ describe('src/routes/account/+page.server.js', () => {
 		// Arrange
 		event.request.formData.mockResolvedValue({
 			get: (key) =>
-				({ email: 'test@mail.com', username: 'John', password: 'T3$tT3$t', 'confirm-password': 'T3$tT3$t' }[key])
+				({
+					email: 'test@mail.com',
+					username: 'John',
+					password: 'T3$tT3$t',
+					'confirm-password': 'T3$tT3$t'
+				}[key])
 		});
 		emailModule.verifyEmailInput.mockReturnValue(true);
 		emailModule.isValidEmailDomain.mockResolvedValue(false);
@@ -137,7 +149,12 @@ describe('src/routes/account/+page.server.js', () => {
 		// Arrange
 		event.request.formData.mockResolvedValue({
 			get: (key) =>
-				({ email: 'test@mail.com', username: 'John', password: 'T3$tT3$t', 'confirm-password': 'T3$tT3$t' }[key])
+				({
+					email: 'test@mail.com',
+					username: 'John',
+					password: 'T3$tT3$t',
+					'confirm-password': 'T3$tT3$t'
+				}[key])
 		});
 		emailModule.verifyEmailInput.mockReturnValue(true);
 		emailModule.isValidEmailDomain.mockResolvedValue(true);
@@ -155,7 +172,12 @@ describe('src/routes/account/+page.server.js', () => {
 		// Arrange
 		event.request.formData.mockResolvedValue({
 			get: (key) =>
-				({ email: 'test@vervoerregio.nl', username: 'bad', password: 'T3$tT3$t', 'confirm-password': 'T3$tT3$t' }[key])
+				({
+					email: 'test@vervoerregio.nl',
+					username: 'bad',
+					password: 'T3$tT3$t',
+					'confirm-password': 'T3$tT3$t'
+				}[key])
 		});
 		emailModule.verifyEmailInput.mockReturnValue(true);
 		emailModule.isValidEmailDomain.mockResolvedValue(true);
@@ -174,7 +196,12 @@ describe('src/routes/account/+page.server.js', () => {
 		// Arrange
 		event.request.formData.mockResolvedValue({
 			get: (key) =>
-				({ email: 'test@vervoerregio.nl', username: 'John', password: 'T3$tT3$t', 'confirm-password': 'T3$tT3$t' }[key])
+				({
+					email: 'test@vervoerregio.nl',
+					username: 'John',
+					password: 'T3$tT3$t',
+					'confirm-password': 'T3$tT3$t'
+				}[key])
 		});
 		emailModule.verifyEmailInput.mockReturnValue(true);
 		emailModule.isValidEmailDomain.mockResolvedValue(true);
@@ -194,7 +221,12 @@ describe('src/routes/account/+page.server.js', () => {
 		// Arrange
 		event.request.formData.mockResolvedValue({
 			get: (key) =>
-				({ email: 'test@vervoerregio.nl', username: 'John', password: 'pass', 'confirm-password': 'pass' }[key])
+				({
+					email: 'test@vervoerregio.nl',
+					username: 'John',
+					password: 'pass',
+					'confirm-password': 'pass'
+				}[key])
 		});
 		emailModule.verifyEmailInput.mockReturnValue(true);
 		emailModule.isValidEmailDomain.mockResolvedValue(true);
@@ -218,7 +250,12 @@ describe('src/routes/account/+page.server.js', () => {
 		// Arrange
 		event.request.formData.mockResolvedValue({
 			get: (key) =>
-				({ email: 'test@vervoerregio.nl', username: 'John', password: 'T3$tT3$t', 'confirm-password': 'T3$tT3$t' }[key])
+				({
+					email: 'test@vervoerregio.nl',
+					username: 'John',
+					password: 'T3$tT3$t',
+					'confirm-password': 'T3$tT3$t'
+				}[key])
 		});
 		emailModule.verifyEmailInput.mockReturnValue(true);
 		emailModule.isValidEmailDomain.mockResolvedValue(true);

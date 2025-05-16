@@ -29,33 +29,33 @@ describe('src/routes/logout/+server.js', () => {
 	});
 
 	it('should delete session and cookie if session token exists', async () => {
-        // Arrange
-        cookies.get.mockReturnValue('token');
+		// Arrange
+		cookies.get.mockReturnValue('token');
 
-        // Act
-        const response = await POST({ cookies });
+		// Act
+		const response = await POST({ cookies });
 
-        // Assert
-        expect(cookies.get).toHaveBeenCalledWith('session');
-        expect(encodeHexLowerCase).toHaveBeenCalled();
-        expect(sha256).toHaveBeenCalled();
-        expect(hygraph.request).toHaveBeenCalledWith(expect.stringContaining('deleteSessie'), {
-            id: 'mockedSessionId'
-        });
-        expect(sessionModule.deleteSessionTokenCookie).toHaveBeenCalledWith({ cookies });
-        expect(response.status).toBe(204);
-    });
+		// Assert
+		expect(cookies.get).toHaveBeenCalledWith('session');
+		expect(encodeHexLowerCase).toHaveBeenCalled();
+		expect(sha256).toHaveBeenCalled();
+		expect(hygraph.request).toHaveBeenCalledWith(expect.stringContaining('deleteSessie'), {
+			id: 'mockedSessionId'
+		});
+		expect(sessionModule.deleteSessionTokenCookie).toHaveBeenCalledWith({ cookies });
+		expect(response.status).toBe(204);
+	});
 
-    it('should not delete session if no session token exists', async () => {
-        // Arrange
-        cookies.get.mockReturnValue(undefined);
+	it('should not delete session if no session token exists', async () => {
+		// Arrange
+		cookies.get.mockReturnValue(undefined);
 
-        // Act
-        const response = await POST({ cookies });
+		// Act
+		const response = await POST({ cookies });
 
-        // Assert
-        expect(hygraph.request).not.toHaveBeenCalled();
-        expect(sessionModule.deleteSessionTokenCookie).not.toHaveBeenCalled();
-        expect(response.status).toBe(204);
-    });
+		// Assert
+		expect(hygraph.request).not.toHaveBeenCalled();
+		expect(sessionModule.deleteSessionTokenCookie).not.toHaveBeenCalled();
+		expect(response.status).toBe(204);
+	});
 });

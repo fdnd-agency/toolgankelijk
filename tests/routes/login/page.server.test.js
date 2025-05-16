@@ -18,89 +18,89 @@ describe('src/routes/login/+page.server.js', () => {
 	});
 
 	it('fails if email or password is missing', async () => {
-        // Arrange
-        event.request.formData.mockResolvedValue({
-            get: (key) => (key === 'email' ? '' : '')
-        });
+		// Arrange
+		event.request.formData.mockResolvedValue({
+			get: (key) => (key === 'email' ? '' : '')
+		});
 
-        // Act
-        const result = await actions.signin(event);
+		// Act
+		const result = await actions.signin(event);
 
-        // Assert
-        expect(result.status).toBe(400);
-        expect(result.data.message).toBe('Please enter your email and password');
-    });
+		// Assert
+		expect(result.status).toBe(400);
+		expect(result.data.message).toBe('Please enter your email and password');
+	});
 
-    it('fails if email is invalid', async () => {
-        // Arrange
-        event.request.formData.mockResolvedValue({
-            get: (key) => (key === 'email' ? 'notanemail' : 'password')
-        });
-        vi.spyOn(emailModule, 'verifyEmailInput').mockReturnValue(false);
+	it('fails if email is invalid', async () => {
+		// Arrange
+		event.request.formData.mockResolvedValue({
+			get: (key) => (key === 'email' ? 'notanemail' : 'password')
+		});
+		vi.spyOn(emailModule, 'verifyEmailInput').mockReturnValue(false);
 
-        // Act
-        const result = await actions.signin(event);
+		// Act
+		const result = await actions.signin(event);
 
-        // Assert
-        expect(result.status).toBe(400);
-        expect(result.data.message).toBe('Invalid password or email');
-    });
+		// Assert
+		expect(result.status).toBe(400);
+		expect(result.data.message).toBe('Invalid password or email');
+	});
 
-    it('fails if user is not found', async () => {
-        // Arrange
-        event.request.formData.mockResolvedValue({
-            get: (key) => (key === 'email' ? 'test@example.com' : 'password')
-        });
-        vi.spyOn(emailModule, 'verifyEmailInput').mockReturnValue(true);
-        vi.spyOn(userModule, 'getUserFromEmail').mockResolvedValue(null);
+	it('fails if user is not found', async () => {
+		// Arrange
+		event.request.formData.mockResolvedValue({
+			get: (key) => (key === 'email' ? 'test@example.com' : 'password')
+		});
+		vi.spyOn(emailModule, 'verifyEmailInput').mockReturnValue(true);
+		vi.spyOn(userModule, 'getUserFromEmail').mockResolvedValue(null);
 
-        // Act
-        const result = await actions.signin(event);
+		// Act
+		const result = await actions.signin(event);
 
-        // Assert
-        expect(result.status).toBe(400);
-        expect(result.data.message).toBe('Invalid password or email');
-    });
+		// Assert
+		expect(result.status).toBe(400);
+		expect(result.data.message).toBe('Invalid password or email');
+	});
 
-    it('fails if password is incorrect', async () => {
-        // Arrange
-        event.request.formData.mockResolvedValue({
-            get: (key) => (key === 'email' ? 'test@example.com' : 'password')
-        });
-        vi.spyOn(emailModule, 'verifyEmailInput').mockReturnValue(true);
-        vi.spyOn(userModule, 'getUserFromEmail').mockResolvedValue({ id: '1' });
-        vi.spyOn(userModule, 'getUserPasswordHash').mockResolvedValue('hash');
-        vi.spyOn(passwordModule, 'verifyPasswordHash').mockResolvedValue(false);
+	it('fails if password is incorrect', async () => {
+		// Arrange
+		event.request.formData.mockResolvedValue({
+			get: (key) => (key === 'email' ? 'test@example.com' : 'password')
+		});
+		vi.spyOn(emailModule, 'verifyEmailInput').mockReturnValue(true);
+		vi.spyOn(userModule, 'getUserFromEmail').mockResolvedValue({ id: '1' });
+		vi.spyOn(userModule, 'getUserPasswordHash').mockResolvedValue('hash');
+		vi.spyOn(passwordModule, 'verifyPasswordHash').mockResolvedValue(false);
 
-        // Act
-        const result = await actions.signin(event);
+		// Act
+		const result = await actions.signin(event);
 
-        // Assert
-        expect(result.status).toBe(400);
-        expect(result.data.message).toMatch('Invalid password or email');
-    });
+		// Assert
+		expect(result.status).toBe(400);
+		expect(result.data.message).toMatch('Invalid password or email');
+	});
 
-    it('creates session and sets cookie on success', async () => {
-        // Arrange
-        event.request.formData.mockResolvedValue({
-            get: (key) => (key === 'email' ? 'test@example.com' : 'password')
-        });
-        vi.spyOn(emailModule, 'verifyEmailInput').mockReturnValue(true);
-        vi.spyOn(userModule, 'getUserFromEmail').mockResolvedValue({ id: '1' });
-        vi.spyOn(userModule, 'getUserPasswordHash').mockResolvedValue('hash');
-        vi.spyOn(passwordModule, 'verifyPasswordHash').mockResolvedValue(true);
-        vi.spyOn(sessionModule, 'generateSessionToken').mockReturnValue('token');
-    	vi.spyOn(sessionModule, 'createSession').mockResolvedValue({
-            houdbaarTot: new Date(Date.now() + 10000)
-        });
-        const setSessionTokenCookie = vi
-            .spyOn(sessionModule, 'setSessionTokenCookie')
-            .mockImplementation(() => {});
+	it('creates session and sets cookie on success', async () => {
+		// Arrange
+		event.request.formData.mockResolvedValue({
+			get: (key) => (key === 'email' ? 'test@example.com' : 'password')
+		});
+		vi.spyOn(emailModule, 'verifyEmailInput').mockReturnValue(true);
+		vi.spyOn(userModule, 'getUserFromEmail').mockResolvedValue({ id: '1' });
+		vi.spyOn(userModule, 'getUserPasswordHash').mockResolvedValue('hash');
+		vi.spyOn(passwordModule, 'verifyPasswordHash').mockResolvedValue(true);
+		vi.spyOn(sessionModule, 'generateSessionToken').mockReturnValue('token');
+		vi.spyOn(sessionModule, 'createSession').mockResolvedValue({
+			houdbaarTot: new Date(Date.now() + 10000)
+		});
+		const setSessionTokenCookie = vi
+			.spyOn(sessionModule, 'setSessionTokenCookie')
+			.mockImplementation(() => {});
 
-        // Act
-        await actions.signin(event);
+		// Act
+		await actions.signin(event);
 
-        // Assert
-        expect(setSessionTokenCookie).toHaveBeenCalled();
-    });
+		// Assert
+		expect(setSessionTokenCookie).toHaveBeenCalled();
+	});
 });
