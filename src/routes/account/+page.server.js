@@ -102,4 +102,5 @@ async function action(event) {
 	const sessionToken = generateSessionToken();
 	const session = await createSession(sessionToken, user.id);
 	setSessionTokenCookie(event, sessionToken, session.houdbaarTot);
+	return { username: user.gebruikersnaam };
 }
