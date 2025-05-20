@@ -168,14 +168,8 @@
 	</a>
 </li>
 
-{#if openFormType === 'editPartner'}
-<AddForm bind:this={dialogRef} isType="editPartner" id={website.id} name={title} url={url} slug={website.slug}/>
-{:else if openFormType === 'deletePartner'}
-<AddForm bind:this={dialogRef} isType="deletePartner" id={website.id} name={title} url={url} slug={website.slug}/>
-{:else if openFormType === 'editUrl'}
-<AddForm bind:this={dialogRef} isType="editUrl" id={website.id} name={title} url={url} slug={website.slug}/>
-{:else if openFormType === 'deleteUrl'}
-<AddForm bind:this={dialogRef} isType="deleteUrl" id={website.id} name={title} url={url} slug={website.slug}/>
+{#if openFormType === 'editPartner' || openFormType === 'deletePartner' || openFormType === 'editUrl' || openFormType === 'deleteUrl'}
+<AddForm bind:this={dialogRef} isType={openFormType} id={website.id} name={title} url={url} slug={website.slug}/>
 {/if}
 
 <style>
