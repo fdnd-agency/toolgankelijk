@@ -2,28 +2,58 @@
 	import Loader from '$lib/components/loader.svelte';
 
 	export let params;
-	export let isUrl;
+	export let isType;
+	export let id;
+	export let name;
+	export let url;
+	export let slug;
+
+	let idValue = id ? id : "";
+	let nameValue = name ? name : "";
+	let urlValue = url ? url : "";
+	let slugValue = params ? params : slug ? slug : "";
+	let submitValue;
 
 	let sending = false;
 	let logs = [];
 
 	let title;
 	let action;
-	let urlTitle;
 	let dialog;
 	let tip;
-	let partner;
 
-	if (isUrl) {
-		title = 'Url toevoegen';
-		action = '?/addUrl';
-		urlTitle = 'Titel';
-		tip = 'url';
-	} else {
+	if (isType === "addPartner") {
 		title = 'Partner toevoegen';
 		action = '/';
-		urlTitle = 'Titel';
-		tip = 'website';
+		tip = 'Voeg een bestaande website toe.';
+		submitValue = "Toevoegen";
+	} else if (isType === "editPartner") {
+		title = 'Partner bewerken';
+		action = '?/editPartner';
+		tip = null;
+		submitValue = "Bewerken";
+	} else if (isType === "deletePartner") {
+		title = 'Partner verwijderen';
+		action = '?/deletePartner';
+		tip = 'Deze partner wordt permanent verwijderd.';
+		submitValue = "Verwijderen";
+	} else if (isType === "addUrl") {
+		title = 'Url toevoegen';
+		action = '?/addUrl';
+		tip = 'Voeg een bestaande url toe.';
+		submitValue = "Toevoegen";
+	} else if (isType === "editUrl") {
+		title = 'Url bewerken';
+		action = '?/editPost';
+		tip = null;
+		submitValue = "Bewerken";
+	} else if (isType === "deleteUrl") {
+		title = 'Url verwijderen';
+		action = '?/deletePost';
+		tip = 'Deze url wordt permanent verwijderd.';
+		submitValue = "Verwijderen";
+	} else {
+		console.log('Geen type opgegeven');
 	}
 
 	export function open() {
@@ -57,45 +87,47 @@
 			body: formData
 		});
 
-		if (!postRes.ok) {
-			console.error('POST-fout', postRes.status);
-			sending = false;
-			return;
-		}
+		if (isType === "addPartner" || isType === "editPartner") {
+			if (!postRes.ok) {
+				console.error('POST-fout', postRes.status);
+				sending = false;
+				return;
+			}
 
-		// Check if the response is a stream
-		if (!postRes.body) {
-			console.error('Geen stream ontvangen');
-			sending = false;
-			return;
-		}
+			// Check if the response is a stream
+			if (!postRes.body) {
+				console.error('Geen stream ontvangen');
+				sending = false;
+				return;
+			}
 
-		// Stream reading
-		const reader = postRes.body.getReader();
-		const decoder = new TextDecoder();
-		let buffer = '';
-		let done = false;
+			// Stream reading
+			const reader = postRes.body.getReader();
+			const decoder = new TextDecoder();
+			let buffer = '';
+			let done = false;
 
-		while (!done) {
-			const { value, done: streamDone } = await reader.read();
-			if (streamDone) break;
+			while (!done) {
+				const { value, done: streamDone } = await reader.read();
+				if (streamDone) break;
 
-			buffer += decoder.decode(value, { stream: true });
-			const parts = buffer.split('\n\n');
-			buffer = parts.pop();
+				buffer += decoder.decode(value, { stream: true });
+				const parts = buffer.split('\n\n');
+				buffer = parts.pop();
 
-			for (const part of parts) {
-				if (!part.startsWith('data:')) continue;
-				const { status, type, error } = JSON.parse(part.replace(/^data:\s*/, ''));
-				if (error) {
-					logs = [...logs, { status: error, type: 'error' }];
-				} else {
-					logs = [...logs, { status, type }];
-				}
+				for (const part of parts) {
+					if (!part.startsWith('data:')) continue;
+					const { status, type, error } = JSON.parse(part.replace(/^data:\s*/, ''));
+					if (error) {
+						logs = [...logs, { status: error, type: 'error' }];
+					} else {
+						logs = [...logs, { status, type }];
+					}
 
-				if (status === 'Alle urls zijn toegevoegd') {
-					done = true;
-					break;
+					if (status === 'Alle urls zijn toegevoegd') {
+						done = true;
+						break;
+					}
 				}
 			}
 		}
@@ -111,40 +143,56 @@
 		<h2>{title}</h2>
 
 		{#if !sending}
+		{#if tip !== null}
 		<div class="tip-message" aria-label="tip message">
-			<p>Voeg een bestaande {tip} toe.</p>
+			<p>{tip}</p>
 			<button on:click={closeTip}>
 				<img src="/icons/close.svg" width="24" height="24" alt="sluit" />
 			</button>
 		</div>
+		{/if}
 
 		<form on:submit|preventDefault={submitHandling}>
+			{#if isType === "addPartner" || isType === "editPartner" || isType === "addUrl" || isType === "editUrl"}
 			<div class="input-container">
-				<label for="name">{urlTitle}</label>
-				<input id="name" name="name" type="text" required placeholder="type een titel..." bind:value={partner} />
+				<label for="name">Naam</label>
+				<input id="name" name="name" type="text" required placeholder="type een titel..." bind:value={nameValue} />
 			</div>
 
 			<div class="input-container">
 				<label for="url">Url</label>
-				<input id="url" name="url" type="url" required placeholder="type een url link..." />
+				<input id="url" name="url" type="url" required placeholder="type een url link..." bind:value={urlValue} />
 			</div>
+			{/if}
 
-			{#if isUrl}
+			{#if isType === "addUrl" || isType === "editUrl"}
 				<div class="input-container">
 					<label for="slug">Slug</label>
-					<input id="slug" name="slug" value={params} readonly />
+					<input id="slug" name="slug" value={slugValue} readonly />
 				</div>
 			{/if}
 
-			{#if !isUrl}
+			{#if isType === "editPartner"}
 				<div class="input-container">
 					<label for="sitemap">Sitemap ophalen</label>
 					<input id="sitemap" name="sitemap" type="checkbox" />
 				</div>
 			{/if}
 
+			{#if isType === "deleteUrl" || isType === "deletePartner"}
+			<div class="input-container">
+				<label for="name">Naam</label>
+				<input id="name" name="name" type="text" readonly bind:value={nameValue} />
+			</div>
+
+			<div class="input-container">
+				<label for="url">Url</label>
+				<input id="url" name="url" type="url" readonly bind:value={urlValue} />
+			</div>
+			{/if}
+
 			<div class="button-div">
-				<button type="submit" class="add-button">Toevoegen</button>
+				<button type="submit" class="add-button">{submitValue}</button>
 				<button class="remove-button" on:click={close}>Sluiten</button>
 			</div>
 		</form>
@@ -152,7 +200,7 @@
 
 		{#if sending}
 			<div class="tip-message" aria-label="tip message">
-				<p><span>{partner}</span> wordt opgehaald en toegevoegd...</p>
+				<p><span>{name}</span> wordt opgehaald en toegevoegd...</p>
 			</div>
 			<Loader itemArray={logs} />
 		{/if}
