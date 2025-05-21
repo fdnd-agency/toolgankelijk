@@ -10,11 +10,10 @@
 	export let params;
 	export let isUrl = false;
 
-	let openFormType = null;
-	let openFormId = null;
 	let editType;
 	let deleteType;
-	let dialogRef;
+	let dialogRefEdit;
+	let dialogRefDelete;
 
 	let labelValue;
 	let progressbar;
@@ -65,22 +64,15 @@
 	}
 
 	function openForm(type, event) {
-		console.log(type);
 		event.preventDefault();
-		openFormType = type;
-		openFormId = website.id;
-		dialogRef.open();
+		if (type === editType) {
+			dialogRefEdit.open();
+		} else if (type === deleteType) {
+			dialogRefDelete.open();
+		}
 		document.body.style.overflowY = 'hidden';
 		window.scrollTo({ top: 0, behavior: 'smooth' });
 	}
-
-	// function closeForm(event) {
-	// 	event.preventDefault();
-	// 	dialogRef.close();
-	// 	openFormType = null;
-	// 	openFormId = null;
-	// 	document.body.style.overflowY = 'scroll';
-	// }
 
 	function submitted() {
 		if (form?.success) {
@@ -168,9 +160,8 @@
 	</a>
 </li>
 
-{#if openFormType === 'editPartner' || openFormType === 'deletePartner' || openFormType === 'editUrl' || openFormType === 'deleteUrl'}
-<AddForm bind:this={dialogRef} isType={openFormType} id={website.id} name={title} url={url} slug={website.slug}/>
-{/if}
+<AddForm bind:this={dialogRefEdit} isType={editType} id={website.id} name={title} url={url} slug={website.slug}/>
+<AddForm bind:this={dialogRefDelete} isType={deleteType} id={website.id} name={title} url={url} slug={website.slug}/>
 
 <style>
 	li {

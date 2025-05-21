@@ -154,7 +154,7 @@
 
 		<form on:submit|preventDefault={submitHandling}>
 			<input type="hidden" value={idValue}/>
-			
+
 			{#if isType === "addPartner" || isType === "editPartner" || isType === "addUrl" || isType === "editUrl"}
 			<div class="input-container">
 				<label for="name">Naam</label>
