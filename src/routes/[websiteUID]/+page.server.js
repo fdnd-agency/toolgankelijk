@@ -1,9 +1,6 @@
 import { gql } from 'graphql-request';
 import { hygraph } from '$lib/utils/hygraph.js';
-import getQueryAddUrl from '$lib/queries/addUrl';
 import getQueryWebsite from '$lib/queries/website';
-import getQueryDeleteUrl from '$lib/queries/deleteUrl';
-import getQueryUpdateUrl from '$lib/queries/updateUrl';
 
 function delay(ms) {
 	return new Promise(resolve => setTimeout(resolve, ms));
@@ -25,44 +22,3 @@ export async function load({ params, url }) {
 		skip
 	};
 }
-
-export const actions = {
-	deletePost: async ({ request }) => {
-		const formData = await request.formData();
-		const id = formData.get('id');
-		let query = getQueryDeleteUrl(gql, id);
-		return await hygraph.request(query);
-	},
-	editPost: async ({ request }) => {
-		const formData = await request.formData();
-		const id = formData.get('id');
-		const slug = formData.get('slug');
-		const url = formData.get('url');
-		let query = getQueryUpdateUrl(gql, slug, url, id);
-		return await hygraph.request(query);
-	},
-
-	addUrl: async ({ url, request }) => {
-		const formData = await request.formData();
-		const name = formData.get('name');
-		const slug = formData.get('name').toLowerCase();
-		const urlLink = formData.get('url');
-		const websiteSlug = formData.get('slug');
-
-		try {
-			let query = getQueryAddUrl(gql, slug, urlLink, websiteSlug, name);
-			let hygraphCall = await hygraph.request(query);
-
-			return {
-				hygraphCall,
-				success: true,
-				message: name + ' is toegevoegd.'
-			};
-		} catch (error) {
-			return {
-				message: 'Er ging wat mis, probeer het opnieuw.',
-				success: false
-			};
-		}
-	}
-};
