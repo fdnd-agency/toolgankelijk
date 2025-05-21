@@ -8,7 +8,6 @@ function delay(ms) {
 }
 
 export async function POST({ request }) {
-  console.log("deleteUrl gestart");
   const formData = await request.formData();
   const id = formData.get('id');
 
@@ -30,7 +29,7 @@ export async function POST({ request }) {
 
       (async () => {
         try {
-          await sendUpdate({ status: 'Verwijderen gestart', type: 'info' });
+          await sendUpdate({ status: 'Verwijderen gestart', type: 'done' });
           await delay(500);
 
           let query = getQueryDeleteUrl(gql, id);

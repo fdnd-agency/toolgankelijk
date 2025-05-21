@@ -10,7 +10,6 @@ function delay(ms) {
 }
 
 export async function POST({ request }) {
-  console.log("deletePartner gestart");
   const formData = await request.formData();
   const id = formData.get('id');
 
@@ -32,7 +31,7 @@ export async function POST({ request }) {
 
       (async () => {
         try {
-          await sendUpdate({ status: 'Partner verwijderen gestart', type: 'info' });
+          await sendUpdate({ status: 'Partner verwijderen gestart', type: 'done' });
 
           // 1. Verzamel alle urls van de partner
           let allUrls = [];
@@ -46,14 +45,14 @@ export async function POST({ request }) {
             skip += batchSize;
             await delay(150);
           }
-          await sendUpdate({ status: `Aantal urls gevonden: ${allUrls.length}`, type: 'info' });
+          await sendUpdate({ status: `Aantal urls gevonden: ${allUrls.length}`, type: 'done' });
 
           // 2. Verwijder alle urls
           for (let i = 0; i < allUrls.length; i++) {
             const link = allUrls[i];
             let queryDeleteUrls = getQueryDeleteUrl(gql, link.id);
             try {
-              await sendUpdate({ status: `Verwijderen url ${i + 1}/${allUrls.length}`, type: 'info' });
+              await sendUpdate({ status: `Verwijderen url ${i + 1}/${allUrls.length}`, type: 'done' });
               await hygraph.request(queryDeleteUrls);
             } catch (error) {
               await sendUpdate({ status: `Fout bij verwijderen url ${link.id}: ${error.message}`, type: 'error' });

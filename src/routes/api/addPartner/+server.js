@@ -159,7 +159,6 @@ async function updatePartnerUrls(slug, count, sendUpdate) {
 
 // Main handler
 export async function POST({ request }) {
-  console.log("addPartner gestart");
   const form = await request.formData();
   const name = form.get('name');
   const rawUrl = form.get('url');

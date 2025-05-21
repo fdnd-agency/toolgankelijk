@@ -8,7 +8,6 @@ function delay(ms) {
 }
 
 export async function POST({ request }) {
-  console.log("addUrl gestart");
   const formData = await request.formData();
   const name = formData.get('name');
   const slug = name.toLowerCase();
@@ -33,7 +32,7 @@ export async function POST({ request }) {
 
       (async () => {
         try {
-          await sendUpdate({ status: 'Toevoegen gestart', type: 'info' });
+          await sendUpdate({ status: 'Toevoegen gestart', type: 'done' });
           await delay(500);
 
           let query = getQueryAddUrl(gql, slug, urlLink, websiteSlug, name);
