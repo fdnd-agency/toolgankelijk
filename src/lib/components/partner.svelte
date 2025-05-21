@@ -5,7 +5,7 @@
 	import AddForm from '$lib/components/addForm.svelte';
 
 	export let website;
-	export let form;
+	// export let form;
 	export let principes;
 	export let params;
 	export let isUrl = false;
@@ -72,17 +72,6 @@
 		}
 		document.body.style.overflowY = 'hidden';
 		window.scrollTo({ top: 0, behavior: 'smooth' });
-	}
-
-	function submitted() {
-		if (form?.success) {
-			alert(form?.message);
-			setTimeout(() => {
-				window.location.href = '/';
-			}, 1000);
-		} else if (form?.success == false) {
-			alert(form?.message);
-		}
 	}
 
 	onMount(() => {

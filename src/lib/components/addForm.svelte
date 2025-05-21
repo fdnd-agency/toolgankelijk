@@ -24,32 +24,32 @@
 
 	if (isType === "addPartner") {
 		title = 'Partner toevoegen';
-		action = '/';
+		action = '/api/addPartner';
 		tip = 'Voeg een bestaande website toe.';
 		submitValue = "Toevoegen";
 	} else if (isType === "editPartner") {
 		title = 'Partner bewerken';
-		action = '?/editPartner';
+		action = '/api/editPartner';
 		tip = null;
 		submitValue = "Bewerken";
 	} else if (isType === "deletePartner") {
 		title = 'Partner verwijderen';
-		action = '?/deletePartner';
+		action = '/api/deletePartner';
 		tip = 'Deze partner wordt permanent verwijderd.';
 		submitValue = "Verwijderen";
 	} else if (isType === "addUrl") {
 		title = 'Url toevoegen';
-		action = '?/addUrl';
+		action = '/api/addUrl';
 		tip = 'Voeg een bestaande url toe.';
 		submitValue = "Toevoegen";
 	} else if (isType === "editUrl") {
 		title = 'Url bewerken';
-		action = '?/editPost';
+		action = '/api/editUrl';
 		tip = null;
 		submitValue = "Bewerken";
 	} else if (isType === "deleteUrl") {
 		title = 'Url verwijderen';
-		action = '?/deletePost';
+		action = '/api/deleteUrl';
 		tip = 'Deze url wordt permanent verwijderd.';
 		submitValue = "Verwijderen";
 	} else {
@@ -87,47 +87,45 @@
 			body: formData
 		});
 
-		if (isType === "addPartner" || isType === "editPartner") {
-			if (!postRes.ok) {
-				console.error('POST-fout', postRes.status);
-				sending = false;
-				return;
-			}
+		if (!postRes.ok) {
+			console.error('POST-fout', postRes.status);
+			sending = false;
+			return;
+		}
 
-			// Check if the response is a stream
-			if (!postRes.body) {
-				console.error('Geen stream ontvangen');
-				sending = false;
-				return;
-			}
+		// Check if the response is a stream
+		if (!postRes.body) {
+			console.error('Geen stream ontvangen');
+			sending = false;
+			return;
+		}
 
-			// Stream reading
-			const reader = postRes.body.getReader();
-			const decoder = new TextDecoder();
-			let buffer = '';
-			let done = false;
+		// Stream reading
+		const reader = postRes.body.getReader();
+		const decoder = new TextDecoder();
+		let buffer = '';
+		let done = false;
 
-			while (!done) {
-				const { value, done: streamDone } = await reader.read();
-				if (streamDone) break;
+		while (!done) {
+			const { value, done: streamDone } = await reader.read();
+			if (streamDone) break;
 
-				buffer += decoder.decode(value, { stream: true });
-				const parts = buffer.split('\n\n');
-				buffer = parts.pop();
+			buffer += decoder.decode(value, { stream: true });
+			const parts = buffer.split('\n\n');
+			buffer = parts.pop();
 
-				for (const part of parts) {
-					if (!part.startsWith('data:')) continue;
-					const { status, type, error } = JSON.parse(part.replace(/^data:\s*/, ''));
-					if (error) {
-						logs = [...logs, { status: error, type: 'error' }];
-					} else {
-						logs = [...logs, { status, type }];
-					}
+			for (const part of parts) {
+				if (!part.startsWith('data:')) continue;
+				const { status, type, error } = JSON.parse(part.replace(/^data:\s*/, ''));
+				if (error) {
+					logs = [...logs, { status: error, type: 'error' }];
+				} else {
+					logs = [...logs, { status, type }];
+				}
 
-					if (status === 'Alle urls zijn toegevoegd') {
-						done = true;
-						break;
-					}
+				if (status === 'Alle urls zijn toegevoegd') {
+					done = true;
+					break;
 				}
 			}
 		}
@@ -153,7 +151,12 @@
 		{/if}
 
 		<form on:submit|preventDefault={submitHandling}>
-			<input type="hidden" value={idValue}/>
+			<p>ID: {idValue}</p>
+			<p>Name: {nameValue}</p>
+			<p>Url: {urlValue}</p>
+			<p>Slug: {slugValue}</p>
+
+			<input type="hidden" value={idValue} name="id"/>
 
 			{#if isType === "addPartner" || isType === "editPartner" || isType === "addUrl" || isType === "editUrl"}
 			<div class="input-container">
@@ -174,7 +177,7 @@
 				</div>
 			{/if}
 
-			{#if isType === "editPartner"}
+			{#if isType === "editPartner" || isType === "addPartner"}
 				<div class="input-container">
 					<label for="sitemap">Sitemap ophalen</label>
 					<input id="sitemap" name="sitemap" type="checkbox" />

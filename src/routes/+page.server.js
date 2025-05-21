@@ -22,6 +22,7 @@ export async function load({url}) {
 
 export const actions = {
 	deletePartner: async ({ request }) => {
+		console.log("Partner aan het verwijderen");
 		const formData = await request.formData();
 		const id = formData.get('id');
 		console.log(id);
@@ -79,6 +80,7 @@ export const actions = {
 		return deleteResponse;
 	},
 	editPartner: async ({ request }) => {
+		console.log("Partner aan het editen");
 		const formData = await request.formData();
 		const id = formData.get('id');
 		const name = formData.get('name');
