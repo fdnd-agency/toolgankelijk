@@ -151,11 +151,6 @@
 		{/if}
 
 		<form on:submit|preventDefault={submitHandling}>
-			<p>ID: {idValue}</p>
-			<p>Name: {nameValue}</p>
-			<p>Url: {urlValue}</p>
-			<p>Slug: {slugValue}</p>
-
 			<input type="hidden" value={idValue} name="id"/>
 
 			{#if isType === "addPartner" || isType === "editPartner" || isType === "addUrl" || isType === "editUrl"}
