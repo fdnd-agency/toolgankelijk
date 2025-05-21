@@ -11,6 +11,7 @@ export async function POST({ request }) {
   console.log("editUrl gestart");
   const formData = await request.formData();
   const id = formData.get('id');
+  const name = formData.get('name');
   const slug = formData.get('slug');
   const url = formData.get('url');
 
@@ -35,7 +36,7 @@ export async function POST({ request }) {
           await sendUpdate({ status: 'Bewerken gestart', type: 'info' });
           await delay(500);
 
-          let query = getQueryUpdateUrl(gql, slug, url, id);
+          let query = getQueryUpdateUrl(gql, slug, url, id, name);
           const response = await hygraph.request(query);
 
           await sendUpdate({ status: 'Url succesvol bijgewerkt', type: 'done', response });
