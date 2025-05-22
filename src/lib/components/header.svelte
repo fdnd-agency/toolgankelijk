@@ -144,9 +144,9 @@
 
 <style>
 	.signout-btn {
-		background-color: var(--c-pink);
+		background-color: #b5006c;
 		color: var(--c-white);
-		border: 2px solid var(--c-pink);
+		border: 2px solid #b5006c;
 		border-radius: 20px;
 		width: 8rem;
 		height: 2.2rem;
@@ -158,8 +158,8 @@
 
 	.signout-btn:hover {
 		background-color: transparent;
-		color: var(--c-pink);
-		border: 2px solid var(--c-pink);
+		color: #b5006c;
+		border: 2px solid #b5006c;
 	}
 
 	.lightmode {
