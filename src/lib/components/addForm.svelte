@@ -200,7 +200,7 @@
 
 		{#if sending}
 			<div class="tip-message" aria-label="tip message">
-				<p><span>{name}</span> wordt opgehaald en toegevoegd...</p>
+				<p><span>{name}</span> wordt verwerkt, sluit de pagina niet.</p>
 			</div>
 			<Loader itemArray={logs} />
 		{/if}
