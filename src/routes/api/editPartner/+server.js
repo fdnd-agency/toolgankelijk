@@ -15,7 +15,7 @@ export async function POST({ request }) {
   const form = await request.formData();
   const id = form.get('id');
   const name = form.get('name');
-  const slug = form.get('slug');
+  const slug = name.toLowerCase();
   const rawUrl = form.get('url');
   const toggle = form.get('sitemap') === 'on';
   const sitemapPaths = [
