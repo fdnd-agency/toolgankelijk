@@ -1,19 +1,28 @@
 import { gql } from 'graphql-request';
 import { hygraph } from '$lib/utils/hygraph.js';
 import getQueryUpdatePartner from '$lib/queries/updatePartner';
-
-// Delay helper
-function delay(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
+import getQueryUpdatePartnerUrls from '$lib/queries/updateUrlsPartner';
+import {
+  formatUrl,
+  getSitemapPromises,
+  pickFirstSitemap,
+  crawlUrls,
+  processUrls,
+  delay
+} from '$lib/utils/sitemap.js';
 
 export async function POST({ request }) {
-  console.log("editPartner gestart");
-  const formData = await request.formData();
-  const id = formData.get('id');
-  const name = formData.get('name');
-  const slug = formData.get('slug');
-  const url = formData.get('url');
+  const form = await request.formData();
+  const id = form.get('id');
+  const name = form.get('name');
+  const slug = form.get('slug');
+  const rawUrl = form.get('url');
+  const toggle = form.get('sitemap') === 'on';
+  const sitemapPaths = [
+    'sitemap.xml', 'sitemap_index.xml', 'sitemap.php', 'sitemap.txt',
+    'sitemap-index.xml', 'sitemap.xml.gz', 'sitemap/', 'sitemap/sitemap.xml',
+    'sitemapindex.xml', 'sitemap/index.xml', 'sitemap1.xml', 'robots.txt'
+  ];
 
   const stream = new ReadableStream({
     start(controller) {
@@ -29,18 +38,38 @@ export async function POST({ request }) {
           closed = true;
         }
       };
-      const sendUpdate = async msg => controller.enqueue(enc.encode(`data: ${JSON.stringify(msg)}\n\n`));
+      const sendUpdate = async msg =>
+        controller.enqueue(enc.encode(`data: ${JSON.stringify(msg)}\n\n`));
 
       (async () => {
         try {
-          await sendUpdate({ status: 'Partner bijwerken gestart', type: 'info' });
+          await sendUpdate({ status: 'Partner bijwerken gestart', type: 'done' });
           await delay(500);
 
-          let query = getQueryUpdatePartner(gql, name, slug, url, id);
-          const response = await hygraph.request(query);
+          let url = rawUrl;
+          let urls = [];
+          if (toggle) {
+            url = await formatUrl(rawUrl, sendUpdate);
+            const promises = getSitemapPromises(url, sitemapPaths, sendUpdate);
+            const sitemapUrls = await pickFirstSitemap(promises, sendUpdate);
 
-          await sendUpdate({ status: 'Partner succesvol bijgewerkt', type: 'done', response });
-          await delay(500);
+            urls = sitemapUrls.length > 0
+              ? sitemapUrls
+              : await crawlUrls(url, sendUpdate);
+          }
+
+          await sendUpdate({ status: 'Partner data verwerken', type: 'done' });
+
+          // Process URLs if toggle is on
+          if (toggle && urls.length) {
+            const { total } = await processUrls(urls, slug, sendUpdate);
+            const updateQuery = getQueryUpdatePartnerUrls(gql, slug, total);
+            await hygraph.request(updateQuery);
+            await sendUpdate({ status: 'Alle urls zijn toegevoegd', type: 'done' });
+          }
+          const updateQuery = getQueryUpdatePartner(gql, name, slug, url, id);
+          await hygraph.request(updateQuery);
+          await sendUpdate({ status: 'Partner bijgewerkt', type: 'done' });
         } catch (err) {
           await sendUpdate({ status: err.message, type: 'error' });
         } finally {
