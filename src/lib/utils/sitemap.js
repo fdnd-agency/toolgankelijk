@@ -18,7 +18,7 @@ export function delay(ms) {
 export async function formatUrl(rawUrl, sendUpdate) {
   const url = rawUrl.endsWith('/') ? rawUrl : rawUrl + '/';
   await sendUpdate({ status: 'Url verwerken', type: 'done' });
-  await delay(1000);
+  await delay(250);
   return url;
 }
 
@@ -27,13 +27,13 @@ export function getSitemapPromises(baseUrl, sitemapPaths, sendUpdate) {
     (async () => {
       try {
         await sendUpdate({ status: `Sitemap checken in pad ${path}`, type: 'done' });
-        await delay(1000);
+        await delay(250);
         const siteMap = new Sitemapper({ url: baseUrl + path, timeout: 15000 });
         const { sites } = await siteMap.fetch();
         return (sites || []).filter(isValidUrl);
       } catch (err) {
         await sendUpdate({ status: `Sitemap niet gevonden: ${path}`, type: 'error' });
-        await delay(1000);
+        await delay(250);
         return [];
       }
     })()
@@ -45,7 +45,7 @@ export async function pickFirstSitemap(promises, sendUpdate) {
   for (const group of results) {
     if (group.length > 0) {
       await sendUpdate({ status: 'Sitemap gevonden', type: 'done' });
-      await delay(1000);
+      await delay(250);
       return group;
     }
   }
@@ -54,7 +54,7 @@ export async function pickFirstSitemap(promises, sendUpdate) {
 
 export async function crawlUrls(startUrl, sendUpdate) {
   await sendUpdate({ status: 'Sitemap niet gevonden, urls worden handmatig opgehaald', type: 'warning' });
-  await delay(1000);
+  await delay(250);
   const visited = new Set();
   const toVisit = [startUrl];
 
@@ -75,7 +75,7 @@ export async function crawlUrls(startUrl, sendUpdate) {
     if (visited.has(current)) continue;
     visited.add(current);
     await sendUpdate({ status: `Bezoek: ${current}`, type: 'done' });
-    await delay(1000);
+    await delay(250);
     try {
       const found = await getLinksFromPage(current);
       for (const link of found) {
@@ -85,12 +85,12 @@ export async function crawlUrls(startUrl, sendUpdate) {
       }
     } catch (err) {
       await sendUpdate({ status: `Error: ${current}: ${err.message}`, type: 'error' });
-      await delay(1000);
+      await delay(250);
     }
   }
 
   await sendUpdate({ status: 'Gevonden urls', count: visited.size, type: 'done' });
-  await delay(1000);
+  await delay(250);
   return Array.from(visited);
 }
 
@@ -98,14 +98,14 @@ export async function processUrls(urls, slug, sendUpdate) {
   let total = urls.length;
   const failed = {};
   await sendUpdate({ status: 'Urls worden toegevoegd aan de database', type: 'done' });
-  await delay(1000);
+  await delay(250);
 
   for (let i = 1; i < urls.length; i++) {
     const link = urls[i];
     const path = new URL(link).pathname;
     let urlSlug = (slug + path).replace(/\//g, '-');
     await sendUpdate({ status: `Verwerk URL ${i + 1}/${urls.length}`, type: 'done' });
-    await delay(1000);
+    await delay(250);
 
     try {
       const checkQuery = getQueryUrl(gql, urlSlug);
@@ -122,7 +122,7 @@ export async function processUrls(urls, slug, sendUpdate) {
       failed[link] = err.message;
     }
 
-    await delay(150);
+    await delay(250);
   }
 
   return { total, failed };
