@@ -11,7 +11,6 @@ import getQueryTestIdsByUrl from '$lib/queries/getTestIdsByUrl';
 import getQueryTestNodeIdsByTest from '$lib/queries/getTestNodeIdsByTest';
 import getQueryDeleteTestNode from '$lib/queries/deleteTestNode';
 import getQueryDeleteTest from '$lib/queries/deleteTest';
-import getQueryWebsite from '$lib/queries/website';
 
 function delay(ms) {
 	return new Promise(resolve => setTimeout(resolve, ms));
