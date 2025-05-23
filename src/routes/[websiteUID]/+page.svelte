@@ -67,7 +67,7 @@
 	<div class="toast"><p>{form?.message}</p></div>
 {/if}
 
-<AddForm bind:this={dialogRef} isUrl={true} {params} />
+<AddForm bind:this={dialogRef} {params} isType="addUrl" />
 
 <ul>
 	{#each websites as website}

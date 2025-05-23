@@ -19,6 +19,7 @@ import getQueryTestIdsByUrl from '$lib/queries/getTestIdsByUrl';
 import getQueryTestNodeIdsByTest from '$lib/queries/getTestNodeIdsByTest';
 import getQueryDeleteTestNode from '$lib/queries/deleteTestNode';
 import getQueryDeleteTest from '$lib/queries/deleteTest';
+import getQueryPartner from '$lib/queries/partner';
 
 export async function load(event) {
 	const { url, locals } = event;

@@ -4,6 +4,8 @@
 	import Search from '$lib/components/search.svelte';
 	import AddForm from '$lib/components/addForm.svelte';
 	import Pages from '$lib/components/pages.svelte';
+	import { invalidateAll } from '$app/navigation';
+	import { onMount } from 'svelte';
 
 	export let data;
 	export let form;
@@ -26,6 +28,13 @@
 		const mainElement = document.getElementById('main');
 		mainElement.scrollIntoView({ behavior: 'smooth' });
 	}
+
+	// check if form variable is changed and if so, invalidate the page
+	onMount(() => {
+		if (form?.success) {
+			invalidateAll();
+		}
+	});
 </script>
 
 <Heading {heading} />
@@ -45,7 +54,7 @@
 	<div class="toast error"><p>{form?.message}</p></div>
 {/if}
 
-<AddForm bind:this={dialogRef} isUrl={false} />
+<AddForm bind:this={dialogRef} isUrl={false} isType="addPartner"/>
 
 <ul>
 	{#each data.websites.websites as website}

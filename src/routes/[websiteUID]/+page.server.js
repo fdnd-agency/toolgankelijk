@@ -11,6 +11,11 @@ import getQueryTestIdsByUrl from '$lib/queries/getTestIdsByUrl';
 import getQueryTestNodeIdsByTest from '$lib/queries/getTestNodeIdsByTest';
 import getQueryDeleteTestNode from '$lib/queries/deleteTestNode';
 import getQueryDeleteTest from '$lib/queries/deleteTest';
+import getQueryWebsite from '$lib/queries/website';
+
+function delay(ms) {
+	return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 export async function load(event) {
 	const { params, url, locals } = event;
@@ -22,6 +27,7 @@ export async function load(event) {
 	const skip = parseInt(url.searchParams.get('skip') || '0');
 	const query = getQueryWebsite(gql, websiteUID, first, skip);
 	const data = await hygraph.request(query);
+	await delay(150);
 
 	return {
 		websites: data,

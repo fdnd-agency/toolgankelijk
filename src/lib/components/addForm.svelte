@@ -1,27 +1,59 @@
 <script>
-	import { enhance } from '$app/forms';
+	import Loader from '$lib/components/loader.svelte';
 
 	export let params;
-	export let isUrl;
+	export let isType;
+	export let id;
+	export let name;
+	export let url;
+	export let slug;
+
+	let idValue = id ? id : "";
+	let nameValue = name ? name : "";
+	let urlValue = url ? url : "";
+	let slugValue = params ? params : slug ? slug : "";
+	let submitValue;
 
 	let sending = false;
+	let logs = [];
 
 	let title;
 	let action;
-	let urlTitle;
 	let dialog;
 	let tip;
 
-	if (isUrl) {
-		title = 'Url toevoegen';
-		action = '?/addUrl';
-		urlTitle = 'Titel';
-		tip = 'url';
-	} else {
+	if (isType === "addPartner") {
 		title = 'Partner toevoegen';
-		action = '?/addPartner';
-		urlTitle = 'Titel';
-		tip = 'website';
+		action = '/api/addPartner';
+		tip = 'Voeg een bestaande website toe.';
+		submitValue = "Toevoegen";
+	} else if (isType === "editPartner") {
+		title = 'Partner bewerken';
+		action = '/api/editPartner';
+		tip = null;
+		submitValue = "Bewerken";
+	} else if (isType === "deletePartner") {
+		title = 'Partner verwijderen';
+		action = '/api/deletePartner';
+		tip = 'Deze partner wordt permanent verwijderd.';
+		submitValue = "Verwijderen";
+	} else if (isType === "addUrl") {
+		title = 'Url toevoegen';
+		action = '/api/addUrl';
+		tip = 'Voeg een bestaande url toe.';
+		submitValue = "Toevoegen";
+	} else if (isType === "editUrl") {
+		title = 'Url bewerken';
+		action = '/api/editUrl';
+		tip = null;
+		submitValue = "Bewerken";
+	} else if (isType === "deleteUrl") {
+		title = 'Url verwijderen';
+		action = '/api/deleteUrl';
+		tip = 'Deze url wordt permanent verwijderd.';
+		submitValue = "Verwijderen";
+	} else {
+		console.log('Geen type opgegeven');
 	}
 
 	export function open() {
@@ -38,34 +70,69 @@
 		tipMessage.remove();
 	}
 
-	function submitHandling(event) {
-		console.log('Form submitted');
+	async function submitHandling(event) {
+		// prevent default form submission
+		event.preventDefault();
+
 		// start loading animation
 		sending = true;
 
-		const formData = new FormData(event.target);
-		console.log('Form data:', Array.from(formData.entries()));
+		logs = [];
 
-		// send the form data to the server
-		fetch(action, {
+		// handle form submission
+		const formData = new FormData(event.target);
+
+		const postRes = await fetch(action, {
 			method: 'POST',
 			body: formData
 		});
 
-		if (response.ok) {
-			return response.json();
+		if (!postRes.ok) {
+			console.error('POST-fout', postRes.status);
+			sending = false;
+			return;
 		}
 
-		if (data.success) {
-			dialog.close();
-			window.location.reload();
+		// Check if the response is a stream
+		if (!postRes.body) {
+			console.error('Geen stream ontvangen');
+			sending = false;
+			return;
 		}
 
-		// stop loading animation
+		// Stream reading
+		const reader = postRes.body.getReader();
+		const decoder = new TextDecoder();
+		let buffer = '';
+		let done = false;
+
+		while (!done) {
+			const { value, done: streamDone } = await reader.read();
+			if (streamDone) break;
+
+			buffer += decoder.decode(value, { stream: true });
+			const parts = buffer.split('\n\n');
+			buffer = parts.pop();
+
+			for (const part of parts) {
+				if (!part.startsWith('data:')) continue;
+				const { status, type, error } = JSON.parse(part.replace(/^data:\s*/, ''));
+				if (error) {
+					logs = [...logs, { status: error, type: 'error' }];
+				} else {
+					logs = [...logs, { status, type }];
+				}
+
+				if (status === 'Alle urls zijn toegevoegd') {
+					done = true;
+					break;
+				}
+			}
+		}
+
 		sending = false;
-
-		// prevent the default form submission
-		event.preventDefault();
+		dialog.close();
+		window.location.reload();
 	}
 </script>
 
@@ -73,49 +140,70 @@
 	<section class="form-container">
 		<h2>{title}</h2>
 
+		{#if !sending}
+		{#if tip !== null}
 		<div class="tip-message" aria-label="tip message">
-			<p>Voeg een bestaande {tip} toe.</p>
+			<p>{tip}</p>
 			<button on:click={closeTip}>
 				<img src="/icons/close.svg" width="24" height="24" alt="sluit" />
 			</button>
 		</div>
+		{/if}
 
-		<form method="POST" {action} on:submit={submitHandling}>
-			<div class="input-container" aria-hidden="true">
-				<label for="name">{urlTitle}</label>
-				<input id="name" name="name" type="text" required placeholder="type een titel..." />
+		<form on:submit|preventDefault={submitHandling}>
+			<input type="hidden" value={idValue} name="id"/>
+
+			{#if isType === "addPartner" || isType === "editPartner" || isType === "addUrl" || isType === "editUrl"}
+			<div class="input-container">
+				<label for="name">Naam</label>
+				<input id="name" name="name" type="text" required placeholder="type een titel..." bind:value={nameValue} />
 			</div>
 
-			<div class="input-container" aria-hidden="true">
-				<label for="url" class="url-label">Url</label>
-				<input id="url" name="url" type="url" required placeholder="type een url link..." />
+			<div class="input-container">
+				<label for="url">Url</label>
+				<input id="url" name="url" type="url" required placeholder="type een url link..." bind:value={urlValue} />
 			</div>
+			{/if}
 
-			{#if isUrl}
-				<div class="input-container" aria-hidden="true">
-					<label for="slug" class="slug-label">Slug</label>
-					<input id="slug" name="slug" type="name" value={params} readonly />
+			{#if isType === "addUrl" || isType === "editUrl" || isType === "editPartner"}
+				<div class="input-container">
+					<label for="slug">Slug</label>
+					<input id="slug" name="slug" value={slugValue} readonly />
 				</div>
 			{/if}
 
-			{#if !isUrl}
-				<div class="input-container" aria-hidden="true">
-					<label for="sitemap" class="sitemap-label">Sitemap ophalen van partner</label>
+			{#if isType === "editPartner" || isType === "addPartner"}
+				<div class="input-container">
+					<label for="sitemap">Sitemap ophalen</label>
 					<input id="sitemap" name="sitemap" type="checkbox" />
 				</div>
 			{/if}
 
-			<div class="button-div" aria-label="button container">
-				<button type="submit" class="add-button">Toevoegen</button>
-				<button class="remove-button" on:click={close}>Sluiten</button>
+			{#if isType === "deleteUrl" || isType === "deletePartner"}
+			<div class="input-container">
+				<label for="name">Naam</label>
+				<input id="name" name="name" type="text" readonly bind:value={nameValue} />
 			</div>
 
-			{#if sending}
-				<div>
-					<p>Partner wordt toegevoegd...</p>
-				</div>
+			<div class="input-container">
+				<label for="url">Url</label>
+				<input id="url" name="url" type="url" readonly bind:value={urlValue} />
+			</div>
 			{/if}
+
+			<div class="button-div">
+				<button type="submit" class="add-button">{submitValue}</button>
+				<button class="remove-button" on:click={close}>Sluiten</button>
+			</div>
 		</form>
+		{/if}
+
+		{#if sending}
+			<div class="tip-message" aria-label="tip message">
+				<p><span>{name}</span> wordt verwerkt, sluit de pagina niet.</p>
+			</div>
+			<Loader itemArray={logs} />
+		{/if}
 	</section>
 </dialog>
 
@@ -311,5 +399,12 @@
 
 	.remove-button:hover {
 		opacity: 0.75;
+	}
+
+	span {
+		display: contents;
+		color: var(--c-pink);
+		font-weight: 900;
+		text-transform: uppercase;
 	}
 </style>
