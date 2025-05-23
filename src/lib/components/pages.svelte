@@ -4,14 +4,14 @@
 	export let currentPage;
 
 	// calculate the number of pages
-	let pageCount =  Math.ceil(amount / perPage);
+	let pageCount = Math.ceil(amount / perPage);
 
 	// Amount of buttons to show
 	$: pageNumbers = getPages();
 
 	// calculate the skip values for the previous and next buttons
 	$: prevSkip = Math.max((currentPage - 2) * perPage, 0);
-  	$: nextSkip = Math.min(currentPage * perPage, (pageCount - 1) * perPage);
+	$: nextSkip = Math.min(currentPage * perPage, (pageCount - 1) * perPage);
 
 	// calculate the skip values for the pageNumbers buttons
 	function getPages() {
@@ -42,29 +42,41 @@
 </script>
 
 <form method="GET" data-sveltekit-reload>
-<ul class="pages-list">
-	<li><button type="submit" class="button" name="skip" value={prevSkip} disabled={currentPage === 1}>◀ Vorige</button></li>
+	<ul class="pages-list">
+		<li>
+			<button type="submit" class="button" name="skip" value={prevSkip} disabled={currentPage === 1}
+				>◀ Vorige</button
+			>
+		</li>
 
-	{#each pageNumbers as p}
-		{#if p === "..."}
-			<li class="button-disabled button">...</li>
-		{:else}
-			<li>
-				<button
-					type="submit"
-					class="button"
-					name="skip"
-					value={(p - 1) * perPage}
-					class:selected={p === currentPage}
-					>{p}
-				</button>
-			</li>
-		{/if}
-	{/each}
+		{#each pageNumbers as p}
+			{#if p === '...'}
+				<li class="button-disabled button">...</li>
+			{:else}
+				<li>
+					<button
+						type="submit"
+						class="button"
+						name="skip"
+						value={(p - 1) * perPage}
+						class:selected={p === currentPage}
+						>{p}
+					</button>
+				</li>
+			{/if}
+		{/each}
 
-	<!-- <li class="button-disabled button">{pageCount}</li> -->
-	<li><button type="submit" class="button" name="skip" value={nextSkip} disabled={currentPage === pageCount}>Volgende ▶</button></li>
-</ul>
+		<!-- <li class="button-disabled button">{pageCount}</li> -->
+		<li>
+			<button
+				type="submit"
+				class="button"
+				name="skip"
+				value={nextSkip}
+				disabled={currentPage === pageCount}>Volgende ▶</button
+			>
+		</li>
+	</ul>
 </form>
 
 <style>

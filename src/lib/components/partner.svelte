@@ -6,7 +6,7 @@
 	import AddForm from '$lib/components/addForm.svelte';
 
 	export let website;
-	// export let form;
+	export let form;
 	export let principes;
 	export let params;
 	export let isUrl = false;
@@ -18,10 +18,7 @@
 
 	let labelValue;
 	let progressbar;
-	let openedDelete = null;
-	let openedEdit = null;
 	let openedAudit = null;
-	let openedSitemap = null;
 	let lastTime;
 	let link;
 	let title;
@@ -40,15 +37,15 @@
 		link = params + '/' + website.slug;
 		url = website.url;
 		title = website.name;
-		editType = "editUrl";
-		deleteType = "deleteUrl";
+		editType = 'editUrl';
+		deleteType = 'deleteUrl';
 	} else {
 		// show website
 		link = website.slug + '?partner=' + website.slug;
 		url = website.homepage;
 		title = website.titel;
-		editType = "editPartner";
-		deleteType = "deletePartner";
+		editType = 'editPartner';
+		deleteType = 'deletePartner';
 	}
 
 	if (timeDifference >= 60) {
@@ -68,34 +65,6 @@
 		lastTime = timeDifference > 0 ? `${timeDifference} min geleden` : 'Zojuist';
 	}
 
-	function openDelete(event) {
-		console.log('Delete');
-		event.preventDefault();
-		openedDelete = openedDelete === website.id ? null : website.id;
-		document.body.style.overflowY = 'hidden';
-		window.scrollTo({ top: 0, behavior: 'smooth' });
-	}
-
-	function closeDelete(event) {
-		event.preventDefault();
-		openedDelete = null;
-		document.body.style.overflowY = 'scroll';
-	}
-
-	function openEdit(event) {
-		console.log('Edit');
-		event.preventDefault();
-		openedEdit = openedEdit === website.id ? null : website.id;
-		document.body.style.overflowY = 'hidden';
-		window.scrollTo({ top: 0, behavior: 'smooth' });
-	}
-
-	function closeEdit(event) {
-		event.preventDefault();
-		openedEdit = null;
-		document.body.style.overflowY = 'scroll';
-	}
-
 	function openAudit(event) {
 		event.preventDefault();
 		openedAudit = openedAudit === website.id ? null : website.id;
@@ -103,23 +72,9 @@
 		window.scrollTo({ top: 0, behavior: 'smooth' });
 	}
 
-	function openSitemap(event) {
-		console.log('Sitemap');
-		event.preventDefault();
-		openedSitemap = openedSitemap === website.id ? null : website.id;
-		document.body.style.overflowY = 'hidden';
-		window.scrollTo({ top: 0, behavior: 'smooth' });
-	}
-
 	function closeAudit(event) {
 		event.preventDefault();
 		openedAudit = null;
-		document.body.style.overflowY = 'scroll';
-	}
-
-	function closeSitemap(event) {
-		event.preventDefault();
-		openedSitemap = null;
 		document.body.style.overflowY = 'scroll';
 	}
 
@@ -209,12 +164,6 @@
 						<img width="24" height="24" src={pencil} alt="Audit icon" />
 					</button>
 				{/if}
-				{#if !isUrl}
-					<button on:click={openSitemap}
-						><img width="24" height="24" src={pencil} alt="Sitemap icon" /></button
-					>
-				{/if}
-				<button on:click={openEdit}
 				<button on:click={openForm.bind(null, editType)}
 					><img width="24" height="24" src={pencil} alt="Bewerk icon" /></button
 				>
@@ -254,8 +203,23 @@
 		</div>
 	</form>
 </div>
-<AddForm bind:this={dialogRefEdit} isType={editType} id={website.id} name={title} url={url} slug={website.slug}/>
-<AddForm bind:this={dialogRefDelete} isType={deleteType} id={website.id} name={title} url={url} slug={website.slug}/>
+
+<AddForm
+	bind:this={dialogRefEdit}
+	isType={editType}
+	id={website.id}
+	name={title}
+	{url}
+	slug={website.slug}
+/>
+<AddForm
+	bind:this={dialogRefDelete}
+	isType={deleteType}
+	id={website.id}
+	name={title}
+	{url}
+	slug={website.slug}
+/>
 
 <style>
 	.popup-audit {
@@ -269,6 +233,70 @@
 		z-index: 10;
 		justify-content: center;
 		align-items: center;
+	}
+
+	form {
+		width: 30rem;
+		aspect-ratio: 2/1;
+		background-color: var(--c-container);
+		border-radius: 0.5rem;
+		border: solid 0.1rem var(--c-container-stroke);
+		padding: 1rem;
+		display: flex;
+		align-items: flex-start;
+		justify-content: center;
+		flex-direction: column;
+	}
+
+	form h3 {
+		border-bottom: 1px solid var(--c-container-stroke);
+		width: 100%;
+		padding-bottom: 1rem;
+	}
+
+	form p {
+		margin: 1.5rem 0;
+		font-weight: 100;
+	}
+
+	form p span {
+		display: contents;
+		color: var(--c-pink);
+		font-weight: 900;
+		text-transform: uppercase;
+	}
+
+	form input[type='text'] {
+		margin-bottom: 1rem;
+	}
+
+	form .id-field {
+		visibility: hidden;
+		display: none;
+	}
+
+	form button,
+	input[type='submit'] {
+		border-radius: 0.25rem;
+		padding: 0.5rem 1rem;
+		color: var(--c-white);
+		background-color: var(--c-pink);
+		border: none;
+		font-weight: 600;
+		font-size: 1rem;
+		transition: 0.3s;
+		cursor: pointer;
+		width: 7.5rem;
+	}
+
+	form button {
+		background-color: var(--c-modal-button);
+		margin-left: 0.5rem;
+	}
+
+	form button:hover,
+	input[type='submit']:hover {
+		opacity: 0.75;
 	}
 
 	li {

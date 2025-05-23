@@ -8,10 +8,10 @@
 	export let url;
 	export let slug;
 
-	let idValue = id ? id : "";
-	let nameValue = name ? name : "";
-	let urlValue = url ? url : "";
-	let slugValue = params ? params : slug ? slug : "";
+	let idValue = id ? id : '';
+	let nameValue = name ? name : '';
+	let urlValue = url ? url : '';
+	let slugValue = params ? params : slug ? slug : '';
 	let submitValue;
 
 	let sending = false;
@@ -22,36 +22,36 @@
 	let dialog;
 	let tip;
 
-	if (isType === "addPartner") {
+	if (isType === 'addPartner') {
 		title = 'Partner toevoegen';
 		action = '/api/addPartner';
 		tip = 'Voeg een bestaande website toe.';
-		submitValue = "Toevoegen";
-	} else if (isType === "editPartner") {
+		submitValue = 'Toevoegen';
+	} else if (isType === 'editPartner') {
 		title = 'Partner bewerken';
 		action = '/api/editPartner';
 		tip = null;
-		submitValue = "Bewerken";
-	} else if (isType === "deletePartner") {
+		submitValue = 'Bewerken';
+	} else if (isType === 'deletePartner') {
 		title = 'Partner verwijderen';
 		action = '/api/deletePartner';
 		tip = 'Deze partner wordt permanent verwijderd.';
-		submitValue = "Verwijderen";
-	} else if (isType === "addUrl") {
+		submitValue = 'Verwijderen';
+	} else if (isType === 'addUrl') {
 		title = 'Url toevoegen';
 		action = '/api/addUrl';
 		tip = 'Voeg een bestaande url toe.';
-		submitValue = "Toevoegen";
-	} else if (isType === "editUrl") {
+		submitValue = 'Toevoegen';
+	} else if (isType === 'editUrl') {
 		title = 'Url bewerken';
 		action = '/api/editUrl';
 		tip = null;
-		submitValue = "Bewerken";
-	} else if (isType === "deleteUrl") {
+		submitValue = 'Bewerken';
+	} else if (isType === 'deleteUrl') {
 		title = 'Url verwijderen';
 		action = '/api/deleteUrl';
 		tip = 'Deze url wordt permanent verwijderd.';
-		submitValue = "Verwijderen";
+		submitValue = 'Verwijderen';
 	} else {
 		console.log('Geen type opgegeven');
 	}
@@ -141,66 +141,80 @@
 		<h2>{title}</h2>
 
 		{#if !sending}
-		{#if tip !== null}
-		<div class="tip-message" aria-label="tip message">
-			<p>{tip}</p>
-			<button on:click={closeTip}>
-				<img src="/icons/close.svg" width="24" height="24" alt="sluit" />
-			</button>
-		</div>
-		{/if}
-
-		<form on:submit|preventDefault={submitHandling}>
-			<input type="hidden" value={idValue} name="id"/>
-
-			{#if isType === "addPartner" || isType === "editPartner" || isType === "addUrl" || isType === "editUrl"}
-			<div class="input-container">
-				<label for="name">Naam</label>
-				<input id="name" name="name" type="text" required placeholder="type een titel..." bind:value={nameValue} />
-			</div>
-
-			<div class="input-container">
-				<label for="url">Url</label>
-				<input id="url" name="url" type="url" required placeholder="type een url link..." bind:value={urlValue} />
-			</div>
-			{/if}
-
-			{#if isType === "addUrl" || isType === "editUrl" || isType === "editPartner"}
-				<div class="input-container">
-					<label for="slug">Slug</label>
-					<input id="slug" name="slug" value={slugValue} readonly />
+			{#if tip !== null}
+				<div class="tip-message" aria-label="tip message">
+					<p>{tip}</p>
+					<button on:click={closeTip}>
+						<img src="/icons/close.svg" width="24" height="24" alt="sluit" />
+					</button>
 				</div>
 			{/if}
 
-			{#if isType === "editPartner" || isType === "addPartner"}
-				<div class="input-container">
-					<label for="sitemap">Sitemap ophalen</label>
-					<input id="sitemap" name="sitemap" type="checkbox" />
+			<form on:submit|preventDefault={submitHandling}>
+				<input type="hidden" value={idValue} name="id" />
+
+				{#if isType === 'addPartner' || isType === 'editPartner' || isType === 'addUrl' || isType === 'editUrl'}
+					<div class="input-container">
+						<label for="name">Naam</label>
+						<input
+							id="name"
+							name="name"
+							type="text"
+							required
+							placeholder="type een titel..."
+							bind:value={nameValue}
+						/>
+					</div>
+
+					<div class="input-container">
+						<label for="url">Url</label>
+						<input
+							id="url"
+							name="url"
+							type="url"
+							required
+							placeholder="type een url link..."
+							bind:value={urlValue}
+						/>
+					</div>
+				{/if}
+
+				{#if isType === 'addUrl' || isType === 'editUrl' || isType === 'editPartner'}
+					<div class="input-container">
+						<label for="slug">Slug</label>
+						<input id="slug" name="slug" value={slugValue} readonly />
+					</div>
+				{/if}
+
+				{#if isType === 'editPartner' || isType === 'addPartner'}
+					<div class="input-container">
+						<label for="sitemap">Sitemap ophalen</label>
+						<input id="sitemap" name="sitemap" type="checkbox" />
+					</div>
+				{/if}
+
+				{#if isType === 'deleteUrl' || isType === 'deletePartner'}
+					<div class="input-container">
+						<label for="name">Naam</label>
+						<input id="name" name="name" type="text" readonly bind:value={nameValue} />
+					</div>
+
+					<div class="input-container">
+						<label for="url">Url</label>
+						<input id="url" name="url" type="url" readonly bind:value={urlValue} />
+					</div>
+				{/if}
+
+				<div class="button-div">
+					<button type="submit" class="add-button">{submitValue}</button>
+					<button class="remove-button" on:click={close}>Sluiten</button>
 				</div>
-			{/if}
-
-			{#if isType === "deleteUrl" || isType === "deletePartner"}
-			<div class="input-container">
-				<label for="name">Naam</label>
-				<input id="name" name="name" type="text" readonly bind:value={nameValue} />
-			</div>
-
-			<div class="input-container">
-				<label for="url">Url</label>
-				<input id="url" name="url" type="url" readonly bind:value={urlValue} />
-			</div>
-			{/if}
-
-			<div class="button-div">
-				<button type="submit" class="add-button">{submitValue}</button>
-				<button class="remove-button" on:click={close}>Sluiten</button>
-			</div>
-		</form>
+			</form>
 		{/if}
 
 		{#if sending}
 			<div class="tip-message" aria-label="tip message">
-				<p><span>{name}</span> wordt verwerkt, sluit de pagina niet.</p>
+				<p><span>{nameValue}</span> wordt verwerkt, sluit de pagina niet.</p>
 			</div>
 			<Loader itemArray={logs} />
 		{/if}

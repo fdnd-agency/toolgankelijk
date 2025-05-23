@@ -10,12 +10,12 @@
 	$: logCount = itemArray.length;
 
 	afterUpdate(() => {
-    // scroll alleen als er écht nieuwe items zijn toegevoegd
-    if (itemArray.length > prevLen && logList) {
-      logList.scrollTop = logList.scrollHeight;
-      prevLen = itemArray.length;
-    }
-  });
+		// scroll alleen als er écht nieuwe items zijn toegevoegd
+		if (itemArray.length > prevLen && logList) {
+			logList.scrollTop = logList.scrollHeight;
+			prevLen = itemArray.length;
+		}
+	});
 </script>
 
 <details class="loader-container" aria-hidden="true" open>
@@ -23,7 +23,7 @@
 	<ul class="log-list" role="log" aria-live="polite" bind:this={logList}>
 		{#each itemArray as item}
 			<li class="log-item {item.type}">
-				<img src="/icons/{item.type}.svg" alt="{item.type}" width="16" height="16" />
+				<img src="/icons/{item.type}.svg" alt={item.type} width="16" height="16" />
 				{item.status}
 			</li>
 		{/each}
@@ -31,7 +31,7 @@
 </details>
 
 <style>
-    .loader-container {
+	.loader-container {
 		width: 100%;
 		border-radius: 0.25rem;
 		margin-top: 1rem;

@@ -29,25 +29,6 @@
 	function handleDialog() {
 		dialogRef.open();
 	}
-
-	function handleSubmit(event) {
-		const form = event.target;
-		const button = event.submitter;
-
-		if (button.name === 'skip-previous') {
-			skipInput.value = Math.max(skip - first, 0);
-		} else if (button.name === 'skip-next') {
-			skipInput.value = skip + first;
-		} else if (button.name === 'skip') {
-			if (button.value < skipInput) {
-				skipInput.value = Math.max(skip - first, 0);
-			} else {
-				skipInput.value = skip + first;
-			}
-		}
-
-		form.submit();
-	}
 </script>
 
 <Heading {heading} />
