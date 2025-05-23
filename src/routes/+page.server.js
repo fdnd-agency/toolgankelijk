@@ -1,20 +1,7 @@
 import { gql } from 'graphql-request';
 import { hygraph } from '$lib/utils/hygraph.js';
-import { parseHTML } from 'linkedom';
 import { redirect } from '@sveltejs/kit';
-import getQueryDeletePartner from '$lib/queries/deletePartner';
-import getQueryUpdatePartner from '$lib/queries/updatePartner';
 import getQueryPartner from '$lib/queries/partner';
-import getQueryAddPartner from '$lib/queries/addPartner';
-import getQueryAddUrl from '$lib/queries/addUrl';
-import getQueryUrl from '$lib/queries/url';
-import getQueryDeleteUrl from '$lib/queries/deleteUrl';
-import getQueryPartnerUrls from '$lib/queries/partnerUrls';
-import getQueryUpdatePartnerUrls from '$lib/queries/updateUrlsPartner';
-import Sitemapper from 'sitemapper';
-import axios from 'axios';
-import createEmptyCheck from '$lib/queries/addEmptyCheck';
-import getQueryDeleteChecks from '$lib/queries/deleteChecks';
 
 export async function load(event) {
 	const { url, locals } = event;

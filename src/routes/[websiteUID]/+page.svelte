@@ -10,7 +10,6 @@
 	export let form;
 
 	let skip = data.skip;
-	let skipInput;
 	const first = data.first;
 	let totalUrls = data.websites.website.totalUrls;
 	const currentPage = skip / first + 1;
