@@ -23,13 +23,13 @@ export async function isValidEmailDomain(email) {
 
 	const query = gql`
 		query GetValidEmailDomains {
-			emails {
+			emailDomeins {
 				domein
 			}
 		}
 	`;
 	const data = await hygraph.request(query);
-	const validDomains = new Set(data.emails.map((email) => email.domein.toLowerCase()));
+	const validDomains = new Set(data.emailDomeins.map((email) => email.domein.toLowerCase()));
 
 	return validDomains.has(domain.toLowerCase());
 }
