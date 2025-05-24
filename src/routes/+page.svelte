@@ -14,7 +14,7 @@
 	const first = data.first;
 	let totalUrls = data.websites.totalUrls;
 	const currentPage = skip / first + 1;
-
+	let showRegistrationSuccess = data.showRegistrationSuccess;
 	let heading = { titel: 'Partners overzicht' };
 	let dialogRef;
 	const principes = data.websites.principes;
@@ -46,6 +46,10 @@
 
 {#if totalUrls > first}
 	<Pages amount={totalUrls} perPage={first} {currentPage} />
+{/if}
+
+{#if showRegistrationSuccess}
+	<div class="toast success"><p>Account succesvol aangemaakt!</p></div>
 {/if}
 
 {#if form?.success}

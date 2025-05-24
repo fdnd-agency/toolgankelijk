@@ -102,5 +102,12 @@ async function action(event) {
 	const sessionToken = generateSessionToken();
 	const session = await createSession(sessionToken, user.id);
 	setSessionTokenCookie(event, sessionToken, session.houdbaarTot);
-	return { username: user.gebruikersnaam };
+
+	event.cookies.set('show_registration_success', '1', {
+		path: '/',
+		httpOnly: false,
+		maxAge: 60
+	});
+
+	throw redirect(303, '/');
 }

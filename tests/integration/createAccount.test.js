@@ -31,8 +31,13 @@ describe('src/routes/account/+page.server.js integration', () => {
 	});
 
 	it('creates user and session on valid input', async () => {
-		const result = await actions.default(event);
-		expect(result).toMatchObject({ username: uniqueUsername });
+		try {
+			await actions.default(event);
+			throw new Error('Expected redirect to be thrown');
+		} catch (e) {
+			expect(e.status).toBe(303);
+			expect(e.location).toBe('/');
+		}
 	});
 
 	afterEach(async () => {

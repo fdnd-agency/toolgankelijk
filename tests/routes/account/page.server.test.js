@@ -32,7 +32,8 @@ describe('src/routes/account/+page.server.js', () => {
 			request: {
 				formData: vi.fn()
 			},
-			locals: { sessie: null, gebruiker: null }
+			locals: { sessie: null, gebruiker: null },
+			cookies: { set: vi.fn() }
 		};
 		vi.clearAllMocks();
 	});
@@ -267,10 +268,15 @@ describe('src/routes/account/+page.server.js', () => {
 		sessionModule.generateSessionToken.mockReturnValue('token');
 		sessionModule.createSession.mockResolvedValue({ houdbaarTot: 'future-date' });
 
-		// Act
-		await actions.default(event);
+		// Act & Assert
+		try {
+			await actions.default(event);
+			throw new Error('Expected redirect to be thrown');
+		} catch (e) {
+			expect(e.status).toBe(303);
+			expect(e.location).toBe('/');
+		}
 
-		// Assert
 		expect(userModule.createUser).toHaveBeenCalledWith('test@vervoerregio.nl', 'John', 'T3$tT3$t');
 		expect(sessionModule.generateSessionToken).toHaveBeenCalled();
 		expect(sessionModule.createSession).toHaveBeenCalledWith('token', 'user-id');
