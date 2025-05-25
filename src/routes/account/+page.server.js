@@ -23,19 +23,19 @@ async function action(event) {
 	const password = formData.get('password');
 	const confirmPassword = formData.get('confirm-password');
 
-	if (password !== confirmPassword) {
-		return fail(400, {
-			message: 'Passwords do not match',
-			email,
-			username
-		});
-	}
-
 	if (typeof email !== 'string' || typeof username !== 'string' || typeof password !== 'string') {
 		return fail(400, {
 			message: 'Invalid or missing fields',
 			email: '',
 			username: ''
+		});
+	}
+
+	if (password !== confirmPassword) {
+		return fail(400, {
+			message: 'Passwords do not match',
+			email,
+			username
 		});
 	}
 
