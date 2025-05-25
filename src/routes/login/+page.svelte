@@ -35,7 +35,7 @@
 			<p style="color: red;">{form?.message ?? ''}</p>
 
 			<div class="form-link">
-				<a class="link-account" href="/account">Don't have an account?</a>
+				<a class="link-account" href="/register">Don't have an account?</a>
 				<a class="link-password" href="/info">Forgot password?</a>
 			</div>
 		</fieldset>

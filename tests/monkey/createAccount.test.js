@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import fc from 'fast-check';
-import { actions } from '../../src/routes/account/+page.server.js';
+import { actions } from '../../src/routes/register/+page.server.js';
 
 // Helper: generate a random email or garbage string
 const email = fc.oneof(fc.emailAddress(), fc.string({ minLength: 1, maxLength: 40 }));
@@ -12,16 +12,16 @@ const username = fc.string({ minLength: 0, maxLength: 40 });
 const password = fc.string({ minLength: 0, maxLength: 40 });
 
 // Compose confirm-password with password using .chain
-const accountArb = fc
+const account = fc
 	.tuple(email, username, password)
 	.chain(([email, username, password]) =>
 		fc.boolean().map((match) => [email, username, password, match ? password : password + 'x'])
 	);
 
-describe('Monkey property test: create account with random input', () => {
+describe('Monkey test: create account with random input', () => {
 	it('should never throw and always return a result object', async () => {
 		await fc.assert(
-			fc.asyncProperty(accountArb, async ([email, username, password, confirmPassword]) => {
+			fc.asyncProperty(account, async ([email, username, password, confirmPassword]) => {
 				const event = {
 					request: {
 						formData: async () => ({

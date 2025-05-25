@@ -3,7 +3,7 @@ import * as emailModule from '$lib/server/email';
 import * as userModule from '$lib/server/user';
 import * as passwordModule from '$lib/server/password';
 import * as sessionModule from '$lib/server/session';
-import { actions, load } from '../../../src/routes/account/+page.server.js';
+import { actions, load } from '../../../src/routes/register/+page.server.js';
 
 vi.mock('$lib/server/email', () => ({
 	checkEmailAvailability: vi.fn(),
@@ -24,7 +24,7 @@ vi.mock('$lib/server/session', () => ({
 	setSessionTokenCookie: vi.fn()
 }));
 
-describe('src/routes/account/+page.server.js', () => {
+describe('src/routes/register/+page.server.js', () => {
 	let event;
 
 	beforeEach(() => {

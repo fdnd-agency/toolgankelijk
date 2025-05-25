@@ -1,8 +1,8 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { actions } from '../../src/routes/account/+page.server.js';
+import { actions } from '../../src/routes/register/+page.server.js';
 import { hygraph } from '../../src/lib/utils/hygraph.js';
 
-describe('src/routes/account/+page.server.js integration', () => {
+describe('src/routes/register/+page.server.js integration', () => {
 	let event;
 	let uniqueEmail;
 	let uniqueUsername;
