@@ -40,7 +40,7 @@ describe('Monkey test: create account with random input', () => {
 
 				let result;
 				try {
-					result = await actions.default(event);
+					result = await actions.register(event);
 				} catch (err) {
 					expect(err).toBeUndefined();
 				}

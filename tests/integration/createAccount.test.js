@@ -32,7 +32,7 @@ describe('src/routes/register/+page.server.js integration', () => {
 
 	it('creates user and session on valid input', async () => {
 		try {
-			await actions.default(event);
+			await actions.register(event);
 			throw new Error('Expected redirect to be thrown');
 		} catch (e) {
 			expect(e.status).toBe(303);

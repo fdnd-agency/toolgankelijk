@@ -9,7 +9,7 @@
 </svelte:head>
 
 <section class="form-container">
-	<form method="post" use:enhance>
+	<form method="post" action="?/register" use:enhance>
 		<fieldset class="form-login">
 			<legend>Create an account</legend>
 			<p>

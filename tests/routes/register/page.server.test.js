@@ -65,7 +65,7 @@ describe('src/routes/register/+page.server.js', () => {
 		});
 
 		// Act
-		const result = await actions.default(event);
+		const result = await actions.register(event);
 
 		// Assert
 		expect(result.status).toBe(400);
@@ -85,7 +85,7 @@ describe('src/routes/register/+page.server.js', () => {
 		});
 
 		// Act
-		const result = await actions.default(event);
+		const result = await actions.register(event);
 
 		// Assert
 		expect(result.status).toBe(400);
@@ -99,7 +99,7 @@ describe('src/routes/register/+page.server.js', () => {
 		});
 
 		// Act
-		const result = await actions.default(event);
+		const result = await actions.register(event);
 
 		// Assert
 		expect(result.status).toBe(400);
@@ -117,7 +117,7 @@ describe('src/routes/register/+page.server.js', () => {
 		emailModule.verifyEmailInput.mockReturnValue(false);
 
 		// Act
-		const result = await actions.default(event);
+		const result = await actions.register(event);
 
 		// Assert
 		expect(result.status).toBe(400);
@@ -139,7 +139,7 @@ describe('src/routes/register/+page.server.js', () => {
 		emailModule.isValidEmailDomain.mockResolvedValue(false);
 
 		// Act
-		const result = await actions.default(event);
+		const result = await actions.register(event);
 
 		// Assert
 		expect(result.status).toBe(400);
@@ -162,7 +162,7 @@ describe('src/routes/register/+page.server.js', () => {
 		emailModule.checkEmailAvailability.mockResolvedValue(false);
 
 		// Act
-		const result = await actions.default(event);
+		const result = await actions.register(event);
 
 		// Assert
 		expect(result.status).toBe(400);
@@ -186,7 +186,7 @@ describe('src/routes/register/+page.server.js', () => {
 		userModule.verifyUsernameInput.mockReturnValue(false);
 
 		// Act
-		const result = await actions.default(event);
+		const result = await actions.register(event);
 
 		// Assert
 		expect(result.status).toBe(400);
@@ -211,7 +211,7 @@ describe('src/routes/register/+page.server.js', () => {
 		userModule.checkUsernameAvailability.mockResolvedValue(false);
 
 		// Act
-		const result = await actions.default(event);
+		const result = await actions.register(event);
 
 		// Assert
 		expect(result.status).toBe(400);
@@ -240,7 +240,7 @@ describe('src/routes/register/+page.server.js', () => {
 		});
 
 		// Act
-		const result = await actions.default(event);
+		const result = await actions.register(event);
 
 		// Assert
 		expect(result.status).toBe(400);
@@ -270,7 +270,7 @@ describe('src/routes/register/+page.server.js', () => {
 
 		// Act & Assert
 		try {
-			await actions.default(event);
+			await actions.register(event);
 			throw new Error('Expected redirect to be thrown');
 		} catch (e) {
 			expect(e.status).toBe(303);
