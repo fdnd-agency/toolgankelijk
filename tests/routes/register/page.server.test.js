@@ -16,7 +16,8 @@ vi.mock('$lib/server/user', () => ({
 	checkUsernameAvailability: vi.fn()
 }));
 vi.mock('$lib/server/password', () => ({
-	verifyPasswordStrength: vi.fn()
+	verifyPasswordStrength: vi.fn(),
+	hashPassword: vi.fn()
 }));
 vi.mock('$lib/server/session', () => ({
 	createSession: vi.fn(),
@@ -264,6 +265,7 @@ describe('src/routes/register/+page.server.js', () => {
 		userModule.verifyUsernameInput.mockReturnValue(true);
 		userModule.checkUsernameAvailability.mockResolvedValue(true);
 		passwordModule.verifyPasswordStrength.mockResolvedValue({ valid: true });
+		passwordModule.hashPassword.mockResolvedValue('hashed-password');
 		userModule.createUser.mockResolvedValue({ id: 'user-id' });
 		sessionModule.generateSessionToken.mockReturnValue('token');
 		sessionModule.createSession.mockResolvedValue({ houdbaarTot: 'future-date' });
@@ -277,7 +279,11 @@ describe('src/routes/register/+page.server.js', () => {
 			expect(e.location).toBe('/');
 		}
 
-		expect(userModule.createUser).toHaveBeenCalledWith('test@vervoerregio.nl', 'John', 'T3$tT3$t');
+		expect(userModule.createUser).toHaveBeenCalledWith(
+			'test@vervoerregio.nl',
+			'John',
+			'hashed-password'
+		);
 		expect(sessionModule.generateSessionToken).toHaveBeenCalled();
 		expect(sessionModule.createSession).toHaveBeenCalledWith('token', 'user-id');
 		expect(sessionModule.setSessionTokenCookie).toHaveBeenCalledWith(event, 'token', 'future-date');

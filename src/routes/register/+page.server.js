@@ -1,7 +1,7 @@
 import { fail, redirect } from '@sveltejs/kit';
 import { checkEmailAvailability, verifyEmailInput, isValidEmailDomain } from '$lib/server/email';
 import { createUser, verifyUsernameInput, checkUsernameAvailability } from '$lib/server/user';
-import { verifyPasswordStrength } from '$lib/server/password';
+import { verifyPasswordStrength, hashPassword } from '$lib/server/password';
 import { createSession, generateSessionToken, setSessionTokenCookie } from '$lib/server/session';
 
 export function load(event) {
@@ -95,7 +95,8 @@ export const actions = {
 			});
 		}
 
-		const user = await createUser(email, username, password);
+		const hashedPassword = await hashPassword(password);
+		const user = await createUser(email, username, hashedPassword);
 		const sessionToken = generateSessionToken();
 		const session = await createSession(sessionToken, user.id);
 		setSessionTokenCookie(event, sessionToken, session.houdbaarTot);

@@ -1,4 +1,3 @@
-import { hashPassword } from './password';
 import { hygraph } from '$lib/utils/hygraph.js';
 import { gql } from 'graphql-request';
 
@@ -18,8 +17,7 @@ export async function checkUsernameAvailability(username) {
 	return !data.gebruiker;
 }
 
-export async function createUser(email, username, password) {
-	const passwordHash = await hashPassword(password);
+export async function createUser(email, username, passwordHash) {
 	const mutation = gql`
 		mutation CreateGebruiker($email: String!, $username: String!, $passwordHash: String!) {
 			createGebruiker(
