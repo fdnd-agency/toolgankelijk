@@ -13,12 +13,15 @@
 
 	let successCriteriaMap = {};
 	let criteriaPerPrincipe = {};
+	let progressBars;
 	const principes = data.principesData.principes;
 
 	onMount(() => {
 		const criteriaSlice = data.urlData.url.checks.flatMap((check) =>
 			check.succescriteria.map((criteria) => criteria.index)
 		);
+
+		console.log('criteriaSlice', criteriaSlice);
 
 		criteriaSlice.forEach((index) => {
 			const principleIndex = index.split('.')[0];
@@ -49,6 +52,7 @@
 							<span>{principe.titel}.</span> Principe {principe.index}
 						</h1>
 						<p>{principe.beschrijving.text}</p>
+						<!-- {#each progressBars as p} -->
 						<div class="progress-container">
 							<progress
 								id="progress-partner"
@@ -63,6 +67,7 @@
 								).toFixed(0)}%
 							</label>
 						</div>
+						<!-- {/each} -->
 					</div>
 				</a>
 			</li>
