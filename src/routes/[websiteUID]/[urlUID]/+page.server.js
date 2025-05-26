@@ -16,13 +16,13 @@ export const load = async ({ params, locals }) => {
 	const queryNiveaus = getQueryNiveaus(gql);
 	const urlData = await hygraph.request(queryUrl);
 	const principesData = await hygraph.request(queryPrincipes);
-	const niveausData = await hygraph.request(queryNiveaus);
+	const niveauData = await hygraph.request(queryNiveaus);
 
 	if (urlData.url.website.slug === websiteUID)
 		return {
 			principesData,
 			urlData,
-			niveausData
+			niveauData
 		};
 	throw (
 		(404,

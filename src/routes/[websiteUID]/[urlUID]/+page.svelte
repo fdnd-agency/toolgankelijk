@@ -13,30 +13,56 @@
 
 	let successCriteriaMap = {};
 	let criteriaPerPrincipe = {};
-	let progressBars;
+	let progressData = {};
+	// every progress bar for the nivuel of the principes
 	const principes = data.principesData.principes;
+	const niveaus = data.niveauData.niveaus;
+	const checks = data.urlData.url.checks;
+
+	principes.forEach((principe) => {
+        const pIndex = principe.index;
+        progressData[pIndex] = {};
+
+        niveaus.forEach((n) => {
+            const niveau = n.niveau;
+            // Alle succescriteria van dit principe met dit niveau
+            const alleSC = principe.richtlijnen.flatMap(r =>
+                r.succescriteria
+            ).filter(sc => sc.niveau === niveau);
+
+            // Alle behaalde succescriteria van dit principe met dit niveau
+            const behaaldeSC = checks.flatMap(check =>
+                check.succescriteria
+            ).filter(sc => sc.niveau === niveau && sc.index.startsWith(pIndex + '.'));
+
+            progressData[pIndex][niveau] = {
+                total: alleSC.length,
+                behaald: behaaldeSC.length
+            };
+        });
+    });
 
 	onMount(() => {
-		const criteriaSlice = data.urlData.url.checks.flatMap((check) =>
-			check.succescriteria.map((criteria) => criteria.index)
-		);
+		// const criteriaSlice = data.urlData.url.checks.flatMap((check) =>
+		// 	check.succescriteria.map((criteria) => criteria.index)
+		// );
 
-		console.log('criteriaSlice', criteriaSlice);
+		// console.log('criteriaSlice', criteriaSlice);
 
-		criteriaSlice.forEach((index) => {
-			const principleIndex = index.split('.')[0];
-			if (!successCriteriaMap[principleIndex]) {
-				successCriteriaMap[principleIndex] = [];
-			}
-			successCriteriaMap[principleIndex].push(index);
-		});
+		// criteriaSlice.forEach((index) => {
+		// 	const principleIndex = index.split('.')[0];
+		// 	if (!successCriteriaMap[principleIndex]) {
+		// 		successCriteriaMap[principleIndex] = [];
+		// 	}
+		// 	successCriteriaMap[principleIndex].push(index);
+		// });
 
-		principes.forEach((principe) => {
-			criteriaPerPrincipe[principe.index] = principe.richtlijnen.reduce(
-				(total, richtlijn) => total + richtlijn.succescriteria.length,
-				0
-			);
-		});
+		// principes.forEach((principe) => {
+		// 	criteriaPerPrincipe[principe.index] = principe.richtlijnen.reduce(
+		// 		(total, richtlijn) => total + richtlijn.succescriteria.length,
+		// 		0
+		// 	);
+		// });
 	});
 </script>
 
@@ -52,22 +78,28 @@
 							<span>{principe.titel}.</span> Principe {principe.index}
 						</h1>
 						<p>{principe.beschrijving.text}</p>
-						<!-- {#each progressBars as p} -->
+						{#each niveaus as n}
+						<p>{n.niveau}</p>
 						<div class="progress-container">
 							<progress
+								name="progress-partner"
 								id="progress-partner"
-								max={criteriaPerPrincipe[principe.index] || 100}
-								value={successCriteriaMap[principe.index]?.length || 0}
+								max={progressData[principe.index][n.niveau].total || 1}
+								value={progressData[principe.index][n.niveau].behaald || 0}
 							/>
 							<label class="progress-percentage" for="progress-partner">
-								{(
-									((successCriteriaMap[principe.index]?.length || 0) /
-										(criteriaPerPrincipe[principe.index] || 100)) *
-									100
-								).toFixed(0)}%
+								{progressData[principe.index]?.[n.niveau]
+									? (progressData[principe.index][n.niveau].total
+										? Math.round(
+											(progressData[principe.index][n.niveau].behaald /
+											progressData[principe.index][n.niveau].total) * 100
+										)
+										: 0)
+									: 0
+								}%
 							</label>
 						</div>
-						<!-- {/each} -->
+					{/each}
 					</div>
 				</a>
 			</li>
