@@ -11,8 +11,6 @@
 		url: data.urlData.url.slug
 	};
 
-	let successCriteriaMap = {};
-	let criteriaPerPrincipe = {};
 	let progressData = {};
 	// every progress bar for the nivuel of the principes
 	const principes = data.principesData.principes;
@@ -20,50 +18,31 @@
 	const checks = data.urlData.url.checks;
 
 	principes.forEach((principe) => {
+		// save the index of the principe in the progressData object
         const pIndex = principe.index;
         progressData[pIndex] = {};
 
-        niveaus.forEach((n) => {
-            const niveau = n.niveau;
-            // Alle succescriteria van dit principe met dit niveau
-            const alleSC = principe.richtlijnen.flatMap(r =>
-                r.succescriteria
-            ).filter(sc => sc.niveau === niveau);
+		// for each principe, loop through the niveaus
+        niveaus.forEach((niveau) => {
+            const niveauName = niveau.niveau;
 
-            // Alle behaalde succescriteria van dit principe met dit niveau
-            const behaaldeSC = checks.flatMap(check =>
+			// All succescriteria for this principe with this niveau
+            const totalChecks = principe.richtlijnen.flatMap(check =>
                 check.succescriteria
-            ).filter(sc => sc.niveau === niveau && sc.index.startsWith(pIndex + '.'));
+            ).filter(criteria => criteria.niveau === niveauName);
 
-            progressData[pIndex][niveau] = {
-                total: alleSC.length,
-                behaald: behaaldeSC.length
+            // All succescriteria that are achieved for this principe with this niveau
+            const successChecks = checks.flatMap(check =>
+                check.succescriteria
+            ).filter(criteria => criteria.niveau === niveauName && criteria.index.startsWith(pIndex + '.'));
+
+			// Initialize the progressData for this principe and niveau
+            progressData[pIndex][niveauName] = {
+                total: totalChecks.length,
+                behaald: successChecks.length
             };
         });
     });
-
-	onMount(() => {
-		// const criteriaSlice = data.urlData.url.checks.flatMap((check) =>
-		// 	check.succescriteria.map((criteria) => criteria.index)
-		// );
-
-		// console.log('criteriaSlice', criteriaSlice);
-
-		// criteriaSlice.forEach((index) => {
-		// 	const principleIndex = index.split('.')[0];
-		// 	if (!successCriteriaMap[principleIndex]) {
-		// 		successCriteriaMap[principleIndex] = [];
-		// 	}
-		// 	successCriteriaMap[principleIndex].push(index);
-		// });
-
-		// principes.forEach((principe) => {
-		// 	criteriaPerPrincipe[principe.index] = principe.richtlijnen.reduce(
-		// 		(total, richtlijn) => total + richtlijn.succescriteria.length,
-		// 		0
-		// 	);
-		// });
-	});
 </script>
 
 <Heading {heading} />
