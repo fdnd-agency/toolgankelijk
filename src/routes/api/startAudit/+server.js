@@ -45,14 +45,16 @@ export async function POST({ request }) {
                         body: JSON.stringify({ urls: urls, slug })
                     });
 
+                    if (!response.ok) {
+                        await sendUpdate({ status: 'Fout bij het ophalen van de response', type: 'error' });
+                        await delay(2000);
+                        safeClose();
+                        return;
+                    }
+
                     for (const url of urls) {
                         await sendUpdate({ status: `Auditen van ${url}`, type: 'done' });
                         await delay(500);
-                    }
-
-                    if (!response.ok) {
-                        const errorDetails = await response.text();
-                        throw new Error(`Network response was not ok: ${errorDetails}`);
                     }
 
 					await sendUpdate({ status: 'Urls succesvol bijgewerkt', type: 'done', response });
@@ -60,7 +62,8 @@ export async function POST({ request }) {
                     await sendUpdate({ status: 'Audit afgerond', type: 'done' });
                     await delay(2000);
 				} catch (err) {
-					await sendUpdate({ status: err.message, type: 'error' });
+					await sendUpdate({ status: `Fout bij verbinden met audit server: ${err.message}`, type: 'error' });
+                    await delay(2000);
 				} finally {
 					safeClose();
 				}

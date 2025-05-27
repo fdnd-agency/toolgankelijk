@@ -77,20 +77,6 @@
 		tipMessage.remove();
 	}
 
-	// show a success message after form submission
-	function successMessage() {
-		if (form?.success) {
-			alert(form?.message);
-			setTimeout(() => {
-				window.location.href = '/';
-			}, 1000);
-		} else if (form?.success == false) {
-			alert(form?.message);
-		}else {
-			alert('Er is een fout opgetreden tijdens het verwerken van de aanvraag.');
-		}
-	}
-
 	async function submitHandling(event) {
 		// prevent default form submission
 		event.preventDefault();
@@ -152,7 +138,6 @@
 		}
 
 		sending = false;
-		successMessage();
 		dialog.close();
 		window.location.reload();
 	}
