@@ -61,12 +61,12 @@
 						<p>{n.niveau}</p>
 						<div class="progress-container">
 							<progress
-								name="progress-partner"
+								name="progress-partner-{n.niveau}"
 								id="progress-partner"
 								max={progressData[principe.index][n.niveau].total || 1}
 								value={progressData[principe.index][n.niveau].behaald || 0}
 							/>
-							<label class="progress-percentage" for="progress-partner">
+							<label class="progress-percentage" for="progress-partner-{n.niveau}">
 								{progressData[principe.index]?.[n.niveau]
 									? (progressData[principe.index][n.niveau].total
 										? Math.round(
