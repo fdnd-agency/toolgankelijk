@@ -11,30 +11,38 @@
 		url: data.urlData.url.slug
 	};
 
-	let successCriteriaMap = {};
-	let criteriaPerPrincipe = {};
+	let progressData = {};
+	// every progress bar for the niveau of the principes
 	const principes = data.principesData.principes;
+	const niveaus = data.niveauData.niveaus;
+	const checks = data.urlData.url.checks;
 
-	onMount(() => {
-		const criteriaSlice = data.urlData.url.checks.flatMap((check) =>
-			check.succescriteria.map((criteria) => criteria.index)
-		);
+	principes.forEach((principe) => {
+		// save the index of the principe in the progressData object
+        const pIndex = principe.index;
+        progressData[pIndex] = {};
 
-		criteriaSlice.forEach((index) => {
-			const principleIndex = index.split('.')[0];
-			if (!successCriteriaMap[principleIndex]) {
-				successCriteriaMap[principleIndex] = [];
-			}
-			successCriteriaMap[principleIndex].push(index);
-		});
+		// for each principe, loop through the niveaus
+        niveaus.forEach((niveau) => {
+            const niveauName = niveau.niveau;
 
-		principes.forEach((principe) => {
-			criteriaPerPrincipe[principe.index] = principe.richtlijnen.reduce(
-				(total, richtlijn) => total + richtlijn.succescriteria.length,
-				0
-			);
-		});
-	});
+			// All succescriteria for this principe with this niveau
+            const totalChecks = principe.richtlijnen.flatMap(check =>
+                check.succescriteria
+            ).filter(criteria => criteria.niveau === niveauName);
+
+            // All succescriteria that are achieved for this principe with this niveau
+            const successChecks = checks.flatMap(check =>
+                check.succescriteria
+            ).filter(criteria => criteria.niveau === niveauName && criteria.index.startsWith(pIndex + '.'));
+
+			// Initialize the progressData for this principe and niveau
+            progressData[pIndex][niveauName] = {
+                total: totalChecks.length,
+                behaald: successChecks.length
+            };
+        });
+    });
 </script>
 
 <Heading {heading} />
@@ -49,20 +57,28 @@
 							<span>{principe.titel}.</span> Principe {principe.index}
 						</h1>
 						<p>{principe.beschrijving.text}</p>
+						{#each niveaus as n}
+						<p>{n.niveau}</p>
 						<div class="progress-container">
 							<progress
+								name="progress-partner-{n.niveau}"
 								id="progress-partner"
-								max={criteriaPerPrincipe[principe.index] || 100}
-								value={successCriteriaMap[principe.index]?.length || 0}
+								max={progressData[principe.index][n.niveau].total || 1}
+								value={progressData[principe.index][n.niveau].behaald || 0}
 							/>
-							<label class="progress-percentage" for="progress-partner">
-								{(
-									((successCriteriaMap[principe.index]?.length || 0) /
-										(criteriaPerPrincipe[principe.index] || 100)) *
-									100
-								).toFixed(0)}%
+							<label class="progress-percentage" for="progress-partner-{n.niveau}">
+								{progressData[principe.index]?.[n.niveau]
+									? (progressData[principe.index][n.niveau].total
+										? Math.round(
+											(progressData[principe.index][n.niveau].behaald /
+											progressData[principe.index][n.niveau].total) * 100
+										)
+										: 0)
+									: 0
+								}%
 							</label>
 						</div>
+					{/each}
 					</div>
 				</a>
 			</li>

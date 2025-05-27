@@ -14,6 +14,7 @@ export default function getQueryUrl(gql, slug) {
 					succescriteria(first: 200) {
 						id
 						index
+						niveau
 					}
 				}
 			}
