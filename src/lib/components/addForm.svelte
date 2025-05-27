@@ -439,4 +439,9 @@
 		font-weight: 900;
 		text-transform: uppercase;
 	}
+
+	p {
+		color: var(--c-white);
+		margin-bottom: 1rem;
+	}
 </style>
