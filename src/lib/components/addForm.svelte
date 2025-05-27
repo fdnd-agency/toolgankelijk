@@ -8,6 +8,7 @@
 	export let url;
 	export let slug;
 	export let website;
+	export let form;
 
 	let idValue = id ? id : '';
 	let nameValue = name ? name : '';
@@ -55,7 +56,7 @@
 		submitValue = 'Verwijderen';
 	} else if (isType === 'startAudit') {
 		title = 'Audit starten';
-		action = '?/auditPartner';
+		action = '/api/startAudit';
 		tip = null;
 		submitValue = 'Starten';
 	} else {
@@ -74,6 +75,20 @@
 	function closeTip() {
 		const tipMessage = document.querySelector('.tip-message');
 		tipMessage.remove();
+	}
+
+	// show a success message after form submission
+	function successMessage() {
+		if (form?.success) {
+			alert(form?.message);
+			setTimeout(() => {
+				window.location.href = '/';
+			}, 1000);
+		} else if (form?.success == false) {
+			alert(form?.message);
+		}else {
+			alert('Er is een fout opgetreden tijdens het verwerken van de aanvraag.');
+		}
 	}
 
 	async function submitHandling(event) {
@@ -137,6 +152,7 @@
 		}
 
 		sending = false;
+		successMessage();
 		dialog.close();
 		window.location.reload();
 	}

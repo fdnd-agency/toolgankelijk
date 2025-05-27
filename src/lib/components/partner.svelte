@@ -6,7 +6,6 @@
 	import AddForm from '$lib/components/addForm.svelte';
 
 	export let website;
-	export let form;
 	export let principes;
 	export let params;
 	export let isUrl = false;
@@ -20,7 +19,6 @@
 
 	let labelValue;
 	let progressbar;
-	// let openedAudit = null;
 	let lastTime;
 	let link;
 	let title;
@@ -68,16 +66,6 @@
 		lastTime = timeDifference > 0 ? `${timeDifference} min geleden` : 'Zojuist';
 	}
 
-	function submitted() {
-		if (form?.success) {
-			alert(form?.message);
-			setTimeout(() => {
-				window.location.href = '/';
-			}, 1000);
-		} else if (form?.success == false) {
-			alert(form?.message);
-		}
-	}
 	function openForm(type, event) {
 		event.preventDefault();
 		if (type === editType) {
