@@ -3,9 +3,8 @@ import {
 	setSessionTokenCookie,
 	deleteSessionTokenCookie
 } from '$lib/server/session';
-import { sequence } from '@sveltejs/kit/hooks';
 
-const authHandle = async ({ event, resolve }) => {
+export async function handle({ event, resolve }) {
 	event.locals.gebruiker = null;
 	event.locals.sessie = null;
 
@@ -24,6 +23,4 @@ const authHandle = async ({ event, resolve }) => {
 	event.locals.sessie = sessie;
 	event.locals.gebruiker = gebruiker;
 	return resolve(event);
-};
-
-export const handle = sequence(authHandle);
+}
