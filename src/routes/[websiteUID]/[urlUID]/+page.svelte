@@ -12,7 +12,7 @@
 	};
 
 	let progressData = {};
-	// every progress bar for the nivuel of the principes
+	// every progress bar for the niveau of the principes
 	const principes = data.principesData.principes;
 	const niveaus = data.niveauData.niveaus;
 	const checks = data.urlData.url.checks;
