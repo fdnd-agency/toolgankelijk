@@ -29,6 +29,8 @@ export async function POST({ request }) {
 				try {
 					await sendUpdate({ status: 'Audit gestart', type: 'done' });
 					await delay(500);
+					await sendUpdate({ status: 'Urls worden gecheckt, dit duurt even', type: 'done' });
+					await delay(500);
 
                     if (urls.length === 0) {
                         await sendUpdate({ status: 'Geen URL\'s om te auditen', type: 'error' });
@@ -50,11 +52,6 @@ export async function POST({ request }) {
                         await delay(2000);
                         safeClose();
                         return;
-                    }
-
-                    for (const url of urls) {
-                        await sendUpdate({ status: `Auditen van ${url}`, type: 'done' });
-                        await delay(500);
                     }
 
 					await sendUpdate({ status: 'Urls succesvol bijgewerkt', type: 'done', response });

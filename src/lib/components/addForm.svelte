@@ -8,7 +8,6 @@
 	export let url;
 	export let slug;
 	export let website;
-	export let form;
 
 	let idValue = id ? id : '';
 	let nameValue = name ? name : '';
