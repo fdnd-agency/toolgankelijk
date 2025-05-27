@@ -34,6 +34,11 @@ export async function POST({ request }) {
                         return;
                     }
 
+					await sendUpdate({ status: 'Audit gestart', type: 'done' });
+					await delay(500);
+					await sendUpdate({ status: 'Urls worden gecheckt, dit duurt even', type: 'done' });
+					await delay(500);
+
                     const response = await fetch('http://localhost:5174/api/specifiedUrls', {
                         method: 'POST',
                         headers: {
@@ -49,10 +54,6 @@ export async function POST({ request }) {
                         return;
                     }
 
-					await sendUpdate({ status: 'Audit gestart', type: 'done' });
-					await delay(500);
-					await sendUpdate({ status: 'Urls worden gecheckt, dit duurt even', type: 'done' });
-					await delay(500);
 					await sendUpdate({ status: 'Urls succesvol bijgewerkt', type: 'done', response });
 					await delay(500);
                     await sendUpdate({ status: 'Audit afgerond', type: 'done' });
