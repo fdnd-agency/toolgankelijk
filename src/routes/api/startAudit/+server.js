@@ -27,40 +27,36 @@ export async function POST({ request }) {
 
 			(async () => {
 				try {
-                    if (urls.length === 0) {
-                        await sendUpdate({ status: 'Geen URL\'s om te auditen', type: 'error' });
-                        await delay(2000);
-                        safeClose();
-                        return;
-                    }
+					if (urls.length === 0) {
+						await sendUpdate({ status: 'Geen URL\'s om te auditen', type: 'error' });
+						await delay(2000);
+						safeClose();
+						return;
+					}
+
+					// Check if the audit server is running
+					await fetch('http://localhost:5174/api/isProjectRunning');
 
 					await sendUpdate({ status: 'Audit gestart', type: 'done' });
 					await delay(500);
 					await sendUpdate({ status: 'Urls worden gecheckt, dit duurt even', type: 'done' });
 					await delay(500);
 
-                    const response = await fetch('http://localhost:5174/api/specifiedUrls', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ urls: urls, slug })
-                    });
-
-                    if (!response.ok) {
-                        await sendUpdate({ status: 'Fout bij het ophalen van de response', type: 'error' });
-                        await delay(2000);
-                        safeClose();
-                        return;
-                    }
+					const response = await fetch('http://localhost:5174/api/specifiedUrls', {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						body: JSON.stringify({ urls: urls, slug })
+					});
 
 					await sendUpdate({ status: 'Urls succesvol bijgewerkt', type: 'done', response });
 					await delay(500);
-                    await sendUpdate({ status: 'Audit afgerond', type: 'done' });
-                    await delay(2000);
+					await sendUpdate({ status: 'Audit afgerond', type: 'done' });
+					await delay(2000);
 				} catch (err) {
 					await sendUpdate({ status: `Fout bij verbinden met audit server: ${err.message}`, type: 'error' });
-                    await delay(2000);
+					await delay(2000);
 				} finally {
 					safeClose();
 				}
