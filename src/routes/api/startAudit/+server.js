@@ -39,7 +39,7 @@ export async function POST({ request }) {
 
 					await sendUpdate({ status: 'Audit gestart', type: 'done' });
 					await delay(500);
-					await sendUpdate({ status: 'Urls worden gecheckt, dit duurt even', type: 'done' });
+					await sendUpdate({ status: 'Urls worden gecheckt, dit duurt even', type: 'loading' });
 					await delay(500);
 
 					const response = await fetch('http://localhost:5174/api/specifiedUrls', {
