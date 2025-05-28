@@ -1,6 +1,5 @@
 <script>
 	import { onMount } from 'svelte';
-	import { enhance } from '$app/forms';
 	import trash from '$lib/assets/trash.svg';
 	import pencil from '$lib/assets/pencil.svg';
 	import AddForm from '$lib/components/addForm.svelte';
