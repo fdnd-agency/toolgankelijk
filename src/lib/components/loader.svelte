@@ -23,7 +23,11 @@
 	<ul class="log-list" role="log" aria-live="polite" bind:this={logList}>
 		{#each itemArray as item}
 			<li class="log-item {item.type}">
+				{#if item.type === 'loading'}
+				<span class="loader"></span>
+				{:else}
 				<img src="/icons/{item.type}.svg" alt={item.type} width="16" height="16" />
+				{/if}
 				{item.status}
 			</li>
 		{/each}
@@ -78,4 +82,30 @@
 		background-color: rgb(253, 220, 220);
 		color: rgb(154, 0, 0);
 	}
+
+	.loading {
+		background-color: var(--c-container-stroke);
+		color: var(--c-orange);
+	}
+
+	.loader {
+    width: 1rem;
+    height: 1rem;
+    border: 0.1rem solid var(--c-orange);
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+	margin-right: 0.5rem;
+    }
+
+    @keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+    } 
 </style>

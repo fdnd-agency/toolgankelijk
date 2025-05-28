@@ -7,6 +7,7 @@
 	export let name;
 	export let url;
 	export let slug;
+	export let website;
 
 	let idValue = id ? id : '';
 	let nameValue = name ? name : '';
@@ -52,6 +53,11 @@
 		action = '/api/deleteUrl';
 		tip = 'Deze url wordt permanent verwijderd.';
 		submitValue = 'Verwijderen';
+	} else if (isType === 'startAudit') {
+		title = 'Audit starten';
+		action = '/api/startAudit';
+		tip = null;
+		submitValue = 'Starten';
 	} else {
 		console.log('Geen type opgegeven');
 	}
@@ -120,6 +126,9 @@
 				if (error) {
 					logs = [...logs, { status: error, type: 'error' }];
 				} else {
+					if (status === "Urls succesvol bijgewerkt") {
+						logs = logs.filter(log => log.status !== "Urls worden gecheckt, dit duurt even");
+					}
 					logs = [...logs, { status, type }];
 				}
 
@@ -203,6 +212,18 @@
 						<label for="url">Url</label>
 						<input id="url" name="url" type="url" readonly bind:value={urlValue} />
 					</div>
+				{/if}
+
+				{#if isType === 'startAudit'}
+					<p class="text-info">Weet je zeker dat je een audit wilt starten voor <span>{nameValue}</span>?</p>
+					<input class="id-field" type="hidden" name="id" value={idValue} id={idValue} />
+					<input
+						type="hidden"
+						name="urls"
+						id="urls"
+						value={JSON.stringify(website.urls?.map((item) => ({ url: item.url, slug: item.slug })))}
+					/>
+					<input type="hidden" name="slug" id="slug" value={slugValue} />
 				{/if}
 
 				<div class="button-div">
@@ -420,5 +441,10 @@
 		color: var(--c-pink);
 		font-weight: 900;
 		text-transform: uppercase;
+	}
+
+	.text-info {
+		color: var(--c-white);
+		margin-bottom: 1rem;
 	}
 </style>

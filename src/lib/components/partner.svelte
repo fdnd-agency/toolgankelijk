@@ -1,24 +1,23 @@
 <script>
 	import { onMount } from 'svelte';
-	import { enhance } from '$app/forms';
 	import trash from '$lib/assets/trash.svg';
 	import pencil from '$lib/assets/pencil.svg';
 	import AddForm from '$lib/components/addForm.svelte';
 
 	export let website;
-	export let form;
 	export let principes;
 	export let params;
 	export let isUrl = false;
 
 	let editType;
 	let deleteType;
+	let auditType;
 	let dialogRefEdit;
 	let dialogRefDelete;
+	let dialogRefAudit;
 
 	let labelValue;
 	let progressbar;
-	let openedAudit = null;
 	let lastTime;
 	let link;
 	let title;
@@ -46,6 +45,7 @@
 		title = website.titel;
 		editType = 'editPartner';
 		deleteType = 'deletePartner';
+		auditType = 'startAudit';
 	}
 
 	if (timeDifference >= 60) {
@@ -65,43 +65,17 @@
 		lastTime = timeDifference > 0 ? `${timeDifference} min geleden` : 'Zojuist';
 	}
 
-	function openAudit(event) {
-		event.preventDefault();
-		openedAudit = openedAudit === website.id ? null : website.id;
-		document.body.style.overflowY = 'hidden';
-		window.scrollTo({ top: 0, behavior: 'smooth' });
-	}
-
-	function closeAudit(event) {
-		event.preventDefault();
-		openedAudit = null;
-		document.body.style.overflowY = 'scroll';
-	}
-
-	function submitted() {
-		if (form?.success) {
-			alert(form?.message);
-			setTimeout(() => {
-				window.location.href = '/';
-			}, 1000);
-		} else if (form?.success == false) {
-			alert(form?.message);
-		}
-	}
 	function openForm(type, event) {
 		event.preventDefault();
 		if (type === editType) {
 			dialogRefEdit.open();
 		} else if (type === deleteType) {
 			dialogRefDelete.open();
+		} else if (type === auditType) {
+			dialogRefAudit.open();
 		}
 		document.body.style.overflowY = 'hidden';
 		window.scrollTo({ top: 0, behavior: 'smooth' });
-	}
-
-	function handleSubmit(event) {
-		closeAudit(event);
-		submitted();
 	}
 
 	onMount(() => {
@@ -160,7 +134,7 @@
 			</div>
 			<div class="icons" id={`icons-${website.id}`}>
 				{#if !isUrl}
-					<button on:click={openAudit}>
+					<button on:click={openForm.bind(null, auditType)}>
 						<img width="24" height="24" src={pencil} alt="Audit icon" />
 					</button>
 				{/if}
@@ -184,26 +158,6 @@
 	</a>
 </li>
 
-<!-- Popup for starting an audit -->
-<div class="popup-audit" style="display: {openedAudit === website.id ? 'flex' : 'none'};">
-	<form use:enhance on:submit={handleSubmit} action="?/auditPartner" method="POST">
-		<h3>Start Audit</h3>
-		<p>Weet je zeker dat je een audit wilt starten voor <span>{website.titel}</span>?</p>
-		<input class="id-field" type="text" name="id" value={website.id} id={website.id} />
-		<input
-			type="hidden"
-			name="urls"
-			id="urls"
-			value={JSON.stringify(website.urls?.map((item) => ({ url: item.url, slug: item.slug })))}
-		/>
-		<input type="hidden" name="slug" id="slug" value={website.slug} />
-		<div>
-			<input type="submit" value="Start" />
-			<button on:click={closeAudit}>Annuleren</button>
-		</div>
-	</form>
-</div>
-
 <AddForm
 	bind:this={dialogRefEdit}
 	isType={editType}
@@ -211,6 +165,7 @@
 	name={title}
 	{url}
 	slug={website.slug}
+	website = {website}
 />
 <AddForm
 	bind:this={dialogRefDelete}
@@ -219,86 +174,19 @@
 	name={title}
 	{url}
 	slug={website.slug}
+	website = {website}
+/>
+<AddForm
+	bind:this={dialogRefAudit}
+	isType={auditType}
+	id={website.id}
+	name={title}
+	{url}
+	slug={website.slug}
+	website = {website}
 />
 
 <style>
-	.popup-audit {
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		bottom: 0;
-		left: 0;
-		display: none;
-		background-color: #2c2c2ce8;
-		z-index: 10;
-		justify-content: center;
-		align-items: center;
-	}
-
-	form {
-		width: 30rem;
-		aspect-ratio: 2/1;
-		background-color: var(--c-container);
-		border-radius: 0.5rem;
-		border: solid 0.1rem var(--c-container-stroke);
-		padding: 1rem;
-		display: flex;
-		align-items: flex-start;
-		justify-content: center;
-		flex-direction: column;
-	}
-
-	form h3 {
-		border-bottom: 1px solid var(--c-container-stroke);
-		width: 100%;
-		padding-bottom: 1rem;
-	}
-
-	form p {
-		margin: 1.5rem 0;
-		font-weight: 100;
-	}
-
-	form p span {
-		display: contents;
-		color: var(--c-pink);
-		font-weight: 900;
-		text-transform: uppercase;
-	}
-
-	form input[type='text'] {
-		margin-bottom: 1rem;
-	}
-
-	form .id-field {
-		visibility: hidden;
-		display: none;
-	}
-
-	form button,
-	input[type='submit'] {
-		border-radius: 0.25rem;
-		padding: 0.5rem 1rem;
-		color: var(--c-white);
-		background-color: var(--c-pink);
-		border: none;
-		font-weight: 600;
-		font-size: 1rem;
-		transition: 0.3s;
-		cursor: pointer;
-		width: 7.5rem;
-	}
-
-	form button {
-		background-color: var(--c-modal-button);
-		margin-left: 0.5rem;
-	}
-
-	form button:hover,
-	input[type='submit']:hover {
-		opacity: 0.75;
-	}
-
 	li {
 		display: flex;
 	}
