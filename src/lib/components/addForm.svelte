@@ -126,10 +126,10 @@
 				if (error) {
 					logs = [...logs, { status: error, type: 'error' }];
 				} else {
-					const lastLoadingIndex = logs.map(l => l.type).lastIndexOf("loading");
-					if (lastLoadingIndex !== -1) {
-						logs = [...logs.slice(0, lastLoadingIndex), ...logs.slice(lastLoadingIndex + 1)];
+					if (status === "Urls succesvol bijgewerkt") {
+						logs = logs.filter(log => log.status !== "Urls worden gecheckt, dit duurt even");
 					}
+					logs = [...logs, { status, type }];
 				}
 
 				if (status === 'Alle urls zijn toegevoegd') {
