@@ -212,7 +212,7 @@
 				{/if}
 
 				{#if isType === 'startAudit'}
-					<p>Weet je zeker dat je een audit wilt starten voor <span>{nameValue}</span>?</p>
+					<p class="text-info">Weet je zeker dat je een audit wilt starten voor <span>{nameValue}</span>?</p>
 					<input class="id-field" type="hidden" name="id" value={idValue} id={idValue} />
 					<input
 						type="hidden"
@@ -440,7 +440,7 @@
 		text-transform: uppercase;
 	}
 
-	p {
+	.text-info {
 		color: var(--c-white);
 		margin-bottom: 1rem;
 	}
