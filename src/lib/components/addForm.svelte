@@ -126,21 +126,9 @@
 				if (error) {
 					logs = [...logs, { status: error, type: 'error' }];
 				} else {
-					if (status === "Urls succesvol bijgewerkt") {
-						const lastLoadingIndex = logs.map(l => l.type).lastIndexOf("loading");
-						if (lastLoadingIndex !== -1) {
-							// Maak een kopie van logs en update het type
-							const updatedLogs = [...logs];
-							updatedLogs[lastLoadingIndex] = {
-								...updatedLogs[lastLoadingIndex],
-								type: "done"
-							};
-							logs = [...updatedLogs, { status, type }];
-						} else {
-							logs = [...logs, { status, type }];
-						}
-					} else {
-						logs = [...logs, { status, type }];
+					const lastLoadingIndex = logs.map(l => l.type).lastIndexOf("loading");
+					if (lastLoadingIndex !== -1) {
+						logs = [...logs.slice(0, lastLoadingIndex), ...logs.slice(lastLoadingIndex + 1)];
 					}
 				}
 

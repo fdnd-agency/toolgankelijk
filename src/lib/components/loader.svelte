@@ -84,8 +84,8 @@
 	}
 
 	.loading {
-		background-color: rgb(255, 255, 255);
-		color: var(--c-pink);
+		background-color: var(--c-container-stroke);
+		color: var(--c-orange);
 	}
 
 	.loader {
