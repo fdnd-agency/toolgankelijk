@@ -91,12 +91,13 @@
 	.loader {
     width: 1rem;
     height: 1rem;
-    border: 0.1rem solid var(--c-pink);
+    border: 0.1rem solid var(--c-orange);
     border-bottom-color: transparent;
     border-radius: 50%;
     display: inline-block;
     box-sizing: border-box;
     animation: rotation 1s linear infinite;
+	margin-right: 0.5rem;
     }
 
     @keyframes rotation {

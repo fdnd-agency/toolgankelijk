@@ -126,7 +126,22 @@
 				if (error) {
 					logs = [...logs, { status: error, type: 'error' }];
 				} else {
-					logs = [...logs, { status, type }];
+					if (status === "Urls succesvol bijgewerkt") {
+						const lastLoadingIndex = logs.map(l => l.type).lastIndexOf("loading");
+						if (lastLoadingIndex !== -1) {
+							// Maak een kopie van logs en update het type
+							const updatedLogs = [...logs];
+							updatedLogs[lastLoadingIndex] = {
+								...updatedLogs[lastLoadingIndex],
+								type: "done"
+							};
+							logs = [...updatedLogs, { status, type }];
+						} else {
+							logs = [...logs, { status, type }];
+						}
+					} else {
+						logs = [...logs, { status, type }];
+					}
 				}
 
 				if (status === 'Alle urls zijn toegevoegd') {
