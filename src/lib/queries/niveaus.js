@@ -3,7 +3,7 @@ export default function getQueryNiveaus(gql) {
 		query Niveaus {
 			niveaus {
 				id
-                niveau
+				niveau
 				slug
 			}
 		}

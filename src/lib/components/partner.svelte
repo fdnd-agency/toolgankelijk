@@ -165,7 +165,7 @@
 	name={title}
 	{url}
 	slug={website.slug}
-	website = {website}
+	{website}
 />
 <AddForm
 	bind:this={dialogRefDelete}
@@ -174,7 +174,7 @@
 	name={title}
 	{url}
 	slug={website.slug}
-	website = {website}
+	{website}
 />
 <AddForm
 	bind:this={dialogRefAudit}
@@ -183,7 +183,7 @@
 	name={title}
 	{url}
 	slug={website.slug}
-	website = {website}
+	{website}
 />
 
 <style>

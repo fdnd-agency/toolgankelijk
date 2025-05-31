@@ -1,65 +1,67 @@
 <script>
-    export let principes;
-    export let urlData;
+	export let principes;
+	export let urlData;
 
-    let baseUrl = `/${urlData.url.website.slug}/${urlData.url.slug}`;
+	let baseUrl = `/${urlData.url.website.slug}/${urlData.url.slug}`;
 
-    // Get the niveaus for each principe
-    function getNiveausForPrincipe(principe) {
-        const niveaus = new Set();
-        principe.richtlijnen.forEach(richtlijn =>
-            richtlijn.succescriteria.forEach(criteria => {
-                if (criteria.niveau) niveaus.add(criteria.niveau);
-            })
-        );
+	// Get the niveaus for each principe
+	function getNiveausForPrincipe(principe) {
+		const niveaus = new Set();
+		principe.richtlijnen.forEach((richtlijn) =>
+			richtlijn.succescriteria.forEach((criteria) => {
+				if (criteria.niveau) niveaus.add(criteria.niveau);
+			})
+		);
 		// return the array and sort it by length
-        return Array.from(niveaus).sort((a, b) => a.length - b.length);
-    }
+		return Array.from(niveaus).sort((a, b) => a.length - b.length);
+	}
 
-    // Get the progress for each principe and niveau
-    function getProgress(principe, niveau) {
-        // All succescriteria for this principe and niveau
-        const total = principe.richtlijnen.flatMap(r => r.succescriteria)
-            .filter(sc => sc.niveau === niveau).length;
+	// Get the progress for each principe and niveau
+	function getProgress(principe, niveau) {
+		// All succescriteria for this principe and niveau
+		const total = principe.richtlijnen
+			.flatMap((r) => r.succescriteria)
+			.filter((sc) => sc.niveau === niveau).length;
 
-        // All succescriteria that are achieved for this principe and niveau
-        const behaald = urlData.url.checks.flatMap(check => check.succescriteria)
-            .filter(sc => sc.niveau === niveau && sc.index.startsWith(principe.index + '.')).length;
+		// All succescriteria that are achieved for this principe and niveau
+		const behaald = urlData.url.checks
+			.flatMap((check) => check.succescriteria)
+			.filter((sc) => sc.niveau === niveau && sc.index.startsWith(principe.index + '.')).length;
 
-        return { total, behaald };
-    }
+		return { total, behaald };
+	}
 </script>
 
 <aside>
-    <ul>
-        {#each principes as principe}
-            <li data-sveltekit-reload>
-                <a href="{baseUrl}/{principe.slug}">
-                    <h4>{principe.titel}</h4>
-                    <span>Principe {principe.index}</span>
-                    {#each getNiveausForPrincipe(principe) as niveau}
-                        <div class="progress-container">
+	<ul>
+		{#each principes as principe}
+			<li data-sveltekit-reload>
+				<a href="{baseUrl}/{principe.slug}">
+					<h4>{principe.titel}</h4>
+					<span>Principe {principe.index}</span>
+					{#each getNiveausForPrincipe(principe) as niveau}
+						<div class="progress-container">
 							<span>{niveau}</span>
-                            <progress
-							id="progress-partner-{niveau}"
-                                max={getProgress(principe, niveau).total || 1}
-                                value={getProgress(principe, niveau).behaald || 0}
-                            />
-                            <label class="progress-percentage" for="progress-partner-{niveau}">
-                                {getProgress(principe, niveau).total
-                                    ? Math.round(
-                                        (getProgress(principe, niveau).behaald /
-                                            getProgress(principe, niveau).total) * 100
-                                      )
-                                    : 0
-                                }%
-                            </label>
-                        </div>
-                    {/each}
-                </a>
-            </li>
-        {/each}
-    </ul>
+							<progress
+								id="progress-partner-{niveau}"
+								max={getProgress(principe, niveau).total || 1}
+								value={getProgress(principe, niveau).behaald || 0}
+							/>
+							<label class="progress-percentage" for="progress-partner-{niveau}">
+								{getProgress(principe, niveau).total
+									? Math.round(
+											(getProgress(principe, niveau).behaald /
+												getProgress(principe, niveau).total) *
+												100
+									  )
+									: 0}%
+							</label>
+						</div>
+					{/each}
+				</a>
+			</li>
+		{/each}
+	</ul>
 </aside>
 
 <style>

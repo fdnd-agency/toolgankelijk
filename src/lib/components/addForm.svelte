@@ -126,8 +126,8 @@
 				if (error) {
 					logs = [...logs, { status: error, type: 'error' }];
 				} else {
-					if (status === "Urls succesvol bijgewerkt") {
-						logs = logs.filter(log => log.status !== "Urls worden gecheckt, dit duurt even");
+					if (status === 'Urls succesvol bijgewerkt') {
+						logs = logs.filter((log) => log.status !== 'Urls worden gecheckt, dit duurt even');
 					}
 					logs = [...logs, { status, type }];
 				}
@@ -215,13 +215,17 @@
 				{/if}
 
 				{#if isType === 'startAudit'}
-					<p class="text-info">Weet je zeker dat je een audit wilt starten voor <span>{nameValue}</span>?</p>
+					<p class="text-info">
+						Weet je zeker dat je een audit wilt starten voor <span>{nameValue}</span>?
+					</p>
 					<input class="id-field" type="hidden" name="id" value={idValue} id={idValue} />
 					<input
 						type="hidden"
 						name="urls"
 						id="urls"
-						value={JSON.stringify(website.urls?.map((item) => ({ url: item.url, slug: item.slug })))}
+						value={JSON.stringify(
+							website.urls?.map((item) => ({ url: item.url, urlSlug: item.slug }))
+						)}
 					/>
 					<input type="hidden" name="slug" id="slug" value={slugValue} />
 				{/if}
