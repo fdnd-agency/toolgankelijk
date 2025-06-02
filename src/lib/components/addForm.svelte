@@ -126,8 +126,8 @@
 				if (error) {
 					logs = [...logs, { status: error, type: 'error' }];
 				} else {
-					if (status === 'Urls succesvol bijgewerkt') {
-						logs = logs.filter((log) => log.status !== 'Urls worden gecheckt, dit duurt even');
+					if (logs.length > 0 && logs[logs.length - 1].type === 'loading' && type !== 'loading') {
+						logs = logs.filter((log) => log.type !== 'loading');
 					}
 					logs = [...logs, { status, type }];
 				}
