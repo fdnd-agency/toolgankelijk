@@ -58,7 +58,7 @@ export async function POST({ request }) {
 					} else if (response.status === 500) {
 						await sendUpdate({ status: responseData.error, type: 'error', response });
 						await delay(2000);
-					}else {
+					} else {
 						await sendUpdate({ status: 'Urls succesvol bijgewerkt', type: 'done', response });
 						await delay(500);
 						await sendUpdate({ status: 'Audit afgerond', type: 'done' });
