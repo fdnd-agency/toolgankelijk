@@ -164,7 +164,10 @@
 
 				{#if isType === 'addPartner' || isType === 'editPartner' || isType === 'addUrl' || isType === 'editUrl'}
 					<div class="input-container">
-						<label for="name">Naam</label>
+						<label for="name">
+							<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-world"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" /><path d="M3.6 9h16.8" /><path d="M3.6 15h16.8" /><path d="M11.5 3a17 17 0 0 0 0 18" /><path d="M12.5 3a17 17 0 0 1 0 18" /></svg>
+							Naam
+						</label>
 						<input
 							id="name"
 							name="name"
@@ -176,7 +179,10 @@
 					</div>
 
 					<div class="input-container">
-						<label for="url">Url</label>
+						<label for="url">
+							<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-link"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 15l6 -6" /><path d="M11 6l.463 -.536a5 5 0 0 1 7.071 7.072l-.534 .464" /><path d="M13 18l-.397 .534a5.068 5.068 0 0 1 -7.127 0a4.972 4.972 0 0 1 0 -7.071l.524 -.463" /></svg>
+							Url
+						</label>
 						<input
 							id="url"
 							name="url"
@@ -189,27 +195,30 @@
 				{/if}
 
 				{#if isType === 'addUrl' || isType === 'editUrl' || isType === 'editPartner'}
-					<div class="input-container">
-						<label for="slug">Slug</label>
-						<input id="slug" name="slug" value={slugValue} readonly />
-					</div>
+					<input type="hidden" id="slug" name="slug" value={slugValue} readonly />
 				{/if}
 
 				{#if isType === 'editPartner' || isType === 'addPartner'}
-					<div class="input-container">
-						<label for="sitemap">Sitemap ophalen</label>
+					<div class="input-container sitemap-container">
 						<input id="sitemap" name="sitemap" type="checkbox" />
+						<label for="sitemap">Sitemap ophalen van deze partner?</label>
 					</div>
 				{/if}
 
 				{#if isType === 'deleteUrl' || isType === 'deletePartner'}
 					<div class="input-container">
-						<label for="name">Naam</label>
+						<label for="name">
+							<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-world"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" /><path d="M3.6 9h16.8" /><path d="M3.6 15h16.8" /><path d="M11.5 3a17 17 0 0 0 0 18" /><path d="M12.5 3a17 17 0 0 1 0 18" /></svg>
+							Naam
+						</label>
 						<input id="name" name="name" type="text" readonly bind:value={nameValue} />
 					</div>
 
 					<div class="input-container">
-						<label for="url">Url</label>
+						<label for="url">
+							<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-link"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 15l6 -6" /><path d="M11 6l.463 -.536a5 5 0 0 1 7.071 7.072l-.534 .464" /><path d="M13 18l-.397 .534a5.068 5.068 0 0 1 -7.127 0a4.972 4.972 0 0 1 0 -7.071l.524 -.463" /></svg>
+							Url
+						</label>
 						<input id="url" name="url" type="url" readonly bind:value={urlValue} />
 					</div>
 				{/if}
@@ -231,8 +240,22 @@
 				{/if}
 
 				<div class="button-div">
-					<button type="submit" class="add-button">{submitValue}</button>
-					<button class="remove-button" on:click={close}>Sluiten</button>
+					<button type="submit" class="add-button">
+						{#if isType === 'addPartner' || isType === 'addUrl'}
+						<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-plus"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
+						{:else if isType === 'editPartner' || isType === 'editUrl'}
+						<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-pencil"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" /><path d="M13.5 6.5l4 4" /></svg>
+						{:else if isType === 'deletePartner' || isType === 'deleteUrl'}
+						<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-trash"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg>
+						{:else if isType === 'startAudit'}
+						<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="currentColor"  class="icon icon-tabler icons-tabler-filled icon-tabler-player-play"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 4v16a1 1 0 0 0 1.524 .852l13 -8a1 1 0 0 0 0 -1.704l-13 -8a1 1 0 0 0 -1.524 .852z" /></svg>
+						{/if}
+						{submitValue}
+					</button>
+					<button class="remove-button" on:click={close}>
+						<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="currentColor"  class="icon icon-tabler icons-tabler-filled icon-tabler-square-x"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M19 2h-14a3 3 0 0 0 -3 3v14a3 3 0 0 0 3 3h14a3 3 0 0 0 3 -3v-14a3 3 0 0 0 -3 -3zm-9.387 6.21l.094 .083l2.293 2.292l2.293 -2.292a1 1 0 0 1 1.497 1.32l-.083 .094l-2.292 2.293l2.292 2.293a1 1 0 0 1 -1.32 1.497l-.094 -.083l-2.293 -2.292l-2.293 2.292a1 1 0 0 1 -1.497 -1.32l.083 -.094l2.292 -2.293l-2.292 -2.293a1 1 0 0 1 1.32 -1.497z" /></svg>
+						Sluiten
+					</button>
 				</div>
 			</form>
 		{/if}
@@ -339,20 +362,31 @@
 
 	.input-container {
 		display: flex;
-		flex-direction: row;
+		flex-direction: column;
 		align-items: center;
 		gap: 1rem;
 		margin-bottom: 1rem;
 		width: 100%;
-		border-radius: 0.25rem;
+	}
+
+	.sitemap-container {
+		flex-direction: row;
+	}
+
+	.input-container svg {
+		fill: transparent;
+		stroke: var(--c-pink);
 	}
 
 	label {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0;
 		color: var(--c-white);
-		padding: 0.5rem 1rem;
 		border-radius: 0.25rem;
-		text-align: center;
-		width: 5rem;
+		width: 100%;
 	}
 
 	input {
@@ -374,12 +408,40 @@
 		color: var(--c-white);
 	}
 
-	input:invalid {
+	input:user-invalid {
 		outline: 0.1rem solid red;
 	}
 
-	input:valid {
+	input:user-valid {
 		outline: 0.1rem solid limegreen;
+	}
+
+	input[type="checkbox"] {
+		-webkit-appearance: none;
+		appearance: none;
+		background-color: var(--c-white);
+		width: 1.5rem;
+		height: 1.5rem;
+		border-radius: 0.25rem;
+		padding: 0;
+		transform: translateY(-0.075rem);
+		display: grid;
+		place-content: center;
+	}
+
+	input[type="checkbox"]::before {
+		content: "";
+		width: 1rem;
+		height: 1rem;
+		clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+		transform: scale(0);
+		transform-origin: bottom left;
+		transition: 120ms transform ease-in-out;
+		background-color: var(--c-pink);
+	}
+
+	input[type="checkbox"]:checked::before {
+		transform: scale(1);
 	}
 
 	.button-div {
@@ -412,24 +474,8 @@
 		background-color: var(--c-container-stroke);
 	}
 
-	.add-button:before,
-	.remove-button::before {
-		content: '';
-		display: inline-block;
-		width: 1rem;
-		height: 1rem;
-		background-position: center;
-		background-size: contain;
-		background-repeat: no-repeat;
+	.add-button svg, .remove-button svg {
 		margin-right: 0.5rem;
-	}
-
-	.add-button::before {
-		background-image: url('/icons/send.svg');
-	}
-
-	.remove-button::before {
-		background-image: url('/icons/close.svg');
 	}
 
 	.add-button:hover {
