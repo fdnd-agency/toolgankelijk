@@ -50,10 +50,17 @@ export async function POST({ request }) {
 						body: JSON.stringify({ urls: urls, websiteSlug })
 					});
 
-					await sendUpdate({ status: 'Urls succesvol bijgewerkt', type: 'done', response });
-					await delay(500);
-					await sendUpdate({ status: 'Audit afgerond', type: 'done' });
-					await delay(2000);
+					const responseData = await response.json();
+
+					if (response.status === 409) {
+						await sendUpdate({ status: responseData.message, type: 'warning', response });
+						await delay(2000);
+					}else {
+						await sendUpdate({ status: 'Urls succesvol bijgewerkt', type: 'done', response });
+						await delay(500);
+						await sendUpdate({ status: 'Audit afgerond', type: 'done' });
+						await delay(2000);
+					}
 				} catch (err) {
 					await sendUpdate({
 						status: `Fout bij verbinden met audit server: ${err.message}`,
