@@ -55,6 +55,9 @@ export async function POST({ request }) {
 					if (response.status === 409) {
 						await sendUpdate({ status: responseData.message, type: 'warning', response });
 						await delay(2000);
+					} else if (response.status === 500) {
+						await sendUpdate({ status: responseData.error, type: 'error', response });
+						await delay(2000);
 					}else {
 						await sendUpdate({ status: 'Urls succesvol bijgewerkt', type: 'done', response });
 						await delay(500);
