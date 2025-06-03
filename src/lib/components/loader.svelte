@@ -2,6 +2,8 @@
 	import { afterUpdate } from 'svelte';
 
 	export let itemArray = [];
+	export let urlCount;
+	export let urlTotal;
 
 	let logCount = 0;
 	let logList;
@@ -19,12 +21,19 @@
 </script>
 
 <details class="loader-container" aria-hidden="true" open>
-	<summary>Logs ({logCount})</summary>
+	<summary>
+		<p>Logs ({logCount})</p>
+		{#if urlCount && urlTotal}
+			<p><span class="loader"></span>Urls ({urlCount}/{urlTotal})</p>
+		{:else}
+			<p><span class="loader"></span>Aantal urls ophalen...</p>
+		{/if}
+	</summary>
 	<ul class="log-list" role="log" aria-live="polite" bind:this={logList}>
 		{#each itemArray as item}
 			<li class="log-item {item.type}">
 				{#if item.type === 'loading'}
-					<span class="loader" />
+					<span class="loader"></span>
 				{:else}
 					<img src="/icons/{item.type}.svg" alt={item.type} width="16" height="16" />
 				{/if}
@@ -40,6 +49,13 @@
 		border-radius: 0.25rem;
 		margin-top: 1rem;
 		color: var(--c-white);
+	}
+
+	summary {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
 	}
 
 	.log-list {

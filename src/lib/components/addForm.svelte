@@ -17,6 +17,8 @@
 
 	let sending = false;
 	let logs = [];
+	let urlCount = 0;
+	let urlTotal = 0;
 
 	let title;
 	let action;
@@ -84,6 +86,8 @@
 		sending = true;
 
 		logs = [];
+		urlCount = 0;
+		urlTotal = 0;
 
 		// handle form submission
 		const formData = new FormData(event.target);
@@ -122,7 +126,11 @@
 
 			for (const part of parts) {
 				if (!part.startsWith('data:')) continue;
-				const { status, type, error } = JSON.parse(part.replace(/^data:\s*/, ''));
+				const { status, type, error, count, total } = JSON.parse(part.replace(/^data:\s*/, ''));
+				if (count && total){
+					urlCount = count;
+					urlTotal = total;
+				}
 				if (error) {
 					logs = [...logs, { status: error, type: 'error' }];
 				} else {
@@ -392,7 +400,7 @@
 			<div class="tip-message" aria-label="tip message">
 				<p><span>{nameValue}</span> wordt verwerkt, sluit de pagina niet.</p>
 			</div>
-			<Loader itemArray={logs} />
+			<Loader itemArray={logs} urlCount={urlCount} urlTotal={urlTotal} />
 		{/if}
 	</section>
 </dialog>
