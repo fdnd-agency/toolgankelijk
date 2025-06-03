@@ -4,6 +4,7 @@
 	export let itemArray = [];
 	export let urlCount;
 	export let urlTotal;
+	export let type;
 
 	let logCount = 0;
 	let logList;
@@ -23,10 +24,12 @@
 <details class="loader-container" aria-hidden="true" open>
 	<summary>
 		<p>Logs ({logCount})</p>
-		{#if urlCount && urlTotal}
-			<p><span class="loader"></span>Urls ({urlCount}/{urlTotal})</p>
-		{:else}
-			<p><span class="loader"></span>Aantal urls ophalen...</p>
+		{#if type !== 1}
+			{#if urlCount && urlTotal}
+				<p><span class="loader"></span>Urls ({urlCount}/{urlTotal})</p>
+			{:else}
+				<p><span class="loader"></span>Aantal urls ophalen...</p>
+			{/if}
 		{/if}
 	</summary>
 	<ul class="log-list" role="log" aria-live="polite" bind:this={logList}>

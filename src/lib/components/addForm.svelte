@@ -19,6 +19,7 @@
 	let logs = [];
 	let urlCount = 0;
 	let urlTotal = 0;
+	let type = 0;
 
 	let title;
 	let action;
@@ -60,6 +61,7 @@
 		action = '/api/startAudit';
 		tip = null;
 		submitValue = 'Starten';
+		type = 1;
 	} else {
 		console.log('Geen type opgegeven');
 	}
@@ -400,7 +402,7 @@
 			<div class="tip-message" aria-label="tip message">
 				<p><span>{nameValue}</span> wordt verwerkt, sluit de pagina niet.</p>
 			</div>
-			<Loader itemArray={logs} urlCount={urlCount} urlTotal={urlTotal} />
+			<Loader itemArray={logs} urlCount={urlCount} urlTotal={urlTotal} type={type} />
 		{/if}
 	</section>
 </dialog>
