@@ -90,7 +90,9 @@
 				</li>
 				{#each principes as principe}
 					<li>
-						<a href="/{selectedPartner.slug}/{selectedUrl}/{principe.slug}" data-sveltekit-reload><span>{principe.titel}</span></a>
+						<a href="/{selectedPartner.slug}/{selectedUrl}/{principe.slug}"
+							><span>{principe.titel}</span></a
+						>
 					</li>
 				{/each}
 			</ul>
@@ -130,7 +132,8 @@
 		transition: 0.2s;
 	}
 
-	button span, a span {
+	button span,
+	a span {
 		display: flex;
 		align-items: center;
 		gap: 0.5rem;

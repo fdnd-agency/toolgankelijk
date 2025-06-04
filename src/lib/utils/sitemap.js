@@ -107,7 +107,12 @@ export async function processUrls(urls, slug, sendUpdate) {
 		const link = urls[i];
 		const path = new URL(link).pathname;
 		let urlSlug = (slug + path).replace(/\//g, '-');
-		await sendUpdate({ status: `Verwerk URL ${i + 1}/${urls.length}`, type: 'done', count: i + 1, total: urls.length });
+		await sendUpdate({
+			status: `Verwerk URL ${i + 1}/${urls.length}`,
+			type: 'done',
+			count: i + 1,
+			total: urls.length
+		});
 		await delay(250);
 
 		try {

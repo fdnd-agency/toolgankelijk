@@ -12,10 +12,10 @@
 		url: data.urlData.url.slug
 	};
 
-	const toolboardData = data.toolboardData;
-	const urlData = data.urlData;
-	const richtlijnen = toolboardData.principe.richtlijnen;
-	const principes = data.toolboardData.principes;
+	$: toolboardData = data.toolboardData;
+	$: urlData = data.urlData;
+	$: richtlijnen = toolboardData.principe.richtlijnen;
+	$: principes = data.toolboardData.principes;
 </script>
 
 <Heading {heading} />
