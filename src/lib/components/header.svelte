@@ -7,6 +7,7 @@
 	export let params;
 	export let partners;
 	export let websites;
+	export let principes;
 	export let user = null;
 
 	let isLightMode = false;
@@ -62,7 +63,7 @@
 			/>
 		</a>
 		{#if user}
-			<BreadCrumbs {params} {partners} {websites} />
+			<BreadCrumbs {params} {partners} {websites} {principes} />
 		{/if}
 		<div class="options">
 			{#if user}

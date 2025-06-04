@@ -129,7 +129,7 @@
 			for (const part of parts) {
 				if (!part.startsWith('data:')) continue;
 				const { status, type, error, count, total } = JSON.parse(part.replace(/^data:\s*/, ''));
-				if (count && total){
+				if (count && total) {
 					urlCount = count;
 					urlTotal = total;
 				}
@@ -402,7 +402,7 @@
 			<div class="tip-message" aria-label="tip message">
 				<p><span>{nameValue}</span> wordt verwerkt, sluit de pagina niet.</p>
 			</div>
-			<Loader itemArray={logs} urlCount={urlCount} urlTotal={urlTotal} type={type} />
+			<Loader itemArray={logs} {urlCount} {urlTotal} {type} />
 		{/if}
 	</section>
 </dialog>
