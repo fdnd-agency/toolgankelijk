@@ -7,6 +7,7 @@
 
 	$: params = $page.params;
 	$: websites = data.websitesData.website;
+	$: principes = data.principesData.principes;
 
 	let partners = data.partnersData;
 
@@ -22,7 +23,7 @@
 	});
 </script>
 
-<Header {params} {partners} {websites} user={data.gebruiker} />
+<Header {params} {partners} {websites} {principes} user={data.gebruiker} />
 
 <main id="main">
 	<slot />
