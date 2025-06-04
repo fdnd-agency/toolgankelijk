@@ -16,6 +16,7 @@
 	$: urlData = data.urlData;
 	$: richtlijnen = toolboardData.principe.richtlijnen;
 	$: principes = data.toolboardData.principes;
+	$: niveaus = data.niveausData.niveaus;
 </script>
 
 <Heading {heading} />
@@ -24,7 +25,7 @@
 	{#if form?.success}
 		<div class="toast"><p>Checklist is opgeslagen!</p></div>
 	{/if}
-	<Checklist {richtlijnen} {toolboardData} />
+	<Checklist {richtlijnen} {toolboardData} {niveaus} />
 	<Sidebar {principes} {urlData} />
 </section>
 

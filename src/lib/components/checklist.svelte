@@ -5,7 +5,8 @@
 
 	export let richtlijnen;
 	export let toolboardData;
-	export let selectedNiveau = 'A';
+	export let niveaus;
+	export let selectedNiveau = niveaus[0].niveau;
 
 	let loading = false;
 
@@ -57,9 +58,9 @@
 		<label>
 			<p>Selecteer niveau</p>
 			<select bind:value={selectedNiveau} on:change={handleNiveauChange}>
-				<option value="A">Niveau A</option>
-				<option value="AA">Niveau AA</option>
-				<option value="AAA">Niveau AAA</option>
+				{#each niveaus as niveau}
+					<option value={niveau.niveau}>Niveau {niveau.niveau}</option>
+				{/each}
 			</select>
 		</label>
 	</div>

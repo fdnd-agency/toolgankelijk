@@ -6,6 +6,7 @@ import getQueryToolboard from '$lib/queries/toolboard';
 import firstCheck from '$lib/queries/firstCheck';
 import addCheck from '$lib/queries/addCheck';
 import deleteCheck from '$lib/queries/deleteCheck';
+import getQueryNiveaus from '$lib/queries/niveaus.js';
 
 export const load = async ({ params, locals }) => {
 	const { websiteUID, urlUID, principeUID } = params;
@@ -16,6 +17,8 @@ export const load = async ({ params, locals }) => {
 	const queryToolboard = getQueryToolboard(gql, urlUID, principeUID);
 	const urlData = await hygraph.request(queryUrl);
 	const toolboardData = await hygraph.request(queryToolboard);
+	const queryNiveaus = getQueryNiveaus(gql);
+	const niveausData = await hygraph.request(queryNiveaus);
 
 	if (urlData.url?.website.slug === websiteUID) {
 		if (toolboardData.principe === null) {
@@ -25,7 +28,8 @@ export const load = async ({ params, locals }) => {
 		}
 		return {
 			toolboardData,
-			urlData
+			urlData,
+			niveausData
 		};
 	}
 	throw error(404, {
