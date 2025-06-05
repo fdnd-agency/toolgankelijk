@@ -36,17 +36,19 @@
 				<a href="/"><span>Partners overzicht</span></a>
 			</li>
 			{#each partners.websites as partner}
-				<li>
-					<a href="/{partner.slug}">
-						<span>
-							<img
-								width="24"
-								src="{faviconAPI}{partner.homepage}/&size=256"
-								alt="logo partner"
-							/>{partner.titel}
-						</span>
-					</a>
-				</li>
+				{#if partner}
+					<li>
+						<a href="/{partner.slug}">
+							<span>
+								<img
+									width="24"
+									src="{faviconAPI}{partner.homepage}/&size=256"
+									alt="logo partner"
+								/>{partner.titel}
+							</span>
+						</a>
+					</li>
+				{/if}
 			{/each}
 		</ul>
 	</div>
@@ -63,12 +65,18 @@
 			</button>
 			<ul>
 				<li>
-					<a href="/{selectedPartner.slug}"><span>Urls overzicht</span></a>
+					{#if selectedPartner}
+						<a href="/{selectedPartner.slug}"><span>Urls overzicht</span></a>
+					{:else}
+						<span>Urls overzicht</span>
+					{/if}
 				</li>
 				{#each websites.urls as website}
-					<li>
-						<a href="/{selectedPartner.slug}/{website.slug}"><span>{website.slug}</span></a>
-					</li>
+					{#if selectedPartner && website && website.slug}
+						<li>
+							<a href="/{selectedPartner.slug}/{website.slug}"><span>{website.slug}</span></a>
+						</li>
+					{/if}
 				{/each}
 			</ul>
 		</div>
@@ -86,14 +94,20 @@
 			</button>
 			<ul>
 				<li>
-					<a href="/{selectedPartner.slug}/{selectedUrl}"><span>Principes overzicht</span></a>
+					{#if selectedPartner}
+						<a href="/{selectedPartner.slug}/{selectedUrl}"><span>Principes overzicht</span></a>
+					{:else}
+						<span>Principes overzicht</span>
+					{/if}
 				</li>
 				{#each principes as principe}
-					<li>
-						<a href="/{selectedPartner.slug}/{selectedUrl}/{principe.slug}"
-							><span>{principe.titel}</span></a
-						>
-					</li>
+					{#if selectedPartner && selectedUrl && principe && principe.slug}
+						<li>
+							<a href="/{selectedPartner.slug}/{selectedUrl}/{principe.slug}">
+								<span>{principe.titel}</span>
+							</a>
+						</li>
+					{/if}
 				{/each}
 			</ul>
 		</div>
