@@ -3,10 +3,18 @@ import { checkEmailAvailability, verifyEmailInput, isValidEmailDomain } from '$l
 import { createUser, verifyUsernameInput, checkUsernameAvailability } from '$lib/server/user';
 import { verifyPasswordStrength, hashPassword } from '$lib/server/password';
 import { createSession, generateSessionToken, setSessionTokenCookie } from '$lib/server/session';
+import {
+	createEmailVerificationRequest,
+	sendVerificationEmail,
+	setEmailVerificationRequestCookie
+} from "$lib/server/email-verification";
 
 export function load(event) {
 	const { locals } = event;
-	if (locals.sessie !== null && locals.gebruiker !== null) {
+	if (locals.sessie !== null && locals.gebruiker === null) {
+		if (!locals.gebruiker.isEmailGeverifieerd) {
+			throw redirect(302, '/verify-email');
+		}
 		throw redirect(302, '/');
 	}
 	return {};
@@ -97,16 +105,13 @@ export const actions = {
 
 		const hashedPassword = await hashPassword(password);
 		const user = await createUser(email, username, hashedPassword);
+		const emailVerificationRequest = await createEmailVerificationRequest(user.id, user.email);
+		sendVerificationEmail(emailVerificationRequest.email, emailVerificationRequest.code);
+		setEmailVerificationRequestCookie(event, emailVerificationRequest);
 		const sessionToken = generateSessionToken();
 		const session = await createSession(sessionToken, user.id);
 		setSessionTokenCookie(event, sessionToken, session.houdbaarTot);
 
-		event.cookies.set('show_registration_success', '1', {
-			path: '/',
-			httpOnly: false,
-			maxAge: 60
-		});
-
-		throw redirect(303, '/');
+		throw redirect(302, '/verify-email');
 	}
 };

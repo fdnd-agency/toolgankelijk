@@ -15,6 +15,7 @@ export async function validateSessionToken(token) {
 					id
 					email
 					gebruikersnaam
+					isEmailGeverifieerd
 				}
 			}
 		}
@@ -28,15 +29,17 @@ export async function validateSessionToken(token) {
 
 	const sessie = {
 		id: row.sessieId,
+		gebruikerId: row.gebruikerId.id,
 		houdbaarTot: new Date(row.houdbaarTot)
 	};
 
 	let gebruiker = null;
 	if (row.gebruikerId) {
 		gebruiker = {
-			id: Number(row.gebruikerId.id),
+			id: row.gebruikerId.id,
 			email: row.gebruikerId.email,
-			gebruikersnaam: row.gebruikerId.gebruikersnaam
+			gebruikersnaam: row.gebruikerId.gebruikersnaam,
+			isEmailGeverifieerd: row.gebruikerId.isEmailGeverifieerd
 		};
 	}
 
