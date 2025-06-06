@@ -1,7 +1,7 @@
 import { hygraph } from '$lib/utils/hygraph.js';
 import { gql } from 'graphql-request';
 import { generateEmailVerificationCode } from '../utils/generateEmailVerificationCode.js';
-import { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS } from '$env/static/private';
+import { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS } from '$env/dynamic/private';
 import nodemailer from 'nodemailer';
 
 export async function getUserEmailVerificationRequest(userId, id) {
