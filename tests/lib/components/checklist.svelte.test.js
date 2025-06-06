@@ -13,6 +13,7 @@ describe('/checklist.svelte', () => {
 						uitleg: { html: 'Beschrijving van richtlijn 1.1' },
 						succescriteria: [
 							{
+								id: 'sc-1',
 								index: '1.1.1',
 								niveau: 'A',
 								titel: 'Niet-tekstuele content',
@@ -23,9 +24,10 @@ describe('/checklist.svelte', () => {
 					}
 				],
 				toolboardData: {
-					url: { checks: [{ succescriteria: [] }] },
+					url: { checks: [{ succescriteria: [{ id: 'sc-1', niveau: 'A' }] }] },
 					principe: { index: 1 }
 				},
+				niveaus: [{ niveau: 'A' }],
 				selectedNiveau: 'A'
 			}
 		});

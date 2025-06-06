@@ -18,75 +18,60 @@ describe('src/routes/login/+page.server.js', () => {
 	});
 
 	it('fails if email or password is missing', async () => {
-		// Arrange
 		event.request.formData.mockResolvedValue({
 			get: (key) => (key === 'email' ? '' : '')
 		});
-
-		// Act
 		const result = await actions.signin(event);
-
-		// Assert
 		expect(result.status).toBe(400);
 		expect(result.data.message).toBe('Please enter your email and password');
 	});
 
 	it('fails if email is invalid', async () => {
-		// Arrange
 		event.request.formData.mockResolvedValue({
 			get: (key) => (key === 'email' ? 'notanemail' : 'password')
 		});
 		vi.spyOn(emailModule, 'verifyEmailInput').mockReturnValue(false);
-
-		// Act
 		const result = await actions.signin(event);
-
-		// Assert
 		expect(result.status).toBe(400);
 		expect(result.data.message).toBe('Invalid password or email');
 	});
 
 	it('fails if user is not found', async () => {
-		// Arrange
 		event.request.formData.mockResolvedValue({
 			get: (key) => (key === 'email' ? 'test@example.com' : 'password')
 		});
 		vi.spyOn(emailModule, 'verifyEmailInput').mockReturnValue(true);
 		vi.spyOn(userModule, 'getUserFromEmail').mockResolvedValue(null);
-
-		// Act
 		const result = await actions.signin(event);
-
-		// Assert
 		expect(result.status).toBe(400);
 		expect(result.data.message).toBe('Invalid password or email');
 	});
 
 	it('fails if password is incorrect', async () => {
-		// Arrange
 		event.request.formData.mockResolvedValue({
 			get: (key) => (key === 'email' ? 'test@example.com' : 'password')
 		});
 		vi.spyOn(emailModule, 'verifyEmailInput').mockReturnValue(true);
-		vi.spyOn(userModule, 'getUserFromEmail').mockResolvedValue({ id: '1' });
+		vi.spyOn(userModule, 'getUserFromEmail').mockResolvedValue({
+			id: '1',
+			isEmailGeverifieerd: true
+		});
 		vi.spyOn(userModule, 'getUserPasswordHash').mockResolvedValue('hash');
 		vi.spyOn(passwordModule, 'verifyPasswordHash').mockResolvedValue(false);
-
-		// Act
 		const result = await actions.signin(event);
-
-		// Assert
 		expect(result.status).toBe(400);
 		expect(result.data.message).toMatch('Invalid password or email');
 	});
 
 	it('creates session and sets cookie on success', async () => {
-		// Arrange
 		event.request.formData.mockResolvedValue({
 			get: (key) => (key === 'email' ? 'test@example.com' : 'password')
 		});
 		vi.spyOn(emailModule, 'verifyEmailInput').mockReturnValue(true);
-		vi.spyOn(userModule, 'getUserFromEmail').mockResolvedValue({ id: '1' });
+		vi.spyOn(userModule, 'getUserFromEmail').mockResolvedValue({
+			id: '1',
+			isEmailGeverifieerd: true
+		});
 		vi.spyOn(userModule, 'getUserPasswordHash').mockResolvedValue('hash');
 		vi.spyOn(passwordModule, 'verifyPasswordHash').mockResolvedValue(true);
 		vi.spyOn(sessionModule, 'generateSessionToken').mockReturnValue('token');
@@ -97,10 +82,14 @@ describe('src/routes/login/+page.server.js', () => {
 			.spyOn(sessionModule, 'setSessionTokenCookie')
 			.mockImplementation(() => {});
 
-		// Act
-		await actions.signin(event);
+		try {
+			await actions.signin(event);
+			throw new Error('Expected redirect to be thrown');
+		} catch (e) {
+			expect(e.status).toBe(302);
+			expect(e.location).toBe('/');
+		}
 
-		// Assert
 		expect(setSessionTokenCookie).toHaveBeenCalled();
 	});
 });
