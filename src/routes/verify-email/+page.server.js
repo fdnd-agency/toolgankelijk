@@ -13,11 +13,11 @@ export async function load(event) {
 	if (event.locals.gebruiker === null) {
 		throw redirect(302, '/login');
 	}
+	if (event.locals.gebruiker.isEmailGeverifieerd) {
+		throw redirect(302, '/');
+	}
 	let verificationRequest = await getUserEmailVerificationRequestFromRequest(event);
 	if (verificationRequest === null || Date.now() >= verificationRequest.expiresAt.getTime()) {
-		if (event.locals.gebruiker.isEmailGeverifieerd) {
-			throw redirect(302, '/');
-		}
 		verificationRequest = await createEmailVerificationRequest(
 			event.locals.gebruiker.id,
 			event.locals.gebruiker.email
@@ -34,6 +34,10 @@ export const actions = {
 	verify: verifyCode,
 	resend: resendEmail
 };
+
+function delay(ms) {
+	return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
 async function verifyCode(event) {
 	if (event.locals.sessie === null || event.locals.gebruiker === null) {
@@ -87,9 +91,11 @@ async function verifyCode(event) {
 			}
 		});
 	}
-	deleteUserEmailVerificationRequest(event.locals.gebruiker.id);
-	setUserEmailAsVerified(event.locals.gebruiker.id, verificationRequest.email);
+	await deleteUserEmailVerificationRequest(event.locals.gebruiker.id);
+	await setUserEmailAsVerified(event.locals.gebruiker.id, verificationRequest.email);
 	deleteEmailVerificationRequestCookie(event);
+
+	await delay(500);
 
 	event.cookies.set('show_registration_success', '1', {
 		path: '/',
