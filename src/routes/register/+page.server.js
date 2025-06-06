@@ -11,7 +11,7 @@ import {
 
 export function load(event) {
 	const { locals } = event;
-	if (locals.sessie !== null && locals.gebruiker === null) {
+	if (locals.sessie !== null && locals.gebruiker !== null) {
 		if (!locals.gebruiker.isEmailGeverifieerd) {
 			throw redirect(302, '/verify-email');
 		}
