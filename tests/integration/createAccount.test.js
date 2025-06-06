@@ -1,6 +1,19 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+
+// The mock must be before imports to ensure Vitest replaces the module before it's loaded.
+vi.mock('../../src/lib/server/email-verification.js', () => ({
+	createEmailVerificationRequest: vi.fn().mockResolvedValue({
+		id: 'mock-verification-id',
+		userId: 'mock-user-id',
+		code: 'mock-code',
+		email: 'mock@email.com',
+		expiresAt: new Date(Date.now() + 600000)
+	}),
+	sendVerificationEmail: vi.fn(),
+	setEmailVerificationRequestCookie: vi.fn()
+}));
+
 import { actions } from '../../src/routes/register/+page.server.js';
-import { hygraph } from '../../src/lib/utils/hygraph.js';
 import { requestWithRetry } from '../utils/requestWithRetry.js';
 
 describe('src/routes/register/+page.server.js integration', () => {
@@ -56,30 +69,6 @@ describe('src/routes/register/+page.server.js integration', () => {
 		const userData = await requestWithRetry(userQuery, { email: uniqueEmail });
 		const createdUserId = userData.gebruiker?.id;
 		const createdSessionIds = userData.gebruiker?.sessies?.map((s) => s.id) ?? [];
-
-		// Find all email verification codes for this user
-		let emailVerificationCodeIds = [];
-		if (createdUserId) {
-			const codesQuery = `
-            query ($userId: ID!) {
-                emailVerificatieCodes(where: { gebruiker: { id: $userId } }) {
-                    id
-                }
-            }
-        `;
-			const codesData = await requestWithRetry(codesQuery, { userId: createdUserId });
-			emailVerificationCodeIds = codesData.emailVerificatieCodes?.map((c) => c.id) ?? [];
-		}
-
-		// Delete email verification codes
-		for (const codeId of emailVerificationCodeIds) {
-			const deleteCodeMutation = `
-            mutation ($id: ID!) {
-                deleteEmailVerificatieCode(where: { id: $id }) { id }
-            }
-        `;
-			await requestWithRetry(deleteCodeMutation, { id: codeId });
-		}
 
 		// Delete sessions
 		for (const sessieId of createdSessionIds) {
