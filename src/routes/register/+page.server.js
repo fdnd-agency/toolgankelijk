@@ -7,7 +7,7 @@ import {
 	createEmailVerificationRequest,
 	sendVerificationEmail,
 	setEmailVerificationRequestCookie
-} from "$lib/server/email-verification";
+} from '$lib/server/email-verification';
 
 export function load(event) {
 	const { locals } = event;
