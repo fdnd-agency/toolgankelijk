@@ -10,6 +10,9 @@ export const load = async ({ params, locals }) => {
 	if (!locals?.sessie || !locals?.gebruiker) {
 		throw redirect(302, '/login');
 	}
+	if (!locals.gebruiker.isEmailGeverifieerd) {
+		throw redirect(302, '/verify-email');
+	}
 
 	const queryUrl = getQueryUrl(gql, urlUID);
 	const queryPrincipes = getQueryPrincipes(gql);

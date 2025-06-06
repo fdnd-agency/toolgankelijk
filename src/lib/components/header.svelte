@@ -62,11 +62,11 @@
 				alt="Logo van Vervoerregio Amsterdam"
 			/>
 		</a>
-		{#if user}
+		{#if user && user.isEmailGeverifieerd}
 			<BreadCrumbs {params} {partners} {websites} {principes} />
 		{/if}
 		<div class="options">
-			{#if user}
+			{#if user && user.isEmailGeverifieerd}
 				<a aria-label="home pagina" href="/">
 					<svg
 						class="home-icon-img"

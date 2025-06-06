@@ -13,6 +13,9 @@ export async function load(event) {
 	if (locals.sessie === null || locals.gebruiker === null) {
 		throw redirect(302, '/login');
 	}
+	if (!locals.gebruiker.isEmailGeverifieerd) {
+		throw redirect(302, '/verify-email');
+	}
 	const first = 20;
 	const skip = parseInt(url.searchParams.get('skip') || '0');
 	const query = getQueryWebsite(gql, websiteUID, first, skip);

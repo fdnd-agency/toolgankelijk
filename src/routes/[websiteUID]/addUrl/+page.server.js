@@ -10,6 +10,9 @@ export async function load({ params, locals }) {
 	if (!locals?.sessie || !locals?.gebruiker) {
 		throw redirect(302, '/login');
 	}
+	if (!locals.gebruiker.isEmailGeverifieerd) {
+		throw redirect(302, '/verify-email');
+	}
 	let query = getQueryWebsite(gql, websiteUID);
 	return await hygraph.request(query).websitesData;
 }
