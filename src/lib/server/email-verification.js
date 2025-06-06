@@ -1,6 +1,8 @@
 import { hygraph } from '$lib/utils/hygraph.js';
 import { gql } from 'graphql-request';
 import { generateEmailVerificationCode } from '../utils/generateEmailVerificationCode.js';
+import { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS } from '$env/static/private';
+import nodemailer from 'nodemailer';
 
 export async function getUserEmailVerificationRequest(userId, id) {
 	const query = gql`
@@ -87,8 +89,23 @@ export async function deleteUserEmailVerificationRequest(userId) {
 	await hygraph.request(mutation, { userId });
 }
 
-export function sendVerificationEmail(email, code) {
-	console.log(`To ${email}: Your verification code is ${code}`);
+export async function sendVerificationEmail(email, code) {
+	const transporter = nodemailer.createTransport({
+		host: SMTP_HOST,
+		port: parseInt(SMTP_PORT),
+		secure: true,
+		auth: {
+			user: SMTP_USER,
+			pass: SMTP_PASS
+		}
+	});
+
+	await transporter.sendMail({
+		from: `"Vervoerregio Amsterdam" <${SMTP_USER}>`,
+		to: email,
+		subject: 'Your verification code',
+		text: `Your verification code is: ${code}`
+	});
 }
 
 export function setEmailVerificationRequestCookie(event, request) {
