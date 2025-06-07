@@ -1,3 +1,5 @@
+import { TOOLGANKELIJK_AUDIT_URL } from '$env/static/private';
+
 // Delay helper
 function delay(ms) {
 	return new Promise((resolve) => setTimeout(resolve, ms));
@@ -35,14 +37,14 @@ export async function POST({ request }) {
 					}
 
 					// Check if the audit server is running
-					await fetch('http://localhost:5174/api/isProjectRunning');
+					await fetch(`${TOOLGANKELIJK_AUDIT_URL}/api/isProjectRunning`);
 
 					await sendUpdate({ status: 'Audit gestart', type: 'done' });
 					await delay(500);
 					await sendUpdate({ status: 'Urls worden gecheckt, dit duurt even', type: 'loading' });
 					await delay(500);
 
-					const response = await fetch('http://localhost:5174/api/specifiedUrls', {
+					const response = await fetch(`${TOOLGANKELIJK_AUDIT_URL}/api/specifiedUrls`, {
 						method: 'POST',
 						headers: {
 							'Content-Type': 'application/json'
