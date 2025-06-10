@@ -1,6 +1,20 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+
+// The mock must be before imports to ensure Vitest replaces the module before it's loaded.
+vi.mock('../../src/lib/server/email-verification.js', () => ({
+	createEmailVerificationRequest: vi.fn().mockResolvedValue({
+		id: 'mock-verification-id',
+		userId: 'mock-user-id',
+		code: 'mock-code',
+		email: 'mock@email.com',
+		expiresAt: new Date(Date.now() + 600000)
+	}),
+	sendVerificationEmail: vi.fn(),
+	setEmailVerificationRequestCookie: vi.fn()
+}));
+
 import { actions } from '../../src/routes/register/+page.server.js';
-import { hygraph } from '../../src/lib/utils/hygraph.js';
+import { requestWithRetry } from '../utils/requestWithRetry.js';
 
 describe('src/routes/register/+page.server.js integration', () => {
 	let event;
@@ -35,45 +49,45 @@ describe('src/routes/register/+page.server.js integration', () => {
 			await actions.register(event);
 			throw new Error('Expected redirect to be thrown');
 		} catch (e) {
-			expect(e.status).toBe(303);
-			expect(e.location).toBe('/');
+			expect(e.status).toBe(302);
+			expect(e.location).toBe('/verify-email');
 		}
 	});
 
 	afterEach(async () => {
 		// Find the user by email for cleanup
 		const userQuery = `
-            query ($email: String!) {
-                gebruiker(where: { email: $email }) {
+        query ($email: String!) {
+            gebruiker(where: { email: $email }) {
+                id
+                sessies {
                     id
-                    sessies {
-                        id
-                    }
                 }
             }
-        `;
-		const userData = await hygraph.request(userQuery, { email: uniqueEmail });
+        }
+    `;
+		const userData = await requestWithRetry(userQuery, { email: uniqueEmail });
 		const createdUserId = userData.gebruiker?.id;
 		const createdSessionIds = userData.gebruiker?.sessies?.map((s) => s.id) ?? [];
 
 		// Delete sessions
 		for (const sessieId of createdSessionIds) {
 			const deleteSessionMutation = `
-                mutation ($id: ID!) {
-                    deleteSessie(where: { id: $id }) { id }
-                }
-            `;
-			await hygraph.request(deleteSessionMutation, { id: sessieId });
+            mutation ($id: ID!) {
+                deleteSessie(where: { id: $id }) { id }
+            }
+        `;
+			await requestWithRetry(deleteSessionMutation, { id: sessieId });
 		}
 
 		// Delete user
 		if (createdUserId) {
 			const deleteUserMutation = `
-                mutation ($id: ID!) {
-                    deleteGebruiker(where: { id: $id }) { id }
-                }
-            `;
-			await hygraph.request(deleteUserMutation, { id: createdUserId });
+            mutation ($id: ID!) {
+                deleteGebruiker(where: { id: $id }) { id }
+            }
+        `;
+			await requestWithRetry(deleteUserMutation, { id: createdUserId });
 		}
 	});
 });

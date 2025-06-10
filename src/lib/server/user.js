@@ -19,17 +19,28 @@ export async function checkUsernameAvailability(username) {
 
 export async function createUser(email, username, passwordHash) {
 	const mutation = gql`
-		mutation CreateGebruiker($email: String!, $username: String!, $passwordHash: String!) {
+		mutation CreateGebruiker(
+			$email: String!
+			$username: String!
+			$passwordHash: String!
+			$isEmailGeverifieerd: Boolean!
+		) {
 			createGebruiker(
-				data: { email: $email, gebruikersnaam: $username, wachtwoord: $passwordHash }
+				data: {
+					email: $email
+					gebruikersnaam: $username
+					wachtwoord: $passwordHash
+					isEmailGeverifieerd: $isEmailGeverifieerd
+				}
 			) {
 				id
 				email
 				gebruikersnaam
+				isEmailGeverifieerd
 			}
 		}
 	`;
-	const variables = { email, username, passwordHash };
+	const variables = { email, username, passwordHash, isEmailGeverifieerd: false };
 	const data = await hygraph.request(mutation, variables);
 	if (!data.createGebruiker) {
 		throw new Error('Unexpected error');
@@ -37,7 +48,8 @@ export async function createUser(email, username, passwordHash) {
 	const user = {
 		id: data.createGebruiker.id,
 		gebruikersnaam: data.createGebruiker.gebruikersnaam,
-		email: data.createGebruiker.email
+		email: data.createGebruiker.email,
+		isEmailGeverifieerd: data.createGebruiker.isEmailGeverifieerd
 	};
 	return user;
 }
@@ -77,4 +89,15 @@ export async function getUserFromEmail(email) {
 		gebruikersnaam: data.gebruiker.gebruikersnaam
 	};
 	return user;
+}
+
+export async function setUserEmailAsVerified(userId, email) {
+	const mutation = gql`
+		mutation SetUserEmailAsVerified($id: ID!, $email: String!) {
+			updateGebruiker(where: { id: $id, email: $email }, data: { isEmailGeverifieerd: true }) {
+				id
+			}
+		}
+	`;
+	await hygraph.request(mutation, { id: userId, email });
 }

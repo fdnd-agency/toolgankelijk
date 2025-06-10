@@ -1,0 +1,19 @@
+<script>
+	import { enhance } from '$app/forms';
+
+	export let data;
+	export let form;
+</script>
+
+<h1>Verify your email address</h1>
+<p>We sent an 8-digit code to {data.email}!</p>
+<form method="post" use:enhance action="?/verify">
+	<label for="verify-code">Code</label>
+	<input id="verify-code" name="code" required />
+	<button>Verify</button>
+	<p>{form?.verify?.message ?? ''}</p>
+</form>
+<form method="post" use:enhance action="?/resend">
+	<button>Resend code</button>
+	<p>{form?.resend?.message ?? ''}</p>
+</form>

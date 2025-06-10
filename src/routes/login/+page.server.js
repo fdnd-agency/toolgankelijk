@@ -7,6 +7,9 @@ import { createSession, generateSessionToken, setSessionTokenCookie } from '$lib
 export function load(event) {
 	const { locals } = event;
 	if (locals.sessie !== null && locals.gebruiker !== null) {
+		if (!locals.gebruiker.isEmailGeverifieerd) {
+			throw redirect(302, '/verify-email');
+		}
 		throw redirect(302, '/');
 	}
 	return {};
@@ -59,5 +62,10 @@ export const actions = {
 		const sessionToken = generateSessionToken();
 		const session = await createSession(sessionToken, user.id);
 		setSessionTokenCookie(event, sessionToken, session.houdbaarTot);
+
+		if (!user.isEmailGeverifieerd) {
+			throw redirect(302, '/verify-email');
+		}
+		throw redirect(302, '/');
 	}
 };

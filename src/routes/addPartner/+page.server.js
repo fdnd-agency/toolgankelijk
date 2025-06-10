@@ -7,6 +7,9 @@ export async function load({ locals }) {
 	if (!locals?.sessie || !locals?.gebruiker) {
 		throw redirect(302, '/login');
 	}
+	if (!locals.gebruiker.isEmailGeverifieerd) {
+		throw redirect(302, '/verify-email');
+	}
 	return {};
 }
 
