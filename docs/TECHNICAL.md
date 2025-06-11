@@ -147,54 +147,58 @@ Het project bestaat uit twee samenwerkende applicaties:
 
 ### toolgankelijk-audit
 
-- **/api/specifiedUrls**  
-  - Methode: `POST`  
-  - Body:  
+- **/api/specifiedUrls**
+
+  - Methode: `POST`
+  - Body:
     ```json
     {
-      "urls": [
-        { "url": "https://voorbeeld.nl/pagina1", "urlSlug": "pagina1-slug" },
-        { "url": "https://voorbeeld.nl/pagina2", "urlSlug": "pagina2-slug" }
-      ],
-      "websiteSlug": "voorbeeld"
+    	"urls": [
+    		{ "url": "https://voorbeeld.nl/pagina1", "urlSlug": "pagina1-slug" },
+    		{ "url": "https://voorbeeld.nl/pagina2", "urlSlug": "pagina2-slug" }
+    	],
+    	"websiteSlug": "voorbeeld"
     }
     ```
-  - Functie: Ontvangt een lijst van URLs en een websiteSlug, voert audits uit op deze URLs met Puppeteer en axe-core, en schrijft de resultaten terug naar Hygraph.  
-  - Response:  
-    - `200`: Audit succesvol uitgevoerd  
-    - `409`: Audit is al bezig voor deze partner  
+  - Functie: Ontvangt een lijst van URLs en een websiteSlug, voert audits uit op deze URLs met Puppeteer en axe-core, en schrijft de resultaten terug naar Hygraph.
+  - Response:
+    - `200`: Audit succesvol uitgevoerd
+    - `409`: Audit is al bezig voor deze partner
     - `500`: Fout tijdens uitvoeren audit
 
-- **/api/allUrls**  
-  - Methode: `POST`  
-  - Functie: Start een periodieke audit op alle URLs van alle partners.  
-  - Body: geen of optioneel configuratie-object  
-  - Response:  
-    - `200`: Audit gestart  
+- **/api/allUrls**
+
+  - Methode: `POST`
+  - Functie: Start een periodieke audit op alle URLs van alle partners.
+  - Body: geen of optioneel configuratie-object
+  - Response:
+    - `200`: Audit gestart
     - `500`: Fout tijdens uitvoeren audit
 
-- **/api/isProjectRunning**  
-  - Methode: `GET`  
-  - Functie: Healthcheck endpoint, geeft aan of de audit-backend actief is.  
-  - Response:  
-    - `200`: Backend is actief  
+- **/api/isProjectRunning**
+  - Methode: `GET`
+  - Functie: Healthcheck endpoint, geeft aan of de audit-backend actief is.
+  - Response:
+    - `200`: Backend is actief
     - `503`: Backend is niet bereikbaar
 
-**Zie ook:**  
-- Auditlogica: [`src/lib/server/services/AuditService.js`](../../toolgankelijk-audit/src/lib/server/services/AuditService.js)  
-  - De [`AuditService`](../../toolgankelijk-audit/src/lib/server/services/AuditService.js) klasse regelt de hoofdlogica voor het uitvoeren van audits, het verwerken van resultaten en het aanroepen van repository-methodes.  
-- Resultaatopslag: [`src/lib/server/repositories/AuditRepository.js`](../../toolgankelijk-audit/src/lib/server/repositories/AuditRepository.js)  
-  - De [`AuditRepository`](../../toolgankelijk-audit/src/lib/server/repositories/AuditRepository.js) klasse verzorgt de communicatie met Hygraph voor het opslaan en ophalen van auditresultaten.  
-- Singleton auditstatus: [`src/lib/server/utils/ActiveAudits.js`](../../toolgankelijk-audit/src/lib/server/utils/ActiveAudits.js)  
-  - [`ActiveAudits`](../../toolgankelijk-audit/src/lib/server/utils/ActiveAudits.js) houdt bij welke partners momenteel worden geaudit en voorkomt dubbele audits.  
-- Audit uitvoeren: [`src/lib/server/utils/AuditRunner.js`](../../toolgankelijk-audit/src/lib/server/utils/AuditRunner.js)  
-  - [`AuditRunner`](../../toolgankelijk-audit/src/lib/server/utils/AuditRunner.js) voert de daadwerkelijke toegankelijkheids-audit uit op een URL met Puppeteer en axe-core.  
-- Request retry-logica: [`src/lib/server/utils/RequestRetry.js`](../../toolgankelijk-audit/src/lib/server/utils/RequestRetry.js)  
+**Zie ook:**
+
+- Auditlogica: [`src/lib/server/services/AuditService.js`](../../toolgankelijk-audit/src/lib/server/services/AuditService.js)
+  - De [`AuditService`](../../toolgankelijk-audit/src/lib/server/services/AuditService.js) klasse regelt de hoofdlogica voor het uitvoeren van audits, het verwerken van resultaten en het aanroepen van repository-methodes.
+- Resultaatopslag: [`src/lib/server/repositories/AuditRepository.js`](../../toolgankelijk-audit/src/lib/server/repositories/AuditRepository.js)
+  - De [`AuditRepository`](../../toolgankelijk-audit/src/lib/server/repositories/AuditRepository.js) klasse verzorgt de communicatie met Hygraph voor het opslaan en ophalen van auditresultaten.
+- Singleton auditstatus: [`src/lib/server/utils/ActiveAudits.js`](../../toolgankelijk-audit/src/lib/server/utils/ActiveAudits.js)
+  - [`ActiveAudits`](../../toolgankelijk-audit/src/lib/server/utils/ActiveAudits.js) houdt bij welke partners momenteel worden geaudit en voorkomt dubbele audits.
+- Audit uitvoeren: [`src/lib/server/utils/AuditRunner.js`](../../toolgankelijk-audit/src/lib/server/utils/AuditRunner.js)
+  - [`AuditRunner`](../../toolgankelijk-audit/src/lib/server/utils/AuditRunner.js) voert de daadwerkelijke toegankelijkheids-audit uit op een URL met Puppeteer en axe-core.
+- Request retry-logica: [`src/lib/server/utils/RequestRetry.js`](../../toolgankelijk-audit/src/lib/server/utils/RequestRetry.js)
+
   - [`RequestRetry`](../../toolgankelijk-audit/src/lib/server/utils/RequestRetry.js) bevat logica om GraphQL requests te herhalen bij rate limiting of netwerkfouten.
 
-- Endpoint-implementatie:  
-  - Specifieke URLs auditen: [`src/routes/api/specifiedUrls/+server.js`](../../toolgankelijk-audit/src/routes/api/specifiedUrls/+server.js)  
-  - Alle URLs periodiek auditen: [`src/routes/api/allUrls/+server.js`](../../toolgankelijk-audit/src/routes/api/allUrls/+server.js)  
+- Endpoint-implementatie:
+  - Specifieke URLs auditen: [`src/routes/api/specifiedUrls/+server.js`](../../toolgankelijk-audit/src/routes/api/specifiedUrls/+server.js)
+  - Alle URLs periodiek auditen: [`src/routes/api/allUrls/+server.js`](../../toolgankelijk-audit/src/routes/api/allUrls/+server.js)
   - Status/healthcheck endpoint: [`src/routes/api/isProjectRunning/+server.js`](../../toolgankelijk-audit/src/routes/api/isProjectRunning/+server.js)
 
 ## Overige

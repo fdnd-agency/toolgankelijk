@@ -5,15 +5,15 @@
 	export let form;
 </script>
 
-<h1>Verify your email address</h1>
-<p>We sent an 8-digit code to {data.email}!</p>
+<h1>Verifieer uw e-mailadres</h1>
+<p>We hebben een 8-cijferige code gestuurd naar {data.email}!</p>
 <form method="post" use:enhance action="?/verify">
 	<label for="verify-code">Code</label>
 	<input id="verify-code" name="code" required />
-	<button>Verify</button>
+	<button>Verifiëren</button>
 	<p>{form?.verify?.message ?? ''}</p>
 </form>
 <form method="post" use:enhance action="?/resend">
-	<button>Resend code</button>
+	<button>Code opnieuw versturen</button>
 	<p>{form?.resend?.message ?? ''}</p>
 </form>

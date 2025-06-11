@@ -71,7 +71,8 @@ We hanteren conventionele commits die niet alleen helpen bij een overzichtelijke
   fix: header font maat veranderd 🐛 #394
   ```
 
-Meer info:  
+Meer info:
+
 - [Conventional Commits](https://www.conventionalcommits.org/)
 - [use gitmoji in commit messages](https://gitmoji.dev/)
 - [Semantic versioning](https://semver.org/)
