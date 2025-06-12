@@ -7,6 +7,8 @@
 	export let params;
 	export let partners;
 	export let websites;
+	export let principes;
+	export let user = null;
 
 	let isLightMode = false;
 
@@ -22,6 +24,12 @@
 			document.body.classList.remove('lightmode');
 			localStorage.setItem('lightMode', `${isLightMode}`);
 		}
+	}
+
+	async function handleSignOut(event) {
+		event.preventDefault();
+		await fetch('/logout', { method: 'POST' });
+		window.location.href = '/login';
 	}
 
 	onMount(() => {
@@ -54,24 +62,26 @@
 				alt="Logo van Vervoerregio Amsterdam"
 			/>
 		</a>
-
-		<BreadCrumbs {params} {partners} {websites} />
-
+		{#if user && user.isEmailGeverifieerd}
+			<BreadCrumbs {params} {partners} {websites} {principes} />
+		{/if}
 		<div class="options">
-			<a aria-label="home pagina" href="/">
-				<svg
-					class="home-icon-img"
-					alt="back to homepage"
-					aria-hidden="true"
-					xmlns="http://www.w3.org/2000/svg"
-					viewBox="0 0 24 24"
-				>
-					<path
-						d="M11.3 3.3a1 1 0 0 1 1.4 0l6 6 2 2a1 1 0 0 1-1.4 1.4l-.3-.3V19a2 2 0 0 1-2 2h-3a1 1 0 0 1-1-1v-3h-2v3c0 .6-.4 1-1 1H7a2 2 0 0 1-2-2v-6.6l-.3.3a1 1 0 0 1-1.4-1.4l2-2 6-6Z"
-						id="my-svg4"
-					/>
-				</svg>
-			</a>
+			{#if user && user.isEmailGeverifieerd}
+				<a aria-label="home pagina" href="/">
+					<svg
+						class="home-icon-img"
+						alt="back to homepage"
+						aria-hidden="true"
+						xmlns="http://www.w3.org/2000/svg"
+						viewBox="0 0 24 24"
+					>
+						<path
+							d="M11.3 3.3a1 1 0 0 1 1.4 0l6 6 2 2a1 1 0 0 1-1.4 1.4l-.3-.3V19a2 2 0 0 1-2 2h-3a1 1 0 0 1-1-1v-3h-2v3c0 .6-.4 1-1 1H7a2 2 0 0 1-2-2v-6.6l-.3.3a1 1 0 0 1-1.4-1.4l2-2 6-6Z"
+							id="my-svg4"
+						/>
+					</svg>
+				</a>
+			{/if}
 			<a aria-label="informatie pagina" href="/info">
 				<svg
 					class="information-icon-img"
@@ -87,25 +97,27 @@
 					/>
 				</svg>
 			</a>
-			<a href="/login" aria-label="account">
-				<svg
-					class="account-icon-img"
-					alt="account icon"
-					width="800px"
-					height="800px"
-					viewBox="0 0 24 24"
-					id="Layer_1"
-					data-name="Layer 1"
-					xmlns="http://www.w3.org/2000/svg"
-				>
-					<circle id="my-circle" class="cls-1" cx="12" cy="7.25" r="5.73" />
-					<path
-						id="my-svg2"
-						class="cls-1"
-						d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05"
-					/>
-				</svg>
-			</a>
+			{#if !user}
+				<a href="/login" aria-label="account">
+					<svg
+						class="account-icon-img"
+						alt="account icon"
+						width="800px"
+						height="800px"
+						viewBox="0 0 24 24"
+						id="Layer_1"
+						data-name="Layer 1"
+						xmlns="http://www.w3.org/2000/svg"
+					>
+						<circle id="my-circle" class="cls-1" cx="12" cy="7.25" r="5.73" />
+						<path
+							id="my-svg2"
+							class="cls-1"
+							d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05"
+						/>
+					</svg>
+				</a>
+			{/if}
 			<a aria-label="lightmode button" class="disable-js" href=" ">
 				<button aria-label="lightmode" class="toggle" on:click={toggleLightMode}>
 					<svg
@@ -124,11 +136,33 @@
 				</button>
 			</a>
 			<span class="lightmode" />
+			{#if user}
+				<button on:click={handleSignOut} class="signout-btn">Sign out</button>
+			{/if}
 		</div>
 	</nav>
 </header>
 
 <style>
+	.signout-btn {
+		background-color: #b5006c;
+		color: var(--c-white);
+		border: 2px solid #b5006c;
+		border-radius: 20px;
+		width: 8rem;
+		height: 2.2rem;
+		font-size: 1rem;
+		font-weight: 600;
+		cursor: pointer;
+		transition: background 0.2s, color 0.2s, border 0.2s;
+	}
+
+	.signout-btn:hover {
+		background-color: transparent;
+		color: #b5006c;
+		border: 2px solid #b5006c;
+	}
+
 	.lightmode {
 		--c-background: white;
 		--c-container: rgb(227, 0, 89);

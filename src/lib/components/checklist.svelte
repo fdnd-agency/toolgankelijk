@@ -5,10 +5,10 @@
 
 	export let richtlijnen;
 	export let toolboardData;
-	export let selectedNiveau = 'A';
+	export let niveaus;
+	export let selectedNiveau = niveaus[0].niveau;
 
 	let loading = false;
-	let simpleTranslation = true;
 
 	const getSuccescriteriaByNiveau = (niveau) =>
 		toolboardData.url.checks[0]
@@ -21,6 +21,8 @@
 		selectedNiveau = event.target.value;
 		filteredSuccescriteria = getSuccescriteriaByNiveau(selectedNiveau);
 	};
+
+	let simpleTranslation = true;
 
 	const checkedSuccescriteria = toolboardData.url.checks[0]
 		? toolboardData.url.checks[0].succescriteria
@@ -41,8 +43,8 @@
 		simpleTranslation = !simpleTranslation;
 
 		/** De tekst en button worden ook steeds omgedraaid op basis van de button (van officieel naar simpel) */
-		uitleg.classList.toggle('moeilijk');
-		button.classList.toggle('moeilijk');
+		uitleg.classList.toggle('moeiluk');
+		button.classList.toggle('moeiluk');
 	}
 
 	onMount(() => {
@@ -56,9 +58,9 @@
 		<label>
 			<p>Selecteer niveau</p>
 			<select bind:value={selectedNiveau} on:change={handleNiveauChange}>
-				<option value="A">Niveau A</option>
-				<option value="AA">Niveau AA</option>
-				<option value="AAA">Niveau AAA</option>
+				{#each niveaus as niveau}
+					<option value={niveau.niveau}>Niveau {niveau.niveau}</option>
+				{/each}
 			</select>
 		</label>
 	</div>
@@ -102,7 +104,7 @@
 											<button
 												type="button"
 												class="btn-vertaling"
-												on:click={(event) => translate(event)}
+												on:click={(event) => translate(event, succescriterium.index)}
 											>
 												{simpleTranslation ? 'Officiële beschrijving' : 'Simpele beschrijving'}
 											</button>
@@ -149,6 +151,8 @@
 		{/if}
 	</form>
 </section>
+
+<div class="changed" />
 
 <style>
 	.richtlijn-criteria-2 {
@@ -324,7 +328,6 @@
 		padding-top: 1em;
 	}
 
-	/* Custom checkbox styling */
 	input[type='checkbox'] {
 		-webkit-appearance: none;
 		appearance: none;
@@ -380,11 +383,11 @@
 		display: none;
 	}
 
-	:global(.richtlijn-uitleg.moeilijk .richtlijn-criteria-1) {
+	:global(.richtlijn-uitleg.moeiluk .richtlijn-criteria-1) {
 		display: none;
 	}
 
-	:global(.richtlijn-uitleg.moeilijk div.richtlijn-criteria-2) {
+	:global(.richtlijn-uitleg.moeiluk div.richtlijn-criteria-2) {
 		display: block !important;
 	}
 

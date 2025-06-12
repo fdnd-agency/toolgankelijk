@@ -18,7 +18,6 @@
 </div>
 
 <style>
-	/* container heading 1 */
 	section {
 		display: flex;
 		gap: 1rem;
@@ -42,7 +41,6 @@
 		max-width: 60em;
 	}
 
-	/* content container */
 	.content-container {
 		gap: 1rem;
 		background-color: var(--c-container);

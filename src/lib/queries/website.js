@@ -1,12 +1,13 @@
-export default function getQueryWebsite(gql, slug) {
+export default function getQueryWebsite(gql, slug, first = 20, skip = 0) {
 	return gql`
 		query Website {
 			website(where: { slug: "${slug}" }) {
 				titel
 				homepage
-				urls {
+				urls(first: ${first}, skip: ${skip}) {
 					id
 					url
+					name
 					updatedAt
 					slug
 					checks {
@@ -15,6 +16,7 @@ export default function getQueryWebsite(gql, slug) {
 						}
 					}
 				}
+				totalUrls
 			}
 			principes {
 				titel

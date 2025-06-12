@@ -1,36 +1,45 @@
 <script>
 	import { page } from '$app/stores';
 	import Heading from '$lib/components/heading.svelte';
-	import Websites from '$lib/components/websites.svelte';
+	import Partner from '$lib/components/partner.svelte';
 	import Search from '$lib/components/search.svelte';
-	import UrlForm from '$lib/components/urlForm.svelte';
+	import AddForm from '$lib/components/addForm.svelte';
+	import Pages from '$lib/components/pages.svelte';
 
 	export let data;
 	export let form;
 
+	let skip = data.skip;
+	const first = data.first;
+	let totalUrls = data.websites.website.totalUrls;
+	const currentPage = skip / first + 1;
+
 	$: heading = {
-		titel: data.websitesData.website.titel,
-		homepage: data.websitesData.website.homepage
+		titel: data.websites.website.titel,
+		homepage: data.websites.website.homepage
 	};
-	$: websites = data.websitesData.website.urls;
-	$: overzicht = data.websitesData.website;
+	$: websites = data.websites.website.urls;
+	$: overzicht = data.websites.website;
 	$: params = $page.params.websiteUID;
 
-	const principes = data.partnersData.principes;
+	let dialogRef;
+	const principes = data.websites.principes;
 
-	function openDialog(el) {
-		let dialog = document.querySelector('dialog');
-		dialog.showModal();
-		el.preventDefault();
+	function handleDialog() {
+		dialogRef.open();
 	}
 </script>
 
 <Heading {heading} />
 
 <section>
-	<a href="/{params}/addUrl" on:click={openDialog}>Link van website toevoegen</a>
+	<button class="add-partner" on:click={handleDialog}>Url toevoegen</button>
 	<Search placeholderProp="Home" />
 </section>
+
+{#if totalUrls > first}
+	<Pages amount={totalUrls} perPage={first} {currentPage} />
+{/if}
 
 {#if form?.success}
 	<div class="toast"><p>{form?.message}</p></div>
@@ -38,11 +47,11 @@
 	<div class="toast"><p>{form?.message}</p></div>
 {/if}
 
-<dialog><UrlForm {params} /></dialog>
+<AddForm bind:this={dialogRef} {params} isType="addUrl" />
 
 <ul>
 	{#each websites as website}
-		<Websites {website} {overzicht} {params} {principes} />
+		<Partner {website} {overzicht} {params} {principes} isUrl={true} />
 	{/each}
 </ul>
 
@@ -53,10 +62,13 @@
 		margin: 0 0 1em 1em;
 	}
 
-	a {
+	.add-partner {
+		display: flex;
+		justify-content: center;
+		align-items: center;
 		border-radius: 0.25em;
 		padding: 0.5em 1em;
-		color: var(--c-white);
+		color: var(--c-white2);
 		background-color: var(--c-modal-button);
 		border: none;
 		font-weight: 600;
@@ -66,8 +78,8 @@
 		text-decoration: none;
 	}
 
-	a:hover {
-		opacity: 0.75;
+	.add-partner:hover {
+		background-color: var(--c-pink);
 	}
 
 	ul {
@@ -76,28 +88,6 @@
 		gap: 1em;
 		list-style-type: none;
 		margin: 0 1em;
-	}
-
-	dialog {
-		background-color: var(--c-container);
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-		overflow: visible;
-		width: 100%;
-		max-width: 30em;
-		border: none;
-		display: none;
-	}
-
-	dialog[open] {
-		display: block;
-	}
-
-	dialog::backdrop {
-		background-color: rgb(44, 44, 44);
-		opacity: 0.8;
 	}
 
 	.toast {

@@ -31,7 +31,6 @@
 </section>
 
 <style>
-	/* container heading 1 */
 	section {
 		display: flex;
 		gap: 1rem;

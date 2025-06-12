@@ -1,22 +1,26 @@
 <script>
+	import { invalidateAll } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import Heading from '$lib/components/heading.svelte';
 	import Partner from '$lib/components/partner.svelte';
 	import Search from '$lib/components/search.svelte';
-	import PartnerForm from '$lib/components/partnerForm.svelte';
+	import AddForm from '$lib/components/addForm.svelte';
+	import Pages from '$lib/components/pages.svelte';
 
 	export let data;
 	export let form;
 
-	let closeButton;
-	let dialogRef;
+	let skip = data.skip;
+	const first = data.first;
+	let totalUrls = data.websites.totalUrls;
+	const currentPage = skip / first + 1;
+	let showRegistrationSuccess = data.showRegistrationSuccess;
 	let heading = { titel: 'Partners overzicht' };
-	const principes = data.principes;
+	let dialogRef;
+	const principes = data.websites.principes;
 
-	function openDialog(el) {
-		let dialog = document.querySelector('dialog');
-		dialog.showModal();
-		el.preventDefault();
+	function handleDialog() {
+		dialogRef.open();
 	}
 
 	function scrollToTop(event) {
@@ -25,40 +29,40 @@
 		mainElement.scrollIntoView({ behavior: 'smooth' });
 	}
 
+	// check if form variable is changed and if so, invalidate the page
 	onMount(() => {
-		closeButton = document.querySelector('dialog button');
-		dialogRef = document.querySelector('dialog');
-
-		dialogRef.addEventListener('click', (event) => {
-			if (event.target === dialogRef) {
-				dialogRef.close();
-			}
-		});
-
-		closeButton.addEventListener('click', () => {
-			dialog.close();
-		});
+		if (form?.success) {
+			invalidateAll();
+		}
 	});
 </script>
 
 <Heading {heading} />
 
 <section>
-	<a class="add-partner" href="/addPartner" on:click={openDialog}>Partner toevoegen</a>
+	<button class="add-partner" on:click={handleDialog}>Partner toevoegen</button>
 	<Search placeholderProp="Gvb" />
 </section>
 
-{#if form?.success}
-	<div class="toast"><p>{form?.message}</p></div>
-{:else if form?.success == false}
-	<div class="toast"><p>{form?.message}</p></div>
+{#if totalUrls > first}
+	<Pages amount={totalUrls} perPage={first} {currentPage} />
 {/if}
 
-<dialog><PartnerForm /></dialog>
+{#if showRegistrationSuccess}
+	<div class="toast success"><p>Account succesvol aangemaakt!</p></div>
+{/if}
+
+{#if form?.success}
+	<div class="toast success"><p>{form?.message}</p></div>
+{:else if form?.success == false}
+	<div class="toast error"><p>{form?.message}</p></div>
+{/if}
+
+<AddForm bind:this={dialogRef} isUrl={false} isType="addPartner" />
 
 <ul>
-	{#each data.websites as website}
-		<Partner {website} {principes} />
+	{#each data.websites.websites as website}
+		<Partner {website} {principes} isUrl={false} />
 	{/each}
 </ul>
 
@@ -123,42 +127,27 @@
 		margin-bottom: 1em;
 	}
 
-	dialog {
-		background-color: var(--c-container);
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-		overflow: visible;
-		width: 100%;
-		max-width: 30em;
-		border: none;
-		display: none;
-	}
-
-	dialog[open] {
-		display: block;
-	}
-
-	dialog::backdrop {
-		background-color: rgb(44, 44, 44);
-		opacity: 0.8;
-	}
-
 	.toast {
 		position: fixed;
 		bottom: 5rem;
 		right: 1rem;
-		height: 4rem;
 		width: 10rem;
-		background-color: #a0004025;
 		backdrop-filter: blur(3px);
-		border: 1px solid var(--c-pink);
 		border-radius: 4px;
 		padding: 0.5rem;
-		text-shadow: 0px 0px 10px black;
+		text-shadow: 0px 0px 5px black;
 		animation: fade-out 4s forwards;
 		z-index: 2;
+	}
+
+	.toast.success {
+		background-color: #22ff0025;
+		border: 1px solid #22ff00;
+	}
+
+	.toast.error {
+		background-color: #a0004025;
+		border: 1px solid var(--c-pink);
 	}
 
 	@keyframes fade-out {

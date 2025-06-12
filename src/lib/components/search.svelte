@@ -8,7 +8,6 @@
 	function submitPartner() {
 		let websites = document.querySelectorAll('.website');
 
-		// check condition
 		websites.forEach((website) => {
 			if (!website.innerText.toUpperCase().includes(input.toUpperCase())) {
 				website.classList.add('container-off');
@@ -19,7 +18,6 @@
 	}
 
 	onMount(() => {
-		// Your client-side code to run after the component is mounted
 		document.querySelector('form').classList.remove('form-off');
 	});
 </script>

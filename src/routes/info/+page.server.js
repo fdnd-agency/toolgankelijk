@@ -27,6 +27,7 @@ export const actions = {
 
 		const endpoint =
 			'https://api-eu-central-1-shared-euc1-02.hygraph.com/v2/clbe0zp4u2fkz01uj486xdza4/master';
+
 		const HYGRAPH_TOKEN = import.meta.env.VITE_HYGRAPH_KEY;
 		const headers = {
 			Authorization: `Bearer ${HYGRAPH_TOKEN}`

@@ -17,6 +17,7 @@
 		"@testing-library/jest-dom": "^6.6.3",
 		"@testing-library/svelte": "^5.2.6",
 		"@testing-library/user-event": "^14.6.1",
+		"fast-check": "^4.1.1",
 		"jsdom": "^26.0.0",
 		"prettier": "^2.8.0",
 		"prettier-plugin-svelte": "^2.10.1",
@@ -26,8 +27,19 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@node-rs/argon2": "^2.0.2",
+		"@oslojs/crypto": "^1.0.1",
+		"@oslojs/encoding": "^1.1.0",
+		"axios": "^1.8.4",
 		"dotenv": "^16.4.7",
+		"fast-speedtest-api": "^0.3.2",
+		"fast-xml-parser": "^5.0.9",
 		"graphql": "^16.8.1",
-		"graphql-request": "^6.1.0"
+		"graphql-request": "^6.1.0",
+		"linkedom": "^0.18.9",
+		"nodemailer": "^7.0.3",
+		"puppeteer": "^24.4.0",
+		"sitemap-parser": "^0.1.0",
+		"sitemapper": "^3.2.20"
 	}
 }

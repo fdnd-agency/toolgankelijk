@@ -267,7 +267,6 @@
 	.success-message {
 		color: green;
 	}
-
 	.error-message {
 		color: red;
 	}

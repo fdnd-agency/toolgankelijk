@@ -1,15 +1,23 @@
 import { gql } from 'graphql-request';
 import { hygraph } from '$lib/utils/hygraph.js';
+import { redirect } from '@sveltejs/kit';
 import getQueryAddPartner from '$lib/queries/addPartner';
 
-// the actions export is unique to sveltekit
+export async function load({ locals }) {
+	if (!locals?.sessie || !locals?.gebruiker) {
+		throw redirect(302, '/login');
+	}
+	if (!locals.gebruiker.isEmailGeverifieerd) {
+		throw redirect(302, '/verify-email');
+	}
+	return {};
+}
+
 export const actions = {
 	default: async ({ request }) => {
 		const formData = await request.formData();
 		const name = formData.get('name');
 		const url = formData.get('url');
-
-		// slugs moeten lowercase sinds het uniek is
 		const slug = name.toLowerCase();
 
 		try {

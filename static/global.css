@@ -123,7 +123,6 @@
 	--c-background: white;
 	--c-container: rgb(185, 0, 95);
 	--c-pink: rgb(99, 99, 99);
-	/* --c-pink: black; */
 	--c-container-stroke: white;
 	--c-grey: white;
 	--c-white2: black;
@@ -133,17 +132,13 @@
 	padding: 0;
 	margin: 0;
 	font-family: 'Inter', sans-serif;
+	box-sizing: border-box;
 }
 
 body {
 	background-color: var(--c-background);
 	color: var(--c-white);
 }
-
-/* @font-face {
-    font-family: inter-semibold;
-    src: url('$lib/assets/Inter-semiBold.ttf');
-} */
 
 /* Text styles */
 

@@ -16,6 +16,7 @@ export default function getQueryPrincipes(gql) {
 					titel
 					succescriteria {
 						id
+						niveau
 					}
 				}
 			}

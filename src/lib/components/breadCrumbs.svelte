@@ -2,40 +2,53 @@
 	export let params;
 	export let partners;
 	export let websites;
-
-	const faviconAPI =
-		'https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=';
+	export let principes;
 
 	$: selectedPartner = params.websiteUID
 		? partners.websites.find(({ slug }) => slug === params.websiteUID)
 		: '';
 	$: selectedUrl = params.urlUID ? params.urlUID : '';
+	$: selectedPrincipe = params.principeUID
+		? principes.find(({ slug }) => slug === params.principeUID)
+		: '';
+
+	const faviconAPI =
+		'https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=';
 </script>
 
 <div class="bread-crumbs">
 	<div class="dropdown">
 		<button>
 			{#if selectedPartner}
-				<img
-					width="24"
-					src="{faviconAPI}{selectedPartner.homepage}/&size=128"
-					alt="logo partner"
-				/>{selectedPartner.titel}
+				<span>
+					<img
+						width="24"
+						src="{faviconAPI}{selectedPartner.homepage}/&size=128"
+						alt="logo partner"
+					/>{selectedPartner.titel}
+				</span>
 			{:else}
-				Partners overzicht
+				<span>Partners overzicht</span>
 			{/if}
 		</button>
 		<ul>
 			<li>
-				<a href="/">Partners overzicht</a>
+				<a href="/"><span>Partners overzicht</span></a>
 			</li>
 			{#each partners.websites as partner}
-				<li>
-					<a href="/{partner.slug}">
-						<img width="24" src="{faviconAPI}{partner.homepage}/&size=256" alt="logo partner" />
-						{partner.titel}
-					</a>
-				</li>
+				{#if partner}
+					<li>
+						<a href="/{partner.slug}">
+							<span>
+								<img
+									width="24"
+									src="{faviconAPI}{partner.homepage}/&size=256"
+									alt="logo partner"
+								/>{partner.titel}
+							</span>
+						</a>
+					</li>
+				{/if}
 			{/each}
 		</ul>
 	</div>
@@ -45,19 +58,56 @@
 		<div class="dropdown">
 			<button>
 				{#if selectedUrl}
-					{selectedUrl}
+					<span>{selectedUrl}</span>
 				{:else}
-					<span>Websites overzicht</span>
+					<span>Urls overzicht</span>
 				{/if}
 			</button>
 			<ul>
 				<li>
-					<a href="/{selectedPartner.slug}">Websites overzicht</a>
+					{#if selectedPartner}
+						<a href="/{selectedPartner.slug}"><span>Urls overzicht</span></a>
+					{:else}
+						<span>Urls overzicht</span>
+					{/if}
 				</li>
 				{#each websites.urls as website}
-					<li>
-						<a href="/{selectedPartner.slug}/{website.slug}">{website.slug}</a>
-					</li>
+					{#if selectedPartner && website && website.slug}
+						<li>
+							<a href="/{selectedPartner.slug}/{website.slug}"><span>{website.slug}</span></a>
+						</li>
+					{/if}
+				{/each}
+			</ul>
+		</div>
+	{/if}
+
+	{#if selectedUrl && principes}
+		<span class="seperator">/</span>
+		<div class="dropdown">
+			<button>
+				{#if selectedPrincipe}
+					<span>{selectedPrincipe.titel}</span>
+				{:else}
+					<span>Principes overzicht</span>
+				{/if}
+			</button>
+			<ul>
+				<li>
+					{#if selectedPartner}
+						<a href="/{selectedPartner.slug}/{selectedUrl}"><span>Principes overzicht</span></a>
+					{:else}
+						<span>Principes overzicht</span>
+					{/if}
+				</li>
+				{#each principes as principe}
+					{#if selectedPartner && selectedUrl && principe && principe.slug}
+						<li>
+							<a href="/{selectedPartner.slug}/{selectedUrl}/{principe.slug}">
+								<span>{principe.titel}</span>
+							</a>
+						</li>
+					{/if}
 				{/each}
 			</ul>
 		</div>
@@ -77,15 +127,13 @@
 		align-items: center;
 		gap: 0.5rem;
 		appearance: none;
-		padding: 1em 0.6em;
-		padding-right: 4em;
-		border-radius: 0.5em;
-		font-size: 1em;
+		padding: 1rem 0.5rem;
+		border-radius: 0.5rem;
+		font-size: 1rem;
 		background-color: var(--c-container);
 		color: var(--c-grey);
 		border: none;
 		width: 100%;
-		height: 3.5rem;
 		text-align: left;
 		box-shadow: 0px -55px 0px 10px var(--c-background);
 	}
@@ -98,18 +146,29 @@
 		transition: 0.2s;
 	}
 
+	button span,
+	a span {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		width: 15ch;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
 	.dropdown {
 		position: relative;
 		display: inline-block;
-		min-width: 19rem;
+		min-width: 12rem;
 		height: max-content;
 		z-index: 1;
 	}
 
 	.dropdown img {
 		border-radius: 4px;
-		height: 24px;
-		width: 24px;
+		height: 1.5rem;
+		width: 1.5rem;
 	}
 
 	.seperator {
@@ -129,8 +188,8 @@
 		z-index: -1;
 	}
 
-	ul li:first-child {
-		border-bottom: 1px solid;
+	ul li:nth-child(2) {
+		border-top: 1px solid;
 	}
 
 	ul a {
@@ -152,10 +211,6 @@
 	ul a:hover {
 		background-color: var(--c-white);
 		color: var(--c-text-header);
-	}
-
-	ul a:hover img {
-		transform: translateY(-3px);
 	}
 
 	.dropdown:hover ul {

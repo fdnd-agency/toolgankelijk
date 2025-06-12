@@ -1,14 +1,20 @@
+<script>
+	import { enhance } from '$app/forms';
+
+	export let form;
+</script>
+
 <svelte:head>
 	<title>Login · Vervoerregio Amsterdam</title>
 </svelte:head>
 
 <section class="form-container">
-	<form>
+	<form method="post" action="?/signin" use:enhance>
 		<fieldset class="form-login">
 			<legend>Login</legend>
 			<p>
-				<label for="username">Username</label>
-				<input id="username" type="text" name="login" placeholder="Username" required />
+				<label for="email">Email</label>
+				<input id="email" type="email" name="email" placeholder="Email" required />
 				<span />
 			</p>
 			<p>
@@ -26,8 +32,10 @@
 			</p>
 			<button type="submit" class="form-submit">Sign in</button>
 
+			<p style="color: red;">{form?.message ?? ''}</p>
+
 			<div class="form-link">
-				<a class="link-account" href="/account">Don't have an account?</a>
+				<a class="link-account" href="/register">Don't have an account?</a>
 				<a class="link-password" href="/info">Forgot password?</a>
 			</div>
 		</fieldset>

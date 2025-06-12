@@ -1,53 +1,32 @@
 import { gql } from 'graphql-request';
 import { hygraph } from '$lib/utils/hygraph.js';
-import getQueryDeletePartner from '$lib/queries/deletePartner';
-import getQueryUpdatePartner from '$lib/queries/updatePartner';
+import { redirect } from '@sveltejs/kit';
 import getQueryPartner from '$lib/queries/partner';
-import getQueryAddPartner from '$lib/queries/addPartner';
 
-export async function load() {
-	let query = getQueryPartner(gql);
-	return await hygraph.request(query);
-}
-
-export const actions = {
-	addPartner: async ({ request }) => {
-		const formData = await request.formData();
-		const name = formData.get('name');
-		const url = formData.get('url');
-
-		// slugs moeten lowercase sinds het uniek is
-		const slug = name.toLowerCase();
-
-		try {
-			let query = getQueryAddPartner(gql, name, url, slug);
-			let hygraphCall = await hygraph.request(query);
-
-			return {
-				hygraphCall,
-				success: true,
-				message: name + ' is toegevoegd.'
-			};
-		} catch (error) {
-			return {
-				message: 'Er ging wat mis, probeer het opnieuw.',
-				success: false
-			};
-		}
-	},
-	deletePartner: async ({ request }) => {
-		const formData = await request.formData();
-		const id = formData.get('id');
-		let query = getQueryDeletePartner(gql, id);
-		return await hygraph.request(query);
-	},
-	editPartner: async ({ request }) => {
-		const formData = await request.formData();
-		const id = formData.get('id');
-		const name = formData.get('name');
-		const slug = formData.get('slug');
-		const url = formData.get('url');
-		let query = getQueryUpdatePartner(gql, name, slug, url, id);
-		return await hygraph.request(query);
+export async function load(event) {
+	const { url, locals, cookies } = event;
+	if (locals.sessie === null || locals.gebruiker === null) {
+		throw redirect(302, '/login');
 	}
-};
+	if (!locals.gebruiker.isEmailGeverifieerd) {
+		throw redirect(302, '/verify-email');
+	}
+	const first = 20;
+	const skip = parseInt(url.searchParams.get('skip') || '0');
+
+	let query = getQueryPartner(gql, first, skip);
+	const data = await hygraph.request(query);
+
+	// Check for registration success cookie
+	const showRegistrationSuccess = cookies.get('show_registration_success') === '1';
+	if (showRegistrationSuccess) {
+		cookies.delete('show_registration_success', { path: '/' });
+	}
+
+	return {
+		websites: data,
+		first,
+		skip,
+		showRegistrationSuccess
+	};
+}

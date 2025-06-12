@@ -6,6 +6,7 @@ export default defineConfig({
 	test: {
 		include: ['tests/**/*.{test,spec}.{js,ts}'],
 		globals: true,
-		environment: 'jsdom'
+		environment: 'jsdom',
+		slowTestThreshold: 1000
 	}
 });

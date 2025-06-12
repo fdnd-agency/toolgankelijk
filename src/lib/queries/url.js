@@ -3,6 +3,7 @@ export default function getQueryUrl(gql, slug) {
 		query Url {
 			url(where: { slug: "${slug}" }) {
 				id
+				name
 				url
 				slug
 				updatedAt
@@ -13,6 +14,7 @@ export default function getQueryUrl(gql, slug) {
 					succescriteria(first: 200) {
 						id
 						index
+						niveau
 					}
 				}
 			}

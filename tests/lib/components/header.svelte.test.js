@@ -10,7 +10,8 @@ describe('/header.svelte', () => {
 			props: {
 				params: {},
 				partners: { websites: [] },
-				websites: { urls: [] }
+				websites: { urls: [] },
+				principes: []
 			}
 		});
 

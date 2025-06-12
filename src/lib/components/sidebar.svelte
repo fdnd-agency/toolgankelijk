@@ -2,28 +2,34 @@
 	export let principes;
 	export let urlData;
 
-	let successCriteriaMap = {};
-	let criteriaPerPrincipe = {};
 	let baseUrl = `/${urlData.url.website.slug}/${urlData.url.slug}`;
 
-	const criteriaSlice = urlData.url.checks.flatMap((check) =>
-		check.succescriteria.map((criteria) => criteria.index)
-	);
-
-	criteriaSlice.forEach((index) => {
-		const principleIndex = index.split('.')[0];
-		if (!successCriteriaMap[principleIndex]) {
-			successCriteriaMap[principleIndex] = [];
-		}
-		successCriteriaMap[principleIndex].push(index);
-	});
-
-	principes.forEach((principe) => {
-		criteriaPerPrincipe[principe.index] = principe.richtlijnen.reduce(
-			(total, richtlijn) => total + richtlijn.succescriteria.length,
-			0
+	// Get the niveaus for each principe
+	function getNiveausForPrincipe(principe) {
+		const niveaus = new Set();
+		principe.richtlijnen.forEach((richtlijn) =>
+			richtlijn.succescriteria.forEach((criteria) => {
+				if (criteria.niveau) niveaus.add(criteria.niveau);
+			})
 		);
-	});
+		// return the array and sort it by length
+		return Array.from(niveaus).sort((a, b) => a.length - b.length);
+	}
+
+	// Get the progress for each principe and niveau
+	function getProgress(principe, niveau) {
+		// All succescriteria for this principe and niveau
+		const total = principe.richtlijnen
+			.flatMap((r) => r.succescriteria)
+			.filter((sc) => sc.niveau === niveau).length;
+
+		// All succescriteria that are achieved for this principe and niveau
+		const behaald = urlData.url.checks
+			.flatMap((check) => check.succescriteria)
+			.filter((sc) => sc.niveau === niveau && sc.index.startsWith(principe.index + '.')).length;
+
+		return { total, behaald };
+	}
 </script>
 
 <aside>
@@ -33,20 +39,25 @@
 				<a href="{baseUrl}/{principe.slug}">
 					<h4>{principe.titel}</h4>
 					<span>Principe {principe.index}</span>
-					<div class="progress-container">
-						<progress
-							id="progress-partner"
-							max={criteriaPerPrincipe[principe.index] || 100}
-							value={successCriteriaMap[principe.index]?.length || 0}
-						/>
-						<label class="progress-percentage" for="progress-partner">
-							{(
-								((successCriteriaMap[principe.index]?.length || 0) /
-									(criteriaPerPrincipe[principe.index] || 100)) *
-								100
-							).toFixed(0)}%
-						</label>
-					</div>
+					{#each getNiveausForPrincipe(principe) as niveau}
+						<div class="progress-container">
+							<span>{niveau}</span>
+							<progress
+								id="progress-partner-{niveau}"
+								max={getProgress(principe, niveau).total || 1}
+								value={getProgress(principe, niveau).behaald || 0}
+							/>
+							<label class="progress-percentage" for="progress-partner-{niveau}">
+								{getProgress(principe, niveau).total
+									? Math.round(
+											(getProgress(principe, niveau).behaald /
+												getProgress(principe, niveau).total) *
+												100
+									  )
+									: 0}%
+							</label>
+						</div>
+					{/each}
 				</a>
 			</li>
 		{/each}
@@ -113,13 +124,11 @@
 	}
 
 	progress[value] {
-		/* Reset the default appearance */
 		-webkit-appearance: none;
 		appearance: none;
 		height: 10px;
 	}
 
-	/* chrome/safari */
 	progress[value]::-webkit-progress-bar {
 		background-color: var(--c-container-stroke);
 		border-radius: 0.5em;
