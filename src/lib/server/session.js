@@ -106,8 +106,7 @@ export function deleteSessionTokenCookie(event) {
 }
 
 export function generateSessionToken() {
-	const tokenBytes = new Uint8Array(20);
-	crypto.randomFillSync(tokenBytes);
+	const tokenBytes = crypto.randomBytes(20);
 	const token = encodeBase32LowerCaseNoPadding(tokenBytes).toLowerCase();
 	return token;
 }
