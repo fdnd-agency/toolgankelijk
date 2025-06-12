@@ -1,3 +1,4 @@
+import * as crypto from 'crypto';
 import { hygraph } from '$lib/utils/hygraph.js';
 import { gql } from 'graphql-request';
 import { encodeBase32LowerCaseNoPadding, encodeHexLowerCase } from '@oslojs/encoding';
@@ -106,7 +107,7 @@ export function deleteSessionTokenCookie(event) {
 
 export function generateSessionToken() {
 	const tokenBytes = new Uint8Array(20);
-	crypto.getRandomValues(tokenBytes);
+	crypto.randomFillSync(tokenBytes);
 	const token = encodeBase32LowerCaseNoPadding(tokenBytes).toLowerCase();
 	return token;
 }

@@ -4,7 +4,7 @@ import { generateEmailVerificationCode } from '../utils/generateEmailVerificatio
 import { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS } from '$env/static/private';
 import nodemailer from 'nodemailer';
 
-// This function retrieves the email verification request for a user by their request ID
+// Deze functie haalt het e-mailverificatieverzoek op voor een gebruiker via het request ID
 export async function getUserEmailVerificationRequest(userId, id) {
 	const query = gql`
 		query GetEmailVerificatieCode($id: ID!) {
@@ -35,7 +35,7 @@ export async function getUserEmailVerificationRequest(userId, id) {
 	return request;
 }
 
-// This function creates a new email verification request for a user
+// Deze functie maakt een nieuw e-mailverificatieverzoek aan voor een gebruiker
 export async function createEmailVerificationRequest(userId) {
 	await deleteUserEmailVerificationRequest(userId);
 
@@ -77,7 +77,7 @@ export async function createEmailVerificationRequest(userId) {
 	return request;
 }
 
-// This function deletes all email verification requests for a user
+// Deze functie verwijdert alle e-mailverificatieverzoeken voor een gebruiker
 export async function deleteUserEmailVerificationRequest(userId) {
 	const mutation = gql`
 		mutation DeleteEmailVerificatieCode($userId: ID!) {
@@ -89,7 +89,7 @@ export async function deleteUserEmailVerificationRequest(userId) {
 	await hygraph.request(mutation, { userId });
 }
 
-// This function sends a verification email to the users email address
+// Deze functie stuurt een verificatie-e-mail naar het e-mailadres van de gebruiker
 export async function sendVerificationEmail(email, code) {
 	const transporter = nodemailer.createTransport({
 		host: SMTP_HOST,
@@ -109,7 +109,7 @@ export async function sendVerificationEmail(email, code) {
 	});
 }
 
-// This function sets a cookie for the email verification request
+// Deze functie zet een cookie voor het e-mailverificatieverzoek
 export function setEmailVerificationRequestCookie(event, request) {
 	event.cookies.set('email_verification', request.id, {
 		httpOnly: true,
@@ -120,7 +120,7 @@ export function setEmailVerificationRequestCookie(event, request) {
 	});
 }
 
-// This function deletes the email verification request cookie
+// Deze functie verwijdert de cookie van het e-mailverificatieverzoek
 export function deleteEmailVerificationRequestCookie(event) {
 	event.cookies.set('email_verification', '', {
 		httpOnly: true,
@@ -131,7 +131,7 @@ export function deleteEmailVerificationRequestCookie(event) {
 	});
 }
 
-// This function retrieves the current user's email verification request using the email verification code's ID that is stored in the cookie
+// Deze functie haalt het huidige e-mailverificatieverzoek van de gebruiker op via het ID uit de cookie
 export async function getUserEmailVerificationRequestFromRequest(event) {
 	if (event.locals.gebruiker === null) {
 		return null;

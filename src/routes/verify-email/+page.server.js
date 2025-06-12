@@ -10,27 +10,27 @@ import {
 import { setUserEmailAsVerified } from '$lib/server/user';
 
 export async function load(event) {
-	// Check if the user is authenticated
+	// Controleer of de gebruiker is ingelogd
 	if (event.locals.gebruiker === null) {
 		throw redirect(302, '/login');
 	}
 
-	// Check if the user has already verified their email
+	// Controleer of de gebruiker zijn e-mail al heeft geverifieerd
 	if (event.locals.gebruiker.isEmailGeverifieerd) {
 		throw redirect(302, '/');
 	}
 
-	// Check if the user has a pending email verification request
+	// Controleer of er een lopend e-mailverificatieverzoek is
 	let verificationRequest = await getUserEmailVerificationRequestFromRequest(event);
 	if (verificationRequest === null || Date.now() >= verificationRequest.expiresAt.getTime()) {
 		verificationRequest = await createEmailVerificationRequest(event.locals.gebruiker.id);
 
-		// Send a new verification email if the request is new or expired
+		// Stuur een nieuwe verificatie-e-mail als het verzoek nieuw of verlopen is
 		sendVerificationEmail(verificationRequest.email, verificationRequest.code);
 		setEmailVerificationRequestCookie(event, verificationRequest);
 	}
 
-	// Return the email to the page for display
+	// Geef het e-mailadres terug voor weergave op de pagina
 	return {
 		email: verificationRequest.email
 	};
@@ -45,66 +45,66 @@ function delay(ms) {
 	return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-// This function handles the verification of the code entered by the user
+// Deze functie handelt de verificatie van de door de gebruiker ingevoerde code af
 async function verifyCode(event) {
-	// Check if the user is authenticated
+	// Controleer of de gebruiker is ingelogd
 	if (event.locals.sessie === null || event.locals.gebruiker === null) {
 		return fail(401, {
 			verify: {
-				message: 'Not authenticated'
+				message: 'Niet geauthenticeerd'
 			}
 		});
 	}
 
-	// Get the email verification request from the event and check if it exists
+	// Haal het e-mailverificatieverzoek op en controleer of het bestaat
 	let verificationRequest = await getUserEmailVerificationRequestFromRequest(event);
 	if (verificationRequest === null) {
 		return fail(401, {
 			verify: {
-				message: 'Not authenticated'
+				message: 'Niet geauthenticeerd'
 			}
 		});
 	}
 
-	// Get the code from the form data and validate it
+	// Haal de code uit de form data en valideer deze
 	const formData = await event.request.formData();
 	const code = formData.get('code');
 	if (typeof code !== 'string') {
 		return fail(400, {
 			verify: {
-				message: 'Invalid or missing fields'
+				message: 'Ongeldige of ontbrekende velden'
 			}
 		});
 	}
 	if (code === '') {
 		return fail(400, {
 			verify: {
-				message: 'Enter your code'
+				message: 'Voer je code in'
 			}
 		});
 	}
 
-	// Check if the code is correct and not expired
+	// Controleer of de code correct is en niet verlopen
 	if (Date.now() >= verificationRequest.expiresAt.getTime()) {
 		verificationRequest = await createEmailVerificationRequest(event.locals.gebruiker.id);
 		sendVerificationEmail(verificationRequest.email, verificationRequest.code);
 		return {
 			verify: {
-				message: 'The verification code was expired. We sent another code to your inbox.'
+				message: 'De verificatiecode is verlopen. We hebben een nieuwe code naar je inbox gestuurd.'
 			}
 		};
 	}
 
-	// If the code is incorrect, return an error
+	// Als de code onjuist is, geef een foutmelding
 	if (verificationRequest.code !== code) {
 		return fail(400, {
 			verify: {
-				message: 'Incorrect code.'
+				message: 'Verkeerde code.'
 			}
 		});
 	}
 
-	// If the code is correct, set the user's email as verified and delete the verification request and cookie
+	// Als de code correct is, markeer het e-mailadres als geverifieerd en verwijder het verzoek en de cookie
 	await deleteUserEmailVerificationRequest(event.locals.gebruiker.id);
 	await setUserEmailAsVerified(event.locals.gebruiker.id, verificationRequest.email);
 	deleteEmailVerificationRequestCookie(event);
@@ -121,22 +121,22 @@ async function verifyCode(event) {
 }
 
 async function resendEmail(event) {
-	// Check if the user is authenticated
+	// Controleer of de gebruiker is ingelogd
 	if (event.locals.sessie === null || event.locals.gebruiker === null) {
 		return fail(401, {
 			resend: {
-				message: 'Not authenticated'
+				message: 'Niet geauthenticeerd'
 			}
 		});
 	}
 
-	// Check if the user has already verified their email
+	// Controleer of de gebruiker zijn e-mail al heeft geverifieerd
 	let verificationRequest = await getUserEmailVerificationRequestFromRequest(event);
 	if (verificationRequest === null) {
 		if (event.locals.gebruiker.isEmailGeverifieerd) {
 			return fail(403, {
 				resend: {
-					message: 'Forbidden'
+					message: 'Niet toegestaan'
 				}
 			});
 		}
@@ -145,12 +145,12 @@ async function resendEmail(event) {
 		verificationRequest = await createEmailVerificationRequest(event.locals.gebruiker.id);
 	}
 
-	// Send a new verification email and set the cookie
+	// Stuur een nieuwe verificatie-e-mail en zet de cookie
 	sendVerificationEmail(verificationRequest.email, verificationRequest.code);
 	setEmailVerificationRequestCookie(event, verificationRequest);
 	return {
 		resend: {
-			message: 'A new code was sent to your inbox.'
+			message: 'Er is een nieuwe code naar je inbox gestuurd.'
 		}
 	};
 }
