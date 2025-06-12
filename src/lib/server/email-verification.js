@@ -36,11 +36,8 @@ export async function getUserEmailVerificationRequest(userId, id) {
 }
 
 // This function creates a new email verification request for a user
-export async function createEmailVerificationRequest(userId, email) {
+export async function createEmailVerificationRequest(userId) {
 	await deleteUserEmailVerificationRequest(userId);
-
-	const idBytes = new Uint8Array(20);
-	crypto.getRandomValues(idBytes);
 
 	const code = generateEmailVerificationCode();
 	const expiresAt = new Date(Date.now() + 1000 * 60 * 10);

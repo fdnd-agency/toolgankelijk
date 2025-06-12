@@ -23,10 +23,7 @@ export async function load(event) {
 	// Check if the user has a pending email verification request
 	let verificationRequest = await getUserEmailVerificationRequestFromRequest(event);
 	if (verificationRequest === null || Date.now() >= verificationRequest.expiresAt.getTime()) {
-		verificationRequest = await createEmailVerificationRequest(
-			event.locals.gebruiker.id,
-			event.locals.gebruiker.email
-		);
+		verificationRequest = await createEmailVerificationRequest(event.locals.gebruiker.id);
 
 		// Send a new verification email if the request is new or expired
 		sendVerificationEmail(verificationRequest.email, verificationRequest.code);
@@ -89,10 +86,7 @@ async function verifyCode(event) {
 
 	// Check if the code is correct and not expired
 	if (Date.now() >= verificationRequest.expiresAt.getTime()) {
-		verificationRequest = await createEmailVerificationRequest(
-			verificationRequest.userId,
-			verificationRequest.email
-		);
+		verificationRequest = await createEmailVerificationRequest(event.locals.gebruiker.id);
 		sendVerificationEmail(verificationRequest.email, verificationRequest.code);
 		return {
 			verify: {
@@ -146,15 +140,9 @@ async function resendEmail(event) {
 				}
 			});
 		}
-		verificationRequest = await createEmailVerificationRequest(
-			event.locals.gebruiker.id,
-			event.locals.gebruiker.email
-		);
+		verificationRequest = await createEmailVerificationRequest(event.locals.gebruiker.id);
 	} else {
-		verificationRequest = await createEmailVerificationRequest(
-			event.locals.gebruiker.id,
-			verificationRequest.email
-		);
+		verificationRequest = await createEmailVerificationRequest(event.locals.gebruiker.id);
 	}
 
 	// Send a new verification email and set the cookie

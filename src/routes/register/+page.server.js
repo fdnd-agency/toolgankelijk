@@ -105,7 +105,7 @@ export const actions = {
 
 		const hashedPassword = await hashPassword(password);
 		const user = await createUser(email, username, hashedPassword);
-		const emailVerificationRequest = await createEmailVerificationRequest(user.id, user.email);
+		const emailVerificationRequest = await createEmailVerificationRequest(user.id);
 		sendVerificationEmail(emailVerificationRequest.email, emailVerificationRequest.code);
 		setEmailVerificationRequestCookie(event, emailVerificationRequest);
 		const sessionToken = generateSessionToken();
