@@ -7,7 +7,8 @@ describe('verifyUsernameInput', () => {
 		fc.assert(
 			fc.property(fc.string({ maxLength: 3 }), (username) => {
 				expect(verifyUsernameInput(username)).toBe(false);
-			})
+			}),
+			{ numRuns: 200 } // fast-check default runs is 100
 		);
 	});
 
@@ -16,7 +17,7 @@ describe('verifyUsernameInput', () => {
 			fc.property(fc.string({ minLength: 32 }), (username) => {
 				expect(verifyUsernameInput(username)).toBe(false);
 			}),
-			{ numRuns: 200 } // fast-check default runs is 100
+			{ numRuns: 200 }
 		);
 	});
 
