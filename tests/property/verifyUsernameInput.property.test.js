@@ -2,27 +2,47 @@ import { describe, it, expect } from 'vitest';
 import fc from 'fast-check';
 import { verifyUsernameInput } from '../../src/lib/server/user.js';
 
-describe('Property test: verifyUsernameInput', () => {
-	it('accepts only usernames between 4 and 31 chars with no leading/trailing whitespace', () => {
+describe('verifyUsernameInput', () => {
+	it('rejects usernames shorter than 4 characters', () => {
+		fc.assert(
+			fc.property(fc.string({ maxLength: 3 }), (username) => {
+				expect(verifyUsernameInput(username)).toBe(false);
+			})
+		);
+	});
+
+	it('rejects usernames longer than 31 characters', () => {
+		fc.assert(
+			fc.property(fc.string({ minLength: 32 }), (username) => {
+				expect(verifyUsernameInput(username)).toBe(false);
+			}),
+			{ numRuns: 200 } // fast-check default runs is 100
+		);
+	});
+
+	it('rejects usernames with leading or trailing whitespace', () => {
 		fc.assert(
 			fc.property(
-				fc.string(), // generate arbitrary strings
+				fc
+					.string({ minLength: 4, maxLength: 31 })
+					.filter((usernameInput) => usernameInput.trim() !== usernameInput),
 				(username) => {
-					const result = verifyUsernameInput(username);
-					const trimmed = username.trim();
-					if (
-						typeof username !== 'string' ||
-						username.length < 4 ||
-						username.length > 31 ||
-						username !== trimmed
-					) {
-						expect(result).toBe(false);
-					} else {
-						expect(result).toBe(true);
-					}
+					expect(verifyUsernameInput(username)).toBe(false);
 				}
 			),
-			{ numRuns: 200 } // fast-check default runs is 100
+			{ numRuns: 200 }
+		);
+	});
+
+	it('accepts valid usernames (4–31 chars, no leading/trailing whitespace)', () => {
+		fc.assert(
+			fc.property(
+				fc.string({ minLength: 4, maxLength: 31 }).filter((s) => s.trim() === s && s.length > 0),
+				(username) => {
+					expect(verifyUsernameInput(username)).toBe(true);
+				}
+			),
+			{ numRuns: 200 }
 		);
 	});
 });

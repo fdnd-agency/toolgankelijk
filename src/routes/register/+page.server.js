@@ -30,76 +30,58 @@ export const actions = {
 
 		if (typeof email !== 'string' || typeof username !== 'string' || typeof password !== 'string') {
 			return fail(400, {
-				message: 'Invalid or missing fields',
-				email: '',
-				username: ''
+				message: 'Invalid or missing fields'
 			});
 		}
 
 		if (password !== confirmPassword) {
 			return fail(400, {
-				message: 'Passwords do not match',
-				email,
-				username
+				message: 'Passwords do not match'
 			});
 		}
 
 		if (email === '' || password === '' || username === '') {
 			return fail(400, {
-				message: 'Please enter your username, email, and password',
-				email: '',
-				username: ''
+				message: 'Please enter your username, email, and password'
 			});
 		}
 
 		if (!verifyEmailInput(email)) {
 			return fail(400, {
-				message: 'Invalid email',
-				email,
-				username
+				message: 'Invalid email'
 			});
 		}
 
 		const validDomain = await isValidEmailDomain(email);
 		if (!validDomain) {
 			return fail(400, {
-				message: 'Email domain is not allowed',
-				email,
-				username
+				message: 'Email domain is not allowed'
 			});
 		}
 
 		const emailAvailable = await checkEmailAvailability(email);
 		if (!emailAvailable) {
 			return fail(400, {
-				message: 'Email is already used',
-				email,
-				username
+				message: 'Email is already used'
 			});
 		}
 
 		if (!verifyUsernameInput(username)) {
 			return fail(400, {
-				message: 'Invalid username',
-				email,
-				username
+				message: 'Invalid username'
 			});
 		}
 
 		if (!(await checkUsernameAvailability(username))) {
 			return fail(400, {
-				message: 'Username is already taken',
-				email,
-				username
+				message: 'Username is already taken'
 			});
 		}
 
 		const strongPassword = await verifyPasswordStrength(password);
 		if (!strongPassword.valid) {
 			return fail(400, {
-				message: strongPassword.message,
-				email,
-				username
+				message: strongPassword.message
 			});
 		}
 

@@ -2,35 +2,36 @@ import { describe, it, expect } from 'vitest';
 import fc from 'fast-check';
 import { actions } from '../../src/routes/register/+page.server.js';
 
-// Helper: generate a random email or garbage string
-const email = fc.oneof(fc.emailAddress(), fc.string({ minLength: 1, maxLength: 40 }));
-
-// Helper: generate a username (sometimes valid, sometimes not)
-const username = fc.string({ minLength: 0, maxLength: 40 });
-
-// Helper: generate a password (sometimes valid, sometimes not)
-const password = fc.string({ minLength: 0, maxLength: 40 });
-
-// Compose confirm-password with password using .chain
 const account = fc
-	.tuple(email, username, password)
-	.chain(([email, username, password]) =>
-		fc.boolean().map((match) => [email, username, password, match ? password : password + 'x'])
+	.record({
+		email: fc.oneof(fc.emailAddress(), fc.string({ minLength: 1, maxLength: 40 })),
+		username: fc.string({ minLength: 0, maxLength: 40 }),
+		password: fc.string({ minLength: 0, maxLength: 40 })
+	})
+	.chain(({ email, username, password }) =>
+		fc.boolean().map((match) => ({
+			email,
+			username,
+			password,
+			confirmPassword: match ? password : password + 'x'
+		}))
 	);
 
 describe('Monkey test: create account with random input', () => {
-	it('should never throw and always return a result object', async () => {
+	it('handles all inputs gracefully and returns a result object', async () => {
 		await fc.assert(
-			fc.asyncProperty(account, async ([email, username, password, confirmPassword]) => {
+			fc.asyncProperty(account, async (acc) => {
+				// Simulate the event object as expected by the action
 				const event = {
 					request: {
+						// Simulate the form data as expected by the action
 						formData: async () => ({
 							get: (key) =>
 								({
-									email,
-									username,
-									password,
-									'confirm-password': confirmPassword
+									email: acc.email,
+									username: acc.username,
+									password: acc.password,
+									'confirm-password': acc.confirmPassword
 								}[key])
 						})
 					},
@@ -40,18 +41,17 @@ describe('Monkey test: create account with random input', () => {
 
 				let result;
 				try {
+					// Call the register action with the simulated event
 					result = await actions.register(event);
 				} catch (err) {
 					expect(err).toBeUndefined();
 				}
 				expect(typeof result).toBe('object');
-				expect(
-					'status' in result ||
-						'username' in result ||
-						(result && result.data && 'message' in result.data)
-				).toBe(true);
+				expect('status' in result || (result && result.data && 'message' in result.data)).toBe(
+					true
+				);
 			}),
 			{ numRuns: 200 }
 		);
-	}, 30_000); // Set the test timeout to 30 seconds to allow enough time for 200 property-based test runs
+	});
 });

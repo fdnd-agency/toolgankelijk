@@ -23,30 +23,26 @@ export const actions = {
 
 		if (typeof email !== 'string' || typeof password !== 'string') {
 			return fail(400, {
-				message: 'Invalid or missing fields',
-				email: ''
+				message: 'Invalid or missing fields'
 			});
 		}
 
 		if (email === '' || password === '') {
 			return fail(400, {
-				message: 'Please enter your email and password',
-				email
+				message: 'Please enter your email and password'
 			});
 		}
 
 		if (!verifyEmailInput(email)) {
 			return fail(400, {
-				message: 'Invalid password or email',
-				email
+				message: 'Invalid password or email'
 			});
 		}
 
 		const user = await getUserFromEmail(email);
 		if (user === null) {
 			return fail(400, {
-				message: 'Invalid password or email',
-				email
+				message: 'Invalid password or email'
 			});
 		}
 
@@ -54,8 +50,7 @@ export const actions = {
 		const validPassword = await verifyPasswordHash(passwordHash, password);
 		if (!validPassword) {
 			return fail(400, {
-				message: 'Invalid password or email',
-				email
+				message: 'Invalid password or email'
 			});
 		}
 
