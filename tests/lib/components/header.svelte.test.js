@@ -37,7 +37,8 @@ describe('/header.svelte', () => {
 			props: {
 				params: {},
 				partners: { websites: [] },
-				websites: { urls: [] }
+				websites: { urls: [] },
+				principes: []
 			}
 		});
 
@@ -62,7 +63,8 @@ describe('/header.svelte', () => {
 			props: {
 				params: {},
 				partners: { websites: [] },
-				websites: { urls: [] }
+				websites: { urls: [] },
+				principes: []
 			}
 		});
 
