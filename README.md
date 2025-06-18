@@ -39,7 +39,7 @@ Wij hebben de volgende technieken en technologiën gebruikt:
 - [SvelteKit](https://svelte.dev/docs/kit/introduction)
 - [Hygraph](https://hygraph.com/)
 - [GraphQL](https://graphql.org/)
-- Link naar Figma [Figma](https://www.figma.com/design/djc9IttXBpRtzImK5Wxiwv/Vervoerregio-Amsterdam?node-id=0-1&t=8dC9foJZof3EOqEf-1)
+- Link naar [Figma](https://www.figma.com/design/djc9IttXBpRtzImK5Wxiwv/Vervoerregio-Amsterdam?node-id=0-1&t=8dC9foJZof3EOqEf-1)
 - [Netlify](https://www.netlify.com/)
 - [Nodemailer](https://nodemailer.com/)
 
