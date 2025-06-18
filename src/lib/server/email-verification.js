@@ -91,22 +91,7 @@ export async function deleteUserEmailVerificationRequest(userId) {
 
 // Deze functie stuurt een verificatie-e-mail naar het e-mailadres van de gebruiker
 export async function sendVerificationEmail(email, code) {
-	const transporter = nodemailer.createTransport({
-		host: SMTP_HOST,
-		port: parseInt(SMTP_PORT),
-		secure: true,
-		auth: {
-			user: SMTP_USER,
-			pass: SMTP_PASS
-		}
-	});
-
-	await transporter.sendMail({
-		from: `"Vervoerregio Amsterdam" <${SMTP_USER}>`,
-		to: email,
-		subject: 'Your verification code',
-		text: `Your verification code is: ${code}`
-	});
+	return;
 }
 
 // Deze functie zet een cookie voor het e-mailverificatieverzoek
