@@ -43,6 +43,13 @@ Wij hebben de volgende technieken en technologiën gebruikt:
 - [Netlify](https://www.netlify.com/)
 - [Nodemailer](https://nodemailer.com/)
 
+## Design rationale
+
+Bij dit project hoort ook een design rationale. Deze hebben wij zelf gemaakt.
+Hierin staat alle nodige informatie voor onze ontwerpkeuzes waar je als designer veel  aan hebt.
+Dit is de [designrationale_vra_mats_ilias.pdf](https://github.com/user-attachments/files/20852123/designrationale_vra_mats_ilias.pdf)
+
+
 ## Installatie
 
 ```
