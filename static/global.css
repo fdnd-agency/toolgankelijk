@@ -2,10 +2,34 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
 
+@media (prefers-color-scheme: dark) {
+	:root {
+		/* HSL support */
+		--dark-h: 8;
+		--dark-s: 18;
+		--dark-l: 74;
+
+		--light-h: 338;
+		--light-s: 18;
+		--light-l: 35;
+	}
+}
+
 :root {
+
+	/* HEX colors */
+	--color-primary: #B9005F;
+	--color-neutral: #000000;
+	--color-secondary: #7B8F0C;
+	--color-tertiary: #46BECD;
+	--color-quaternary: #6E7DBC;
+
+
+
+	
 	/* Main Colors */
-	--c-magenta: rgb(185, 0, 95);
-	--c-pink: rgb(227, 0, 89);
+	--c-magenta: 329;
+	--c-white: 0;
 
 	/* Text */
 	--c-white: rgb(255, 255, 255);
@@ -106,18 +130,7 @@
 	--light-dark: hsl(var(--light-h) var(--light-s) var(--light-l) / var(--dark));
 }
 
-@media (prefers-color-scheme: dark) {
-	:root {
-		/* HSL support */
-		--dark-h: 8;
-		--dark-s: 18;
-		--dark-l: 74;
 
-		--light-h: 338;
-		--light-s: 18;
-		--light-l: 35;
-	}
-}
 
 .lightmode {
 	--c-background: white;
