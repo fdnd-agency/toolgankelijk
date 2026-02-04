@@ -1,0 +1,5 @@
+title: "Toolgankelijk"
+status: "in progress"
+main_link: "https://toolgankelijk.agency.fdnd.nl/"
+dev_link: "https://toolgankelijk.dev.fdnd.nl/"
+tech_stack: ["SvelteKit", "Hygraph"]
