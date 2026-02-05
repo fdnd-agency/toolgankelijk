@@ -378,7 +378,7 @@
 
 	@media (inverted-colors: inverted) {
 		li a {
-			border: solid 0.1rem white;
+			color: var(--color-primary);
 		}
 	}
 </style>
