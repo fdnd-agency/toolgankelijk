@@ -1,17 +1,10 @@
 <script>
-	export let amount;
-	export let perPage;
-	export let currentPage;
+	let { amount, perPage, currentPage } = $props();
 
 	// calculate the number of pages
 	let pageCount = Math.ceil(amount / perPage);
 
-	// Amount of buttons to show
-	$: pageNumbers = getPages();
 
-	// calculate the skip values for the previous and next buttons
-	$: prevSkip = Math.max((currentPage - 2) * perPage, 0);
-	$: nextSkip = Math.min(currentPage * perPage, (pageCount - 1) * perPage);
 
 	// calculate the skip values for the pageNumbers buttons
 	function getPages() {
@@ -39,6 +32,11 @@
 		}
 		return pages;
 	}
+	// Amount of buttons to show
+	let pageNumbers = $derived(getPages());
+	// calculate the skip values for the previous and next buttons
+	let prevSkip = $derived(Math.max((currentPage - 2) * perPage, 0));
+	let nextSkip = $derived(Math.min(currentPage * perPage, (pageCount - 1) * perPage));
 </script>
 
 <form method="GET" data-sveltekit-reload>

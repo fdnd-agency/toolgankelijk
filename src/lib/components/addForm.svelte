@@ -1,30 +1,34 @@
 <script>
+	import { preventDefault } from 'svelte/legacy';
+
 	import Loader from '$lib/components/loader.svelte';
 
-	export let params;
-	export let isType;
-	export let id;
-	export let name;
-	export let url;
-	export let slug;
-	export let website;
+	let {
+		params,
+		isType,
+		id,
+		name,
+		url,
+		slug,
+		website
+	} = $props();
 
 	let idValue = id ? id : '';
-	let nameValue = name ? name : '';
-	let urlValue = url ? url : '';
+	let nameValue = $state(name ? name : '');
+	let urlValue = $state(url ? url : '');
 	let slugValue = params ? params : slug ? slug : '';
-	let submitValue;
+	let submitValue = $state();
 
-	let sending = false;
-	let logs = [];
-	let urlCount = 0;
-	let urlTotal = 0;
-	let type = 0;
+	let sending = $state(false);
+	let logs = $state([]);
+	let urlCount = $state(0);
+	let urlTotal = $state(0);
+	let type = $state(0);
 
-	let title;
+	let title = $state();
 	let action;
-	let dialog;
-	let tip;
+	let dialog = $state();
+	let tip = $state();
 
 	if (isType === 'addPartner') {
 		title = 'Partner toevoegen';
@@ -163,13 +167,13 @@
 			{#if tip !== null}
 				<div class="tip-message" aria-label="tip message">
 					<p>{tip}</p>
-					<button on:click={closeTip}>
+					<button onclick={closeTip}>
 						<img src="/icons/close.svg" width="24" height="24" alt="sluit" />
 					</button>
 				</div>
 			{/if}
 
-			<form on:submit|preventDefault={submitHandling}>
+			<form onsubmit={preventDefault(submitHandling)}>
 				<input type="hidden" value={idValue} name="id" />
 
 				{#if isType === 'addPartner' || isType === 'editPartner' || isType === 'addUrl' || isType === 'editUrl'}
@@ -380,7 +384,7 @@
 						{/if}
 						{submitValue}
 					</button>
-					<button class="remove-button" on:click={close}>
+					<button class="remove-button" onclick={close}>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							width="24"

@@ -3,11 +3,11 @@
 	import { page } from '$app/stores';
 	import Header from '$lib/components/header.svelte';
 
-	export let data;
+	let { data, children } = $props();
 
-	$: params = $page.params;
-	$: websites = data.websitesData.website;
-	$: principes = data.principesData.principes;
+	let params = $derived($page.params);
+	let websites = $derived(data.websitesData.website);
+	let principes = $derived(data.principesData.principes);
 
 	let partners = data.partnersData;
 
@@ -26,5 +26,5 @@
 <Header {params} {partners} {websites} {principes} user={data.gebruiker} />
 
 <main id="main">
-	<slot />
+	{@render children?.()}
 </main>

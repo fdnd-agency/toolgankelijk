@@ -1,9 +1,9 @@
 <script>
 	import { onMount } from 'svelte';
 
-	export let placeholderProp;
+	let { placeholderProp } = $props();
 
-	let input;
+	let input = $state();
 
 	function submitPartner() {
 		let websites = document.querySelectorAll('.website');
@@ -22,7 +22,7 @@
 	});
 </script>
 
-<form class="form-off" on:input={submitPartner}>
+<form class="form-off" oninput={submitPartner}>
 	<label for="partner-search">Zoeken</label>
 	<input type="search" id="partner-search" placeholder={placeholderProp} bind:value={input} />
 </form>

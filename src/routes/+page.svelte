@@ -7,8 +7,7 @@
 	import AddForm from '$lib/components/addForm.svelte';
 	import Pages from '$lib/components/pages.svelte';
 
-	export let data;
-	export let form;
+	let { data, form } = $props();
 
 	let skip = data.skip;
 	const first = data.first;
@@ -16,7 +15,7 @@
 	const currentPage = skip / first + 1;
 	let showRegistrationSuccess = data.showRegistrationSuccess;
 	let heading = { titel: 'Partners overzicht' };
-	let dialogRef;
+	let dialogRef = $state();
 	const principes = data.websites.principes;
 
 	function handleDialog() {
@@ -40,7 +39,7 @@
 <Heading {heading} />
 
 <section>
-	<button class="add-partner" on:click={handleDialog}>Partner toevoegen</button>
+	<button class="add-partner" onclick={handleDialog}>Partner toevoegen</button>
 	<Search placeholderProp="Gvb" />
 </section>
 
@@ -66,7 +65,7 @@
 	{/each}
 </ul>
 
-<a href="#main" class="btn-top" on:click={scrollToTop}>⬆</a>
+<a href="#main" class="btn-top" onclick={scrollToTop}>⬆</a>
 
 <style>
 	section {

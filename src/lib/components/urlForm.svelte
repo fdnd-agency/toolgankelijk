@@ -1,5 +1,5 @@
 <script>
-	export let params;
+	let { params } = $props();
 </script>
 
 <section class="form-container">

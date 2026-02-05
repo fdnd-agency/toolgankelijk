@@ -4,11 +4,11 @@
 	import walking from '$lib/assets/walking_together.svg';
 	import knowledge from '$lib/assets/sharing_knowledge.svg';
 
-	$: heading = { titel: 'Informatie' };
+	let heading = $derived({ titel: 'Informatie' });
 
-	let isSubmitting = false;
-	let successMessage = '';
-	let errorMessage = '';
+	let isSubmitting = $state(false);
+	let successMessage = $state('');
+	let errorMessage = $state('');
 
 	function handleEnhance({ formElement }) {
 		const handleSubmit = async ({ result }) => {
@@ -97,7 +97,7 @@
 			<form
 				action="/info"
 				use:enhance={handleEnhance}
-				on:submit={() => (isSubmitting = true)}
+				onsubmit={() => (isSubmitting = true)}
 				method="POST"
 			>
 				<fieldset class="form-vraag">
@@ -106,7 +106,7 @@
 					<label for="mail">Email</label>
 					<input placeholder="email" id="email" type="email" name="email" required />
 					<label for="vraag">Uw vraag</label>
-					<textarea id="vraag" name="vraag" placeholder="Bericht..." required rows="3" />
+					<textarea id="vraag" name="vraag" placeholder="Bericht..." required rows="3"></textarea>
 					<button type="submit" class="form-button" disabled={isSubmitting}>
 						{#if isSubmitting}
 							versturen...
