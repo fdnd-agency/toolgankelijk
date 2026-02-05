@@ -1,5 +1,7 @@
 title: "Toolgankelijk"
-status: "in progress"
+client: "Vervoerregio Amsterdam"
+status: "active"
+years: [2]
 main_link: "https://toolgankelijk.agency.fdnd.nl/"
 dev_link: "https://toolgankelijk.dev.fdnd.nl/"
 tech_stack: ["SvelteKit", "Hygraph"]
