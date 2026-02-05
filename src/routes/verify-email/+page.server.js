@@ -12,12 +12,12 @@ import { setUserEmailAsVerified } from '$lib/server/user';
 export async function load(event) {
 	// Controleer of de gebruiker is ingelogd
 	if (event.locals.gebruiker === null) {
-		throw redirect(302, '/login');
+		redirect(302, '/login');
 	}
 
 	// Controleer of de gebruiker zijn e-mail al heeft geverifieerd
 	if (event.locals.gebruiker.isEmailGeverifieerd) {
-		throw redirect(302, '/');
+		redirect(302, '/');
 	}
 
 	// Controleer of er een lopend e-mailverificatieverzoek is
@@ -117,7 +117,7 @@ async function verifyCode(event) {
 		maxAge: 60
 	});
 
-	throw redirect(302, '/');
+	redirect(302, '/');
 }
 
 async function resendEmail(event) {

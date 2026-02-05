@@ -11,10 +11,10 @@ export async function load(event) {
 	const { params, url, locals } = event;
 	const { websiteUID } = params;
 	if (locals.sessie === null || locals.gebruiker === null) {
-		throw redirect(302, '/login');
+		redirect(302, '/login');
 	}
 	if (!locals.gebruiker.isEmailGeverifieerd) {
-		throw redirect(302, '/verify-email');
+		redirect(302, '/verify-email');
 	}
 	const first = 20;
 	const skip = parseInt(url.searchParams.get('skip') || '0');

@@ -6,10 +6,10 @@ import getQueryPartner from '$lib/queries/partner';
 export async function load(event) {
 	const { url, locals, cookies } = event;
 	if (locals.sessie === null || locals.gebruiker === null) {
-		throw redirect(302, '/login');
+		redirect(302, '/login');
 	}
 	if (!locals.gebruiker.isEmailGeverifieerd) {
-		throw redirect(302, '/verify-email');
+		redirect(302, '/verify-email');
 	}
 	const first = 20;
 	const skip = parseInt(url.searchParams.get('skip') || '0');
