@@ -1,6 +1,6 @@
-<!-- @migration-task Error while migrating Svelte code: Can't migrate code with afterUpdate. Please migrate by hand. -->
+
 <script>
-	import { afterUpdate } from 'svelte';
+	import { tick } from 'svelte';
 
 	export let itemArray = [];
 	export let urlCount;
@@ -13,7 +13,7 @@
 
 	$: logCount = itemArray.length;
 
-	afterUpdate(() => {
+	tick(() => {
 		// scroll alleen als er écht nieuwe items zijn toegevoegd
 		if (itemArray.length > prevLen && logList) {
 			logList.scrollTop = logList.scrollHeight;
