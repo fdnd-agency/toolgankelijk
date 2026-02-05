@@ -194,9 +194,9 @@
 		</section>
 
 		<section class="more-info-section">
-			<p>Laatst bewerkt: <time>{lastTime}</time></p>
+			<!-- <p>Laatst bewerkt: <time>{lastTime}</time></p> -->
 
-			<div id="progress-container" class="color-accent-secondary">
+			<div id="progress-container" class="color-primary">
 				<progress id="progress-partner" max="100" value="0" bind:this={progressbar} />
 				<label class="progress-percentage" for="progress-partner" bind:this={labelValue}>0%</label>
 			</div>
@@ -247,7 +247,6 @@
   		background-color: var(--light-1);
 		padding: 1em;
 		border-radius: 0.5rem;
-		border: solid 0.1rem var(--color-black);
 		width: 100%;
 		transition: 0.25s ease;
 	}
@@ -302,6 +301,7 @@
 	.icons button:hover {
 		background-color: var(--color-primary);
 		transition: 0.25s ease;
+		color: white;
 	}
 
 	a section button {
@@ -351,7 +351,7 @@
 	}
 
 	progress[value]::-webkit-progress-bar {
-		background-color: var(--color-black);
+		background-color: var(--color-white);
 		border-radius: 0.5rem;
 	}
 
@@ -375,10 +375,6 @@
 		display: none;
 	}
 
-	svg {
-		fill: transparent;
-		stroke: white;
-	}
 
 	@media (inverted-colors: inverted) {
 		li a {
