@@ -23,11 +23,12 @@ Dankjewel voor je interesse in bijdragen aan dit project! Deze richtlijnen zorge
 ## Team afspraken
 - Houd je aan de afspraken/code conventies gemaakt in de contributing.md
 - We organiseren dagelijks een stand ups.
-- Rick werkt maandag, woensdag, vrijdag mee aan het project.
+- Rick werkt woensdag, donderdag, vrijdag mee aan het project.
 - Alle branches worden gemerged naar de dev-branch
 - Documentatie van de Sprint Reviews word genoteerd in issues
 - We gebruiken 1 taal in het project.
 - Aan het einde van elke sprint een retrospect (retromat).
+- We streven naar 60 punten per sprint
 
 ---
 
