@@ -16,14 +16,16 @@
 }
 
 body {
+	color-scheme: light dark;
 	/* HEX colors */
-	--color-primary: #B9005F;
-	--color-primary-light: #F1CCDF;
-	--color-white: #ffffff;
-	--color-black: #000000;
-	--color-accent-primary: #7B8F0C;
-	--color-accent-secondary: #46BECD;
-	--color-accent-tertiary: #0085C8;
+	--color-primary: light-dark(#B9005F,#4F0029);
+	--color-primary-light: light-dark(#F1CCDF,#3F4903);
+	--color-white: light-dark(#ffffff,#000000);
+	--color-black: light-dark(#000000,#fffffF);
+	--color-accent-primary: light-dark(#7B8F0C,#3F4903);
+	--color-accent-secondary: light-dark(#46BECD,#185860);
+	--color-accent-tertiary: light-dark(#0085C8,#003C5A);
+	--color-accent-quarternary: light-dark(#6E7DBC,#384065);
 	
 	--c-magenta: 329;
 	--c-white: 0;
