@@ -1,6 +1,6 @@
 
 <script>
-	import { tick } from 'svelte';
+	import { afterUpdate } from 'svelte';
 
 	export let itemArray = [];
 	export let urlCount;
@@ -13,7 +13,7 @@
 
 	$: logCount = itemArray.length;
 
-	tick(() => {
+	afterUpdate(() => {
 		// scroll alleen als er écht nieuwe items zijn toegevoegd
 		if (itemArray.length > prevLen && logList) {
 			logList.scrollTop = logList.scrollHeight;
@@ -27,9 +27,9 @@
 		<p>Logs ({logCount})</p>
 		{#if type !== 1}
 			{#if urlCount && urlTotal}
-				<p><span class="loader" />Urls ({urlCount}/{urlTotal})</p>
+				<p><span class="loader">Urls ({urlCount}/{urlTotal})</p>
 			{:else}
-				<p><span class="loader" />Aantal urls ophalen...</p>
+				<p><span class="loader">Aantal urls ophalen...</span></p>
 			{/if}
 		{/if}
 	</summary>
