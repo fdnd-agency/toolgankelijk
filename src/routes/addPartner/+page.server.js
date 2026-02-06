@@ -5,10 +5,10 @@ import getQueryAddPartner from '$lib/queries/addPartner';
 
 export async function load({ locals }) {
 	if (!locals?.sessie || !locals?.gebruiker) {
-		redirect(302, '/login');
+		throw redirect(302, '/login');
 	}
 	if (!locals.gebruiker.isEmailGeverifieerd) {
-		redirect(302, '/verify-email');
+		throw redirect(302, '/verify-email');
 	}
 	return {};
 }
