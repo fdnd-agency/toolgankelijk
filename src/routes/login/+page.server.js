@@ -8,9 +8,9 @@ export function load(event) {
 	const { locals } = event;
 	if (locals.sessie !== null && locals.gebruiker !== null) {
 		if (!locals.gebruiker.isEmailGeverifieerd) {
-			redirect(302, '/verify-email');
+			throw redirect(302, '/verify-email');
 		}
-		redirect(302, '/');
+		throw redirect(302, '/');
 	}
 	return {};
 }
@@ -59,8 +59,8 @@ export const actions = {
 		setSessionTokenCookie(event, sessionToken, session.houdbaarTot);
 
 		if (!user.isEmailGeverifieerd) {
-			redirect(302, '/verify-email');
+			throw redirect(302, '/verify-email');
 		}
-		redirect(302, '/');
+		throw redirect(302, '/');
 	}
 };

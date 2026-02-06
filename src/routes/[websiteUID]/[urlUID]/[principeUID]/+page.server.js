@@ -11,10 +11,10 @@ import getQueryNiveaus from '$lib/queries/niveaus.js';
 export const load = async ({ params, locals }) => {
 	const { websiteUID, urlUID, principeUID } = params;
 	if (!locals?.sessie || !locals?.gebruiker) {
-		redirect(302, '/login');
+		throw redirect(302, '/login');
 	}
 	if (!locals.gebruiker.isEmailGeverifieerd) {
-		redirect(302, '/verify-email');
+		throw redirect(302, '/verify-email');
 	}
 	const queryUrl = getQueryUrl(gql, urlUID);
 	const queryToolboard = getQueryToolboard(gql, urlUID, principeUID);
@@ -25,9 +25,9 @@ export const load = async ({ params, locals }) => {
 
 	if (urlData.url?.website.slug === websiteUID) {
 		if (toolboardData.principe === null) {
-			error(404, {
-            				message: 'Principe bestaat niet'
-            			});
+			throw error(404, {
+				message: 'Principe bestaat niet'
+			});
 		}
 		return {
 			toolboardData,
@@ -35,9 +35,9 @@ export const load = async ({ params, locals }) => {
 			niveausData
 		};
 	}
-	error(404, {
-    		message: 'Not found'
-    	});
+	throw error(404, {
+		message: 'Not found'
+	});
 };
 
 export const actions = {

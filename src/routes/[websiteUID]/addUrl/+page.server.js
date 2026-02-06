@@ -8,10 +8,10 @@ import createEmptyCheck from '$lib/queries/addEmptyCheck';
 export async function load({ params, locals }) {
 	const { websiteUID } = params;
 	if (!locals?.sessie || !locals?.gebruiker) {
-		redirect(302, '/login');
+		throw redirect(302, '/login');
 	}
 	if (!locals.gebruiker.isEmailGeverifieerd) {
-		redirect(302, '/verify-email');
+		throw redirect(302, '/verify-email');
 	}
 	let query = getQueryWebsite(gql, websiteUID);
 	return await hygraph.request(query).websitesData;
