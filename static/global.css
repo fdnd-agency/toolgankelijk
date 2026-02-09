@@ -17,8 +17,8 @@
 
 body {
 	color-scheme: light dark;
-	--color-primary: light-dark(#B9005F,#4F0029);
-	--color-primary-light: light-dark(#F1CCDF,#3F4903);
+	--color-primary: light-dark(#B9005F,#F1CCDF);
+	--color-primary-light: light-dark(#F1CCDF,#B9005F);
 
 	/* accent colors */
 	--color-accent-primary: light-dark(#7B8F0C,#3F4903);
@@ -179,6 +179,13 @@ body {
 	--color-neutral-black: #fffffF;
 	--color-neutral-darkgrey: #A9999B;
 	--color-neutral-lightgrey:#6D495A;
+	
+	--c-background: white;
+	--c-container: rgb(185, 0, 95);
+	--c-pink: rgb(99, 99, 99);
+	--c-container-stroke: white;
+	--c-grey: white;
+	--c-white2: black;
 }
 
 * {
