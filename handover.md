@@ -41,3 +41,18 @@ aan het nieuw ontwerp.
 Als het nieuwe ontwerp is verwerkt in de code is het aan te raden om te kijken of je
 als team het project kan overzetten naar de nieuwe versie van SvelteKit of te werken
 aan een database met geen rate limiet om vertragingen in requests te vermijden.
+
+
+## Sprintdoel
+
+- **Wie** willen we in Sprint 19 vooral helpen (welke gebruiker / stakeholder)?
+    
+    Bedrijven die hun website willen testen
+    
+- **Welk probleem** lossen we deze sprint op?
+    
+    Redesign, Refactor van de code, Database vervangen, Extra functies toevoegen aan de web applicatie
+    
+- **Welke uitkomst** willen we aan het einde kunnen laten zien/demonstreren?
+    
+    Een redesigned website met nieuwe uitgewerkte features (release candidate)
