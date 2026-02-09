@@ -29,8 +29,8 @@ body {
 	/* neutral colors */
 	--color-neutral-white: light-dark(#ffffff,#000000);
 	--color-neutral-black: light-dark(#000000,#fffffF);
-	--color-neutral-dark-grey: light-dark(#6D495A,#A9999B);
-	--color-neutral-light-grey: light-dark(#A9999B,#6D495A);
+	--color-neutral-darkgrey: light-dark(#6D495A,#A9999B);
+	--color-neutral-lightgrey: light-dark(#A9999B,#6D495A);
 
 	/* gradient colors */
 	--color-gradient-primary: linear-gradient(to right, #B9005F, #DE0059);
@@ -96,7 +96,6 @@ body {
 
 	/* fallback */
 	--place-holder: oklch(50% 0.1 120);
-
 }
 
 .color-primary,
@@ -105,7 +104,9 @@ body {
 .color-black,
 .color-accent-primary,
 .color-accent-secondary,
-.color-accent-tertiary {
+.color-accent-tertiary,
+.color-neutral-darkgrey,
+.color-neutral-lightgrey {
 	@supports (color: color-mix(in hsl, white, black)) {
 		--dark-3: color-mix(in hsl, var(--place-holder) 70%, black 30%);
         --dark-2: color-mix(in hsl, var(--place-holder) 80%, black 20%);
@@ -155,13 +156,29 @@ body {
 	--place-holder: var(--color-accent-tertiary);
 }
 
+.color-neutral-darkgrey {
+	--place-holder: var(--color-neutral-darkgrey);
+}
+
+.color-neutral-grey {
+	--place-holder: var(--color-neutral-grey);
+}
+
 .lightmode {
-	--c-background: white;
-	--c-container: rgb(185, 0, 95);
-	--c-pink: rgb(99, 99, 99);
-	--c-container-stroke: white;
-	--c-grey: white;
-	--c-white2: black;
+	--color-primary: #4F0029;
+	--color-primary-light: #3F4903;
+
+	/* accent colors */
+	--color-accent-primary: #3F4903;
+	--color-accent-secondary: #185860;
+	--color-accent-tertiary: #003C5A;
+	--color-accent-quarternary: #384065;
+
+	/* neutral colors */
+	--color-neutral-white: #000000;
+	--color-neutral-black: #fffffF;
+	--color-neutral-darkgrey: #A9999B;
+	--color-neutral-lightgrey:#6D495A;
 }
 
 * {
@@ -171,13 +188,7 @@ body {
 	box-sizing: border-box;
 }
 
-body {
-	background-color: var(--accent-primary);
-	color: var(--c-white);
-}
-
 /* Text styles */
-
 h1 {
 	font-size: 3rem;
 	font-weight: 600;
@@ -205,7 +216,6 @@ p {
 }
 
 /* Default layout */
-
 .richtlijn-uitleg > ul {
 	margin-left: 1.5em;
 	padding-top: 0.5em;
