@@ -9,7 +9,7 @@
 	let websites = $derived(data.websitesData.website);
 	let principes = $derived(data.principesData.principes);
 
-	let partners = data.partnersData;
+	let partners = $derived(data.partnersData);
 
 	onNavigate((navigation) => {
 		if (!document.startViewTransition) return;

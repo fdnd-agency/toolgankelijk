@@ -1,22 +1,12 @@
 <script>
-	import { preventDefault } from 'svelte/legacy';
-
 	import Loader from '$lib/components/loader.svelte';
 
-	let {
-		params,
-		isType,
-		id,
-		name,
-		url,
-		slug,
-		website
-	} = $props();
+	let { params, isType, id, name, url, slug, website } = $props();
 
-	let idValue = id ? id : '';
-	let nameValue = $state(name ? name : '');
-	let urlValue = $state(url ? url : '');
-	let slugValue = params ? params : slug ? slug : '';
+	let idValue = $derived(id ? id : '');
+	let nameValue = $derived(name ? name : '');
+	let urlValue = $derived(url ? url : '');
+	let slugValue = $derived(params ? params : slug ? slug : '');
 	let submitValue = $state();
 
 	let sending = $state(false);
@@ -173,7 +163,7 @@
 				</div>
 			{/if}
 
-			<form onsubmit={preventDefault(submitHandling)}>
+			<form onsubmit={submitHandling}>
 				<input type="hidden" value={idValue} name="id" />
 
 				{#if isType === 'addPartner' || isType === 'editPartner' || isType === 'addUrl' || isType === 'editUrl'}
