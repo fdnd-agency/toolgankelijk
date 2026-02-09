@@ -1,19 +1,18 @@
 
 <script>
-	import { afterUpdate } from 'svelte';
+	
+	let {itemArray = [],
+	urlCount,
+	urlTotal,
+	type} = $props()
 
-	export let itemArray = [];
-	export let urlCount;
-	export let urlTotal;
-	export let type;
-
-	let logCount = 0;
+	let logCount = $derived(itemArray.length)
 	let logList;
 	let prevLen = 0;
 
-	$: logCount = itemArray.length;
 
-	afterUpdate(() => {
+
+	$effect(() => {
 		// scroll alleen als er écht nieuwe items zijn toegevoegd
 		if (itemArray.length > prevLen && logList) {
 			logList.scrollTop = logList.scrollHeight;
@@ -27,9 +26,9 @@
 		<p>Logs ({logCount})</p>
 		{#if type !== 1}
 			{#if urlCount && urlTotal}
-				<p><span class="loader">Urls ({urlCount}/{urlTotal})</p>
+				<p><span class="loader"></span>Urls ({urlCount}/{urlTotal})</p>
 			{:else}
-				<p><span class="loader">Aantal urls ophalen...</span></p>
+				<p><span class="loader"></span>Aantal urls ophalen...</p>
 			{/if}
 		{/if}
 	</summary>
@@ -37,7 +36,7 @@
 		{#each itemArray as item}
 			<li class="log-item {item.type}">
 				{#if item.type === 'loading'}
-					<span class="loader" />
+					<span class="loader"></span>
 				{:else}
 					<img src="/icons/{item.type}.svg" alt={item.type} width="16" height="16" />
 				{/if}
