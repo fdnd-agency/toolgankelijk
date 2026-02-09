@@ -52,7 +52,7 @@
 											(getProgress(principe, niveau).behaald /
 												getProgress(principe, niveau).total) *
 												100
-									  )
+										)
 									: 0}%
 							</label>
 						</div>

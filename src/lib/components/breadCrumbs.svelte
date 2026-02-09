@@ -1,18 +1,13 @@
 <script>
-	let {
-		params,
-		partners,
-		websites,
-		principes
-	} = $props();
+	let { params, partners, websites, principes } = $props();
 
-	let selectedPartner = $derived(params.websiteUID
-		? partners.websites.find(({ slug }) => slug === params.websiteUID)
-		: '');
+	let selectedPartner = $derived(
+		params.websiteUID ? partners.websites.find(({ slug }) => slug === params.websiteUID) : ''
+	);
 	let selectedUrl = $derived(params.urlUID ? params.urlUID : '');
-	let selectedPrincipe = $derived(params.principeUID
-		? principes.find(({ slug }) => slug === params.principeUID)
-		: '');
+	let selectedPrincipe = $derived(
+		params.principeUID ? principes.find(({ slug }) => slug === params.principeUID) : ''
+	);
 
 	const faviconAPI =
 		'https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=';

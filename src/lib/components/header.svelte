@@ -14,13 +14,7 @@
 	 */
 
 	/** @type {Props} */
-	let {
-		params,
-		partners,
-		websites,
-		principes,
-		user = null
-	} = $props();
+	let { params, partners, websites, principes, user = null } = $props();
 
 	let isLightMode = $state(false);
 
@@ -166,7 +160,10 @@
 		font-size: 1rem;
 		font-weight: 600;
 		cursor: pointer;
-		transition: background 0.2s, color 0.2s, border 0.2s;
+		transition:
+			background 0.2s,
+			color 0.2s,
+			border 0.2s;
 	}
 
 	.signout-btn:hover {

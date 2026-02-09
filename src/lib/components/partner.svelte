@@ -13,12 +13,7 @@
 	 */
 
 	/** @type {Props} */
-	let {
-		website,
-		principes,
-		params,
-		isUrl = false
-	} = $props();
+	let { website, principes, params, isUrl = false } = $props();
 
 	let editType = $state();
 	let deleteType = $state();

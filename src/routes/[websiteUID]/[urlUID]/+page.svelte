@@ -75,7 +75,7 @@
 													(progressData[principe.index][n.niveau].behaald /
 														progressData[principe.index][n.niveau].total) *
 														100
-											  )
+												)
 											: 0
 										: 0}%
 								</label>

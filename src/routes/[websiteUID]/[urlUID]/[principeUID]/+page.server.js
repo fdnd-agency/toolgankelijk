@@ -54,7 +54,7 @@ export const actions = {
 		const currentlyStoredCheckedSuccesscriteria = toolboardData.url.checks[0]
 			? toolboardData.url.checks[0].succescriteria.filter((succescriterium) => {
 					return succescriterium.niveau == niveau && succescriterium.index[0] == principeIndex;
-			  })
+				})
 			: [];
 
 		if (checkedSuccesscriteria.length) {

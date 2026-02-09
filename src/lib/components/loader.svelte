@@ -1,16 +1,9 @@
-
 <script>
-	
-	let {itemArray = [],
-	urlCount,
-	urlTotal,
-	type} = $props()
+	let { itemArray = [], urlCount, urlTotal, type } = $props();
 
-	let logCount = $derived(itemArray.length)
+	let logCount = $derived(itemArray.length);
 	let logList;
 	let prevLen = 0;
-
-
 
 	$effect(() => {
 		// scroll alleen als er écht nieuwe items zijn toegevoegd

@@ -4,8 +4,6 @@
 	// calculate the number of pages
 	let pageCount = $derived(Math.ceil(amount / perPage - 1));
 
-
-
 	// calculate the skip values for the pageNumbers buttons
 	function getPages() {
 		const pages = [];
