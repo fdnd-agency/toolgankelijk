@@ -8,10 +8,10 @@
 
 	let { data, form } = $props();
 
-	let skip = data.skip;
-	const first = data.first;
-	let totalUrls = data.websites.website.totalUrls;
-	const currentPage = skip / first + 1;
+	let skip = $derived(data.skip);
+	const first = $derived(data.first);
+	let totalUrls = $derived(data.websites.website.totalUrls);
+	const currentPage = $derived(skip / first + 1);
 
 	let heading = $derived({
 		titel: data.websites.website.titel,
@@ -22,7 +22,7 @@
 	let params = $derived($page.params.websiteUID);
 
 	let dialogRef = $state();
-	const principes = data.websites.principes;
+	const principes = $derived(data.websites.principes);
 
 	function handleDialog() {
 		dialogRef.open();

@@ -9,14 +9,14 @@
 
 	let { data, form } = $props();
 
-	let skip = data.skip;
-	const first = data.first;
-	let totalUrls = data.websites.totalUrls;
-	const currentPage = skip / first + 1;
-	let showRegistrationSuccess = data.showRegistrationSuccess;
+	let skip = $derived(data.skip);
+	const first = $derived(data.first);
+	let totalUrls = $derived(data.websites.totalUrls);
+	const currentPage = $derived(skip / first + 1);
+	let showRegistrationSuccess = $derived(data.showRegistrationSuccess);
 	let heading = { titel: 'Partners overzicht' };
 	let dialogRef = $state();
-	const principes = data.websites.principes;
+	const principes = $derived(data.websites.principes);
 
 	function handleDialog() {
 		dialogRef.open();
