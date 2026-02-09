@@ -609,7 +609,8 @@
 	}
 
 	.remove-button {
-		background-color: var(--c-container-stroke);
+		background-color: var(--c-container);
+		border: 1px solid var(--c-white);
 	}
 
 	.add-button svg,
