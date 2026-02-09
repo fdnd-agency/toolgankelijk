@@ -2,7 +2,7 @@
 	let { amount, perPage, currentPage } = $props();
 
 	// calculate the number of pages
-	let pageCount = Math.ceil(amount / perPage);
+	let pageCount = $derived(Math.ceil(amount / perPage - 1));
 
 
 
