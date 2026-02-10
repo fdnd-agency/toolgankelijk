@@ -154,7 +154,6 @@
 		window.location.reload();
 	}
 </script>
-
 <dialog open bind:this={dialog}>
     <section class="color-primary-light">
         <div class="add-form-heading">
@@ -168,10 +167,13 @@
         {#if !sending}
 		{#if tip !== null}
             <!-- exclmation mark -->
-                <button on:click={closeTip}>
-                    <img src="/icons/exclamation-icon.svg" width="32" height="32">
+				<div>
+                	<img src="/icons/exclamation-icon.svg" width="32" height="32">
+                	<p> {tip} {#if tip!==null} geen bericht om te weergeven {/if} </p>
+				</div>
+				<button on:click={closeTip}>
+                    <img src="/icons/cross-icon.svg" width="32" height="32">
                 </button>
-                <p> {tip} </p>
         {/if}
         {/if}
         </div>
@@ -179,11 +181,15 @@
 
             <form on:submit|preventDefault={submitHandling}>
 
+				<div class="form-inputfields">
                 <input type="text" placeholder="type in title">
 
                 <input type="text" placeholder="type in url">
+				</div>
 
                 <input type="checkbox" id="sitemap" name="Include sitemap">
+				<label>Sitemap gebruiken?</label>
+
 
                 <button>Partner toevoegen</button>
             </form>
@@ -191,6 +197,17 @@
 </dialog>
 
 <style>
+	dialog {
+		width: 100vw;
+		height: 100vh;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		overflow: visible;
+		top: 0;
+		border: none;
+	}
+
 	dialog::backdrop {
 		background-color: rgba(44, 44, 44, 0.75);
 		backdrop-filter: blur(0.5rem);
@@ -198,8 +215,10 @@
 
 	section {
 		background-color: var(--color);
-		height: 25vh;
-		width: 25vw;
+		height: 30vh;
+		width: 35vw;
+		height: 45vh;
+		border-radius: 12px;
 	}
 
     .add-form-heading {

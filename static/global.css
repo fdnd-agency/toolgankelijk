@@ -96,6 +96,9 @@ body {
 
 	/* fallback */
 	--place-holder: oklch(50% 0.1 120);
+
+	/* border radius */
+	--border-radius: 12px;
 }
 
 .color-primary,
@@ -238,4 +241,27 @@ p {
 
 .disabled {
 	display: none;
+}
+
+/* form elements */
+button {
+	border-radius: var(--border-radius);
+	width: fit-content;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+input[type='text'] {
+	height: 48px;
+	width: 100%;
+	background-color: var(--color-neutral-white);
+	border: var(--color-neutral-black) 1px solid;
+	border-radius: 12px;
+	font-size: 16px;
+
+	@media screen (min-width: 720px){
+		height: 32px;
+		font-size: 12px;
+	}
 }
