@@ -4,7 +4,7 @@
 	import Partner from '$lib/components/partner.svelte';
 	import Search from '$lib/components/search.svelte';
 	import AddForm from '$lib/components/addForm.svelte';
-	import AddFormNew from '$lib/components/addFormNew.svelte';
+	import AddFormNew from '$lib/components/dialog.svelte';
 	import Pages from '$lib/components/pages.svelte';
 
 	export let data;
@@ -50,11 +50,15 @@
 
 <AddForm bind:this={dialogRef} {params} isType="addUrl" />
 
+
+
 <ul>
 	{#each websites as website}
 		<Partner {website} {overzicht} {params} {principes} isUrl={true} />
 	{/each}
 </ul>
+
+<AddFormNew />
 
 
 <style>

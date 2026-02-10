@@ -155,22 +155,29 @@
 	}
 </script>
 
-<dialog>
+<dialog open bind:this={dialog}>
     <section class="color-primary-light">
         <div class="add-form-heading">
-            <h2>Voeg $naam toe</h2>
-            <button class="add-form-cross">
-                <img src="/icons/cross-icon" width="32">
+            <h2>Voeg {title} toe</h2>
+            <button class="add-form-cross" on:click={close}>
+                <img src="/icons/cross-icon.svg" width="32" height="32" alt="close form">
             </button>
         </div>
 
         <div>
+        {#if !sending}
+		{#if tip !== null}
             <!-- exclmation mark -->
-            <img src="/icons/exclamation-icon" width="32">
-            <p> Tip </p>
+                <button on:click={closeTip}>
+                    <img src="/icons/exclamation-icon.svg" width="32" height="32">
+                </button>
+                <p> {tip} </p>
+        {/if}
+        {/if}
         </div>
 
-            <form>
+
+            <form on:submit|preventDefault={submitHandling}>
 
                 <input type="text" placeholder="type in title">
 
@@ -180,15 +187,23 @@
 
                 <button>Partner toevoegen</button>
             </form>
-
-
-
     </section>
 </dialog>
 
 <style>
+	dialog::backdrop {
+		background-color: rgba(44, 44, 44, 0.75);
+		backdrop-filter: blur(0.5rem);
+	}
+
+	section {
+		background-color: var(--color);
+		height: 25vh;
+		width: 25vw;
+	}
+
     .add-form-heading {
         margin: 1em;
-        background-color: var(--color);
+
     }
 </style>
