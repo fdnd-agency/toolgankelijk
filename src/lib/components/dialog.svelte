@@ -156,7 +156,7 @@
 </script>
 <dialog open bind:this={dialog}>
     <section class="color-primary-light">
-        <div class="add-form-heading">
+        <div class="form-heading">
             <h2>Voeg {title} toe</h2>
             <button class="add-form-cross" on:click={close}>
                 <img src="/icons/cross-icon.svg" width="32" height="32" alt="close form">
@@ -167,31 +167,33 @@
         {#if !sending}
 		{#if tip !== null}
             <!-- exclmation mark -->
-				<div>
-                	<img src="/icons/exclamation-icon.svg" width="32" height="32">
-                	<p> {tip} {#if tip!==null} geen bericht om te weergeven {/if} </p>
-				</div>
-				<button on:click={closeTip}>
-                    <img src="/icons/cross-icon.svg" width="32" height="32">
-                </button>
+
         {/if}
         {/if}
         </div>
 
 
             <form on:submit|preventDefault={submitHandling}>
+				<div class="form-message-tip">
+                	<img src="/icons/exclamation-icon.svg" width="32" height="32">
+                	<p> {tip} {#if tip!==null} geen bericht om te weergeven {/if} </p>
+
+					<button on:click={closeTip}>
+                    	<img src="/icons/cross-icon.svg" width="32" height="32">
+                	</button>
+				</div>
 
 				<div class="form-inputfields">
-                <input type="text" placeholder="type in title">
+					<input type="text" placeholder="type in title">
 
-                <input type="text" placeholder="type in url">
+					<input type="text" placeholder="type in url">
 				</div>
 
                 <input type="checkbox" id="sitemap" name="Include sitemap">
-				<label>Sitemap gebruiken?</label>
+				<label> Sitemap gebruiken?</label>
 
 
-                <button>Partner toevoegen</button>
+                <button class="form-submit-button">Partner toevoegen</button>
             </form>
     </section>
 </dialog>
@@ -219,10 +221,63 @@
 		width: 35vw;
 		height: 45vh;
 		border-radius: 12px;
+		padding-left: 2%;
+		padding-right: 2%;
 	}
 
-    .add-form-heading {
+    .form-heading {
         margin: 1em;
+		display: flex;
+		justify-content: space-between;
+		color: var(--color-neutral-black);
 
-    }
+		button, input[type="submit"], input[type="reset"] {
+			background: none;
+			color: inherit;
+			border: none;
+			padding: 0;
+			font: inherit;
+			cursor: pointer;
+			outline: inherit;
+		}
+	}
+
+	.form-message-tip {
+		display: flex;
+		height: 48px;
+		justify-content: space-between;
+		padding: 1em;
+		background-color: var(--dark-2);
+		border-radius: var(--border-radius);
+		align-items: center;
+		margin-bottom: 1em;
+
+		@media (max-width: 720px){
+			height: 32px;
+			font-size: 12px;
+		}
+
+		button, input[type="submit"], input[type="reset"] {
+			background: none;
+			color: inherit;
+			border: none;
+			padding: 0;
+			font: inherit;
+			cursor: pointer;
+			outline: inherit;
+		}
+	}
+
+	.form-inputfields {
+		display: flex;
+		flex-direction: column;
+		gap: 1em;
+	}
+
+	.form-submit-button {
+		width: 100%;
+	}
+
+	/* no button style */
+
 </style>
