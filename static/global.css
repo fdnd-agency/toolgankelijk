@@ -2,37 +2,62 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
 
-:root {
-	/* Main Colors */
-	--c-magenta: rgb(185, 0, 95);
-	--c-pink: rgb(227, 0, 89);
+@media (prefers-color-scheme: dark) {
+	:root {
+		/* HSL support */
+		--dark-h: 8;
+		--dark-s: 18;
+		--dark-l: 74;
 
-	/* Text */
+		--light-h: 338;
+		--light-s: 18;
+		--light-l: 35;
+	}
+}
+
+body {
+	color-scheme: light dark;
+	--color-primary: light-dark(#B9005F,#F1CCDF);
+	--color-primary-light: light-dark(#F1CCDF,#B9005F);
+
+	/* accent colors */
+	--color-accent-primary: light-dark(#7B8F0C,#3F4903);
+	--color-accent-secondary: light-dark(#46BECD,#185860);
+	--color-accent-tertiary: light-dark(#0085C8,#003C5A);
+	--color-accent-quarternary: light-dark(#6E7DBC,#384065);
+
+	/* neutral colors */
+	--color-neutral-white: light-dark(#ffffff,#000000);
+	--color-neutral-black: light-dark(#000000,#fffffF);
+	--color-neutral-darkgrey: light-dark(#6D495A,#A9999B);
+	--color-neutral-lightgrey: light-dark(#A9999B,#6D495A);
+
+	/* gradient colors */
+	--color-gradient-primary: linear-gradient(to right, #B9005F, #DE0059);
+	--color-gradient-secondary: linear-gradient(to right, #B9005F, #de005900);
+
+	--c-magenta: 329;
+	--c-white: 0;
+
 	--c-white: rgb(255, 255, 255);
 	--c-white2: white;
 	--c-grey: rgb(149, 149, 149);
 	--c-text-header: black;
 
-	/* body */
 	--c-background: rgb(30, 30, 30);
 
-	/* Containers */
 	--c-container: rgb(44, 44, 44);
 	--c-container-stroke: rgb(69, 69, 69);
 
-	/* Contrast Colors */
 	--c-green: rgb(82, 255, 0);
 	--c-orange: rgb(255, 153, 0);
 	--c-red: rgb(247, 44, 44);
 
-	/* input */
 	--c-border: rgb(255, 255, 255);
 
-	/* modal button */
 	--c-modal-button: rgb(99, 99, 99);
 	--c-text-button: #ffffff;
 
-	/* HSL main */
 	--purple-h: 329;
 	--purple-s: 100;
 	--purple-l: 36;
@@ -41,7 +66,6 @@
 	--pink-s: 100;
 	--pink-l: 45;
 
-	/* HSL contrast */
 	--yellow-h: 42;
 	--yellow-s: 100;
 	--yellow-l: 69;
@@ -58,7 +82,6 @@
 	--blue-s: 35;
 	--blue-l: 54;
 
-	/* HSL support */
 	--dark-h: 338;
 	--dark-s: 18;
 	--dark-l: 35;
@@ -67,59 +90,96 @@
 	--light-s: 18;
 	--light-l: 74;
 
-	/* HSL alpha */
 	--light: 0.8;
 	--neutral: 0.6;
 	--dark: 0.4;
 
-	/* HSL combinations */
-	--purple-light: hsl(var(--purple-h) var(--purple-s) var(--purple-l) / var(--light));
-	--purple-neutral: hsl(var(--purple-h) var(--purple-s) var(--purple-l) / var(--neutral));
-	--purple-dark: hsl(var(--purple-h) var(--purple-s) var(--purple-l) / var(--dark));
-
-	--pink-light: hsl(var(--pink-h) var(--pink-s) var(--pink-l) / var(--light));
-	--pink-neutral: hsl(var(--pink-h) var(--pink-s) var(--pink-l) / var(--neutral));
-	--pink-dark: hsl(var(--pink-h) var(--pink-s) var(--pink-l) / var(--dark));
-
-	--yellow-light: hsl(var(--yellow-h) var(--yellow-s) var(--yellow-l) / var(--light));
-	--yellow-neutral: hsl(var(--yellow-h) var(--yellow-s) var(--yellow-l) / var(--neutral));
-	--yellow-dark: hsl(var(--yellow-h) var(--yellow-s) var(--yellow-l) / var(--dark));
-
-	--cyan-light: hsl(var(--cyan-h) var(--cyan-s) var(--cyan-l) / var(--light));
-	--cyan-neutral: hsl(var(--cyan-h) var(--cyan-s) var(--cyan-l) / var(--neutral));
-	--cyan-dark: hsl(var(--cyan-h) var(--cyan-s) var(--cyan-l) / var(--dark));
-
-	--green-light: hsl(var(--green-h) var(--green-s) var(--green-l) / var(--light));
-	--green-neutral: hsl(var(--green-h) var(--green-s) var(--green-l) / var(--neutral));
-	--green-dark: hsl(var(--green-h) var(--green-s) var(--green-l) / var(--dark));
-
-	--blue-light: hsl(var(--blue-h) var(--blue-s) var(--blue-l) / var(--light));
-	--blue-neutral: hsl(var(--blue-h) var(--blue-s) var(--blue-l) / var(--neutral));
-	--blue-dark: hsl(var(--blue-h) var(--blue-s) var(--blue-l) / var(--dark));
-
-	--dark-light: hsl(var(--dark-h) var(--dark-s) var(--dark-l) / var(--light));
-	--dark-neutral: hsl(var(--dark-h) var(--dark-s) var(--dark-l) / var(--neutral));
-	--dark-dark: hsl(var(--dark-h) var(--dark-s) var(--dark-l) / var(--dark));
-
-	--light-light: hsl(var(--light-h) var(--light-s) var(--light-l) / var(--light));
-	--light-neutral: hsl(var(--light-h) var(--light-s) var(--light-l) / var(--neutral));
-	--light-dark: hsl(var(--light-h) var(--light-s) var(--light-l) / var(--dark));
+	/* fallback */
+	--place-holder: oklch(50% 0.1 120);
 }
 
-@media (prefers-color-scheme: dark) {
-	:root {
-		/* HSL support */
-		--dark-h: 8;
-		--dark-s: 18;
-		--dark-l: 74;
+.color-primary,
+.color-primary-light,
+.color-white,
+.color-black,
+.color-accent-primary,
+.color-accent-secondary,
+.color-accent-tertiary,
+.color-neutral-darkgrey,
+.color-neutral-lightgrey {
+	@supports (color: color-mix(in hsl, white, black)) {
+		--dark-3: color-mix(in hsl, var(--place-holder) 70%, black 30%);
+        --dark-2: color-mix(in hsl, var(--place-holder) 80%, black 20%);
+        --dark-1: color-mix(in hsl, var(--place-holder) 90%, black 10%);
+        --color:  color-mix(in hsl, var(--place-holder) 100%, white 0%);
+        --light-1: color-mix(in hsl, var(--place-holder) 100%, white 2%);
+        --light-2: color-mix(in hsl, var(--place-holder) 100%, white 7%);
+		--light-3: color-mix(in hsl, var(--place-holder) 100%, white 12%);
+    	}
 
-		--light-h: 338;
-		--light-s: 18;
-		--light-l: 35;
+    @supports (color: oklch(50% 0.1 120)) {
+		 --dark-3: oklch(from var(--place-holder) calc(l - 0.20) calc(c + 0.03) h);
+        --dark-2: oklch(from var(--place-holder) calc(l - 0.10) calc(c + 0.02) h);
+        --dark-1: oklch(from var(--place-holder) calc(l - 0.04) calc(c + 0.01) h);
+        --color: oklch(from var(--place-holder) l c h);
+        --light-1: oklch(from var(--place-holder) calc(l + 0.02) calc(c + 0.01) h);
+        --light-2: oklch(from var(--place-holder) calc(l + 0.04) calc(c + 0.02) h);
+		--light-3: oklch(from var(--place-holder) calc(l + 0.06) calc(c + 0.03) h);
+    	}
 	}
+
+.color-primary {
+	--place-holder: var(--color-primary);
+}
+
+.color-primary-light {
+	--place-holder: var(--color-primary-light);
+}
+
+.color-white {
+	--place-holder: var(--color-white);
+}
+
+.color-black {
+	--place-holder: var(--color-black);
+}
+
+.color-accent-primary {
+	--place-holder: var(--color-accent-primary);
+}
+
+.color-accent-secondary {
+	--place-holder: var(--color-accent-secondary);
+}
+
+.color-accent-tertiary {
+	--place-holder: var(--color-accent-tertiary);
+}
+
+.color-neutral-darkgrey {
+	--place-holder: var(--color-neutral-darkgrey);
+}
+
+.color-neutral-grey {
+	--place-holder: var(--color-neutral-grey);
 }
 
 .lightmode {
+	--color-primary: #4F0029;
+	--color-primary-light: #3F4903;
+
+	/* accent colors */
+	--color-accent-primary: #3F4903;
+	--color-accent-secondary: #185860;
+	--color-accent-tertiary: #003C5A;
+	--color-accent-quarternary: #384065;
+
+	/* neutral colors */
+	--color-neutral-white: #000000;
+	--color-neutral-black: #fffffF;
+	--color-neutral-darkgrey: #A9999B;
+	--color-neutral-lightgrey:#6D495A;
+	
 	--c-background: white;
 	--c-container: rgb(185, 0, 95);
 	--c-pink: rgb(99, 99, 99);
@@ -135,13 +195,7 @@
 	box-sizing: border-box;
 }
 
-body {
-	background-color: var(--c-background);
-	color: var(--c-white);
-}
-
 /* Text styles */
-
 h1 {
 	font-size: 3rem;
 	font-weight: 600;
@@ -169,7 +223,6 @@ p {
 }
 
 /* Default layout */
-
 .richtlijn-uitleg > ul {
 	margin-left: 1.5em;
 	padding-top: 0.5em;

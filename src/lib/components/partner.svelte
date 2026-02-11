@@ -125,8 +125,8 @@
 	});
 </script>
 
-<li class="website" class:container-off={containerOff}>
-	<a href={link}>
+<li class="color-primary-light"  class:container-off={containerOff}>
+  <a href={link}>
 		<section class="logo-partner-section">
 			<div>
 				<img
@@ -140,7 +140,7 @@
 			</div>
 			<div class="icons" id={`icons-${website.id}`}>
 				{#if !isUrl}
-					<button onclick={openForm.bind(null, auditType)} aria-label="start audit button">
+					<button on:click={openForm.bind(null, auditType)} aria-label="start audit button" class="color-primary">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							width="24"
@@ -200,10 +200,10 @@
 		</section>
 
 		<section class="more-info-section">
-			<p>Laatst bewerkt: <time>{lastTime}</time></p>
+			<!-- <p>Laatst bewerkt: <time>{lastTime}</time></p> -->
 
-			<div class="progress-container">
-				<progress id="progress-partner" max="100" value="0" bind:this={progressbar}></progress>
+			<div id="progress-container" class="color-primary">
+				<progress id="progress-partner" max="100" value="0" bind:this={progressbar} />
 				<label class="progress-percentage" for="progress-partner" bind:this={labelValue}>0%</label>
 			</div>
 		</section>
@@ -248,18 +248,17 @@
 		flex-direction: column;
 		justify-content: space-between;
 		gap: 1rem;
-		color: var(--c-text);
+		color: black;
 		text-decoration: none;
-		background-color: var(--c-container);
+  		background-color: var(--light-1);
 		padding: 1em;
 		border-radius: 0.5rem;
-		border: solid 0.1rem var(--c-container-stroke);
 		width: 100%;
 		transition: 0.25s ease;
 	}
 
 	li a:hover {
-		border: solid 0.1rem var(--c-orange);
+		border: solid 0.1rem var(--color-primary);
 	}
 
 	h2 {
@@ -306,8 +305,9 @@
 	}
 
 	.icons button:hover {
-		background-color: var(--c-orange);
+		background-color: var(--color-primary);
 		transition: 0.25s ease;
+		color: white;
 	}
 
 	a section button {
@@ -334,7 +334,7 @@
 		font-weight: normal;
 	}
 
-	.progress-container {
+	#progress-container {
 		display: flex;
 		flex-direction: row;
 		justify-content: space-between;
@@ -346,7 +346,7 @@
 	progress {
 		width: 100%;
 		border-radius: 0.5rem;
-		background-color: var(--c-container-stroke);
+		background-color: var(--dark-1);
 		border: none;
 		overflow: hidden;
 	}
@@ -357,18 +357,18 @@
 	}
 
 	progress[value]::-webkit-progress-bar {
-		background-color: var(--c-container-stroke);
+		background-color: var(--color-white);
 		border-radius: 0.5rem;
 	}
 
 	progress[value]::-webkit-progress-value {
-		background-color: var(--c-orange);
+		background-color: var(--dark-2);
 		border-radius: 0.5rem;
 		transition: 1s ease-out;
 	}
 
 	progress[value]::-moz-progress-bar {
-		background-color: var(--c-orange);
+		background-color: var(--dark-2);
 		border-radius: 0.5rem;
 		transition: 1s ease-out;
 	}
@@ -381,14 +381,10 @@
 		display: none;
 	}
 
-	svg {
-		fill: transparent;
-		stroke: white;
-	}
 
 	@media (inverted-colors: inverted) {
 		li a {
-			border: solid 0.1rem white;
+			color: var(--color-primary);
 		}
 	}
 </style>

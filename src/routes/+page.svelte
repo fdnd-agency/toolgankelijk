@@ -84,8 +84,8 @@
 		align-items: center;
 		border-radius: 0.25em;
 		padding: 0.5em 1em;
-		color: var(--c-white2);
-		background-color: var(--c-modal-button);
+		color: var(--c-white);
+		background-color: var(--c-container);
 		border: none;
 		font-weight: 600;
 		font-size: 1em;
