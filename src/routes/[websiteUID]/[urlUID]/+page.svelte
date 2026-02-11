@@ -3,15 +3,15 @@
 	import { onMount } from 'svelte';
 	import Heading from '$lib/components/heading.svelte';
 
-	export let data;
+	let { data } = $props();
 
-	$: heading = {
+	let heading = $derived({
 		titel: data.websitesData.website.titel,
 		homepage: data.urlData.url.url,
 		url: data.urlData.url.slug
-	};
+	});
 
-	let progressData = {};
+	let progressData = $state({});
 	// every progress bar for the niveau of the principes
 	const principes = data.principesData.principes;
 	const niveaus = data.niveauData.niveaus;
@@ -67,7 +67,7 @@
 									id="progress-partner"
 									max={progressData[principe.index][n.niveau].total || 1}
 									value={progressData[principe.index][n.niveau].behaald || 0}
-								/>
+								></progress>
 								<label class="progress-percentage" for="progress-partner-{n.niveau}">
 									{progressData[principe.index]?.[n.niveau]
 										? progressData[principe.index][n.niveau].total
@@ -75,7 +75,7 @@
 													(progressData[principe.index][n.niveau].behaald /
 														progressData[principe.index][n.niveau].total) *
 														100
-											  )
+												)
 											: 0
 										: 0}%
 								</label>

@@ -4,13 +4,19 @@
 	import logoLightMode from '$lib/assets/logoLightMode.svg';
 	import BreadCrumbs from '$lib/components/breadCrumbs.svelte';
 
-	export let params;
-	export let partners;
-	export let websites;
-	export let principes;
-	export let user = null;
+	/**
+	 * @typedef {Object} Props
+	 * @property {any} params
+	 * @property {any} partners
+	 * @property {any} websites
+	 * @property {any} principes
+	 * @property {any} [user]
+	 */
 
-	let isLightMode = false;
+	/** @type {Props} */
+	let { params, partners, websites, principes, user = null } = $props();
+
+	let isLightMode = $state(false);
 
 	function toggleLightMode() {
 		const savedLightMode = localStorage.getItem('lightMode');
@@ -119,7 +125,7 @@
 				</a>
 			{/if}
 			<a aria-label="lightmode button" class="disable-js" href=" ">
-				<button aria-label="lightmode" class="toggle" on:click={toggleLightMode}>
+				<button aria-label="lightmode" class="toggle" onclick={toggleLightMode}>
 					<svg
 						id="icon"
 						alt="darkmode icon"
@@ -135,9 +141,9 @@
 					</svg>
 				</button>
 			</a>
-			<span class="lightmode" />
+			<span class="lightmode"></span>
 			{#if user}
-				<button on:click={handleSignOut} class="signout-btn">Sign out</button>
+				<button onclick={handleSignOut} class="signout-btn">Sign out</button>
 			{/if}
 		</div>
 	</nav>
@@ -154,7 +160,10 @@
 		font-size: 1rem;
 		font-weight: 600;
 		cursor: pointer;
-		transition: background 0.2s, color 0.2s, border 0.2s;
+		transition:
+			background 0.2s,
+			color 0.2s,
+			border 0.2s;
 	}
 
 	.signout-btn:hover {

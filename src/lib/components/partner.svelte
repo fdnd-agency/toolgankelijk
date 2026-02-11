@@ -4,24 +4,30 @@
 	import pencil from '$lib/assets/pencil.svg';
 	import AddForm from '$lib/components/addForm.svelte';
 
-	export let website;
-	export let principes;
-	export let params;
-	export let isUrl = false;
+	/**
+	 * @typedef {Object} Props
+	 * @property {any} website
+	 * @property {any} principes
+	 * @property {any} params
+	 * @property {boolean} [isUrl]
+	 */
 
-	let editType;
-	let deleteType;
-	let auditType;
-	let dialogRefEdit;
-	let dialogRefDelete;
-	let dialogRefAudit;
+	/** @type {Props} */
+	let { website, principes, params, isUrl = false } = $props();
 
-	let labelValue;
-	let progressbar;
-	let lastTime;
-	let link;
-	let title;
-	let url;
+	let editType = $state();
+	let deleteType = $state();
+	let auditType = $state();
+	let dialogRefEdit = $state();
+	let dialogRefDelete = $state();
+	let dialogRefAudit = $state();
+
+	let labelValue = $state();
+	let progressbar = $state();
+	let lastTime = $state();
+	let link = $state();
+	let title = $state();
+	let url = $state();
 	let websiteCriteria;
 	let totaalCriteria;
 	let containerOff = false;
@@ -154,7 +160,7 @@
 						>
 					</button>
 				{/if}
-				<button on:click={openForm.bind(null, editType)} aria-label="edit button">
+				<button onclick={openForm.bind(null, editType)} aria-label="edit button">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						width="24"
@@ -171,7 +177,7 @@
 						/><path d="M13.5 6.5l4 4" /></svg
 					>
 				</button>
-				<button on:click={openForm.bind(null, deleteType)} aria-label="delete button">
+				<button onclick={openForm.bind(null, deleteType)} aria-label="delete button">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						width="24"

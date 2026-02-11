@@ -1,7 +1,7 @@
 <script>
 	import AddForm from '$lib/components/addForm.svelte';
 
-	export let form;
+	let { form } = $props();
 </script>
 
 <section class="content-container">

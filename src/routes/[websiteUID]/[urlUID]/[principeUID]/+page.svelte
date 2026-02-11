@@ -3,20 +3,19 @@
 	import Checklist from '$lib/components/checklist.svelte';
 	import Sidebar from '$lib/components/sidebar.svelte';
 
-	export let data;
-	export let form;
+	let { data, form } = $props();
 
-	$: heading = {
+	let heading = $derived({
 		titel: data.websitesData.website.titel,
 		homepage: data.urlData.url.url,
 		url: data.urlData.url.slug
-	};
+	});
 
-	$: toolboardData = data.toolboardData;
-	$: urlData = data.urlData;
-	$: richtlijnen = toolboardData.principe.richtlijnen;
-	$: principes = data.toolboardData.principes;
-	$: niveaus = data.niveausData.niveaus;
+	let toolboardData = $derived(data.toolboardData);
+	let urlData = $derived(data.urlData);
+	let richtlijnen = $derived(toolboardData.principe.richtlijnen);
+	let principes = $derived(data.toolboardData.principes);
+	let niveaus = $derived(data.niveausData.niveaus);
 </script>
 
 <Heading {heading} />

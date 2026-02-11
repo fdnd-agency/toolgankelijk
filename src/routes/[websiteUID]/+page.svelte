@@ -6,24 +6,23 @@
 	import AddForm from '$lib/components/addForm.svelte';
 	import Pages from '$lib/components/pages.svelte';
 
-	export let data;
-	export let form;
+	let { data, form } = $props();
 
-	let skip = data.skip;
-	const first = data.first;
-	let totalUrls = data.websites.website.totalUrls;
-	const currentPage = skip / first + 1;
+	let skip = $derived(data.skip);
+	const first = $derived(data.first);
+	let totalUrls = $derived(data.websites.website.totalUrls);
+	const currentPage = $derived(skip / first + 1);
 
-	$: heading = {
+	let heading = $derived({
 		titel: data.websites.website.titel,
 		homepage: data.websites.website.homepage
-	};
-	$: websites = data.websites.website.urls;
-	$: overzicht = data.websites.website;
-	$: params = $page.params.websiteUID;
+	});
+	let websites = $derived(data.websites.website.urls);
+	let overzicht = $derived(data.websites.website);
+	let params = $derived($page.params.websiteUID);
 
-	let dialogRef;
-	const principes = data.websites.principes;
+	let dialogRef = $state();
+	const principes = $derived(data.websites.principes);
 
 	function handleDialog() {
 		dialogRef.open();
@@ -33,7 +32,7 @@
 <Heading {heading} />
 
 <section>
-	<button class="add-partner" on:click={handleDialog}>Url toevoegen</button>
+	<button class="add-partner" onclick={handleDialog}>Url toevoegen</button>
 	<Search placeholderProp="Home" />
 </section>
 

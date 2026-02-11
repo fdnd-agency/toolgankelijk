@@ -6,10 +6,12 @@ Live link: [http://toolgankelijk.agency.fdnd.nl/](http://toolgankelijk.agency.fd
 
 - [Beschrijving](#beschrijving)
 - [Kenmerken](#kenmerken)
+- [Design Rationale](#Design-Rationale)
 - [Installatie](#installatie)
 - [Projectteam 2025](#projectteam-2025)
 - [Bronnen](#bronnen)
 - [Licentie](#licentie)
+
 
 ## Beschrijving
 
@@ -42,6 +44,15 @@ Wij hebben de volgende technieken en technologiën gebruikt:
 - Link naar [Figma](https://www.figma.com/design/djc9IttXBpRtzImK5Wxiwv/Vervoerregio-Amsterdam?node-id=0-1&t=8dC9foJZof3EOqEf-1)
 - [Netlify](https://www.netlify.com/)
 - [Nodemailer](https://nodemailer.com/)
+
+## Design-Rationale
+
+Bij dit project hoort ook een design rationale. Deze hebben wij zelf gemaakt.
+Hierin staat alle nodige informatie voor onze ontwerpkeuzes waar je als designer veel  aan hebt.
+Dit is de [design rationale](https://github.com/user-attachments/files/20852123/designrationale_vra_mats_ilias.pdf)
+Bekijk deze als eerst, voordat je begint met iets anders. Hierin staat ook een lijst met eventuele werkzaamheden die nog gedaan moeten worden.
+
+
 
 ## Installatie
 
