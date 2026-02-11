@@ -162,14 +162,6 @@
                 <img src="/icons/cross-icon.svg" width="32" height="32" alt="close form">
             </button>
         </div>
-
-        <div>
-
-
-
-        </div>
-
-
             <form on:submit|preventDefault={submitHandling}>
 				<input type="hidden" value={idValue} name="id" />
 
@@ -198,8 +190,16 @@
 					<label> Wilt u de sitemap erbij gebruiken?</label>
 				</div>
 
+				<button class="form-submit-button">
+						{submitValue} Toevoegen
+				</button>
 
-                <button class="form-submit-button">Partner toevoegen</button>
+				{#if sending}
+					<button class="form-submit-button">
+						{submitValue} Toevoegen
+					</button>
+				{/if}
+
             </form>
     </section>
 </dialog>
@@ -225,10 +225,9 @@
 		background-color: var(--color);
 		height: 30vh;
 		width: 35vw;
-		height: 50vh;
+		height: fit-content;
 		border-radius: 12px;
-		padding-left: 2%;
-		padding-right: 2%;
+		padding: 2em;
 
 		@media (max-width: 720px){
 			height: 50vh;
@@ -289,7 +288,6 @@
 	.form-submit-button {
 		width: 100%;
 		border: 1px var(--color-neutral-black) solid;
-		filter: drop-shadow(var(--color-neutral-black) 2px 2px 4px);
 	}
 
 	.form-checkbox {
