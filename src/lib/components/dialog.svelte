@@ -164,24 +164,28 @@
         </div>
 
         <div>
-        {#if !sending}
-		{#if tip !== null}
-            <!-- exclmation mark -->
 
-        {/if}
-        {/if}
+
+
         </div>
 
 
             <form on:submit|preventDefault={submitHandling}>
-				<div class="form-message-tip">
-                	<img src="/icons/exclamation-icon.svg" width="32" height="32">
-                	<p> {tip} {#if tip!==null} geen bericht om te weergeven {/if} </p>
+				<input type="hidden" value={idValue} name="id" />
 
-					<button on:click={closeTip}>
-                    	<img src="/icons/cross-icon.svg" width="32" height="32">
-                	</button>
-				</div>
+				{#if !sending}
+					{#if tip !== null}
+            	<!-- exclmation mark -->
+					<div class="form-message-tip">
+						<img src="/icons/exclamation-icon.svg" width="32" height="32">
+						<p> {tip} {#if tip!==null} geen bericht om te weergeven {/if} </p>
+
+						<button on:click={closeTip}>
+							<img src="/icons/cross-icon.svg" width="32" height="32">
+						</button>
+					</div>
+				        {/if}
+        			{/if}
 
 				<div class="form-inputfields">
 					<input type="text" placeholder="type in title">
@@ -189,8 +193,10 @@
 					<input type="text" placeholder="type in url">
 				</div>
 
-                <input type="checkbox" id="sitemap" name="Include sitemap">
-				<label> Sitemap gebruiken?</label>
+				<div class="form-checkbox">
+					<input type="checkbox" id="sitemap" name="Include sitemap">
+					<label> Wilt u de sitemap erbij gebruiken?</label>
+				</div>
 
 
                 <button class="form-submit-button">Partner toevoegen</button>
@@ -219,10 +225,16 @@
 		background-color: var(--color);
 		height: 30vh;
 		width: 35vw;
-		height: 45vh;
+		height: 50vh;
 		border-radius: 12px;
 		padding-left: 2%;
 		padding-right: 2%;
+
+		@media (max-width: 720px){
+			height: 50vh;
+			width: 75vw;
+			font-size: 12px;
+		}
 	}
 
     .form-heading {
@@ -276,8 +288,11 @@
 
 	.form-submit-button {
 		width: 100%;
+		border: 1px var(--color-neutral-black) solid;
+		filter: drop-shadow(var(--color-neutral-black) 2px 2px 4px);
 	}
 
-	/* no button style */
-
+	.form-checkbox {
+		padding: 1em;
+	}
 </style>
