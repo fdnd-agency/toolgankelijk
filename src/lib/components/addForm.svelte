@@ -158,7 +158,6 @@
 <dialog bind:this={dialog}>
 	<section class="form-container">
 		<h2>{title}</h2>
-
 		{#if !sending}
 			{#if tip !== null}
 				<div class="tip-message" aria-label="tip message">

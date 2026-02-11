@@ -179,11 +179,32 @@
 				        {/if}
         			{/if}
 
+				{#if isType === 'addPartner' || isType === 'editPartner' || isType === 'addUrl' || isType === 'editUrl'}
 				<div class="form-inputfields">
-					<input type="text" placeholder="type in title">
+					<input type="text" placeholder="type in title" bind:value={nameValue}>
 
-					<input type="text" placeholder="type in url">
+					<input type="text" placeholder="type in url" bind:value={urlValue}>
+
+					{#if isType === 'addUrl' || isType === 'editUrl' || isType === 'editPartner'}
+						<input type="hidden" id="slug" name="slug" value={slugValue} readonly />
+					{/if}
+
+					{#if isType === 'deleteUrl' || isType === 'deletePartner'}
+						<input id="name" name="name" type="text" readonly bind:value={nameValue} />
+
+						<input id="name" name="name" type="text" readonly bind:value={urlValue} />
+					{/if}
 				</div>
+				{/if}
+
+
+				{#if isType === 'startAudit' }
+				<div class="from-start-audit">
+					<p class="text-info">
+						Weet je zeker dat je een audit wilt starten voor <span>{nameValue}</span>?
+					</p>
+				</div>
+				{/if}
 
 				<div class="form-checkbox">
 					<input type="checkbox" id="sitemap" name="Include sitemap">
