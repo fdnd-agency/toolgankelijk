@@ -4,7 +4,8 @@
 	import Heading from '$lib/components/heading.svelte';
 	import Partner from '$lib/components/partner.svelte';
 	import Search from '$lib/components/search.svelte';
-	import AddForm from '$lib/components/addForm.svelte';
+	// add dialog
+	import Dialog from '$lib/components/dialog.svelte';
 	import Pages from '$lib/components/pages.svelte';
 
 	export let data;
@@ -58,7 +59,7 @@
 	<div class="toast error"><p>{form?.message}</p></div>
 {/if}
 
-<AddForm bind:this={dialogRef} isUrl={false} isType="addPartner" />
+<Dialog bind:this={dialogRef} isUrl={false} isType="addPartner"/>
 
 <ul>
 	{#each data.websites.websites as website}

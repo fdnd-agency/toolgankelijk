@@ -154,74 +154,47 @@
 		window.location.reload();
 	}
 </script>
-<dialog open bind:this={dialog}>
+<dialog bind:this={dialog}>
     <section class="color-primary-light">
+		{#if !sending}
+
         <div class="form-heading">
-            <h2>Voeg {title} toe</h2>
+            <h2>{title}</h2>
             <button class="add-form-cross" on:click={close}>
                 <img src="/icons/cross-icon.svg" width="32" height="32" alt="close form">
             </button>
         </div>
-            <form on:submit|preventDefault={submitHandling}>
-				<input type="hidden" value={idValue} name="id" />
 
-				{#if !sending}
-					{#if tip !== null}
-            	<!-- exclmation mark -->
-					<div class="form-message-tip">
-						<img src="/icons/exclamation-icon.svg" width="32" height="32">
-						<p> {tip} {#if tip!==null} geen bericht om te weergeven {/if} </p>
+		{#if tip !== null}
+			<div class="form-message-tip">
+				<img src="/icons/exclamation-icon.svg" width="32" height="32">
+				<p> {tip} {#if tip!==null} geen bericht om te weergeven {/if} </p>
 
-						<button on:click={closeTip}>
-							<img src="/icons/cross-icon.svg" width="32" height="32">
-						</button>
-					</div>
-				        {/if}
-        			{/if}
-
-				{#if isType === 'addPartner' || isType === 'editPartner' || isType === 'addUrl' || isType === 'editUrl'}
-				<div class="form-inputfields">
-					<input type="text" placeholder="type in title" bind:value={nameValue}>
-
-					<input type="text" placeholder="type in url" bind:value={urlValue}>
-
-					{#if isType === 'addUrl' || isType === 'editUrl' || isType === 'editPartner'}
-						<input type="hidden" id="slug" name="slug" value={slugValue} readonly />
-					{/if}
-
-					{#if isType === 'deleteUrl' || isType === 'deletePartner'}
-						<input id="name" name="name" type="text" readonly bind:value={nameValue} />
-
-						<input id="name" name="name" type="text" readonly bind:value={urlValue} />
-					{/if}
-				</div>
-				{/if}
-
-
-				{#if isType === 'startAudit' }
-				<div class="from-start-audit">
-					<p class="text-info">
-						Weet je zeker dat je een audit wilt starten voor <span>{nameValue}</span>?
-					</p>
-				</div>
-				{/if}
-
-				<div class="form-checkbox">
-					<input type="checkbox" id="sitemap" name="Include sitemap">
-					<label> Wilt u de sitemap erbij gebruiken?</label>
-				</div>
-
-				<button class="form-submit-button">
-						{submitValue} Toevoegen
+				<button on:click={closeTip}>
+					<img src="/icons/cross-icon.svg" width="32" height="32">
 				</button>
+							</div>
+		{/if}
 
-				{#if sending}
-					<button class="form-submit-button">
-						{submitValue} Toevoegen
-					</button>
+		<form on:submit|preventDefault={submitHandling}>
+			<input type="hidden" value={idValue} name="id" />
+
+			<!-- here comes the content of the section -->
+
+				{#if isType === 'deleteUrl' || isType === 'deletePartner'}
+					<p>Are you sure you want to delete {title}?</p>
 				{/if}
+					
+			<button class="form-submit-button">
+				<!-- here comes all the is states of submitting -->
+					{submitValue} Toevoegen
+			</button>
+		</form>
+		{/if}
 
-            </form>
+		{#if sending}
+				<Loader />
+		{/if}
     </section>
 </dialog>
 
@@ -235,6 +208,10 @@
 		overflow: visible;
 		top: 0;
 		border: none;
+	}
+
+	dialog[open] {
+		display: block;
 	}
 
 	dialog::backdrop {
