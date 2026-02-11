@@ -3,6 +3,7 @@
 	import logoDarkMode from '$lib/assets/logoDarkMode.svg';
 	import logoLightMode from '$lib/assets/logoLightMode.svg';
 	import BreadCrumbs from '$lib/components/breadCrumbs.svelte';
+	import Hamburger from '$lib/components/hamburger.svelte'
 
 	export let params;
 	export let partners;
@@ -140,6 +141,7 @@
 				<button on:click={handleSignOut} class="signout-btn">Sign out</button>
 			{/if}
 		</div>
+	<Hamburger/>
 	</nav>
 </header>
 
