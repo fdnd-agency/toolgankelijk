@@ -5,6 +5,8 @@
 	import ExclamationmarkIcon from './icons/exclamationmarkIcon.svelte';
 	import CrossIcon from './icons/crossIcon.svelte';
 	import EditIcon from './icons/editIcon.svelte';
+	import DeleteIcon from './icons/deleteIcon.svelte';
+
 
 	export let params;
 	export let isType;
@@ -218,8 +220,10 @@
 
 				{#if isType === 'editUrl' || isType === 'editPartner'}
 				<div class="form-edit-textfields">
-
-					<EditIcon/>
+					<div class="form-edit-icon">
+						<EditIcon/>
+					</div>
+					<div class="form-edit-textfields">
 				<label>Typ hier je titel</label>
 					<input 
 					name="name"
@@ -229,7 +233,9 @@
 					placeholder="Typ hier je titel"
 					bind:value={nameValue}>
 
-					<EditIcon/>
+					<div class="form-edit-icon">
+						<EditIcon/>
+					</div>
 				<label>Typ hier je URL</label>
 					<input 
 					name="url"
@@ -240,6 +246,7 @@
 					bind:value={urlValue}
 					>
 				</div>
+				</div>
 				<div class="form-checkbox">
 					<input id="sitemap" name="sitemap" type="checkbox" />
 					<label for="sitemap">Sitemap ophalen van deze partner?</label>
@@ -247,9 +254,17 @@
 
 				{/if}
 
+				{#if isType === 'addUrl' || isType === 'editUrl' || isType === 'editPartner'}
+					<input type="hidden" id="slug" name="slug" value={slugValue} readonly />
+				{/if}
+
 
 				{#if isType === 'deleteUrl' || isType === 'deletePartner'}
-					<p>Are you sure you want to delete {title}?</p>
+				
+				<h3>{nameValue}</h3>
+				<h3>{urlValue}</h3>
+				<DeleteIcon />
+					<p>Weet je zeker dat je {title} wilt verwijderen?</p>
 				{/if}
 					
 			<button class="form-submit-button">
@@ -383,7 +398,7 @@
 		width: 100%;
 		margin-top: 1em;
 		border: 1px var(--color-neutral-black) solid;
-		color: var(--color-neutral-black);
+		color: var(--light-3);
 		filter: drop-shadow(var(--color-neutral-black) 2px 2px 4px);
 	}
 
@@ -401,18 +416,22 @@
 		padding: 1em;
 	}
 
-	.form-close-button img {
-		height: 32px;
-		width: 32px;
+	.form-edit-icon {
+		position: relative;
+		top: 2.7em;
+		left: 91%;
+		opacity: 0.5;
+		pointer-events: none;
 
 		@media (max-width: 720px){
-			height: 16px;
-			width: 16px;
+			top: 1.8em;
+			left: 92%;
 		}
 	}
 
-	.form-exclamation-mark img {
-		color: red;
-
+	.form-edit-textfields {
+		label {
+			display: none;
+		}
 	}
 </style>

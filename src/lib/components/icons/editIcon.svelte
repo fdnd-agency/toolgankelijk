@@ -4,7 +4,8 @@
 
 <style>
     svg {
-        fill: var(--color-neutral-black);
+		fill: none;
+        color: var(--color-neutral-darkgrey);
         height: 32px;
 		width: 32px;
 		
