@@ -76,7 +76,7 @@
 	}
 
 	function closeTip() {
-		const tipMessage = document.querySelector('.tip-message');
+		const tipMessage = document.querySelector('.form-message-tip');
 		tipMessage.remove();
 	}
 
@@ -160,28 +160,54 @@
 
         <div class="form-heading">
             <h2>{title}</h2>
-            <button class="add-form-cross" on:click={close}>
-                <img src="/icons/cross-icon.svg" width="32" height="32" alt="close form">
+            <button class="form-close-button" on:click={close}>
+                <img src="/icons/cross-icon.svg" alt="close form" width="32" height="32">
             </button>
         </div>
 
 		{#if tip !== null}
 			<div class="form-message-tip">
-				<img src="/icons/exclamation-icon.svg" width="32" height="32">
-				<p> {tip} {#if tip!==null} geen bericht om te weergeven {/if} </p>
-
-				<button on:click={closeTip}>
-					<img src="/icons/cross-icon.svg" width="32" height="32">
-				</button>
-							</div>
+				<div class="form-exclamation-mark">
+					<img class="svg" src="/icons/exclamation-icon.svg" width="32" height="32">
+				</div>
+					<p> {tip} </p>
+					<button on:click={closeTip} class="form-close-button">
+						<img src="/icons/cross-icon.svg" width="32" height="32">
+					</button>
+			</div>
+							
 		{/if}
 
 		<form on:submit|preventDefault={submitHandling}>
 			<input type="hidden" value={idValue} name="id" />
 
+				
 				<!-- here comes the content of the section -->
-				{#if isType === 'addUrl' || isType === 'editUrl'}
-					
+				{#if isType === 'addUrl' || isType === 'addPartner'}
+				<div class="form-textfields">
+				<label>Typ hier je titel</label>
+					<input 
+					name="name"
+					id="name"
+					type="text" 
+					required
+					placeholder="Typ hier je titel"
+					bind:value={nameValue}>
+
+				<label>Typ hier je URL</label>
+					<input 
+					name="url"
+					id="url"
+					type="text" 
+					required
+					placeholder="Typ hier je URL link"
+					bind:value={urlValue}
+					>
+				</div>
+				<div class="form-checkbox">
+					<input id="sitemap" name="sitemap" type="checkbox" />
+					<label for="sitemap">Sitemap ophalen van deze partner?</label>
+				</div>
 				{/if}
 
 
@@ -191,7 +217,7 @@
 					
 			<button class="form-submit-button">
 				<!-- here comes all the is states of submitting -->
-					{submitValue} Toevoegen
+					{submitValue}
 			</button>
 		</form>
 		{/if}
@@ -205,16 +231,36 @@
 <style>
 	dialog {
 		width: 100%;
-		min-width: 25em;
-		max-width: 30em;
-		display: flex;
+		min-width: 0em;
+		max-width: 0em;
+
 		overflow: visible;
 		transform: translate(-50%, -50%);
 		top: 0;
 		border: none;
 		display: none;
 		top: 50%;
-		left: 50%;
+		left: 32%;
+
+		@media (max-width: 1400px){
+			left: 25%;
+		}
+
+		@media (max-width: 1080px){
+			left: 19%;
+
+			h2 {
+				font-size: 28px;
+			}
+		}
+
+		@media (max-width: 720px){
+			left: 11%;
+
+			h2 {
+				font-size: 24px;
+			}
+		}
 	}
 
 	dialog[open] {
@@ -228,16 +274,23 @@
 
 	section {
 		background-color: var(--color);
+		color: var(--color-neutral-black);
 		height: 30vh;
 		width: 35vw;
 		height: fit-content;
 		border-radius: 12px;
 		padding: 2em;
 
+		@media (max-width: 1400px){
+			width: 55vw;
+		}
+
+		@media (max-width: 1080px){
+			width: 60vw;
+		}
+
 		@media (max-width: 720px){
-			height: 50vh;
 			width: 75vw;
-			font-size: 12px;
 		}
 	}
 
@@ -256,6 +309,10 @@
 			cursor: pointer;
 			outline: inherit;
 		}
+
+		@media (max-width: 720px){
+			font-size: 16px;
+		}
 	}
 
 	.form-message-tip {
@@ -263,6 +320,7 @@
 		height: 48px;
 		justify-content: space-between;
 		padding: 1em;
+		color: var(--color-neutral-black);
 		background-color: var(--dark-2);
 		border-radius: var(--border-radius);
 		align-items: center;
@@ -284,18 +342,45 @@
 		}
 	}
 
-	.form-inputfields {
+	.form-submit-button {
+		width: 100%;
+		margin-top: 1em;
+		border: 1px var(--color-neutral-black) solid;
+		color: var(--color-neutral-black);
+		filter: drop-shadow(var(--color-neutral-black) 2px 2px 4px);
+	}
+
+	.form-textfields {
 		display: flex;
 		flex-direction: column;
 		gap: 1em;
-	}
 
-	.form-submit-button {
-		width: 100%;
-		border: 1px var(--color-neutral-black) solid;
+		label {
+			display: none;
+		}
 	}
 
 	.form-checkbox {
 		padding: 1em;
+	}
+
+	.form-close-button img {
+		height: 32px;
+		width: 32px;
+
+		@media (max-width: 720px){
+			height: 16px;
+			width: 16px;
+		}
+	}
+
+	.form-exclamation-mark img {
+		height: 32px;
+		width: 32px;
+
+		@media (max-width: 720px){
+			height: 16px;
+			width: 16px;
+		}
 	}
 </style>
