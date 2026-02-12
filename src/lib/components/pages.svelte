@@ -2,7 +2,7 @@
 	let { amount, perPage, currentPage } = $props();
 
 	// calculate the number of pages
-	let pageCount = $derived(Math.ceil(amount / perPage - 1));
+	let pageCount = $derived(Math.ceil(amount / perPage));
 
 	// calculate the skip values for the pageNumbers buttons
 	function getPages() {
