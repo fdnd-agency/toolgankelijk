@@ -10,7 +10,7 @@
 
 	let skip = $derived(data.skip);
 	const first = $derived(data.first);
-	let totalUrls = $derived(data.websites.website.totalUrls);
+	let totalUrls = $derived(data.websitesData.urlsConnection.aggregate.count);
 	const currentPage = $derived(skip / first + 1);
 
 	let heading = $derived({

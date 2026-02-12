@@ -10,8 +10,8 @@
 	let { data, form } = $props();
 
 	let skip = $derived(data.skip);
-	const first = $derived(data.first);
-	let totalUrls = $derived(data.websites.totalUrls);
+	const first = $derived(data.first); 
+	let totalUrls = $derived(data.websitesData.urlsConnection.aggregate.count);
 	const currentPage = $derived(skip / first + 1);
 	let showRegistrationSuccess = $derived(data.showRegistrationSuccess);
 	let heading = { titel: 'Partners overzicht' };
