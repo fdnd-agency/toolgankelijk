@@ -1,6 +1,11 @@
 <script>
 	import Loader from '$lib/components/loader.svelte';
 
+	// icons
+	import ExclamationmarkIcon from './icons/exclamationmarkIcon.svelte';
+	import CrossIcon from './icons/crossIcon.svelte';
+	import EditIcon from './icons/editIcon.svelte';
+
 	export let params;
 	export let isType;
 	export let id;
@@ -161,19 +166,20 @@
         <div class="form-heading">
             <h2>{title}</h2>
             <button class="form-close-button" on:click={close}>
-                <img src="/icons/cross-icon.svg" alt="close form" width="32" height="32">
+				<CrossIcon />
             </button>
         </div>
 
 		{#if tip !== null}
 			<div class="form-message-tip">
 				<div class="form-exclamation-mark">
-					<img class="svg" src="/icons/exclamation-icon.svg" width="32" height="32">
+					<ExclamationmarkIcon />				
 				</div>
-					<p> {tip} </p>
-					<button on:click={closeTip} class="form-close-button">
-						<img src="/icons/cross-icon.svg" width="32" height="32">
-					</button>
+
+				<p> {tip} </p>
+				<button on:click={closeTip} class="form-close-button">
+					<CrossIcon />
+				</button>
 			</div>
 							
 		{/if}
@@ -208,6 +214,37 @@
 					<input id="sitemap" name="sitemap" type="checkbox" />
 					<label for="sitemap">Sitemap ophalen van deze partner?</label>
 				</div>
+				{/if}
+
+				{#if isType === 'editUrl' || isType === 'editPartner'}
+				<div class="form-edit-textfields">
+
+					<EditIcon/>
+				<label>Typ hier je titel</label>
+					<input 
+					name="name"
+					id="name"
+					type="text" 
+					required
+					placeholder="Typ hier je titel"
+					bind:value={nameValue}>
+
+					<EditIcon/>
+				<label>Typ hier je URL</label>
+					<input 
+					name="url"
+					id="url"
+					type="text" 
+					required
+					placeholder="Typ hier je URL link"
+					bind:value={urlValue}
+					>
+				</div>
+				<div class="form-checkbox">
+					<input id="sitemap" name="sitemap" type="checkbox" />
+					<label for="sitemap">Sitemap ophalen van deze partner?</label>
+				</div>
+
 				{/if}
 
 
@@ -375,12 +412,7 @@
 	}
 
 	.form-exclamation-mark img {
-		height: 32px;
-		width: 32px;
+		color: red;
 
-		@media (max-width: 720px){
-			height: 16px;
-			width: 16px;
-		}
 	}
 </style>

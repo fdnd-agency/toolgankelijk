@@ -65,6 +65,7 @@
 	{#each data.websites.websites as website}
 		<Partner {website} {principes} isUrl={false} />
 	{/each}
+	
 </ul>
 
 <a href="#main" class="btn-top" on:click={scrollToTop}>⬆</a>
