@@ -179,7 +179,11 @@
 		<form on:submit|preventDefault={submitHandling}>
 			<input type="hidden" value={idValue} name="id" />
 
-			<!-- here comes the content of the section -->
+				<!-- here comes the content of the section -->
+				{#if isType === 'addUrl' || isType === 'editUrl'}
+					
+				{/if}
+
 
 				{#if isType === 'deleteUrl' || isType === 'deletePartner'}
 					<p>Are you sure you want to delete {title}?</p>
@@ -200,14 +204,17 @@
 
 <style>
 	dialog {
-		width: 100vw;
-		height: 100vh;
+		width: 100%;
+		min-width: 25em;
+		max-width: 30em;
 		display: flex;
-		justify-content: center;
-		align-items: center;
 		overflow: visible;
+		transform: translate(-50%, -50%);
 		top: 0;
 		border: none;
+		display: none;
+		top: 50%;
+		left: 50%;
 	}
 
 	dialog[open] {
