@@ -24,22 +24,20 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: 'npm'
       - run: npm ci
       - run: npm run build
-      - uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+   
 
   test:
     runs-on: ubuntu-latest
     needs: build
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/cache@v3
+      - uses: actions/setup-node@v4
         with:
-          path: node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+          node-version: 20
+          cache: 'npm'
       - run: npm i
       - run: npm test --if-present
 
@@ -48,9 +46,9 @@ jobs:
     needs: build
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/cache@v3
+      - uses: actions/setup-node@v4
         with:
-          path: node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+          node-version: 20
+          cache: 'npm'
       - run: npm i
       - run: npm run lint --if-present
