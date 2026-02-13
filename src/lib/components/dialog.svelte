@@ -166,12 +166,12 @@
     <section class="color-primary-light">
 		{#if !sending}
 
-        <div class="form-heading">
-            <h2 class="dialog-title">{title}</h2>
-            <button class="form-close-button" onclick={close}>
+		<div class="form-heading">
+			<h2 class="dialog-title">{title}</h2>
+			<button class="form-close-button" on:click={close}>
 				<CrossIcon />
-            </button>
-        </div>
+			</button>
+		</div>
 
 		{#if tip !== null}
 			<div class="form-message-tip">
@@ -180,7 +180,7 @@
 				</div>
 
 				<p> {tip} </p>
-				<button onclick={closeTip} class="form-close-button">
+				<button on:click={closeTip} class="form-close-button">
 					<CrossIcon />
 				</button>
 			</div>
