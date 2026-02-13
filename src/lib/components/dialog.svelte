@@ -168,19 +168,19 @@
 
 		<div class="form-heading">
 			<h2 class="dialog-title">{title}</h2>
-			<button class="form-close-button" on:click={close} type="button" aria-label="sluit het venster">
+			<button class="form-close-button" on:click={close} role="button" aria-label="sluit het venster">
 				<CrossIcon />
 			</button>
 		</div>
 
 		{#if tip !== null}
 			<div class="form-message-tip">
-				<div class="form-exclamation-mark">
+				<div class="form-exclamation-mark" tabindex="0">
 					<ExclamationmarkIcon />				
 				</div>
 
-				<p> {tip} </p>
-				<button on:click={closeTip} class="form-close-button" type="button" aria-label="sluit de tip">
+				<p tabindex="0"> {tip} </p>
+				<button on:click={closeTip} class="form-close-button" role="button" aria-label="sluit de tip">
 					<CrossIcon />
 				</button>
 			</div>
@@ -279,7 +279,7 @@
 					<p>Wilt u een audit uitvoeren?</p>
 				{/if}
 					
-			<button class="form-submit-button" type="button" aria-label="verzend formulier">
+			<button class="form-submit-button" role="button" aria-label="verzend formulier">
 				<!-- here comes all the is states of submitting -->
 					{submitValue}
 			</button>
