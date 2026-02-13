@@ -76,7 +76,7 @@ describe('src/routes/register/+page.server.js', () => {
 					username: 'John',
 					password: 'T3$tT3$t',
 					'confirm-password': 'T3$tT3$t22'
-				}[key])
+				})[key]
 		});
 		const result = await actions.register(event);
 		expect(result.status).toBe(400);
@@ -91,7 +91,7 @@ describe('src/routes/register/+page.server.js', () => {
 					username: undefined,
 					password: undefined,
 					'confirm-password': undefined
-				}[key])
+				})[key]
 		});
 		const result = await actions.register(event);
 		expect(result.status).toBe(400);
@@ -100,7 +100,7 @@ describe('src/routes/register/+page.server.js', () => {
 
 	it('returns fail if fields are empty strings', async () => {
 		event.request.formData.mockResolvedValue({
-			get: (key) => ({ email: '', username: '', password: '', 'confirm-password': '' }[key])
+			get: (key) => ({ email: '', username: '', password: '', 'confirm-password': '' })[key]
 		});
 		const result = await actions.register(event);
 		expect(result.status).toBe(400);
@@ -110,9 +110,9 @@ describe('src/routes/register/+page.server.js', () => {
 	it('returns fail if email is invalid', async () => {
 		event.request.formData.mockResolvedValue({
 			get: (key) =>
-				({ email: 'bad', username: 'John', password: 'T3$tT3$t', 'confirm-password': 'T3$tT3$t' }[
+				({ email: 'bad', username: 'John', password: 'T3$tT3$t', 'confirm-password': 'T3$tT3$t' })[
 					key
-				])
+				]
 		});
 		emailModule.verifyEmailInput.mockReturnValue(false);
 		const result = await actions.register(event);
@@ -128,7 +128,7 @@ describe('src/routes/register/+page.server.js', () => {
 					username: 'John',
 					password: 'T3$tT3$t',
 					'confirm-password': 'T3$tT3$t'
-				}[key])
+				})[key]
 		});
 		emailModule.verifyEmailInput.mockReturnValue(true);
 		emailModule.isValidEmailDomain.mockResolvedValue(false);
@@ -145,7 +145,7 @@ describe('src/routes/register/+page.server.js', () => {
 					username: 'John',
 					password: 'T3$tT3$t',
 					'confirm-password': 'T3$tT3$t'
-				}[key])
+				})[key]
 		});
 		emailModule.verifyEmailInput.mockReturnValue(true);
 		emailModule.isValidEmailDomain.mockResolvedValue(true);
@@ -163,7 +163,7 @@ describe('src/routes/register/+page.server.js', () => {
 					username: 'bad',
 					password: 'T3$tT3$t',
 					'confirm-password': 'T3$tT3$t'
-				}[key])
+				})[key]
 		});
 		emailModule.verifyEmailInput.mockReturnValue(true);
 		emailModule.isValidEmailDomain.mockResolvedValue(true);
@@ -182,7 +182,7 @@ describe('src/routes/register/+page.server.js', () => {
 					username: 'John',
 					password: 'T3$tT3$t',
 					'confirm-password': 'T3$tT3$t'
-				}[key])
+				})[key]
 		});
 		emailModule.verifyEmailInput.mockReturnValue(true);
 		emailModule.isValidEmailDomain.mockResolvedValue(true);
@@ -202,7 +202,7 @@ describe('src/routes/register/+page.server.js', () => {
 					username: 'John',
 					password: 'pass',
 					'confirm-password': 'pass'
-				}[key])
+				})[key]
 		});
 		emailModule.verifyEmailInput.mockReturnValue(true);
 		emailModule.isValidEmailDomain.mockResolvedValue(true);
@@ -226,7 +226,7 @@ describe('src/routes/register/+page.server.js', () => {
 					username: 'John',
 					password: 'T3$tT3$t',
 					'confirm-password': 'T3$tT3$t'
-				}[key])
+				})[key]
 		});
 		emailModule.verifyEmailInput.mockReturnValue(true);
 		emailModule.isValidEmailDomain.mockResolvedValue(true);
