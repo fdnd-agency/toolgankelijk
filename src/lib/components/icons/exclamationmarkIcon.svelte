@@ -1,4 +1,5 @@
 <svg width="96" height="96" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <title>Uitroepteken Icoon</title>
 <path d="M44 56V20H52V56H44ZM44 76V68H52V76H44Z" fill="currentColor"/>
 </svg>
 
