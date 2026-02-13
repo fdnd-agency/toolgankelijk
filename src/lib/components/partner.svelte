@@ -140,7 +140,7 @@
 			</div>
 			<div class="icons" id={`icons-${website.id}`}>
 				{#if !isUrl}
-					<button on:click={openForm.bind(null, auditType)} aria-label="start audit button" class="color-primary">
+					<button onclick={openForm.bind(null, auditType)} aria-label="start audit button" class="color-primary">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							width="24"
