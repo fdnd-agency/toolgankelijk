@@ -318,18 +318,20 @@
 
 		@media (max-width: 1080px){
 			left: 19%;
-
-			h2 {
-				font-size: 28px;
-			}
 		}
 
 		@media (max-width: 720px){
 			left: 11%;
+		}
+	}
 
-			h2 {
-				font-size: 24px;
-			}
+	@media (max-width: 1080px){
+		font-size: 28px;
+	}
+
+	@media (max-width: 720px){
+		dialog h2 {
+			font-size: 24px;	
 		}
 	}
 
