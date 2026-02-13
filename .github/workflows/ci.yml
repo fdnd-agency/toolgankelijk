@@ -45,7 +45,6 @@ jobs:
         with:
           path: node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
-      - run: npm ci
       - run: npm test --if-present
 
   lint:
@@ -62,5 +61,4 @@ jobs:
         with:
           path: node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
-      - run: npm ci
       - run: npm run lint --if-present
