@@ -6,6 +6,7 @@
 	import CrossIcon from './icons/crossIcon.svelte';
 	import EditIcon from './icons/editIcon.svelte';
 	import DeleteIcon from './icons/deleteIcon.svelte';
+	import AuditIcon from './icons/auditIcon.svelte';
 
 
 	export let params;
@@ -261,10 +262,21 @@
 
 				{#if isType === 'deleteUrl' || isType === 'deletePartner'}
 				
-				<h3>{nameValue}</h3>
-				<h3>{urlValue}</h3>
-				<DeleteIcon />
+				
+				<div class="form-delete-fields">
+					<h3>{nameValue}</h3>
+					<h3>{urlValue}</h3>
+				</div>
+				
+				<div class="form-delete-content">
+					<DeleteIcon />
 					<p>Weet je zeker dat je {title} wilt verwijderen?</p>
+				</div>
+				{/if}
+
+				{#if isType === 'startAudit' }
+					<AuditIcon />
+					<p>Wilt u een audit uitvoeren?</p>
 				{/if}
 					
 			<button class="form-submit-button">
@@ -273,10 +285,16 @@
 			</button>
 		</form>
 		{/if}
+			
+
 
 		{#if sending}
-				<Loader />
+			<p>formulier wordt verwerkt</p>
+			<Loader />
 		{/if}
+
+
+
     </section>
 </dialog>
 
@@ -433,5 +451,24 @@
 		label {
 			display: none;
 		}
+	}
+
+	.form-delete-fields {
+		display: flex;
+		flex-direction: column;
+		gap: 1em;
+
+		h3 {
+			background-color: var(--dark-3);
+			color: var(--light-3);
+			padding: 0.3em;
+		}
+	}
+
+	.form-delete-content {
+		display: flex;
+		flex-direction: row;
+		gap: 1em;
+		padding: 1em;
 	}
 </style>
