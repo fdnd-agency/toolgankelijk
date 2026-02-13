@@ -162,7 +162,7 @@
 			{#if tip !== null}
 				<div class="tip-message" aria-label="tip message">
 					<p>{tip}</p>
-					<button on:click={closeTip}>
+					<button onclick={closeTip}>
 						<img src="/icons/close.svg" width="24" height="24" alt="sluit" />
 					</button>
 				</div>
@@ -379,7 +379,7 @@
 						{/if}
 						{submitValue}
 					</button>
-					<button class="remove-button" on:click={close}>
+					<button class="remove-button" onclick={close}>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							width="24"

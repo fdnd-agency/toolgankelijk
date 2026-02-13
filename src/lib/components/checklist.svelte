@@ -104,7 +104,7 @@
 											<button
 												type="button"
 												class="btn-vertaling"
-												on:click={(event) => translate(event, succescriterium.index)}
+												onclick={(event) => translate(event, succescriterium.index)}
 											>
 												{simpleTranslation ? 'Officiële beschrijving' : 'Simpele beschrijving'}
 											</button>
@@ -146,7 +146,7 @@
 		{:else}
 			<div class="form-btn">
 				<button type="submit" class="submit"> Opslaan </button>
-				<a href="#main" class="btn-top" on:click={scrollToTop}>⬆</a>
+				<a href="#main" class="btn-top" onclick={scrollToTop}>⬆</a>
 			</div>
 		{/if}
 	</form>

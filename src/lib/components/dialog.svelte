@@ -168,7 +168,7 @@
 
         <div class="form-heading">
             <h2>{title}</h2>
-            <button class="form-close-button" on:click={close}>
+            <button class="form-close-button" onclick={close}>
 				<CrossIcon />
             </button>
         </div>
@@ -180,7 +180,7 @@
 				</div>
 
 				<p> {tip} </p>
-				<button on:click={closeTip} class="form-close-button">
+				<button onclick={closeTip} class="form-close-button">
 					<CrossIcon />
 				</button>
 			</div>

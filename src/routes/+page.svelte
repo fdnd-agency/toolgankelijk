@@ -41,7 +41,7 @@
 <Heading {heading} />
 
 <section>
-	<button class="add-partner" on:click={handleDialog}>Partner toevoegen</button>
+	<button class="add-partner" onclick={handleDialog}>Partner toevoegen</button>
 	<Search placeholderProp="Gvb" />
 </section>
 
@@ -68,7 +68,7 @@
 	
 </ul>
 
-<a href="#main" class="btn-top" on:click={scrollToTop}>⬆</a>
+<a href="#main" class="btn-top" onclick={scrollToTop}>⬆</a>
 
 <style>
 	section {

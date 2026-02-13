@@ -33,7 +33,7 @@
 <Heading {heading} />
 
 <section>
-	<button class="add-partner" on:click={handleDialog}>Url toevoegen</button>
+	<button class="add-partner" onclick={handleDialog}>Url toevoegen</button>
 	<Search placeholderProp="Home" />
 </section>
 

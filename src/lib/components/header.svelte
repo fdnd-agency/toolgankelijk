@@ -119,7 +119,7 @@
 				</a>
 			{/if}
 			<a aria-label="lightmode button" class="disable-js" href=" ">
-				<button aria-label="lightmode" class="toggle" on:click={toggleLightMode}>
+				<button aria-label="lightmode" class="toggle" onclick={toggleLightMode}>
 					<svg
 						id="icon"
 						alt="darkmode icon"
@@ -137,7 +137,7 @@
 			</a>
 			<span class="lightmode" />
 			{#if user}
-				<button on:click={handleSignOut} class="signout-btn">Sign out</button>
+				<button onclick={handleSignOut} class="signout-btn">Sign out</button>
 			{/if}
 		</div>
 	</nav>
