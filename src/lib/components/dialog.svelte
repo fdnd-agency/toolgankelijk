@@ -167,7 +167,7 @@
 		{#if !sending}
 
         <div class="form-heading">
-            <h2>{title}</h2>
+            <h2 class="dialog-title">{title}</h2>
             <button class="form-close-button" onclick={close}>
 				<CrossIcon />
             </button>
@@ -325,14 +325,16 @@
 		}
 	}
 
-	@media (max-width: 1080px){
+	@media (max-width: 1080px) {
+	.dialog-title {
 		font-size: 28px;
+		} 
 	}
 
-	@media (max-width: 720px){
-		dialog h2 {
-			font-size: 24px;	
-		}
+	@media (max-width: 720px) {
+	.dialog-title {
+		font-size: 24px;
+		} 
 	}
 
 	dialog[open] {
