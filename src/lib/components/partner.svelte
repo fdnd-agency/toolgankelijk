@@ -138,14 +138,14 @@
 			</div>
 			<div class="icons" id={`icons-${website.id}`}>
 				{#if !isUrl}
-				<button onclick={openForm.bind(null, auditType)} aria-label="start audit button" class="color-primary">
+				<button onclick={openForm.bind(null, auditType)} aria-label="start icoon" class="color-primary">
 					<AuditIcon />
 				</button>
 				{/if}
-				<button onclick={openForm.bind(null, editType)} aria-label="edit button">
+				<button onclick={openForm.bind(null, editType)} aria-label="bewerk iccon">
 					<EditIcon />
 				</button>
-				<button onclick={openForm.bind(null, deleteType)} aria-label="delete button">
+				<button onclick={openForm.bind(null, deleteType)} aria-label="verwijder icoon">
 					<DeleteIcon />
 				</button>
 			</div>

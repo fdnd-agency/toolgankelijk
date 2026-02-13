@@ -168,7 +168,7 @@
 
 		<div class="form-heading">
 			<h2 class="dialog-title">{title}</h2>
-			<button class="form-close-button" on:click={close}>
+			<button class="form-close-button" on:click={close} type="button" aria-label="sluit het venster">
 				<CrossIcon />
 			</button>
 		</div>
@@ -180,7 +180,7 @@
 				</div>
 
 				<p> {tip} </p>
-				<button on:click={closeTip} class="form-close-button">
+				<button on:click={closeTip} class="form-close-button" type="button" aria-label="sluit de tip">
 					<CrossIcon />
 				</button>
 			</div>
@@ -279,7 +279,7 @@
 					<p>Wilt u een audit uitvoeren?</p>
 				{/if}
 					
-			<button class="form-submit-button">
+			<button class="form-submit-button" type="button" aria-label="verzend formulier">
 				<!-- here comes all the is states of submitting -->
 					{submitValue}
 			</button>
