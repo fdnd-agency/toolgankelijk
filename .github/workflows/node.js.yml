@@ -9,11 +9,15 @@ on:
   pull_request:
     branches: [ "dev" ]
 
+env:
+  HYGRAPH_URL: ${{ secrets.HYGRAPH_URL }}
+  VITE_HYGRAPH_KEY: ${{ secrets.VITE_HYGRAPH_KEY }}
+  TOOLGANKELIJK_AUDIT_URL: ${{ vars.TOOLGANKELIJK_AUDIT_URL }}
 jobs:
   build:
 
     runs-on: ubuntu-latest
-
+    
     strategy:
       matrix:
         node-version: [20.x, 22.x]
