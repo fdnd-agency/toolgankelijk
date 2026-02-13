@@ -96,6 +96,9 @@ body {
 
 	/* fallback */
 	--place-holder: oklch(50% 0.1 120);
+
+	/* border radius */
+	--border-radius: 12px;
 }
 
 .color-primary,
@@ -166,7 +169,7 @@ body {
 
 .lightmode {
 	--color-primary: #4F0029;
-	--color-primary-light: #3F4903;
+	--color-primary-light: #B9005F;
 
 	/* accent colors */
 	--color-accent-primary: #3F4903;
@@ -238,4 +241,37 @@ p {
 
 .disabled {
 	display: none;
+}
+
+/* form elements */
+button {
+	border-radius: var(--border-radius);
+	background-color: var(--color-primary);
+	color: var(--color-neutral-white);
+	width: fit-content;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 48px;
+	font-size: 16px;
+
+	@media (max-width: 720px){
+		height: 32px;
+		font-size: 12px;
+	}
+}
+
+input[type='text'] {
+	height: 48px;
+	width: 100%;
+	background-color: var(--color-neutral-white);
+	border: var(--color-neutral-black) 1px solid;
+	border-radius: 12px;
+	font-size: 16px;
+	padding-left: 1em;
+
+	@media (max-width: 720px){
+		height: 32px;
+		font-size: 12px;
+	}
 }
