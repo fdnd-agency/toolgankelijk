@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import trash from '$lib/assets/trash.svg';
 	import pencil from '$lib/assets/pencil.svg';
-	import AddForm from '$lib/components/addForm.svelte';
+	import Dialog from '$lib/components/dialog.svelte';
 
 	/**
 	 * @typedef {Object} Props
@@ -210,7 +210,7 @@
 	</a>
 </li>
 
-<AddForm
+<Dialog
 	bind:this={dialogRefEdit}
 	isType={editType}
 	id={website.id}
@@ -219,7 +219,7 @@
 	slug={website.slug}
 	{website}
 />
-<AddForm
+<Dialog
 	bind:this={dialogRefDelete}
 	isType={deleteType}
 	id={website.id}
@@ -228,7 +228,7 @@
 	slug={website.slug}
 	{website}
 />
-<AddForm
+<Dialog
 	bind:this={dialogRefAudit}
 	isType={auditType}
 	id={website.id}
