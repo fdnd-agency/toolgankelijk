@@ -57,7 +57,7 @@
 	<div class="toast error"><p>{form?.message}</p></div>
 {/if}
 
-<AddForm bind:this={dialogRef} isUrl={false} isType="addPartner" />
+<Dialog bind:this={dialogRef} isUrl={false} isType="addPartner" />
 
 <ul>
 	{#each data.websites.websites as website}
