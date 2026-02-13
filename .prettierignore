@@ -13,4 +13,4 @@ package-lock.json
 yarn.lock
 
 # Ignore markdown files
-.md
+**/*.md
