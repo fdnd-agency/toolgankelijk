@@ -24,11 +24,11 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
       - uses: actions/cache@v3
         with:
           path: node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+
       - run: npm ci
       - run: npm run build
 
@@ -37,14 +37,11 @@ jobs:
     needs: build
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: 'npm'
       - uses: actions/cache@v3
         with:
           path: node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+
       - run: npm test --if-present
 
   lint:
@@ -52,9 +49,9 @@ jobs:
     needs: build
     steps:
       - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
+      - uses: actions/cache@v3
         with:
-          node-version: 20
-          cache: 'npm'
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+
       - run: npm run lint --if-present
