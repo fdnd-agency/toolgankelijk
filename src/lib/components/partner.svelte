@@ -2,7 +2,6 @@
 	import { onMount } from 'svelte';
 	import trash from '$lib/assets/trash.svg';
 	import pencil from '$lib/assets/pencil.svg';
-	import AddForm from '$lib/components/addForm.svelte';
 	import Dialog from '$lib/components/dialog.svelte';
 	import AuditIcon from '$lib/components/icons/auditIcon.svelte';
 	import DeleteIcon from '$lib/components/icons/deleteIcon.svelte';

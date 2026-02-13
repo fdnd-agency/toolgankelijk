@@ -1,5 +1,5 @@
 <script>
-	import AddForm from '$lib/components/addForm.svelte';
+	import Dialog from '$lib/components/dialog.svelte';
 
 	export let form;
 </script>
@@ -10,7 +10,7 @@
 		<p>Probeer een partner toe te voegen die nog niet in de lijst bestaat!</p>
 	</article>
 
-	<AddForm />
+	<Dialog />
 </section>
 
 {#if form?.success}
