@@ -13,6 +13,10 @@ env:
   HYGRAPH_URL: ${{ secrets.HYGRAPH_URL }}
   VITE_HYGRAPH_KEY: ${{ secrets.VITE_HYGRAPH_KEY }}
   TOOLGANKELIJK_AUDIT_URL: ${{ vars.TOOLGANKELIJK_AUDIT_URL }}
+  SMTP_HOST: ""
+  SMTP_PORT: 
+  SMTP_USER: ""
+  SMTP_PASS: ""
 jobs:
   build:
 
