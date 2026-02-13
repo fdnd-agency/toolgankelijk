@@ -167,27 +167,27 @@
 		{#if !sending}
 
 		<div class="form-heading">
-			<h2 class="dialog-title">{title}</h2>
-			<button class="form-close-button" on:click={close} role="button" aria-label="sluit het venster">
+			<h2 class="form-heading">{title}</h2>
+			<button class="form-close-button" onclick={close} aria-label="sluit het venster">
 				<CrossIcon />
 			</button>
 		</div>
 
 		{#if tip !== null}
 			<div class="form-message-tip">
-				<div class="form-exclamation-mark" tabindex="0">
+				<div class="form-exclamation-mark">
 					<ExclamationmarkIcon />				
 				</div>
 
 				<p tabindex="0"> {tip} </p>
-				<button on:click={closeTip} class="form-close-button" role="button" aria-label="sluit de tip">
+				<button onclick={closeTip} class="form-close-button" aria-label="sluit de tip">
 					<CrossIcon />
 				</button>
 			</div>
 							
 		{/if}
 
-		<form on:submit|preventDefault={submitHandling}>
+		<form onsubmit={submitHandling} >
 			<input type="hidden" value={idValue} name="id" />
 
 				
@@ -201,6 +201,7 @@
 					type="text" 
 					required
 					placeholder="Typ hier je titel"
+					autocomplete="given-name"
 					bind:value={nameValue}>
 
 				<label>Typ hier je URL</label>
@@ -279,7 +280,7 @@
 					<p>Wilt u een audit uitvoeren?</p>
 				{/if}
 					
-			<button class="form-submit-button" role="button" aria-label="verzend formulier">
+			<button class="form-submit-button" aria-label="verzend formulier">
 				<!-- here comes all the is states of submitting -->
 					{submitValue}
 			</button>
@@ -369,7 +370,6 @@
 	}
 
     .form-heading {
-        margin: 1em;
 		display: flex;
 		justify-content: space-between;
 		color: var(--color-neutral-black);
@@ -384,7 +384,10 @@
 			padding: 0;
 			font: inherit;
 			cursor: pointer;
-			outline: inherit;
+	}
+
+	.form-heading button:focus {
+			border: black solid 1px;
 	}
 
 	@media (max-width: 720px){
@@ -416,7 +419,6 @@
 			padding: 0;
 			font: inherit;
 			cursor: pointer;
-			outline: inherit;
 		}
 	}
 
