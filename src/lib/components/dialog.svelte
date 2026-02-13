@@ -404,7 +404,7 @@
 		align-items: center;
 		margin-bottom: 1em;
 
-		@media (max-width: 720px){
+		@media screen and (max-width: 720px){
 			height: 32px;
 			font-size: 12px;
 		}
