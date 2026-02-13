@@ -373,8 +373,11 @@
 		display: flex;
 		justify-content: space-between;
 		color: var(--color-neutral-black);
+	}
 
-		button, input[type="submit"], input[type="reset"] {
+	.form-heading button,
+	.form-heading input[type="submit"],	
+	.form-heading input[type="reset"] {
 			background: none;
 			color: inherit;
 			border: none;
@@ -382,11 +385,10 @@
 			font: inherit;
 			cursor: pointer;
 			outline: inherit;
-		}
+	}
 
 		@media (max-width: 720px){
 			font-size: 16px;
-		}
 	}
 
 	.form-message-tip {
