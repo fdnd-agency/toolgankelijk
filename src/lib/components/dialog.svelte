@@ -387,8 +387,10 @@
 			outline: inherit;
 	}
 
-		@media (max-width: 720px){
+	@media (max-width: 720px){
+		.form-heading {
 			font-size: 16px;
+		}
 	}
 
 	.form-message-tip {
