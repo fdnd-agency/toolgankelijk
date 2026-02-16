@@ -301,8 +301,10 @@
 
 
 		{#if sending}
-			<p>formulier wordt verwerkt</p>
-			<Loader />
+			<div class="tip-message" aria-label="tip message">
+				<p><span>{nameValue}</span> wordt verwerkt, sluit de pagina niet.</p>
+			</div>
+			<Loader itemArray={logs} {urlCount} {urlTotal} {type} />
 		{/if}
 
 
