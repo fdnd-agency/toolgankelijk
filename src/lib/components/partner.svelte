@@ -5,7 +5,6 @@
 	import DeleteIcon from '$lib/components/icons/deleteIcon.svelte';
 	import EditIcon from '$lib/components/icons/editIcon.svelte';
 
-
 	export let website;
 	export let principes;
 	export let params;
@@ -136,9 +135,13 @@
 			</div>
 			<div class="icons" id={`icons-${website.id}`}>
 				{#if !isUrl}
-				<button onclick={openForm.bind(null, auditType)} aria-label="start icoon" class="color-primary">
-					<AuditIcon />
-				</button>
+					<button
+						onclick={openForm.bind(null, auditType)}
+						aria-label="start icoon"
+						class="color-primary"
+					>
+						<AuditIcon />
+					</button>
 				{/if}
 				<button onclick={openForm.bind(null, editType)} aria-label="bewerk iccon">
 					<EditIcon />

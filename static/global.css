@@ -164,8 +164,8 @@ body {
 }
 
 .lightmode {
-	--color-primary: #4F0029;
-	--color-primary-light: #B9005F;
+	--color-primary: #4f0029;
+	--color-primary-light: #b9005f;
 
 	/* accent colors */
 	--color-accent-primary: #3f4903;
@@ -210,13 +210,19 @@ h2 {
 h3 {
 	font-size: 2rem;
 	font-weight: 500;
-	font-family: 'Fira Sans Regular', 'Inter', 'Montserrat' sans-serif;
+	font-family:
+		'Fira Sans Regular',
+		'Inter',
+		'Montserrat' sans-serif;
 }
 
 p {
 	font-size: 1rem;
 	font-weight: 400;
-	font-family: 'Fira Sans Regular', 'Inter', 'Montserrat' sans-serif;
+	font-family:
+		'Fira Sans Regular',
+		'Inter',
+		'Montserrat' sans-serif;
 	line-height: 141.667%;
 	letter-spacing: 0.0025rem;
 }
@@ -250,7 +256,7 @@ button {
 	height: 48px;
 	font-size: 16px;
 
-	@media (max-width: 720px){
+	@media (max-width: 720px) {
 		height: 32px;
 		font-size: 12px;
 	}
@@ -266,74 +272,80 @@ input[type='text'] {
 	font-size: 16px;
 	padding-left: 1em;
 
-	@media (max-width: 720px){
+	@media (max-width: 720px) {
 		height: 32px;
 		font-size: 12px;
 	}
 }
 
 @font-face {
-  font-family: 'Fira Sans Bold';
-	src: url('./src/lib/assets/fonts/fira-sans/FiraSans-Bold.ttf') format('truetype'),
- 		url('./src/lib/assets/fonts/fira-sans/FiraSans-Bold.woff') format('woff');
-  font-display: swap;
-  font-weight: 700;
-  font-style: normal;
+	font-family: 'Fira Sans Bold';
+	src:
+		url('./src/lib/assets/fonts/fira-sans/FiraSans-Bold.ttf') format('truetype'),
+		url('./src/lib/assets/fonts/fira-sans/FiraSans-Bold.woff') format('woff');
+	font-display: swap;
+	font-weight: 700;
+	font-style: normal;
 }
 
 @font-face {
-  font-family: 'Fira Sans Medium';
-	src: url('./src/lib/assets/fonts/fira-sans/FiraSans-Medium.ttf') format('truetype'),
- 		url('./src/lib/assets/fonts/fira-sans/FiraSans-Medium.woff') format('woff');
-  font-display: swap;
-  font-weight: 600;
-  font-style: normal;
+	font-family: 'Fira Sans Medium';
+	src:
+		url('./src/lib/assets/fonts/fira-sans/FiraSans-Medium.ttf') format('truetype'),
+		url('./src/lib/assets/fonts/fira-sans/FiraSans-Medium.woff') format('woff');
+	font-display: swap;
+	font-weight: 600;
+	font-style: normal;
 }
 
 @font-face {
-  font-family: 'Fira Sans Regular';
-	src: url('./src/lib/assets/fonts/fira-sans/FiraSans-Regular.ttf') format('truetype'),
- 		url('./src/lib/assets/fonts/fira-sans/FiraSans-Regular.woff') format('woff');
-  font-display: swap;
-  font-weight: 500;
-  font-style: normal;
+	font-family: 'Fira Sans Regular';
+	src:
+		url('./src/lib/assets/fonts/fira-sans/FiraSans-Regular.ttf') format('truetype'),
+		url('./src/lib/assets/fonts/fira-sans/FiraSans-Regular.woff') format('woff');
+	font-display: swap;
+	font-weight: 500;
+	font-style: normal;
 }
 
 @font-face {
-  font-family: 'Fira Sans Light';
-	src: url('./src/lib/assets/fonts/fira-sans/FiraSans-Light.ttf') format('truetype'),
- 	url('./src/lib/assets/fonts/fira-sans/FiraSans-Light.woff') format('woff');
-  font-display: swap;
-  font-weight: 400;
-  font-style: normal;
+	font-family: 'Fira Sans Light';
+	src:
+		url('./src/lib/assets/fonts/fira-sans/FiraSans-Light.ttf') format('truetype'),
+		url('./src/lib/assets/fonts/fira-sans/FiraSans-Light.woff') format('woff');
+	font-display: swap;
+	font-weight: 400;
+	font-style: normal;
 }
 
 @font-face {
-  font-family: 'Fira Sans Extra Light';
-	src: url('./src/lib/assets/fonts/fira-sans/FiraSans-ExtraLight.ttf') format('truetype'),
- 	 	url('./src/lib/assets/fonts/fira-sans/FiraSans-ExtraLight.woff') format('woff');
-  font-display: swap;
-  font-weight: 300;
-  font-style: normal;
+	font-family: 'Fira Sans Extra Light';
+	src:
+		url('./src/lib/assets/fonts/fira-sans/FiraSans-ExtraLight.ttf') format('truetype'),
+		url('./src/lib/assets/fonts/fira-sans/FiraSans-ExtraLight.woff') format('woff');
+	font-display: swap;
+	font-weight: 300;
+	font-style: normal;
 }
-
 
 /* montserrat */
 
 @font-face {
-  font-family: 'Montserrat';
-  	src: url('./src/lib/assets/fonts/montserrat/static/Monsterrat-Regular.ttf') format('truetype');
-	src: url('./src/lib/assets/fonts/fira-sans/Monsterrat-Regular.woff') format('woff');
-  font-display: swap;
-  font-weight: 400;
-  font-style: normal;
+	font-family: 'Montserrat';
+	src:
+		url('./src/lib/assets/fonts/montserrat/static/Monsterrat-Regular.ttf') format('truetype'),
+		url('./src/lib/assets/fonts/fira-sans/Monsterrat-Regular.woff') format('woff');
+	font-display: swap;
+	font-weight: 400;
+	font-style: normal;
 }
 
 @font-face {
-  font-family: 'Inter';
-  	src: url('./src/lib/assets/fonts/montserrat/static/Inter_18pt-Regular.ttf') format('truetype');
-	src: url('./src/lib/assets/fonts/fira-sans/Inter_18pt-Regular.woff') format('woff');
-  font-display: swap;
-  font-weight: 400;
-  font-style: normal;
+	font-family: 'Inter';
+	src:
+		url('./src/lib/assets/fonts/montserrat/static/Inter_18pt-Regular.ttf') format('truetype'),
+		url('./src/lib/assets/fonts/fira-sans/Inter_18pt-Regular.woff') format('woff');
+	font-display: swap;
+	font-weight: 400;
+	font-style: normal;
 }

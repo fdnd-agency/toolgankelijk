@@ -10,7 +10,7 @@
 		<p>Probeer een partner toe te voegen die nog niet in de lijst bestaat!</p>
 	</article>
 
-	<Dialog bind:this={dialogRef} {params} isType="addPartner"  />
+	<Dialog bind:this={dialogRef} {params} isType="addPartner" />
 </section>
 
 {#if form?.success}
