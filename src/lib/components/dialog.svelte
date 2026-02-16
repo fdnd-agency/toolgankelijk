@@ -278,6 +278,17 @@
 				{#if isType === 'startAudit' }
 					<AuditIcon />
 					<p>Wilt u een audit uitvoeren?</p>
+
+					<input class="id-field" type="hidden" name="id" value={idValue} id={idValue} />
+					<input
+						type="hidden"
+						name="urls"
+						id="urls"
+						value={JSON.stringify(
+							website.urls?.map((item) => ({ url: item.url, urlSlug: item.slug }))
+						)}
+					/>
+					<input type="hidden" name="slug" id="slug" value={slugValue} />
 				{/if}
 					
 			<button class="form-submit-button" aria-label="verzend formulier">
