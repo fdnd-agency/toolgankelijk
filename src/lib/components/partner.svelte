@@ -125,8 +125,8 @@
 	});
 </script>
 
-<li class="color-primary-light"  class:container-off={containerOff}>
-  <a href={link}>
+<li class="color-primary-light" class:container-off={containerOff}>
+	<a href={link}>
 		<section class="logo-partner-section">
 			<div>
 				<img
@@ -140,7 +140,11 @@
 			</div>
 			<div class="icons" id={`icons-${website.id}`}>
 				{#if !isUrl}
-					<button onclick={openForm.bind(null, auditType)} aria-label="start audit button" class="color-primary">
+					<button
+						onclick={openForm.bind(null, auditType)}
+						aria-label="start audit button"
+						class="color-primary"
+					>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							width="24"
@@ -250,7 +254,7 @@
 		gap: 1rem;
 		color: black;
 		text-decoration: none;
-  		background-color: var(--light-1);
+		background-color: var(--light-1);
 		padding: 1em;
 		border-radius: 0.5rem;
 		width: 100%;
@@ -380,7 +384,6 @@
 	.container-off {
 		display: none;
 	}
-
 
 	@media (inverted-colors: inverted) {
 		li a {

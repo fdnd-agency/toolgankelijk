@@ -28,9 +28,9 @@ export const load = async ({ params, locals }) => {
 			niveauData
 		};
 	throw (
-		(404,
+		404,
 		{
 			message: 'Not found'
-		})
+		}
 	);
 };
