@@ -274,37 +274,66 @@ input[type='text'] {
 
 @font-face {
   font-family: 'Fira Sans Bold';
-  src: url('./src/lib/assets/fonts/fira-sans/FiraSans-Bold.ttf') format('truetype')
+	src: url('./src/lib/assets/fonts/fira-sans/FiraSans-Bold.ttf') format('truetype');
+ 	src: url('./src/lib/assets/fonts/fira-sans/FiraSans-Bold.woff') format('woff');
+  font-display: swap;
+  font-weight: 700;
+  font-style: normal;
 }
-
 
 @font-face {
   font-family: 'Fira Sans Medium';
-  src: url('./src/lib/assets/fonts/fira-sans/FiraSans-Medium.ttf') format('truetype')
+	src: url('./src/lib/assets/fonts/fira-sans/FiraSans-Medium.ttf') format('truetype');
+ 	src: url('./src/lib/assets/fonts/fira-sans/FiraSans-Medium.woff') format('woff');
+  font-display: swap;
+  font-weight: 600;
+  font-style: normal;
 }
 
 @font-face {
   font-family: 'Fira Sans Regular';
-  src: url('./src/lib/assets/fonts/fira-sans/FiraSans-Regular.ttf') format('truetype')
+	src: url('./src/lib/assets/fonts/fira-sans/FiraSans-Regular.ttf') format('truetype');
+ 	src: url('./src/lib/assets/fonts/fira-sans/FiraSans-Regular.woff') format('woff');
+  font-display: swap;
+  font-weight: 500;
+  font-style: normal;
 }
 
 @font-face {
   font-family: 'Fira Sans Light';
-  src: url('./src/lib/assets/fonts/fira-sans/FiraSans-Light.ttf') format('truetype')
+	src: url('./src/lib/assets/fonts/fira-sans/FiraSans-Light.ttf') format('truetype');
+ 	src: url('./src/lib/assets/fonts/fira-sans/FiraSans-Light.woff') format('woff');
+  font-display: swap;
+  font-weight: 400;
+  font-style: normal;
 }
 
 @font-face {
-  font-family: 'Fira Sans ExtraLight';
-  src: url('./src/lib/assets/fonts/fira-sans/FiraSans-ExtraLight.ttf') format('truetype')
+  font-family: 'Fira Sans Extra Light';
+	src: url('./src/lib/assets/fonts/fira-sans/FiraSans-ExtraLight.ttf') format('truetype');
+ 	src: url('./src/lib/assets/fonts/fira-sans/FiraSans-ExtraLight.woff') format('woff');
+  font-display: swap;
+  font-weight: 300;
+  font-style: normal;
 }
+
 
 /* montserrat */
+
 @font-face {
   font-family: 'Montserrat';
-  src: url('./src/lib/assets/fonts/montserrat/static/Monsterrat-Regular.ttf') format('truetype')
+  	src: url('./src/lib/assets/fonts/montserrat/static/Monsterrat-Regular.ttf') format('truetype');
+	src: url('./src/lib/assets/fonts/fira-sans/Monsterrat-Regular.woff') format('woff');
+  font-display: swap;
+  font-weight: 400;
+  font-style: normal;
 }
 
 @font-face {
   font-family: 'Inter';
-  src: url('./src/lib/assets/fonts/inter/static/Inter_18pt-Regular.ttf') format('truetype')
+  	src: url('./src/lib/assets/fonts/montserrat/static/Inter_18pt-Regular.ttf') format('truetype');
+	src: url('./src/lib/assets/fonts/fira-sans/Inter_18pt-Regular.woff') format('woff');
+  font-display: swap;
+  font-weight: 400;
+  font-style: normal;
 }
