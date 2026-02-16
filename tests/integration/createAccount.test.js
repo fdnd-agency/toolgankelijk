@@ -34,7 +34,7 @@ describe('src/routes/register/+page.server.js integration', () => {
 							username: uniqueUsername,
 							password: 'T3$tT3$t',
 							'confirm-password': 'T3$tT3$t'
-						}[key])
+						})[key]
 				})
 			},
 			locals: { sessie: null, gebruiker: null },

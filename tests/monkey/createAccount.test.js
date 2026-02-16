@@ -32,7 +32,7 @@ describe('Monkey test: create account with random input', () => {
 									username: acc.username,
 									password: acc.password,
 									'confirm-password': acc.confirmPassword
-								}[key])
+								})[key]
 						})
 					},
 					locals: { sessie: null, gebruiker: null },

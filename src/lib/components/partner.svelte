@@ -121,8 +121,8 @@
 	});
 </script>
 
-<li class="color-primary-light"  class:container-off={containerOff}>
-  <a href={link}>
+<li class="color-primary-light" class:container-off={containerOff}>
+	<a href={link}>
 		<section class="logo-partner-section">
 			<div>
 				<img
@@ -200,7 +200,7 @@
 		gap: 1rem;
 		color: black;
 		text-decoration: none;
-  		background-color: var(--light-1);
+		background-color: var(--light-1);
 		padding: 1em;
 		border-radius: 0.5rem;
 		width: 100%;
@@ -331,7 +331,6 @@
 	.container-off {
 		display: none;
 	}
-
 
 	@media (inverted-colors: inverted) {
 		li a {
