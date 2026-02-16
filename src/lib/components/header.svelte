@@ -3,6 +3,7 @@
 	import logoDarkMode from '$lib/assets/logoDarkMode.svg';
 	import logoLightMode from '$lib/assets/logoLightMode.svg';
 	import BreadCrumbs from '$lib/components/breadCrumbs.svelte';
+	import Hamburger from '$lib/components/hamburger.svelte';
 
 	/**
 	 * @typedef {Object} Props
@@ -146,6 +147,7 @@
 				<button onclick={handleSignOut} class="signout-btn">Sign out</button>
 			{/if}
 		</div>
+		<Hamburger />
 	</nav>
 </header>
 
