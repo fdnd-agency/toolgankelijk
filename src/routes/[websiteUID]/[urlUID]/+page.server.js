@@ -27,10 +27,7 @@ export const load = async ({ params, locals }) => {
 			urlData,
 			niveauData
 		};
-	throw error (
-		(404,
-		{
-			message: 'Not found'
-		})
-	);
+	throw error(404, {
+		message: 'Not found'
+	});
 };
