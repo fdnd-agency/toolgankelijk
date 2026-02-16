@@ -426,7 +426,7 @@
 		width: 100%;
 		margin-top: 1em;
 		border: 1px var(--color-neutral-black) solid;
-		color: var(--light-3);
+		color: var(--color-neutral-black);
 		filter: drop-shadow(var(--color-neutral-black) 2px 2px 4px);
 	}
 

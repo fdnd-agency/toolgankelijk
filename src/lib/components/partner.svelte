@@ -216,6 +216,7 @@
 		max-width: 20ch;
 		overflow: hidden;
 		text-overflow: ellipsis;
+		color: var(--color-neutral-black);
 	}
 
 	.logo-partner-section {
