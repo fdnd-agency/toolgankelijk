@@ -17,6 +17,11 @@ export default function getQueryPartner(gql, first = 20, skip = 0) {
 					}
 				}
 			}
+			websitesConnection {
+				aggregate {
+					count
+				}
+			}
 			principes {
 				titel
 				richtlijnen {

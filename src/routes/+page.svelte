@@ -6,12 +6,11 @@
 	import Search from '$lib/components/search.svelte';
 	import AddForm from '$lib/components/addForm.svelte';
 	import Pages from '$lib/components/pages.svelte';
-
 	let { data, form } = $props();
 
 	let skip = $derived(data.skip);
 	const first = $derived(data.first);
-	let totalUrls = $derived(data.websites.totalUrls);
+	let totalUrls = $derived(data.websites.websitesConnection.aggregate.count);
 	const currentPage = $derived(skip / first + 1);
 	let showRegistrationSuccess = $derived(data.showRegistrationSuccess);
 	let heading = { titel: 'Partners overzicht' };

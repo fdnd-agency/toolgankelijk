@@ -16,7 +16,7 @@ export default function getQueryWebsite(gql, slug, first = 20, skip = 0) {
 						}
 					}
 				}
-				totalUrls
+				
 			}
 			principes {
 				titel
@@ -27,6 +27,11 @@ export default function getQueryWebsite(gql, slug, first = 20, skip = 0) {
 					}
 				}
 			}
+			urlsConnection(where: { website: { slug: "${slug}" } }) {    
+    			aggregate {
+      				count
+    			}
+  			}
 		}
 	`;
 }
