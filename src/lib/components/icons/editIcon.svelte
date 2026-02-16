@@ -6,7 +6,7 @@
 <style>
     svg {
 		fill: none;
-        color: var(--color-neutral-darkgrey);
+        color: var(--color-neutral-black);
         height: 32px;
 		width: 32px;
 		

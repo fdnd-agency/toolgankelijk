@@ -1,7 +1,5 @@
 <script>
 	import { onMount } from 'svelte';
-	import trash from '$lib/assets/trash.svg';
-	import pencil from '$lib/assets/pencil.svg';
 	import Dialog from '$lib/components/dialog.svelte';
 	import AuditIcon from '$lib/components/icons/auditIcon.svelte';
 	import DeleteIcon from '$lib/components/icons/deleteIcon.svelte';
@@ -298,7 +296,7 @@
 	progress {
 		width: 100%;
 		border-radius: 0.5rem;
-		background-color: var(--dark-1);
+		background-color: var(--color-neutral-lightgrey);
 		border: none;
 		overflow: hidden;
 	}
@@ -309,18 +307,18 @@
 	}
 
 	progress[value]::-webkit-progress-bar {
-		background-color: var(--color-white);
+		background-color: var(--color-neutral-lightgrey);
 		border-radius: 0.5rem;
 	}
 
 	progress[value]::-webkit-progress-value {
-		background-color: var(--dark-2);
+		background-color: var(--color-neutral-darkgrey);
 		border-radius: 0.5rem;
 		transition: 1s ease-out;
 	}
 
 	progress[value]::-moz-progress-bar {
-		background-color: var(--dark-2);
+		background-color: var(--color-neutral-darkgrey);
 		border-radius: 0.5rem;
 		transition: 1s ease-out;
 	}
