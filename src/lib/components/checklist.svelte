@@ -26,9 +26,9 @@
 
 	let simpleTranslation = $state(true);
 
-	const checkedSuccescriteria = toolboardData.url.checks[0]
-		? toolboardData.url.checks[0].succescriteria
-		: [];
+	const checkedSuccescriteria = $derived(
+		toolboardData.url.checks[0] ? toolboardData.url.checks[0].succescriteria : []
+	);
 
 	function scrollToTop(event) {
 		const mainElement = document.getElementById('main');
