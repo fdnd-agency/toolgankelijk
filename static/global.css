@@ -246,7 +246,6 @@ p {
 /* form elements */
 button {
 	border-radius: var(--border-radius);
-	background-color: var(--color-primary);
 	color: var(--color-neutral-white);
 	width: fit-content;
 	display: flex;

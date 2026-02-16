@@ -264,12 +264,12 @@
 				{#if isType === 'deleteUrl' || isType === 'deletePartner'}
 				
 				
-				<div class="form-delete-fields">
-					<h3>{nameValue}</h3>
-					<h3>{urlValue}</h3>
+				<div class="form-delete-fields" tabindex="0">
+					<h2>{nameValue}</h2>
+					<h2>{urlValue}</h2>
 				</div>
 				
-				<div class="form-delete-content">
+				<div class="form-delete-content" tabindex="0">
 					<DeleteIcon />
 					<p>Weet je zeker dat je {title} wilt verwijderen?</p>
 				</div>
@@ -427,6 +427,7 @@
 		margin-top: 1em;
 		border: 1px var(--color-neutral-black) solid;
 		color: var(--color-neutral-black);
+		background-color: var(--dark-3);
 		filter: drop-shadow(var(--color-neutral-black) 2px 2px 4px);
 	}
 
@@ -447,6 +448,7 @@
 	.form-edit-icon {
 		position: relative;
 		top: 2.7em;
+		width: 2em;
 		left: 91%;
 		opacity: 0.5;
 		pointer-events: none;
