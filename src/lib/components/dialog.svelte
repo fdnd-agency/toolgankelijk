@@ -310,7 +310,7 @@
 		top: 0;
 		border: none;
 		display: none;
-		top: 50%;
+		top: 45%;
 		left: 32%;
 
 		@media (max-width: 1400px){
