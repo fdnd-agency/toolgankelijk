@@ -304,7 +304,7 @@ p {
 	font-family: 'Montserrat';
 	src:
 		url('./src/lib/assets/fonts/montserrat/static/Montserrat-Regular.ttf') format('truetype'),
-		url('./src/lib/assets/fonts/montserrat/Montserrat-Regular.woff') format('woff');
+		url('./src/lib/assets/fonts/montserrat/static/Montserrat-Regular.woff') format('woff');
 	font-display: swap;
 	font-weight: 400;
 	font-style: normal;
@@ -314,7 +314,7 @@ p {
 	font-family: 'Inter';
 	src:
 		url('./src/lib/assets/fonts/inter/static/Inter_18pt-Regular.ttf') format('truetype'),
-		url('./src/lib/assets/fonts/inter/Inter_18pt-Regular.woff') format('woff');
+		url('./src/lib/assets/fonts/inter/static/Inter_18pt-Regular.woff') format('woff');
 	font-display: swap;
 	font-weight: 400;
 	font-style: normal;
