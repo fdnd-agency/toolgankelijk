@@ -213,7 +213,8 @@ h3 {
 	font-family:
 		'Fira Sans Regular',
 		'Inter',
-		'Montserrat' sans-serif;
+		'Montserrat',
+		sans-serif;
 }
 
 p {
@@ -222,7 +223,8 @@ p {
 	font-family:
 		'Fira Sans Regular',
 		'Inter',
-		'Montserrat' sans-serif;
+		'Montserrat',
+		sans-serif;
 	line-height: 141.667%;
 	letter-spacing: 0.0025rem;
 }
@@ -245,38 +247,6 @@ p {
 	display: none;
 }
 
-/* form elements */
-button {
-	border-radius: var(--border-radius);
-	color: var(--color-neutral-white);
-	width: fit-content;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	height: 48px;
-	font-size: 16px;
-
-	@media (max-width: 720px) {
-		height: 32px;
-		font-size: 12px;
-	}
-}
-
-input[type='text'] {
-	height: 48px;
-	width: 100%;
-	background-color: var(--color-neutral-white);
-	color: var(--color-neutral-black);
-	border: var(--color-neutral-black) 1px solid;
-	border-radius: 12px;
-	font-size: 16px;
-	padding-left: 1em;
-
-	@media (max-width: 720px) {
-		height: 32px;
-		font-size: 12px;
-	}
-}
 
 @font-face {
 	font-family: 'Fira Sans Bold';
@@ -304,7 +274,7 @@ input[type='text'] {
 		url('./src/lib/assets/fonts/fira-sans/FiraSans-Regular.ttf') format('truetype'),
 		url('./src/lib/assets/fonts/fira-sans/FiraSans-Regular.woff') format('woff');
 	font-display: swap;
-	font-weight: 500;
+	font-weight: 400;
 	font-style: normal;
 }
 
@@ -314,7 +284,7 @@ input[type='text'] {
 		url('./src/lib/assets/fonts/fira-sans/FiraSans-Light.ttf') format('truetype'),
 		url('./src/lib/assets/fonts/fira-sans/FiraSans-Light.woff') format('woff');
 	font-display: swap;
-	font-weight: 400;
+	font-weight: 300;
 	font-style: normal;
 }
 
@@ -324,7 +294,7 @@ input[type='text'] {
 		url('./src/lib/assets/fonts/fira-sans/FiraSans-ExtraLight.ttf') format('truetype'),
 		url('./src/lib/assets/fonts/fira-sans/FiraSans-ExtraLight.woff') format('woff');
 	font-display: swap;
-	font-weight: 300;
+	font-weight: 200;
 	font-style: normal;
 }
 
@@ -333,8 +303,8 @@ input[type='text'] {
 @font-face {
 	font-family: 'Montserrat';
 	src:
-		url('./src/lib/assets/fonts/montserrat/static/Monsterrat-Regular.ttf') format('truetype'),
-		url('./src/lib/assets/fonts/fira-sans/Monsterrat-Regular.woff') format('woff');
+		url('./src/lib/assets/fonts/montserrat/static/Montserrat-Regular.ttf') format('truetype'),
+		url('./src/lib/assets/fonts/montserrat/Montserrat-Regular.woff') format('woff');
 	font-display: swap;
 	font-weight: 400;
 	font-style: normal;
@@ -343,8 +313,8 @@ input[type='text'] {
 @font-face {
 	font-family: 'Inter';
 	src:
-		url('./src/lib/assets/fonts/montserrat/static/Inter_18pt-Regular.ttf') format('truetype'),
-		url('./src/lib/assets/fonts/fira-sans/Inter_18pt-Regular.woff') format('woff');
+		url('./src/lib/assets/fonts/inter/static/Inter_18pt-Regular.ttf') format('truetype'),
+		url('./src/lib/assets/fonts/inter/Inter_18pt-Regular.woff') format('woff');
 	font-display: swap;
 	font-weight: 400;
 	font-style: normal;
