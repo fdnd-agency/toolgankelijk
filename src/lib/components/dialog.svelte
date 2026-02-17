@@ -258,21 +258,23 @@
 					<input type="hidden" id="slug" name="slug" value={slugValue} readonly />
 				{/if}
 
-				{#if isType === 'deleteUrl' || isType === 'deletePartner'}
-					<div class="form-delete-fields" tabindex="0">
-						<h2>{nameValue}</h2>
-						<h2>{urlValue}</h2>
-					</div>
-
+				{#if isType === 'deleteUrl' }
 					<div class="form-delete-content" tabindex="0">
 						<DeleteIcon />
-						<p>Weet je zeker dat je {title} wilt verwijderen?</p>
+						<p>Weet je zeker dat je {urlValue} wilt verwijderen?</p>
+					</div>
+				{/if}
+
+				{#if isType === 'deletePartner'}
+					<div class="form-delete-content" tabindex="0">
+						<DeleteIcon />
+						<p>Weet je zeker dat je {nameValue} wilt verwijderen?</p>
 					</div>
 				{/if}
 
 				{#if isType === 'startAudit'}
 					<AuditIcon />
-					<p>Wilt u een audit uitvoeren?</p>
+					<p>Wilt u een audit uitvoeren op {nameValue}?</p>
 
 					<input class="id-field" type="hidden" name="id" value={idValue} id={idValue} />
 					<input
@@ -488,4 +490,38 @@
 		gap: 1em;
 		padding: 1em;
 	}
+
+
+button {
+	border-radius: var(--border-radius);
+	color: var(--color-neutral-white);
+	width: fit-content;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 48px;
+	font-size: 16px;
+
+	@media (max-width: 720px) {
+		height: 32px;
+		font-size: 12px;
+	}
+}
+
+input[type='text'] {
+	height: 48px;
+	width: 100%;
+	background-color: var(--color-neutral-white);
+	color: var(--color-neutral-black);
+	border: var(--color-neutral-black) 1px solid;
+	border-radius: 12px;
+	font-size: 16px;
+	padding-left: 1em;
+
+	@media (max-width: 720px) {
+		height: 32px;
+		font-size: 12px;
+	}
+}
+	
 </style>
