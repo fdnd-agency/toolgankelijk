@@ -306,16 +306,12 @@
 
 <style>
 	dialog {
-		width: 100%;
-		min-width: 0em;
-		max-width: 0em;
-
+		width: 0em;
 		overflow: visible;
-		transform: translate(-50%, -50%);
 		top: 0;
 		border: none;
 		display: none;
-		top: 45%;
+		top: 24%;
 		left: 32%;
 
 		@media (max-width: 1400px) {
@@ -329,9 +325,13 @@
 		@media (max-width: 720px) {
 			left: 11%;
 		}
+
+		@media (max-height: 500px) {
+			top: 8%;
+		}
 	}
 
-	@media (max-width: 1080px) {
+	@media (min-width: 1080px) {
 		.dialog-title {
 			font-size: 28px;
 		}
