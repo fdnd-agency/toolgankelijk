@@ -143,7 +143,7 @@
 						<AuditIcon />
 					</button>
 				{/if}
-				<button onclick={openForm.bind(null, editType)} aria-label="bewerk iccon">
+				<button onclick={openForm.bind(null, editType)} aria-label="bewerk icoon">
 					<EditIcon />
 				</button>
 				<button onclick={openForm.bind(null, deleteType)} aria-label="verwijder icoon">
