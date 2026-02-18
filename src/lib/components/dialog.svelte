@@ -311,8 +311,9 @@
 		top: 0;
 		border: none;
 		display: none;
-		top: 24%;
-		left: 32%;
+		left: 50%; 
+		top: 50%;
+		transform: translate(-50%, -50%);
 
 		@media (max-width: 1400px) {
 			left: 25%;

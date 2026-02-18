@@ -2,6 +2,8 @@
 	import Dialog from '$lib/components/dialog.svelte';
 
 	let { form } = $props();
+	let dialogRef;
+
 
 	function handleDialog() {
 		dialogRef.open();
