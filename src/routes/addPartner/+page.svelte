@@ -1,7 +1,12 @@
 <script>
-	import AddForm from '$lib/components/addForm.svelte';
+	import Dialog from '$lib/components/dialog.svelte';
 
 	let { form } = $props();
+	let dialogRef;
+
+	function handleDialog() {
+		dialogRef.open();
+	}
 </script>
 
 <section class="content-container">
@@ -10,7 +15,9 @@
 		<p>Probeer een partner toe te voegen die nog niet in de lijst bestaat!</p>
 	</article>
 
-	<AddForm />
+	<button class="add-partner" onclick={handleDialog}>Partner toevoegen</button>
+
+	<Dialog bind:this={dialogRef} isType="addPartner" />
 </section>
 
 {#if form?.success}

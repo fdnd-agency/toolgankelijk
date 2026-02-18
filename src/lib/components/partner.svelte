@@ -1,33 +1,28 @@
 <script>
 	import { onMount } from 'svelte';
-	import trash from '$lib/assets/trash.svg';
-	import pencil from '$lib/assets/pencil.svg';
-	import AddForm from '$lib/components/addForm.svelte';
+	import Dialog from '$lib/components/dialog.svelte';
+	import AuditIcon from '$lib/components/icons/auditIcon.svelte';
+	import DeleteIcon from '$lib/components/icons/deleteIcon.svelte';
+	import EditIcon from '$lib/components/icons/editIcon.svelte';
 
-	/**
-	 * @typedef {Object} Props
-	 * @property {any} website
-	 * @property {any} principes
-	 * @property {any} params
-	 * @property {boolean} [isUrl]
-	 */
+	export let website;
+	export let principes;
+	export let params;
+	export let isUrl = false;
 
-	/** @type {Props} */
-	let { website, principes, params, isUrl = false } = $props();
+	let editType;
+	let deleteType;
+	let auditType;
+	let dialogRefEdit;
+	let dialogRefDelete;
+	let dialogRefAudit;
 
-	let editType = $state();
-	let deleteType = $state();
-	let auditType = $state();
-	let dialogRefEdit = $state();
-	let dialogRefDelete = $state();
-	let dialogRefAudit = $state();
-
-	let labelValue = $state();
-	let progressbar = $state();
-	let lastTime = $state();
-	let link = $state();
-	let title = $state();
-	let url = $state();
+	let labelValue;
+	let progressbar;
+	let lastTime;
+	let link;
+	let title;
+	let url;
 	let websiteCriteria;
 	let totaalCriteria;
 	let containerOff = false;
@@ -142,63 +137,17 @@
 				{#if !isUrl}
 					<button
 						onclick={openForm.bind(null, auditType)}
-						aria-label="start audit button"
+						aria-label="start icoon"
 						class="color-primary"
 					>
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							width="24"
-							height="24"
-							viewBox="0 0 24 24"
-							fill="none"
-							stroke="currentColor"
-							stroke-width="2"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							class="icon icon-tabler icons-tabler-outline icon-tabler-list-check"
-							><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path
-								d="M3.5 5.5l1.5 1.5l2.5 -2.5"
-							/><path d="M3.5 11.5l1.5 1.5l2.5 -2.5" /><path d="M3.5 17.5l1.5 1.5l2.5 -2.5" /><path
-								d="M11 6l9 0"
-							/><path d="M11 12l9 0" /><path d="M11 18l9 0" /></svg
-						>
+						<AuditIcon />
 					</button>
 				{/if}
-				<button onclick={openForm.bind(null, editType)} aria-label="edit button">
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						width="24"
-						height="24"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="2"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						class="icon icon-tabler icons-tabler-outline icon-tabler-pencil"
-						><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path
-							d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4"
-						/><path d="M13.5 6.5l4 4" /></svg
-					>
+				<button onclick={openForm.bind(null, editType)} aria-label="bewerk icoon">
+					<EditIcon />
 				</button>
-				<button onclick={openForm.bind(null, deleteType)} aria-label="delete button">
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						width="24"
-						height="24"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="2"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						class="icon icon-tabler icons-tabler-outline icon-tabler-trash"
-						><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 7l16 0" /><path
-							d="M10 11l0 6"
-						/><path d="M14 11l0 6" /><path
-							d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"
-						/><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg
-					>
+				<button onclick={openForm.bind(null, deleteType)} aria-label="verwijder icoon">
+					<DeleteIcon />
 				</button>
 			</div>
 		</section>
@@ -214,7 +163,7 @@
 	</a>
 </li>
 
-<AddForm
+<Dialog
 	bind:this={dialogRefEdit}
 	isType={editType}
 	id={website.id}
@@ -223,7 +172,7 @@
 	slug={website.slug}
 	{website}
 />
-<AddForm
+<Dialog
 	bind:this={dialogRefDelete}
 	isType={deleteType}
 	id={website.id}
@@ -232,7 +181,7 @@
 	slug={website.slug}
 	{website}
 />
-<AddForm
+<Dialog
 	bind:this={dialogRefAudit}
 	isType={auditType}
 	id={website.id}
@@ -270,6 +219,7 @@
 		max-width: 20ch;
 		overflow: hidden;
 		text-overflow: ellipsis;
+		color: var(--color-neutral-black);
 	}
 
 	.logo-partner-section {
@@ -350,7 +300,7 @@
 	progress {
 		width: 100%;
 		border-radius: 0.5rem;
-		background-color: var(--dark-1);
+		background-color: var(--color-neutral-lightgrey);
 		border: none;
 		overflow: hidden;
 	}
@@ -361,18 +311,18 @@
 	}
 
 	progress[value]::-webkit-progress-bar {
-		background-color: var(--color-white);
+		background-color: var(--color-neutral-lightgrey);
 		border-radius: 0.5rem;
 	}
 
 	progress[value]::-webkit-progress-value {
-		background-color: var(--dark-2);
+		background-color: var(--color-neutral-darkgrey);
 		border-radius: 0.5rem;
 		transition: 1s ease-out;
 	}
 
 	progress[value]::-moz-progress-bar {
-		background-color: var(--dark-2);
+		background-color: var(--color-neutral-darkgrey);
 		border-radius: 0.5rem;
 		transition: 1s ease-out;
 	}
