@@ -273,8 +273,10 @@
 				{/if}
 
 				{#if isType === 'startAudit'}
-					<AuditIcon />
-					<p>Wilt u een audit uitvoeren op {nameValue}?</p>
+					<div class="form-audit-content" tabindex="0">
+						<AuditIcon />
+						<p>Wilt u een audit uitvoeren op {nameValue}?</p>
+					</div>
 
 					<input class="id-field" type="hidden" name="id" value={idValue} id={idValue} />
 					<input
@@ -311,7 +313,7 @@
 		top: 0;
 		border: none;
 		display: none;
-		left: 50%; 
+		left: 32%; 
 		top: 50%;
 		transform: translate(-50%, -50%);
 
@@ -473,16 +475,13 @@
 		}
 	}
 
-	.form-delete-fields {
-		display: flex;
-		flex-direction: column;
-		gap: 1em;
 
-		h3 {
-			background-color: var(--dark-3);
-			color: var(--light-3);
-			padding: 0.3em;
-		}
+
+	.form-audit-content {
+		display: flex;
+		flex-direction: row;
+		gap: 1em;
+		padding: 1em;
 	}
 
 	.form-delete-content {
