@@ -113,9 +113,11 @@
 
 <style>
 	.bread-crumbs {
-		display: flex;
-		align-items: center;
 		gap: 0.5rem;
+		display: none;
+		min-width: min-content;
+		max-width: 192px;
+		grid-column: 2;
 	}
 
 	button {
@@ -124,7 +126,7 @@
 		align-items: center;
 		gap: 0.5rem;
 		appearance: none;
-		padding: 1rem 0.5rem;
+		padding: 0.7rem 0.5rem;
 		border-radius: 0.5rem;
 		font-size: 1rem;
 		background-color: var(--c-container);
@@ -132,7 +134,6 @@
 		border: none;
 		width: 100%;
 		text-align: left;
-		box-shadow: 0px -55px 0px 10px var(--c-background);
 	}
 
 	button::after {
@@ -237,14 +238,8 @@
 	}
 
 	@media only screen and (max-width: 990px) {
-		.bread-crumbs {
-			grid-row: 2;
-			grid-column: span 2;
-		}
-
 		.bread-crumbs .dropdown {
 			width: 100%;
-			min-width: min-content;
 		}
 		.bread-crumbs .dropdown ul {
 			width: 100%;
@@ -253,7 +248,6 @@
 
 	@media only screen and (max-width: 560px) {
 		.bread-crumbs {
-			display: flex;
 			flex-direction: column;
 		}
 		.seperator {
@@ -265,6 +259,12 @@
 		ul {
 			transition: 0s;
 			position: relative;
+		}
+	}
+
+	@media only screen and (min-width: 1260px) {
+		.bread-crumbs {
+			display: flex;
 		}
 	}
 </style>
