@@ -96,7 +96,7 @@
 	        	    	</svg>
 	        	    </a>
                 </li>
-                {/if}
+                {/if} 
             
                 {#if !user}
                 <li>
