@@ -210,21 +210,13 @@ h2 {
 h3 {
 	font-size: 2rem;
 	font-weight: 500;
-	font-family:
-		'Fira Sans Regular',
-		'Inter',
-		'Montserrat',
-		sans-serif;
+	font-family: 'Fira Sans Regular', 'Inter', 'Montserrat', sans-serif;
 }
 
 p {
 	font-size: 1rem;
 	font-weight: 400;
-	font-family:
-		'Fira Sans Regular',
-		'Inter',
-		'Montserrat',
-		sans-serif;
+	font-family: 'Fira Sans Regular', 'Inter', 'Montserrat', sans-serif;
 	line-height: 141.667%;
 	letter-spacing: 0.0025rem;
 }
@@ -246,7 +238,6 @@ p {
 .disabled {
 	display: none;
 }
-
 
 @font-face {
 	font-family: 'Fira Sans Bold';

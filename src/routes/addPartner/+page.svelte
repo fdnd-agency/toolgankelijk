@@ -4,7 +4,6 @@
 	let { form } = $props();
 	let dialogRef;
 
-
 	function handleDialog() {
 		dialogRef.open();
 	}
@@ -18,7 +17,7 @@
 
 	<button class="add-partner" onclick={handleDialog}>Partner toevoegen</button>
 
-	<Dialog bind:this={dialogRef} isType="addPartner"/>
+	<Dialog bind:this={dialogRef} isType="addPartner" />
 </section>
 
 {#if form?.success}
