@@ -1,4 +1,6 @@
 <script>
+	import Loading from '$lib/assets/animations/loading.svelte'
+
 	let { itemArray = [], urlCount, urlTotal, type } = $props();
 
 	let logCount = $derived(itemArray.length);
@@ -19,9 +21,9 @@
 		<p>Logs ({logCount})</p>
 		{#if type !== 1}
 			{#if urlCount && urlTotal}
-				<p><span class="loader"></span>Urls ({urlCount}/{urlTotal})</p>
+				<p> <Loading /> Urls ({urlCount}/{urlTotal})</p>
 			{:else}
-				<p><span class="loader"></span>Aantal urls ophalen...</p>
+				<p> <Loading /> Aantal urls ophalen...</p>
 			{/if}
 		{/if}
 	</summary>
@@ -29,7 +31,7 @@
 		{#each itemArray as item}
 			<li class="log-item {item.type}">
 				{#if item.type === 'loading'}
-					<span class="loader"></span>
+					<Loading />
 				{:else}
 					<img src="/icons/{item.type}.svg" alt={item.type} width="16" height="16" />
 				{/if}
