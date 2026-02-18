@@ -59,3 +59,95 @@
 		icon?.classList.toggle('disable-js');
 	});
 </script>
+
+<header>
+    <div class="header-wrapper">
+        <a href="#main" class="visible-hidden">Jump directly to main content</a>
+
+	    <a href="/" aria-label="Ga naar het overzicht met alle partners" class="logo">
+	    	<img
+	    		src={isLightMode ? logoLightMode : logoDarkMode}
+	    		class="vvr-logo"
+	    		id="logoImage"
+	    		alt="Logo van Vervoerregio Amsterdam"
+	    	/>
+        </a>
+
+        {#if user && user.isEmailGeverifieerd}
+	    	<BreadCrumbs {params} {partners} {websites} {principes} />
+	    {/if}
+
+        <nav>
+            <ul>
+                {#if user && user.isEmailGeverifieerd}
+                <li>
+                    <a aria-label="home pagina" href="/">
+	        	    	<svg
+	        	    	    class="home-icon-img"
+	        	    	    alt="back to homepage"
+	        	    	    aria-hidden="true"
+	        	    	    xmlns="http://www.w3.org/2000/svg"
+	        	    	    viewBox="0 0 24 24">
+                    
+	        	    	    <path
+	        	    	    	d="M11.3 3.3a1 1 0 0 1 1.4 0l6 6 2 2a1 1 0 0 1-1.4 1.4l-.3-.3V19a2 2 0 0 1-2 2h-3a1 1 0 0 1-1-1v-3h-2v3c0 .6-.4 1-1 1H7a2 2 0 0 1-2-2v-6.6l-.3.3a1 1 0 0 1-1.4-1.4l2-2 6-6Z"
+	        	    	    	id="my-svg4"
+	        	    	    />
+	        	    	</svg>
+	        	    </a>
+                </li>
+                {/if}
+            
+                {#if !user}
+                <li>
+	            	<a href="/login" aria-label="account">
+	            		<svg
+	            			class="account-icon-img"
+	            			alt="account icon"
+	            			width="800px"
+	            			height="800px"
+	            			viewBox="0 0 24 24"
+	            			id="Layer_1"
+	            			data-name="Layer 1"
+	            			xmlns="http://www.w3.org/2000/svg"
+	            		>
+	            			<circle id="my-circle" class="cls-1" cx="12" cy="7.25" r="5.73" />
+	            			<path
+	            				id="my-svg2"
+	            				class="cls-1"
+	            				d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05"
+	            			/>
+	            		</svg>
+	            	</a>
+                </li>
+	            {/if}
+
+                <li>
+                    <a aria-label="lightmode button" class="disable-js" href=" ">
+	                	<button aria-label="lightmode" class="toggle" onclick={toggleLightMode}>
+	                		<svg
+	                			id="icon"
+	                			alt="darkmode icon"
+	                			width="24"
+	                			height="24"
+	                			viewBox="0 0 24 24"
+	                			xmlns="http://www.w3.org/2000/svg"
+	                		>
+	                			<path
+	                				id="my-svg"
+	                				d="M12 24C18.6276 24 24 18.6276 24 12C24 5.3724 18.6276 0 12 0C5.3724 0 0 5.3724 0 12C0 18.6276 5.3724 24 12 24ZM12 21.6V2.4C14.5461 2.4 16.9879 3.41143 18.7882 5.21178C20.5886 7.01212 21.6 9.45392 21.6 12C21.6 14.5461 20.5886 16.9879 18.7882 18.7882C16.9879 20.5886 14.5461 21.6 12 21.6Z"
+	                			/>
+	                		</svg>
+	                	</button>
+	                </a>
+                </li>
+            
+	        	{#if user}
+	        		<button onclick={handleSignOut} class="signout-btn">Sign out</button>
+	        	{/if}
+            </ul>
+        </nav>
+        <Hamburger />
+    </div>
+</header>
+
