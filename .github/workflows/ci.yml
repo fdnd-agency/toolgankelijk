@@ -1,0 +1,53 @@
+name: Toolgankelijk CI
+
+on:
+  push:
+    branches: ['dev']
+  pull_request:
+    branches: ['dev']
+
+env:
+  HYGRAPH_URL: ${{ secrets.HYGRAPH_URL }}
+  VITE_HYGRAPH_KEY: ${{ secrets.VITE_HYGRAPH_KEY }}
+  TOOLGANKELIJK_AUDIT_URL: ${{ vars.TOOLGANKELIJK_AUDIT_URL }}
+  SMTP_HOST: ''
+  SMTP_PORT:
+  SMTP_USER: ''
+  SMTP_PASS: ''
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run build
+
+  test:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+      - run: npm i
+      - run: npm test --if-present
+
+  lint:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+      - run: npm i
+      - run: npm run lint --if-present
