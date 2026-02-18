@@ -1,7 +1,5 @@
 <script>
     import { onMount } from 'svelte';
-	// import logoDarkModeDesktop from '$lib/assets/LogoDarkModeDesktop.svg';
-	// import logoLightModeDesktop from '$lib/assets/LogoLightModeDesktop.svg';
     import logoDarkMode from '$lib/assets/LogoDarkModeMobile.png';
 	import logoLightMode from '$lib/assets/LogoLightModeMobile.png';
 	import BreadCrumbs from '$lib/components/breadCrumbs.svelte';
