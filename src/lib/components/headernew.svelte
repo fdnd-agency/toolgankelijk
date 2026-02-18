@@ -151,3 +151,71 @@
     </div>
 </header>
 
+<style>
+    .visible-hidden {
+		clip: rect(1px, 1px, 1px, 1px);
+		height: 0;
+		overflow: hidden;
+		color: white;
+		position: absolute;
+		white-space: nowrap;
+		width: 0;
+	}
+
+	.visible-hidden:focus {
+		clip: auto;
+		height: auto;
+		overflow: auto;
+		position: absolute;
+		width: auto;
+	}
+
+    header {
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        padding: 1rem 0 1rem 0;
+		overflow-x: clip;
+
+        .header-wrapper {
+            display: grid;
+            grid-template-columns: 30% 40% 30%;
+            grid-template-rows: 100%;
+            justify-content: center;
+            justify-items: center;
+            align-items: center;
+            margin: 0 1.25rem 0 1.25rem;
+
+            img {
+                top: 10%;
+                left: 1em;
+                height: 70%;
+                width: auto;
+                position: absolute;
+
+                @media(min-width:700px) {
+                    content: url("$lib/assets/LogoLightModeDesktop.svg");
+                    width: 30%;
+                }
+            }
+
+            nav {
+                display: none;
+            }
+
+			@media(min-width: 1260px) {
+				grid-template-columns: 30% 60% 10%;
+			}
+        }
+
+         &::after{
+            content: "";
+            margin-top: 1.25rem;
+            aspect-ratio: 21.833;
+            min-width: 450px;
+            width: 100%;
+            height: clamp(2rem, 5vw, 5rem);
+            clip-path: shape(from 28.24% 100%,hline to 0%,vline to 94.74%,hline to 28.24%,curve to 37.66% 0% with 32.44% 94.74%/32.44% 0%,hline to 100%,vline to 5.26%,hline to 37.66%,curve to 28.24% 100% with 32.44% 5.26%/32.44% 100%,close);            background-color: #E30059;
+        } 
+    }
+</style>
