@@ -7,7 +7,6 @@
     </svg>
 </a>
 
-
 <style>
     a {
         display: flex;

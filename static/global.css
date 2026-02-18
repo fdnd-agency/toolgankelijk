@@ -17,24 +17,24 @@
 
 body {
 	color-scheme: light dark;
-	--color-primary: light-dark(#B9005F,#F1CCDF);
-	--color-primary-light: light-dark(#F1CCDF,#B9005F);
+	--color-primary: light-dark(#b9005f, #f1ccdf);
+	--color-primary-light: light-dark(#f1ccdf, #b9005f);
 
 	/* accent colors */
-	--color-accent-primary: light-dark(#7B8F0C,#3F4903);
-	--color-accent-secondary: light-dark(#46BECD,#185860);
-	--color-accent-tertiary: light-dark(#0085C8,#003C5A);
-	--color-accent-quarternary: light-dark(#6E7DBC,#384065);
+	--color-accent-primary: light-dark(#7b8f0c, #3f4903);
+	--color-accent-secondary: light-dark(#46becd, #185860);
+	--color-accent-tertiary: light-dark(#0085c8, #003c5a);
+	--color-accent-quarternary: light-dark(#6e7dbc, #384065);
 
 	/* neutral colors */
-	--color-neutral-white: light-dark(#ffffff,#000000);
-	--color-neutral-black: light-dark(#000000,#fffffF);
-	--color-neutral-darkgrey: light-dark(#6D495A,#A9999B);
-	--color-neutral-lightgrey: light-dark(#A9999B,#6D495A);
+	--color-neutral-white: light-dark(#ffffff, #000000);
+	--color-neutral-black: light-dark(#000000, #ffffff);
+	--color-neutral-darkgrey: light-dark(#6d495a, #a9999b);
+	--color-neutral-lightgrey: light-dark(#a9999b, #6d495a);
 
 	/* gradient colors */
-	--color-gradient-primary: linear-gradient(to right, #B9005F, #DE0059);
-	--color-gradient-secondary: linear-gradient(to right, #B9005F, #de005900);
+	--color-gradient-primary: linear-gradient(to right, #b9005f, #de0059);
+	--color-gradient-secondary: linear-gradient(to right, #b9005f, #de005900);
 
 	--c-magenta: 329;
 	--c-white: 0;
@@ -109,24 +109,24 @@ body {
 .color-neutral-lightgrey {
 	@supports (color: color-mix(in hsl, white, black)) {
 		--dark-3: color-mix(in hsl, var(--place-holder) 70%, black 30%);
-        --dark-2: color-mix(in hsl, var(--place-holder) 80%, black 20%);
-        --dark-1: color-mix(in hsl, var(--place-holder) 90%, black 10%);
-        --color:  color-mix(in hsl, var(--place-holder) 100%, white 0%);
-        --light-1: color-mix(in hsl, var(--place-holder) 100%, white 2%);
-        --light-2: color-mix(in hsl, var(--place-holder) 100%, white 7%);
+		--dark-2: color-mix(in hsl, var(--place-holder) 80%, black 20%);
+		--dark-1: color-mix(in hsl, var(--place-holder) 90%, black 10%);
+		--color: color-mix(in hsl, var(--place-holder) 100%, white 0%);
+		--light-1: color-mix(in hsl, var(--place-holder) 100%, white 2%);
+		--light-2: color-mix(in hsl, var(--place-holder) 100%, white 7%);
 		--light-3: color-mix(in hsl, var(--place-holder) 100%, white 12%);
-    	}
-
-    @supports (color: oklch(50% 0.1 120)) {
-		 --dark-3: oklch(from var(--place-holder) calc(l - 0.20) calc(c + 0.03) h);
-        --dark-2: oklch(from var(--place-holder) calc(l - 0.10) calc(c + 0.02) h);
-        --dark-1: oklch(from var(--place-holder) calc(l - 0.04) calc(c + 0.01) h);
-        --color: oklch(from var(--place-holder) l c h);
-        --light-1: oklch(from var(--place-holder) calc(l + 0.02) calc(c + 0.01) h);
-        --light-2: oklch(from var(--place-holder) calc(l + 0.04) calc(c + 0.02) h);
-		--light-3: oklch(from var(--place-holder) calc(l + 0.06) calc(c + 0.03) h);
-    	}
 	}
+
+	@supports (color: oklch(50% 0.1 120)) {
+		--dark-3: oklch(from var(--place-holder) calc(l - 0.2) calc(c + 0.03) h);
+		--dark-2: oklch(from var(--place-holder) calc(l - 0.1) calc(c + 0.02) h);
+		--dark-1: oklch(from var(--place-holder) calc(l - 0.04) calc(c + 0.01) h);
+		--color: oklch(from var(--place-holder) l c h);
+		--light-1: oklch(from var(--place-holder) calc(l + 0.02) calc(c + 0.01) h);
+		--light-2: oklch(from var(--place-holder) calc(l + 0.04) calc(c + 0.02) h);
+		--light-3: oklch(from var(--place-holder) calc(l + 0.06) calc(c + 0.03) h);
+	}
+}
 
 .color-primary {
 	--place-holder: var(--color-primary);
@@ -165,21 +165,21 @@ body {
 }
 
 .lightmode {
-	--color-primary: #4F0029;
-	--color-primary-light: #3F4903;
+	--color-primary: #4f0029;
+	--color-primary-light: #3f4903;
 
 	/* accent colors */
-	--color-accent-primary: #3F4903;
+	--color-accent-primary: #3f4903;
 	--color-accent-secondary: #185860;
-	--color-accent-tertiary: #003C5A;
+	--color-accent-tertiary: #003c5a;
 	--color-accent-quarternary: #384065;
 
 	/* neutral colors */
 	--color-neutral-white: #000000;
-	--color-neutral-black: #fffffF;
-	--color-neutral-darkgrey: #A9999B;
-	--color-neutral-lightgrey:#6D495A;
-	
+	--color-neutral-black: #ffffff;
+	--color-neutral-darkgrey: #a9999b;
+	--color-neutral-lightgrey: #6d495a;
+
 	--c-background: white;
 	--c-container: rgb(185, 0, 95);
 	--c-pink: rgb(99, 99, 99);
