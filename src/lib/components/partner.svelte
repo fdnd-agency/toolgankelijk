@@ -121,8 +121,7 @@
 </script>
 
 <li class="color-primary-light" class:container-off={containerOff}>
-
-		<section class="logo-partner-section">
+	<section class="logo-partner-section">
 			<div>
 				<img
 					class="partner-logo"
@@ -131,7 +130,9 @@
 					src={faviconAPI + url + '/&size=128'}
 					alt="logo partner"
 				/>
-				<h2 class="name">{title}</h2>
+				{#if !isUrl}
+					<h2 class="name">{title}</h2>
+				{/if}
 			</div>
 			<div class="icons" id={`icons-${website.id}`}>
 				{#if !isUrl}
@@ -162,6 +163,46 @@
 				<label class="progress-percentage" for="progress-partner" bind:this={labelValue}>0%</label>
 			</div>
 		</section>
+</li>
+
+<li class="color-primary-light" class:container-off={containerOff}>
+	<picture>
+		<!-- picture -->
+		 <img
+					class="partner-logo"
+					width="60"
+					height="60"
+					src={faviconAPI + url + '/&size=128'}
+					alt="logo partner"
+		/>
+	</picture>
+
+	<h2>
+		<!-- title of site -->
+	</h2>
+	
+	<progress>
+		<!-- progressbar -->
+	</progress>
+
+	<p>
+		<!-- percentage -->
+	</p>
+
+	<button>
+		<!-- button start audit -->
+	</button>
+
+	<button>
+		<!-- button edit -->
+	</button>
+
+	<button>
+		<!-- button delete -->
+	</button>
+
+	<a>
+		<!-- open element -->
 	</a>
 </li>
 
@@ -198,7 +239,7 @@
 		display: flex;
 	}
 
-	li a {
+	li section {
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
@@ -210,10 +251,6 @@
 		border-radius: 0.5rem;
 		width: 100%;
 		transition: 0.25s ease;
-	}
-
-	li a:hover {
-		border: solid 0.1rem var(--color-primary);
 	}
 
 	h2 {
