@@ -60,7 +60,7 @@
 
 <header>
     <div class="header-wrapper">
-        <a href="#main" class="visible-hidden">Jump directly to main content</a>
+        <a href="#main" class="sr-only">Jump directly to main content</a>
 
 	    <a href="/" aria-label="Ga naar het overzicht met alle partners" class="logo">
 	    	<img
@@ -150,7 +150,7 @@
 </header>
 
 <style>
-    .visible-hidden {
+    .sr-only {
 		clip: rect(1px, 1px, 1px, 1px);
 		height: 0;
 		overflow: hidden;
@@ -160,7 +160,7 @@
 		width: 0;
 	}
 
-	.visible-hidden:focus {
+	.sr-only:focus {
 		clip: auto;
 		height: auto;
 		overflow: auto;
