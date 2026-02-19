@@ -24,8 +24,8 @@ describe('hooks.server.js', () => {
 		await handle({ event, resolve });
 
 		// Assert
-		expect(event.locals.gebruiker).toBeNull();
-		expect(event.locals.sessie).toBeNull();
+		expect(event.locals.user).toBeNull();
+		expect(event.locals.session).toBeNull();
 		expect(resolve).toHaveBeenCalled();
 	});
 
@@ -33,8 +33,8 @@ describe('hooks.server.js', () => {
 		// Arrange
 		event.cookies.get.mockReturnValue('token');
 		vi.spyOn(sessionModule, 'validateSessionToken').mockResolvedValue({
-			sessie: { houdbaarTot: new Date(Date.now() + 10000) },
-			gebruiker: { id: '1' }
+			session: { houdbaarTot: new Date(Date.now() + 10000) },
+			user: { id: '1' }
 		});
 		const setCookie = vi.spyOn(sessionModule, 'setSessionTokenCookie').mockImplementation(() => {});
 
@@ -42,8 +42,8 @@ describe('hooks.server.js', () => {
 		await handle({ event, resolve });
 
 		// Assert
-		expect(event.locals.sessie).toBeTruthy();
-		expect(event.locals.gebruiker).toBeTruthy();
+		expect(event.locals.session).toBeTruthy();
+		expect(event.locals.user).toBeTruthy();
 		expect(setCookie).toHaveBeenCalled();
 		expect(resolve).toHaveBeenCalled();
 	});
@@ -52,8 +52,8 @@ describe('hooks.server.js', () => {
 		// Arrange
 		event.cookies.get.mockReturnValue('token');
 		vi.spyOn(sessionModule, 'validateSessionToken').mockResolvedValue({
-			sessie: null,
-			gebruiker: null
+			session: null,
+			user: null
 		});
 		const deleteCookie = vi
 			.spyOn(sessionModule, 'deleteSessionTokenCookie')
@@ -63,8 +63,8 @@ describe('hooks.server.js', () => {
 		await handle({ event, resolve });
 
 		// Assert
-		expect(event.locals.sessie).toBeNull();
-		expect(event.locals.gebruiker).toBeNull();
+		expect(event.locals.session).toBeNull();
+		expect(event.locals.user).toBeNull();
 		expect(deleteCookie).toHaveBeenCalled();
 		expect(resolve).toHaveBeenCalled();
 	});
