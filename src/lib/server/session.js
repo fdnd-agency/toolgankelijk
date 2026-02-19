@@ -54,7 +54,7 @@ export async function validateSessionToken(token) {
 	}
 
 	/**
-	 * @type {Session}
+	 * @type {null | Session}
 	 */
 	let session = {
 		id: row.sessieId,
@@ -75,12 +75,10 @@ export async function validateSessionToken(token) {
 		};
 	}
 
-	//Invalidate session if outdated
+	//Invalidate session if outdated Else Refresh session if old
 	if (Date.now() >= session.houdbaarTot.getTime()) {
 		({ session, user } = await invalidateSession(session));
-	}
-	//Refresh session if old
-	if (Date.now() >= session.houdbaarTot.getTime() - 1000 * 60 * 60 * 24 * 15) {
+	} else if (Date.now() >= session.houdbaarTot.getTime() - 1000 * 60 * 60 * 24 * 15) {
 		session = await refreshSession(session);
 	}
 	return { session, user };
@@ -137,6 +135,14 @@ export async function refreshSession(session) {
 	return session;
 }
 
+/**
+ * Sets a session token cookie on the given event.
+ *
+ * @author Bjarne Zeeman
+ * @param {import('@sveltejs/kit').RequestEvent} event - The request event containing cookies.
+ * @param {string} token - The session token to store in the cookie.
+ * @param {Date} houdbaarTot - The expiration date of the cookie.
+ */
 export function setSessionTokenCookie(event, token, houdbaarTot) {
 	event.cookies.set('session', token, {
 		httpOnly: true,
@@ -147,6 +153,12 @@ export function setSessionTokenCookie(event, token, houdbaarTot) {
 	});
 }
 
+/**
+ * Deletes a session token cookie on the given event.
+ *
+ * @author Bjarne Zeeman
+ * @param {import('@sveltejs/kit').RequestEvent} event - The request event containing cookies.
+ */
 export function deleteSessionTokenCookie(event) {
 	event.cookies.set('session', '', {
 		httpOnly: true,
@@ -157,12 +169,27 @@ export function deleteSessionTokenCookie(event) {
 	});
 }
 
+/**
+ * Generates a session token
+ *
+ * @author Bjarne Zeeman
+ * @returns {String} session token
+ */
 export function generateSessionToken() {
 	const tokenBytes = crypto.randomBytes(20);
 	const token = encodeBase32LowerCaseNoPadding(tokenBytes).toLowerCase();
 	return token;
 }
 
+/**
+ * Creates a new Session
+ *
+ * @author Bjarne Zeeman
+ * @async
+ * @param {String} token
+ * @param {string} gebruikerId
+ * @returns {Promise<Session>}
+ */
 export async function createSession(token, gebruikerId) {
 	const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
 	const session = {
