@@ -120,90 +120,67 @@
 	});
 </script>
 
+
 <li class="color-primary-light" class:container-off={containerOff}>
-	<section class="logo-partner-section">
-			<div>
+	<section>
+		{#if !isUrl}
+			<picture class="partner-logo">
+				<!-- picture -->
 				<img
-					class="partner-logo"
-					width="60"
-					height="60"
-					src={faviconAPI + url + '/&size=128'}
-					alt="logo partner"
+							class="partner-logo"
+							width="60"
+							height="60"
+							src={faviconAPI + url + '/&size=128'}
+							alt="logo partner"
 				/>
-				{#if !isUrl}
-					<h2 class="name">{title}</h2>
-				{/if}
-			</div>
-			<div class="icons" id={`icons-${website.id}`}>
-				{#if !isUrl}
-					<button
-						onclick={openForm.bind(null, auditType)}
-						aria-label="start icoon"
-						class="color-primary"
-					>
-						<AuditIcon />
+			</picture>
+		{/if}
+
+		{#if !isUrl}
+			<h2 class="name">{title}</h2>
+		{/if}
+
+		{#if isUrl}
+			<h2 class="name">{url}</h2>
+		{/if}
+
+
+		<div id="progress-container" class="color-primary">
+			<progress id="progress-partner" max="100" value="0" bind:this={progressbar} />
+			<label class="progress-percentage" for="progress-partner" bind:this={labelValue}>0%</label>
+		</div>
+
+		<a href={link}>Open</a>
+
+					{#if !isUrl}
+						<button
+							onclick={openForm.bind(null, auditType)}
+							aria-label="start icoon"
+							class="color-primary"
+						>
+							<AuditIcon />
+						</button>
+					{/if}
+
+					<button onclick={openForm.bind(null, editType)} 
+					aria-label="bewerk icoon">
+						<EditIcon />
 					</button>
-				{/if}
-				<button onclick={openForm.bind(null, editType)} aria-label="bewerk icoon">
-					<EditIcon />
-				</button>
-				<button onclick={openForm.bind(null, deleteType)} aria-label="verwijder icoon">
-					<DeleteIcon />
-				</button>
 
-				<a href={link}>Open</a>
-			</div>
-		</section>
+					<button 
+					onclick={openForm.bind(null, deleteType)} 
+					aria-label="verwijder icoon"
+					>
 
-		<section class="more-info-section">
-			<!-- <p>Laatst bewerkt: <time>{lastTime}</time></p> -->
+						<DeleteIcon />
+					</button>
 
-			<div id="progress-container" class="color-primary">
-				<progress id="progress-partner" max="100" value="0" bind:this={progressbar} />
-				<label class="progress-percentage" for="progress-partner" bind:this={labelValue}>0%</label>
-			</div>
-		</section>
-</li>
+		<div class="icons" id={`icons-${website.id}`}>
 
-<li class="color-primary-light" class:container-off={containerOff}>
-	<picture>
-		<!-- picture -->
-		 <img
-					class="partner-logo"
-					width="60"
-					height="60"
-					src={faviconAPI + url + '/&size=128'}
-					alt="logo partner"
-		/>
-	</picture>
 
-	<h2>
-		<!-- title of site -->
-	</h2>
-	
-	<progress>
-		<!-- progressbar -->
-	</progress>
 
-	<p>
-		<!-- percentage -->
-	</p>
-
-	<button>
-		<!-- button start audit -->
-	</button>
-
-	<button>
-		<!-- button edit -->
-	</button>
-
-	<button>
-		<!-- button delete -->
-	</button>
-
-	<a>
-		<!-- open element -->
-	</a>
+		</div>
+	</section>
 </li>
 
 <Dialog
@@ -259,20 +236,6 @@
 		overflow: hidden;
 		text-overflow: ellipsis;
 		color: var(--color-neutral-black);
-	}
-
-	.logo-partner-section {
-		display: flex;
-		align-items: flex-start;
-		justify-content: space-between;
-		position: relative;
-	}
-
-	.logo-partner-section div:nth-of-type(1) {
-		display: flex;
-		flex-direction: column;
-		align-items: flex-start;
-		gap: 0.5rem;
 	}
 
 	.partner-logo {
