@@ -121,7 +121,7 @@
 </script>
 
 <li class="color-primary-light" class:container-off={containerOff}>
-	<a href={link}>
+
 		<section class="logo-partner-section">
 			<div>
 				<img
@@ -149,6 +149,8 @@
 				<button onclick={openForm.bind(null, deleteType)} aria-label="verwijder icoon">
 					<DeleteIcon />
 				</button>
+
+				<a href={link}>Open</a>
 			</div>
 		</section>
 
@@ -280,13 +282,6 @@
 		font-size: 1rem;
 	}
 
-	.more-info-section p {
-		font-weight: 600;
-	}
-
-	.more-info-section p time {
-		font-weight: normal;
-	}
 
 	#progress-container {
 		display: flex;
