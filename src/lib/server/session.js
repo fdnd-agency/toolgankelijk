@@ -156,17 +156,12 @@ export function setSessionTokenCookie(event, token, houdbaarTot) {
 /**
  * Deletes a session token cookie on the given event.
  *
+ * @author Maksim Hofker
  * @author Bjarne Zeeman
  * @param {import('@sveltejs/kit').RequestEvent} event - The request event containing cookies.
  */
 export function deleteSessionTokenCookie(event) {
-	event.cookies.set('session', '', {
-		httpOnly: true,
-		path: '/',
-		secure: import.meta.env.PROD,
-		sameSite: 'lax',
-		maxAge: 0
-	});
+	event.cookies.delete('session', { path: '/' });
 }
 
 /**
