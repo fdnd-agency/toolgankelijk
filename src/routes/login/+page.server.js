@@ -6,8 +6,8 @@ import { createSession, generateSessionToken, setSessionTokenCookie } from '$lib
 
 export function load(event) {
 	const { locals } = event;
-	if (locals.sessie !== null && locals.gebruiker !== null) {
-		if (!locals.gebruiker.isEmailGeverifieerd) {
+	if (locals.session !== null && locals.user !== null) {
+		if (!locals.user.isEmailGeverifieerd) {
 			throw redirect(302, '/verify-email');
 		}
 		throw redirect(302, '/');

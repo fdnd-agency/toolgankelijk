@@ -10,10 +10,10 @@ function delay(ms) {
 export async function load(event) {
 	const { params, url, locals } = event;
 	const { websiteUID } = params;
-	if (locals.sessie === null || locals.gebruiker === null) {
+	if (locals.session=== null || locals.user === null) {
 		throw redirect(302, '/login');
 	}
-	if (!locals.gebruiker.isEmailGeverifieerd) {
+	if (!locals.user.isEmailGeverifieerd) {
 		throw redirect(302, '/verify-email');
 	}
 	const first = 20;

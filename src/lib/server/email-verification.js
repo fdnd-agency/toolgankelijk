@@ -133,14 +133,14 @@ export function deleteEmailVerificationRequestCookie(event) {
 
 // Deze functie haalt het huidige e-mailverificatieverzoek van de gebruiker op via het ID uit de cookie
 export async function getUserEmailVerificationRequestFromRequest(event) {
-	if (event.locals.gebruiker === null) {
+	if (event.locals.user === null) {
 		return null;
 	}
 	const id = event.cookies.get('email_verification') ?? null;
 	if (id === null) {
 		return null;
 	}
-	const request = getUserEmailVerificationRequest(event.locals.gebruiker.id, id);
+	const request = getUserEmailVerificationRequest(event.locals.user.id, id);
 	if (request === null) {
 		deleteEmailVerificationRequestCookie(event);
 	}
