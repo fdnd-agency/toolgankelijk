@@ -99,7 +99,7 @@ export async function validateSessionToken(token) {
 export async function invalidateSession(session) {
 	// Delete session mutation
 	const deleteMutation = gql`
-		mutation DeleteSessie($id: ID!) {
+		mutation DeleteSessie($id: String!) {
 			deleteSessie(where: { sessieId: $id }) {
 				id
 			}
@@ -130,7 +130,7 @@ export async function refreshSession(session) {
 	`;
 	await hygraph.request(updateMutation, {
 		id: session.id,
-		expiresAt: new Date(Math.floor(session.houdbaarTot.getTime() / 1000))
+		expiresAt: session.houdbaarTot
 	});
 	return session;
 }
