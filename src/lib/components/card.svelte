@@ -141,37 +141,50 @@
 		{/if}
 
 		{#if isUrl}
-			<h2 class="name">{url}</h2>
+			<h2 class="card-url">{url}</h2>
 		{/if}
 
-
-		<div id="progress-container" class="color-primary">
+		{#if isUrl}
+		<div id="url-progress-container" class="color-primary">
 			<progress id="progress-partner" max="100" value="0" bind:this={progressbar} />
 			<label class="progress-percentage" for="progress-partner" bind:this={labelValue}>0%</label>
 		</div>
+		{/if}
+
+		{#if !isUrl}
+		<div id="partner-progress-container" class="color-primary">
+			<progress id="progress-partner" max="100" value="0" bind:this={progressbar} />
+			<label class="progress-percentage" for="progress-partner" bind:this={labelValue}>0%</label>
+		</div>
+		{/if}
 
 		<div class="card-icons">
 		{#if !isUrl}
 			<button
 				onclick={openForm.bind(null, auditType)}
 				aria-label="start icoon"
-				class="color-primary"
 			>
-				<AuditIcon />
+				<div>
+					<AuditIcon />
+				</div>
 			</button>
 
 		{/if}
 
 			<button onclick={openForm.bind(null, editType)} 
 				aria-label="bewerk icoon">
-					<EditIcon />
+					<div>
+						<EditIcon />
+					</div>
 			</button>
 
 			<button 
 				onclick={openForm.bind(null, deleteType)} 
 				aria-label="verwijder icoon"
 				>
-					<DeleteIcon />
+					<div>
+						<DeleteIcon />
+					</div>
 				</button>
 
 				<button class="card-open">
@@ -248,6 +261,10 @@
 		margin-left: 0.5em;
 	}
 
+	.card-url {
+		grid-column-start: 1;
+	}
+
 	.card-partner-logo {
 		border-radius: var(--border-radius);
 		background-color: var(--color-neutral-white);
@@ -267,6 +284,13 @@
 		border: var(--color-neutral-black) solid 1px;
 		height: 32px;
 		width: 32px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		div {
+			scale: 0.5;
+		}
 
 		&:hover {
 			filter: drop-shadow(var(--color-neutral-black) 2px 2px 4px);
@@ -274,7 +298,7 @@
 		}
 	}
 
-	#progress-container {
+	#partner-progress-container {
 		display: flex;
 		flex-direction: row;
 		justify-content: space-between;
@@ -285,6 +309,27 @@
 		grid-row-start: 2;
 		grid-column-start: 2;
 		margin: 1em;
+
+		label {
+			color: var(--color-neutral-black);
+		}
+	}
+
+	#url-progress-container {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+		align-items: flex-end;
+		gap: 1rem;
+		margin-top: 0.25rem;
+		grid-row-start: 2;
+		grid-column: 1/3;
+		margin: 1em;
+		
+		label {
+			color: var(--color-neutral-black);
+		}
 	}
 
 	progress {
@@ -382,10 +427,6 @@
 			height: 512px;
 		}
 
-		#progress-container {
-			grid-row: 4/4;
-			width: 100%;
-		}
 
 		.card-icons {
 			grid-row: 5/5;
