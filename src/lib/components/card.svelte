@@ -124,12 +124,12 @@
 <li class="color-primary-light" class:container-off={containerOff}>
 	<section>
 		{#if !isUrl}
-			<picture class="partner-logo">
+			<picture class="card-partner-logo">
 				<!-- picture -->
 				<img
 							class="partner-logo"
-							width="60"
-							height="60"
+							width="256"
+							height="256"
 							src={faviconAPI + url + '/&size=128'}
 							alt="logo partner"
 				/>

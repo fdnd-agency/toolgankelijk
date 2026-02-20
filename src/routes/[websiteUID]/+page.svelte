@@ -82,10 +82,14 @@
 
 	ul {
 		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(20em, 1fr));
+		grid-template-columns: 1fr 1fr;
 		gap: 1em;
 		list-style-type: none;
 		margin: 0 1em;
+
+		@media (max-width: 720px) {
+			grid-template-columns: 1fr;
+		}
 	}
 
 	.toast {
