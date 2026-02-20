@@ -5,10 +5,10 @@ import getQueryPartner from '$lib/queries/partner';
 
 export async function load(event) {
 	const { url, locals, cookies } = event;
-	if (locals.sessie === null || locals.gebruiker === null) {
+	if (locals.session === null || locals.user === null) {
 		throw redirect(302, '/login');
 	}
-	if (!locals.gebruiker.isEmailGeverifieerd) {
+	if (!locals.user.isEmailGeverifieerd) {
 		throw redirect(302, '/verify-email');
 	}
 	const first = 20;

@@ -76,7 +76,7 @@ describe('src/routes/login/+page.server.js', () => {
 		vi.spyOn(passwordModule, 'verifyPasswordHash').mockResolvedValue(true);
 		vi.spyOn(sessionModule, 'generateSessionToken').mockReturnValue('token');
 		vi.spyOn(sessionModule, 'createSession').mockResolvedValue({
-			houdbaarTot: new Date(Date.now() + 10000)
+			expiresAt: new Date(Date.now() + 10000)
 		});
 		const setSessionTokenCookie = vi
 			.spyOn(sessionModule, 'setSessionTokenCookie')

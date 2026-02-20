@@ -7,10 +7,10 @@ import createEmptyCheck from '$lib/queries/addEmptyCheck';
 
 export async function load({ params, locals }) {
 	const { websiteUID } = params;
-	if (!locals?.sessie || !locals?.gebruiker) {
+	if (!locals?.session || !locals?.user) {
 		throw redirect(302, '/login');
 	}
-	if (!locals.gebruiker.isEmailGeverifieerd) {
+	if (!locals.user.isEmailGeverifieerd) {
 		throw redirect(302, '/verify-email');
 	}
 	let query = getQueryWebsite(gql, websiteUID);
