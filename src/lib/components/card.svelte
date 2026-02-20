@@ -228,6 +228,7 @@
 		border-radius: 0.5rem;
 		width: 100%;
 		transition: 0.25s ease;
+		background: linear-gradient(0.25turn,var(--light-2), var(--dark-1));
 	}
 
 	h2 {
@@ -251,16 +252,9 @@
 		border: none;
 	}
 
-	a section button {
+	section button {
 		margin-right: 0.5rem;
 	}
-
-	.more-info-section {
-		display: flex;
-		flex-direction: column;
-		font-size: 1rem;
-	}
-
 
 	#progress-container {
 		display: flex;
