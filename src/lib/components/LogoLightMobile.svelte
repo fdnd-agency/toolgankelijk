@@ -1,4 +1,5 @@
 <svg viewBox="0 0 95 75" xmlns="http://www.w3.org/2000/svg">
+    <title>Terug naar home</title>
 
     <!-- Roze logo -->
     <g transform="translate(0,5)">    

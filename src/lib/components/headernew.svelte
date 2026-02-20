@@ -62,12 +62,11 @@
     <div class="header-wrapper">
         <a href="#main" class="sr-only">Jump directly to main content</a>
 
-	    <a href="/" aria-label="Ga naar het overzicht met alle partners" class="logo">
+	    <a href="/" class="logo">
 	    	<!-- <img
 	    		src="{logo}"
 	    		class="vvr-logo"
 	    		id="logoImage"
-	    		alt="Logo van Vervoerregio Amsterdam"
 	    	/> -->
 				<LogoLightDesktop />
 				<LogoLightMobile />
