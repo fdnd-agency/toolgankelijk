@@ -268,8 +268,10 @@
 		height: 32px;
 		width: 32px;
 
-	section button {
-		margin-right: 0.5rem;
+		&:hover {
+			filter: drop-shadow(var(--color-neutral-black) 2px 2px 4px);
+			animation-duration: 0.2s;
+		}
 	}
 
 	#progress-container {
@@ -332,6 +334,12 @@
 		justify-content: center;
 		align-items: center;
 		height: 32px;
+
+		&:hover {
+			filter: drop-shadow(var(--color-neutral-black) 2px 2px 4px);
+			animation-duration: 0.2s;
+		}
+
 
 		a {
 			text-decoration: none;
