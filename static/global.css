@@ -19,6 +19,7 @@ body {
 	color-scheme: light dark;
 	--color-primary: light-dark(#b9005f, #f1ccdf);
 	--color-primary-light: light-dark(#f1ccdf, #b9005f);
+	--custom-gradient: linear-gradient(45deg, #FF4D8D 0%, #B6006C 100%);
 
 	/* accent colors */
 	--color-accent-primary: light-dark(#7b8f0c, #3f4903);

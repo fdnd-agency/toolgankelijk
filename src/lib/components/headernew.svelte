@@ -1,9 +1,9 @@
 <script>
     import { onMount } from 'svelte';
-    import logoDarkMode from '$lib/assets/LogoDarkModeMobile.png';
-	import logoLightMode from '$lib/assets/LogoLightModeMobile.png';
+	import LogoLightMobile from '$lib/components/LogoLightMobile.svelte';
 	import BreadCrumbs from '$lib/components/breadCrumbs.svelte';
 	import Hamburger from '$lib/components/hamburger.svelte';
+	import LogoLightDesktop from '$lib/components/LogoLightDesktop.svelte';
 
 	/**
 	 * @typedef {Object} Props
@@ -50,8 +50,8 @@
 			document.body.classList.remove('lightmode');
 		}
 
-		const logoImage = document.getElementById('logoImage');
-		logoImage.src = isLightMode ? logoLightMode : logoDarkMode;
+		// const logoImage = document.getElementById('logoImage');
+		// logoImage.src = isLightMode ? logoLightMode : logoDarkMode;
 
 		const icon = document.querySelector('.disable-js');
 		icon?.classList.toggle('disable-js');
@@ -63,12 +63,14 @@
         <a href="#main" class="sr-only">Jump directly to main content</a>
 
 	    <a href="/" aria-label="Ga naar het overzicht met alle partners" class="logo">
-	    	<img
-	    		src={isLightMode ? logoLightMode : logoDarkMode}
+	    	<!-- <img
+	    		src="{logo}"
 	    		class="vvr-logo"
 	    		id="logoImage"
 	    		alt="Logo van Vervoerregio Amsterdam"
-	    	/>
+	    	/> -->
+				<LogoLightDesktop />
+				<LogoLightMobile />
         </a>
 
         {#if user && user.isEmailGeverifieerd}
@@ -184,18 +186,24 @@
             align-items: center;
             margin: 0 1.25rem 0 1.25rem;
 
-            img {
-                top: 10%;
+            .logo {
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items:start;
+				top: 1em;
                 left: 1em;
-                height: 70%;
-                width: auto;
-                position: absolute;
+				position: absolute;
+				height: 75%;
+				width: 30%;
+				text-decoration: none;
 
-                @media(min-width:700px) {
-                    content: url("$lib/assets/LogoLightModeDesktop.svg");
-                    width: 30%;
-                }
-            }
+				@media(min-width:768px) {
+					height: auto;
+					width: 30%;
+					top: 20%;
+				}
+			}
 
             nav {
                 display: none;
@@ -212,7 +220,7 @@
             aspect-ratio: 21.833;
             min-width: 450px;
             width: 100%;
-            height: clamp(2rem, 5vw, 5rem);
+            height: clamp(1.5rem, 5vw, 5rem);
             clip-path: shape(from 28.24% 100%,hline to 0%,vline to 94.74%,hline to 28.24%,curve to 37.66% 0% with 32.44% 94.74%/32.44% 0%,hline to 100%,vline to 5.26%,hline to 37.66%,curve to 28.24% 100% with 32.44% 5.26%/32.44% 100%,close);            background-color: #E30059;
         } 
     }
