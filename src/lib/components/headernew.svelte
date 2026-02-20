@@ -5,6 +5,7 @@
 	import Hamburger from '$lib/components/hamburger.svelte';
 	import LogoLightDesktop from '$lib/components/LogoLightDesktop.svelte';
 	import homeIcon from '$lib/components/homeIcon.svelte';
+	import loginIcon from '$lib/components/loginIcon.svelte';
 
 	/**
 	 * @typedef {Object} Props
@@ -90,23 +91,7 @@
                 {#if !user}
                 <li>
 	            	<a href="/login" aria-label="account">
-	            		<svg
-	            			class="account-icon-img"
-	            			alt="account icon"
-	            			width="800px"
-	            			height="800px"
-	            			viewBox="0 0 24 24"
-	            			id="Layer_1"
-	            			data-name="Layer 1"
-	            			xmlns="http://www.w3.org/2000/svg"
-	            		>
-	            			<circle id="my-circle" class="cls-1" cx="12" cy="7.25" r="5.73" />
-	            			<path
-	            				id="my-svg2"
-	            				class="cls-1"
-	            				d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05"
-	            			/>
-	            		</svg>
+	            		<loginIcon.svelte />
 	            	</a>
                 </li>
 	            {/if}
