@@ -2,6 +2,13 @@ import { hash, verify } from '@node-rs/argon2';
 import { sha1 } from '@oslojs/crypto/sha1';
 import { encodeHexLowerCase } from '@oslojs/encoding';
 
+/**
+ * Hashes a given string
+ * @export
+ * @async
+ * @param {string} password
+ * @returns {Promise<string>} Hashed password
+ */
 export async function hashPassword(password) {
 	return await hash(password, {
 		memoryCost: 19456,
