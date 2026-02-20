@@ -115,24 +115,6 @@
 </header>
 
 <style>
-    .sr-only {
-		clip: rect(1px, 1px, 1px, 1px);
-		height: 0;
-		overflow: hidden;
-		color: white;
-		position: absolute;
-		white-space: nowrap;
-		width: 0;
-	}
-
-	.sr-only:focus {
-		clip: auto;
-		height: auto;
-		overflow: auto;
-		position: absolute;
-		width: auto;
-	}
-
     header {
         display: flex;
         flex-direction: column;
