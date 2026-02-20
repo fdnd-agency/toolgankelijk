@@ -147,7 +147,7 @@
             justify-content: center;
             justify-items: center;
             align-items: center;
-            margin: 0 1.25rem 0 1.25rem;
+            margin: 0 1.25rem;
 
             .logo {
 				display: flex;
