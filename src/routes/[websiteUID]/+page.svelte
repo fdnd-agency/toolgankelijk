@@ -1,7 +1,7 @@
 <script>
 	import { page } from '$app/stores';
 	import Heading from '$lib/components/heading.svelte';
-	import Partner from '$lib/components/partner.svelte';
+	import Card from '$lib/components/card.svelte';
 	import Search from '$lib/components/search.svelte';
 	import Dialog from '$lib/components/dialog.svelte';
 	import Pages from '$lib/components/pages.svelte';
@@ -49,7 +49,7 @@
 
 <ul>
 	{#each websites as website}
-		<Partner {website} {overzicht} {params} {principes} isUrl={true} />
+		<Card {website} {overzicht} {params} {principes} isUrl={true} />
 	{/each}
 </ul>
 
