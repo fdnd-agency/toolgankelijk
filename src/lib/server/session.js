@@ -84,7 +84,7 @@ export async function validateSessionToken(token) {
  * @param {Session} session - The session to delete.
  * @returns {Promise<{ session: null, user: null }>} An object with nulled session and user values.
  */
-export async function invalidateSession(session) {
+async function invalidateSession(session) {
 	// Delete session mutation
 	await hygraph.request(getQueryDeleteSession(gql), { sessionId: session.id });
 	return { session: null, user: null };
@@ -99,7 +99,7 @@ export async function invalidateSession(session) {
  * @param { Session } session - The session object to be refreshed
  * @returns {Promise<Session>} A session with a refreshed lifetime
  */
-export async function refreshSession(session) {
+async function refreshSession(session) {
 	session.houdbaarTot = new Date(Date.now() + 1000 * 60 * 60 * 24 * 30);
 	// Update session mutation
 	await hygraph.request(getQueryUpdateSession(gql), {
