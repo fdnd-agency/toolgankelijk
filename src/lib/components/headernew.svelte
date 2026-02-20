@@ -4,6 +4,7 @@
 	import BreadCrumbs from '$lib/components/breadCrumbs.svelte';
 	import Hamburger from '$lib/components/hamburger.svelte';
 	import LogoLightDesktop from '$lib/components/LogoLightDesktop.svelte';
+	import homeIcon from '$lib/components/homeIcon.svelte';
 
 	/**
 	 * @typedef {Object} Props
@@ -81,18 +82,7 @@
                 {#if user && user.isEmailGeverifieerd}
                 <li>
                     <a aria-label="home pagina" href="/">
-	        	    	<svg
-	        	    	    class="home-icon-img"
-	        	    	    alt="back to homepage"
-	        	    	    aria-hidden="true"
-	        	    	    xmlns="http://www.w3.org/2000/svg"
-	        	    	    viewBox="0 0 24 24">
-                    
-	        	    	    <path
-	        	    	    	d="M11.3 3.3a1 1 0 0 1 1.4 0l6 6 2 2a1 1 0 0 1-1.4 1.4l-.3-.3V19a2 2 0 0 1-2 2h-3a1 1 0 0 1-1-1v-3h-2v3c0 .6-.4 1-1 1H7a2 2 0 0 1-2-2v-6.6l-.3.3a1 1 0 0 1-1.4-1.4l2-2 6-6Z"
-	        	    	    	id="my-svg4"
-	        	    	    />
-	        	    	</svg>
+	        	    	<homeIcon.svelte />
 	        	    </a>
                 </li>
                 {/if} 
