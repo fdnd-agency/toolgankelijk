@@ -10,7 +10,7 @@ function delay(ms) {
 export async function load(event) {
 	const { params, url, locals } = event;
 	const { websiteUID } = params;
-	if (locals.session=== null || locals.user === null) {
+	if (locals.session === null || locals.user === null) {
 		throw redirect(302, '/login');
 	}
 	if (!locals.user.isEmailGeverifieerd) {
