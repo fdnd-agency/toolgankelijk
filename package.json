@@ -10,7 +10,7 @@
 		"format": "prettier --plugin-search-dir . --write .",
 		"test": "npx vitest run",
 		"test:watch": "npm run test -- --watch",
-		"JSdoc": "jsdoc . -c jsdoc.json"
+		"JSdoc": "jsdoc -c jsdoc.json"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^7.0.0",
