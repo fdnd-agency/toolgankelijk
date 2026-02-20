@@ -166,6 +166,7 @@
             min-width: 450px;
             width: 100%;
             height: clamp(1.5rem, 5vw, 5rem);
+			/* The pink line */
             clip-path: shape(from 28.24% 100%,hline to 0%,vline to 94.74%,hline to 28.24%,curve to 37.66% 0% with 32.44% 94.74%/32.44% 0%,hline to 100%,vline to 5.26%,hline to 37.66%,curve to 28.24% 100% with 32.44% 5.26%/32.44% 100%,close);            background-color: #E30059;
         } 
     }
