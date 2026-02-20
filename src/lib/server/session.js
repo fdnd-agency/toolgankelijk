@@ -10,6 +10,10 @@ import getQueryUpdateSession from '$lib/queries/updateSession';
 import getQueryAddSession from '$lib/queries/addSession';
 
 // Type definitions
+/** 
+* @typedef {import('../../types').RequestEvent} RequestEvent
+*/
+
 /**
  * @typedef {Object} Session
  * @property {string|null} id
@@ -112,7 +116,7 @@ async function refreshSession(session) {
  * Sets a session token cookie on the given event.
  *
  * @author Bjarne Zeeman
- * @param {import('@sveltejs/kit').RequestEvent} event - The request event containing cookies.
+ * @param {RequestEvent} event - The request event containing cookies.
  * @param {string} token - The session token to store in the cookie.
  * @param {Date} expiresAt - The expiration date of the cookie.
  */
@@ -131,7 +135,7 @@ export function setSessionTokenCookie(event, token, expiresAt) {
  *
  * @author Maksim Hofker
  * @author Bjarne Zeeman
- * @param {import('@sveltejs/kit').RequestEvent} event - The request event containing cookies.
+ * @param {RequestEvent} event - The request event containing cookies.
  */
 export function deleteSessionTokenCookie(event) {
 	event.cookies.delete('session', { path: '/' });
