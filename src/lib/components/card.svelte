@@ -212,6 +212,8 @@
 <style>
 	li {
 		display: flex;
+ 		container-type: inline-size;
+  		container-name: card-component;
 	}
 
 	li section {
@@ -243,28 +245,7 @@
 		overflow: hidden;
 	}
 
-	.icons {
-		display: flex;
-		justify-content: space-between;
-		position: absolute;
-		right: 0;
-		top: 0;
-	}
-
-	.icons button {
-		padding: 0.25rem;
-		border-radius: 0.5rem;
-		width: 2.5rem;
-		height: 2.5rem;
-	}
-
-	.icons button:hover {
-		background-color: var(--color-primary);
-		transition: 0.25s ease;
-		color: white;
-	}
-
-	a section button {
+	section button {
 		background: none;
 		cursor: pointer;
 		border: none;
@@ -328,9 +309,36 @@
 		display: none;
 	}
 
-	@media (inverted-colors: inverted) {
-		li a {
-			color: var(--color-primary);
+	.card-open {
+		border-radius: var(--border-radius);
+
+		background-color: var(--color-primary-light);
+		width: 16em;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 32px;
+
+		a {
+			text-decoration: none;
+			color: var(--color-neutral-black);
+		}
+
+		@media (max-width: 720px) {
+			height: 32px;
+			font-size: 12px;
+		}
+	}
+
+	.card-icons {
+		display: flex;
+		justify-content: space-around;
+
+	}
+
+	@container card-component (width > 700px) {
+		h2 {
+			font-size: 300px;
 		}
 	}
 </style>
