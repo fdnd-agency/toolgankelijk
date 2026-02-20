@@ -150,35 +150,33 @@
 			<label class="progress-percentage" for="progress-partner" bind:this={labelValue}>0%</label>
 		</div>
 
-		<a href={link}>Open</a>
+		<div class="card-icons">
+		{#if !isUrl}
+			<button
+				onclick={openForm.bind(null, auditType)}
+				aria-label="start icoon"
+				class="color-primary"
+			>
+				<AuditIcon />
+			</button>
 
-					{#if !isUrl}
-						<button
-							onclick={openForm.bind(null, auditType)}
-							aria-label="start icoon"
-							class="color-primary"
-						>
-							<AuditIcon />
-						</button>
-					{/if}
+		{/if}
 
-					<button onclick={openForm.bind(null, editType)} 
-					aria-label="bewerk icoon">
-						<EditIcon />
-					</button>
+			<button onclick={openForm.bind(null, editType)} 
+				aria-label="bewerk icoon">
+					<EditIcon />
+			</button>
 
-					<button 
-					onclick={openForm.bind(null, deleteType)} 
-					aria-label="verwijder icoon"
-					>
+			<button 
+				onclick={openForm.bind(null, deleteType)} 
+				aria-label="verwijder icoon"
+				>
+					<DeleteIcon />
+				</button>
 
-						<DeleteIcon />
-					</button>
-
-		<div class="icons" id={`icons-${website.id}`}>
-
-
-
+				<button class="card-open">
+					<a href={link}>Open</a>
+				</button>
 		</div>
 	</section>
 </li>
