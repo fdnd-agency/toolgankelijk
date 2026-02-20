@@ -18,7 +18,7 @@ describe('session.js', () => {
 	const fakeSession = {
 		id: '1',
 		sessieId: 'abc123',
-		houdbaarTot: new Date(now + 10 * 24 * 60 * 60 * 1000), //10 days of lifetime left.
+		expiresAt: new Date(now + 10 * 24 * 60 * 60 * 1000), //10 days of lifetime left.
 		gebruikerId: {
 			id: 'u1',
 			email: 'test@example.com',
@@ -41,6 +41,6 @@ describe('session.js', () => {
 		// Act
 		const { session, user } = await sessionModule.validateSessionToken('notimportant');
 		// Assert
-		expect(session.houdbaarTot).toStrictEqual(expectedDate);
+		expect(session.expiresAt).toStrictEqual(expectedDate);
 	});
 });

@@ -92,7 +92,7 @@ export const actions = {
 		setEmailVerificationRequestCookie(event, emailVerificationRequest);
 		const sessionToken = generateSessionToken();
 		const session = await createSession(sessionToken, user.id);
-		setSessionTokenCookie(event, sessionToken, session.houdbaarTot);
+		setSessionTokenCookie(event, sessionToken, session.expiresAt);
 
 		throw redirect(302, '/verify-email');
 	}

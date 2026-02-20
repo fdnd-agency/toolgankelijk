@@ -56,7 +56,7 @@ export const actions = {
 
 		const sessionToken = generateSessionToken();
 		const session = await createSession(sessionToken, user.id);
-		setSessionTokenCookie(event, sessionToken, session.houdbaarTot);
+		setSessionTokenCookie(event, sessionToken, session.expiresAt);
 
 		if (!user.isEmailGeverifieerd) {
 			throw redirect(302, '/verify-email');

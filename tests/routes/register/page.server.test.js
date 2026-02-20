@@ -61,7 +61,7 @@ describe('src/routes/register/+page.server.js', () => {
 
 	it('redirects if user is already logged in', () => {
 		const locals = {
-			sessie: { id: '567ads567ads', houdbaarTot: new Date() },
+			sessie: { id: '567ads567ads', expiresAt: new Date() },
 			gebruiker: { id: 1, email: 'test@vervoerregio.nl', gebruikersnaam: 'John' }
 		};
 		const callLoad = () => load({ locals });
@@ -237,7 +237,7 @@ describe('src/routes/register/+page.server.js', () => {
 		passwordModule.hashPassword.mockResolvedValue('hashed-password');
 		userModule.createUser.mockResolvedValue({ id: 'user-id', email: 'test@vervoerregio.nl' });
 		sessionModule.generateSessionToken.mockReturnValue('token');
-		sessionModule.createSession.mockResolvedValue({ houdbaarTot: 'future-date' });
+		sessionModule.createSession.mockResolvedValue({ expiresAt: 'future-date' });
 
 		try {
 			await actions.register(event);

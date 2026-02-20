@@ -33,7 +33,7 @@ describe('hooks.server.js', () => {
 		// Arrange
 		event.cookies.get.mockReturnValue('token');
 		vi.spyOn(sessionModule, 'validateSessionToken').mockResolvedValue({
-			session: { houdbaarTot: new Date(Date.now() + 10000) },
+			session: { expiresAt: new Date(Date.now() + 10000) },
 			user: { id: '1' }
 		});
 		const setCookie = vi.spyOn(sessionModule, 'setSessionTokenCookie').mockImplementation(() => {});

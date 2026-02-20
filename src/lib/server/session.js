@@ -14,7 +14,7 @@ import getQueryAddSession from '$lib/queries/addSession';
  * @typedef {Object} Session
  * @property {string|null} id
  * @property {string|null} gebruikerId
- * @property {Date} houdbaarTot
+ * @property {Date} expiresAt
  */
 /**
  * @typedef {Object} User
@@ -47,7 +47,7 @@ export async function validateSessionToken(token) {
 	let session = {
 		id: row.sessieId,
 		gebruikerId: row.gebruikerId.id,
-		houdbaarTot: new Date(row.houdbaarTot)
+		expiresAt: new Date(row.expiresAt)
 	};
 
 	/**
@@ -64,9 +64,9 @@ export async function validateSessionToken(token) {
 	}
 
 	//Invalidate session if outdated Else Refresh session if old
-	if (Date.now() >= session.houdbaarTot.getTime()) {
+	if (Date.now() >= session.expiresAt.getTime()) {
 		({ session, user } = await invalidateSession(session));
-	} else if (Date.now() >= session.houdbaarTot.getTime() - 1000 * 60 * 60 * 24 * 15) {
+	} else if (Date.now() >= session.expiresAt.getTime() - 1000 * 60 * 60 * 24 * 15) {
 		session = await refreshSession(session);
 	}
 	return { session, user };
@@ -92,7 +92,6 @@ async function invalidateSession(session) {
 
 /**
  * Refreshes a session
- *
  * @async
  * @author Maksim Hofker
  * @author Bjarne Zeeman
@@ -100,11 +99,11 @@ async function invalidateSession(session) {
  * @returns {Promise<Session>} A session with a refreshed lifetime
  */
 async function refreshSession(session) {
-	session.houdbaarTot = new Date(Date.now() + 1000 * 60 * 60 * 24 * 30);
+	session.expiresAt = new Date(Date.now() + 1000 * 60 * 60 * 24 * 30);
 	// Update session mutation
 	await hygraph.request(getQueryUpdateSession(gql), {
 		sessionId: session.id,
-		expiresAt: session.houdbaarTot
+		expiresAt: session.expiresAt
 	});
 	return session;
 }
@@ -115,15 +114,15 @@ async function refreshSession(session) {
  * @author Bjarne Zeeman
  * @param {import('@sveltejs/kit').RequestEvent} event - The request event containing cookies.
  * @param {string} token - The session token to store in the cookie.
- * @param {Date} houdbaarTot - The expiration date of the cookie.
+ * @param {Date} expiresAt - The expiration date of the cookie.
  */
-export function setSessionTokenCookie(event, token, houdbaarTot) {
+export function setSessionTokenCookie(event, token, expiresAt) {
 	event.cookies.set('session', token, {
 		httpOnly: true,
 		path: '/',
 		secure: import.meta.env.PROD,
 		sameSite: 'lax',
-		expires: houdbaarTot
+		expires: expiresAt
 	});
 }
 
@@ -164,11 +163,11 @@ export async function createSession(token, gebruikerId) {
 	const session = {
 		id: sessionId,
 		gebruikerId,
-		houdbaarTot: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30)
+		expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30)
 	};
 	await hygraph.request(getQueryAddSession(gql), {
 		userId: session.gebruikerId,
-		expiresAt: session.houdbaarTot.toISOString(),
+		expiresAt: session.expiresAt.toISOString(),
 		sessionId: session.id
 	});
 	return session;
