@@ -41,7 +41,6 @@ describe('session.js', () => {
 		// Act
 		const { session, user } = await sessionModule.validateSessionToken('notimportant');
 		// Assert
-		console.log(session);
 		expect(session.houdbaarTot).toStrictEqual(expectedDate);
 	});
 });
