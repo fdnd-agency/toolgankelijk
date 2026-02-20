@@ -4,6 +4,10 @@ import { hygraph } from '$lib/utils/hygraph.js';
 import { gql } from 'graphql-request';
 import { encodeBase32LowerCaseNoPadding, encodeHexLowerCase } from '@oslojs/encoding';
 import { sha256 } from '@oslojs/crypto/sha2';
+import getQuerySession from '$lib/queries/session';
+import getQueryDeleteSession from '$lib/queries/deleteSession';
+import getQueryUpdateSession from '$lib/queries/updateSession';
+import getQueryAddSession from '$lib/queries/addSession';
 
 // Type definitions
 /**
@@ -31,23 +35,7 @@ import { sha256 } from '@oslojs/crypto/sha2';
  */
 export async function validateSessionToken(token) {
 	const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
-	const sessionQuery = gql`
-		query GetSessie($sessionId: String!) {
-			sessie(where: { sessieId: $sessionId }) {
-				id
-				sessieId
-				houdbaarTot
-				gebruikerId {
-					id
-					email
-					gebruikersnaam
-					isEmailGeverifieerd
-				}
-			}
-		}
-	`;
-	const sessionData = await hygraph.request(sessionQuery, { sessionId });
-	const row = sessionData.sessie;
+	const { sessie: row } = await hygraph.request(getQuerySession(gql), { sessionId });
 
 	if (!row) {
 		return { session: null, user: null };
@@ -98,14 +86,7 @@ export async function validateSessionToken(token) {
  */
 export async function invalidateSession(session) {
 	// Delete session mutation
-	const deleteMutation = gql`
-		mutation DeleteSessie($id: String!) {
-			deleteSessie(where: { sessieId: $id }) {
-				id
-			}
-		}
-	`;
-	await hygraph.request(deleteMutation, { id: session.id });
+	await hygraph.request(getQueryDeleteSession(gql), { sessionId: session.id });
 	return { session: null, user: null };
 }
 
@@ -121,15 +102,8 @@ export async function invalidateSession(session) {
 export async function refreshSession(session) {
 	session.houdbaarTot = new Date(Date.now() + 1000 * 60 * 60 * 24 * 30);
 	// Update session mutation
-	const updateMutation = gql`
-		mutation UpdateSessie($id: String!, $expiresAt: Date!) {
-			updateSessie(where: { sessieId: $id }, data: { houdbaarTot: $expiresAt }) {
-				id
-			}
-		}
-	`;
-	await hygraph.request(updateMutation, {
-		id: session.id,
+	await hygraph.request(getQueryUpdateSession(gql), {
+		sessionId: session.id,
 		expiresAt: session.houdbaarTot
 	});
 	return session;
@@ -192,20 +166,7 @@ export async function createSession(token, gebruikerId) {
 		gebruikerId,
 		houdbaarTot: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30)
 	};
-	const createMutation = gql`
-		mutation CreateSessie($userId: ID!, $expiresAt: Date!, $sessionId: String!) {
-			createSessie(
-				data: {
-					sessieId: $sessionId
-					gebruikerId: { connect: { id: $userId } }
-					houdbaarTot: $expiresAt
-				}
-			) {
-				id
-			}
-		}
-	`;
-	await hygraph.request(createMutation, {
+	await hygraph.request(getQueryAddSession(gql), {
 		userId: session.gebruikerId,
 		expiresAt: session.houdbaarTot.toISOString(),
 		sessionId: session.id
