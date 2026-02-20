@@ -239,7 +239,7 @@
 	}
 
 	h2 {
-		font-size: 1.5rem;
+		font-size: 36px;
 		max-width: 20ch;
 		overflow: hidden;
 		text-overflow: ellipsis;
@@ -248,18 +248,25 @@
 		margin-left: 0.5em;
 	}
 
-	.partner-logo {
-		width: 4rem;
-		height: 4rem;
-		border-radius: 0.5rem;
+	.card-partner-logo {
+		border-radius: var(--border-radius);
+		background-color: var(--color-neutral-white);
 		overflow: hidden;
+		grid-row: 1/4;
+		object-fit: fill;
+		width: fit-content;
+		height: fit-content;
 	}
 
 	section button {
 		background: none;
 		cursor: pointer;
 		border: none;
-	}
+		border-radius: var(--border-radius);
+		background-color: var(--dark-3);
+		border: var(--color-neutral-black) solid 1px;
+		height: 32px;
+		width: 32px;
 
 	section button {
 		margin-right: 0.5rem;
@@ -269,6 +276,7 @@
 		display: flex;
 		flex-direction: row;
 		justify-content: space-between;
+		align-items: center;
 		align-items: flex-end;
 		gap: 1rem;
 		margin-top: 0.25rem;
@@ -296,13 +304,13 @@
 	}
 
 	progress[value]::-webkit-progress-value {
-		background-color: var(--color-neutral-darkgrey);
+		background-color: var(--color);
 		border-radius: 0.5rem;
 		transition: 1s ease-out;
 	}
 
 	progress[value]::-moz-progress-bar {
-		background-color: var(--color-neutral-darkgrey);
+		background-color: var(--color-neutral-lightgrey);
 		border-radius: 0.5rem;
 		transition: 1s ease-out;
 	}
@@ -317,9 +325,9 @@
 
 	.card-open {
 		border-radius: var(--border-radius);
-
-		background-color: var(--color-primary-light);
-		width: 16em;
+		background-color: var(--dark-3);
+		border: var(--color-neutral-black) solid 1px;
+		width: 12em;
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -327,6 +335,8 @@
 
 		a {
 			text-decoration: none;
+			font-size: 18px;
+			font-weight: 800;
 			color: var(--color-neutral-black);
 		}
 
@@ -340,7 +350,9 @@
 		grid-row-start: 3;
 		grid-column-start: 2;
 		display: flex;
-		justify-content: space-around;
+		justify-content: flex-end;
+		gap: 0.5em;
+		align-items: center;
 
 	}
 
