@@ -220,15 +220,22 @@
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
-		gap: 1rem;
-		color: black;
 		text-decoration: none;
 		background-color: var(--light-1);
 		padding: 1em;
-		border-radius: 0.5rem;
+		border-radius: var(--border-radius);
 		width: 100%;
 		transition: 0.25s ease;
 		background: linear-gradient(0.25turn,var(--light-2), var(--dark-1));
+		display: grid;
+		grid-template-columns: 1fr 60%;
+		grid-template-rows: 1fr 20% 20%;
+		opacity: 0.8;
+	}
+
+	li section:hover {
+		opacity: 1;
+		animation-duration: 0.2s;
 	}
 
 	h2 {
@@ -237,6 +244,8 @@
 		overflow: hidden;
 		text-overflow: ellipsis;
 		color: var(--color-neutral-black);
+		grid-column-start: 2;
+		margin-left: 0.5em;
 	}
 
 	.partner-logo {
@@ -263,6 +272,9 @@
 		align-items: flex-end;
 		gap: 1rem;
 		margin-top: 0.25rem;
+		grid-row-start: 2;
+		grid-column-start: 2;
+		margin: 1em;
 	}
 
 	progress {
@@ -325,14 +337,42 @@
 	}
 
 	.card-icons {
+		grid-row-start: 3;
+		grid-column-start: 2;
 		display: flex;
 		justify-content: space-around;
 
 	}
 
-	@container card-component (width > 700px) {
+	@container card-component (width < 600px) {
+		li section {
+			grid-template-rows: 60% 1fr 1fr 1fr;
+			grid-template-columns: 1fr;
+			height: fit-content;
+		}
+
 		h2 {
-			font-size: 300px;
+			grid-row: 2/2;
+			margin-top: 1em;
+		}
+
+		.card-partner-logo {
+			grid-column: 1/3;
+			width: 512px;
+			height: 512px;
+		}
+
+		#progress-container {
+			grid-row: 4/4;
+			width: 100%;
+		}
+
+		.card-icons {
+			grid-row: 5/5;
+		}
+
+		h2 {
+			font-size: 24px;
 		}
 	}
 </style>
