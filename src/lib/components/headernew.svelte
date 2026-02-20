@@ -124,8 +124,8 @@
 
         .header-wrapper {
             display: grid;
-            grid-template-columns: 30% 40% 30%;
-            grid-template-rows: 100%;
+            grid-template-columns: 3fr 4fr 3fr;
+            grid-template-rows: 1fr;
             justify-content: center;
             justify-items: center;
             align-items: center;
@@ -155,7 +155,7 @@
             }
 
 			@media(min-width: 1260px) {
-				grid-template-columns: 30% 60% 10%;
+				grid-template-columns: 3fr 6fr 1fr;
 			}
         }
 
