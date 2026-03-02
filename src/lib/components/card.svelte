@@ -146,14 +146,14 @@
 
 		{#if isUrl}
 		<div id="url-progress-container" class="color-primary">
-			<progress id="progress-partner" max="100" value="0" bind:this={progressbar} />
+			<progress id="progress-partner" max="100" value="0" bind:this={progressbar}> </progress>
 			<label class="progress-percentage" for="progress-partner" bind:this={labelValue}>0%</label>
 		</div>
 		{/if}
 
 		{#if !isUrl}
 		<div id="partner-progress-container" class="color-primary">
-			<progress id="progress-partner" max="100" value="0" bind:this={progressbar} />
+			<progress id="progress-partner" max="100" value="0" bind:this={progressbar}></progress>
 			<label class="progress-percentage" for="progress-partner" bind:this={labelValue}>0%</label>
 		</div>
 		{/if}
