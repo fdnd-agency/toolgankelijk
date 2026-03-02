@@ -21,6 +21,8 @@ De Vervoerregio Amsterdam verbindt gemeenten en werkt aan een regio waar mensen 
 
 De Vervoerregio is opdrachtgever van het openbaar vervoer per bus, tram en metro. Hiervoor verlenen ze concessies aan vervoerbedrijven en subsidie voor de exploitatie van het openbaar vervoer. Ook investeren ze in nieuwe trams en metro’s.
 
+Toolgankelijk is an ongoing project at FDND-agency that has been developed by alternating teams since 2023. Within this project, a website with an audit tool has been developed, allowing partners of Vervoer Regio Amsterdam to test their websites for accessibility according to EAA legislation. 
+
 Toolgankelijk is een interne webapplicatie ontwikkeld voor de Vervoerregio Amsterdam en haar partners. Met deze tool kunnen zowel medewerkers van de Vervoerregio als medewerkers van partnerorganisaties eenvoudig de digitale toegankelijkheid van partnerwebsites beoordelen en monitoren. De applicatie biedt een centraal overzicht van alle partners, inzicht in de status van hun websites op het gebied van toegankelijkheid, en ondersteunt het gezamenlijk werken aan een toegankelijke digitale omgeving.
 
 ![image](static/readme-images/partners-overview.png)
@@ -64,12 +66,11 @@ Bekijk deze als eerst, voordat je begint met iets anders. Hierin staat ook een l
 5. Run de localhost d.m.v. npm run dev
 ```
 
-## Projectteam 2025
+## Projectteam 2026
 
-- [Bjarne](https://github.com/bzschool) – Backend developer
-- [Ilias](https://github.com/iliasworldpeace) – Designer
-- [Mats](https://github.com/MatsvdZ) – Designer
-- [Mohammed](https://github.com/Mossati) – Frontend developer
+- [Maksim](https://github.com/MaksimH2O) – Backend Developer
+- [Rick](https://github.com/RickFDND) - Frontend Developer
+- [Miel](https://github.com/miel775) - Frontend Developer
 
 ## Bronnen
 
