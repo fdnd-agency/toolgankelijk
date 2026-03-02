@@ -145,7 +145,7 @@
 		{/if}
 
 		{#if isUrl}
-		<div id="url-progress-container" class="color-primary">
+		<div id="url-progress-container" class="color-primary" style="grid-row:2/2; grid-column:1/4;padding-bottom:50px;">
 			<progress id="progress-partner" max="100" value="0" bind:this={progressbar}> </progress>
 			<label class="progress-percentage" for="progress-partner" bind:this={labelValue}>0%</label>
 		</div>
@@ -158,11 +158,29 @@
 		</div>
 		{/if}
 
+		{#if !isUrl}
+			<a href={link} 
+				class="card-open"
+				style="margin-top:9px"
+				aria-lablel="open{title}">
+				Open
+			</a>
+		{/if}
+
+		{#if isUrl}
+			<a href={link} 
+			class="card-open"
+			aria-lablel="open{title}">
+				Open
+			</a>
+		{/if}
+
 		<div class="card-icons">
 		{#if !isUrl}
 			<button
 				onclick={openForm.bind(null, auditType)}
 				aria-label="start icoon"
+				tabindex="0"
 			>
 				<div>
 					<AuditIcon />
@@ -172,7 +190,8 @@
 		{/if}
 
 			<button onclick={openForm.bind(null, editType)} 
-				aria-label="bewerk icoon">
+				aria-label="bewerk icoon"
+				tabindex="0">
 					<div>
 						<EditIcon />
 					</div>
@@ -181,6 +200,7 @@
 			<button 
 				onclick={openForm.bind(null, deleteType)} 
 				aria-label="verwijder icoon"
+				tabindex="0"
 				>
 					<div>
 						<DeleteIcon />
@@ -189,9 +209,8 @@
 
 
 		</div>
-				<button class="card-open">
-					<a href={link}>Open</a>
-				</button>
+
+
 	</section>
 </li>
 
@@ -375,6 +394,7 @@
 	.card-open {
 		border-radius: var(--border-radius);
 		background-color: var(--dark-3);
+		color: var(--color-neutral-black);
 		border: var(--color-neutral-black) solid 1px;
 		width: 12em;
 		display: flex;
@@ -384,12 +404,15 @@
 		grid-column: 2/3;
 		grid-row: 3/4;
 		margin-left: 2em;
-		margin-top: 0.8em;
-		padding: 1.6em;
+		margin-right: 2em;
+		padding: 1em;
+		text-decoration: none;
 
 		&:hover {
 			filter: drop-shadow(var(--color-neutral-black) 2px 2px 4px);
 			animation-duration: 0.2s;
+			background-color: var(--light-3);
+			color: var(--color-neutral-black);
 		}
 
 
@@ -414,6 +437,10 @@
 		gap: 0.5em;
 		align-items: center;
 		margin-right: 1em;
+
+		&button:focus {
+			border: solid 1px black;
+		}
 	}
 
 	@container card-component (width < 600px) {
@@ -422,7 +449,6 @@
 			grid-template-columns: 1fr;
 			height: fit-content;
 		}
-
 
 		h2 {
 			grid-row: 1/2;
@@ -452,6 +478,7 @@
 
 		.card-icons {
 			grid-row: 5/5;
+
 		}
 
 	}
@@ -460,6 +487,23 @@
 			h2 {
 				grid-column: 1/2;
 				grid-row: 1/3;
+			}
+
+			.card-open {
+				grid-column: 1/1;
+				width: 6em;
+				margin-left: 1em;
+			}
+
+			.card-icons{
+				margin-right: 2em;
+				grid-row: 5/5;
+				grid-column: 1/2;
+			}
+
+			#url-progress-container, #partner-progress-container {
+				grid-row: 3/3;
+				grid-column: 1/2;
 			}
 		}
 </style>
