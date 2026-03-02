@@ -295,6 +295,8 @@
 		&:hover {
 			filter: drop-shadow(var(--color-neutral-black) 2px 2px 4px);
 			animation-duration: 0.2s;
+			background-color: var(--light-3);
+			color: var(--color-neutral-black);
 		}
 	}
 
@@ -456,8 +458,7 @@
 		@container card-component (width < 400px) {
 			h2 {
 				grid-column: 1/2;
-				grid-row: 2/3;
+				grid-row: 1/2;
 			}
 		}
-
 </style>
