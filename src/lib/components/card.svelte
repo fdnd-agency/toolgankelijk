@@ -124,7 +124,7 @@
 <li class="color-primary-light" class:container-off={containerOff}>
 	<section>
 		{#if !isUrl}
-			<picture class="card-partner-logo">
+			<picture class="card-partner-logo" fetchpriority="high">
 				<!-- picture -->
 				<img
 					class="partner-logo"
@@ -418,7 +418,7 @@
 
 	@container card-component (width < 600px) {
 		li section {
-			grid-template-rows: 50% 1fr 1fr 1fr;
+			grid-template-rows: 60% 1fr 1fr 1fr;
 			grid-template-columns: 1fr;
 			height: fit-content;
 		}
@@ -459,7 +459,7 @@
 		@container card-component (width < 400px) {
 			h2 {
 				grid-column: 1/2;
-				grid-row: 1/2;
+				grid-row: 1/3;
 			}
 		}
 </style>
