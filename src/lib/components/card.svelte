@@ -383,8 +383,9 @@
 		height: 32px;
 		grid-column: 2/3;
 		grid-row: 3/4;
-		margin-top: 1em;
 		margin-left: 2em;
+		margin-top: 0.8em;
+		padding: 1.6em;
 
 		&:hover {
 			filter: drop-shadow(var(--color-neutral-black) 2px 2px 4px);
