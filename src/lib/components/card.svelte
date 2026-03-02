@@ -127,11 +127,11 @@
 			<picture class="card-partner-logo">
 				<!-- picture -->
 				<img
-							class="partner-logo"
-							width="256"
-							height="256"
-							src={faviconAPI + url + '/&size=128'}
-							alt="logo partner"
+					class="partner-logo"
+					width="256"
+					height="256"
+					src={faviconAPI + url + '/&size=128'}
+					alt="logo partner"
 				/>
 			</picture>
 		{/if}
@@ -141,7 +141,7 @@
 		{/if}
 
 		{#if isUrl}
-			<h2 class="card-url">{url}</h2>
+			<h2 class="card-url" style="grid-row:1/2; grid-column:1/4;">{url}</h2>
 		{/if}
 
 		{#if isUrl}
@@ -187,10 +187,11 @@
 					</div>
 				</button>
 
+
+		</div>
 				<button class="card-open">
 					<a href={link}>Open</a>
 				</button>
-		</div>
 	</section>
 </li>
 
@@ -267,7 +268,6 @@
 
 	.card-partner-logo {
 		border-radius: var(--border-radius);
-		background-color: var(--color-neutral-white);
 		overflow: hidden;
 		grid-row: 1/4;
 		object-fit: fill;
@@ -379,6 +379,10 @@
 		justify-content: center;
 		align-items: center;
 		height: 32px;
+		grid-column: 2/3;
+		grid-row: 3/4;
+		margin-top: 1em;
+		margin-left: 2em;
 
 		&:hover {
 			filter: drop-shadow(var(--color-neutral-black) 2px 2px 4px);
@@ -406,34 +410,54 @@
 		justify-content: flex-end;
 		gap: 0.5em;
 		align-items: center;
-
+		margin-right: 1em;
 	}
 
 	@container card-component (width < 600px) {
 		li section {
-			grid-template-rows: 60% 1fr 1fr 1fr;
+			grid-template-rows: 50% 1fr 1fr 1fr;
 			grid-template-columns: 1fr;
 			height: fit-content;
 		}
 
+
 		h2 {
-			grid-row: 2/2;
+			grid-row: 1/2;
+			grid-column: 2/3;
 			margin-top: 1em;
+			display: flex;
+			align-items: flex-end;
+		}
+
+		#url-progress-container, #partner-progress-container {
+			grid-row: 3/3;
+			grid-column: 1/3;
 		}
 
 		.card-partner-logo {
 			grid-column: 1/3;
-			width: 512px;
-			height: 512px;
+			grid-row: 1/1;
+			width: auto;
+			height: auto;
 		}
 
+		.card-open {
+			grid-column: 1/2;
+			grid-row: 5/5;
+			margin-bottom: 1em;
+		}
 
 		.card-icons {
 			grid-row: 5/5;
 		}
 
-		h2 {
-			font-size: 24px;
-		}
 	}
+
+		@container card-component (width < 400px) {
+			h2 {
+				grid-column: 1/2;
+				grid-row: 2/3;
+			}
+		}
+
 </style>

@@ -124,7 +124,7 @@
 		margin: 0 1em;
 		margin-bottom: 1em;
 
-			@media (max-width: 720px) {
+			@media (max-width: 700px) {
 			grid-template-columns: 1fr;
 		}
 	}
