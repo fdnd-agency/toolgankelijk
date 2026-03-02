@@ -4,20 +4,21 @@ Live link: [http://toolgankelijk.agency.fdnd.nl/](http://toolgankelijk.agency.fd
 
 ## Inhoudsopgave
 
-- [Beschrijving](#beschrijving)
-- [Kenmerken](#kenmerken)
-- [Design Rationale](#Design-Rationale)
-- [Installatie](#installatie)
-- [Projectteam 2025](#projectteam-2025)
-- [Bronnen](#bronnen)
-- [Licentie](#licentie)
+- [Description](#description)
+- [Features](#features)
+- [Design Choices](#DesignChoices)
+- [Installation](#installation)
+- [Projectteam 2026](#projectteam-2025)
+- [Sources](#sources)
+- [Licence](#licentie)
 
-
-## Beschrijving
+## Description
 
 ![image](static/readme-images/vvr-logo.png)
 
-De Vervoerregio Amsterdam verbindt gemeenten en werkt aan een regio waar mensen vlot hun bestemming bereiken. De gemeenten Aalsmeer, Amstelveen, Amsterdam, Diemen, Edam-Volendam, Haarlemmermeer, Landsmeer, Oostzaan, Ouder-Amstel, Purmerend, Uithoorn, Waterland, Wormerland en Zaanstad vormen samen de Vervoerregio Amsterdam. Vanaf 1 januari 2022 zijn gemeente Beemster en gemeente Purmerend samengegaan en bestaat de Vervoerregio sindsdien uit veertien gemeenten.
+Vervoerregio Amsterdam connects munancipilities and works on a ragion where people can achieve their destination easily. The municipalities Aalsmeer, Amstelveen, Amsterdam, Diemen, Edam-Volendam, Haarlemmermeer, Landsmeer, Oostzaan, Ouder-Amstel, Purmerend, Uithoorn, Waterland, Wormerland, Beemster, Purmerend en Zaanstad together forms Vervoerregio Amsterdam. Vervoerregio Amsterdam exist out of 14 munancipilities.
+
+Vervoerregio is a client of the public transportation per bus, tram, metro.
 
 De Vervoerregio is opdrachtgever van het openbaar vervoer per bus, tram en metro. Hiervoor verlenen ze concessies aan vervoerbedrijven en subsidie voor de exploitatie van het openbaar vervoer. Ook investeren ze in nieuwe trams en metro’s.
 
@@ -28,6 +29,11 @@ Toolgankelijk is een interne webapplicatie ontwikkeld voor de Vervoerregio Amste
 ![image](static/readme-images/partners-overview.png)
 
 ## Kenmerken
+
+This project is made with SvelteKit and the data will be fetched from Hygraph by GraphQL queries. 
+The application is hosted by Netlify where the repositry will be automatically deployed.
+
+With the application you can run a performance audit to see which 
 
 Dit project is ontwikkeld door middel van SvelteKit. De inhoud wordt opgehaald uit Hygraph door middel van GraphQL queries.
 
