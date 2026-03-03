@@ -165,7 +165,6 @@
 				aria-label="open{title}">
 				Open
 			</a>
-		</button>
 		{/if}
 		{#if isUrl}
 		<button class="card-open">

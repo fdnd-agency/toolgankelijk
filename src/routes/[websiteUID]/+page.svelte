@@ -36,7 +36,9 @@
 </section>
 
 {#if totalUrls > first}
+<section>
 	<Pages amount={totalUrls} perPage={first} {currentPage} />
+</section>
 {/if}
 
 {#if form?.success}
@@ -47,11 +49,11 @@
 
 <Dialog bind:this={dialogRef} {params} isType="addUrl" />
 
-<ul>
+<section class="cards-container">
 	{#each websites as website}
 		<Card {website} {overzicht} {params} {principes} isUrl={true} />
 	{/each}
-</ul>
+</section>
 
 <style>
 	section {
@@ -80,7 +82,7 @@
 		background-color: var(--c-pink);
 	}
 
-	ul {
+	.cards-container {
 		display: grid;
 		grid-template-columns: 1fr 1fr;
 		gap: 1em;
