@@ -162,7 +162,7 @@
 			<a href={link} 
 				class="card-open"
 				style="margin-top:9px"
-				aria-lablel="open{title}">
+				aria-label="open{title}">
 				Open
 			</a>
 		{/if}
@@ -170,7 +170,8 @@
 		{#if isUrl}
 			<a href={link} 
 			class="card-open"
-			aria-lablel="open{title}">
+			aria-label="open {title}"
+			style="margin-top=1em">
 				Open
 			</a>
 		{/if}
@@ -206,8 +207,6 @@
 						<DeleteIcon />
 					</div>
 				</button>
-
-
 		</div>
 
 
@@ -438,8 +437,8 @@
 		align-items: center;
 		margin-right: 1em;
 
-		&button:focus {
-			border: solid 1px black;
+		button:focus {
+			border: solid 4px black;
 		}
 	}
 
