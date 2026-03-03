@@ -131,7 +131,7 @@
 					width="256"
 					height="256"
 					src={faviconAPI + url + '/&size=128'}
-					alt="logo partner"
+					alt="logo of {title}"
 				/>
 			</picture>
 		{/if}
@@ -158,6 +158,8 @@
 		</div>
 		{/if}
 
+
+		<div class="card-icons">
 		{#if !isUrl}
 		<button class="card-open">
 			<a href={link} 
@@ -166,7 +168,6 @@
 			</a>
 		</button>
 		{/if}
-
 		{#if isUrl}
 		<button class="card-open"
 		style="margin-left:8em;margin-top:6px;">
@@ -176,8 +177,6 @@
 			</a>
 		</button>
 		{/if}
-
-		<div class="card-icons">
 		{#if !isUrl}
 			<button
 				onclick={openForm.bind(null, auditType)}
@@ -188,7 +187,6 @@
 					<AuditIcon />
 				</div>
 			</button>
-
 		{/if}
 
 			<button onclick={openForm.bind(null, editType)} 
@@ -403,8 +401,6 @@
 		grid-row: 3/4;
 		text-decoration: none;
 		pointer-events:visible;
-		margin-top: 1em;
-		margin-left: 2em;
 		width: 16em;
 		height: 3em;
 
@@ -436,7 +432,6 @@
 		justify-content: flex-end;
 		gap: 0.5em;
 		align-items: center;
-		margin-right: 1em;
 
 		button:focus {
 			border: solid 4px black;
@@ -472,8 +467,6 @@
 
 		.card-open {
 			grid-column: 1/2;
-			grid-row: 5/5;
-			margin-bottom: 1em;
 		}
 
 		.card-icons {
