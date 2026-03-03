@@ -120,8 +120,8 @@
 	});
 </script>
 
-
-<li class="color-primary-light" class:container-off={containerOff}>
+<div class="card-wrapper">
+	<article class="color-primary-light" class:container-off={containerOff}>
 		{#if !isUrl}
 			<picture class="card-partner-logo" fetchpriority="high">
 				<!-- picture -->
@@ -189,7 +189,6 @@
 				aria-label="bewerk icoon">
 					<div>
 						<EditIcon />
-					</div>
 			</button>
 
 			<button 
@@ -197,10 +196,10 @@
 				aria-label="verwijder icoon">
 					<div>
 						<DeleteIcon />
-					</div>
 				</button>
 		</div>
-</li>
+</article>
+</div>
 
 <Dialog
 	bind:this={dialogRefEdit}
@@ -231,13 +230,13 @@
 />
 
 <style>
-	li {
+	.card-wrapper {
 		display: flex;
  		container-type: inline-size;
   		container-name: card-component;
 	}
 
-	li {
+	article {
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
@@ -254,7 +253,7 @@
 		opacity: 0.8;
 	}
 
-	li:hover {
+	article:hover {
 		opacity: 1;
 		animation-duration: 0.2s;
 	}
@@ -282,7 +281,7 @@
 		height: fit-content;
 	}
 
-	li button {
+	article button {
 		background: none;
 		cursor: pointer;
 		border: none;
@@ -294,10 +293,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-
-		div {
-			scale: 0.5;
-		}
+		padding: 4px;
 
 		&:hover {
 			transition-duration: 0.2s;
@@ -390,8 +386,8 @@
 		grid-row: 3/4;
 		text-decoration: none;
 		pointer-events:visible;
-		width: 16em;
-		height: 3em;
+		width: 8em;
+		height: 2em;
 		filter: drop-shadow(var(--color-neutral-black) 2px 2px 4px);
 
 		&:hover {
@@ -428,16 +424,15 @@
 	}
 
 	@container card-component (width < 600px) {
-		li section {
+		article {
 			grid-template-rows: 60% 1fr 1fr 1fr;
 			grid-template-columns: 1fr;
 			height: fit-content;
 		}
 
 		h2 {
-			grid-row: 1/2;
-			grid-column: 2/3;
-			margin-top: 1em;
+			grid-row: 2/3;
+			grid-column: 1/3;
 			display: flex;
 			align-items: flex-end;
 		}
@@ -466,13 +461,15 @@
 
 		@container card-component (width < 400px) {
 			.card-partner-logo {
-				width: 200px;
-				height: 200px;
-				object-fit: contain;
+				width: 250px;
+				height: 250px;
+				grid-column: 1/3;
 			}
+
 			h2 {
-				grid-column: 1/2;
-				grid-row: 1/3;
+				grid-column: 1/3;
+				grid-row: 2/3;
+				height: 1em;
 			}
 
 			.card-open {
@@ -483,8 +480,9 @@
 
 			.card-icons{
 				margin-right: 0em;
+				margin-bottom: 1em;
 				grid-row: 5/5;
-				grid-column: 1/2;
+				grid-column: 1/3;
 			}
 
 			#url-progress-container, #partner-progress-container {
