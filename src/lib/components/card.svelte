@@ -122,7 +122,6 @@
 
 
 <li class="color-primary-light" class:container-off={containerOff}>
-	<section>
 		{#if !isUrl}
 			<picture class="card-partner-logo" fetchpriority="high">
 				<!-- picture -->
@@ -131,7 +130,7 @@
 					width="256"
 					height="256"
 					src={faviconAPI + url + '/&size=128'}
-					alt="logo of {title}"
+					alt="logo van {title}"
 				/>
 			</picture>
 		{/if}
@@ -169,8 +168,7 @@
 		</button>
 		{/if}
 		{#if isUrl}
-		<button class="card-open"
-		style="margin-left:8em;margin-top:6px;">
+		<button class="card-open">
 			<a href={link} 
 			aria-label="open {title}">
 				Open
@@ -181,7 +179,6 @@
 			<button
 				onclick={openForm.bind(null, auditType)}
 				aria-label="start icoon"
-				tabindex="0"
 			>
 				<div>
 					<AuditIcon />
@@ -190,8 +187,7 @@
 		{/if}
 
 			<button onclick={openForm.bind(null, editType)} 
-				aria-label="bewerk icoon"
-				tabindex="0">
+				aria-label="bewerk icoon">
 					<div>
 						<EditIcon />
 					</div>
@@ -199,17 +195,12 @@
 
 			<button 
 				onclick={openForm.bind(null, deleteType)} 
-				aria-label="verwijder icoon"
-				tabindex="0"
-				>
+				aria-label="verwijder icoon">
 					<div>
 						<DeleteIcon />
 					</div>
 				</button>
 		</div>
-
-
-	</section>
 </li>
 
 <Dialog
@@ -247,7 +238,7 @@
   		container-name: card-component;
 	}
 
-	li section {
+	li {
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
@@ -264,7 +255,7 @@
 		opacity: 0.8;
 	}
 
-	li section:hover {
+	li:hover {
 		opacity: 1;
 		animation-duration: 0.2s;
 	}
@@ -292,7 +283,7 @@
 		height: fit-content;
 	}
 
-	section button {
+	li button {
 		background: none;
 		cursor: pointer;
 		border: none;
@@ -310,8 +301,7 @@
 		}
 
 		&:hover {
-			filter: drop-shadow(var(--color-neutral-black) 2px 2px 4px);
-			animation-duration: 0.2s;
+			transition-duration: 0.2s;
 			background-color: var(--light-3);
 			color: var(--color-neutral-black);
 		}
@@ -403,10 +393,10 @@
 		pointer-events:visible;
 		width: 16em;
 		height: 3em;
+		filter: drop-shadow(var(--color-neutral-black) 2px 2px 4px);
 
 		&:hover {
-			filter: drop-shadow(var(--color-neutral-black) 2px 2px 4px);
-			animation-duration: 0.2s;
+			transition-duration: 0.2s;
 			background-color: var(--light-3);
 			color: var(--color-neutral-black);
 		}
