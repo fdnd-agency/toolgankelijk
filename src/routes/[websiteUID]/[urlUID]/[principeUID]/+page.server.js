@@ -10,10 +10,10 @@ import getQueryNiveaus from '$lib/queries/niveaus.js';
 
 export const load = async ({ params, locals }) => {
 	const { websiteUID, urlUID, principeUID } = params;
-	if (!locals?.sessie || !locals?.gebruiker) {
+	if (!locals?.session || !locals?.user) {
 		throw redirect(302, '/login');
 	}
-	if (!locals.gebruiker.isEmailGeverifieerd) {
+	if (!locals.user.isEmailGeverifieerd) {
 		throw redirect(302, '/verify-email');
 	}
 	const queryUrl = getQueryUrl(gql, urlUID);

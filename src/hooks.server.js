@@ -5,22 +5,22 @@ import {
 } from '$lib/server/session';
 
 export async function handle({ event, resolve }) {
-	event.locals.gebruiker = null;
-	event.locals.sessie = null;
+	event.locals.user = null;
+	event.locals.session = null;
 
 	const token = event.cookies.get('session') ?? null;
 	if (token === null) {
 		return resolve(event);
 	}
 
-	const { sessie, gebruiker } = await validateSessionToken(token);
-	if (sessie !== null) {
-		setSessionTokenCookie(event, token, sessie.houdbaarTot);
+	const { session, user } = await validateSessionToken(token);
+	if (session !== null) {
+		setSessionTokenCookie(event, token, session.houdbaarTot);
 	} else {
 		deleteSessionTokenCookie(event);
 	}
 
-	event.locals.sessie = sessie;
-	event.locals.gebruiker = gebruiker;
+	event.locals.session = session;
+	event.locals.user = user;
 	return resolve(event);
 }
