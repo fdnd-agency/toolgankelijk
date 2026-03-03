@@ -159,21 +159,22 @@
 		{/if}
 
 		{#if !isUrl}
+		<button class="card-open">
 			<a href={link} 
-				class="card-open"
-				style="margin-top:9px"
 				aria-label="open{title}">
 				Open
 			</a>
+		</button>
 		{/if}
 
 		{#if isUrl}
+		<button class="card-open"
+		style="margin-left:8em;margin-top:6px;">
 			<a href={link} 
-			class="card-open"
-			aria-label="open {title}"
-			style="margin-top=1em">
+			aria-label="open {title}">
 				Open
 			</a>
+		</button>
 		{/if}
 
 		<div class="card-icons">
@@ -395,17 +396,17 @@
 		background-color: var(--dark-3);
 		color: var(--color-neutral-black);
 		border: var(--color-neutral-black) solid 1px;
-		width: 12em;
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		height: 32px;
 		grid-column: 2/3;
 		grid-row: 3/4;
-		margin-left: 2em;
-		margin-right: 2em;
-		padding: 1em;
 		text-decoration: none;
+		pointer-events:visible;
+		margin-top: 1em;
+		margin-left: 2em;
+		width: 16em;
+		height: 3em;
 
 		&:hover {
 			filter: drop-shadow(var(--color-neutral-black) 2px 2px 4px);
@@ -477,12 +478,16 @@
 
 		.card-icons {
 			grid-row: 5/5;
-
 		}
 
 	}
 
 		@container card-component (width < 400px) {
+			.card-partner-logo {
+				width: 200px;
+				height: 200px;
+				object-fit: contain;
+			}
 			h2 {
 				grid-column: 1/2;
 				grid-row: 1/3;
@@ -495,7 +500,7 @@
 			}
 
 			.card-icons{
-				margin-right: 2em;
+				margin-right: 0em;
 				grid-row: 5/5;
 				grid-column: 1/2;
 			}
