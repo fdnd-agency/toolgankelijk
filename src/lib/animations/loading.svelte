@@ -1,4 +1,9 @@
+<script>
+	let { itemArray = [], urlCount, urlTotal, type } = $props();
 
+	let logCount = $derived(itemArray.length);
+	let logList;
+	let prevLen = 0;
 
 <svg class="primary-color" id="loader" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96">
       <path id="loader-1" d="M48,0C21.49,0,0,21.49,0,48s21.49,48,48,48,48-21.49,48-48S74.51,0,48,0ZM48,83.312c-19.502,0-35.312-15.81-35.312-35.312S28.498,12.688,48,12.688s35.312,15.81,35.312,35.312-15.81,35.312-35.312,35.312Z"/>
