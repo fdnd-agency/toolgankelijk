@@ -11,6 +11,9 @@
 			prevLen = itemArray.length;
 		}
 	});
+
+	// calculates the percentage of how many urls have passed already
+	let urlValue = $derived(() => urlTotal ? (urlCount / urlTotal) * 100 : 0);
 </script>
 
 <details class="loader-container" aria-hidden="true" open>
@@ -38,6 +41,7 @@
 	</ul>
 </details>
 
+<div id="audit-progressbar-url">
 <style>
 	.loader-container {
 		width: 100%;
