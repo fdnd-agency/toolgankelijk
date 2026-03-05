@@ -23,7 +23,7 @@
 
 	function scrollToTop(event) {
 		event.preventDefault();
-		const mainElement = document.getElementById('main');
+		const mainElement = document.getElementById('heading');
 		mainElement.scrollIntoView({ behavior: 'smooth' });
 	}
 
@@ -34,6 +34,7 @@
 		}
 	});
 </script>
+
 
 <Heading {heading} />
 
@@ -58,11 +59,11 @@
 
 <Dialog bind:this={dialogRef} isUrl={false} isType="addPartner" />
 
-<ul>
+<section class="card-container">
 	{#each data.websites.websites as website}
 		<Card {website} {principes} isUrl={false} />
 	{/each}
-</ul>
+</section>
 
 <a href="#main" class="btn-top" onclick={scrollToTop}>⬆</a>
 
@@ -116,7 +117,7 @@
 		filter: saturate(1.2);
 	}
 
-	ul {
+	.card-container {
 		display: grid;
 		grid-template-columns: 1fr 1fr;
 		gap: 1em;
