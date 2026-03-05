@@ -298,7 +298,7 @@
 		text-overflow: ellipsis;
 		color: var(--color-neutral-black);
 		grid-column: 2/3;
-		margin-left: 0.5em;
+		margin-left: 1em;
 	}
 
 	.card-title-url {
@@ -349,6 +349,7 @@
 		grid-row-start: 2;
 		grid-column-start: 2;
 		margin: 1em;
+		margin-left: 3em;
 
 		label {
 			color: var(--color-neutral-black);
@@ -419,7 +420,7 @@
 		justify-content: center;
 		align-items: center;
 		text-decoration: none;
-		width: 12em;
+		width: 8em;
 		height: 2em;
 		filter: drop-shadow(var(--color-neutral-black) 2px 2px 4px);
 
@@ -442,6 +443,7 @@
 		justify-content: flex-end;
 		gap: 0.5em;
 		align-items: center;
+		margin-right: 0.5em;
 
 		button:focus {
 			border: solid 4px black;
@@ -475,15 +477,17 @@
 		}
 
 		.card-title {
-			grid-row: 1/3;
+			grid-row: 2/3;
 			grid-column: 1/3;
 			display: flex;
 			align-items: flex-end;
+			margin-left: 0em;
 		}
 
 		#partner-progress-container {
-			grid-row: 1/3;
+			grid-row: 3/4;
 			grid-column: 1/3;
+			margin-left: 0em;
 		}
 
 		#url-progress-container {
@@ -523,7 +527,6 @@
 			}
 
 			.card-open {
-				width: 20em;
 				margin-left: 1em;
 			}
 
@@ -532,11 +535,6 @@
 				margin-bottom: 1em;
 				grid-row: 5/5;
 				grid-column: 1/3;
-			}
-
-			#partner-progress-container {
-				grid-row: 3/3;
-				grid-column: 1/2;
 			}
 		}
 </style>
