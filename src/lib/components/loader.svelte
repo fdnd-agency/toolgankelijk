@@ -27,21 +27,15 @@
 			{/if}
 		{/if}
 	</summary>
-	<ul class="log-list" role="log" aria-live="polite" bind:this={logList}>
-		{#each itemArray as item}
-			<li class="log-item {item.type}">
-				{#if item.type === 'loading'}
-					<span class="loader"></span>
-				{:else}
-					<img src="/icons/{item.type}.svg" alt={item.type} width="16" height="16" />
-				{/if}
-				{item.status}
-			</li>
-		{/each}
-	</ul>
 </details>
 
 <div id="audit-progressbar-url">
+	<p>Aantal urls ophalen...</p>
+	<progress id="progress" max="100" value={urlValue}></progress>
+	<label class="progress-percentage" for="progress-partner">{urlValue}%</label>
+</div>
+
+
 <style>
 	.loader-container {
 		width: 100%;
