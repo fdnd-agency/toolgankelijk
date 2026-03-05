@@ -1,5 +1,6 @@
 <script>
 	import Loader from '$lib/components/loader.svelte';
+	import Loading from '$lib/animations/loading.svelte'
 
 	// icons
 	import ExclamationmarkIcon from './icons/exclamationmarkIcon.svelte';
@@ -293,6 +294,7 @@
 				<button class="form-submit-button" aria-label="verzend formulier">
 					<!-- here comes all the is states of submitting -->
 					{submitValue}
+					<Loading />
 				</button>
 			</form>
 		{/if}
@@ -304,7 +306,7 @@
 			</div>
 
 			<button class="form-submit-button" aria-label="verzend formulier">
-				<Loading />
+
 			</button>
 		{/if}
 	</section>
