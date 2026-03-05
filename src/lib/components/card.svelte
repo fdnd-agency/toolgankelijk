@@ -120,8 +120,9 @@
 	});
 </script>
 
+{#if !isUrl}
 <div class="card-wrapper">
-	<article class="color-primary-light" class:container-off={containerOff}>
+	<article class="color-primary-light" id="card-partner" class:container-off={containerOff}>
 		{#if !isUrl}
 			<picture class="card-partner-logo" fetchpriority="high">
 				<!-- picture -->
@@ -136,15 +137,15 @@
 		{/if}
 
 		{#if !isUrl}
-			<h2 class="name">{title}</h2>
+			<h2 class="card-title">{title}</h2>
 		{/if}
 
 		{#if isUrl}
-			<h2 class="card-url" style="grid-row:1/2; grid-column:1/4;">{url}</h2>
+			<h2 class="card-title-url">{url}</h2>
 		{/if}
 
 		{#if isUrl}
-		<div id="url-progress-container" class="color-primary" style="grid-row:2/2; grid-column:1/4;padding-bottom:50px;">
+		<div id="url-progress-container" class="color-primary">
 			<progress id="progress-partner" max="100" value="0" bind:this={progressbar}> </progress>
 			<label class="progress-percentage" for="progress-partner" bind:this={labelValue}>0%</label>
 		</div>
@@ -158,48 +159,71 @@
 		{/if}
 
 
-		<div class="card-icons">
-		{#if !isUrl}
-		<button class="card-open">
-			<a href={link} 
-				aria-label="open{title}">
-				Open
-			</a>
-		{/if}
-		{#if isUrl}
-		<button class="card-open">
-			<a href={link} 
-			aria-label="open {title}">
-				Open
-			</a>
-		</button>
-		{/if}
+		<div class="card-icons-partner">
+	
 		{#if !isUrl}
 			<button
 				onclick={openForm.bind(null, auditType)}
-				aria-label="start icoon"
+				aria-label="start audit van {title}"
 			>
-				<div>
 					<AuditIcon />
-				</div>
 			</button>
 		{/if}
 
 			<button onclick={openForm.bind(null, editType)} 
-				aria-label="bewerk icoon">
-					<div>
+				aria-label={isUrl ? `bewerk ${url}` : `bewerk ${title}`}>
 						<EditIcon />
 			</button>
 
 			<button 
 				onclick={openForm.bind(null, deleteType)} 
-				aria-label="verwijder icoon">
-					<div>
+				aria-label={isUrl ? `verwijder ${url}` : `verwijder ${title}`}>
 						<DeleteIcon />
 				</button>
+
+			<a href={link} 
+				aria-label={isUrl ? `open ${url}` : `open ${title}`}
+				class="card-open">
+				Open
+			</a>
 		</div>
 </article>
 </div>
+{/if}
+
+{#if isUrl}
+<div class="card-wrapper">
+	<article id="card-url" class="color-primary-light" class:container-off={containerOff}>
+
+		<h2 class="card-title-url">{url}</h2>
+
+		<div id="url-progress-container" class="color-primary">
+			<progress id="progress-partner" max="100" value="0" bind:this={progressbar}> </progress>
+			<label class="progress-percentage" for="progress-partner" bind:this={labelValue}>0%</label>
+		</div>
+
+
+		<div class="card-icons-url">
+			<button onclick={openForm.bind(null, editType)} 
+				aria-label= "bewerk ${url}">
+						<EditIcon />
+			</button>
+
+			<button 
+				onclick={openForm.bind(null, deleteType)} 
+				aria-label="verwijder ${url}">
+						<DeleteIcon />
+				</button>
+
+			<a href={link} 
+				aria-label="open ${url}"
+				class="card-open">
+				Open
+			</a>
+		</div>
+</article>
+</div>
+{/if}
 
 <Dialog
 	bind:this={dialogRefEdit}
@@ -236,11 +260,7 @@
   		container-name: card-component;
 	}
 
-	article {
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
-		text-decoration: none;
+	#card-partner {
 		background-color: var(--light-1);
 		padding: 1em;
 		border-radius: var(--border-radius);
@@ -253,24 +273,40 @@
 		opacity: 0.8;
 	}
 
+	#card-url {
+		background-color: var(--light-1);
+		padding: 1em;
+		border-radius: var(--border-radius);
+		width: 100%;
+		transition: 0.25s ease;
+		background: linear-gradient(0.25turn,var(--light-2), var(--dark-1));
+		display: grid;
+		grid-template-columns: 40% 60%;
+		grid-template-rows: 60% 10% 30%;
+		opacity: 0.8;
+	}
+
 	article:hover {
 		opacity: 1;
 		animation-duration: 0.2s;
 	}
 
-	h2 {
+	.card-title {
 		font-size: 36px;
 		max-width: 20ch;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		color: var(--color-neutral-black);
-		grid-column-start: 2;
+		grid-column: 2/3;
 		margin-left: 0.5em;
 	}
 
-	.card-url {
-		grid-column-start: 1;
+	.card-title-url {
+		grid-column: 1/2;
+		font-size: 28px;
+		line-break: strict;
 	}
+
 
 	.card-partner-logo {
 		border-radius: var(--border-radius);
@@ -323,16 +359,16 @@
 		display: flex;
 		flex-direction: row;
 		justify-content: space-between;
+		justify-content: center;
 		align-items: center;
-		align-items: flex-end;
-		gap: 1rem;
-		margin-top: 0.25rem;
-		grid-row-start: 2;
+		gap: 1em;
+		grid-row: 2/3; 
 		grid-column: 1/3;
-		margin: 1em;
+		padding-bottom: 4em;
 		
 		label {
 			color: var(--color-neutral-black);
+			margin-bottom: 1em;
 		}
 	}
 
@@ -382,11 +418,8 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		grid-column: 2/3;
-		grid-row: 3/4;
 		text-decoration: none;
-		pointer-events:visible;
-		width: 8em;
+		width: 12em;
 		height: 2em;
 		filter: drop-shadow(var(--color-neutral-black) 2px 2px 4px);
 
@@ -396,23 +429,28 @@
 			color: var(--color-neutral-black);
 		}
 
-
-		a {
-			text-decoration: none;
-			font-size: 18px;
-			font-weight: 800;
-			color: var(--color-neutral-black);
-		}
-
 		@media (max-width: 720px) {
 			height: 32px;
 			font-size: 12px;
 		}
 	}
 
-	.card-icons {
-		grid-row-start: 3;
-		grid-column-start: 2;
+	.card-icons-partner {
+		grid-row: 3/4;
+		grid-column: 2/3;
+		display: flex;
+		justify-content: flex-end;
+		gap: 0.5em;
+		align-items: center;
+
+		button:focus {
+			border: solid 4px black;
+		}
+	}
+
+	.card-icons-url {
+		grid-row: 3/4;
+		grid-column: 2/3;
 		display: flex;
 		justify-content: flex-end;
 		gap: 0.5em;
@@ -424,21 +462,32 @@
 	}
 
 	@container card-component (width < 600px) {
-		article {
+		#card-partner {
 			grid-template-rows: 60% 1fr 1fr 1fr;
 			grid-template-columns: 1fr;
 			height: fit-content;
 		}
 
-		h2 {
-			grid-row: 2/3;
+		.card-title-url {
+			grid-row: 1/2;
+			grid-column: 1/3;
+			overflow: hidden;
+		}
+
+		.card-title {
+			grid-row: 1/3;
 			grid-column: 1/3;
 			display: flex;
 			align-items: flex-end;
 		}
 
-		#url-progress-container, #partner-progress-container {
-			grid-row: 3/3;
+		#partner-progress-container {
+			grid-row: 1/3;
+			grid-column: 1/3;
+		}
+
+		#url-progress-container {
+			grid-row: 2/3;
 			grid-column: 1/3;
 		}
 
@@ -449,12 +498,13 @@
 			height: auto;
 		}
 
-		.card-open {
-			grid-column: 1/2;
+		.card-icons-partner {
+			grid-row: 5/5;
 		}
 
-		.card-icons {
-			grid-row: 5/5;
+		.card-icons-url {
+			grid-column: 2/3;
+			grid-row: 3/4;
 		}
 
 	}
@@ -466,26 +516,25 @@
 				grid-column: 1/3;
 			}
 
-			h2 {
+			.card-title {
 				grid-column: 1/3;
 				grid-row: 2/3;
 				height: 1em;
 			}
 
 			.card-open {
-				grid-column: 1/1;
-				width: 6em;
+				width: 20em;
 				margin-left: 1em;
 			}
 
-			.card-icons{
+			.card-icons-partner{
 				margin-right: 0em;
 				margin-bottom: 1em;
 				grid-row: 5/5;
 				grid-column: 1/3;
 			}
 
-			#url-progress-container, #partner-progress-container {
+			#partner-progress-container {
 				grid-row: 3/3;
 				grid-column: 1/2;
 			}
