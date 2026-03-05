@@ -1,5 +1,5 @@
 import { gql } from 'graphql-request';
-import { hygraph } from '$lib/utils/hygraph.js';
+import { directus } from '$lib/utils/directus.js';
 import getQueryDeletePartner from '$lib/queries/deletePartner';
 import getQueryDeleteUrl from '$lib/queries/deleteUrl';
 import getQueryPartnerUrls from '$lib/queries/partnerUrls';
@@ -41,7 +41,7 @@ export async function POST({ request }) {
 					const batchSize = 100;
 					while (true) {
 						let queryPartnerUrls = getQueryPartnerUrls(gql, id, skip, batchSize);
-						const { urls } = await hygraph.request(queryPartnerUrls);
+						const { urls } = await directus.request(queryPartnerUrls);
 						if (!urls || urls.length === 0) break;
 						allUrls.push(...urls);
 						skip += batchSize;
@@ -59,9 +59,9 @@ export async function POST({ request }) {
 								status: `Verwijderen url ${i + 1}/${allUrls.length}`,
 								type: 'done'
 							});
-							await hygraph.request(queryDeleteChecks);
+							await directus.request(queryDeleteChecks);
 							await delay(200);
-							await hygraph.request(queryDeleteUrls);
+							await directus.request(queryDeleteUrls);
 						} catch (error) {
 							await sendUpdate({
 								status: `Fout bij verwijderen url ${link.id}: ${error.message}`,
@@ -74,7 +74,7 @@ export async function POST({ request }) {
 
 					// 3. Verwijder de partner
 					let queryDelete = getQueryDeletePartner(gql, id);
-					const deleteResponse = await hygraph.request(queryDelete);
+					const deleteResponse = await directus.request(queryDelete);
 					await sendUpdate({
 						status: 'Partner verwijderd',
 						type: 'done',

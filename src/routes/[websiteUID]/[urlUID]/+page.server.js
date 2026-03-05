@@ -1,5 +1,5 @@
 import { gql } from 'graphql-request';
-import { hygraph } from '$lib/utils/hygraph.js';
+import { directus } from '$lib/utils/directus.js';
 import { redirect, error } from '@sveltejs/kit';
 import getQueryUrl from '$lib/queries/url';
 import getQueryPrincipes from '$lib/queries/principes';
@@ -17,9 +17,9 @@ export const load = async ({ params, locals }) => {
 	const queryUrl = getQueryUrl(gql, urlUID);
 	const queryPrincipes = getQueryPrincipes(gql);
 	const queryNiveaus = getQueryNiveaus(gql);
-	const urlData = await hygraph.request(queryUrl);
-	const principesData = await hygraph.request(queryPrincipes);
-	const niveauData = await hygraph.request(queryNiveaus);
+	const urlData = await directus.request(queryUrl);
+	const principesData = await directus.request(queryPrincipes);
+	const niveauData = await directus.request(queryNiveaus);
 
 	if (urlData.url.website.slug === websiteUID)
 		return {

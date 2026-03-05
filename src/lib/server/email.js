@@ -1,4 +1,4 @@
-import { hygraph } from '$lib/utils/hygraph.js';
+import { directus } from '$lib/utils/directus.js';
 import { gql } from 'graphql-request';
 
 export function verifyEmailInput(email) {
@@ -13,7 +13,7 @@ export async function checkEmailAvailability(email) {
 			}
 		}
 	`;
-	const data = await hygraph.request(query, { email });
+	const data = await directus.request(query, { email });
 	return data.gebruikers.length === 0;
 }
 
@@ -28,7 +28,7 @@ export async function isValidEmailDomain(email) {
 			}
 		}
 	`;
-	const data = await hygraph.request(query);
+	const data = await directus.request(query);
 	const validDomains = new Set(data.emailDomeins.map((email) => email.domein.toLowerCase()));
 
 	return validDomains.has(domain.toLowerCase());

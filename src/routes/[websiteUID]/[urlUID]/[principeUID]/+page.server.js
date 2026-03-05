@@ -1,5 +1,5 @@
 import { gql } from 'graphql-request';
-import { hygraph } from '$lib/utils/hygraph.js';
+import { directus } from '$lib/utils/directus.js';
 import { error, redirect } from '@sveltejs/kit';
 import getQueryUrl from '$lib/queries/url';
 import getQueryToolboard from '$lib/queries/toolboard';
@@ -18,10 +18,10 @@ export const load = async ({ params, locals }) => {
 	}
 	const queryUrl = getQueryUrl(gql, urlUID);
 	const queryToolboard = getQueryToolboard(gql, urlUID, principeUID);
-	const urlData = await hygraph.request(queryUrl);
-	const toolboardData = await hygraph.request(queryToolboard);
+	const urlData = await directus.request(queryUrl);
+	const toolboardData = await directus.request(queryToolboard);
 	const queryNiveaus = getQueryNiveaus(gql);
-	const niveausData = await hygraph.request(queryNiveaus);
+	const niveausData = await directus.request(queryNiveaus);
 
 	if (urlData.url?.website.slug === websiteUID) {
 		if (toolboardData.principe === null) {
@@ -44,7 +44,7 @@ export const actions = {
 	updateChecklist: async ({ request, params }) => {
 		const { websiteUID, urlUID, principeUID } = params;
 		const queryToolboard = getQueryToolboard(gql, urlUID, principeUID);
-		const toolboardData = await hygraph.request(queryToolboard);
+		const toolboardData = await directus.request(queryToolboard);
 		const formData = await request.formData();
 		const checkedSuccesscriteria = formData.getAll('check'); // Array with Succescriteria ID's of the checked inputs of the form on the opened page
 		const principeIndex = formData.get('principe'); // Principe index (1, 2, 3, 4) of the form on the opened page
@@ -90,7 +90,7 @@ export const actions = {
 			try {
 				let checkId = (await getCheckId()).checkId;
 				let addCheckQuery = addCheck(gql, websiteUID, urlUID, checkId, succescriteriumId);
-				let addCheckId = await hygraph.request(addCheckQuery);
+				let addCheckId = await directus.request(addCheckQuery);
 
 				return {
 					addCheckId,
@@ -108,7 +108,7 @@ export const actions = {
 			try {
 				let checkId = (await getCheckId()).checkId;
 				let deleteCheckQuery = deleteCheck(gql, websiteUID, urlUID, checkId, succescriteriumId);
-				let deletedCheckId = await hygraph.request(deleteCheckQuery);
+				let deletedCheckId = await directus.request(deleteCheckQuery);
 
 				return {
 					deletedCheckId,
@@ -125,7 +125,7 @@ export const actions = {
 		async function getCheckId() {
 			try {
 				let getCheckIdQuery = firstCheck(gql, websiteUID, urlUID);
-				let getCheckIdResponse = await hygraph.request(getCheckIdQuery);
+				let getCheckIdResponse = await directus.request(getCheckIdQuery);
 				let checkId = getCheckIdResponse.website.urls[0].checks[0].id;
 
 				return {

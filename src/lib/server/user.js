@@ -1,4 +1,4 @@
-import { hygraph } from '$lib/utils/hygraph.js';
+import { directus } from '$lib/utils/directus.js';
 import { gql } from 'graphql-request';
 
 export function verifyUsernameInput(username) {
@@ -13,7 +13,7 @@ export async function checkUsernameAvailability(username) {
 			}
 		}
 	`;
-	const data = await hygraph.request(query, { username });
+	const data = await directus.request(query, { username });
 	return !data.gebruiker;
 }
 
@@ -41,7 +41,7 @@ export async function createUser(email, username, passwordHash) {
 		}
 	`;
 	const variables = { email, username, passwordHash, isEmailGeverifieerd: false };
-	const data = await hygraph.request(mutation, variables);
+	const data = await directus.request(mutation, variables);
 	if (!data.createGebruiker) {
 		throw new Error('Unexpected error');
 	}
@@ -62,7 +62,7 @@ export async function getUserPasswordHash(userId) {
 			}
 		}
 	`;
-	const data = await hygraph.request(query, { id: userId });
+	const data = await directus.request(query, { id: userId });
 	if (!data.gebruiker) {
 		throw new Error('Invalid user ID');
 	}
@@ -79,7 +79,7 @@ export async function getUserFromEmail(email) {
 			}
 		}
 	`;
-	const data = await hygraph.request(query, { email });
+	const data = await directus.request(query, { email });
 	if (!data.gebruiker) {
 		return null;
 	}
@@ -99,5 +99,5 @@ export async function setUserEmailAsVerified(userId, email) {
 			}
 		}
 	`;
-	await hygraph.request(mutation, { id: userId, email });
+	await directus.request(mutation, { id: userId, email });
 }

@@ -3,7 +3,7 @@ import Sitemapper from 'sitemapper';
 import axios from 'axios';
 import { parseHTML } from 'linkedom';
 import { gql } from 'graphql-request';
-import { hygraph } from '$lib/utils/hygraph.js';
+import { directus } from '$lib/utils/directus.js';
 import getQueryUrl from '$lib/queries/url';
 import getQueryAddUrl from '$lib/queries/addUrl';
 
@@ -117,14 +117,14 @@ export async function processUrls(urls, slug, sendUpdate) {
 
 		try {
 			const checkQuery = getQueryUrl(gql, urlSlug);
-			const checkRes = await hygraph.request(checkQuery);
+			const checkRes = await directus.request(checkQuery);
 			if (checkRes.url) {
 				await sendUpdate({ status: `Url bestaat al: ${checkRes.url.slug}`, type: 'warning' });
 				total--;
 			} else {
 				await sendUpdate({ status: `Voeg toe: ${link}`, type: 'done' });
 				const addQuery = getQueryAddUrl(gql, urlSlug, link, slug, path);
-				await hygraph.request(addQuery);
+				await directus.request(addQuery);
 			}
 		} catch (err) {
 			failed[link] = err.message;

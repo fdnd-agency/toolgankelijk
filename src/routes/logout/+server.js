@@ -1,5 +1,5 @@
 import { gql } from 'graphql-request';
-import { hygraph } from '$lib/utils/hygraph.js';
+import { directus } from '$lib/utils/directus.js';
 import { deleteSessionTokenCookie } from '$lib/server/session.js';
 import { sha256 } from '@oslojs/crypto/sha2';
 import { encodeHexLowerCase } from '@oslojs/encoding';
@@ -15,7 +15,7 @@ export async function POST({ cookies }) {
 				}
 			}
 		`;
-		await hygraph.request(deleteMutation, { id: sessionId });
+		await directus.request(deleteMutation, { id: sessionId });
 		deleteSessionTokenCookie({ cookies });
 	}
 	return new Response(null, { status: 204 });

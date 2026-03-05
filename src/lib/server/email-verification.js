@@ -1,4 +1,4 @@
-import { hygraph } from '$lib/utils/hygraph.js';
+import { directus } from '$lib/utils/directus.js';
 import { gql } from 'graphql-request';
 import { generateEmailVerificationCode } from '../utils/generateEmailVerificationCode.js';
 import { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS } from '$env/static/private';
@@ -20,7 +20,7 @@ export async function getUserEmailVerificationRequest(userId, id) {
 		}
 	`;
 	const variables = { id };
-	const data = await hygraph.request(query, variables);
+	const data = await directus.request(query, variables);
 	const row = data.emailVerificatieCode;
 	if (!row || row.gebruiker.id !== userId) {
 		return null;
@@ -64,7 +64,7 @@ export async function createEmailVerificationRequest(userId) {
 		userId
 	};
 
-	const data = await hygraph.request(mutation, variables);
+	const data = await directus.request(mutation, variables);
 	const row = data.createEmailVerificatieCode;
 
 	const request = {
@@ -86,7 +86,7 @@ export async function deleteUserEmailVerificationRequest(userId) {
 			}
 		}
 	`;
-	await hygraph.request(mutation, { userId });
+	await directus.request(mutation, { userId });
 }
 
 // Deze functie stuurt een verificatie-e-mail naar het e-mailadres van de gebruiker

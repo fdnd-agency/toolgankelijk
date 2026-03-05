@@ -1,5 +1,5 @@
 import { gql } from 'graphql-request';
-import { hygraph } from '$lib/utils/hygraph.js';
+import { directus } from '$lib/utils/directus.js';
 import getQueryPartner from '$lib/queries/partner';
 import getQueryWebsite from '$lib/queries/website';
 import getQueryPrincipes from '$lib/queries/principes.js';
@@ -12,8 +12,8 @@ export async function load({ params, locals }) {
 
 	return {
 		gebruiker: locals.user,
-		partnersData: await hygraph.request(queryPartner),
-		websitesData: await hygraph.request(queryWebsite),
-		principesData: await hygraph.request(queryPrincipes)
+		partnersData: await directus.request(queryPartner),
+		websitesData: await directus.request(queryWebsite),
+		principesData: await directus.request(queryPrincipes)
 	};
 }

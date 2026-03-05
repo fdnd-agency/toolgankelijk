@@ -1,5 +1,5 @@
 import { gql } from 'graphql-request';
-import { hygraph } from '$lib/utils/hygraph.js';
+import { directus } from '$lib/utils/directus.js';
 import { redirect } from '@sveltejs/kit';
 import getQueryAddPartner from '$lib/queries/addPartner';
 
@@ -22,10 +22,10 @@ export const actions = {
 
 		try {
 			let query = getQueryAddPartner(gql, name, url, slug);
-			let hygraphCall = await hygraph.request(query);
+			let directusCall = await directus.request(query);
 
 			return {
-				hygraphCall,
+				directusCall,
 				success: true,
 				message: name + ' is toegevoegd.'
 			};

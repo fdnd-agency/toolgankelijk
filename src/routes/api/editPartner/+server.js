@@ -1,5 +1,5 @@
 import { gql } from 'graphql-request';
-import { hygraph } from '$lib/utils/hygraph.js';
+import { directus } from '$lib/utils/directus.js';
 import getQueryUpdatePartner from '$lib/queries/updatePartner';
 import getQueryUpdatePartnerUrls from '$lib/queries/updateUrlsPartner';
 import createEmptyCheck from '$lib/queries/addEmptyCheck';
@@ -73,7 +73,7 @@ export async function POST({ request }) {
 					if (toggle && urls.length) {
 						const { total } = await processUrls(urls, slug, sendUpdate);
 						const updateQuery = getQueryUpdatePartnerUrls(gql, slug, total);
-						await hygraph.request(updateQuery);
+						await directus.request(updateQuery);
 						await delay(500);
 						// Create empty check for each url
 						for (const url of urls) {
@@ -81,11 +81,11 @@ export async function POST({ request }) {
 							const urlSlug = (slug + path).replace(/\//g, '-');
 							// Check if a check already exists for this urlSlug
 							const getCheckIdQuery = firstCheck(gql, slug, urlSlug);
-							const getCheckIdResponse = await hygraph.request(getCheckIdQuery);
+							const getCheckIdResponse = await directus.request(getCheckIdQuery);
 							const checks = getCheckIdResponse.website?.urls?.[0]?.checks;
 							if (!checks || checks.length === 0) {
 								let createEmptyCheckEntry = createEmptyCheck(gql, slug, urlSlug);
-								await hygraph.request(createEmptyCheckEntry);
+								await directus.request(createEmptyCheckEntry);
 								await sendUpdate({ status: `Check aangemaakt voor ${url}`, type: 'done' });
 							} else {
 								await sendUpdate({ status: `Check bestaat al voor ${url}`, type: 'warning' });
@@ -95,7 +95,7 @@ export async function POST({ request }) {
 						await sendUpdate({ status: 'Alle urls zijn toegevoegd', type: 'done' });
 					}
 					const updateQuery = getQueryUpdatePartner(gql, name, slug, url, id);
-					await hygraph.request(updateQuery);
+					await directus.request(updateQuery);
 					await sendUpdate({ status: 'Partner bijgewerkt', type: 'done' });
 				} catch (err) {
 					await sendUpdate({ status: err.message, type: 'error' });

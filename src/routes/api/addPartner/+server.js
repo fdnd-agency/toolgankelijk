@@ -1,5 +1,5 @@
 import { gql } from 'graphql-request';
-import { hygraph } from '$lib/utils/hygraph.js';
+import { directus } from '$lib/utils/directus.js';
 import getQueryAddPartner from '$lib/queries/addPartner';
 import getQueryUpdatePartnerUrls from '$lib/queries/updateUrlsPartner';
 import createEmptyCheck from '$lib/queries/addEmptyCheck';
@@ -68,7 +68,7 @@ export async function POST({ request }) {
 					// Add or update partner
 					if (!id) {
 						const query = getQueryAddPartner(gql, name, url, slug, urls.length);
-						await hygraph.request(query);
+						await directus.request(query);
 						await sendUpdate({ status: 'Partner toegevoegd', type: 'done' });
 						await delay(1000);
 					} else {
@@ -80,14 +80,14 @@ export async function POST({ request }) {
 					if (toggle && urls.length) {
 						const { total } = await processUrls(urls, slug, sendUpdate);
 						const updateQuery = getQueryUpdatePartnerUrls(gql, slug, total);
-						await hygraph.request(updateQuery);
+						await directus.request(updateQuery);
 						await delay(1000);
 						// Create empty check for each url
 						for (const url of urls) {
 							const path = new URL(url).pathname;
 							const urlSlug = (slug + path).replace(/\//g, '-');
 							let createEmptyCheckEntry = createEmptyCheck(gql, slug, urlSlug);
-							await hygraph.request(createEmptyCheckEntry);
+							await directus.request(createEmptyCheckEntry);
 						}
 
 						await sendUpdate({ status: 'Partner bijgewerkt', type: 'done' });

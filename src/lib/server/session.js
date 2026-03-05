@@ -1,6 +1,6 @@
 //@ts-check
 import * as crypto from 'crypto';
-import { hygraph } from '$lib/utils/hygraph.js';
+import { directus } from '$lib/utils/directus.js';
 import { gql } from 'graphql-request';
 import { encodeBase32LowerCaseNoPadding, encodeHexLowerCase } from '@oslojs/encoding';
 import { sha256 } from '@oslojs/crypto/sha2';
@@ -35,7 +35,7 @@ import getQueryAddSession from '$lib/queries/addSession';
  */
 export async function validateSessionToken(token) {
 	const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
-	const { sessie: row } = await hygraph.request(getQuerySession(gql), { sessionId });
+	const { sessie: row } = await directus.request(getQuerySession(gql), { sessionId });
 
 	if (!row) {
 		return { session: null, user: null };
@@ -86,7 +86,7 @@ export async function validateSessionToken(token) {
  */
 async function invalidateSession(session) {
 	// Delete session mutation
-	await hygraph.request(getQueryDeleteSession(gql), { sessionId: session.id });
+	await directus.request(getQueryDeleteSession(gql), { sessionId: session.id });
 	return { session: null, user: null };
 }
 
@@ -101,7 +101,7 @@ async function invalidateSession(session) {
 async function refreshSession(session) {
 	session.expiresAt = new Date(Date.now() + 1000 * 60 * 60 * 24 * 30);
 	// Update session mutation
-	await hygraph.request(getQueryUpdateSession(gql), {
+	await directus.request(getQueryUpdateSession(gql), {
 		sessionId: session.id,
 		expiresAt: session.expiresAt
 	});
@@ -165,7 +165,7 @@ export async function createSession(token, gebruikerId) {
 		gebruikerId,
 		expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30)
 	};
-	await hygraph.request(getQueryAddSession(gql), {
+	await directus.request(getQueryAddSession(gql), {
 		userId: session.gebruikerId,
 		expiresAt: session.expiresAt.toISOString(),
 		sessionId: session.id

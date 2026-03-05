@@ -1,5 +1,5 @@
 import { gql } from 'graphql-request';
-import { hygraph } from '$lib/utils/hygraph.js';
+import { directus } from '$lib/utils/directus.js';
 import { redirect } from '@sveltejs/kit';
 import getQueryAddUrl from '$lib/queries/addUrl';
 import getQueryWebsite from '$lib/queries/website';
@@ -14,7 +14,7 @@ export async function load({ params, locals }) {
 		throw redirect(302, '/verify-email');
 	}
 	let query = getQueryWebsite(gql, websiteUID);
-	return await hygraph.request(query).websitesData;
+	return await directus.request(query).websitesData;
 }
 
 export const actions = {
@@ -26,12 +26,12 @@ export const actions = {
 
 		try {
 			let query = getQueryAddUrl(gql, name, formUrl, formSlug);
-			let hygraphCall = await hygraph.request(query);
+			let directusCall = await directus.request(query);
 			let createEmptyCheckEntry = createEmptyCheck(gql, formSlug, name);
-			await hygraph.request(createEmptyCheckEntry);
+			await directus.request(createEmptyCheckEntry);
 
 			return {
-				hygraphCall,
+				directusCall,
 				success: true,
 				message: name + ' is toegevoegd.'
 			};

@@ -1,5 +1,5 @@
 import { gql } from 'graphql-request';
-import { hygraph } from '$lib/utils/hygraph.js';
+import { directus } from '$lib/utils/directus.js';
 import { redirect } from '@sveltejs/kit';
 import getQueryPartner from '$lib/queries/partner';
 
@@ -15,7 +15,7 @@ export async function load(event) {
 	const skip = parseInt(url.searchParams.get('skip') || '0');
 
 	let query = getQueryPartner(gql, first, skip);
-	const data = await hygraph.request(query);
+	const data = await directus.request(query);
 
 	// Check for registration success cookie
 	const showRegistrationSuccess = cookies.get('show_registration_success') === '1';

@@ -1,5 +1,5 @@
 import { gql } from 'graphql-request';
-import { hygraph } from '$lib/utils/hygraph.js';
+import { directus } from '$lib/utils/directus.js';
 import getQueryDeleteUrl from '$lib/queries/deleteUrl';
 import getQueryDeleteChecks from '$lib/queries/deleteChecks';
 
@@ -35,12 +35,12 @@ export async function POST({ request }) {
 					await delay(500);
 
 					const queryDeleteChecks = getQueryDeleteChecks(gql, id);
-					await hygraph.request(queryDeleteChecks);
+					await directus.request(queryDeleteChecks);
 					await delay(200); // Add delay
 					await sendUpdate({ status: 'Checks succesvol verwijderd', type: 'done' });
 
 					let query = getQueryDeleteUrl(gql, id);
-					const response = await hygraph.request(query);
+					const response = await directus.request(query);
 
 					await sendUpdate({ status: 'Url succesvol verwijderd', type: 'done', response });
 					await delay(500);

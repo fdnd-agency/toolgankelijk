@@ -1,5 +1,5 @@
 import { gql } from 'graphql-request';
-import { hygraph } from '$lib/utils/hygraph.js';
+import { directus } from '$lib/utils/directus.js';
 import { redirect } from '@sveltejs/kit';
 import getQueryWebsite from '$lib/queries/website';
 
@@ -19,7 +19,7 @@ export async function load(event) {
 	const first = 20;
 	const skip = parseInt(url.searchParams.get('skip') || '0');
 	const query = getQueryWebsite(gql, websiteUID, first, skip);
-	const data = await hygraph.request(query);
+	const data = await directus.request(query);
 	await delay(150);
 
 	return {

@@ -1,5 +1,5 @@
 import { gql } from 'graphql-request';
-import { hygraph } from '$lib/utils/hygraph.js';
+import { directus } from '$lib/utils/directus.js';
 import getQueryAddUrl from '$lib/queries/addUrl';
 import createEmptyCheck from '$lib/queries/addEmptyCheck';
 
@@ -38,14 +38,14 @@ export async function POST({ request }) {
 					await delay(500);
 
 					let query = getQueryAddUrl(gql, slug, urlLink, websiteSlug, name);
-					let hygraphCall = await hygraph.request(query);
+					let directusCall = await directus.request(query);
 					let createEmptyCheckEntry = createEmptyCheck(gql, websiteSlug, slug);
-					await hygraph.request(createEmptyCheckEntry);
+					await directus.request(createEmptyCheckEntry);
 
 					await sendUpdate({
 						status: `${name} is toegevoegd.`,
 						type: 'done',
-						response: hygraphCall
+						response: directusCall
 					});
 					await delay(500);
 				} catch (err) {

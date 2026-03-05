@@ -1,5 +1,5 @@
 import { gql } from 'graphql-request';
-import { hygraph } from '$lib/utils/hygraph.js';
+import { directus } from '$lib/utils/directus.js';
 import getQueryUpdateUrl from '$lib/queries/updateUrl';
 
 // Delay helper
@@ -37,7 +37,7 @@ export async function POST({ request }) {
 					await delay(500);
 
 					let query = getQueryUpdateUrl(gql, slug, url, id, name);
-					const response = await hygraph.request(query);
+					const response = await directus.request(query);
 
 					await sendUpdate({ status: 'Url succesvol bijgewerkt', type: 'done', response });
 					await delay(500);
