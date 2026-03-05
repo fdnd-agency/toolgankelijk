@@ -300,8 +300,12 @@
 		{#if sending}
 			<div class="tip-message" aria-label="tip message">
 				<p><span>{nameValue}</span> wordt verwerkt, sluit de pagina niet.</p>
+				<Loader itemArray={logs} {urlCount} {urlTotal} {type} />
 			</div>
-			<Loader itemArray={logs} {urlCount} {urlTotal} {type} />
+
+			<button class="form-submit-button" aria-label="verzend formulier">
+				<Loading />
+			</button>
 		{/if}
 	</section>
 </dialog>
