@@ -114,10 +114,9 @@
 <style>
 	.bread-crumbs {
 		gap: 0.5rem;
-		display: none;
+		display: flex;
 		min-width: min-content;
 		max-width: 192px;
-		grid-column: 2;
 	}
 
 	button {
@@ -259,12 +258,6 @@
 		ul {
 			transition: 0s;
 			position: relative;
-		}
-	}
-
-	@media only screen and (min-width: 1260px) {
-		.bread-crumbs {
-			display: flex;
 		}
 	}
 </style>
