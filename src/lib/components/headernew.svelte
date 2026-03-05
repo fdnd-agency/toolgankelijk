@@ -1,12 +1,11 @@
 <script>
-    import { onMount } from 'svelte';
+    // import { onMount } from 'svelte';
 	import LogoLightMobile from '$lib/components/LogoLightMobile.svelte';
 	import BreadCrumbs from '$lib/components/breadCrumbs.svelte';
 	import Hamburger from '$lib/components/hamburger.svelte';
 	import LogoLightDesktop from '$lib/components/LogoLightDesktop.svelte';
-	import homeIcon from '$lib/components/homeIcon.svelte';
 	import loginIcon from '$lib/components/loginIcon.svelte';
-	import darkmodeIcon from '$lib/components/darkmodeIcon.svelte';
+	import SignoutButton from '$lib/components/SignoutButton.svelte';
 
 	/**
 	 * @typedef {Object} Props
@@ -20,45 +19,11 @@
 	/** @type {Props} */
 	let { params, partners, websites, principes, user = null } = $props();
 
-	let isLightMode = $state(false);
-
-	function toggleLightMode() {
-		const savedLightMode = localStorage.getItem('lightMode');
-
-		if (savedLightMode === null || savedLightMode === 'false') {
-			isLightMode = true;
-			document.body.classList.add('lightmode');
-			localStorage.setItem('lightMode', `${isLightMode}`);
-		} else {
-			isLightMode = false;
-			document.body.classList.remove('lightmode');
-			localStorage.setItem('lightMode', `${isLightMode}`);
-		}
-	}
-
 	async function handleSignOut(event) {
 		event.preventDefault();
 		await fetch('/logout', { method: 'POST' });
 		window.location.href = '/login';
 	}
-
-	onMount(() => {
-		const savedLightMode = localStorage.getItem('lightMode');
-
-		if (savedLightMode === 'true') {
-			isLightMode = true;
-			document.body.classList.add('lightmode');
-		} else {
-			isLightMode = false;
-			document.body.classList.remove('lightmode');
-		}
-
-		// const logoImage = document.getElementById('logoImage');
-		// logoImage.src = isLightMode ? logoLightMode : logoDarkMode;
-
-		const icon = document.querySelector('.disable-js');
-		icon?.classList.toggle('disable-js');
-	});
 </script>
 
 <header>
@@ -66,47 +31,28 @@
         <a href="#main" class="sr-only">Jump directly to main content</a>
 
 	    <a href="/" class="logo">
-	    	<!-- <img
-	    		src="{logo}"
-	    		class="vvr-logo"
-	    		id="logoImage"
-	    	/> -->
-				<LogoLightDesktop />
-				<LogoLightMobile />
+			<LogoLightDesktop />
+			<LogoLightMobile />
         </a>
-
-        {#if user && user.isEmailGeverifieerd}
-	    	<BreadCrumbs {params} {partners} {websites} {principes} />
-	    {/if}
 
         <nav>
             <ul>
-                {#if user && user.isEmailGeverifieerd}
-                <li>
-                    <a aria-label="home pagina" href="/">
-	        	    	<homeIcon.svelte />
-	        	    </a>
-                </li>
-                {/if} 
+				{#if user && user.isEmailGeverifieerd}
+					<li>
+	    				<BreadCrumbs {params} {partners} {websites} {principes} />
+					</li>
+	    		{/if}
             
                 {#if !user}
-                <li>
-	            	<a href="/login" aria-label="account">
-	            		<loginIcon.svelte />
-	            	</a>
-                </li>
+                	<li>
+	            		<a href="/login" aria-label="account">
+	            			<loginIcon.svelte />
+	            		</a>
+                	</li>
 	            {/if}
 
-                <li>
-                    <a aria-label="lightmode button" class="disable-js" href=" ">
-	                	<button aria-label="lightmode" class="toggle" onclick={toggleLightMode}>
-	                		<darkmodeIcon.svelte />
-	                	</button>
-	                </a>
-                </li>
-            
 	        	{#if user}
-	        		<button onclick={handleSignOut} class="signout-btn">Sign out</button>
+	        		<SignoutButton />
 	        	{/if}
             </ul>
         </nav>
@@ -126,8 +72,7 @@
             display: grid;
             grid-template-columns: 3fr 4fr 3fr;
             grid-template-rows: 1fr;
-            justify-content: center;
-            justify-items: center;
+            justify-items: right;
             align-items: center;
             margin: 0 1.25rem;
 
@@ -135,7 +80,7 @@
 				display: flex;
 				flex-direction: column;
 				justify-content: center;
-				align-items:start;
+				align-items: start;
 				top: 1em;
                 left: 1em;
 				position: absolute;
@@ -152,14 +97,27 @@
 
             nav {
                 display: none;
+				grid-column: 2;
+
+				ul {
+					display: flex;
+					gap: 1.5rem;
+					justify-content: center;
+					align-items: center;
+					list-style-type: none;
+				}
+
+				@media(min-width: 1260px) {
+					display: flex;
+				}
             }
 
 			@media(min-width: 1260px) {
-				grid-template-columns: 3fr 6fr 1fr;
+				grid-template-columns: 3fr 7fr;
 			}
         }
 
-         &::after{
+         &::after {
             content: "";
             margin-top: 1.25rem;
             aspect-ratio: 21.833;
@@ -168,6 +126,6 @@
             height: clamp(1.5rem, 5vw, 5rem);
 			/* The pink line */
             clip-path: shape(from 28.24% 100%,hline to 0%,vline to 94.74%,hline to 28.24%,curve to 37.66% 0% with 32.44% 94.74%/32.44% 0%,hline to 100%,vline to 5.26%,hline to 37.66%,curve to 28.24% 100% with 32.44% 5.26%/32.44% 100%,close);            background-color: #E30059;
-        } 
-    }
+        }
+	}
 </style>
