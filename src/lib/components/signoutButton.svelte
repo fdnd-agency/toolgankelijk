@@ -1,5 +1,9 @@
 <script>
-
+    async function handleSignOut(event) {
+		event.preventDefault();
+		await fetch('/logout', { method: 'POST' });
+		window.location.href = '/login';
+	}
 </script>
 
 <button onclick={handleSignOut} class="signout-btn">Sign out</button>
