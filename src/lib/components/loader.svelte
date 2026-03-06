@@ -19,6 +19,8 @@
 			prevLen = itemArray.length;
 		}
 	});
+
+	console.log(logList)
 </script>
 
 <details class="loader-container" aria-hidden="true" open>
@@ -38,13 +40,17 @@
 				{#if item.type === 'loading'}
 					<span class="loader" />
 				{:else}
-					<img src="/icons/{item.type}.svg" alt={item.type} width="16" height="16" />
+					<img src="/animations/{item.type}.svelte" alt={item.type} width="16" height="16" />
 				{/if}
 				{item.status}
 			</li>
 		{/each}
 	</ul>
 </details>
+
+<p>{urlCount}</p>
+
+<p>{urlTotal}</p>
 
 <style>
 	.loader-container {
