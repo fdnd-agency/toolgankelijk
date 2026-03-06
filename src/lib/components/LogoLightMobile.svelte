@@ -40,12 +40,18 @@
         height: 100%;
         width: auto;
 
-        @media(min-width: 768px) {
-            display: none;
+        line {
+            stroke: var(--color-neutral-black);
         }
 
-        path {
-            fill: var(--custom-gradient);
+        text {
+            fill: var(--color-neutral-black);
+        }
+
+         /* Hide the logo on larger screens */
+
+        @media(min-width: 768px) {
+            display: none;
         }
     }
 </style>

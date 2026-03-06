@@ -17,7 +17,7 @@
         grid-column: 3;
         margin-left: auto;
         text-decoration: none;
-        color: #B9005F;
+        color: var(--color-primary);
 
         p {
             font-weight: 700;
@@ -26,6 +26,10 @@
         svg {
             height: 2.5rem;
             width: 2.5rem;
+
+            rect {
+                fill: var(--color-primary);
+            }
         }
 
         @media (min-width: 1260px) {

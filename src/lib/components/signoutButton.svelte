@@ -10,9 +10,9 @@
 
 <style>
     .signout-btn {
-		background-color: #b5006c;
+		background-color: var(--color-primary);
 		color: var(--c-white);
-		border: 2px solid #b5006c;
+		border: 2px solid var(--color-primary);
 		border-radius: 20px;
 		width: 8rem;
 		height: 2.2rem;
@@ -27,7 +27,7 @@
 
 	.signout-btn:hover {
 		background-color: transparent;
-		color: #b5006c;
-		border: 2px solid #b5006c;
+		color: var(--color-primary);
+		border: 2px solid var(--color-primary);
 	}
 </style>
