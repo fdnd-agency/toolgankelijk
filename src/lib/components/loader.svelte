@@ -1,19 +1,24 @@
 <script>
-	let { itemArray = [], urlCount, urlTotal, type } = $props();
+	import { afterUpdate } from 'svelte';
 
-	let logCount = $derived(itemArray.length);
+	export let itemArray = [];
+	export let urlCount;
+	export let urlTotal;
+	export let type;
+
+	let logCount = 0;
 	let logList;
 	let prevLen = 0;
 
-	$effect(() => {
+	$: logCount = itemArray.length;
+
+	afterUpdate(() => {
+		// scroll alleen als er écht nieuwe items zijn toegevoegd
 		if (itemArray.length > prevLen && logList) {
 			logList.scrollTop = logList.scrollHeight;
 			prevLen = itemArray.length;
 		}
 	});
-
-	// calculates the percentage of how many urls have passed already
-	let urlValue = $derived(() => urlTotal ? (urlCount / urlTotal) * 100 : 0);
 </script>
 
 <details class="loader-container" aria-hidden="true" open>
@@ -21,20 +26,25 @@
 		<p>Logs ({logCount})</p>
 		{#if type !== 1}
 			{#if urlCount && urlTotal}
-				<p><span class="loader"></span>Urls ({urlCount}/{urlTotal})</p>
+				<p><span class="loader" />Urls ({urlCount}/{urlTotal})</p>
 			{:else}
-				<p><span class="loader"></span>Aantal urls ophalen...</p>
+				<p><span class="loader" />Aantal urls ophalen...</p>
 			{/if}
 		{/if}
 	</summary>
+	<ul class="log-list" role="log" aria-live="polite" bind:this={logList}>
+		{#each itemArray as item}
+			<li class="log-item {item.type}">
+				{#if item.type === 'loading'}
+					<span class="loader" />
+				{:else}
+					<img src="/icons/{item.type}.svg" alt={item.type} width="16" height="16" />
+				{/if}
+				{item.status}
+			</li>
+		{/each}
+	</ul>
 </details>
-
-<div id="audit-progressbar-url">
-	<p>Aantal urls ophalen...</p>
-	<progress id="progress" max="100" value={urlValue}></progress>
-	<label class="progress-percentage" for="progress-partner">{urlValue}%</label>
-</div>
-
 
 <style>
 	.loader-container {
