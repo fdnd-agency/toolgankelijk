@@ -271,6 +271,12 @@
 		grid-template-columns: 1fr 60%;
 		grid-template-rows: 1fr 20% 20%;
 		opacity: 0.8;
+
+				
+		&:hover {
+			transition-duration: 0.3s;
+			opacity: 1;
+		}
 	}
 
 	#card-url {
@@ -284,11 +290,11 @@
 		grid-template-columns: 40% 60%;
 		grid-template-rows: 60% 10% 30%;
 		opacity: 0.8;
-	}
-
-	article:hover {
-		opacity: 1;
-		animation-duration: 0.2s;
+		
+		&:hover {
+			transition-duration: 0.3s;
+			opacity: 1;
+		}
 	}
 
 	.card-title {
