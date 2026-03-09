@@ -6,6 +6,8 @@
 	import Search from '$lib/components/search.svelte';
 	import Dialog from '$lib/components/dialog.svelte';
 	import Pages from '$lib/components/pages.svelte';
+	import AddCard from '$lib/components/addCard.svelte';
+
 	let { data, form } = $props();
 
 	let skip = $derived(data.skip);
@@ -63,6 +65,7 @@
 	{#each data.websites.websites as website}
 		<Card {website} {principes} isUrl={false} />
 	{/each}
+	<AddCard />
 </section>
 
 <a href="#main" class="btn-top" onclick={scrollToTop}>⬆</a>

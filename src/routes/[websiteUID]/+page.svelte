@@ -5,6 +5,7 @@
 	import Search from '$lib/components/search.svelte';
 	import Dialog from '$lib/components/dialog.svelte';
 	import Pages from '$lib/components/pages.svelte';
+	import AddCard from '$lib/components/addCard.svelte';
 
 	let { data, form } = $props();
 
@@ -53,6 +54,7 @@
 	{#each websites as website}
 		<Card {website} {overzicht} {params} {principes} isUrl={true} />
 	{/each}
+	<AddCard />
 </section>
 
 <style>
