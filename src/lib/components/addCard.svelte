@@ -1,12 +1,30 @@
 <script>
+	import Dialog from '$lib/components/dialog.svelte';
 	import AddButton from '$lib/components/icons/addButton.svelte';
 </script>
 
+	const { isUrl } = $props();
 
+{#if isUrl}
+<Dialog bind:this={dialogRef} isType="addUrl"/>
 <article class="card-add">
-	<AddButton />
-	<h2>Add Partner</h2>
+	<button onclick={handleDialog} isType="addUrl">
+		<!-- two way binding in the button with the add url/partner element -->
+		<AddButton />
+	</button>
+	<h2>Add URL </h2>
 </article>
+{:else}
+<Dialog bind:this={dialogRef} isType="addPartner"/>
+<article class="card-add">
+	<button onclick={handleDialog} isType="addPartner">
+		<!-- two way binding in the button with the add url/partner element -->
+		<AddButton />
+	</button>
+	<h2>Add Partner </h2>
+</article>
+{/if}
+
 
 <style>
 
