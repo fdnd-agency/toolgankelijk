@@ -2,7 +2,6 @@
 	// open the add url or add partner
 	import Dialog from '$lib/components/dialog.svelte';
 	import AddButton from '$lib/components/icons/addButton.svelte';
-</script>
 
 	const { isUrl } = $props();
 

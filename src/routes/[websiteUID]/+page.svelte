@@ -54,7 +54,8 @@
 	{#each websites as website}
 		<Card {website} {overzicht} {params} {principes} isUrl={true} />
 	{/each}
-	<AddCard />
+		<!-- when the cards are empty use -->
+	<AddCard isType="addPartner" isUrl={true}/>
 </section>
 
 <style>

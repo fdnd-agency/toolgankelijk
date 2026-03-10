@@ -65,7 +65,7 @@
 	{#each data.websites.websites as website}
 		<Card {website} {principes} isUrl={false} />
 	{/each}
-	<AddCard />
+	<AddCard isType="addPartner" isUrl={false}/>
 </section>
 
 <a href="#main" class="btn-top" onclick={scrollToTop}>⬆</a>
@@ -126,7 +126,7 @@
 		gap: 1em;
 		list-style-type: none;
 		margin: 0 1em;
-		margin-bottom: 1em;
+
 
 			@media (max-width: 700px) {
 			grid-template-columns: 1fr;
