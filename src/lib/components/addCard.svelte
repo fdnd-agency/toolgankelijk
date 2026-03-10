@@ -26,8 +26,8 @@
 {/if}
 
 
-<style>
 
+<style>
 	.card-add {
 		width: 100%;
 		height: 100%;
@@ -46,5 +46,15 @@
 			transition-duration: 0.3s;
 			opacity: 1;
 		}
+	}
+
+	button {
+		background: none;
+		color: inherit;
+		border: none;
+		padding: 0;
+		font: inherit;
+		cursor: pointer;
+		outline: inherit;
 	}
 </style>
