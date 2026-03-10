@@ -64,8 +64,9 @@
 <section class="card-container">
 	{#each data.websites.websites as website}
 		<Card {website} {principes} isUrl={false} />
+	{:else}
+		<AddCard isType="addPartner" isUrl={false}/>
 	{/each}
-	<AddCard isType="addPartner" isUrl={false}/>
 </section>
 
 <a href="#main" class="btn-top" onclick={scrollToTop}>⬆</a>

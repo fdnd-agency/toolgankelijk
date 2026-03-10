@@ -52,10 +52,10 @@
 
 <section class="cards-container">
 	{#each websites as website}
-		<Card {website} {overzicht} {params} {principes} isUrl={true} />
+		<Card {website} {principes} isUrl={true} />
+	{:else}
+		<AddCard isType="addUrl" isUrl={true}/>
 	{/each}
-		<!-- when the cards are empty use -->
-	<AddCard isType="addPartner" isUrl={true}/>
 </section>
 
 <style>
