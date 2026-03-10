@@ -428,12 +428,14 @@
 		text-decoration: none;
 		width: 8em;
 		height: 2em;
-		filter: drop-shadow(var(--color-neutral-black) 2px 2px 4px);
 
 		&:hover {
 			transition-duration: 0.2s;
 			background-color: var(--light-3);
 			color: var(--color-neutral-black);
+			filter: drop-shadow(var(--color-neutral-black) 2px 2px 4px);
+			-webkit-box-shadow: var(--color-neutral-black) 2px 1px 5px;
+			-moz-box-shadow: var(--color-neutral-black) 2px 1px 5px;
 		}
 
 		@media (max-width: 720px) {

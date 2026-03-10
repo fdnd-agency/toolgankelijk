@@ -438,7 +438,15 @@
 		border: 1px var(--color-neutral-black) solid;
 		color: var(--color-neutral-black);
 		background-color: var(--dark-3);
-		filter: drop-shadow(var(--color-neutral-black) 2px 2px 4px);
+
+		&:hover {
+			transition-duration: 0.2s;
+			background-color: var(--light-3);
+			color: var(--color-neutral-black);
+			filter: drop-shadow(var(--color-neutral-black) 2px 1px 5px);
+			-webkit-box-shadow: var(--color-neutral-black) 2px 1px 5px;
+			-moz-box-shadow: var(--color-neutral-black) 2px 1px 5px;
+		}
 	}
 
 	.form-textfields {
@@ -498,6 +506,13 @@
 		align-items: center;
 		height: 48px;
 		font-size: 16px;
+
+		&:hover {
+			transition-duration: 0.2s;
+			background-color: var(--light-3);
+			color: var(--color-neutral-black);
+			filter: drop-shadow(var(--color-neutral-black) 2px 2px 4px);
+		}
 
 		@media (max-width: 720px) {
 			height: 32px;

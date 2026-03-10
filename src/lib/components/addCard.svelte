@@ -64,5 +64,13 @@
 		font: inherit;
 		cursor: pointer;
 		outline: inherit;
+		overflow:visible;
+
+		&:hover {
+			transition-duration: 0.3s;
+			filter: drop-shadow(var(--color-neutral-black) 2px 2px 2px);
+			-webkit-box-shadow: var(--color-neutral-black) 2px 1px 5px;
+			-moz-box-shadow: var(--color-neutral-black) 2px 1px 5px;
+		}
 	}
 </style>
