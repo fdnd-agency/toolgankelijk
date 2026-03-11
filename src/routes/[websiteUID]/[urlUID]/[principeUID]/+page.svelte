@@ -1,5 +1,5 @@
 <script>
-	import Heading from '$lib/components/heading.svelte';
+	import Heading from '$lib/components/templates/heading.svelte';
 	import Checklist from '$lib/components/checklist.svelte';
 	import Sidebar from '$lib/components/sidebar.svelte';
 

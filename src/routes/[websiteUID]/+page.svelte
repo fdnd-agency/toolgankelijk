@@ -1,7 +1,7 @@
 <script>
 	import { page } from '$app/stores';
-	import Heading from '$lib/components/heading.svelte';
-	import Card from '$lib/components/card.svelte';
+	import Heading from '$lib/components/templates/heading.svelte';
+	import Card from '$lib/components/templates/card.svelte';
 	import Search from '$lib/components/search.svelte';
 	import Dialog from '$lib/components/dialog.svelte';
 	import Pages from '$lib/components/pages.svelte';

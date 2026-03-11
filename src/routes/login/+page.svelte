@@ -13,8 +13,9 @@
 		<fieldset class="form-login">
 			<legend>Login</legend>
 			<p>
+				
+				<input id="email" type="email" name="email" placeholder="Email" required/>
 				<label for="email">Email</label>
-				<input id="email" type="email" name="email" placeholder="Email" required />
 				<span></span>
 			</p>
 			<p>

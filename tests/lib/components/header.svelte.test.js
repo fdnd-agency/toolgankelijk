@@ -1,7 +1,7 @@
 import { describe, expect } from 'vitest';
 import { render, screen } from '@testing-library/svelte';
 import { fireEvent } from '@testing-library/svelte';
-import Header from '$lib/components/header.svelte';
+import Header from '$lib/components/templates/header.svelte';
 
 describe('/header.svelte', () => {
 	it('switches logo correctly between dark and light mode', async () => {

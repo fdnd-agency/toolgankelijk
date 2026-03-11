@@ -11,7 +11,7 @@
 		<label for="url" class="url-label">Pagina url</label>
 		<input id="url" name="url" required type="url" />
 		<input id="slug" name="slug" type="name" value={params} />
-		<button class="add-button">Toevoegen</button>
+		<button class="add-button">Nee</button>
 	</form>
 </section>
 
