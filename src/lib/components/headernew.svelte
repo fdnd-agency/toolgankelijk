@@ -6,6 +6,7 @@
 	import LogoLightDesktop from '$lib/components/LogoLightDesktop.svelte';
 	import loginIcon from '$lib/components/loginIcon.svelte';
 	import SignoutButton from '$lib/components/SignoutButton.svelte';
+	import CloseMenu from '$lib/components/CloseMenu.svelte';
 
 	/**
 	 * @typedef {Object} Props
@@ -29,7 +30,7 @@
 			<LogoLightMobile />
         </a>
 
-        <nav>
+        <nav id="main-nav">
             <ul>
 				{#if user && user.isEmailGeverifieerd}
 					<li>
@@ -51,6 +52,7 @@
             </ul>
         </nav>
         <Hamburger />
+		<CloseMenu />
     </div>
 </header>
 
@@ -64,11 +66,10 @@
 
         .header-wrapper {
             display: grid;
-            grid-template-columns: 3fr 4fr 3fr;
-            grid-template-rows: 1fr;
-            justify-items: right;
-            align-items: center;
-            margin: 0 1.25rem;
+        	grid-template-columns: 1fr auto;
+			min-height: 2.5rem;
+        	align-items: center;
+        	margin: 0 1.25rem;
 
             .logo {
 				display: flex;
@@ -90,24 +91,56 @@
 			}
 
             nav {
-                display: none;
-				grid-column: 2;
+                display: none; 
+        		position: fixed;
+        		top: 0;
+        		right: 0;
+        		width: 50%;
+        		height: 100vh;
+        		background: var(--color-neutral-white, white);
+        		z-index: 10;
+        		padding: 5rem 1rem;
+        		box-shadow: -10px 0 30px rgba(0,0,0,0.1);
 
 				ul {
 					display: flex;
-					gap: 1.5rem;
-					justify-content: center;
-					align-items: center;
-					list-style-type: none;
+        			flex-direction: column;
+        			gap: 2rem;
+        			list-style: none;
+        			padding: 0;
+        			margin: 0;
 				}
 
 				@media(min-width: 1260px) {
 					display: flex;
+					grid-column: 2;
 				}
             }
 
+			nav:target {
+            	display: flex;
+				flex-direction: column;
+				justify-content: center;
+			}
+
 			@media(min-width: 1260px) {
-				grid-template-columns: 3fr 7fr;
+				grid-template-columns: 300px 1fr;
+
+				nav {
+            		display: flex !important;
+            		position: static;
+            		width: auto;
+            		height: auto;
+            		background: transparent;
+            		padding: 0;
+            		box-shadow: none;
+            		justify-content: flex-end;
+
+					ul {
+						flex-direction: row;
+						gap: 1.5rem;
+					}
+        		}
 			}
         }
 
@@ -117,10 +150,20 @@
             aspect-ratio: 21.833;
             min-width: 450px;
             width: 100%;
+			z-index: 20;
             height: clamp(1.5rem, 5vw, 5rem);
 			/* The pink line */
             clip-path: shape(from 28.24% 100%,hline to 0%,vline to 94.74%,hline to 28.24%,curve to 37.66% 0% with 32.44% 94.74%/32.44% 0%,hline to 100%,vline to 5.26%,hline to 37.66%,curve to 28.24% 100% with 32.44% 5.26%/32.44% 100%,close);            
 			background-color: var(--color-primary);
         }
+	}
+
+	.header-wrapper:has(#main-nav:target) {
+    	:global(.hamburger-link) {
+			display: none;
+		} 
+		:global(.close-menu) {
+			display: block;
+		}
 	}
 </style>
