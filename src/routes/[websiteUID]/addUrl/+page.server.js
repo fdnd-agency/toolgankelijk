@@ -1,9 +1,8 @@
 import { gql } from 'graphql-request';
 import { directus } from '$lib/utils/directus.js';
 import { redirect } from '@sveltejs/kit';
-import getQueryAddUrl from '$lib/queries/addUrl';
-import getQueryWebsite from '$lib/queries/website';
-import createEmptyCheck from '$lib/queries/addEmptyCheck';
+import { getQueryWebsite } from '$lib/queries/partner';
+import { getQueryAddUrl, createEmptyCheck } from '$lib/queries/url';
 
 export async function load({ params, locals }) {
 	const { websiteUID } = params;

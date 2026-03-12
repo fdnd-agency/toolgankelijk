@@ -1,9 +1,10 @@
 import { gql } from 'graphql-request';
 import { directus } from '$lib/utils/directus.js';
-import getQueryUpdatePartner from '$lib/queries/updatePartner';
-import getQueryUpdatePartnerUrls from '$lib/queries/updateUrlsPartner';
-import createEmptyCheck from '$lib/queries/addEmptyCheck';
-import firstCheck from '$lib/queries/firstCheck';
+import {
+	getQueryUpdatePartner,
+	getQueryUpdatePartnerUrls
+} from '$lib/queries/partner';
+import { createEmptyCheck, getQueryFirstCheck } from '$lib/queries/url';
 import {
 	formatUrl,
 	getSitemapPromises,
@@ -80,7 +81,7 @@ export async function POST({ request }) {
 							const path = new URL(url).pathname;
 							const urlSlug = (slug + path).replace(/\//g, '-');
 							// Check if a check already exists for this urlSlug
-							const getCheckIdQuery = firstCheck(gql, slug, urlSlug);
+							const getCheckIdQuery = getQueryFirstCheck(gql, slug, urlSlug);
 							const getCheckIdResponse = await directus.request(getCheckIdQuery);
 							const checks = getCheckIdResponse.website?.urls?.[0]?.checks;
 							if (!checks || checks.length === 0) {

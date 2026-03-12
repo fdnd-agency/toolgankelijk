@@ -1,9 +1,7 @@
 import { gql } from 'graphql-request';
 import { directus } from '$lib/utils/directus.js';
-import getQueryDeletePartner from '$lib/queries/deletePartner';
-import getQueryDeleteUrl from '$lib/queries/deleteUrl';
-import getQueryPartnerUrls from '$lib/queries/partnerUrls';
-import getQueryDeleteChecks from '$lib/queries/deleteChecks';
+import { getQueryDeletePartner, getQueryUrlsByPartnerId } from '$lib/queries/partner';
+import { getQueryDeleteUrl, getQueryDeleteChecks } from '$lib/queries/url';
 
 // Delay helper
 function delay(ms) {
@@ -40,8 +38,8 @@ export async function POST({ request }) {
 					let skip = 0;
 					const batchSize = 100;
 					while (true) {
-						let queryPartnerUrls = getQueryPartnerUrls(gql, id, skip, batchSize);
-						const { urls } = await directus.request(queryPartnerUrls);
+						let queryPartnerUrls = getQueryUrlsByPartnerId(gql, id, skip, batchSize);
+						const { toolgankelijk_url: urls } = await directus.request(queryPartnerUrls);
 						if (!urls || urls.length === 0) break;
 						allUrls.push(...urls);
 						skip += batchSize;

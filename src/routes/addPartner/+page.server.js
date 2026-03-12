@@ -1,7 +1,7 @@
 import { gql } from 'graphql-request';
 import { directus } from '$lib/utils/directus.js';
 import { redirect } from '@sveltejs/kit';
-import getQueryAddPartner from '$lib/queries/addPartner';
+import { getQueryAddPartner } from '$lib/queries/partner';
 
 export async function load({ locals }) {
 	if (!locals?.session || !locals?.user) {

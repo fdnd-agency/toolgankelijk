@@ -1,7 +1,6 @@
 import { gql } from 'graphql-request';
 import { directus } from '$lib/utils/directus.js';
-import getQueryDeleteUrl from '$lib/queries/deleteUrl';
-import getQueryDeleteChecks from '$lib/queries/deleteChecks';
+import { getQueryDeleteUrl, getQueryDeleteChecks } from '$lib/queries/url';
 
 // Delay helper
 function delay(ms) {

@@ -1,7 +1,6 @@
 import { gql } from 'graphql-request';
 import { directus } from '$lib/utils/directus.js';
-import getQueryAddUrl from '$lib/queries/addUrl';
-import createEmptyCheck from '$lib/queries/addEmptyCheck';
+import { getQueryAddUrl, createEmptyCheck } from '$lib/queries/url';
 
 // Delay helper
 function delay(ms) {

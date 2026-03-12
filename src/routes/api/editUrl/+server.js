@@ -1,6 +1,6 @@
 import { gql } from 'graphql-request';
 import { directus } from '$lib/utils/directus.js';
-import getQueryUpdateUrl from '$lib/queries/updateUrl';
+import { getQueryUpdateUrl } from '$lib/queries/url';
 
 // Delay helper
 function delay(ms) {

@@ -10,12 +10,12 @@
 
 	let skip = $derived(data.skip);
 	const first = $derived(data.first);
-	let totalUrls = $derived(data.websites.websitesConnection.aggregate.count);
+	let totalUrls = $derived(data.totalWebsites);
 	const currentPage = $derived(skip / first + 1);
 	let showRegistrationSuccess = $derived(data.showRegistrationSuccess);
 	let heading = { titel: 'Partners overzicht' };
 	let dialogRef = $state();
-	const principes = $derived(data.websites.principes);
+	const principes = $derived(data.principes);
 
 	function handleDialog() {
 		dialogRef.open();
@@ -59,7 +59,7 @@
 <Dialog bind:this={dialogRef} isUrl={false} isType="addPartner" />
 
 <ul>
-	{#each data.websites.websites as website}
+	{#each data.websites as website}
 		<Partner {website} {principes} isUrl={false} />
 	{/each}
 </ul>

@@ -4,8 +4,7 @@ import axios from 'axios';
 import { parseHTML } from 'linkedom';
 import { gql } from 'graphql-request';
 import { directus } from '$lib/utils/directus.js';
-import getQueryUrl from '$lib/queries/url';
-import getQueryAddUrl from '$lib/queries/addUrl';
+import getQueryUrl, { getQueryAddUrl } from '$lib/queries/url';
 
 export function isValidUrl(url) {
 	return !url.includes('/document') && !url.includes('/documents');
