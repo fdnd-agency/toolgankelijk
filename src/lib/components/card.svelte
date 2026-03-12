@@ -126,7 +126,6 @@
 
 {#if add}
 	{#if isUrl}
-	<Dialog bind:this={dialogRef} isType="addUrl"/>
 		<article class="card-add">
 			<button onclick={handleDialog} isType="addUrl" class="add-button">
 				<!-- two way binding in the button with the add url/partner element -->
@@ -135,7 +134,6 @@
 			<h2>Add URL </h2>
 		</article>
 	{:else}
-	<Dialog bind:this={dialogRef} isType="addPartner"/>
 		<article class="card-add">
 			<button onclick={handleDialog} isType="addPartner" class="add-button">
 				<!-- two way binding in the button with the add url/partner element -->
@@ -253,7 +251,8 @@
 
 {/if}
 
-
+<Dialog bind:this={dialogRef} isType="addUrl"/>
+<Dialog bind:this={dialogRef} isType="addPartner"/>
 <Dialog
 	bind:this={dialogRefEdit}
 	isType={editType}
