@@ -11,7 +11,7 @@ export async function load({ params, locals }) {
 	const queryPrincipes = getQueryPrincipes(gql);
 
 	return {
-		gebruiker: locals.gebruiker,
+		gebruiker: locals.user,
 		partnersData: await hygraph.request(queryPartner),
 		websitesData: await hygraph.request(queryWebsite),
 		principesData: await hygraph.request(queryPrincipes)

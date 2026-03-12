@@ -1,16 +1,16 @@
 import { gql } from 'graphql-request';
 import { hygraph } from '$lib/utils/hygraph.js';
-import { redirect } from '@sveltejs/kit';
+import { redirect, error } from '@sveltejs/kit';
 import getQueryUrl from '$lib/queries/url';
 import getQueryPrincipes from '$lib/queries/principes';
 import getQueryNiveaus from '$lib/queries/niveaus';
 
 export const load = async ({ params, locals }) => {
 	const { websiteUID, urlUID } = params;
-	if (!locals?.sessie || !locals?.gebruiker) {
+	if (!locals?.session || !locals?.user) {
 		throw redirect(302, '/login');
 	}
-	if (!locals.gebruiker.isEmailGeverifieerd) {
+	if (!locals.user.isEmailGeverifieerd) {
 		throw redirect(302, '/verify-email');
 	}
 
@@ -27,10 +27,7 @@ export const load = async ({ params, locals }) => {
 			urlData,
 			niveauData
 		};
-	throw (
-		(404,
-		{
-			message: 'Not found'
-		})
-	);
+	throw error(404, {
+		message: 'Not found'
+	});
 };

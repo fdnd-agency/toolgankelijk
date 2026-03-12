@@ -3,12 +3,14 @@
 	import { enhance } from '$app/forms';
 	import loadingIcon from '$lib/assets/loading.svg';
 
-	export let richtlijnen;
-	export let toolboardData;
-	export let niveaus;
-	export let selectedNiveau = niveaus[0].niveau;
+	let {
+		richtlijnen,
+		toolboardData,
+		niveaus,
+		selectedNiveau = $bindable(niveaus[0].niveau)
+	} = $props();
 
-	let loading = false;
+	let loading = $state(false);
 
 	const getSuccescriteriaByNiveau = (niveau) =>
 		toolboardData.url.checks[0]
@@ -22,11 +24,11 @@
 		filteredSuccescriteria = getSuccescriteriaByNiveau(selectedNiveau);
 	};
 
-	let simpleTranslation = true;
+	let simpleTranslation = $state(true);
 
-	const checkedSuccescriteria = toolboardData.url.checks[0]
-		? toolboardData.url.checks[0].succescriteria
-		: [];
+	const checkedSuccescriteria = $derived(
+		toolboardData.url.checks[0] ? toolboardData.url.checks[0].succescriteria : []
+	);
 
 	function scrollToTop(event) {
 		const mainElement = document.getElementById('main');
@@ -57,7 +59,7 @@
 	<div id="niveau-toggle" class="disabled">
 		<label>
 			<p>Selecteer niveau</p>
-			<select bind:value={selectedNiveau} on:change={handleNiveauChange}>
+			<select bind:value={selectedNiveau} onchange={handleNiveauChange}>
 				{#each niveaus as niveau}
 					<option value={niveau.niveau}>Niveau {niveau.niveau}</option>
 				{/each}
@@ -104,7 +106,7 @@
 											<button
 												type="button"
 												class="btn-vertaling"
-												on:click={(event) => translate(event, succescriterium.index)}
+												onclick={(event) => translate(event, succescriterium.index)}
 											>
 												{simpleTranslation ? 'Officiële beschrijving' : 'Simpele beschrijving'}
 											</button>
@@ -146,13 +148,13 @@
 		{:else}
 			<div class="form-btn">
 				<button type="submit" class="submit"> Opslaan </button>
-				<a href="#main" class="btn-top" on:click={scrollToTop}>⬆</a>
+				<a href="#main" class="btn-top" onclick={scrollToTop}>⬆</a>
 			</div>
 		{/if}
 	</form>
 </section>
 
-<div class="changed" />
+<div class="changed"></div>
 
 <style>
 	.richtlijn-criteria-2 {

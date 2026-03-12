@@ -1,5 +1,5 @@
 <div>
-	<progress id="progress-partner" max="100" value="35" />
+	<progress id="progress-partner" max="100" value="35"></progress>
 	<label for="progress-partner">8/25</label>
 </div>
 

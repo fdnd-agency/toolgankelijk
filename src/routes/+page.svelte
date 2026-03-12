@@ -2,22 +2,20 @@
 	import { invalidateAll } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import Heading from '$lib/components/heading.svelte';
-	import Partner from '$lib/components/partner.svelte';
+	import Card from '$lib/components/card.svelte';
 	import Search from '$lib/components/search.svelte';
-	import AddForm from '$lib/components/addForm.svelte';
+	import Dialog from '$lib/components/dialog.svelte';
 	import Pages from '$lib/components/pages.svelte';
+	let { data, form } = $props();
 
-	export let data;
-	export let form;
-
-	let skip = data.skip;
-	const first = data.first;
-	let totalUrls = data.websites.totalUrls;
-	const currentPage = skip / first + 1;
-	let showRegistrationSuccess = data.showRegistrationSuccess;
+	let skip = $derived(data.skip);
+	const first = $derived(data.first);
+	let totalUrls = $derived(data.websites.websitesConnection.aggregate.count);
+	const currentPage = $derived(skip / first + 1);
+	let showRegistrationSuccess = $derived(data.showRegistrationSuccess);
 	let heading = { titel: 'Partners overzicht' };
-	let dialogRef;
-	const principes = data.websites.principes;
+	let dialogRef = $state();
+	const principes = $derived(data.websites.principes);
 
 	function handleDialog() {
 		dialogRef.open();
@@ -25,7 +23,7 @@
 
 	function scrollToTop(event) {
 		event.preventDefault();
-		const mainElement = document.getElementById('main');
+		const mainElement = document.getElementById('heading');
 		mainElement.scrollIntoView({ behavior: 'smooth' });
 	}
 
@@ -37,10 +35,11 @@
 	});
 </script>
 
+
 <Heading {heading} />
 
 <section>
-	<button class="add-partner" on:click={handleDialog}>Partner toevoegen</button>
+	<button class="add-partner" onclick={handleDialog}>Partner toevoegen</button>
 	<Search placeholderProp="Gvb" />
 </section>
 
@@ -58,15 +57,15 @@
 	<div class="toast error"><p>{form?.message}</p></div>
 {/if}
 
-<AddForm bind:this={dialogRef} isUrl={false} isType="addPartner" />
+<Dialog bind:this={dialogRef} isUrl={false} isType="addPartner" />
 
-<ul>
+<section class="card-container">
 	{#each data.websites.websites as website}
-		<Partner {website} {principes} isUrl={false} />
+		<Card {website} {principes} isUrl={false} />
 	{/each}
-</ul>
+</section>
 
-<a href="#main" class="btn-top" on:click={scrollToTop}>⬆</a>
+<a href="#main" class="btn-top" onclick={scrollToTop}>⬆</a>
 
 <style>
 	section {
@@ -85,8 +84,8 @@
 		align-items: center;
 		border-radius: 0.25em;
 		padding: 0.5em 1em;
-		color: var(--c-white2);
-		background-color: var(--c-modal-button);
+		color: var(--c-white);
+		background-color: var(--c-container);
 		border: none;
 		font-weight: 600;
 		font-size: 1em;
@@ -118,13 +117,17 @@
 		filter: saturate(1.2);
 	}
 
-	ul {
+	.card-container {
 		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(20em, 1fr));
+		grid-template-columns: 1fr 1fr;
 		gap: 1em;
 		list-style-type: none;
 		margin: 0 1em;
 		margin-bottom: 1em;
+
+			@media (max-width: 700px) {
+			grid-template-columns: 1fr;
+		}
 	}
 
 	.toast {

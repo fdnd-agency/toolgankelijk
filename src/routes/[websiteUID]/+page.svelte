@@ -1,29 +1,27 @@
 <script>
 	import { page } from '$app/stores';
 	import Heading from '$lib/components/heading.svelte';
-	import Partner from '$lib/components/partner.svelte';
+	import Card from '$lib/components/card.svelte';
 	import Search from '$lib/components/search.svelte';
-	import AddForm from '$lib/components/addForm.svelte';
+	import Dialog from '$lib/components/dialog.svelte';
 	import Pages from '$lib/components/pages.svelte';
 
-	export let data;
-	export let form;
+	let { data, form } = $props();
 
-	let skip = data.skip;
-	const first = data.first;
-	let totalUrls = data.websites.website.totalUrls;
-	const currentPage = skip / first + 1;
-
-	$: heading = {
+	let skip = $derived(data.skip);
+	const first = $derived(data.first);
+	let totalUrls = $derived(data.websites.urlsConnection.aggregate.count);
+	const currentPage = $derived(skip / first + 1);
+	let heading = $derived({
 		titel: data.websites.website.titel,
 		homepage: data.websites.website.homepage
-	};
-	$: websites = data.websites.website.urls;
-	$: overzicht = data.websites.website;
-	$: params = $page.params.websiteUID;
+	});
+	let websites = $derived(data.websites.website.urls);
+	let overzicht = $derived(data.websites.website);
+	let params = $derived($page.params.websiteUID);
 
-	let dialogRef;
-	const principes = data.websites.principes;
+	let dialogRef = $state();
+	const principes = $derived(data.websites.principes);
 
 	function handleDialog() {
 		dialogRef.open();
@@ -33,12 +31,14 @@
 <Heading {heading} />
 
 <section>
-	<button class="add-partner" on:click={handleDialog}>Url toevoegen</button>
+	<button class="add-partner" onclick={handleDialog}>Url toevoegen</button>
 	<Search placeholderProp="Home" />
 </section>
 
 {#if totalUrls > first}
+<section>
 	<Pages amount={totalUrls} perPage={first} {currentPage} />
+</section>
 {/if}
 
 {#if form?.success}
@@ -47,13 +47,13 @@
 	<div class="toast"><p>{form?.message}</p></div>
 {/if}
 
-<AddForm bind:this={dialogRef} {params} isType="addUrl" />
+<Dialog bind:this={dialogRef} {params} isType="addUrl" />
 
-<ul>
+<section class="cards-container">
 	{#each websites as website}
-		<Partner {website} {overzicht} {params} {principes} isUrl={true} />
+		<Card {website} {overzicht} {params} {principes} isUrl={true} />
 	{/each}
-</ul>
+</section>
 
 <style>
 	section {
@@ -82,12 +82,16 @@
 		background-color: var(--c-pink);
 	}
 
-	ul {
+	.cards-container {
 		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(20em, 1fr));
+		grid-template-columns: 1fr 1fr;
 		gap: 1em;
 		list-style-type: none;
 		margin: 0 1em;
+
+		@media (max-width: 720px) {
+			grid-template-columns: 1fr;
+		}
 	}
 
 	.toast {

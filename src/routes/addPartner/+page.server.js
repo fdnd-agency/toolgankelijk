@@ -4,10 +4,10 @@ import { redirect } from '@sveltejs/kit';
 import getQueryAddPartner from '$lib/queries/addPartner';
 
 export async function load({ locals }) {
-	if (!locals?.sessie || !locals?.gebruiker) {
+	if (!locals?.session || !locals?.user) {
 		throw redirect(302, '/login');
 	}
-	if (!locals.gebruiker.isEmailGeverifieerd) {
+	if (!locals.user.isEmailGeverifieerd) {
 		throw redirect(302, '/verify-email');
 	}
 	return {};

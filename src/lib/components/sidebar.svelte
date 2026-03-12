@@ -1,6 +1,5 @@
 <script>
-	export let principes;
-	export let urlData;
+	let { principes, urlData } = $props();
 
 	let baseUrl = `/${urlData.url.website.slug}/${urlData.url.slug}`;
 
@@ -46,14 +45,14 @@
 								id="progress-partner-{niveau}"
 								max={getProgress(principe, niveau).total || 1}
 								value={getProgress(principe, niveau).behaald || 0}
-							/>
+							></progress>
 							<label class="progress-percentage" for="progress-partner-{niveau}">
 								{getProgress(principe, niveau).total
 									? Math.round(
 											(getProgress(principe, niveau).behaald /
 												getProgress(principe, niveau).total) *
 												100
-									  )
+										)
 									: 0}%
 							</label>
 						</div>

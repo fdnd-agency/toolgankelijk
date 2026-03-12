@@ -11,19 +11,19 @@ import { setUserEmailAsVerified } from '$lib/server/user';
 
 export async function load(event) {
 	// Controleer of de gebruiker is ingelogd
-	if (event.locals.gebruiker === null) {
+	if (event.locals.user === null) {
 		throw redirect(302, '/login');
 	}
 
 	// Controleer of de gebruiker zijn e-mail al heeft geverifieerd
-	if (event.locals.gebruiker.isEmailGeverifieerd) {
+	if (event.locals.user.isEmailGeverifieerd) {
 		throw redirect(302, '/');
 	}
 
 	// Controleer of er een lopend e-mailverificatieverzoek is
 	let verificationRequest = await getUserEmailVerificationRequestFromRequest(event);
 	if (verificationRequest === null || Date.now() >= verificationRequest.expiresAt.getTime()) {
-		verificationRequest = await createEmailVerificationRequest(event.locals.gebruiker.id);
+		verificationRequest = await createEmailVerificationRequest(event.locals.user.id);
 
 		// Stuur een nieuwe verificatie-e-mail als het verzoek nieuw of verlopen is
 		sendVerificationEmail(verificationRequest.email, verificationRequest.code);
@@ -48,7 +48,7 @@ function delay(ms) {
 // Deze functie handelt de verificatie van de door de gebruiker ingevoerde code af
 async function verifyCode(event) {
 	// Controleer of de gebruiker is ingelogd
-	if (event.locals.sessie === null || event.locals.gebruiker === null) {
+	if (event.locals.session === null || event.locals.user === null) {
 		return fail(401, {
 			verify: {
 				message: 'Niet geauthenticeerd'
@@ -86,7 +86,7 @@ async function verifyCode(event) {
 
 	// Controleer of de code correct is en niet verlopen
 	if (Date.now() >= verificationRequest.expiresAt.getTime()) {
-		verificationRequest = await createEmailVerificationRequest(event.locals.gebruiker.id);
+		verificationRequest = await createEmailVerificationRequest(event.locals.user.id);
 		sendVerificationEmail(verificationRequest.email, verificationRequest.code);
 		return {
 			verify: {
@@ -105,8 +105,8 @@ async function verifyCode(event) {
 	}
 
 	// Als de code correct is, markeer het e-mailadres als geverifieerd en verwijder het verzoek en de cookie
-	await deleteUserEmailVerificationRequest(event.locals.gebruiker.id);
-	await setUserEmailAsVerified(event.locals.gebruiker.id, verificationRequest.email);
+	await deleteUserEmailVerificationRequest(event.locals.user.id);
+	await setUserEmailAsVerified(event.locals.user.id, verificationRequest.email);
 	deleteEmailVerificationRequestCookie(event);
 
 	await delay(500);
@@ -122,7 +122,7 @@ async function verifyCode(event) {
 
 async function resendEmail(event) {
 	// Controleer of de gebruiker is ingelogd
-	if (event.locals.sessie === null || event.locals.gebruiker === null) {
+	if (event.locals.session === null || event.locals.user === null) {
 		return fail(401, {
 			resend: {
 				message: 'Niet geauthenticeerd'
@@ -133,16 +133,16 @@ async function resendEmail(event) {
 	// Controleer of de gebruiker zijn e-mail al heeft geverifieerd
 	let verificationRequest = await getUserEmailVerificationRequestFromRequest(event);
 	if (verificationRequest === null) {
-		if (event.locals.gebruiker.isEmailGeverifieerd) {
+		if (event.locals.user.isEmailGeverifieerd) {
 			return fail(403, {
 				resend: {
 					message: 'Niet toegestaan'
 				}
 			});
 		}
-		verificationRequest = await createEmailVerificationRequest(event.locals.gebruiker.id);
+		verificationRequest = await createEmailVerificationRequest(event.locals.user.id);
 	} else {
-		verificationRequest = await createEmailVerificationRequest(event.locals.gebruiker.id);
+		verificationRequest = await createEmailVerificationRequest(event.locals.user.id);
 	}
 
 	// Stuur een nieuwe verificatie-e-mail en zet de cookie

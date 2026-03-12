@@ -1,5 +1,5 @@
 <script>
-	export let heading;
+	let { heading } = $props();
 
 	const faviconAPI =
 		'https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=';

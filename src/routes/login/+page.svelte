@@ -1,7 +1,7 @@
 <script>
 	import { enhance } from '$app/forms';
 
-	export let form;
+	let { form } = $props();
 </script>
 
 <svelte:head>
@@ -15,7 +15,7 @@
 			<p>
 				<label for="email">Email</label>
 				<input id="email" type="email" name="email" placeholder="Email" required />
-				<span />
+				<span></span>
 			</p>
 			<p>
 				<label for="password">Password</label>
@@ -28,7 +28,7 @@
 					autocomplete="off"
 					required
 				/>
-				<span />
+				<span></span>
 			</p>
 			<button type="submit" class="form-submit">Sign in</button>
 

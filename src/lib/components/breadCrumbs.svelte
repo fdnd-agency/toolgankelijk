@@ -1,16 +1,13 @@
 <script>
-	export let params;
-	export let partners;
-	export let websites;
-	export let principes;
+	let { params, partners, websites, principes } = $props();
 
-	$: selectedPartner = params.websiteUID
-		? partners.websites.find(({ slug }) => slug === params.websiteUID)
-		: '';
-	$: selectedUrl = params.urlUID ? params.urlUID : '';
-	$: selectedPrincipe = params.principeUID
-		? principes.find(({ slug }) => slug === params.principeUID)
-		: '';
+	let selectedPartner = $derived(
+		params.websiteUID ? partners.websites.find(({ slug }) => slug === params.websiteUID) : ''
+	);
+	let selectedUrl = $derived(params.urlUID ? params.urlUID : '');
+	let selectedPrincipe = $derived(
+		params.principeUID ? principes.find(({ slug }) => slug === params.principeUID) : ''
+	);
 
 	const faviconAPI =
 		'https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=';
@@ -202,7 +199,7 @@
 		text-decoration: none;
 	}
 
-	ul:has(a:focus) {
+	ul:has(:global(a:focus)) {
 		max-height: min-content;
 		min-width: max-content;
 		transform: translateY(0);
@@ -224,7 +221,7 @@
 		border-radius: 0.5em 0.5em 0 0;
 	}
 
-	button:has(a:focus) {
+	button:has(:global(a:focus)) {
 		background-color: var(--c-container);
 		border-radius: 0.5em 0.5em 0 0;
 	}

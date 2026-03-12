@@ -2,7 +2,7 @@
 	import { page } from '$app/stores';
 	import UrlForm from '$lib/components/urlForm.svelte';
 
-	export let form;
+	let { form } = $props();
 
 	const params = $page.params.websiteUID;
 </script>
