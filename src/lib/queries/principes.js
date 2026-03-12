@@ -1,22 +1,23 @@
 export default function getQueryPrincipes(gql) {
 	return gql`
-		query Principes {
-			principes {
-				beschrijving {
-					text
-				}
-				titel
+		query Principles {
+			toolgankelijk_principle {
+				id
+				description
+				title
 				slug
 				index
-				checklistItems {
-					check
-				}
-				richtlijnen {
+				checklist_items {
 					id
-					titel
-					succescriteria {
+					check
+					question
+					explanation
+					tip
+				}
+				Guidelines {
+					id
+					toolgankelijk_guideline_id {
 						id
-						niveau
 					}
 				}
 			}

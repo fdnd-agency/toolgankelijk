@@ -1,74 +1,58 @@
 export default function getQueryToolboard(gql, slugUrl, principeSlug) {
 	return gql`
-    query Toolboard {
-        url(where: {slug: "${slugUrl}"}) {
-          id
-          url
-          slug
-          checks(first: 1) {
-            succescriteria(first: 100) {
-              id
-              index
-              niveau
-            }
-          }
-        }
-        principe(where: {slug: "${principeSlug}"}) {
-          titel
-          beschrijving {
-            html
-          }
-          richtlijnen {
-            titel
-            succescriteria(first: 200) {
-              id
-              titel
-              index
-              niveau
-              makkelijkeCriteria {
-                html
-              }
-              criteria {
-                html
-              }
-            }
-            index
-            slug
-            uitleg {
-              html
-            }
-          }
-          checklistItems {
-            check
-          }
-          index
-        }
-        principes {
-          titel
-          id
-          checklistItems {
-            check
-          }
-          richtlijnen {
-            titel
-            succescriteria(first: 200) {
-              id
-              titel
-              index
-              niveau
-              criteria {
-                text
-              }
-            }
-            index
-            slug
-            uitleg {
-              html
-            }
-          }
-          index
-          slug
-        }
-      }
-      `;
+		query Toolboard {
+			url: toolgankelijk_url(filter: { slug: { _eq: "${slugUrl}" } }, limit: 1) {
+				id
+				url
+				slug
+				checks {
+					id
+					success_criteria {
+						id
+					}
+				}
+			}
+
+			principe: toolgankelijk_principle(filter: { slug: { _eq: "${principeSlug}" } }, limit: 1) {
+				id
+				title
+				description
+				index
+				slug
+				checklist_items {
+					id
+					check
+					question
+					explanation
+					tip
+				}
+				Guidelines {
+					id
+					toolgankelijk_guideline_id {
+						id
+					}
+				}
+			}
+
+			principes: toolgankelijk_principle {
+				id
+				title
+				index
+				slug
+				checklist_items {
+					id
+					check
+					question
+					explanation
+					tip
+				}
+				Guidelines {
+					id
+					toolgankelijk_guideline_id {
+						id
+					}
+				}
+			}
+		}
+	`;
 }
