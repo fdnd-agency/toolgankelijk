@@ -4,9 +4,10 @@ import { directus } from '$lib/utils/directus.js';
 import { gql } from 'graphql-request';
 import { encodeBase32LowerCaseNoPadding, encodeHexLowerCase } from '@oslojs/encoding';
 import { sha256 } from '@oslojs/crypto/sha2';
-import getQuerySession from '$lib/queries/session';
-import getQueryDeleteSession from '$lib/queries/deleteSession';
-import getQueryUpdateSession from '$lib/queries/updateSession';
+import getQuerySession, {
+	getQueryDeleteSession,
+	getQueryUpdateSession
+} from '$lib/queries/session';
 import { DIRECTUS_URL, VITE_DIRECTUS_KEY } from '$env/static/private';
 
 // Type definitions
@@ -27,36 +28,41 @@ import { DIRECTUS_URL, VITE_DIRECTUS_KEY } from '$env/static/private';
  */
 export async function validateSessionToken(token) {
 	const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
-	const { rawSession } = await directus.request(getQuerySession(gql), { sessionId });
+	const { session: sessionResult } = await directus.request(getQuerySession(gql), { sessionId });
 
-	const sessionRow = Array.isArray(rawSession) ? rawSession[0] : rawSession;
+	const sessionRow = Array.isArray(sessionResult) ? sessionResult[0] : sessionResult;
+	const hasRequiredFields =
+		sessionRow &&
+		(sessionRow.session_id || sessionRow.id) &&
+		sessionRow.user_id?.id &&
+		sessionRow.expires_at;
 
-	if (!sessionRow) {
+	if (!hasRequiredFields) {
 		return { session: null, user: null };
 	}
 
-	/**
-	 * @type {null | Session}
-	 */
+	const sessionIdFromRow = sessionRow.session_id ?? sessionRow.id;
+	const userIdFromRow = sessionRow.user_id.id;
+	const expiresAtFromRow = sessionRow.expires_at;
+
+	/** @type {Session} */
 	let session = {
-		id: sessionRow.sessieId ?? sessionRow.session_id ?? sessionRow.id ?? null,
-		userId: (sessionRow.gebruikerId ?? sessionRow.user_id)?.id ?? null,
-		expiresAt: new Date(
-			sessionRow.expiresAt ?? sessionRow.houdbaarTot ?? sessionRow.expires_at ?? Date.now()
-		)
+		id: sessionIdFromRow,
+		userId: userIdFromRow,
+		expiresAt: new Date(expiresAtFromRow)
 	};
 
 	/**
 	 * @type {null | User}
 	 */
 	let user = null;
-	const userNode = sessionRow.gebruikerId ?? sessionRow.user_id;
+	const userNode = sessionRow.user_id;
 	if (userNode) {
 		user = {
 			id: userNode.id,
 			email: userNode.email,
-			username: userNode.gebruikersnaam ?? userNode.username,
-			isEmailVerified: userNode.isEmailGeverifieerd ?? userNode.is_email_verified ?? false
+			username: userNode.username,
+			isEmailVerified: userNode.is_email_verified ?? false
 		};
 	}
 
@@ -175,7 +181,7 @@ export async function createSession(token, userId) {
 			user_id: userId
 		})
 	});
-
+	
 	if (!response.ok) {
 		throw new Error('Failed to create session in Directus');
 	}
