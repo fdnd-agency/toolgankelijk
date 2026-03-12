@@ -1,7 +1,3 @@
-/* import font */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
-
 @media (prefers-color-scheme: dark) {
 	:root {
 		/* HSL support */
@@ -19,7 +15,6 @@ body {
 	color-scheme: light dark;
 	--color-primary: light-dark(#b9005f, #f1ccdf);
 	--color-primary-light: light-dark(#f1ccdf, #b9005f);
-	--custom-gradient: linear-gradient(45deg, #FF4D8D 0%, #B6006C 100%);
 
 	/* accent colors */
 	--color-accent-primary: light-dark(#7b8f0c, #3f4903);
@@ -98,7 +93,8 @@ body {
 	/* fallback */
 	--place-holder: oklch(50% 0.1 120);
 
-	background-color: var(--color-neutral-white);
+	/* border radius */
+	--border-radius: 12px;
 }
 
 .color-primary,
@@ -169,7 +165,7 @@ body {
 
 .lightmode {
 	--color-primary: #4f0029;
-	--color-primary-light: #3f4903;
+	--color-primary-light: #b9005f;
 
 	/* accent colors */
 	--color-accent-primary: #3f4903;
@@ -194,33 +190,38 @@ body {
 * {
 	padding: 0;
 	margin: 0;
-	font-family: 'Inter', sans-serif;
+	font-family: 'Fira Sans Regular', 'Inter', 'Montserrat', sans-serif;
 	box-sizing: border-box;
+}
+
+main {
+	margin-right: 5%;
+	margin-left: 5%;
 }
 
 /* Text styles */
 h1 {
 	font-size: 3rem;
 	font-weight: 600;
-	font-family: 'Inter', sans-serif;
+	font-family: 'Fira Sans Bold', 'Inter', 'Montserrat', sans-serif;
 }
 
 h2 {
 	font-size: 2rem;
 	font-weight: 600;
-	font-family: 'Inter', sans-serif;
+	font-family: 'Fira Sans Medium', 'Inter', 'Montserrat', sans-serif;
 }
 
 h3 {
 	font-size: 2rem;
 	font-weight: 500;
-	font-family: 'Inter', sans-serif;
+	font-family: 'Fira Sans Regular', 'Inter', 'Montserrat', sans-serif;
 }
 
 p {
 	font-size: 1rem;
 	font-weight: 400;
-	font-family: 'Inter', sans-serif;
+	font-family: 'Fira Sans Regular', 'Inter', 'Montserrat', sans-serif;
 	line-height: 141.667%;
 	letter-spacing: 0.0025rem;
 }
@@ -243,20 +244,74 @@ p {
 	display: none;
 }
 
-.sr-only {
-	clip: rect(1px, 1px, 1px, 1px);
-	height: 0;
-	overflow: hidden;
-	color: white;
-	position: absolute;
-	white-space: nowrap;
-	width: 0;
+@font-face {
+	font-family: 'Fira Sans Bold';
+	src:
+		url('./src/lib/assets/fonts/fira-sans/FiraSans-Bold.ttf') format('truetype'),
+		url('./src/lib/assets/fonts/fira-sans/FiraSans-Bold.woff') format('woff');
+	font-display: swap;
+	font-weight: 700;
+	font-style: normal;
 }
 
-.sr-only:focus {
-	clip: auto;
-	height: auto;
-	overflow: auto;
-	position: absolute;
-	width: auto;
+@font-face {
+	font-family: 'Fira Sans Medium';
+	src:
+		url('./src/lib/assets/fonts/fira-sans/FiraSans-Medium.ttf') format('truetype'),
+		url('./src/lib/assets/fonts/fira-sans/FiraSans-Medium.woff') format('woff');
+	font-display: swap;
+	font-weight: 600;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Fira Sans Regular';
+	src:
+		url('./src/lib/assets/fonts/fira-sans/FiraSans-Regular.ttf') format('truetype'),
+		url('./src/lib/assets/fonts/fira-sans/FiraSans-Regular.woff') format('woff');
+	font-display: swap;
+	font-weight: 400;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Fira Sans Light';
+	src:
+		url('./src/lib/assets/fonts/fira-sans/FiraSans-Light.ttf') format('truetype'),
+		url('./src/lib/assets/fonts/fira-sans/FiraSans-Light.woff') format('woff');
+	font-display: swap;
+	font-weight: 300;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Fira Sans Extra Light';
+	src:
+		url('./src/lib/assets/fonts/fira-sans/FiraSans-ExtraLight.ttf') format('truetype'),
+		url('./src/lib/assets/fonts/fira-sans/FiraSans-ExtraLight.woff') format('woff');
+	font-display: swap;
+	font-weight: 200;
+	font-style: normal;
+}
+
+/* montserrat */
+
+@font-face {
+	font-family: 'Montserrat';
+	src:
+		url('./src/lib/assets/fonts/montserrat/static/Montserrat-Regular.ttf') format('truetype'),
+		url('./src/lib/assets/fonts/montserrat/static/Montserrat-Regular.woff') format('woff');
+	font-display: swap;
+	font-weight: 400;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Inter';
+	src:
+		url('./src/lib/assets/fonts/inter/static/Inter_18pt-Regular.ttf') format('truetype'),
+		url('./src/lib/assets/fonts/inter/static/Inter_18pt-Regular.woff') format('woff');
+	font-display: swap;
+	font-weight: 400;
+	font-style: normal;
 }

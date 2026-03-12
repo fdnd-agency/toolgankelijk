@@ -1,5 +1,4 @@
 <script>
-    // import { onMount } from 'svelte';
 	import LogoLightMobile from '$lib/components/LogoLightMobile.svelte';
 	import BreadCrumbs from '$lib/components/breadCrumbs.svelte';
 	import Hamburger from '$lib/components/hamburger.svelte';
@@ -7,15 +6,6 @@
 	import loginIcon from '$lib/components/loginIcon.svelte';
 	import SignoutButton from '$lib/components/SignoutButton.svelte';
 	import CloseMenu from '$lib/components/CloseMenu.svelte';
-
-	/**
-	 * @typedef {Object} Props
-	 * @property {any} params
-	 * @property {any} partners
-	 * @property {any} websites
-	 * @property {any} principes
-	 * @property {any} [user]
-	 */
 
 	/** @type {Props} */
 	let { params, partners, websites, principes, user = null } = $props();
