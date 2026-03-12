@@ -7,21 +7,13 @@ import { sha256 } from '@oslojs/crypto/sha2';
 import getQuerySession from '$lib/queries/session';
 import getQueryDeleteSession from '$lib/queries/deleteSession';
 import getQueryUpdateSession from '$lib/queries/updateSession';
-import getQueryAddSession from '$lib/queries/addSession';
+import { DIRECTUS_URL, VITE_DIRECTUS_KEY } from '$env/static/private';
 
 // Type definitions
 /**
- * @typedef {Object} Session
- * @property {string|null} id
- * @property {string|null} gebruikerId
- * @property {Date} expiresAt
- */
-/**
- * @typedef {Object} User
- * @property {string} id
- * @property {string} email
- * @property {string} gebruikersnaam
- * @property {boolean} isEmailGeverifieerd
+ * @typedef {import('$lib/types').Session} Session
+ * @typedef {import('$lib/types').User} User
+ * @typedef {import('@sveltejs/kit').RequestEvent} RequestEvent
  */
 
 // Code
@@ -35,9 +27,11 @@ import getQueryAddSession from '$lib/queries/addSession';
  */
 export async function validateSessionToken(token) {
 	const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
-	const { sessie: row } = await directus.request(getQuerySession(gql), { sessionId });
+	const { rawSession } = await directus.request(getQuerySession(gql), { sessionId });
 
-	if (!row) {
+	const sessionRow = Array.isArray(rawSession) ? rawSession[0] : rawSession;
+
+	if (!sessionRow) {
 		return { session: null, user: null };
 	}
 
@@ -45,21 +39,24 @@ export async function validateSessionToken(token) {
 	 * @type {null | Session}
 	 */
 	let session = {
-		id: row.sessieId,
-		gebruikerId: row.gebruikerId.id,
-		expiresAt: new Date(row.expiresAt)
+		id: sessionRow.sessieId ?? sessionRow.session_id ?? sessionRow.id ?? null,
+		userId: (sessionRow.gebruikerId ?? sessionRow.user_id)?.id ?? null,
+		expiresAt: new Date(
+			sessionRow.expiresAt ?? sessionRow.houdbaarTot ?? sessionRow.expires_at ?? Date.now()
+		)
 	};
 
 	/**
 	 * @type {null | User}
 	 */
 	let user = null;
-	if (row.gebruikerId) {
+	const userNode = sessionRow.gebruikerId ?? sessionRow.user_id;
+	if (userNode) {
 		user = {
-			id: row.gebruikerId.id,
-			email: row.gebruikerId.email,
-			gebruikersnaam: row.gebruikerId.gebruikersnaam,
-			isEmailGeverifieerd: row.gebruikerId.isEmailGeverifieerd
+			id: userNode.id,
+			email: userNode.email,
+			username: userNode.gebruikersnaam ?? userNode.username,
+			isEmailVerified: userNode.isEmailGeverifieerd ?? userNode.is_email_verified ?? false
 		};
 	}
 
@@ -112,7 +109,7 @@ async function refreshSession(session) {
  * Sets a session token cookie on the given event.
  *
  * @author Bjarne Zeeman
- * @param {import('@sveltejs/kit').RequestEvent} event - The request event containing cookies.
+ * @param {RequestEvent} event - The request event containing cookies.
  * @param {string} token - The session token to store in the cookie.
  * @param {Date} expiresAt - The expiration date of the cookie.
  */
@@ -131,7 +128,7 @@ export function setSessionTokenCookie(event, token, expiresAt) {
  *
  * @author Maksim Hofker
  * @author Bjarne Zeeman
- * @param {import('@sveltejs/kit').RequestEvent} event - The request event containing cookies.
+ * @param {RequestEvent} event - The request event containing cookies.
  */
 export function deleteSessionTokenCookie(event) {
 	event.cookies.delete('session', { path: '/' });
@@ -155,20 +152,33 @@ export function generateSessionToken() {
  * @author Bjarne Zeeman
  * @async
  * @param {String} token
- * @param {string} gebruikerId
+ * @param {string} userId
  * @returns {Promise<Session>}
  */
-export async function createSession(token, gebruikerId) {
+export async function createSession(token, userId) {
 	const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
 	const session = {
 		id: sessionId,
-		gebruikerId,
+		userId,
 		expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30)
 	};
-	await directus.request(getQueryAddSession(gql), {
-		userId: session.gebruikerId,
-		expiresAt: session.expiresAt.toISOString(),
-		sessionId: session.id
+
+	const response = await fetch(`${DIRECTUS_URL}/items/toolgankelijk_session`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: `Bearer ${VITE_DIRECTUS_KEY}`
+		},
+		body: JSON.stringify({
+			session_id: session.id,
+			expires_at: session.expiresAt.toISOString(),
+			user_id: userId
+		})
 	});
+
+	if (!response.ok) {
+		throw new Error('Failed to create session in Directus');
+	}
+
 	return session;
 }

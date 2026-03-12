@@ -1,32 +1,37 @@
-export default function getQueryPartner(gql, first = 20, skip = 0) {
+export default function getQueryPartner(gql, limit = 20, offset = 0) {
 	return gql`
-		query MyQuery {
-			websites(first: ${first}, skip: ${skip}) {
+		query GetPartners {
+			toolgankelijk_website(limit: ${limit}, offset: ${offset}) {
 				id
-				titel
+				title
 				slug
 				homepage
-				updatedAt
 				urls {
-					slug
-					url
-					checks {
-						succescriteria {
-							id
-						}
-					}
+ 			  	id
+ 			  	slug
+ 			  	url
+ 			  	checks {     
+ 			  	  id
+ 			  	  success_criteria {       
+ 			  	    id
+
+ 			  	  }
+    }
+  }
+			}
+
+			toolgankelijk_website_aggregated {
+				count {
+					id
 				}
 			}
-			websitesConnection {
-				aggregate {
-					count
-				}
-			}
-			principes {
-				titel
-				richtlijnen {
-					titel
-					succescriteria(first: 200) {
+
+			toolgankelijk_principle {
+				id
+				title
+				Guidelines {
+					id
+					toolgankelijk_guideline_id {
 						id
 					}
 				}

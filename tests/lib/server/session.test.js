@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach, assert, mockImplementation } from 'vitest';
 import * as sessionModule from '$lib/server/session';
-import { hygraph } from '$lib/utils/hygraph';
+import { directus } from '$lib/utils/directus.js';
 
 describe('session.js', () => {
 	let event, resolve;
@@ -29,8 +29,8 @@ describe('session.js', () => {
 
 	it('Should refresh a old session', async () => {
 		// Arrange
-		//Mocking hygraph for isolation
-		vi.spyOn(hygraph, 'request').mockImplementation(async (query, vars) => {
+		//Mocking directus for isolation
+		vi.spyOn(directus, 'request').mockImplementation(async (query, vars) => {
 			if (query.includes('DeleteSessie')) return {};
 			if (query.includes('UpdateSessie')) return {};
 			return { sessie: fakeSession };

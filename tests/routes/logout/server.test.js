@@ -1,12 +1,12 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { POST } from '../../../src/routes/logout/+server.js';
 import * as sessionModule from '$lib/server/session.js';
-import { hygraph } from '$lib/utils/hygraph.js';
+import { directus } from '$lib/utils/directus.js';
 import { sha256 } from '@oslojs/crypto/sha2';
 import { encodeHexLowerCase } from '@oslojs/encoding';
 
-vi.mock('$lib/utils/hygraph.js', () => ({
-	hygraph: { request: vi.fn() }
+vi.mock('$lib/utils/directus.js', () => ({
+	directus: { request: vi.fn() }
 }));
 vi.mock('$lib/server/session.js', () => ({
 	deleteSessionTokenCookie: vi.fn()
@@ -39,7 +39,7 @@ describe('src/routes/logout/+server.js', () => {
 		expect(cookies.get).toHaveBeenCalledWith('session');
 		expect(encodeHexLowerCase).toHaveBeenCalled();
 		expect(sha256).toHaveBeenCalled();
-		expect(hygraph.request).toHaveBeenCalledWith(expect.stringContaining('deleteSessie'), {
+		expect(directus.request).toHaveBeenCalledWith(expect.stringContaining('deleteSessie'), {
 			id: 'mockedSessionId'
 		});
 		expect(sessionModule.deleteSessionTokenCookie).toHaveBeenCalledWith({ cookies });
@@ -54,7 +54,7 @@ describe('src/routes/logout/+server.js', () => {
 		const response = await POST({ cookies });
 
 		// Assert
-		expect(hygraph.request).not.toHaveBeenCalled();
+		expect(directus.request).not.toHaveBeenCalled();
 		expect(sessionModule.deleteSessionTokenCookie).not.toHaveBeenCalled();
 		expect(response.status).toBe(204);
 	});

@@ -10,7 +10,7 @@ export async function load({ params, locals }) {
 	if (!locals?.session || !locals?.user) {
 		throw redirect(302, '/login');
 	}
-	if (!locals.user.isEmailGeverifieerd) {
+	if (!locals.user.isEmailVerified) {
 		throw redirect(302, '/verify-email');
 	}
 	let query = getQueryWebsite(gql, websiteUID);

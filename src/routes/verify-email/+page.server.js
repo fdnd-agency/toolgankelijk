@@ -16,7 +16,7 @@ export async function load(event) {
 	}
 
 	// Controleer of de gebruiker zijn e-mail al heeft geverifieerd
-	if (event.locals.user.isEmailGeverifieerd) {
+	if (event.locals.user.isEmailVerified) {
 		throw redirect(302, '/');
 	}
 
@@ -133,7 +133,7 @@ async function resendEmail(event) {
 	// Controleer of de gebruiker zijn e-mail al heeft geverifieerd
 	let verificationRequest = await getUserEmailVerificationRequestFromRequest(event);
 	if (verificationRequest === null) {
-		if (event.locals.user.isEmailGeverifieerd) {
+		if (event.locals.user.isEmailVerified) {
 			return fail(403, {
 				resend: {
 					message: 'Niet toegestaan'
