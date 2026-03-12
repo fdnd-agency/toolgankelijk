@@ -1,103 +1,64 @@
 import { directus } from '$lib/utils/directus.js';
 import { gql } from 'graphql-request';
+import {
+	getQueryCheckUsernameAvailability,
+	getMutationCreateUser,
+	getQueryUserPasswordHash,
+	getQueryUserFromEmail,
+	getMutationSetUserEmailAsVerified
+} from '$lib/queries/user.js';
 
 export function verifyUsernameInput(username) {
 	return username.length > 3 && username.length < 32 && username.trim() === username;
 }
 
 export async function checkUsernameAvailability(username) {
-	const query = gql`
-		query CheckGebruikersnaamAvailability($username: String!) {
-			gebruiker(where: { gebruikersnaam: $username }) {
-				id
-			}
-		}
-	`;
+	const query = getQueryCheckUsernameAvailability(gql);
 	const data = await directus.request(query, { username });
-	return !data.gebruiker;
+	return !(data.users && data.users.length);
 }
 
 export async function createUser(email, username, passwordHash) {
-	const mutation = gql`
-		mutation CreateGebruiker(
-			$email: String!
-			$username: String!
-			$passwordHash: String!
-			$isEmailGeverifieerd: Boolean!
-		) {
-			createGebruiker(
-				data: {
-					email: $email
-					gebruikersnaam: $username
-					wachtwoord: $passwordHash
-					isEmailGeverifieerd: $isEmailGeverifieerd
-				}
-			) {
-				id
-				email
-				gebruikersnaam
-				isEmailGeverifieerd
-			}
-		}
-	`;
-	const variables = { email, username, passwordHash, isEmailGeverifieerd: false };
+	const mutation = getMutationCreateUser(gql);
+	const variables = { email, username, password: passwordHash, isEmailVerified: false };
 	const data = await directus.request(mutation, variables);
-	if (!data.createGebruiker) {
+	if (!data.createUser) {
 		throw new Error('Unexpected error');
 	}
 	const user = {
-		id: data.createGebruiker.id,
-		gebruikersnaam: data.createGebruiker.gebruikersnaam,
-		email: data.createGebruiker.email,
-		isEmailGeverifieerd: data.createGebruiker.isEmailGeverifieerd
+		id: data.createUser.id,
+		username: data.createUser.username,
+		email: data.createUser.email
 	};
 	return user;
 }
 
 export async function getUserPasswordHash(userId) {
-	const query = gql`
-		query GetGebruikerWachtwoord($id: ID!) {
-			gebruiker(where: { id: $id }) {
-				wachtwoord
-			}
-		}
-	`;
-	const data = await directus.request(query, { id: userId });
-	if (!data.gebruiker) {
+	const query = getQueryUserPasswordHash(gql, userId);
+	const data = await directus.request(query);
+	if (!data.user || !data.user.length || !data.user[0].password) {
 		throw new Error('Invalid user ID');
 	}
-	return data.gebruiker.wachtwoord;
+
+	return data.user[0].password;
 }
 
 export async function getUserFromEmail(email) {
-	const query = gql`
-		query GetGebruikerFromEmail($email: String!) {
-			gebruiker(where: { email: $email }) {
-				id
-				email
-				gebruikersnaam
-			}
-		}
-	`;
+	const query = getQueryUserFromEmail(gql);
 	const data = await directus.request(query, { email });
-	if (!data.gebruiker) {
+	if (!data.user || !data.user.length) {
 		return null;
 	}
 	const user = {
-		id: data.gebruiker.id,
-		email: data.gebruiker.email,
-		gebruikersnaam: data.gebruiker.gebruikersnaam
+		id: data.user[0].id,
+		email: data.user[0].email,
+		username: data.user[0].username
 	};
+
 	return user;
 }
 
 export async function setUserEmailAsVerified(userId, email) {
-	const mutation = gql`
-		mutation SetUserEmailAsVerified($id: ID!, $email: String!) {
-			updateGebruiker(where: { id: $id, email: $email }, data: { isEmailGeverifieerd: true }) {
-				id
-			}
-		}
-	`;
-	await directus.request(mutation, { id: userId, email });
+	const mutation = getMutationSetUserEmailAsVerified(gql, userId);
+	await directus.request(mutation);
 }

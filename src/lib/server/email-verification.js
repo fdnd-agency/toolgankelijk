@@ -3,34 +3,26 @@ import { gql } from 'graphql-request';
 import { generateEmailVerificationCode } from '../utils/generateEmailVerificationCode.js';
 import { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS } from '$env/static/private';
 import nodemailer from 'nodemailer';
+import {
+	getQueryEmailVerificationById,
+	getMutationCreateEmailVerification,
+	getMutationDeleteEmailVerificationsForUser
+} from '$lib/queries/user.js';
 
 // Deze functie haalt het e-mailverificatieverzoek op voor een gebruiker via het request ID
 export async function getUserEmailVerificationRequest(userId, id) {
-	const query = gql`
-		query GetEmailVerificatieCode($id: ID!) {
-			emailVerificatieCode(where: { id: $id }) {
-				id
-				code
-				houdbaarTot
-				gebruiker {
-					id
-					email
-				}
-			}
-		}
-	`;
-	const variables = { id };
-	const data = await directus.request(query, variables);
-	const row = data.emailVerificatieCode;
-	if (!row || row.gebruiker.id !== userId) {
+	const query = getQueryEmailVerificationById(gql, id);
+	const data = await directus.request(query);
+	const row = data.emailVerificationCode;
+	if (!row || row.user.id !== userId) {
 		return null;
 	}
 	const request = {
 		id: row.id,
-		userId: row.gebruiker.id,
+		userId: row.user.id,
 		code: row.code,
-		email: row.gebruiker.email,
-		expiresAt: new Date(row.houdbaarTot)
+		email: row.user.email,
+		expiresAt: new Date(row.expiresAt)
 	};
 	return request;
 }
@@ -42,50 +34,30 @@ export async function createEmailVerificationRequest(userId) {
 	const code = generateEmailVerificationCode();
 	const expiresAt = new Date(Date.now() + 1000 * 60 * 10);
 
-	const mutation = gql`
-		mutation CreateEmailVerificatieCode($code: String!, $houdbaarTot: DateTime!, $userId: ID!) {
-			createEmailVerificatieCode(
-				data: { code: $code, houdbaarTot: $houdbaarTot, gebruiker: { connect: { id: $userId } } }
-			) {
-				id
-				code
-				houdbaarTot
-				gebruiker {
-					id
-					email
-				}
-			}
-		}
-	`;
+	const mutation = getMutationCreateEmailVerification(gql);
 
 	const variables = {
 		code,
-		houdbaarTot: expiresAt.toISOString(),
+		expiresAt: expiresAt.toISOString(),
 		userId
 	};
 
 	const data = await directus.request(mutation, variables);
-	const row = data.createEmailVerificatieCode;
+	const row = data.createEmailVerificationCode;
 
 	const request = {
 		id: row.id,
-		userId: row.gebruiker.id,
+		userId: row.user.id,
 		code: row.code,
-		email: row.gebruiker.email,
-		expiresAt: new Date(row.houdbaarTot)
+		email: row.user.email,
+		expiresAt: new Date(row.expiresAt)
 	};
 	return request;
 }
 
 // Deze functie verwijdert alle e-mailverificatieverzoeken voor een gebruiker
 export async function deleteUserEmailVerificationRequest(userId) {
-	const mutation = gql`
-		mutation DeleteEmailVerificatieCode($userId: ID!) {
-			deleteManyEmailVerificatieCodes(where: { gebruiker: { id: $userId } }) {
-				count
-			}
-		}
-	`;
+	const mutation = getMutationDeleteEmailVerificationsForUser(gql);
 	await directus.request(mutation, { userId });
 }
 
