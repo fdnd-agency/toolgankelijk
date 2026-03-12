@@ -65,7 +65,7 @@
 	{#each data.websites.websites as website}
 		<Card {website} {principes} isUrl={false} />
 	{:else}
-		<AddCard isType="addPartner" isUrl={false}/>
+		<Card isType="addPartner" add={true} isUrl={false}/>
 	{/each}
 </section>
 

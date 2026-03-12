@@ -4,11 +4,10 @@
 	import AuditIcon from '$lib/components/icons/auditIcon.svelte';
 	import DeleteIcon from '$lib/components/icons/deleteIcon.svelte';
 	import EditIcon from '$lib/components/icons/editIcon.svelte';
+	import AddButton from '$lib/components/icons/addButton.svelte';
 
-	export let website;
-	export let principes;
-	export let params;
-	export let isUrl = false;
+
+	const { website, principes, params, isUrl = false, add = false } = $props();
 
 	let editType;
 	let deleteType;
@@ -17,6 +16,7 @@
 	let dialogRefDelete;
 	let dialogRefAudit;
 
+	let dialogRef = $state();
 	let labelValue;
 	let progressbar;
 	let lastTime;
@@ -79,6 +79,10 @@
 		window.scrollTo({ top: 0, behavior: 'smooth' });
 	}
 
+	function handleDialog() {
+		dialogRef.open();
+	}
+
 	onMount(() => {
 		if (isUrl) {
 			websiteCriteria = website.checks.reduce((total, check) => {
@@ -120,110 +124,135 @@
 	});
 </script>
 
-{#if !isUrl}
-<div class="card-wrapper">
-	<article class="color-primary-light" id="card-partner" class:container-off={containerOff}>
-		{#if !isUrl}
-			<picture class="card-partner-logo" fetchpriority="high">
-				<!-- picture -->
-				<img
-					class="partner-logo"
-					width="256"
-					height="256"
-					src={faviconAPI + url + '/&size=128'}
-					alt="logo van {title}"
-				/>
-			</picture>
-		{/if}
+{#if add}
+	{#if isUrl}
+	<Dialog bind:this={dialogRef} isType="addUrl"/>
+		<article class="card-add">
+			<button onclick={handleDialog} isType="addUrl" class="add-button">
+				<!-- two way binding in the button with the add url/partner element -->
+				<AddButton />
+			</button>
+			<h2>Add URL </h2>
+		</article>
+	{:else}
+	<Dialog bind:this={dialogRef} isType="addPartner"/>
+		<article class="card-add">
+			<button onclick={handleDialog} isType="addPartner" class="add-button">
+				<!-- two way binding in the button with the add url/partner element -->
+				<AddButton />
+			</button>
+			<h2>Add Partner </h2>
+		</article>
+	{/if}
+		{:else}
+	{#if !isUrl}
+	<div class="card-wrapper">
+		<article class="color-primary-light" id="card-partner" class:container-off={containerOff}>
+			{#if !isUrl}
+				<picture class="card-partner-logo" fetchpriority="high">
+					<!-- picture -->
+					<img
+						class="partner-logo"
+						width="256"
+						height="256"
+						src={faviconAPI + url + '/&size=128'}
+						alt="logo van {title}"
+					/>
+				</picture>
+			{/if}
 
-		{#if !isUrl}
-			<h2 class="card-title">{title}</h2>
-		{/if}
+			{#if !isUrl}
+				<h2 class="card-title">{title}</h2>
+			{/if}
 
-		{#if isUrl}
+			{#if isUrl}
+				<h2 class="card-title-url">{url}</h2>
+			{/if}
+
+			{#if isUrl}
+			<div id="url-progress-container" class="color-primary">
+				<progress id="progress-partner" max="100" value="0" bind:this={progressbar}> </progress>
+				<label class="progress-percentage" for="progress-partner" bind:this={labelValue}>0%</label>
+			</div>
+			{/if}
+
+			{#if !isUrl}
+			<div id="partner-progress-container" class="color-primary">
+				<progress id="progress-partner" max="100" value="0" bind:this={progressbar}></progress>
+				<label class="progress-percentage" for="progress-partner" bind:this={labelValue}>0%</label>
+			</div>
+			{/if}
+
+
+			<div class="card-icons-partner">
+		
+			{#if !isUrl}
+				<button
+					onclick={openForm.bind(null, auditType)}
+					aria-label="start audit van {title}"
+				>
+						<AuditIcon />
+				</button>
+			{/if}
+
+				<button onclick={openForm.bind(null, editType)} 
+					aria-label={isUrl ? `bewerk ${url}` : `bewerk ${title}`}>
+							<EditIcon />
+				</button>
+
+				<button 
+					onclick={openForm.bind(null, deleteType)} 
+					aria-label={isUrl ? `verwijder ${url}` : `verwijder ${title}`}>
+							<DeleteIcon />
+					</button>
+
+				<a href={link} 
+					aria-label={isUrl ? `open ${url}` : `open ${title}`}
+					class="card-open">
+					Open
+				</a>
+			</div>
+	</article>
+	</div>
+	{/if}
+
+	{#if isUrl}
+	<div class="card-wrapper">
+		<article id="card-url" class="color-primary-light" class:container-off={containerOff}>
+
 			<h2 class="card-title-url">{url}</h2>
-		{/if}
 
-		{#if isUrl}
-		<div id="url-progress-container" class="color-primary">
-			<progress id="progress-partner" max="100" value="0" bind:this={progressbar}> </progress>
-			<label class="progress-percentage" for="progress-partner" bind:this={labelValue}>0%</label>
-		</div>
-		{/if}
-
-		{#if !isUrl}
-		<div id="partner-progress-container" class="color-primary">
-			<progress id="progress-partner" max="100" value="0" bind:this={progressbar}></progress>
-			<label class="progress-percentage" for="progress-partner" bind:this={labelValue}>0%</label>
-		</div>
-		{/if}
+			<div id="url-progress-container" class="color-primary">
+				<progress id="progress-partner" max="100" value="0" bind:this={progressbar}> </progress>
+				<label class="progress-percentage" for="progress-partner" bind:this={labelValue}>0%</label>
+			</div>
 
 
-		<div class="card-icons-partner">
-	
-		{#if !isUrl}
-			<button
-				onclick={openForm.bind(null, auditType)}
-				aria-label="start audit van {title}"
-			>
-					<AuditIcon />
-			</button>
-		{/if}
-
-			<button onclick={openForm.bind(null, editType)} 
-				aria-label={isUrl ? `bewerk ${url}` : `bewerk ${title}`}>
-						<EditIcon />
-			</button>
-
-			<button 
-				onclick={openForm.bind(null, deleteType)} 
-				aria-label={isUrl ? `verwijder ${url}` : `verwijder ${title}`}>
-						<DeleteIcon />
+			<div class="card-icons-url">
+				<button onclick={openForm.bind(null, editType)} 
+					aria-label= "bewerk ${url}">
+							<EditIcon />
 				</button>
 
-			<a href={link} 
-				aria-label={isUrl ? `open ${url}` : `open ${title}`}
-				class="card-open">
-				Open
-			</a>
-		</div>
-</article>
-</div>
+				<button 
+					onclick={openForm.bind(null, deleteType)} 
+					aria-label="verwijder ${url}">
+							<DeleteIcon />
+					</button>
+
+				<a href={link} 
+					aria-label="open ${url}"
+					class="card-open">
+					Open
+				</a>
+			</div>
+	</article>
+	</div>
+	{/if}
+
+
 {/if}
 
-{#if isUrl}
-<div class="card-wrapper">
-	<article id="card-url" class="color-primary-light" class:container-off={containerOff}>
-
-		<h2 class="card-title-url">{url}</h2>
-
-		<div id="url-progress-container" class="color-primary">
-			<progress id="progress-partner" max="100" value="0" bind:this={progressbar}> </progress>
-			<label class="progress-percentage" for="progress-partner" bind:this={labelValue}>0%</label>
-		</div>
-
-
-		<div class="card-icons-url">
-			<button onclick={openForm.bind(null, editType)} 
-				aria-label= "bewerk ${url}">
-						<EditIcon />
-			</button>
-
-			<button 
-				onclick={openForm.bind(null, deleteType)} 
-				aria-label="verwijder ${url}">
-						<DeleteIcon />
-				</button>
-
-			<a href={link} 
-				aria-label="open ${url}"
-				class="card-open">
-				Open
-			</a>
-		</div>
-</article>
-</div>
-{/if}
 
 <Dialog
 	bind:this={dialogRefEdit}
@@ -545,4 +574,42 @@
 				grid-column: 1/3;
 			}
 		}
+
+			.card-add {
+		width: 100%;
+		height: 100%;
+		background-color: var(--color-primary-light);
+		color: var(--color-neutral-black);
+		border-radius: var(--border-radius);
+		display: flex;
+		justify-content: center;
+		flex-direction: column;
+		align-items: center;
+		gap: 1em;
+		opacity: 0.8;
+		padding: 2em;
+
+		&:hover {
+			transition-duration: 0.3s;
+			opacity: 1;
+		}
+	}
+
+	.add-button {
+		background: none;
+		color: inherit;
+		border: none;
+		padding: 0;
+		font: inherit;
+		cursor: pointer;
+		outline: inherit;
+		overflow:visible;
+
+		&:hover {
+			transition-duration: 0.3s;
+			filter: drop-shadow(var(--color-neutral-black) 2px 2px 2px);
+			-webkit-box-shadow: var(--color-neutral-black) 2px 1px 5px;
+			-moz-box-shadow: var(--color-neutral-black) 2px 1px 5px;
+		}
+	}
 </style>
