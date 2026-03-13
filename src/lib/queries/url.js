@@ -200,25 +200,3 @@ export function getQueryDeleteChecks(gql, urlId) {
 		}
 	`;
 }
-
-export default function getQueryUrl(gql, slug) {
-	return gql`
-		query Url {
-			toolgankelijk_url(filter: { slug: { _eq: "${slug}" } }, limit: 1) {
-				id
-				name
-				url
-				slug
-				website_id {
-					slug
-				}
-				checks {
-					id
-					success_criteria {
-						id
-					}
-				}
-			}
-		}
-	`;
-}

@@ -1,14 +1,14 @@
 //@ts-check
 import * as crypto from 'crypto';
-import { directus } from '$lib/utils/directus.js';
-import { gql } from 'graphql-request';
 import { encodeBase32LowerCaseNoPadding, encodeHexLowerCase } from '@oslojs/encoding';
 import { sha256 } from '@oslojs/crypto/sha2';
-import getQuerySession, {
-	getQueryDeleteSession,
-	getQueryUpdateSession
-} from '$lib/queries/session';
 import { DIRECTUS_URL, VITE_DIRECTUS_KEY } from '$env/static/private';
+import {
+	getSessionByTokenHash,
+	updateSessionExpiry,
+	deleteSession as deleteSessionRecord,
+	createSessionRecord
+} from '$lib/repositories/sessionRepository.js';
 
 // Type definitions
 /**
@@ -28,16 +28,14 @@ import { DIRECTUS_URL, VITE_DIRECTUS_KEY } from '$env/static/private';
  */
 export async function validateSessionToken(token) {
 	const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
-	const { session: sessionResult } = await directus.request(getQuerySession(gql), { sessionId });
+	const sessionRow = await getSessionByTokenHash(sessionId);
 
-	const sessionRow = Array.isArray(sessionResult) ? sessionResult[0] : sessionResult;
-	const hasRequiredFields =
-		sessionRow &&
-		(sessionRow.session_id || sessionRow.id) &&
-		sessionRow.user_id?.id &&
-		sessionRow.expires_at;
-
-	if (!hasRequiredFields) {
+	if (
+		!sessionRow ||
+		!(sessionRow.session_id || sessionRow.id) ||
+		!sessionRow.user_id?.id ||
+		!sessionRow.expires_at
+	) {
 		return { session: null, user: null };
 	}
 
@@ -88,8 +86,7 @@ export async function validateSessionToken(token) {
  * @returns {Promise<{ session: null, user: null }>} An object with nulled session and user values.
  */
 async function invalidateSession(session) {
-	// Delete session mutation
-	await directus.request(getQueryDeleteSession(gql), { sessionId: session.id });
+	await deleteSessionRecord(session.id);
 	return { session: null, user: null };
 }
 
@@ -103,11 +100,7 @@ async function invalidateSession(session) {
  */
 async function refreshSession(session) {
 	session.expiresAt = new Date(Date.now() + 1000 * 60 * 60 * 24 * 30);
-	// Update session mutation
-	await directus.request(getQueryUpdateSession(gql), {
-		sessionId: session.id,
-		expiresAt: session.expiresAt
-	});
+	await updateSessionExpiry({ sessionId: session.id, expiresAt: session.expiresAt });
 	return session;
 }
 
@@ -163,28 +156,7 @@ export function generateSessionToken() {
  */
 export async function createSession(token, userId) {
 	const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
-	const session = {
-		id: sessionId,
-		userId,
-		expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30)
-	};
-
-	const response = await fetch(`${DIRECTUS_URL}/items/toolgankelijk_session`, {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-			Authorization: `Bearer ${VITE_DIRECTUS_KEY}`
-		},
-		body: JSON.stringify({
-			session_id: session.id,
-			expires_at: session.expiresAt.toISOString(),
-			user_id: userId
-		})
-	});
-	
-	if (!response.ok) {
-		throw new Error('Failed to create session in Directus');
-	}
-
+	const expiresAt = new Date(Date.now() + 1000 * 60 * 60 * 24 * 30);
+	const session = await createSessionRecord({ sessionId, userId, expiresAt });
 	return session;
 }

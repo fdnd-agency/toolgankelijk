@@ -40,6 +40,29 @@
  */
 
 /**
+ * Detailed website data as used on single-partner pages.
+ *
+ * @typedef {Object} WebsiteDetails
+ * @property {PartnerWebsite|null} website
+ * @property {WebsiteUrl[]} urls
+ * @property {number} totalUrls
+ * @property {Principle[]} principes
+ */
+
+/**
+ * URL details including website reference and checks.
+ * This is the normalized shape returned by the URL repository.
+ *
+ * @typedef {Object} UrlWithWebsite
+ * @property {string} id
+ * @property {string} slug
+ * @property {string} url
+ * @property {string} [name]
+ * @property {{ id: string, slug?: string } | null} [website]
+ * @property {{ id: string, success_criteria?: { id: string }[] }[]} [checks]
+ */
+
+/**
  * an object representing a session.
  *
  * @typedef {Object} Session
@@ -56,6 +79,17 @@
  * @property {string} email
  * @property {string} username
  * @property {boolean} isEmailVerified
+ */
+
+/**
+ * An email verification request for a user.
+ *
+ * @typedef {Object} EmailVerificationRequest
+ * @property {string} id
+ * @property {string} userId
+ * @property {string} email
+ * @property {string} code
+ * @property {Date} expiresAt
  */
 
 export {};
