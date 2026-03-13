@@ -4,7 +4,7 @@
 	import Hamburger from '$lib/components/hamburger.svelte';
 	import LogoLightDesktop from '$lib/components/LogoLightDesktop.svelte';
 	import loginIcon from '$lib/components/loginIcon.svelte';
-	import SignoutButton from '$lib/components/SignoutButton.svelte';
+	import SignoutButton from '$lib/components/signoutButton.svelte';
 	import CloseMenu from '$lib/components/CloseMenu.svelte';
 
 	/** @type {Props} */

@@ -95,6 +95,8 @@ body {
 
 	/* border radius */
 	--border-radius: 12px;
+
+	background-color: var(--color-neutral-white);
 }
 
 .color-primary,
@@ -238,6 +240,24 @@ p {
 	font-size: 0.9rem;
 	line-height: 141.667%;
 	letter-spacing: 0.0025rem;
+}
+
+.sr-only {
+	clip: rect(1px, 1px, 1px, 1px);
+	height: 1px;
+	overflow: hidden;
+	color: white;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+.sr-only:focus {
+	clip: auto;
+	height: auto;
+	overflow: auto;
+	position: absolute;
+	width: auto;
 }
 
 .disabled {
