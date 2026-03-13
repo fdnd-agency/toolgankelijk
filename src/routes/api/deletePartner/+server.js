@@ -1,7 +1,7 @@
 import { gql } from 'graphql-request';
 import { directus } from '$lib/utils/directus.js';
-import { getQueryDeletePartner, getQueryUrlsByPartnerId } from '$lib/queries/partner';
 import { getQueryDeleteUrl, getQueryDeleteChecks } from '$lib/queries/url';
+import { deletePartnerById, getPartnerUrls } from '$lib/repositories/partnerRepository.js';
 
 // Delay helper
 function delay(ms) {
@@ -38,8 +38,7 @@ export async function POST({ request }) {
 					let skip = 0;
 					const batchSize = 100;
 					while (true) {
-						let queryPartnerUrls = getQueryUrlsByPartnerId(gql, id, skip, batchSize);
-						const { toolgankelijk_url: urls } = await directus.request(queryPartnerUrls);
+						const urls = await getPartnerUrls(id, { skip, first: batchSize });
 						if (!urls || urls.length === 0) break;
 						allUrls.push(...urls);
 						skip += batchSize;
@@ -71,8 +70,7 @@ export async function POST({ request }) {
 					await sendUpdate({ status: 'Alle urls verwijderd', type: 'done' });
 
 					// 3. Verwijder de partner
-					let queryDelete = getQueryDeletePartner(gql, id);
-					const deleteResponse = await directus.request(queryDelete);
+					const deleteResponse = await deletePartnerById(id);
 					await sendUpdate({
 						status: 'Partner verwijderd',
 						type: 'done',

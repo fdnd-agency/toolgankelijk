@@ -1,6 +1,4 @@
-import { gql } from 'graphql-request';
-import { directus } from '$lib/utils/directus.js';
-import { getQueryUpdateUrl } from '$lib/queries/url';
+import { updateUrl } from '$lib/repositories/urlRepository.js';
 
 // Delay helper
 function delay(ms) {
@@ -36,8 +34,7 @@ export async function POST({ request }) {
 					await sendUpdate({ status: 'Bewerken gestart', type: 'done' });
 					await delay(500);
 
-					let query = getQueryUpdateUrl(gql, slug, url, id, name);
-					const response = await directus.request(query);
+					const response = await updateUrl({ id, slug, url, name });
 
 					await sendUpdate({ status: 'Url succesvol bijgewerkt', type: 'done', response });
 					await delay(500);

@@ -1,10 +1,10 @@
 import { gql } from 'graphql-request';
 import { directus } from '$lib/utils/directus.js';
-import {
-	getQueryAddPartner,
-	getQueryUpdatePartnerUrls
-} from '$lib/queries/partner';
 import { createEmptyCheck } from '$lib/queries/url';
+import {
+	createPartner,
+	updatePartnerTotalUrls
+} from '$lib/repositories/partnerRepository.js';
 import {
 	formatUrl,
 	getSitemapPromises,
@@ -69,8 +69,7 @@ export async function POST({ request }) {
 
 					// Add or update partner
 					if (!id) {
-						const query = getQueryAddPartner(gql, name, url, slug, urls.length);
-						await directus.request(query);
+						await createPartner({ name, url, slug, totalUrls: urls.length });
 						await sendUpdate({ status: 'Partner toegevoegd', type: 'done' });
 						await delay(1000);
 					} else {
@@ -81,8 +80,7 @@ export async function POST({ request }) {
 					// Process URLs if toggle is on
 					if (toggle && urls.length) {
 						const { total } = await processUrls(urls, slug, sendUpdate);
-						const updateQuery = getQueryUpdatePartnerUrls(gql, slug, total);
-						await directus.request(updateQuery);
+						await updatePartnerTotalUrls({ slug, totalUrls: total });
 						await delay(1000);
 						// Create empty check for each url
 						for (const url of urls) {

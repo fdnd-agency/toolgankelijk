@@ -41,7 +41,7 @@ export async function listPartners({ limit = 20, offset = 0 } = {}) {
  * @param {{ limit?: number; offset?: number }} [options]
  * @returns {Promise<WebsiteDetails>}
  */
-export async function getWebsite(slug, { limit = 20, offset = 0 } = {}) {
+export async function getWebsiteBySlug(slug, { limit = 20, offset = 0 } = {}) {
 	const query = getQueryWebsite(gql, slug, limit, offset);
 	const raw = await directus.request(query);
 
@@ -100,7 +100,7 @@ export async function createPartner({ name, url, slug, totalUrls = 0 }) {
  * @param {{ id: string; name: string; url: string; slug: string }} input
  * @returns {Promise<PartnerWebsite|null>}
  */
-export async function updatePartner({ id, name, url, slug }) {
+export async function updatePartnerById({ id, name, url, slug }) {
 	const query = getQueryUpdatePartner(gql, name, slug, url, id);
 	const raw = await directus.request(query);
 	const row = raw.update_toolgankelijk_website_item ?? null;
@@ -136,10 +136,9 @@ export async function updatePartnerTotalUrls({ slug, totalUrls }) {
  * @param {string} partnerId
  * @returns {Promise<{ id: string } | null>}
  */
-export async function deletePartner(partnerId) {
+export async function deletePartnerById(partnerId) {
 	const query = getQueryDeletePartner(gql, partnerId);
 	const raw = await directus.request(query);
 	const row = raw.delete_toolgankelijk_website_item ?? null;
 	return row ? { id: row.id } : null;
 }
-

@@ -1,7 +1,5 @@
-import { gql } from 'graphql-request';
-import { directus } from '$lib/utils/directus.js';
 import { redirect } from '@sveltejs/kit';
-import { getQueryWebsite } from '$lib/queries/partner';
+import { getWebsiteBySlug as getWebsiteFromRepository } from '$lib/repositories/partnerRepository.js';
 
 // Type definitions
 /**
@@ -26,14 +24,12 @@ export async function load(event) {
 	}
 	const first = 20;
 	const skip = parseInt(url.searchParams.get('skip') || '0');
-	const query = getQueryWebsite(gql, websiteUID, first, skip);
-	const data = await directus.request(query);
-	await delay(150);
+	const data = await getWebsiteFromRepository(websiteUID, { limit: first, offset: skip });
 
 	const websites = {
-		website: data.toolgankelijk_website?.[0] ?? null,
-		totalUrls: data.toolgankelijk_url_aggregated?.[0]?.count?.id ?? 0,
-		principes: data.toolgankelijk_principle ?? []
+		website: data.website ?? null,
+		totalUrls: data.totalUrls ?? 0,
+		principes: data.principes ?? []
 	};
 
 	return {

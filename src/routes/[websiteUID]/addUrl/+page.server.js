@@ -1,8 +1,7 @@
-import { gql } from 'graphql-request';
 import { directus } from '$lib/utils/directus.js';
 import { redirect } from '@sveltejs/kit';
-import { getQueryWebsite } from '$lib/queries/partner';
-import { getQueryAddUrl, createEmptyCheck } from '$lib/queries/url';
+import { getWebsiteBySlug as getWebsiteFromRepository } from '$lib/repositories/partnerRepository.js';
+import { addUrl, createEmptyCheckForUrl } from '$lib/repositories/urlRepository.js';
 
 export async function load({ params, locals }) {
 	const { websiteUID } = params;
@@ -12,8 +11,8 @@ export async function load({ params, locals }) {
 	if (!locals.user.isEmailVerified) {
 		throw redirect(302, '/verify-email');
 	}
-	let query = getQueryWebsite(gql, websiteUID);
-	return await directus.request(query).websitesData;
+	const websitesData = await getWebsiteFromRepository(websiteUID);
+	return websitesData;
 }
 
 export const actions = {
@@ -24,10 +23,13 @@ export const actions = {
 		const formSlug = formData.get('slug');
 
 		try {
-			let query = getQueryAddUrl(gql, name, formUrl, formSlug);
-			let directusCall = await directus.request(query);
-			let createEmptyCheckEntry = createEmptyCheck(gql, formSlug, name);
-			await directus.request(createEmptyCheckEntry);
+			const directusCall = await addUrl({
+				urlSlug: name,
+				urlLink: formUrl,
+				websiteSlug: formSlug,
+				urlName: name
+			});
+			await createEmptyCheckForUrl({ websiteSlug: formSlug, urlSlug: name });
 
 			return {
 				directusCall,

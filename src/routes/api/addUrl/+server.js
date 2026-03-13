@@ -1,6 +1,4 @@
-import { gql } from 'graphql-request';
-import { directus } from '$lib/utils/directus.js';
-import { getQueryAddUrl, createEmptyCheck } from '$lib/queries/url';
+import { addUrl, createEmptyCheckForUrl } from '$lib/repositories/urlRepository.js';
 
 // Delay helper
 function delay(ms) {
@@ -36,10 +34,13 @@ export async function POST({ request }) {
 					await sendUpdate({ status: 'Toevoegen gestart', type: 'done' });
 					await delay(500);
 
-					let query = getQueryAddUrl(gql, slug, urlLink, websiteSlug, name);
-					let directusCall = await directus.request(query);
-					let createEmptyCheckEntry = createEmptyCheck(gql, websiteSlug, slug);
-					await directus.request(createEmptyCheckEntry);
+					const directusCall = await addUrl({
+						urlSlug: slug,
+						urlLink,
+						websiteSlug,
+						urlName: name
+					});
+					await createEmptyCheckForUrl({ websiteSlug, urlSlug: slug });
 
 					await sendUpdate({
 						status: `${name} is toegevoegd.`,

@@ -1,6 +1,4 @@
-import { gql } from 'graphql-request';
-import { directus } from '$lib/utils/directus.js';
-import { getQueryDeleteUrl, getQueryDeleteChecks } from '$lib/queries/url';
+import { deleteUrlWithChecks } from '$lib/repositories/urlRepository.js';
 
 // Delay helper
 function delay(ms) {
@@ -33,13 +31,7 @@ export async function POST({ request }) {
 					await sendUpdate({ status: 'Verwijderen gestart', type: 'done' });
 					await delay(500);
 
-					const queryDeleteChecks = getQueryDeleteChecks(gql, id);
-					await directus.request(queryDeleteChecks);
-					await delay(200); // Add delay
-					await sendUpdate({ status: 'Checks succesvol verwijderd', type: 'done' });
-
-					let query = getQueryDeleteUrl(gql, id);
-					const response = await directus.request(query);
+					const response = await deleteUrlWithChecks(id);
 
 					await sendUpdate({ status: 'Url succesvol verwijderd', type: 'done', response });
 					await delay(500);
