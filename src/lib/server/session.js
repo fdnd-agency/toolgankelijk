@@ -2,11 +2,10 @@
 import * as crypto from 'crypto';
 import { encodeBase32LowerCaseNoPadding, encodeHexLowerCase } from '@oslojs/encoding';
 import { sha256 } from '@oslojs/crypto/sha2';
-import { DIRECTUS_URL, VITE_DIRECTUS_KEY } from '$env/static/private';
 import {
 	getSessionByTokenHash,
 	updateSessionExpiry,
-	deleteSession as deleteSessionRecord,
+	deleteSessionByID,
 	createSessionRecord
 } from '$lib/repositories/sessionRepository.js';
 
@@ -43,7 +42,7 @@ export async function validateSessionToken(token) {
 	const userIdFromRow = sessionRow.user_id.id;
 	const expiresAtFromRow = sessionRow.expires_at;
 
-	/** @type {Session} */
+	/** @type {Session | null} */
 	let session = {
 		id: sessionIdFromRow,
 		userId: userIdFromRow,
@@ -86,7 +85,7 @@ export async function validateSessionToken(token) {
  * @returns {Promise<{ session: null, user: null }>} An object with nulled session and user values.
  */
 async function invalidateSession(session) {
-	await deleteSessionRecord(session.id);
+	await deleteSessionByID(session.id);
 	return { session: null, user: null };
 }
 

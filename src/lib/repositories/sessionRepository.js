@@ -43,7 +43,7 @@ export async function updateSessionExpiry({ sessionId, expiresAt }) {
  * @param {string} sessionId
  * @returns {Promise<{ id: string } | null>}
  */
-export async function deleteSession(sessionId) {
+export async function deleteSessionByID(sessionId) {
 	const mutation = getQueryDeleteSession(gql);
 	const raw = await directus.request(mutation, { sessionId });
 	return raw.deleteSessie ?? null;

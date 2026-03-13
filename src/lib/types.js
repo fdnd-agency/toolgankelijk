@@ -66,8 +66,8 @@
  * an object representing a session.
  *
  * @typedef {Object} Session
- * @property {string|null} id
- * @property {string|null} userId
+ * @property {string} id
+ * @property {string} userId
  * @property {Date} expiresAt
  */
 
