@@ -11,7 +11,7 @@
 <style>
     .signout-btn {
 		background-color: var(--color-primary);
-		color: var(--c-white);
+		color: var(--color-neutral-white);
 		border: 2px solid var(--color-primary);
 		border-radius: 20px;
 		width: 8rem;
