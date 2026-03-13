@@ -1,6 +1,9 @@
 <script>
 	import LogoLightMobile from '$lib/components/LogoLightMobile.svelte';
-	import BreadCrumbs from '$lib/components/breadCrumbs.svelte';
+	// import BreadCrumbs from '$lib/components/breadCrumbs.svelte';
+	import HomeIcon from '$lib/components/homeIcon.svelte';
+	import DarkmodeIcon from '$lib/components/darkmodeIcon.svelte';
+	import InfoIcon from '$lib/components/infoIcon.svelte';
 	import Hamburger from '$lib/components/hamburger.svelte';
 	import LogoLightDesktop from '$lib/components/LogoLightDesktop.svelte';
 	import loginIcon from '$lib/components/loginIcon.svelte';
@@ -22,11 +25,24 @@
 
         <nav id="main-nav">
             <ul>
-				{#if user && user.isEmailGeverifieerd}
+				<!-- {#if user && user.isEmailGeverifieerd}
 					<li>
 	    				<BreadCrumbs {params} {partners} {websites} {principes} />
 					</li>
-	    		{/if}
+	    		{/if} -->
+				<li>
+					<a href="/" aria-label="home">
+						<HomeIcon />
+					</a>
+				</li>
+				<li>
+					<DarkmodeIcon />
+				</li>
+				<li>
+					<a href="/info" aria-label="information page">
+						<InfoIcon />
+					</a>
+				</li>
             
                 {#if !user}
                 	<li>
