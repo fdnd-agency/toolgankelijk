@@ -1,17 +1,48 @@
 <script>
 	import LogoLightMobile from '$lib/components/LogoLightMobile.svelte';
-	// import BreadCrumbs from '$lib/components/breadCrumbs.svelte';
 	import HomeIcon from '$lib/components/homeIcon.svelte';
 	import DarkmodeIcon from '$lib/components/darkmodeIcon.svelte';
+	import SignoutButton from '$lib/components/signoutButton.svelte';
 	import InfoIcon from '$lib/components/infoIcon.svelte';
 	import Hamburger from '$lib/components/hamburger.svelte';
 	import LogoLightDesktop from '$lib/components/LogoLightDesktop.svelte';
 	import loginIcon from '$lib/components/loginIcon.svelte';
-	import SignoutButton from '$lib/components/signoutButton.svelte';
 	import CloseMenu from '$lib/components/CloseMenu.svelte';
+	import { onMount } from 'svelte';
+
+	let isLightMode = $state(false);
+
+	function toggleLightMode() {
+		const savedLightMode = localStorage.getItem('lightMode');
+
+		if (savedLightMode === null || savedLightMode === 'false') {
+			isLightMode = true;
+			document.body.classList.add('lightmode');
+			localStorage.setItem('lightMode', `${isLightMode}`);
+		} else {
+			isLightMode = false;
+			document.body.classList.remove('lightmode');
+			localStorage.setItem('lightMode', `${isLightMode}`);
+		}
+	}
+
+	onMount(() => {
+		const savedLightMode = localStorage.getItem('lightMode');
+
+		if (savedLightMode === 'true') {
+			isLightMode = true;
+			document.body.classList.add('lightmode');
+		} else {
+			isLightMode = false;
+			document.body.classList.remove('lightmode');
+		}
+
+		const icon = document.querySelector('.disable-js');
+		icon?.classList.toggle('disable-js');
+	});
 
 	/** @type {Props} */
-	let { params, partners, websites, principes, user = null } = $props();
+	let { user = null } = $props();
 </script>
 
 <header>
@@ -25,22 +56,22 @@
 
         <nav id="main-nav">
             <ul>
-				<!-- {#if user && user.isEmailGeverifieerd}
-					<li>
-	    				<BreadCrumbs {params} {partners} {websites} {principes} />
-					</li>
-	    		{/if} -->
 				<li>
 					<a href="/" aria-label="home">
 						<HomeIcon />
+						<p>Home</p>
 					</a>
 				</li>
 				<li>
-					<DarkmodeIcon />
+					<button aria-label="lightmode" class="toggle" onclick={toggleLightMode}>
+						<DarkmodeIcon />
+						<p>Dark/Lightmode</p>
+					</button>
 				</li>
 				<li>
 					<a href="/info" aria-label="information page">
 						<InfoIcon />
+						<p>Info</p>
 					</a>
 				</li>
             
@@ -115,6 +146,22 @@
         			list-style: none;
         			padding: 0;
         			margin: 0;
+
+					a {
+						display: flex;
+						height: 1.5rem;
+						gap: 1rem;
+						text-decoration: none;
+						color: var(--color-neutral-black);
+					}
+
+					.toggle {
+						display: flex;
+						gap: 1rem;
+						background: none;
+						border: none;
+						cursor: pointer;
+					}
 				}
 
 				@media(min-width: 1260px) {
@@ -127,6 +174,7 @@
             	display: flex;
 				flex-direction: column;
 				justify-content: center;
+				align-items: center;
 			}
 
 			@media(min-width: 1260px) {
@@ -144,6 +192,8 @@
 
 					ul {
 						flex-direction: row;
+						justify-content: center;
+						align-items: center;
 						gap: 1.5rem;
 					}
         		}
