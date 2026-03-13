@@ -1,9 +1,9 @@
 <script>
 	import { page } from '$app/stores';
 	import Heading from '$lib/components/heading.svelte';
-	import Partner from '$lib/components/partner.svelte';
+	import Card from '$lib/components/card.svelte';
 	import Search from '$lib/components/search.svelte';
-	import AddForm from '$lib/components/addForm.svelte';
+	import Dialog from '$lib/components/dialog.svelte';
 	import Pages from '$lib/components/pages.svelte';
 
 	let { data, form } = $props();
@@ -36,7 +36,9 @@
 </section>
 
 {#if totalUrls > first}
+<section>
 	<Pages amount={totalUrls} perPage={first} {currentPage} />
+</section>
 {/if}
 
 {#if form?.success}
@@ -45,13 +47,13 @@
 	<div class="toast"><p>{form?.message}</p></div>
 {/if}
 
-<AddForm bind:this={dialogRef} {params} isType="addUrl" />
+<Dialog bind:this={dialogRef} {params} isType="addUrl" />
 
-<ul>
+<section class="cards-container">
 	{#each websites as website}
-		<Partner {website} {overzicht} {params} {principes} isUrl={true} />
+		<Card {website} {overzicht} {params} {principes} isUrl={true} />
 	{/each}
-</ul>
+</section>
 
 <style>
 	section {
@@ -80,12 +82,16 @@
 		background-color: var(--c-pink);
 	}
 
-	ul {
+	.cards-container {
 		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(20em, 1fr));
+		grid-template-columns: 1fr 1fr;
 		gap: 1em;
 		list-style-type: none;
 		margin: 0 1em;
+
+		@media (max-width: 720px) {
+			grid-template-columns: 1fr;
+		}
 	}
 
 	.toast {

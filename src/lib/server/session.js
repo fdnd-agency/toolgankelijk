@@ -1,42 +1,61 @@
+//@ts-check
 import * as crypto from 'crypto';
 import { hygraph } from '$lib/utils/hygraph.js';
 import { gql } from 'graphql-request';
 import { encodeBase32LowerCaseNoPadding, encodeHexLowerCase } from '@oslojs/encoding';
 import { sha256 } from '@oslojs/crypto/sha2';
+import getQuerySession from '$lib/queries/session';
+import getQueryDeleteSession from '$lib/queries/deleteSession';
+import getQueryUpdateSession from '$lib/queries/updateSession';
+import getQueryAddSession from '$lib/queries/addSession';
 
+// Type definitions
+/**
+ * @typedef {Object} Session
+ * @property {string|null} id
+ * @property {string|null} gebruikerId
+ * @property {Date} expiresAt
+ */
+/**
+ * @typedef {Object} User
+ * @property {string} id
+ * @property {string} email
+ * @property {string} gebruikersnaam
+ * @property {boolean} isEmailGeverifieerd
+ */
+
+// Code
+/**
+ * Validates a Session token
+ * @author Maksim Hofker
+ * @author Bjarne Zeeman
+ * @async
+ * @param {String} token The session token to be validated
+ * @returns {Promise<{ session: Session | null , user: User  | null }>}
+ */
 export async function validateSessionToken(token) {
 	const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
-	const sessieQuery = gql`
-		query GetSessie($sessionId: String!) {
-			sessie(where: { sessieId: $sessionId }) {
-				id
-				sessieId
-				houdbaarTot
-				gebruikerId {
-					id
-					email
-					gebruikersnaam
-					isEmailGeverifieerd
-				}
-			}
-		}
-	`;
-	const sessieData = await hygraph.request(sessieQuery, { sessionId });
-	const row = sessieData.sessie;
+	const { sessie: row } = await hygraph.request(getQuerySession(gql), { sessionId });
 
 	if (!row) {
-		return { sessie: null, gebruiker: null };
+		return { session: null, user: null };
 	}
 
-	const sessie = {
+	/**
+	 * @type {null | Session}
+	 */
+	let session = {
 		id: row.sessieId,
 		gebruikerId: row.gebruikerId.id,
-		houdbaarTot: new Date(row.houdbaarTot)
+		expiresAt: new Date(row.expiresAt)
 	};
 
-	let gebruiker = null;
+	/**
+	 * @type {null | User}
+	 */
+	let user = null;
 	if (row.gebruikerId) {
-		gebruiker = {
+		user = {
 			id: row.gebruikerId.id,
 			email: row.gebruikerId.email,
 			gebruikersnaam: row.gebruikerId.gebruikersnaam,
@@ -44,96 +63,111 @@ export async function validateSessionToken(token) {
 		};
 	}
 
-	if (Date.now() >= sessie.houdbaarTot.getTime()) {
-		// Delete session mutation
-		const deleteMutation = gql`
-			mutation DeleteSessie($id: ID!) {
-				deleteSessie(where: { id: $id }) {
-					id
-				}
-			}
-		`;
-		await hygraph.request(deleteMutation, { id: sessie.id });
-		return { sessie: null, gebruiker: null };
+	//Invalidate session if outdated Else Refresh session if old
+	if (Date.now() >= session.expiresAt.getTime()) {
+		({ session, user } = await invalidateSession(session));
+	} else if (Date.now() >= session.expiresAt.getTime() - 1000 * 60 * 60 * 24 * 15) {
+		session = await refreshSession(session);
 	}
-	if (Date.now() >= sessie.houdbaarTot.getTime() - 1000 * 60 * 60 * 24 * 15) {
-		sessie.houdbaarTot = new Date(Date.now() + 1000 * 60 * 60 * 24 * 30);
-		// Update session mutation
-		const updateMutation = gql`
-			mutation UpdateSessie($id: ID!, $expiresAt: Date!) {
-				updateSessie(where: { sessieId: $id }, data: { houdbaarTot: $expiresAt }) {
-					id
-				}
-			}
-		`;
-		await hygraph.request(updateMutation, {
-			id: sessie.sessieId,
-			expiresAt: Math.floor(sessie.houdbaarTot.getTime() / 1000)
-		});
-	}
-	return { sessie, gebruiker };
+	return { session, user };
 }
 
-export async function invalidateSession(sessionId) {
-	const deleteMutation = gql`
-		mutation DeleteSessie($id: String!) {
-			deleteSessie(where: { sessieId: $id }) {
-				id
-			}
-		}
-	`;
-	await hygraph.request(deleteMutation, { id: sessionId });
+/**
+ * Deletes the given session from Hygraph.
+ *
+ * Note:
+ * This function does NOT clear the session cookie.
+ *
+ * @async
+ * @author Maksim Hofker
+ * @author Bjarne Zeeman
+ * @param {Session} session - The session to delete.
+ * @returns {Promise<{ session: null, user: null }>} An object with nulled session and user values.
+ */
+async function invalidateSession(session) {
+	// Delete session mutation
+	await hygraph.request(getQueryDeleteSession(gql), { sessionId: session.id });
+	return { session: null, user: null };
 }
 
-export function setSessionTokenCookie(event, token, houdbaarTot) {
+/**
+ * Refreshes a session
+ * @async
+ * @author Maksim Hofker
+ * @author Bjarne Zeeman
+ * @param { Session } session - The session object to be refreshed
+ * @returns {Promise<Session>} A session with a refreshed lifetime
+ */
+async function refreshSession(session) {
+	session.expiresAt = new Date(Date.now() + 1000 * 60 * 60 * 24 * 30);
+	// Update session mutation
+	await hygraph.request(getQueryUpdateSession(gql), {
+		sessionId: session.id,
+		expiresAt: session.expiresAt
+	});
+	return session;
+}
+
+/**
+ * Sets a session token cookie on the given event.
+ *
+ * @author Bjarne Zeeman
+ * @param {import('@sveltejs/kit').RequestEvent} event - The request event containing cookies.
+ * @param {string} token - The session token to store in the cookie.
+ * @param {Date} expiresAt - The expiration date of the cookie.
+ */
+export function setSessionTokenCookie(event, token, expiresAt) {
 	event.cookies.set('session', token, {
 		httpOnly: true,
 		path: '/',
 		secure: import.meta.env.PROD,
 		sameSite: 'lax',
-		expires: houdbaarTot
+		expires: expiresAt
 	});
 }
 
+/**
+ * Deletes a session token cookie on the given event.
+ *
+ * @author Maksim Hofker
+ * @author Bjarne Zeeman
+ * @param {import('@sveltejs/kit').RequestEvent} event - The request event containing cookies.
+ */
 export function deleteSessionTokenCookie(event) {
-	event.cookies.set('session', '', {
-		httpOnly: true,
-		path: '/',
-		secure: import.meta.env.PROD,
-		sameSite: 'lax',
-		maxAge: 0
-	});
+	event.cookies.delete('session', { path: '/' });
 }
 
+/**
+ * Generates a session token
+ *
+ * @author Bjarne Zeeman
+ * @returns {String} session token
+ */
 export function generateSessionToken() {
 	const tokenBytes = crypto.randomBytes(20);
 	const token = encodeBase32LowerCaseNoPadding(tokenBytes).toLowerCase();
 	return token;
 }
 
+/**
+ * Creates a new Session
+ *
+ * @author Bjarne Zeeman
+ * @async
+ * @param {String} token
+ * @param {string} gebruikerId
+ * @returns {Promise<Session>}
+ */
 export async function createSession(token, gebruikerId) {
 	const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
 	const session = {
 		id: sessionId,
 		gebruikerId,
-		houdbaarTot: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30)
+		expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30)
 	};
-	const createMutation = gql`
-		mutation CreateSessie($userId: ID!, $expiresAt: Date!, $sessionId: String!) {
-			createSessie(
-				data: {
-					sessieId: $sessionId
-					gebruikerId: { connect: { id: $userId } }
-					houdbaarTot: $expiresAt
-				}
-			) {
-				id
-			}
-		}
-	`;
-	await hygraph.request(createMutation, {
+	await hygraph.request(getQueryAddSession(gql), {
 		userId: session.gebruikerId,
-		expiresAt: session.houdbaarTot.toISOString(),
+		expiresAt: session.expiresAt.toISOString(),
 		sessionId: session.id
 	});
 	return session;
