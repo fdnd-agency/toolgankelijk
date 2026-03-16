@@ -80,6 +80,7 @@
 	function close(event) {
 		event.preventDefault();
 		dialog.close();
+		document.body.style.overflowY = 'unset';
 	}
 
 	function closeTip() {
