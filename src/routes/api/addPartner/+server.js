@@ -1,10 +1,7 @@
 import { gql } from 'graphql-request';
 import { directus } from '$lib/utils/directus.js';
 import { createEmptyCheck } from '$lib/queries/url';
-import {
-	createPartner,
-	updatePartnerTotalUrls
-} from '$lib/repositories/partnerRepository.js';
+import { createPartner, updatePartnerTotalUrls } from '$lib/repositories/partnerRepository.js';
 import {
 	formatUrl,
 	getSitemapPromises,

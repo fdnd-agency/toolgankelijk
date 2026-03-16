@@ -1,7 +1,5 @@
-import { gql } from 'graphql-request';
-import { directus } from '$lib/utils/directus.js';
 import { redirect } from '@sveltejs/kit';
-import { getQueryAddPartner } from '$lib/queries/partner';
+import { createPartner } from '$lib/repositories/partnerRepository.js';
 
 export async function load({ locals }) {
 	if (!locals?.session || !locals?.user) {
@@ -21,11 +19,10 @@ export const actions = {
 		const slug = name.toLowerCase();
 
 		try {
-			let query = getQueryAddPartner(gql, name, url, slug);
-			let directusCall = await directus.request(query);
+			const partner = await createPartner({ name, url, slug });
 
 			return {
-				directusCall,
+				partner,
 				success: true,
 				message: name + ' is toegevoegd.'
 			};
