@@ -35,7 +35,6 @@
 	});
 </script>
 
-
 <Heading {heading} />
 
 <section>
@@ -125,7 +124,7 @@
 		margin: 0 1em;
 		margin-bottom: 1em;
 
-			@media (max-width: 700px) {
+		@media (max-width: 700px) {
 			grid-template-columns: 1fr;
 		}
 	}
