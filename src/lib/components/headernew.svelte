@@ -8,6 +8,7 @@
 	import LogoLightDesktop from '$lib/components/LogoLightDesktop.svelte';
 	import loginIcon from '$lib/components/loginIcon.svelte';
 	import CloseMenu from '$lib/components/CloseMenu.svelte';
+	import AccountIcon from './accountIcon.svelte';
 	import { onMount } from 'svelte';
 
 	let isLightMode = $state(false);
@@ -72,6 +73,13 @@
 					<a href="/info" aria-label="information page">
 						<InfoIcon />
 						<p>Info</p>
+					</a>
+				</li>
+
+				<li>
+					<a href="/account">
+						<AccountIcon/>
+						<p>{ user.gebruikersnaam }</p>
 					</a>
 				</li>
             
@@ -152,6 +160,9 @@
 						height: 1.5rem;
 						gap: 1rem;
 						text-decoration: none;
+					}
+
+					p {
 						color: var(--color-neutral-black);
 					}
 
@@ -173,8 +184,11 @@
 			nav:target {
             	display: flex;
 				flex-direction: column;
-				justify-content: center;
 				align-items: center;
+
+				ul {
+					padding: 1.5rem 0 0 0;
+				}
 			}
 
 			@media(min-width: 1260px) {
