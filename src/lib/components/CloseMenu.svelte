@@ -4,14 +4,12 @@
             x="2" y="0.5" 
             width="28" height="3" 
             rx="1.5" 
-            transform="rotate(45 2 0.5)" 
-            fill="#B9005F"/>
+            transform="rotate(45 2 0.5)"/>
         <rect 
             x="0" y="20.5" 
             width="28" height="3" 
             rx="1.5" 
-            transform="rotate(-45 0 20.5)" 
-            fill="#B9005F"/>
+            transform="rotate(-45 0 20.5)" />
     </svg>
 </a>
 
@@ -23,6 +21,10 @@
         font-weight: bold;
         display: none;
         z-index: 20;
+
+        rect {
+            fill: var(--color-primary);
+        }
     }
 
     @media (min-width: 1260px) {
