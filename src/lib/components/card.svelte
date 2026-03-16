@@ -121,108 +121,97 @@
 </script>
 
 {#if !isUrl}
-<div class="card-wrapper">
-	<article class="color-primary-light" id="card-partner" class:container-off={containerOff}>
-		{#if !isUrl}
-			<picture class="card-partner-logo" fetchpriority="high">
-				<!-- picture -->
-				<img
-					class="partner-logo"
-					width="256"
-					height="256"
-					src={faviconAPI + url + '/&size=128'}
-					alt="logo van {title}"
-				/>
-			</picture>
-		{/if}
+	<div class="card-wrapper">
+		<article class="color-primary-light" id="card-partner" class:container-off={containerOff}>
+			{#if !isUrl}
+				<picture class="card-partner-logo" fetchpriority="high">
+					<!-- picture -->
+					<img
+						class="partner-logo"
+						width="256"
+						height="256"
+						src={faviconAPI + url + '/&size=128'}
+						alt="logo van {title}"
+					/>
+				</picture>
+			{/if}
 
-		{#if !isUrl}
-			<h2 class="card-title">{title}</h2>
-		{/if}
+			{#if !isUrl}
+				<h2 class="card-title">{title}</h2>
+			{/if}
 
-		{#if isUrl}
-			<h2 class="card-title-url">{url}</h2>
-		{/if}
+			{#if isUrl}
+				<h2 class="card-title-url">{url}</h2>
+			{/if}
 
-		{#if isUrl}
-		<div id="url-progress-container" class="color-primary">
-			<progress id="progress-partner" max="100" value="0" bind:this={progressbar}> </progress>
-			<label class="progress-percentage" for="progress-partner" bind:this={labelValue}>0%</label>
-		</div>
-		{/if}
+			{#if isUrl}
+				<div id="url-progress-container" class="color-primary">
+					<progress id="progress-partner" max="100" value="0" bind:this={progressbar}> </progress>
+					<label class="progress-percentage" for="progress-partner" bind:this={labelValue}>0%</label
+					>
+				</div>
+			{/if}
 
-		{#if !isUrl}
-		<div id="partner-progress-container" class="color-primary">
-			<progress id="progress-partner" max="100" value="0" bind:this={progressbar}></progress>
-			<label class="progress-percentage" for="progress-partner" bind:this={labelValue}>0%</label>
-		</div>
-		{/if}
+			{#if !isUrl}
+				<div id="partner-progress-container" class="color-primary">
+					<progress id="progress-partner" max="100" value="0" bind:this={progressbar}></progress>
+					<label class="progress-percentage" for="progress-partner" bind:this={labelValue}>0%</label
+					>
+				</div>
+			{/if}
 
+			<div class="card-icons-partner">
+				{#if !isUrl}
+					<button onclick={openForm.bind(null, auditType)} aria-label="start audit van {title}">
+						<AuditIcon />
+					</button>
+				{/if}
 
-		<div class="card-icons-partner">
-	
-		{#if !isUrl}
-			<button
-				onclick={openForm.bind(null, auditType)}
-				aria-label="start audit van {title}"
-			>
-					<AuditIcon />
-			</button>
-		{/if}
-
-			<button onclick={openForm.bind(null, editType)} 
-				aria-label={isUrl ? `bewerk ${url}` : `bewerk ${title}`}>
-						<EditIcon />
-			</button>
-
-			<button 
-				onclick={openForm.bind(null, deleteType)} 
-				aria-label={isUrl ? `verwijder ${url}` : `verwijder ${title}`}>
-						<DeleteIcon />
+				<button
+					onclick={openForm.bind(null, editType)}
+					aria-label={isUrl ? `bewerk ${url}` : `bewerk ${title}`}
+				>
+					<EditIcon />
 				</button>
 
-			<a href={link} 
-				aria-label={isUrl ? `open ${url}` : `open ${title}`}
-				class="card-open">
-				Open
-			</a>
-		</div>
-</article>
-</div>
+				<button
+					onclick={openForm.bind(null, deleteType)}
+					aria-label={isUrl ? `verwijder ${url}` : `verwijder ${title}`}
+				>
+					<DeleteIcon />
+				</button>
+
+				<a href={link} aria-label={isUrl ? `open ${url}` : `open ${title}`} class="card-open">
+					Open
+				</a>
+			</div>
+		</article>
+	</div>
 {/if}
 
 {#if isUrl}
-<div class="card-wrapper">
-	<article id="card-url" class="color-primary-light" class:container-off={containerOff}>
+	<div class="card-wrapper">
+		<article id="card-url" class="color-primary-light" class:container-off={containerOff}>
+			<h2 class="card-title-url">{url}</h2>
 
-		<h2 class="card-title-url">{url}</h2>
+			<div id="url-progress-container" class="color-primary">
+				<progress id="progress-partner" max="100" value="0" bind:this={progressbar}> </progress>
+				<label class="progress-percentage" for="progress-partner" bind:this={labelValue}>0%</label>
+			</div>
 
-		<div id="url-progress-container" class="color-primary">
-			<progress id="progress-partner" max="100" value="0" bind:this={progressbar}> </progress>
-			<label class="progress-percentage" for="progress-partner" bind:this={labelValue}>0%</label>
-		</div>
-
-
-		<div class="card-icons-url">
-			<button onclick={openForm.bind(null, editType)} 
-				aria-label= "bewerk ${url}">
-						<EditIcon />
-			</button>
-
-			<button 
-				onclick={openForm.bind(null, deleteType)} 
-				aria-label="verwijder ${url}">
-						<DeleteIcon />
+			<div class="card-icons-url">
+				<button onclick={openForm.bind(null, editType)} aria-label="bewerk ${url}">
+					<EditIcon />
 				</button>
 
-			<a href={link} 
-				aria-label="open ${url}"
-				class="card-open">
-				Open
-			</a>
-		</div>
-</article>
-</div>
+				<button onclick={openForm.bind(null, deleteType)} aria-label="verwijder ${url}">
+					<DeleteIcon />
+				</button>
+
+				<a href={link} aria-label="open ${url}" class="card-open"> Open </a>
+			</div>
+		</article>
+	</div>
 {/if}
 
 <Dialog
@@ -256,8 +245,8 @@
 <style>
 	.card-wrapper {
 		display: flex;
- 		container-type: inline-size;
-  		container-name: card-component;
+		container-type: inline-size;
+		container-name: card-component;
 	}
 
 	#card-partner {
@@ -266,7 +255,7 @@
 		border-radius: var(--border-radius);
 		width: 100%;
 		transition: 0.25s ease;
-		background: linear-gradient(0.25turn,var(--light-2), var(--dark-1));
+		background: linear-gradient(0.25turn, var(--light-2), var(--dark-1));
 		display: grid;
 		grid-template-columns: 1fr 60%;
 		grid-template-rows: 1fr 20% 20%;
@@ -279,7 +268,7 @@
 		border-radius: var(--border-radius);
 		width: 100%;
 		transition: 0.25s ease;
-		background: linear-gradient(0.25turn,var(--light-2), var(--dark-1));
+		background: linear-gradient(0.25turn, var(--light-2), var(--dark-1));
 		display: grid;
 		grid-template-columns: 40% 60%;
 		grid-template-rows: 60% 10% 30%;
@@ -306,7 +295,6 @@
 		font-size: 28px;
 		line-break: strict;
 	}
-
 
 	.card-partner-logo {
 		border-radius: var(--border-radius);
@@ -363,10 +351,10 @@
 		justify-content: center;
 		align-items: center;
 		gap: 1em;
-		grid-row: 2/3; 
+		grid-row: 2/3;
 		grid-column: 1/3;
 		padding-bottom: 4em;
-		
+
 		label {
 			color: var(--color-neutral-black);
 			margin-bottom: 1em;
@@ -510,31 +498,30 @@
 			grid-column: 2/3;
 			grid-row: 3/4;
 		}
-
 	}
 
-		@container card-component (width < 400px) {
-			.card-partner-logo {
-				width: 250px;
-				height: 250px;
-				grid-column: 1/3;
-			}
-
-			.card-title {
-				grid-column: 1/3;
-				grid-row: 2/3;
-				height: 1em;
-			}
-
-			.card-open {
-				margin-left: 1em;
-			}
-
-			.card-icons-partner{
-				margin-right: 0em;
-				margin-bottom: 1em;
-				grid-row: 5/5;
-				grid-column: 1/3;
-			}
+	@container card-component (width < 400px) {
+		.card-partner-logo {
+			width: 250px;
+			height: 250px;
+			grid-column: 1/3;
 		}
+
+		.card-title {
+			grid-column: 1/3;
+			grid-row: 2/3;
+			height: 1em;
+		}
+
+		.card-open {
+			margin-left: 1em;
+		}
+
+		.card-icons-partner {
+			margin-right: 0em;
+			margin-bottom: 1em;
+			grid-row: 5/5;
+			grid-column: 1/3;
+		}
+	}
 </style>

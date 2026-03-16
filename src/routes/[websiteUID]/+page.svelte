@@ -36,9 +36,9 @@
 </section>
 
 {#if totalUrls > first}
-<section>
-	<Pages amount={totalUrls} perPage={first} {currentPage} />
-</section>
+	<section>
+		<Pages amount={totalUrls} perPage={first} {currentPage} />
+	</section>
 {/if}
 
 {#if form?.success}
