@@ -14,7 +14,7 @@ export default function getQueryPartner(gql, limit = 20, offset = 0) {
 					url
 					checks {
 						id
-						success_criteria {
+						successcriteria: success_criteria {
 							id
 						}
 					}
@@ -30,7 +30,7 @@ export default function getQueryPartner(gql, limit = 20, offset = 0) {
 			toolgankelijk_principle {
 				id
 				title
-				Guidelines {
+				guidelines: Guidelines {
 					id
 					toolgankelijk_guideline_id {
 						id
@@ -54,7 +54,7 @@ export function getQueryWebsite(gql, slug, limit = 20, offset = 0) {
 					slug
 					checks {
 						id
-						success_criteria {
+						successcriteria: success_criteria {
 							id
 						}
 					}
@@ -64,7 +64,7 @@ export function getQueryWebsite(gql, slug, limit = 20, offset = 0) {
 			toolgankelijk_principle {
 				id
 				title
-				Guidelines {
+				guidelines: Guidelines {
 					id
 				}
 			}

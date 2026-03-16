@@ -14,7 +14,7 @@ export default function getQueryPrincipes(gql) {
 					explanation
 					tip
 				}
-				Guidelines {
+				guidelines: Guidelines {
 					id
 					toolgankelijk_guideline_id {
 						id

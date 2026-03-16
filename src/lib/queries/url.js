@@ -13,7 +13,7 @@ export default function getQueryUrl(gql, slug) {
 				}
 				checks {
 					id
-					success_criteria {
+					successcriteria: success_criteria {
 						id
 					}
 				}
@@ -132,10 +132,10 @@ export function getMutationAddCheck(gql, websiteSlug, urlSlug, firstCheckId, suc
 										where: { id: "${firstCheckId}" }
 										data: {
 											create: {
-												succescriteria: { connect: { id: "${succescriteriumId}" } }
+												successcriteria: { connect: { id: "${succescriteriumId}" } }
 											}
 											update: {
-												succescriteria: {
+												successcriteria: {
 													connect: { where: { id: "${succescriteriumId}" } }
 												}
 											}
@@ -168,10 +168,10 @@ export function getMutationDeleteCheck(gql, websiteSlug, urlSlug, firstCheckId, 
 										where: { id: "${firstCheckId}" }
 										data: {
 											create: {
-												succescriteria: { connect: { id: "${succescriteriumId}" } }
+												successcriteria: { connect: { id: "${succescriteriumId}" } }
 											}
 											update: {
-												succescriteria: {
+												successcriteria: {
 													disconnect: { id: "${succescriteriumId}" }
 												}
 											}

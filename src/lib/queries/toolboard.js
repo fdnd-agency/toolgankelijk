@@ -7,7 +7,7 @@ export default function getQueryToolboard(gql, slugUrl, principeSlug) {
 				slug
 				checks {
 					id
-					success_criteria {
+					succescriteria: success_criteria {
 						id
 					}
 				}
@@ -26,7 +26,7 @@ export default function getQueryToolboard(gql, slugUrl, principeSlug) {
 					explanation
 					tip
 				}
-				Guidelines {
+				guidelines: Guidelines {
 					id
 					toolgankelijk_guideline_id {
 						id
@@ -46,7 +46,7 @@ export default function getQueryToolboard(gql, slugUrl, principeSlug) {
 					explanation
 					tip
 				}
-				Guidelines {
+				guidelines: Guidelines {
 					id
 					toolgankelijk_guideline_id {
 						id
