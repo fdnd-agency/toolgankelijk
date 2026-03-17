@@ -23,7 +23,7 @@
 	});
 </script>
 
-<Header {params} {partners} {websites} {principes} user={data.gebruiker} />
+<Header {params} {partners} {websites} {principes} user={data.user} />
 
 <main id="main">
 	{@render children?.()}

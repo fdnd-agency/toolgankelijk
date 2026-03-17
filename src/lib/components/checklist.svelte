@@ -3,8 +3,8 @@
 	import { enhance } from '$app/forms';
 	import loadingIcon from '$lib/assets/loading.svg';
 
-	let {
-		richtlijnen,
+let {
+		guidelines,
 		toolboardData,
 		niveaus,
 		selectedNiveau = $bindable(niveaus[0].niveau)
@@ -12,22 +12,22 @@
 
 	let loading = $state(false);
 
-	const getSuccescriteriaByNiveau = (niveau) =>
+const getSuccesscriteriaByNiveau = (level) =>
 		toolboardData.url.checks[0]
-			? toolboardData.url.checks[0].succescriteria.filter((item) => item.niveau === niveau)
+			? toolboardData.url.checks[0].successcriteria.filter((item) => item.niveau === level)
 			: [];
 
-	let filteredSuccescriteria = getSuccescriteriaByNiveau(selectedNiveau);
+	let filteredSuccesscriteria = getSuccesscriteriaByNiveau(selectedNiveau);
 
 	const handleNiveauChange = (event) => {
 		selectedNiveau = event.target.value;
-		filteredSuccescriteria = getSuccescriteriaByNiveau(selectedNiveau);
+		filteredSuccesscriteria = getSuccesscriteriaByNiveau(selectedNiveau);
 	};
 
 	let simpleTranslation = $state(true);
 
-	const checkedSuccescriteria = $derived(
-		toolboardData.url.checks[0] ? toolboardData.url.checks[0].succescriteria : []
+const checkedSuccesscriteria = $derived(
+		toolboardData.url.checks[0] ? toolboardData.url.checks[0].successcriteria : []
 	);
 
 	function scrollToTop(event) {
@@ -81,25 +81,25 @@
 		<input type="hidden" name="niveau" value={selectedNiveau} />
 		<input type="hidden" name="principe" value={toolboardData.principe.index} />
 
-		<!-- richtlijnen en succescriteria tekst wordt hier ingeladen! -->
-		{#each richtlijnen as richtlijn}
+		<!-- guidelines en successcriteria tekst wordt hier ingeladen! -->
+		{#each guidelines as guideline}
 			<details>
 				<summary class="collapsible-summary">
-					<span>Richtlijn {richtlijn.index}</span>
+					<span>Richtlijn {guideline.index}</span>
 					<div>
-						<h2>{richtlijn.titel}</h2>
-						<h3>{@html richtlijn.uitleg.html}</h3>
+						<h2>{guideline.title}</h2>
+						<h3>{@html guideline.uitleg.html}</h3>
 					</div>
 				</summary>
 				<article>
-					{#each richtlijn.succescriteria as succescriterium}
+					{#each guideline.successcriteria as succescriterium}
 						{#if succescriterium.niveau === selectedNiveau}
 							<details>
 								<summary class="criteria-uitklapbaar">
 									<span>Criteria {succescriterium.index} ({succescriterium.niveau})</span>
 									<div class="row">
 										<div class="column">
-											<h3>{succescriterium.titel}</h3>
+											<h3>{succescriterium.title}</h3>
 										</div>
 
 										<div class="column">
@@ -115,7 +115,7 @@
 												name="check"
 												value={succescriterium.id}
 												type="checkbox"
-												checked={checkedSuccescriteria.find((e) => e.id === succescriterium.id)}
+												checked={checkedSuccesscriteria.find((e) => e.id === succescriterium.id)}
 											/>
 										</div>
 									</div>

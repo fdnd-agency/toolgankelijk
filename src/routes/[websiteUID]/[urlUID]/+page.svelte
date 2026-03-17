@@ -11,9 +11,9 @@
 		url: data.urlData.url.slug
 	});
 	let progressData = $state({});
-	// every progress bar for the niveau of the principes
+	// every progress bar for the level of the principes
 	const principes = data.principesData.principes;
-	const niveaus = data.niveauData.niveaus;
+	const levels = data.levelData.levels;
 	const checks = data.urlData.url.checks;
 
 	principes.forEach((principe) => {
@@ -21,24 +21,24 @@
 		const pIndex = principe.index;
 		progressData[pIndex] = {};
 
-		// for each principe, loop through the niveaus
-		niveaus.forEach((niveau) => {
-			const niveauName = niveau.niveau;
+		// for each principe, loop through the levels
+		levels.forEach((level) => {
+			const levelName = level.level;
 
-			// All succescriteria for this principe with this niveau
+			// All successcriteria for this principe with this level
 			const totalChecks = principe.guidelines
-				.flatMap((guideline) => guideline.succescriteria)
-				.filter((criteria) => criteria.niveau === niveauName);
+				.flatMap((guideline) => guideline.successcriteria)
+				.filter((criteria) => criteria.level === levelName);
 
-			// All succescriteria that are achieved for this principe with this niveau
+			// All successcriteria that are achieved for this principe with this level
 			const successChecks = checks
-				.flatMap((check) => check.succescriteria)
+				.flatMap((check) => check.successcriteria)
 				.filter(
-					(criteria) => criteria.niveau === niveauName && criteria.index.startsWith(pIndex + '.')
+					(criteria) => criteria.level === levelName && criteria.index.startsWith(pIndex + '.')
 				);
 
-			// Initialize the progressData for this principe and niveau
-			progressData[pIndex][niveauName] = {
+			// Initialize the progressData for this principe and level
+			progressData[pIndex][levelName] = {
 				total: totalChecks.length,
 				behaald: successChecks.length
 			};
@@ -58,21 +58,21 @@
 							<span>{principe.title}.</span> Principe {principe.index}
 						</h1>
 						<p>{principe.beschrijving.text}</p>
-						{#each niveaus as n}
-							<p>{n.niveau}</p>
+						{#each levels as n}
+							<p>{n.level}</p>
 							<div class="progress-container">
 								<progress
-									name="progress-partner-{n.niveau}"
+									name="progress-partner-{n.level}"
 									id="progress-partner"
-									max={progressData[principe.index][n.niveau].total || 1}
-									value={progressData[principe.index][n.niveau].behaald || 0}
+									max={progressData[principe.index][n.level].total || 1}
+									value={progressData[principe.index][n.level].behaald || 0}
 								></progress>
-								<label class="progress-percentage" for="progress-partner-{n.niveau}">
-									{progressData[principe.index]?.[n.niveau]
-										? progressData[principe.index][n.niveau].total
+								<label class="progress-percentage" for="progress-partner-{n.level}">
+									{progressData[principe.index]?.[n.level]
+										? progressData[principe.index][n.level].total
 											? Math.round(
-													(progressData[principe.index][n.niveau].behaald /
-														progressData[principe.index][n.niveau].total) *
+													(progressData[principe.index][n.level].behaald /
+														progressData[principe.index][n.level].total) *
 														100
 												)
 											: 0

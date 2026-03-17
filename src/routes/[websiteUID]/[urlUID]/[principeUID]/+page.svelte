@@ -6,16 +6,16 @@
 	let { data, form } = $props();
 
 	let heading = $derived({
-		titel: data.websitesData.website.titel,
+		title: data.websitesData.website.title,
 		homepage: data.urlData.url.url,
 		url: data.urlData.url.slug
 	});
 
-	let toolboardData = $derived(data.toolboardData);
-	let urlData = $derived(data.urlData);
-	let richtlijnen = $derived(toolboardData.principe.richtlijnen);
-	let principes = $derived(data.toolboardData.principes);
-	let niveaus = $derived(data.niveausData.niveaus);
+let toolboardData = $derived(data.toolboardData);
+let urlData = $derived(data.urlData);
+let guidelines = $derived(toolboardData.principe.guidelines);
+let principes = $derived(data.toolboardData.principes);
+let levels = $derived(data.levelsData.levels);
 </script>
 
 <Heading {heading} />
@@ -24,7 +24,7 @@
 	{#if form?.success}
 		<div class="toast"><p>Checklist is opgeslagen!</p></div>
 	{/if}
-	<Checklist {richtlijnen} {toolboardData} {niveaus} />
+	<Checklist guidelines={guidelines} {toolboardData} {levels} />
 	<Sidebar {principes} {urlData} />
 </section>
 

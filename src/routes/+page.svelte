@@ -13,7 +13,7 @@
 	let totalUrls = $derived(data.totalWebsites);
 	const currentPage = $derived(skip / first + 1);
 	let showRegistrationSuccess = $derived(data.showRegistrationSuccess);
-	let heading = { titel: 'Partners overzicht' };
+let heading = { title: 'Partners overzicht' };
 	let dialogRef = $state();
 	const principes = $derived(data.principes);
 
@@ -60,8 +60,8 @@
 <Dialog bind:this={dialogRef} isUrl={false} isType="addPartner" />
 
 <section class="card-container">
-	{#each data.websites.websites as website}
-		<Card {website} {principes} isUrl={false} />
+	{#each data.websites as website}
+		<Card {website} {principles} isUrl={false} />
 	{/each}
 </section>
 
