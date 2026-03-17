@@ -10,12 +10,75 @@ import getQueryPartner, {
 	getQueryUpdatePartnerUrls,
 	getQueryDeletePartner
 } from '$lib/queries/partner';
+import getQueryLayout from '$lib/queries/layout.js';
 
 /** @typedef {import('$lib/types').PartnerWebsite} PartnerWebsite */
 /** @typedef {import('$lib/types').WebsiteUrl} WebsiteUrl */
 /** @typedef {import('$lib/types').Principle} Principle */
 /** @typedef {import('$lib/types').PartnerOverviewData} PartnerOverviewData */
 /** @typedef {import('$lib/types').WebsiteDetails} WebsiteDetails */
+
+/**
+ * Fetch partner overview, a specific website and principles in a single GraphQL query.
+ *
+ * @param {string} slug
+ * @param {{ partnerLimit?: number; partnerOffset?: number; urlLimit?: number; urlOffset?: number }} [options]
+ * @returns {Promise<{ partnersData: PartnerOverviewData; websitesData: WebsiteDetails; principesData: { principes: Principle[] } }>}
+ */
+export async function getLayoutData(
+	slug,
+	{ partnerLimit = 20, partnerOffset = 0, urlLimit = 20, urlOffset = 0 } = {}
+) {
+	// If no slug is provided (e.g. on the root overview), we only need the partner list
+	// and principles. Reuse the existing listPartners query and return an empty website block.
+	if (!slug) {
+		const partnersData = await listPartners({ limit: partnerLimit, offset: partnerOffset });
+		const websitesData = {
+			website: null, // no website block for root overview
+			urls: [],
+			totalUrls: 0,
+			principes: partnersData.principes
+		}; // principles are already in the shape used elsewhere (with `richtlijnen`/`successcriteria`)
+
+		return {
+			partnersData,
+			websitesData,
+			principesData: { principes: partnersData.principes }
+		};
+	}
+
+	const query = getQueryLayout(gql);
+	const raw = await directus.request(query, {
+		slug,
+		partnerLimit,
+		partnerOffset,
+		urlLimit,
+		urlOffset
+	});
+	console.log(raw.partnerOverview);
+	/** @type {PartnerOverviewData} */
+	const partnersData = {
+		websites: raw.partnerOverview ?? [],
+		totalWebsites: raw.partnerOverview_agg?.[0]?.count?.id ?? 0,
+		principes: raw.principes ?? []
+	};
+
+	const websiteNode = raw.website?.[0] ?? null;
+
+	/** @type {WebsiteDetails} */
+	const websitesData = {
+		website: websiteNode,
+		urls: websiteNode?.urls ?? [],
+		totalUrls: raw.websiteUrlAgg?.[0]?.count?.id ?? 0,
+		principes: raw.principes ?? []
+	};
+
+	return {
+		partnersData,
+		websitesData,
+		principesData: { principes: raw.principes ?? [] }
+	};
+}
 
 /**
  * List partners with pagination.

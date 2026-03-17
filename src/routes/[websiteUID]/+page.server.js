@@ -1,4 +1,4 @@
-import { redirect } from '@sveltejs/kit';
+import { error, redirect } from '@sveltejs/kit';
 import { getWebsiteBySlug as getWebsiteFromRepository } from '$lib/repositories/partnerRepository.js';
 
 // Type definitions
@@ -25,6 +25,10 @@ export async function load(event) {
 	const first = 20;
 	const skip = parseInt(url.searchParams.get('skip') || '0');
 	const data = await getWebsiteFromRepository(websiteUID, { limit: first, offset: skip });
+
+	if (!data.website) {
+		throw error(404, 'Website not found');
+	}
 
 	const websites = {
 		website: data.website ?? null,

@@ -1,12 +1,11 @@
-import { gql } from 'graphql-request';
-import { directus } from '$lib/utils/directus.js';
 import { error, redirect } from '@sveltejs/kit';
-import getQueryUrl from '$lib/queries/url';
-import getQueryToolboard from '$lib/queries/toolboard';
-import firstCheck from '$lib/queries/firstCheck';
-import addCheck from '$lib/queries/addCheck';
-import deleteCheck from '$lib/queries/deleteCheck';
-import getQueryNiveaus from '$lib/queries/niveaus.js';
+import {
+	getUrl,
+	getFirstCheck,
+	addSuccessCriterionToCheck,
+	removeSuccessCriterionFromCheck
+} from '$lib/repositories/urlRepository.js';
+import { getLevels, getToolboard } from '$lib/repositories/contentRepository.js';
 
 export const load = async ({ params, locals }) => {
 	const { websiteUID, urlUID, principeUID } = params;
@@ -16,44 +15,45 @@ export const load = async ({ params, locals }) => {
 	if (!locals.user.isEmailGeverifieerd) {
 		throw redirect(302, '/verify-email');
 	}
-	const queryUrl = getQueryUrl(gql, urlUID);
-	const queryToolboard = getQueryToolboard(gql, urlUID, principeUID);
-	const urlData = await directus.request(queryUrl);
-	const toolboardData = await directus.request(queryToolboard);
-	const queryNiveaus = getQueryNiveaus(gql);
-	const niveausData = await directus.request(queryNiveaus);
 
-	if (urlData.url?.website.slug === websiteUID) {
-		if (toolboardData.principe === null) {
-			throw error(404, {
-				message: 'Principe bestaat niet'
-			});
-		}
-		return {
-			toolboardData,
-			urlData,
-			niveausData
-		};
+	const url = await getUrl(urlUID);
+
+	if (!url || url.website?.slug !== websiteUID) {
+		throw error(404, {
+			message: 'Not found'
+		});
 	}
-	throw error(404, {
-		message: 'Not found'
-	});
+
+	const toolboardData = await getToolboard({ urlSlug: urlUID, principeSlug: principeUID });
+	const levels = await getLevels();
+	const levelsData = { niveaus: levels };
+
+	if (toolboardData.principe === null) {
+		throw error(404, {
+			message: 'Principe bestaat niet'
+		});
+	}
+
+	return {
+		toolboardData,
+		urlData: { url },
+		levelsData: levelsData
+	};
 };
 
 export const actions = {
 	updateChecklist: async ({ request, params }) => {
 		const { websiteUID, urlUID, principeUID } = params;
-		const queryToolboard = getQueryToolboard(gql, urlUID, principeUID);
-		const toolboardData = await directus.request(queryToolboard);
+		const toolboardData = await getToolboard({ urlSlug: urlUID, principeSlug: principeUID });
 		const formData = await request.formData();
-		const checkedSuccesscriteria = formData.getAll('check'); // Array with Succescriteria ID's of the checked inputs of the form on the opened page
-		const principeIndex = formData.get('principe'); // Principe index (1, 2, 3, 4) of the form on the opened page
-		const niveau = formData.get('niveau'); // Niveau (A, AA or AAA) of the form on the opened page
+		const checkedSuccesscriteria = formData.getAll('check'); // Array with Successcriteria ID's of the checked inputs of the form on the opened page
+		const principleIndex = formData.get('principe'); // Principe index (1, 2, 3, 4) of the form on the opened page
+		const level = formData.get('niveau'); // Niveau (A, AA or AAA) of the form on the opened page
 
 		// Successcriteria with the principe index (1, 2, 3, 4) and niveau (A, AA, AAA) of the form on the opened page that where already checked and stored in the database
 		const currentlyStoredCheckedSuccesscriteria = toolboardData.url.checks[0]
-			? toolboardData.url.checks[0].succescriteria.filter((succescriterium) => {
-					return succescriterium.niveau == niveau && succescriterium.index[0] == principeIndex;
+			? toolboardData.url.checks[0].successcriteria.filter((succescriterium) => {
+					return succescriterium.level == level && succescriterium.index[0] == principleIndex;
 				})
 			: [];
 
@@ -88,13 +88,21 @@ export const actions = {
 
 		async function storeCheckedSuccesscriterium(succescriteriumId) {
 			try {
-				let checkId = (await getCheckId()).checkId;
-				let addCheckQuery = addCheck(gql, websiteUID, urlUID, checkId, succescriteriumId);
-				let addCheckId = await directus.request(addCheckQuery);
+				const checkId = await getCheckId();
+				if (!checkId) {
+					return { success: false };
+				}
+
+				const result = await addSuccessCriterionToCheck({
+					websiteSlug: websiteUID,
+					urlSlug: urlUID,
+					checkId,
+					successCriterionId: succescriteriumId
+				});
 
 				return {
-					addCheckId,
-					success: true
+					addCheckId: result?.id ?? null,
+					success: Boolean(result)
 				};
 			} catch (error) {
 				console.log(error);
@@ -106,13 +114,21 @@ export const actions = {
 
 		async function deleteUncheckedSuccesscriterium(succescriteriumId) {
 			try {
-				let checkId = (await getCheckId()).checkId;
-				let deleteCheckQuery = deleteCheck(gql, websiteUID, urlUID, checkId, succescriteriumId);
-				let deletedCheckId = await directus.request(deleteCheckQuery);
+				const checkId = await getCheckId();
+				if (!checkId) {
+					return { success: false };
+				}
+
+				const result = await removeSuccessCriterionFromCheck({
+					websiteSlug: websiteUID,
+					urlSlug: urlUID,
+					checkId,
+					successCriterionId: succescriteriumId
+				});
 
 				return {
-					deletedCheckId,
-					success: true
+					deletedCheckId: result?.id ?? null,
+					success: Boolean(result)
 				};
 			} catch (error) {
 				console.log(error);
@@ -124,18 +140,10 @@ export const actions = {
 
 		async function getCheckId() {
 			try {
-				let getCheckIdQuery = firstCheck(gql, websiteUID, urlUID);
-				let getCheckIdResponse = await directus.request(getCheckIdQuery);
-				let checkId = getCheckIdResponse.website.urls[0].checks[0].id;
-
-				return {
-					checkId,
-					success: true
-				};
+				const checkId = await getFirstCheck({ websiteSlug: websiteUID, urlSlug: urlUID });
+				return checkId;
 			} catch (error) {
-				return {
-					success: false
-				};
+				return null;
 			}
 		}
 

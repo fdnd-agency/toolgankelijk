@@ -1,19 +1,18 @@
-import { gql } from 'graphql-request';
-import { directus } from '$lib/utils/directus.js';
-import getQueryPartner from '$lib/queries/partner';
-import getQueryWebsite from '$lib/queries/website';
-import getQueryPrincipes from '$lib/queries/principes.js';
+import { getLayoutData } from '$lib/repositories/partnerRepository.js';
 
 export async function load({ params, locals }) {
-	let { websiteUID } = params;
-	const queryPartner = getQueryPartner(gql);
-	const queryWebsite = getQueryWebsite(gql, websiteUID);
-	const queryPrincipes = getQueryPrincipes(gql);
+	const { websiteUID } = params;
 
+	const { partnersData, websitesData, principlesData } = await getLayoutData(websiteUID, {
+		partnerLimit: 100,
+		partnerOffset: 0,
+		urlLimit: 100,
+		urlOffset: 0
+	});
 	return {
-		gebruiker: locals.user,
-		partnersData: await directus.request(queryPartner),
-		websitesData: await directus.request(queryWebsite),
-		principesData: await directus.request(queryPrincipes)
+		user: locals.user,
+		partnersData,
+		websitesData,
+		principlesData
 	};
 }
