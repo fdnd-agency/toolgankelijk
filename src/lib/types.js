@@ -8,11 +8,11 @@
  * @property {string} slug
  * @property {string} url
  * @property {string} [name]
- * @property {{ id: string, success_criteria?: { id: string }[] }[]} [checks]
+ * @property {{ id: string, successcriteria?: { id: string }[] }[]} [checks]
  */
 
 /**
- * Partner website (high-level website entry).
+ * Partner website.
  *
  * @typedef {Object} PartnerWebsite
  * @property {string} id
@@ -23,7 +23,16 @@
  */
 
 /**
- * Minimal principle representation used on overview pages.
+ * WCAG principle representation used on overview pages.
+ *
+ * @typedef {Object} Level
+ * @property {string} id
+ * @property {string} level
+ * @property {string} slug
+ */
+
+/**
+ * WCAG principle representation used on overview pages.
  *
  * @typedef {Object} Principle
  * @property {string} id
@@ -43,7 +52,7 @@
  * Detailed website data as used on single-partner pages.
  *
  * @typedef {Object} WebsiteDetails
- * @property {PartnerWebsite|null} website
+ * @property {PartnerWebsite} website
  * @property {WebsiteUrl[]} urls
  * @property {number} totalUrls
  * @property {Principle[]} principes
@@ -59,7 +68,7 @@
  * @property {string} url
  * @property {string} [name]
  * @property {{ id: string, slug?: string } | null} [website]
- * @property {{ id: string, success_criteria?: { id: string }[] }[]} [checks]
+ * @property {{ id: string, successcriteria?: { id: string }[] }[]} [checks]
  */
 
 /**
