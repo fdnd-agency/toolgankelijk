@@ -6,7 +6,7 @@
 	import EditIcon from '$lib/components/icons/editIcon.svelte';
 
 	export let website;
-	export let principes;
+	export let principles;
 	export let params;
 	export let isUrl = false;
 
@@ -24,7 +24,7 @@
 	let title;
 	let url;
 	let websiteCriteria;
-	let totaalCriteria;
+	let totalCriteria;
 	let containerOff = false;
 	const updatedTime = new Date(website.updatedAt);
 	const currentTime = new Date();
@@ -43,7 +43,7 @@
 		// show website
 		link = website.slug + '?partner=' + website.slug;
 		url = website.homepage;
-		title = website.titel;
+		title = website.title;
 		editType = 'editPartner';
 		deleteType = 'deletePartner';
 		auditType = 'startAudit';
@@ -80,43 +80,46 @@
 	}
 
 	onMount(() => {
-		if (isUrl) {
-			websiteCriteria = website.checks.reduce((total, check) => {
-				total += check.succescriteria.length;
-				return total;
-			}, 0);
+			if (isUrl) {
+				websiteCriteria = website.checks.reduce((total, check) => {
+					const criteria = check.successcriteria ?? [];
+					return total + criteria.length;
+				}, 0);
 
-			totaalCriteria =
-				principes.reduce((total, principe) => {
-					principe.richtlijnen.forEach((richtlijn) => {
-						total += richtlijn.succescriteria.length;
+				totalCriteria =
+					principles.reduce((total, principle) => {
+						principle.guidelines.forEach((guideline) => {
+							const criteria = guideline.successcriteria ?? [];
+							total += criteria.length;
+						});
+						return total;
+					}, 0) * website.checks.length;
+			} else {
+				websiteCriteria = website.urls.reduce((total, url) => {
+					url.checks.forEach((check) => {
+						const criteria = check.successcriteria ?? [];
+						total += criteria.length;
 					});
 					return total;
-				}, 0) * website.checks.length;
-		} else {
-			websiteCriteria = website.urls.reduce((total, url) => {
-				url.checks.forEach((check) => {
-					total += check.succescriteria.length;
-				});
-				return total;
-			}, 0);
+				}, 0);
 
-			totaalCriteria =
-				principes.reduce((total, principe) => {
-					principe.richtlijnen.forEach((richtlijn) => {
-						total += richtlijn.succescriteria.length;
-					});
-					return total;
-				}, 0) * website.urls.length;
-		}
+				totalCriteria =
+					principles.reduce((total, principle) => {
+						principle.guidelines.forEach((guideline) => {
+							const criteria = guideline.successcriteria ?? [];
+							total += criteria.length;
+						});
+						return total;
+					}, 0) * website.urls.length;
+			}
 
-		let percentage = Math.round((websiteCriteria / totaalCriteria) * 100);
-		if (isNaN(percentage)) {
-			percentage = 0;
-		}
-		progressbar.value = websiteCriteria;
-		progressbar.max = totaalCriteria;
-		labelValue.innerHTML = `${percentage}%`;
+			let percentage = Math.round((websiteCriteria / totalCriteria) * 100);
+			if (isNaN(percentage)) {
+				percentage = 0;
+			}
+			progressbar.value = websiteCriteria;
+			progressbar.max = totalCriteria;
+			labelValue.innerHTML = `${percentage}%`;
 	});
 </script>
 

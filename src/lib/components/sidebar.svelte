@@ -3,29 +3,29 @@
 
 	let baseUrl = `/${urlData.url.website.slug}/${urlData.url.slug}`;
 
-	// Get the niveaus for each principe
-	function getNiveausForPrincipe(principe) {
-		const niveaus = new Set();
-		principe.richtlijnen.forEach((richtlijn) =>
-			richtlijn.succescriteria.forEach((criteria) => {
-				if (criteria.niveau) niveaus.add(criteria.niveau);
+	// Get the levels for each principle
+	function getNiveausForPrincipe(principle) {
+		const levels = new Set();
+		principle.guidelines.forEach((guideline) =>
+			guideline.successcriteria.forEach((criteria) => {
+				if (criteria.level) niveaus.add(criteria.level);
 			})
 		);
 		// return the array and sort it by length
-		return Array.from(niveaus).sort((a, b) => a.length - b.length);
+		return Array.from(levels).sort((a, b) => a.length - b.length);
 	}
 
-	// Get the progress for each principe and niveau
-	function getProgress(principe, niveau) {
-		// All succescriteria for this principe and niveau
-		const total = principe.richtlijnen
-			.flatMap((r) => r.succescriteria)
-			.filter((sc) => sc.niveau === niveau).length;
+	// Get the progress for each principe and level
+	function getProgress(principle, level) {
+		// All successcriteria for this principe and level
+		const total = principle.guidelines
+			.flatMap((g) => g.successcriteria)
+			.filter((sc) => sc.level === level).length;
 
-		// All succescriteria that are achieved for this principe and niveau
+		// All successcriteria that are achieved for this principe and level
 		const behaald = urlData.url.checks
-			.flatMap((check) => check.succescriteria)
-			.filter((sc) => sc.niveau === niveau && sc.index.startsWith(principe.index + '.')).length;
+			.flatMap((check) => check.successcriteria)
+			.filter((sc) => sc.level === level && sc.index.startsWith(principle.index + '.')).length;
 
 		return { total, behaald };
 	}
@@ -36,7 +36,7 @@
 		{#each principes as principe}
 			<li data-sveltekit-reload>
 				<a href="{baseUrl}/{principe.slug}">
-					<h4>{principe.titel}</h4>
+					<h4>{principe.title}</h4>
 					<span>Principe {principe.index}</span>
 					{#each getNiveausForPrincipe(principe) as niveau}
 						<div class="progress-container">

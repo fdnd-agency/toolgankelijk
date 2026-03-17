@@ -6,11 +6,10 @@
 	let { data } = $props();
 
 	let heading = $derived({
-		titel: data.websitesData.website.titel,
+		title: data.websitesData.website.title,
 		homepage: data.urlData.url.url,
 		url: data.urlData.url.slug
 	});
-
 	let progressData = $state({});
 	// every progress bar for the niveau of the principes
 	const principes = data.principesData.principes;
@@ -27,8 +26,8 @@
 			const niveauName = niveau.niveau;
 
 			// All succescriteria for this principe with this niveau
-			const totalChecks = principe.richtlijnen
-				.flatMap((check) => check.succescriteria)
+			const totalChecks = principe.guidelines
+				.flatMap((guideline) => guideline.succescriteria)
 				.filter((criteria) => criteria.niveau === niveauName);
 
 			// All succescriteria that are achieved for this principe with this niveau
@@ -56,7 +55,7 @@
 				<a href="{$page.url.pathname}/{principe.slug}">
 					<div class="principe">
 						<h1>
-							<span>{principe.titel}.</span> Principe {principe.index}
+							<span>{principe.title}.</span> Principe {principe.index}
 						</h1>
 						<p>{principe.beschrijving.text}</p>
 						{#each niveaus as n}

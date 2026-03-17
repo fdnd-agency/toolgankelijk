@@ -7,14 +7,14 @@
 
 <svelte:head>
 	{#if heading.url}
-		<title>Toolboard {heading.titel} {heading.url}</title>
+		<title>Toolboard {heading.title} {heading.url}</title>
 		<meta
 			name="description"
-			content="Toolboard met overzicht van alle principes voor url: {heading.url}. Van partner: {heading.titel}."
+			content="Toolboard met overzicht van alle principes voor url: {heading.url}. Van partner: {heading.title}."
 		/>
 	{:else if heading.homepage}
-		<title>Urls van {heading.titel}</title>
-		<meta name="description" content="Overzicht van alle urls van partner: {heading.titel}." />
+		<title>Urls van {heading.title}</title>
+		<meta name="description" content="Overzicht van alle urls van partner: {heading.title}." />
 	{:else}
 		<title>Partneroverzicht</title>
 		<meta name="description" content="Overzicht van alle Vervoerregio Amsterdam partners." />
@@ -26,7 +26,7 @@
 		<img width="60" src="{faviconAPI}{heading.homepage}/&size=128" alt="logo partner" />
 	{/if}
 	<h1>
-		{heading.titel}{#if heading.url}/{heading.url}{/if}
+		{heading.title}{#if heading.url}/{heading.url}{/if}
 	</h1>
 </section>
 

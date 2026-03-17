@@ -22,7 +22,7 @@
 						width="24"
 						src="{faviconAPI}{selectedPartner.homepage}/&size=128"
 						alt="logo partner"
-					/>{selectedPartner.titel}
+					/>{selectedPartner.title}
 				</span>
 			{:else}
 				<span>Partners overzicht</span>
@@ -41,7 +41,7 @@
 									width="24"
 									src="{faviconAPI}{partner.homepage}/&size=256"
 									alt="logo partner"
-								/>{partner.titel}
+								/>{partner.title}
 							</span>
 						</a>
 					</li>
@@ -84,7 +84,7 @@
 		<div class="dropdown">
 			<button>
 				{#if selectedPrincipe}
-					<span>{selectedPrincipe.titel}</span>
+					<span>{selectedPrincipe.title}</span>
 				{:else}
 					<span>Principes overzicht</span>
 				{/if}
@@ -101,7 +101,7 @@
 					{#if selectedPartner && selectedUrl && principe && principe.slug}
 						<li>
 							<a href="/{selectedPartner.slug}/{selectedUrl}/{principe.slug}">
-								<span>{principe.titel}</span>
+								<span>{principe.title}</span>
 							</a>
 						</li>
 					{/if}
