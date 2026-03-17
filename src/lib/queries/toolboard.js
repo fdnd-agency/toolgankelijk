@@ -7,7 +7,7 @@ export default function getQueryToolboard(gql, slugUrl, principeSlug) {
 				slug
 				checks {
 					id
-					succescriteria: success_criteria {
+					successcriteria: success_criteria {
 						id
 					}
 				}
