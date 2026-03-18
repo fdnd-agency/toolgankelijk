@@ -2,7 +2,7 @@
 	import Loader from '$lib/components/loader.svelte';
 
 	// icons
-	import ExclamationmarkIcon from './icons/exclamationmarkIcon.svelte';
+	import ExclamationmarkIcon from './icons/alertIcon.svelte';
 	import CrossIcon from './icons/crossIcon.svelte';
 	import EditIcon from './icons/editIcon.svelte';
 	import DeleteIcon from './icons/deleteIcon.svelte';
