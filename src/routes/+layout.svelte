@@ -7,7 +7,7 @@
 
 	let params = $derived($page.params);
 	let websites = $derived(data.websitesData.website);
-	let principes = $derived(data.principesData.principes);
+	let principles = $derived(data.principlesData.principles);
 
 	let partners = $derived(data.partnersData);
 
@@ -23,7 +23,7 @@
 	});
 </script>
 
-<Header {params} {partners} {websites} {principes} user={data.user} />
+<Header {params} {partners} {websites} {principles} user={data.user} />
 
 <main id="main">
 	{@render children?.()}

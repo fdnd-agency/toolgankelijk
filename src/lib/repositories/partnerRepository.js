@@ -43,7 +43,7 @@ export async function getLayoutData(
 		return {
 			partnersData,
 			websitesData,
-			principesData: { principes: partnersData.principes }
+			principlesData: { principes: partnersData.principes }
 		};
 	}
 
@@ -55,7 +55,6 @@ export async function getLayoutData(
 		urlLimit,
 		urlOffset
 	});
-	console.log(raw.partnerOverview);
 	/** @type {PartnerOverviewData} */
 	const partnersData = {
 		websites: raw.partnerOverview ?? [],
