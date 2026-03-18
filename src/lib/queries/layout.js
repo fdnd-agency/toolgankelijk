@@ -58,7 +58,7 @@ export default function getQueryLayout(gql) {
 				}
 			}
 
-			principes: toolgankelijk_principle {
+			principles: toolgankelijk_principle {
 				id
 				title
 				guidelines: Guidelines {
@@ -71,4 +71,3 @@ export default function getQueryLayout(gql) {
 		}
 	`;
 }
-
