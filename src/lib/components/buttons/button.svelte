@@ -1,8 +1,8 @@
 <script>
-	let { icon, title } = $props();
+	let { icon, title, onclick } = $props();
 </script>
 
-<button>
+<button onclick={onclick}>
     <!-- with svelte:component you can import component within a component -->
     <svelte:component this={icon} />
     <p> {title} </p>

@@ -11,7 +11,7 @@
 	}
 }
 
-body {
+html {
 	--color-primary: #b9005f;
 	--color-primary-light:#f1ccdf;
 
@@ -36,6 +36,8 @@ body {
 
 	/* border radius */
 	--border-radius: 12px;
+
+	--border-darkgrey: var(--color-neutral-darkgrey) 2px solid;
 }
 
 .color-primary,

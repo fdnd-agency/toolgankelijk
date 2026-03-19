@@ -21,5 +21,7 @@
         gap: 1em;
         height: 3em;
         background-color: var(--color-primary-light);
+        color: var(--color-neutral-dark-grey)
+        border: var(--border-darkgrey);
     }
 </style>
