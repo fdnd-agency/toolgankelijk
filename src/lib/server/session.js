@@ -5,7 +5,7 @@ import { sha256 } from '@oslojs/crypto/sha2';
 import {
 	getSessionByTokenHash,
 	updateSessionExpiry,
-	deleteSessionByID,
+	deleteSessionById,
 	createSessionRecord
 } from '$lib/repositories/sessionRepository.js';
 
@@ -85,7 +85,7 @@ export async function validateSessionToken(token) {
  * @returns {Promise<{ session: null, user: null }>} An object with nulled session and user values.
  */
 async function invalidateSession(session) {
-	await deleteSessionByID(session.id);
+	await deleteSessionById(session.id);
 	return { session: null, user: null };
 }
 
