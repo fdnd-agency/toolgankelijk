@@ -63,12 +63,7 @@
 						<p>Home</p>
 					</a>
 				</li>
-				<li>
-					<button aria-label="lightmode" class="toggle" onclick={toggleLightMode}>
-						<DarkmodeIcon />
-						<p>Dark/Lightmode</p>
-					</button>
-				</li>
+
 				<li>
 					<a href="/info" aria-label="information page">
 						<InfoIcon />
