@@ -4,17 +4,6 @@
 	import logoLightMode from '$lib/assets/logoLightModeDesktop.svg';
 	import BreadCrumbs from '$lib/components/breadCrumbs.svelte';
 	
-
-	/**
-	 * @typedef {Object} Props
-	 * @property {any} params
-	 * @property {any} partners
-	 * @property {any} websites
-	 * @property {any} principes
-	 * @property {any} [user]
-	 */
-
-	/** @type {Props} */
 	let { params, partners, websites, principes, user = null } = $props();
 
 	let isLightMode = $state(false);
