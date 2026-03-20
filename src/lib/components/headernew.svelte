@@ -1,13 +1,13 @@
 <script>
 	import { onMount } from 'svelte';
-	import LogoLightMobile from './LogoLightMobile.svelte';
+ 	import { page } from '$app/stores';
 	import HomeIcon from './icons/homeIcon.svelte';
-	import Button from './buttons/button.svelte'
-	import Logo from './logo/logo-header.svelte'
-	import Navigation from './buttons/navigation.svelte'
+	import Logo from './logo/logo-header.svelte';
+	import Navigation from './buttons/navigation.svelte';
 	import AccountIcon from './icons/accountIcon.svelte';
-
-
+	import InfoIcon from './icons/infoIcon.svelte';
+	import BreadCrumbs from './breadCrumbs.svelte';
+	import Hamburger from './hamburger.svelte';
 
 	onMount(() => {
 		const savedLightMode = localStorage.getItem('lightMode');
@@ -24,7 +24,7 @@
 		icon?.classList.toggle('disable-js');
 	});
 
-	let { user = null } = $props();
+	let { params, partners, websites, principes, user = null } = $props();
 </script>
 
 <header>
@@ -34,14 +34,19 @@
 			<Logo />
         </a>
 
-
-
-        <nav class="header-navigation">
-			<Navigation icon={HomeIcon} title="Home" href="/" />
-			<Navigation icon={HomeIcon} title="Info" href="/info" />
-			<Navigation icon={AccountIcon} title="Account" href="/account" />
+		<nav id="header-navigation" class="color-primary-light">
+			<Navigation size="large" icon={HomeIcon} title="Home" href="/" page="home" active={$page.url.pathname === '/' ? 'active' : ''}/>
+			<Navigation size="large" icon={InfoIcon} title="Info" href="/info" page="info" active={$page.url.pathname === '/info' ? 'active' : ''}/>
+			<Navigation size="large" icon={AccountIcon} title="Account" href="/account" page="account" active={$page.url.pathname === '/account' ? 'active' : ''} />
 		</nav>
-            
+
+
+
+		<Hamburger  />
+
+
+        
+		<!-- <div class="sign-button">
                 {#if !user}
 				<Navigation href="/login" icon={AccountIcon} title="Login" />
                 	<li>
@@ -52,25 +57,48 @@
 	            {/if}
 
 	        	{#if user}
-					<Navigation href="/login" icon={AccountIcon} title="Sign Out" />
+					<Navigation href="/login" title="Sign Out" />
 	        	{/if}
+		</div> -->
 </header>
 
 <style>
 
 header {
 	position: sticky;
+	padding-left: 1em;
+	padding-right: 1em;
 	width: 100vw;
-	height: 120px;
+	height: 15vh;
 	background-color: var(--color-primary);
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
 .logo-header {
 	text-decoration: none;
 	padding: 1em;
 }
 
-.header-navigation {
+#header-navigation {
 	display: flex;
 	gap: 1em;
+
+	@media (max-width: 720px) {
+		display: none;
+	}
+}
+
+
+
+.subheader {
+	height: 6em;
+	width: 100vw;
+	background-color: var(--color-primary-light);
+	display: flex;
+	align-items: center;
+	padding-left: 5em;
 }
 
 </style>
