@@ -116,6 +116,11 @@ html {
 main {
 	margin-right: 5%;
 	margin-left: 5%;
+
+	@media (min-width: 700px) {
+		margin-right: 0;
+		margin-left: 0;
+	}
 }
 
 /* Text styles */
