@@ -6,6 +6,9 @@
 	import Search from '$lib/components/search.svelte';
 	import Dialog from '$lib/components/dialog.svelte';
 	import Pages from '$lib/components/pages.svelte';
+	import Button from '$lib/components/buttons/button.svelte'
+	import AddIcon from '$lib/components/icons/addIcon.svelte'
+
 	let { data, form } = $props();
 
 	let skip = $derived(data.skip);
@@ -38,8 +41,8 @@
 
 <Heading {heading} />
 
-<section>
-	<button class="add-partner" onclick={handleDialog}>Partner toevoegen</button>
+<section class="overview-menu">
+	<Button onclick={handleDialog} title="Partner toevoegen" icon={AddIcon}/>
 	<Search placeholderProp="Gvb" />
 </section>
 
@@ -68,6 +71,9 @@
 <a href="#main" class="btn-top" onclick={scrollToTop}>⬆</a>
 
 <style>
+.overview-menu {
+	padding-top: 1em;
+}
 	section {
 		display: flex;
 		justify-content: space-between;
