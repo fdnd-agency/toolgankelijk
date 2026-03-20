@@ -2,6 +2,7 @@
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 	import Heading from '$lib/components/heading.svelte';
+	import Subheader from '$lib/components/subheader.svelte';
 
 	let { data } = $props();
 
@@ -47,9 +48,15 @@
 	});
 </script>
 
+
+
 <Heading {heading} />
 
+<Subheader />
+
+
 <section class="container-principes">
+
 	<ul>
 		{#each principes as principe (principe.index)}
 			<li>
