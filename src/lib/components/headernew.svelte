@@ -3,6 +3,7 @@
 	import LogoLightMobile from './LogoLightMobile.svelte';
 	import HomeIcon from './icons/homeIcon.svelte';
 	import Button from './buttons/button.svelte'
+	import Logo from './logo/logo-header.svelte'
 	import Navigation from './buttons/navigation.svelte'
 	import AccountIcon from './icons/accountIcon.svelte';
 
@@ -29,9 +30,11 @@
 <header>
         <a href="#main" class="sr-only">Jump directly to main content</a>
 
-	    <a href="/" class="logo">
-			<LogoLightMobile />
+	    <a href="/" class="logo-header">
+			<Logo />
         </a>
+
+
 
         <nav class="header-navigation">
 			<Navigation icon={HomeIcon} title="Home" href="/" />
@@ -60,6 +63,9 @@ header {
 	width: 100vw;
 	height: 120px;
 	background-color: var(--color-primary);
+.logo-header {
+	text-decoration: none;
+	padding: 1em;
 }
 
 .header-navigation {
