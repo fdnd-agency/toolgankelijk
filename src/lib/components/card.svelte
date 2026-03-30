@@ -4,6 +4,7 @@
 	import AuditIcon from '$lib/components/icons/auditIcon.svelte';
 	import DeleteIcon from '$lib/components/icons/deleteIcon.svelte';
 	import EditIcon from '$lib/components/icons/editIcon.svelte';
+	import NavButton from './NavButton.svelte';
 
 	export let website;
 	export let principes;
@@ -163,8 +164,10 @@
 			<div class="card-icons-partner">
 				{#if !isUrl}
 					<button onclick={openForm.bind(null, auditType)} aria-label="start audit van {title}">
-						<AuditIcon />
+						
 					</button>
+
+
 				{/if}
 
 				<button

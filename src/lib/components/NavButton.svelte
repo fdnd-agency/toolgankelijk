@@ -7,7 +7,7 @@
         as,
         children,
         onclick,
-        ...resizeTo
+        ...rest
         } = $props();
 
         const tagname = $derived(as || (href ? "a" : "button"))
@@ -19,7 +19,7 @@
     {type}
     class="navbutton {variant} {size}"
     {...rest}>
-    {@render childeren?.()}
+    {@render children?.()}
 </svelte:element>
 
 <style>
