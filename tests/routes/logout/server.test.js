@@ -1,12 +1,12 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { POST } from '../../../src/routes/logout/+server.js';
 import * as sessionModule from '$lib/server/session.js';
-import { directus } from '$lib/utils/directus.js';
+import * as sessionRepository from '$lib/repositories/sessionRepository.js';
 import { sha256 } from '@oslojs/crypto/sha2';
 import { encodeHexLowerCase } from '@oslojs/encoding';
 
-vi.mock('$lib/utils/directus.js', () => ({
-	directus: { request: vi.fn() }
+vi.mock('$lib/repositories/sessionRepository.js', () => ({
+	deleteSessionById: vi.fn()
 }));
 vi.mock('$lib/server/session.js', () => ({
 	deleteSessionTokenCookie: vi.fn()
@@ -31,6 +31,7 @@ describe('src/routes/logout/+server.js', () => {
 	it('should delete session and cookie if session token exists', async () => {
 		// Arrange
 		cookies.get.mockReturnValue('token');
+		sessionRepository.deleteSessionById.mockResolvedValue(undefined);
 
 		// Act
 		const response = await POST({ cookies });
@@ -39,9 +40,7 @@ describe('src/routes/logout/+server.js', () => {
 		expect(cookies.get).toHaveBeenCalledWith('session');
 		expect(encodeHexLowerCase).toHaveBeenCalled();
 		expect(sha256).toHaveBeenCalled();
-		expect(directus.request).toHaveBeenCalledWith(expect.stringContaining('deleteSessie'), {
-			id: 'mockedSessionId'
-		});
+		expect(sessionRepository.deleteSessionById).toHaveBeenCalledWith('mockedSessionId');
 		expect(sessionModule.deleteSessionTokenCookie).toHaveBeenCalledWith({ cookies });
 		expect(response.status).toBe(204);
 	});
@@ -54,7 +53,7 @@ describe('src/routes/logout/+server.js', () => {
 		const response = await POST({ cookies });
 
 		// Assert
-		expect(directus.request).not.toHaveBeenCalled();
+		expect(sessionRepository.deleteSessionById).not.toHaveBeenCalled();
 		expect(sessionModule.deleteSessionTokenCookie).not.toHaveBeenCalled();
 		expect(response.status).toBe(204);
 	});
