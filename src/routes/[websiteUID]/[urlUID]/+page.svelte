@@ -111,7 +111,7 @@
 		gap: 1rem;
 		margin: 1em 1em;
 		border-radius: 0.5em;
-        
+            
 	}
 
 	.container-principes ul {
@@ -198,7 +198,7 @@
 	}
 
 	.niveau-sub-card {
-		background-color: var(--subcard-pink);
+		background-color: rgba(214,104,161);
 		padding: 1rem 1.5rem;
 		border-radius: 15px;
 	}
