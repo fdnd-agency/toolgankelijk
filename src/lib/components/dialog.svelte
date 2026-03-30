@@ -1,12 +1,6 @@
 <script>
 	import Loader from '$lib/components/loader.svelte';
-
-	// icons
-	import ExclamationmarkIcon from './icons/exclamationmarkIcon.svelte';
-	import CrossIcon from './icons/crossIcon.svelte';
-	import EditIcon from './icons/editIcon.svelte';
-	import DeleteIcon from './icons/deleteIcon.svelte';
-	import AuditIcon from './icons/auditIcon.svelte';
+	import NavButton from '$lib/components/NavButton.svelte';
 
 	export let params;
 	export let isType;
@@ -168,21 +162,14 @@
 		{#if !sending}
 			<div class="form-heading">
 				<h2 class="form-heading">{title}</h2>
-				<button class="form-close-button" onclick={close} aria-label="sluit het venster">
-					<CrossIcon />
-				</button>
+				<NavButton onclick={close} aria="sluit het venster" variant="primary" showIcon={true} 
+    iconName="cross" size="small"></NavButton>
 			</div>
 
 			{#if tip !== null}
 				<div class="form-message-tip">
-					<div class="form-exclamation-mark">
-						<ExclamationmarkIcon />
-					</div>
-
-					<p tabindex="0">{tip}</p>
-					<button onclick={closeTip} class="form-close-button" aria-label="sluit de tip">
-						<CrossIcon />
-					</button>
+				<!-- alert icon -->
+				 <p>{tip}</p>
 				</div>
 			{/if}
 
@@ -222,7 +209,7 @@
 				{#if isType === 'editUrl' || isType === 'editPartner'}
 					<div class="form-edit-textfields">
 						<div class="form-edit-icon">
-							<EditIcon />
+							<!-- <EditIcon /> -->
 						</div>
 						<div class="form-edit-textfields">
 							<label>Typ hier je titel</label>
@@ -236,7 +223,7 @@
 							/>
 
 							<div class="form-edit-icon">
-								<EditIcon />
+								<!-- <EditIcon /> -->
 							</div>
 							<label>Typ hier je URL</label>
 							<input
@@ -261,21 +248,21 @@
 
 				{#if isType === 'deleteUrl'}
 					<div class="form-delete-content" tabindex="0">
-						<DeleteIcon />
+						<!-- <DeleteIcon /> -->
 						<p>Weet je zeker dat je {urlValue} wilt verwijderen?</p>
 					</div>
 				{/if}
 
 				{#if isType === 'deletePartner'}
 					<div class="form-delete-content" tabindex="0">
-						<DeleteIcon />
+						<!-- <DeleteIcon /> -->
 						<p>Weet je zeker dat je {nameValue} wilt verwijderen?</p>
 					</div>
 				{/if}
 
 				{#if isType === 'startAudit'}
 					<div class="form-audit-content" tabindex="0">
-						<AuditIcon />
+						<!-- <AuditIcon /> -->
 						<p>Wilt u een audit uitvoeren op {nameValue}?</p>
 					</div>
 
@@ -291,10 +278,9 @@
 					<input type="hidden" name="slug" id="slug" value={slugValue} />
 				{/if}
 
-				<button class="form-submit-button" aria-label="verzend formulier">
-					<!-- here comes all the is states of submitting -->
+				<NavButton aria="verzend formulier" variant="primary">
 					{submitValue}
-				</button>
+				</NavButton>
 			</form>
 		{/if}
 
