@@ -206,7 +206,7 @@
 
 	.niveau-sub-card {
 		background-color: rgba(230, 163, 197);
-		padding: 0.71rem 0.5rem;
+		padding: 0.71rem 0.8rem;
 		border-radius: 15px;
 	}
 
