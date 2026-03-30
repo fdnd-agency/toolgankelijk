@@ -22,22 +22,27 @@ import getQueryUrl, {
  * @returns {Promise<UrlWithWebsite | null>}
  */
 export async function getUrl(slug) {
-	const query = getQueryUrl(gql, slug);
-	const raw = await directus.request(query);
-	const node = Array.isArray(raw?.toolgankelijk_url)
-		? raw.toolgankelijk_url[0]
-		: raw?.toolgankelijk_url ?? null;
+	try {
+		const query = getQueryUrl(gql, slug);
+		const raw = await directus.request(query);
+		const node = Array.isArray(raw?.toolgankelijk_url)
+			? raw.toolgankelijk_url[0]
+			: raw?.toolgankelijk_url ?? null;
 
-	if (!node) return null;
+		if (!node) return null;
 
-	return {
-		id: node.id,
-		name: node.name,
-		url: node.url,
-		slug: node.slug,
-		website: node.website_id,
-		checks: node.checks ?? []
-	};
+		return {
+			id: node.id,
+			name: node.name,
+			url: node.url,
+			slug: node.slug,
+			website: node.website_id,
+			checks: node.checks ?? []
+		};
+	} catch (error) {
+		console.error('urlRepository.getUrl failed', error);
+		return null;
+	}
 }
 
 /**
@@ -47,10 +52,15 @@ export async function getUrl(slug) {
  * @returns {Promise<{ id: string } | null>}
  */
 export async function addUrl({ urlSlug, urlLink, websiteSlug, urlName }) {
-	const query = getQueryAddUrl(gql, urlSlug, urlLink, websiteSlug, urlName);
-	const raw = await directus.request(query);
-	const row = raw.create_toolgankelijk_url_item ?? null;
-	return row ? { id: row.id } : null;
+	try {
+		const query = getQueryAddUrl(gql, urlSlug, urlLink, websiteSlug, urlName);
+		const raw = await directus.request(query);
+		const row = raw.create_toolgankelijk_url_item ?? null;
+		return row ? { id: row.id } : null;
+	} catch (error) {
+		console.error('urlRepository.addUrl failed', error);
+		return null;
+	}
 }
 
 /**
@@ -60,10 +70,15 @@ export async function addUrl({ urlSlug, urlLink, websiteSlug, urlName }) {
  * @returns {Promise<{ id: string; slug: string; url: string; name: string } | null>}
  */
 export async function updateUrl({ id, slug, url, name }) {
-	const query = getQueryUpdateUrl(gql, slug, url, id, name);
-	const raw = await directus.request(query);
-	const row = raw.update_toolgankelijk_url_item ?? null;
-	return row ? { id: row.id, slug, url, name } : null;
+	try {
+		const query = getQueryUpdateUrl(gql, slug, url, id, name);
+		const raw = await directus.request(query);
+		const row = raw.update_toolgankelijk_url_item ?? null;
+		return row ? { id: row.id, slug, url, name } : null;
+	} catch (error) {
+		console.error('urlRepository.updateUrl failed', error);
+		return null;
+	}
 }
 
 /**
@@ -73,10 +88,15 @@ export async function updateUrl({ id, slug, url, name }) {
  * @returns {Promise<{ id: string } | null>}
  */
 export async function deleteUrl(id) {
-	const query = getQueryDeleteUrl(gql, id);
-	const raw = await directus.request(query);
-	const row = raw.delete_toolgankelijk_url_item ?? null;
-	return row ? { id: row.id } : null;
+	try {
+		const query = getQueryDeleteUrl(gql, id);
+		const raw = await directus.request(query);
+		const row = raw.delete_toolgankelijk_url_item ?? null;
+		return row ? { id: row.id } : null;
+	} catch (error) {
+		console.error('urlRepository.deleteUrl failed', error);
+		return null;
+	}
 }
 
 /**
@@ -86,12 +106,17 @@ export async function deleteUrl(id) {
  * @returns {Promise<{ id: string } | null>}
  */
 export async function deleteUrlWithChecks(id) {
-	const checksQuery = getQueryDeleteChecks(gql, id);
-	await directus.request(checksQuery);
-	const deleteQuery = getQueryDeleteUrl(gql, id);
-	const raw = await directus.request(deleteQuery);
-	const row = raw.delete_toolgankelijk_url_item ?? null;
-	return row ? { id: row.id } : null;
+	try {
+		const checksQuery = getQueryDeleteChecks(gql, id);
+		await directus.request(checksQuery);
+		const deleteQuery = getQueryDeleteUrl(gql, id);
+		const raw = await directus.request(deleteQuery);
+		const row = raw.delete_toolgankelijk_url_item ?? null;
+		return row ? { id: row.id } : null;
+	} catch (error) {
+		console.error('urlRepository.deleteUrlWithChecks failed', error);
+		return null;
+	}
 }
 
 /**
@@ -101,10 +126,15 @@ export async function deleteUrlWithChecks(id) {
  * @returns {Promise<{ id: string } | null>}
  */
 export async function createEmptyCheckForUrl({ websiteSlug, urlSlug }) {
-	const mutation = createEmptyCheck(gql, websiteSlug, urlSlug);
-	const raw = await directus.request(mutation);
-	const row = raw.updateWebsite ?? null;
-	return row ? { id: row.id } : null;
+	try {
+		const mutation = createEmptyCheck(gql, websiteSlug, urlSlug);
+		const raw = await directus.request(mutation);
+		const row = raw.updateWebsite ?? null;
+		return row ? { id: row.id } : null;
+	} catch (error) {
+		console.error('urlRepository.createEmptyCheckForUrl failed', error);
+		return null;
+	}
 }
 
 /**
@@ -114,10 +144,15 @@ export async function createEmptyCheckForUrl({ websiteSlug, urlSlug }) {
  * @returns {Promise<string | null>}
  */
 export async function getFirstCheck({ websiteSlug, urlSlug }) {
-	const query = getQueryFirstCheck(gql, websiteSlug, urlSlug);
-	const raw = await directus.request(query);
-	const checkId = raw.website?.urls?.[0]?.checks?.[0]?.id ?? null;
-	return checkId;
+	try {
+		const query = getQueryFirstCheck(gql, websiteSlug, urlSlug);
+		const raw = await directus.request(query);
+		const checkId = raw.website?.urls?.[0]?.checks?.[0]?.id ?? null;
+		return checkId;
+	} catch (error) {
+		console.error('urlRepository.getFirstCheck failed', error);
+		return null;
+	}
 }
 
 /**
@@ -132,10 +167,15 @@ export async function addSuccessCriterionToCheck({
 	checkId,
 	successCriterionId
 }) {
-	const mutation = getMutationAddCheck(gql, websiteSlug, urlSlug, checkId, successCriterionId);
-	const raw = await directus.request(mutation);
-	const row = raw.updateWebsite ?? null;
-	return row ? { id: row.id } : null;
+	try {
+		const mutation = getMutationAddCheck(gql, websiteSlug, urlSlug, checkId, successCriterionId);
+		const raw = await directus.request(mutation);
+		const row = raw.updateWebsite ?? null;
+		return row ? { id: row.id } : null;
+	} catch (error) {
+		console.error('urlRepository.addSuccessCriterionToCheck failed', error);
+		return null;
+	}
 }
 
 /**
@@ -150,9 +190,14 @@ export async function removeSuccessCriterionFromCheck({
 	checkId,
 	successCriterionId
 }) {
-	const mutation = getMutationDeleteCheck(gql, websiteSlug, urlSlug, checkId, successCriterionId);
-	const raw = await directus.request(mutation);
-	const row = raw.updateWebsite ?? null;
-	return row ? { id: row.id } : null;
+	try {
+		const mutation = getMutationDeleteCheck(gql, websiteSlug, urlSlug, checkId, successCriterionId);
+		const raw = await directus.request(mutation);
+		const row = raw.updateWebsite ?? null;
+		return row ? { id: row.id } : null;
+	} catch (error) {
+		console.error('urlRepository.removeSuccessCriterionFromCheck failed', error);
+		return null;
+	}
 }
 

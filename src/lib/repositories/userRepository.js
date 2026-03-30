@@ -25,9 +25,14 @@ import {
  * @returns {Promise<boolean>}
  */
 export async function checkUsernameAvailability(username) {
-	const query = getQueryCheckUsernameAvailability(gql);
-	const data = await directus.request(query, { username });
-	return !(data.users && data.users.length);
+	try {
+		const query = getQueryCheckUsernameAvailability(gql);
+		const data = await directus.request(query, { username });
+		return !(data.users && data.users.length);
+	} catch (error) {
+		console.error('userRepository.checkUsernameAvailability failed', error);
+		return false;
+	}
 }
 
 /**
@@ -37,17 +42,22 @@ export async function checkUsernameAvailability(username) {
  * @returns {Promise<User | null>}
  */
 export async function createUser({ email, username, passwordHash, isEmailVerified = false }) {
-	const mutation = getMutationCreateUser(gql);
-	const variables = { email, username, password: passwordHash, isEmailVerified };
-	const data = await directus.request(mutation, variables);
-	const row = data.createUser ?? null;
-	if (!row) return null;
-	return {
-		id: row.id,
-		email: row.email,
-		username: row.username,
-		isEmailVerified: row.isEmailVerified ?? false
-	};
+	try {
+		const mutation = getMutationCreateUser(gql);
+		const variables = { email, username, password: passwordHash, isEmailVerified };
+		const data = await directus.request(mutation, variables);
+		const row = data.createUser ?? null;
+		if (!row) return null;
+		return {
+			id: row.id,
+			email: row.email,
+			username: row.username,
+			isEmailVerified: row.isEmailVerified ?? false
+		};
+	} catch (error) {
+		console.error('userRepository.createUser failed', error);
+		return null;
+	}
 }
 
 /**
@@ -57,10 +67,15 @@ export async function createUser({ email, username, passwordHash, isEmailVerifie
  * @returns {Promise<string | null>}
  */
 export async function getUserPasswordHash(userId) {
-	const query = getQueryUserPasswordHash(gql, userId);
-	const data = await directus.request(query);
-	const row = Array.isArray(data.user) ? data.user[0] : data.user?.[0] ?? null;
-	return row?.password ?? null;
+	try {
+		const query = getQueryUserPasswordHash(gql, userId);
+		const data = await directus.request(query);
+		const row = Array.isArray(data.user) ? data.user[0] : data.user?.[0] ?? null;
+		return row?.password ?? null;
+	} catch (error) {
+		console.error('userRepository.getUserPasswordHash failed', error);
+		return null;
+	}
 }
 
 /**
@@ -70,16 +85,21 @@ export async function getUserPasswordHash(userId) {
  * @returns {Promise<User | null>}
  */
 export async function getUserByEmail(email) {
-	const query = getQueryUserFromEmail(gql);
-	const data = await directus.request(query, { email });
-	const row = Array.isArray(data.user) ? data.user[0] : data.user?.[0] ?? null;
-	if (!row) return null;
-	return {
-		id: row.id,
-		email: row.email,
-		username: row.username,
-		isEmailVerified: row.is_email_verified ?? false
-	};
+	try {
+		const query = getQueryUserFromEmail(gql);
+		const data = await directus.request(query, { email });
+		const row = Array.isArray(data.user) ? data.user[0] : data.user?.[0] ?? null;
+		if (!row) return null;
+		return {
+			id: row.id,
+			email: row.email,
+			username: row.username,
+			isEmailVerified: row.is_email_verified ?? false
+		};
+	} catch (error) {
+		console.error('userRepository.getUserByEmail failed', error);
+		return null;
+	}
 }
 
 /**
@@ -89,9 +109,14 @@ export async function getUserByEmail(email) {
  * @returns {Promise<User | null>}
  */
 export async function markUserEmailVerified(userId) {
-	const mutation = getMutationSetUserEmailAsVerified(gql, userId);
-	const data = await directus.request(mutation);
-	return data.updateUser ?? null;
+	try {
+		const mutation = getMutationSetUserEmailAsVerified(gql, userId);
+		const data = await directus.request(mutation);
+		return data.updateUser ?? null;
+	} catch (error) {
+		console.error('userRepository.markUserEmailVerified failed', error);
+		return null;
+	}
 }
 
 /**
@@ -101,10 +126,15 @@ export async function markUserEmailVerified(userId) {
  * @returns {Promise<boolean>}
  */
 export async function checkEmailAvailability(email) {
-	const query = getQueryCheckEmail(gql);
-	const data = await directus.request(query, { email });
-	const users = data.toolgankelijk_user ?? [];
-	return users.length === 0;
+	try {
+		const query = getQueryCheckEmail(gql);
+		const data = await directus.request(query, { email });
+		const users = data.toolgankelijk_user ?? [];
+		return users.length === 0;
+	} catch (error) {
+		console.error('userRepository.checkEmailAvailability failed', error);
+		return false;
+	}
 }
 
 /**
@@ -113,9 +143,14 @@ export async function checkEmailAvailability(email) {
  * @returns {Promise<{ domain: string }[]>}
  */
 export async function getValidEmailDomains() {
-	const query = getQueryValidEmailDomains(gql);
-	const data = await directus.request(query);
-	return data.toolgankelijk_email_domain ?? [];
+	try {
+		const query = getQueryValidEmailDomains(gql);
+		const data = await directus.request(query);
+		return data.toolgankelijk_email_domain ?? [];
+	} catch (error) {
+		console.error('userRepository.getValidEmailDomains failed', error);
+		return [];
+	}
 }
 
 /**
@@ -125,17 +160,22 @@ export async function getValidEmailDomains() {
  * @returns {Promise<EmailVerificationRequest | null>}
  */
 export async function getEmailVerificationRequestById(id) {
-	const query = getQueryEmailVerificationById(gql, id);
-	const data = await directus.request(query);
-	const row = data.emailVerificationCode ?? null;
-	if (!row) return null;
-	return {
-		id: row.id,
-		userId: row.user.id,
-		email: row.user.email,
-		code: row.code,
-		expiresAt: new Date(row.expiresAt)
-	};
+	try {
+		const query = getQueryEmailVerificationById(gql, id);
+		const data = await directus.request(query);
+		const row = data.emailVerificationCode ?? null;
+		if (!row) return null;
+		return {
+			id: row.id,
+			userId: row.user.id,
+			email: row.user.email,
+			code: row.code,
+			expiresAt: new Date(row.expiresAt)
+		};
+	} catch (error) {
+		console.error('userRepository.getEmailVerificationRequestById failed', error);
+		return null;
+	}
 }
 
 /**
@@ -145,22 +185,27 @@ export async function getEmailVerificationRequestById(id) {
  * @returns {Promise<EmailVerificationRequest | null>}
  */
 export async function createEmailVerificationRequestRecord({ code, expiresAt, userId }) {
-	const mutation = getMutationCreateEmailVerification(gql);
-	const variables = {
-		code,
-		expiresAt: expiresAt.toISOString(),
-		userId
-	};
-	const data = await directus.request(mutation, variables);
-	const row = data.createEmailVerificationCode ?? null;
-	if (!row) return null;
-	return {
-		id: row.id,
-		userId: row.user.id,
-		email: row.user.email,
-		code: row.code,
-		expiresAt: new Date(row.expiresAt)
-	};
+	try {
+		const mutation = getMutationCreateEmailVerification(gql);
+		const variables = {
+			code,
+			expiresAt: expiresAt.toISOString(),
+			userId
+		};
+		const data = await directus.request(mutation, variables);
+		const row = data.createEmailVerificationCode ?? null;
+		if (!row) return null;
+		return {
+			id: row.id,
+			userId: row.user.id,
+			email: row.user.email,
+			code: row.code,
+			expiresAt: new Date(row.expiresAt)
+		};
+	} catch (error) {
+		console.error('userRepository.createEmailVerificationRequestRecord failed', error);
+		return null;
+	}
 }
 
 /**
@@ -170,8 +215,13 @@ export async function createEmailVerificationRequestRecord({ code, expiresAt, us
  * @returns {Promise<{ ids: string[] } | null>}
  */
 export async function deleteEmailVerificationsForUser(userId) {
-	const mutation = getMutationDeleteEmailVerificationsForUser(gql);
-	const data = await directus.request(mutation, { userId });
-	return data.deleteEmailVerificationCodes ?? null;
+	try {
+		const mutation = getMutationDeleteEmailVerificationsForUser(gql);
+		const data = await directus.request(mutation, { userId });
+		return data.deleteEmailVerificationCodes ?? null;
+	} catch (error) {
+		console.error('userRepository.deleteEmailVerificationsForUser failed', error);
+		return null;
+	}
 }
 

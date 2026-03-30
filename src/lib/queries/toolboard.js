@@ -1,4 +1,4 @@
-export default function getQueryToolboard(gql, slugUrl, principeSlug) {
+export default function getQueryToolboard(gql, slugUrl, principleSlug) {
 	return gql`
 		query Toolboard {
 			url: toolgankelijk_url(filter: { slug: { _eq: "${slugUrl}" } }, limit: 1) {
@@ -13,7 +13,7 @@ export default function getQueryToolboard(gql, slugUrl, principeSlug) {
 				}
 			}
 
-			principe: toolgankelijk_principle(filter: { slug: { _eq: "${principeSlug}" } }, limit: 1) {
+			principe: toolgankelijk_principle(filter: { slug: { _eq: "${principleSlug}" } }, limit: 1) {
 				id
 				title
 				description
@@ -30,6 +30,20 @@ export default function getQueryToolboard(gql, slugUrl, principeSlug) {
 					id
 					toolgankelijk_guideline_id {
 						id
+						index
+						title
+						explanation
+						successcriteria: success_criteria {
+							id
+							toolgankelijk_success_criteria_id {
+								id
+								index
+								level
+								title
+								criteria
+								easyCriteria: easy_criteria
+							}
+						}
 					}
 				}
 			}
@@ -50,6 +64,20 @@ export default function getQueryToolboard(gql, slugUrl, principeSlug) {
 					id
 					toolgankelijk_guideline_id {
 						id
+						index
+						title
+						explanation
+						successcriteria: success_criteria {
+							id
+							toolgankelijk_success_criteria_id {
+								id
+								index
+								level
+								title
+								criteria
+								easyCriteria: easy_criteria
+							}
+						}
 					}
 				}
 			}
