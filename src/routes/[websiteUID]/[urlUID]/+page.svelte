@@ -120,7 +120,7 @@
 		display: grid;
 		grid-template-columns: repeat(2, 1fr);
 		gap: 2rem;
-		background-color: var(--bg-pink);
+		/* background-color: var(--bg-pink); */
         border-radius: 0.5em;
 	}
 
@@ -155,7 +155,7 @@
 		font-size: 0.95rem;
 		line-height: 1.4;
 		margin-bottom: 1.5rem;
-		color: rgba(179, 0, 89, 0.8);
+		color: black;
 	}
 
 	/* Progress Bar Styling */
