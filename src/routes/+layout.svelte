@@ -4,10 +4,9 @@
 	import Header from '$lib/components/header.svelte';
 
 	let { data, children } = $props();
-
 	let params = $derived($page.params);
 	let websites = $derived(data.websitesData.website);
-	let principles = $derived(data.principlesData.principles);
+	let principles = $derived(data.partnersData.principles);
 
 	let partners = $derived(data.partnersData);
 
