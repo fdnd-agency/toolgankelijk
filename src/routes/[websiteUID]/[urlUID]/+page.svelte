@@ -55,39 +55,39 @@
 <Heading {heading} />
 
 <section class="container-principes">
-    <ul>
-        {#each principes as principe (principe.index)}
-            {@const pData = progressData[principe.index]}
-            <li class="principe-card">
-                <a href="{$page.url.pathname}/{principe.slug}" class="principe-link">
-                    <div class="principe-header">
-                        <span class="label">▶ Principe</span>
-                        <h2>{principe.titel}</h2>
-                        <p class="description">{principe.beschrijving.text}</p>
+	<ul>
+		{#each principes as principe (principe.index)}
+			{@const pData = progressData[principe.index]}
+			<li class="principe-card">
+				<a href="{$page.url.pathname}/{principe.slug}" class="principe-link">
+					<div class="principe-header">
+						<span class="label">▶ Principe</span>
+						<h2>{principe.titel}</h2>
+						<p class="description">{principe.beschrijving.text}</p>
 
-                        <div class="main-progress">
-                            <progress max={pData.total} value={pData.behaald}></progress>
-                            <span class="percentage-text">{getPercent(pData.behaald, pData.total)}%</span>
-                        </div>
-                    </div>
+						<div class="main-progress">
+							<progress max={pData.total} value={pData.behaald}></progress>
+							<span class="percentage-text">{getPercent(pData.behaald, pData.total)}%</span>
+						</div>
+					</div>
 
-                    <div class="niveaus-list">
-                        {#each niveaus as n}
-                            {@const nData = pData.levels[n.niveau]}
-                            <div class="niveau-sub-card">
-                                <span class="niveau-label">Niveau</span>
-                                <span class="niveau-name">{n.niveau}</span>
-                                <div class="progress-row">
-                                    <progress max={nData.total || 1} value={nData.behaald || 0}></progress>
-                                    <span class="percentage-text">{getPercent(nData.behaald, nData.total)}%</span>
-                                </div>
-                            </div>
-                        {/each}
-                    </div>
-                </a>
-            </li>
-        {/each}
-    </ul>
+					<div class="niveaus-list">
+						{#each niveaus as n}
+							{@const nData = pData.levels[n.niveau]}
+							<div class="niveau-sub-card">
+								<span class="niveau-label">Niveau</span>
+								<span class="niveau-name">{n.niveau}</span>
+								<div class="progress-row">
+									<progress max={nData.total || 1} value={nData.behaald || 0}></progress>
+									<span class="percentage-text">{getPercent(nData.behaald, nData.total)}%</span>
+								</div>
+							</div>
+						{/each}
+					</div>
+				</a>
+			</li>
+		{/each}
+	</ul>
 </section>
 
 <style>
@@ -104,6 +104,12 @@
 		text-decoration: none;
 		color: inherit;
 		display: block;
+	}
+
+	.container-principes {
+		gap: 1rem;
+		margin: 1em 1em;
+		border-radius: 0.5em;
 	}
 
 	.container-principes ul {
