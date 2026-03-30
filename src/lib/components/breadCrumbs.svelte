@@ -1,4 +1,6 @@
 <script>
+	import NavButton from "./NavButton.svelte";
+
 	let { params, partners, websites, principes } = $props();
 
 	let selectedPartner = $derived(
@@ -15,7 +17,7 @@
 
 <div class="bread-crumbs">
 	<div class="dropdown">
-		<button>
+		<NavButton size="large">
 			{#if selectedPartner}
 				<span>
 					<img
@@ -25,9 +27,9 @@
 					/>{selectedPartner.titel}
 				</span>
 			{:else}
-				<span>Partners overzicht</span>
+				<p>Partners overzicht</p>
 			{/if}
-		</button>
+		</NavButton>
 		<ul>
 			<li>
 				<a href="/"><span>Partners overzicht</span></a>
@@ -53,13 +55,13 @@
 	{#if websites}
 		<span class="seperator">/</span>
 		<div class="dropdown">
-			<button>
+		<NavButton size="large">
 				{#if selectedUrl}
 					<span>{selectedUrl}</span>
 				{:else}
 					<span>Urls overzicht</span>
 				{/if}
-			</button>
+		</NavButton>
 			<ul>
 				<li>
 					{#if selectedPartner}
