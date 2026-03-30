@@ -6,8 +6,7 @@
 
 <style>
 	svg path {
-		fill: none;
-		color: var(--color-neutral-darkgrey);
+		fill: var(--color-neutral-darkgrey);
 
 		@media (max-width: 720px) {
 			height: 24px;
