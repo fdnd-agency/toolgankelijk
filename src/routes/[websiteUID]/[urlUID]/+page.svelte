@@ -14,7 +14,8 @@
 	let progressData = $state({});
 	// every progress bar for the niveau of the principes
 	const principes = data.principesData.principes;
-	const niveaus = data.niveauData.niveaus;
+    // !== filters out niveau a
+	const niveaus = data.niveauData.niveaus.filter((n) => n.niveau.toLowerCase() !== 'a');
 	const checks = data.urlData.url.checks;
 
 	principes.forEach((principe) => {
@@ -64,11 +65,11 @@
 						<span class="label">▶ Principe</span>
 						<h2>{principe.titel}</h2>
 						<p class="description">{principe.beschrijving.text}</p>
-
-						<div class="main-progress">
+                        <!-- Comments out the progress bar of niveau A -->
+						<!-- <div class="main-progress">
 							<progress max={pData.total} value={pData.behaald}></progress>
 							<span class="percentage-text">{getPercent(pData.behaald, pData.total)}%</span>
-						</div>
+						</div> -->
 					</div>
 
 					<div class="niveaus-list">
@@ -110,6 +111,7 @@
 		gap: 1rem;
 		margin: 1em 1em;
 		border-radius: 0.5em;
+        
 	}
 
 	.container-principes ul {
@@ -119,6 +121,7 @@
 		grid-template-columns: repeat(2, 1fr);
 		gap: 2rem;
 		background-color: var(--bg-pink);
+        border-radius: 0.5em;
 	}
 
 	/* responsive for mobile */
