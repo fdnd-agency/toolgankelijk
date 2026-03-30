@@ -62,7 +62,10 @@
 			<li class="principe-card">
 				<a href="{$page.url.pathname}/{principe.slug}" class="principe-link">
 					<div class="principe-header">
-						<span class="label">▶ Principe</span>
+						<span class="label">
+							<span class="label-icon">▶</span>
+							<span class="label-text">Principe</span>
+						</span>
 						<h2>{principe.titel}</h2>
 						<p class="description">{principe.beschrijving.text}</p>
 						<!-- Comments out the progress bar of niveau A -->
@@ -118,7 +121,7 @@
 		padding: 2rem;
 		display: grid;
 		grid-template-columns: repeat(2, 1fr);
-		gap: 2rem;
+		/* gap: 2rem; */
 		/* background-color: var(--bg-pink); */
 		border-radius: 0.5em;
 	}
@@ -142,6 +145,11 @@
 	.label {
 		font-size: 0.8rem;
 		font-weight: bold;
+	}
+
+	.label-text {
+		color: rgb(131, 97, 111);
+        opacity: 1;
 	}
 
 	h2 {
@@ -198,19 +206,20 @@
 
 	.niveau-sub-card {
 		background-color: rgba(230, 163, 197);
-		padding: 1rem 1.5rem;
+		padding: 0.41rem 0.5rem;
 		border-radius: 15px;
 	}
 
 	.niveau-label {
 		display: block;
 		font-size: 0.75rem;
-		opacity: 0.7;
+		opacity: 0.9;
+		color: rgb(104, 71, 84);
 	}
 	.niveau-name {
 		font-size: 1.5rem;
 		font-weight: bold;
 		display: block;
-		margin-bottom: 0.5rem;
+		/* margin-bottom: 0.5rem; */
 	}
 </style>
