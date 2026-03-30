@@ -1,10 +1,7 @@
 <script>
 	import { onMount } from 'svelte';
 	import Dialog from '$lib/components/dialog.svelte';
-	import AuditIcon from '$lib/components/icons/auditIcon.svelte';
-	import DeleteIcon from '$lib/components/icons/deleteIcon.svelte';
-	import EditIcon from '$lib/components/icons/editIcon.svelte';
-	import NavButton from './NavButton.svelte';
+	import NavButton from '$lib/components/NavButton.svelte';
 
 	export let website;
 	export let principes;
@@ -121,6 +118,8 @@
 	});
 </script>
 
+
+
 {#if !isUrl}
 	<div class="card-wrapper">
 		<article class="color-primary-light" id="card-partner" class:container-off={containerOff}>
@@ -162,31 +161,21 @@
 			{/if}
 
 			<div class="card-icons-partner">
-				{#if !isUrl}
-					<button onclick={openForm.bind(null, auditType)} aria-label="start audit van {title}">
-						
-					</button>
+				{#if !isUrl}	
+				<NavButton onclick={openForm.bind(null, auditType)} aria="start audit van {title}" size="small" variant="secondary" showIcon={true} 
+    			iconName="audit"></NavButton>
 
 
 				{/if}
 
-				<button
-					onclick={openForm.bind(null, editType)}
-					aria-label={isUrl ? `bewerk ${url}` : `bewerk ${title}`}
-				>
-					<EditIcon />
-				</button>
+				<NavButton onclick={openForm.bind(null, editType)}
+					aria={isUrl ? `bewerk ${url}` : `bewerk ${title}`} size="small" variant="secondary" showIcon={true} 
+    iconName="edit"></NavButton>
 
-				<button
-					onclick={openForm.bind(null, deleteType)}
-					aria-label={isUrl ? `verwijder ${url}` : `verwijder ${title}`}
-				>
-					<DeleteIcon />
-				</button>
+				<NavButton onclick={openForm.bind(null, deleteType)} aria={isUrl ? `verwijder ${url}` : `verwijder ${title}`} size="small" variant="secondary" showIcon={true} 
+    iconName="delete"></NavButton>
 
-				<a href={link} aria-label={isUrl ? `open ${url}` : `open ${title}`} class="card-open">
-					Open
-				</a>
+				<NavButton href={link} aria={isUrl ? `open ${url}` : `open ${title}`} size="medium" variant="secondary" showIcon={false} > Open</NavButton>
 			</div>
 		</article>
 	</div>
@@ -203,15 +192,13 @@
 			</div>
 
 			<div class="card-icons-url">
-				<button onclick={openForm.bind(null, editType)} aria-label="bewerk ${url}">
-					<EditIcon />
-				</button>
+					<NavButton onclick={openForm.bind(null, editType)}  aria="bewerk ${url}" size="small" variant="secondary" showIcon={true} 
+    iconName="edit"></NavButton>
 
-				<button onclick={openForm.bind(null, deleteType)} aria-label="verwijder ${url}">
-					<DeleteIcon />
-				</button>
+					<NavButton onclick={openForm.bind(null, deleteType)} aria="verwijder ${url}" size="small" variant="secondary" showIcon={true} 
+    iconName="delete"></NavButton>
 
-				<a href={link} aria-label="open ${url}" class="card-open"> Open </a>
+				<NavButton href={link} aria={isUrl ? `open ${url}` : `open ${title}`} size="medium" variant="secondary" showIcon={false} > Open</NavButton>
 			</div>
 		</article>
 	</div>
