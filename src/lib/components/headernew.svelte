@@ -61,6 +61,11 @@
 	        	{/if}
 		</div> -->
 </header>
+<!-- <div class="subheader">
+		{#if user && user.isEmailGeverifieerd}
+			<BreadCrumbs {params} {partners} {websites} {principes} />
+		{/if}
+</div> -->
 
 <style>
 
