@@ -14,7 +14,7 @@ function delay(ms) {
  * @param {LoadEvent} event
  */
 export async function load(event) {
-	const { params, url, locals } = event;
+	const { params, url, locals, parent } = event;
 	const { websiteUID } = params;
 	if (locals.session === null || locals.user === null) {
 		throw redirect(302, '/login');
@@ -24,7 +24,13 @@ export async function load(event) {
 	}
 	const first = 20;
 	const skip = parseInt(url.searchParams.get('skip') || '0');
-	const data = await getWebsiteFromRepository(websiteUID, { limit: first, offset: skip });
+	let data;
+	if (skip === 0) {
+		const parentData = await parent();
+		data = parentData.websitesData;
+	} else {
+		data = await getWebsiteFromRepository(websiteUID, { limit: first, offset: skip });
+	}
 
 	if (!data.website) {
 		throw error(404, 'Website not found');
@@ -33,7 +39,7 @@ export async function load(event) {
 	const websites = {
 		website: data.website ?? null,
 		totalUrls: data.totalUrls ?? 0,
-		principes: data.principes ?? []
+		principles: data.principles ?? []
 	};
 
 	return {
