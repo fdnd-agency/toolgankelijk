@@ -1,7 +1,8 @@
-import { gql } from 'graphql-request';
-import { directus } from '$lib/utils/directus.js';
 import { updatePartnerById, updatePartnerTotalUrls } from '$lib/repositories/partnerRepository.js';
-import { createEmptyCheck, getQueryFirstCheck } from '$lib/queries/url';
+import {
+	createEmptyCheckForUrl,
+	getFirstCheck
+} from '$lib/repositories/urlRepository.js';
 import {
 	formatUrl,
 	getSitemapPromises,
@@ -77,12 +78,9 @@ export async function POST({ request }) {
 							const path = new URL(url).pathname;
 							const urlSlug = (slug + path).replace(/\//g, '-');
 							// Check if a check already exists for this urlSlug
-							const getCheckIdQuery = getQueryFirstCheck(gql, slug, urlSlug);
-							const getCheckIdResponse = await directus.request(getCheckIdQuery);
-							const checks = getCheckIdResponse.website?.urls?.[0]?.checks;
-							if (!checks || checks.length === 0) {
-								let createEmptyCheckEntry = createEmptyCheck(gql, slug, urlSlug);
-								await directus.request(createEmptyCheckEntry);
+							const checkId = await getFirstCheck({ websiteSlug: slug, urlSlug });
+							if (!checkId) {
+								await createEmptyCheckForUrl({ websiteSlug: slug, urlSlug });
 								await sendUpdate({ status: `Check aangemaakt voor ${url}`, type: 'done' });
 							} else {
 								await sendUpdate({ status: `Check bestaat al voor ${url}`, type: 'warning' });

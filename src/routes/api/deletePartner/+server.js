@@ -1,7 +1,5 @@
-import { gql } from 'graphql-request';
-import { directus } from '$lib/utils/directus.js';
-import { getQueryDeleteUrl, getQueryDeleteChecks } from '$lib/queries/url';
 import { deletePartnerById, getPartnerUrls } from '$lib/repositories/partnerRepository.js';
+import { deleteUrlWithChecks } from '$lib/repositories/urlRepository.js';
 
 // Delay helper
 function delay(ms) {
@@ -49,16 +47,12 @@ export async function POST({ request }) {
 					// 2. Verwijder alle urls en checks
 					for (let i = 0; i < allUrls.length; i++) {
 						const link = allUrls[i];
-						let queryDeleteChecks = getQueryDeleteChecks(gql, link.id);
-						let queryDeleteUrls = getQueryDeleteUrl(gql, link.id);
 						try {
 							await sendUpdate({
 								status: `Verwijderen url ${i + 1}/${allUrls.length}`,
 								type: 'done'
 							});
-							await directus.request(queryDeleteChecks);
-							await delay(200);
-							await directus.request(queryDeleteUrls);
+							await deleteUrlWithChecks(link.id);
 						} catch (error) {
 							await sendUpdate({
 								status: `Fout bij verwijderen url ${link.id}: ${error.message}`,

@@ -1,9 +1,6 @@
-import { gql } from 'graphql-request';
-import { directus } from '$lib/utils/directus.js';
 import { redirect, error } from '@sveltejs/kit';
-import getQueryUrl from '$lib/queries/url';
-import getQueryPrincipes from '$lib/queries/principes';
-import getQueryNiveaus from '$lib/queries/niveaus';
+import { getUrl } from '$lib/repositories/urlRepository.js';
+import { getAllPrinciples, getLevels } from '$lib/repositories/contentRepository.js';
 
 export const load = async ({ params, locals }) => {
 	const { websiteUID, urlUID } = params;
@@ -14,19 +11,21 @@ export const load = async ({ params, locals }) => {
 		throw redirect(302, '/verify-email');
 	}
 
-	const queryUrl = getQueryUrl(gql, urlUID);
-	const queryPrincipes = getQueryPrincipes(gql);
-	const queryNiveaus = getQueryNiveaus(gql);
-	const urlData = await directus.request(queryUrl);
-	const principesData = await directus.request(queryPrincipes);
-	const niveauData = await directus.request(queryNiveaus);
+	// Fetch URL plus principles and levels via repositories
+	const [url, principlesRaw, levels] = await Promise.all([
+		getUrl(urlUID),
+		getAllPrinciples(),
+		getLevels()
+	]);
 
-	if (urlData.url.website.slug === websiteUID)
+	if (url && url.website?.slug === websiteUID) {
 		return {
-			principesData,
-			urlData,
-			niveauData
+			urlData: { url },
+			principlesData: { principles: principlesRaw },
+			levelData: { levels }
 		};
+	}
+
 	throw error(404, {
 		message: 'Not found'
 	});

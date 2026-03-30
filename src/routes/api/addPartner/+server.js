@@ -1,7 +1,5 @@
-import { gql } from 'graphql-request';
-import { directus } from '$lib/utils/directus.js';
-import { createEmptyCheck } from '$lib/queries/url';
 import { createPartner, updatePartnerTotalUrls } from '$lib/repositories/partnerRepository.js';
+import { createEmptyCheckForUrl } from '$lib/repositories/urlRepository.js';
 import {
 	formatUrl,
 	getSitemapPromises,
@@ -83,8 +81,7 @@ export async function POST({ request }) {
 						for (const url of urls) {
 							const path = new URL(url).pathname;
 							const urlSlug = (slug + path).replace(/\//g, '-');
-							let createEmptyCheckEntry = createEmptyCheck(gql, slug, urlSlug);
-							await directus.request(createEmptyCheckEntry);
+							await createEmptyCheckForUrl({ websiteSlug: slug, urlSlug });
 						}
 
 						await sendUpdate({ status: 'Partner bijgewerkt', type: 'done' });

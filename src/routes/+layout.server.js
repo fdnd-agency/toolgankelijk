@@ -1,14 +1,15 @@
-import { getLayoutData } from '$lib/repositories/partnerRepository.js';
+import { getWebsiteBySlug, listPartners } from '$lib/repositories/partnerRepository.js';
 
 export async function load({ params, locals }) {
 	const { websiteUID } = params;
 
-	const { partnersData, websitesData, principlesData } = await getLayoutData(websiteUID, {
-		partnerLimit: 100,
-		partnerOffset: 0,
-		urlLimit: 100,
-		urlOffset: 0
-	});
+	const partnersData = await listPartners({ limit: 20, offset: 0 });
+
+	const websitesData = websiteUID
+		? await getWebsiteBySlug(websiteUID, { limit: 20, offset: 0 }) //If websiteUID is present, get the specific website by slug
+		: { website: null, urls: [], totalUrls: 0, principles: partnersData.principles }; //else return the partners data with all principles
+
+	const principlesData = { principles: websitesData.principles };
 	return {
 		user: locals.user,
 		partnersData,
