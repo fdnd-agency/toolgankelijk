@@ -35,9 +35,9 @@
         </a>
 
 		<nav id="header-navigation" class="color-primary-light">
-			<Navigation size="large" icon={HomeIcon} title="Home" href="/" page="home" active={$page.url.pathname === '/' ? 'active' : ''}/>
-			<Navigation size="large" icon={InfoIcon} title="Info" href="/info" page="info" active={$page.url.pathname === '/info' ? 'active' : ''}/>
-			<Navigation size="large" icon={AccountIcon} title="Account" href="/account" page="account" active={$page.url.pathname === '/account' ? 'active' : ''} />
+			<Navigation size="large" icon={HomeIcon} title="Home" href="/" page="home" active={$page.url.pathname === '/' ? 'active' : ''} aria="Home"/>
+			<Navigation size="large" icon={InfoIcon} title="Info" href="/info" page="info" active={$page.url.pathname === '/info' ? 'active' : ''} aria="Informatie pagina"/>
+			<Navigation size="large" icon={AccountIcon} title="Account" href="/account" page="account" active={$page.url.pathname === '/account' ? 'active' : ''} aria="Mijn Account" />
 		</nav>
 
 
