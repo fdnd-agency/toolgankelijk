@@ -3,32 +3,53 @@
 	import { enhance } from '$app/forms';
 	import loadingIcon from '$lib/assets/loading.svg';
 
-let {
+	/**
+	 * @typedef {Object} ChecklistSuccesscriteria
+	 * @property {string} id
+	 * @property {string} index
+	 * @property {string} level
+	 * @property {string} title
+	 * @property {{ html: string }} [easycriteria]
+	 * @property {{ html: string }} [criteria]
+	 */
+	/**
+	 * @typedef {Object} ChecklistGuideline
+	 * @property {string} index
+	 * @property {string} title
+	 * @property {{ html: string }} uitleg
+	 * @property {ChecklistSuccesscriteria[]} successcriteria
+	 */
+	/** @typedef {import('$lib/types').ToolboardData} ToolboardData */
+	/** @typedef {import('$lib/types').Level} Level */
+	/**
+	 * @typedef {Object} ChecklistProps
+	 * @property {ChecklistGuideline[]} guidelines
+	 * @property {ToolboardData} toolboardData
+	 * @property {Level[]} levels
+	 * @property {string} [selectedLevel]
+	 */
+
+	let {
 		guidelines,
 		toolboardData,
-		niveaus,
-		selectedNiveau = $bindable(niveaus[0].niveau)
-	} = $props();
+		levels,
+		selectedLevel = $bindable(levels[0].level)
+	} = /** @type {ChecklistProps} */ ($props());
 
 	let loading = $state(false);
+	const getSuccesscriteriaByLevel = (level) =>
+		toolboardData.url.checks[0].successcriteria.filter((item) => item.level === level);
 
-const getSuccesscriteriaByNiveau = (level) =>
-		toolboardData.url.checks[0]
-			? toolboardData.url.checks[0].successcriteria.filter((item) => item.niveau === level)
-			: [];
+	let filteredSuccesscriteria = getSuccesscriteriaByLevel(selectedLevel);
 
-	let filteredSuccesscriteria = getSuccesscriteriaByNiveau(selectedNiveau);
-
-	const handleNiveauChange = (event) => {
-		selectedNiveau = event.target.value;
-		filteredSuccesscriteria = getSuccesscriteriaByNiveau(selectedNiveau);
+	const handleLevelChange = (event) => {
+		selectedLevel = event.target.value;
+		filteredSuccesscriteria = getSuccesscriteriaByLevel(selectedLevel);
 	};
 
 	let simpleTranslation = $state(true);
 
-const checkedSuccesscriteria = $derived(
-		toolboardData.url.checks[0] ? toolboardData.url.checks[0].successcriteria : []
-	);
+	const checkedSuccesscriteria = $derived(toolboardData.url.checks[0].successcriteria);
 
 	function scrollToTop(event) {
 		const mainElement = document.getElementById('main');
@@ -50,8 +71,8 @@ const checkedSuccesscriteria = $derived(
 	}
 
 	onMount(() => {
-		const niveauToggle = document.querySelector('#niveau-toggle');
-		niveauToggle.classList.toggle('disabled');
+		const levelToggle = document.querySelector('#niveau-toggle');
+		levelToggle.classList.toggle('disabled');
 	});
 </script>
 
@@ -59,9 +80,9 @@ const checkedSuccesscriteria = $derived(
 	<div id="niveau-toggle" class="disabled">
 		<label>
 			<p>Selecteer niveau</p>
-			<select bind:value={selectedNiveau} onchange={handleNiveauChange}>
-				{#each niveaus as niveau}
-					<option value={niveau.niveau}>Niveau {niveau.niveau}</option>
+			<select bind:value={selectedLevel} onchange={handleLevelChange}>
+				{#each levels as level}
+					<option value={level.level}>Niveau {level.level}</option>
 				{/each}
 			</select>
 		</label>
@@ -78,8 +99,8 @@ const checkedSuccesscriteria = $derived(
 			};
 		}}
 	>
-		<input type="hidden" name="niveau" value={selectedNiveau} />
-		<input type="hidden" name="principe" value={toolboardData.principe.index} />
+		<input type="hidden" name="niveau" value={selectedLevel} />
+		<input type="hidden" name="principe" value={toolboardData.principle.index} />
 
 		<!-- guidelines en successcriteria tekst wordt hier ingeladen! -->
 		{#each guidelines as guideline}
@@ -93,7 +114,7 @@ const checkedSuccesscriteria = $derived(
 				</summary>
 				<article>
 					{#each guideline.successcriteria as succescriterium}
-						{#if succescriterium.niveau === selectedNiveau}
+						{#if succescriterium.niveau === selectedLevel}
 							<details>
 								<summary class="criteria-uitklapbaar">
 									<span>Criteria {succescriterium.index} ({succescriterium.niveau})</span>
