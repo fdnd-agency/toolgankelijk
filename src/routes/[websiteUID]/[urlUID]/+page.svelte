@@ -14,7 +14,7 @@
 	let progressData = $state({});
 	// every progress bar for the niveau of the principes
 	const principes = data.principesData.principes;
-    // !== filters out niveau a
+	// !== filters out niveau a
 	const niveaus = data.niveauData.niveaus.filter((n) => n.niveau.toLowerCase() !== 'a');
 	const checks = data.urlData.url.checks;
 
@@ -65,7 +65,7 @@
 						<span class="label">▶ Principe</span>
 						<h2>{principe.titel}</h2>
 						<p class="description">{principe.beschrijving.text}</p>
-                        <!-- Comments out the progress bar of niveau A -->
+						<!-- Comments out the progress bar of niveau A -->
 						<!-- <div class="main-progress">
 							<progress max={pData.total} value={pData.behaald}></progress>
 							<span class="percentage-text">{getPercent(pData.behaald, pData.total)}%</span>
@@ -111,7 +111,6 @@
 		gap: 1rem;
 		margin: 1em 1em;
 		border-radius: 0.5em;
-            
 	}
 
 	.container-principes ul {
@@ -121,7 +120,7 @@
 		grid-template-columns: repeat(2, 1fr);
 		gap: 2rem;
 		/* background-color: var(--bg-pink); */
-        border-radius: 0.5em;
+		border-radius: 0.5em;
 	}
 
 	/* responsive for mobile */
@@ -132,7 +131,7 @@
 	}
 
 	.principe-card {
-		background-color: var(--card-pink);
+		background-color: rgba(241, 204, 223);
 		border-radius: 20px;
 		padding: clamp(1em, 6vw, 2em);
 		color: var(--text-main);
@@ -155,7 +154,7 @@
 		font-size: 0.95rem;
 		line-height: 1.4;
 		margin-bottom: 1.5rem;
-		color: black;
+		color: rgb(131, 97, 111);
 	}
 
 	/* Progress Bar Styling */
@@ -168,7 +167,7 @@
 
 	progress {
 		flex-grow: 1;
-		height: 12px;
+		height: 8px;
 		appearance: none;
 		-webkit-appearance: none;
 	}
@@ -186,7 +185,7 @@
 	.percentage-text {
 		font-size: 0.9rem;
 		min-width: 35px;
-		color: rgba(179, 0, 89, 0.6);
+		color: rgba(108, 74, 87);
 	}
 
 	/* Sub-cards for A, AA, AAA */
@@ -198,7 +197,7 @@
 	}
 
 	.niveau-sub-card {
-		background-color: rgba(214,104,161);
+		background-color: rgba(230, 163, 197);
 		padding: 1rem 1.5rem;
 		border-radius: 15px;
 	}
