@@ -6,12 +6,12 @@ describe('/checklist.svelte', () => {
 	it('controleert of de "officiële/simpele beschrijving" knop aanwezig is', () => {
 		render(Checklist, {
 			props: {
-				richtlijnen: [
+				guidelines: [
 					{
 						index: '1.1',
 						titel: 'Tekstalternatieven',
 						uitleg: { html: 'Beschrijving van richtlijn 1.1' },
-						succescriteria: [
+						successcriteria: [
 							{
 								id: 'sc-1',
 								index: '1.1.1',
@@ -24,10 +24,10 @@ describe('/checklist.svelte', () => {
 					}
 				],
 				toolboardData: {
-					url: { checks: [{ succescriteria: [{ id: 'sc-1', niveau: 'A' }] }] },
-					principe: { index: 1 }
+					url: { checks: [{ successcriteria: [{ id: 'sc-1', niveau: 'A' }] }] },
+					principle: { index: 1 }
 				},
-				niveaus: [{ niveau: 'A' }],
+				levels: [{ level: 'A' }],
 				selectedNiveau: 'A'
 			}
 		});
