@@ -6,6 +6,8 @@
 	import Search from '$lib/components/search.svelte';
 	import Dialog from '$lib/components/dialog.svelte';
 	import Pages from '$lib/components/pages.svelte';
+	import NavButton from '$lib/components/NavButton.svelte';
+
 	let { data, form } = $props();
 
 	let skip = $derived(data.skip);
@@ -38,7 +40,11 @@
 <Heading {heading} />
 
 <section>
-	<button class="add-partner" onclick={handleDialog}>Partner toevoegen</button>
+<NavButton size="xlarge" variant="primary" showIcon={true} onclick={handleDialog}
+    iconName="add">
+	<p> Partner Toevoegen </p>
+</NavButton>
+
 	<Search placeholderProp="Gvb" />
 </section>
 
@@ -64,6 +70,10 @@
 	{/each}
 </section>
 
+<NavButton size="medium" variant="primary" showIcon={false} href='#main'>
+	<p> Scroll to Top </p>
+</NavButton>
+
 <a href="#main" class="btn-top" onclick={scrollToTop}>⬆</a>
 
 <style>
@@ -77,25 +87,6 @@
 		color: rgb(40, 177, 223);
 	}
 
-	.add-partner {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		border-radius: 0.25em;
-		padding: 0.5em 1em;
-		color: var(--c-white);
-		background-color: var(--c-container);
-		border: none;
-		font-weight: 600;
-		font-size: 1em;
-		transition: 0.3s;
-		cursor: pointer;
-		text-decoration: none;
-	}
-
-	.add-partner:hover {
-		background-color: var(--c-pink);
-	}
 
 	.btn-top {
 		position: fixed;

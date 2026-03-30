@@ -5,6 +5,8 @@
 	import Search from '$lib/components/search.svelte';
 	import Dialog from '$lib/components/dialog.svelte';
 	import Pages from '$lib/components/pages.svelte';
+	import NavButton from '$lib/components/NavButton.svelte';
+
 
 	let { data, form } = $props();
 
@@ -31,7 +33,11 @@
 <Heading {heading} />
 
 <section>
-	<button class="add-partner" onclick={handleDialog}>Url toevoegen</button>
+	<NavButton size="large" variant="primary" showIcon={false} onclick={handleDialog}
+		iconName="add">
+		<p> URL Toevoegen </p>
+	</NavButton>
+
 	<Search placeholderProp="Home" />
 </section>
 
