@@ -1,28 +1,28 @@
 <script>
-	let { principes, urlData } = $props();
+	let { principles, urlData } = $props();
 
-	let baseUrl = `/${urlData.url.website.slug}/${urlData.url.slug}`;
+	let baseUrl = $derived(`/${urlData.url.website.slug}/${urlData.url.slug}`);
 
 	// Get the levels for each principle
-	function getNiveausForPrincipe(principle) {
+	function getLevelsForPrinciple(principle) {
 		const levels = new Set();
 		principle.guidelines.forEach((guideline) =>
 			guideline.successcriteria.forEach((criteria) => {
-				if (criteria.level) niveaus.add(criteria.level);
+				if (criteria.level) levels.add(criteria.level);
 			})
 		);
 		// return the array and sort it by length
 		return Array.from(levels).sort((a, b) => a.length - b.length);
 	}
 
-	// Get the progress for each principe and level
+	// Get the progress for each principle and level
 	function getProgress(principle, level) {
-		// All successcriteria for this principe and level
+		// All successcriteria for this principle and level
 		const total = principle.guidelines
 			.flatMap((g) => g.successcriteria)
 			.filter((sc) => sc.level === level).length;
 
-		// All successcriteria that are achieved for this principe and level
+		// All successcriteria that are achieved for this principle and level
 		const behaald = urlData.url.checks
 			.flatMap((check) => check.successcriteria)
 			.filter((sc) => sc.level === level && sc.index.startsWith(principle.index + '.')).length;
@@ -33,24 +33,24 @@
 
 <aside>
 	<ul>
-		{#each principes as principe}
+		{#each principles as principle}
 			<li data-sveltekit-reload>
-				<a href="{baseUrl}/{principe.slug}">
-					<h4>{principe.title}</h4>
-					<span>Principe {principe.index}</span>
-					{#each getNiveausForPrincipe(principe) as niveau}
+				<a href="{baseUrl}/{principle.slug}">
+					<h4>{principle.title}</h4>
+					<span>Principe {principle.index}</span>
+					{#each getLevelsForPrinciple(principle) as level}
 						<div class="progress-container">
-							<span>{niveau}</span>
+							<span>{level}</span>
 							<progress
-								id="progress-partner-{niveau}"
-								max={getProgress(principe, niveau).total || 1}
-								value={getProgress(principe, niveau).behaald || 0}
+								id="progress-partner-{level}"
+								max={getProgress(principle, level).total || 1}
+								value={getProgress(principle, level).behaald || 0}
 							></progress>
-							<label class="progress-percentage" for="progress-partner-{niveau}">
-								{getProgress(principe, niveau).total
+							<label class="progress-percentage" for="progress-partner-{level}">
+								{getProgress(principle, level).total
 									? Math.round(
-											(getProgress(principe, niveau).behaald /
-												getProgress(principe, niveau).total) *
+											(getProgress(principle, level).behaald /
+												getProgress(principle, level).total) *
 												100
 										)
 									: 0}%

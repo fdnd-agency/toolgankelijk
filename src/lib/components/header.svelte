@@ -10,12 +10,12 @@
 	 * @property {any} params
 	 * @property {any} partners
 	 * @property {any} websites
-	 * @property {any} principes
+	 * @property {any} principles
 	 * @property {any} [user]
 	 */
 
 	/** @type {Props} */
-	let { params, partners, websites, principes, user = null } = $props();
+	let { params, partners, websites, principles, user = null } = $props();
 
 	let isLightMode = $state(false);
 
@@ -70,7 +70,7 @@
 			/>
 		</a>
 		{#if user && user.isEmailVerified}
-			<BreadCrumbs {params} {partners} {websites} {principes} />
+			<BreadCrumbs {params} {partners} {websites} {principles} />
 		{/if}
 		<div class="options">
 			{#if user && user.isEmailVerified}

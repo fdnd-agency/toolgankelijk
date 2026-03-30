@@ -8,7 +8,7 @@ import {
 import { getLevels, getToolboard } from '$lib/repositories/contentRepository.js';
 
 export const load = async ({ params, locals }) => {
-	const { websiteUID, urlUID, principeUID } = params;
+	const { websiteUID, urlUID, principleUID } = params;
 	if (!locals?.session || !locals?.user) {
 		throw redirect(302, '/login');
 	}
@@ -24,16 +24,15 @@ export const load = async ({ params, locals }) => {
 		});
 	}
 
-	const toolboardData = await getToolboard({ urlSlug: urlUID, principeSlug: principeUID });
+	const toolboardData = await getToolboard({ urlSlug: urlUID, principleSlug: principleUID });
 	const levels = await getLevels();
-	const levelsData = { niveaus: levels };
+	const levelsData = { levels: levels };
 
-	if (toolboardData.principe === null) {
+	if (toolboardData.principle === null) {
 		throw error(404, {
 			message: 'Principe bestaat niet'
 		});
 	}
-
 	return {
 		toolboardData,
 		urlData: { url },
@@ -43,8 +42,8 @@ export const load = async ({ params, locals }) => {
 
 export const actions = {
 	updateChecklist: async ({ request, params }) => {
-		const { websiteUID, urlUID, principeUID } = params;
-		const toolboardData = await getToolboard({ urlSlug: urlUID, principeSlug: principeUID });
+		const { websiteUID, urlUID, principleUID } = params;
+		const toolboardData = await getToolboard({ urlSlug: urlUID, principleSlug: principleUID });
 		const formData = await request.formData();
 		const checkedSuccesscriteria = formData.getAll('check'); // Array with Successcriteria ID's of the checked inputs of the form on the opened page
 		const principleIndex = formData.get('principe'); // Principe index (1, 2, 3, 4) of the form on the opened page

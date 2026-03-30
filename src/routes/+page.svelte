@@ -15,7 +15,7 @@
 	let showRegistrationSuccess = $derived(data.showRegistrationSuccess);
 let heading = { title: 'Partners overzicht' };
 	let dialogRef = $state();
-	const principes = $derived(data.principes);
+	const principles = $derived(data.principles);
 
 	function handleDialog() {
 		dialogRef.open();

@@ -11,11 +11,11 @@
 		url: data.urlData.url.slug
 	});
 
-let toolboardData = $derived(data.toolboardData);
-let urlData = $derived(data.urlData);
-let guidelines = $derived(toolboardData.principe.guidelines);
-let principes = $derived(data.toolboardData.principes);
-let levels = $derived(data.levelsData.levels);
+	let toolboardData = $derived(data.toolboardData);
+	let urlData = $derived(data.urlData);
+	let guidelines = $derived(toolboardData.principle.guidelines);
+	let principles = $derived(data.toolboardData.principles);
+	let levels = $derived(data.levelsData.levels);
 </script>
 
 <Heading {heading} />
@@ -25,7 +25,7 @@ let levels = $derived(data.levelsData.levels);
 		<div class="toast"><p>Checklist is opgeslagen!</p></div>
 	{/if}
 	<Checklist guidelines={guidelines} {toolboardData} {levels} />
-	<Sidebar {principes} {urlData} />
+	<Sidebar principles={principles} {urlData} />
 </section>
 
 <style>

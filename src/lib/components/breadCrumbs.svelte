@@ -1,14 +1,14 @@
 <script>
-	let { params, partners, websites, principes } = $props();
+	let { params, partners, websites, principles } = $props();
 
 	let selectedPartner = $derived(
 		params.websiteUID ? partners.websites.find(({ slug }) => slug === params.websiteUID) : ''
 	);
 	let selectedUrl = $derived(params.urlUID ? params.urlUID : '');
-	let selectedPrincipe = $derived(
-		params.principeUID ? principes.find(({ slug }) => slug === params.principeUID) : ''
+	let selectedPrinciple = $derived(
+		params.principleUID ? principles.find(({ slug }) => slug === params.principleUID) : ''
 	);
-
+	
 	const faviconAPI =
 		'https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=';
 </script>
@@ -79,12 +79,12 @@
 		</div>
 	{/if}
 
-	{#if selectedUrl && principes}
+	{#if selectedUrl && principles}
 		<span class="seperator">/</span>
 		<div class="dropdown">
 			<button>
-				{#if selectedPrincipe}
-					<span>{selectedPrincipe.title}</span>
+				{#if selectedPrinciple}
+					<span>{selectedPrinciple.title}</span>
 				{:else}
 					<span>Principes overzicht</span>
 				{/if}
@@ -97,11 +97,11 @@
 						<span>Principes overzicht</span>
 					{/if}
 				</li>
-				{#each principes as principe}
-					{#if selectedPartner && selectedUrl && principe && principe.slug}
+				{#each principles as principle}
+					{#if selectedPartner && selectedUrl && principle && principle.slug}
 						<li>
-							<a href="/{selectedPartner.slug}/{selectedUrl}/{principe.slug}">
-								<span>{principe.title}</span>
+							<a href="/{selectedPartner.slug}/{selectedUrl}/{principle.slug}">
+								<span>{principle.title}</span>
 							</a>
 						</li>
 					{/if}

@@ -20,7 +20,7 @@
 	let overview = $derived(data.websites.website);
 	let params = $derived($page.params.websiteUID);
 	let dialogRef = $state();
-	const principes = $derived(data.websites.principes);
+	const principles = $derived(data.websites.principles);
 
 	function handleDialog() {
 		dialogRef.open();
@@ -50,7 +50,7 @@
 
 <section class="cards-container">
 	{#each websites as website}
-		<Card {website} {overview} {params} principles={principes} isUrl={true} />
+		<Card {website} {overview} {params} principles={principles} isUrl={true} />
 	{/each}
 </section>
 
