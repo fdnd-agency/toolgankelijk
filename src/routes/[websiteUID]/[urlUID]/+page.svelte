@@ -1,98 +1,111 @@
 <script>
-	import { page } from '$app/stores';
-	import { onMount } from 'svelte';
-	import Heading from '$lib/components/heading.svelte';
-	import Subheader from '$lib/components/subheader.svelte';
+    import { page } from '$app/stores';
+    import { onMount } from 'svelte';
+    import Heading from '$lib/components/heading.svelte';
+    import Subheader from '$lib/components/subheader.svelte';
 
-	let { data } = $props();
+    let { data } = $props();
 
-	let heading = $derived({
-		titel: data.websitesData.website.titel,
-		homepage: data.urlData.url.url,
-		url: data.urlData.url.slug
-	});
+    let heading = $derived({
+        titel: data.websitesData.website.titel,
+        homepage: data.urlData.url.url,
+        url: data.urlData.url.slug
+    });
 
-	let progressData = $state({});
-	// every progress bar for the niveau of the principes
-	const principes = data.principesData.principes;
-	const niveaus = data.niveauData.niveaus;
-	const checks = data.urlData.url.checks;
+    let progressData = $state({});
+    // every progress bar for the niveau of the principes
+    const principes = data.principesData.principes;
+    const niveaus = data.niveauData.niveaus;
+    const checks = data.urlData.url.checks;
 
-	principes.forEach((principe) => {
-		// save the index of the principe in the progressData object
-		const pIndex = principe.index;
-		progressData[pIndex] = {};
+    let activeFilters = $state({
+        principe: 'Alle',
+        niveau: 'Niveau A',
+        showNietVoldaan: false,
+        showVoldaan: false
+    });
 
-		// for each principe, loop through the niveaus
-		niveaus.forEach((niveau) => {
-			const niveauName = niveau.niveau;
+    let filteredPrincipes = $derived(
+        principes.filter((p) => {
+            if (activeFilters.principe === 'Alle') {
+                return true;
+            }
+            return p.titel === activeFilters.principe; 
+        })
+    );
 
-			// All succescriteria for this principe with this niveau
-			const totalChecks = principe.richtlijnen
-				.flatMap((check) => check.succescriteria)
-				.filter((criteria) => criteria.niveau === niveauName);
+    function handleApplyFilters(newFilters) {
+        activeFilters = newFilters;
+    }
+	
+    principes.forEach((principe) => {
+        const pIndex = principe.index;
+        progressData[pIndex] = {};
 
-			// All succescriteria that are achieved for this principe with this niveau
-			const successChecks = checks
-				.flatMap((check) => check.succescriteria)
-				.filter(
-					(criteria) => criteria.niveau === niveauName && criteria.index.startsWith(pIndex + '.')
-				);
+        niveaus.forEach((niveau) => {
+            const niveauName = niveau.niveau;
+            const totalChecks = principe.richtlijnen
+                .flatMap((check) => check.succescriteria)
+                .filter((criteria) => criteria.niveau === niveauName);
 
-			// Initialize the progressData for this principe and niveau
-			progressData[pIndex][niveauName] = {
-				total: totalChecks.length,
-				behaald: successChecks.length
-			};
-		});
-	});
+            const successChecks = checks
+                .flatMap((check) => check.succescriteria)
+                .filter(
+                    (criteria) => criteria.niveau === niveauName && criteria.index.startsWith(pIndex + '.')
+                );
+
+            progressData[pIndex][niveauName] = {
+                total: totalChecks.length,
+                behaald: successChecks.length
+            };
+        });
+    });
 </script>
-
-
 
 <Heading {heading} />
 
-<Subheader />
-
+<Subheader 
+    partnerTitle={data.websitesData.website.titel} 
+    onApply={handleApplyFilters} 
+/>
 
 <section class="container-principes">
-
-	<ul>
-		{#each principes as principe (principe.index)}
-			<li>
-				<a href="{$page.url.pathname}/{principe.slug}">
-					<div class="principe">
-						<h1>
-							<span>{principe.titel}.</span> Principe {principe.index}
-						</h1>
-						<p>{principe.beschrijving.text}</p>
-						{#each niveaus as n}
-							<p>{n.niveau}</p>
-							<div class="progress-container">
-								<progress
-									name="progress-partner-{n.niveau}"
-									id="progress-partner"
-									max={progressData[principe.index][n.niveau].total || 1}
-									value={progressData[principe.index][n.niveau].behaald || 0}
-								></progress>
-								<label class="progress-percentage" for="progress-partner-{n.niveau}">
-									{progressData[principe.index]?.[n.niveau]
-										? progressData[principe.index][n.niveau].total
-											? Math.round(
-													(progressData[principe.index][n.niveau].behaald /
-														progressData[principe.index][n.niveau].total) *
-														100
-												)
-											: 0
-										: 0}%
-								</label>
-							</div>
-						{/each}
-					</div>
-				</a>
-			</li>
-		{/each}
-	</ul>
+    <ul>
+        {#each filteredPrincipes as principe (principe.index)}
+            <li>
+                <a href="{$page.url.pathname}/{principe.slug}">
+                    <div class="principe">
+                        <h1>
+                            <span>{principe.titel}.</span> Principe {principe.index}
+                        </h1>
+                        <p>{principe.beschrijving.text}</p>
+                        {#each niveaus as n}
+                            <p>{n.niveau}</p>
+                            <div class="progress-container">
+                                <progress
+                                    name="progress-partner-{n.niveau}"
+                                    id="progress-partner"
+                                    max={progressData[principe.index][n.niveau].total || 1}
+                                    value={progressData[principe.index][n.niveau].behaald || 0}
+                                ></progress>
+                                <label class="progress-percentage" for="progress-partner-{n.niveau}">
+                                    {progressData[principe.index]?.[n.niveau]
+                                        ? progressData[principe.index][n.niveau].total
+                                            ? Math.round(
+                                                  (progressData[principe.index][n.niveau].behaald /
+                                                      progressData[principe.index][n.niveau].total) *
+                                                      100
+                                              )
+                                            : 0
+                                        : 0}%
+                                </label>
+                            </div>
+                        {/each}
+                    </div>
+                </a>
+            </li>
+        {/each}
+    </ul>
 </section>
 
 <style>
