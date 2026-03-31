@@ -1,5 +1,7 @@
 <script>
 	import { enhance } from '$app/forms';
+	import NavButton from '$lib/components/NavButton.svelte';
+
 
 	let { form } = $props();
 </script>
@@ -30,7 +32,8 @@
 				/>
 				<span></span>
 			</p>
-			<button type="submit" class="form-submit">Sign in</button>
+			
+			<NavButton size="medium" variant="secondary" type="submit">Sign In</NavButton>
 
 			<p style="color: red;">{form?.message ?? ''}</p>
 
