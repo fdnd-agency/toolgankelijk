@@ -112,13 +112,13 @@
 
 	.container-principes {
 		gap: 1rem;
-		margin: 1em 1em;
+		/* margin: 1em 1em; */
 		border-radius: 0.5em;
 	}
 
 	.container-principes ul {
 		list-style: none;
-		padding: 2rem;
+		/* padding: 2rem; */
 		display: grid;
 		grid-template-columns: repeat(2, 1fr);
 		/* gap: 2rem; */
