@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import { enhance } from '$app/forms';
 	import loadingIcon from '$lib/assets/loading.svg';
+	import NavButton from './NavButton.svelte';
 
 	let {
 		richtlijnen,
@@ -103,13 +104,13 @@
 										</div>
 
 										<div class="column">
-											<button
-												type="button"
-												class="btn-vertaling"
-												onclick={(event) => translate(event, succescriterium.index)}
-											>
-												{simpleTranslation ? 'Officiële beschrijving' : 'Simpele beschrijving'}
-											</button>
+										<NavButton
+										size="large"
+										type="button"
+										onclick={(event) => translate(event, succescriterium.index)}>
+											{simpleTranslation ? 'Officiële beschrijving' : 'Simpele beschrijving'}
+										</NavButton>
+
 
 											<input
 												name="check"
@@ -147,8 +148,11 @@
 			</div>
 		{:else}
 			<div class="form-btn">
-				<button type="submit" class="submit"> Opslaan </button>
-				<a href="#main" class="btn-top" onclick={scrollToTop}>⬆</a>
+			<NavButton type="submit" size="medium" aria="opslaan checklist"> Opslaan </NavButton>
+
+			<NavButton size="medium" variant="primary" showIcon={false} href='#main'>
+				<p> Scroll to Top </p>
+			</NavButton>
 			</div>
 		{/if}
 	</form>

@@ -40,9 +40,9 @@
 <form method="GET" data-sveltekit-reload>
 	<ul class="pages-list">
 		<li>
-			<button type="submit" class="button" name="skip" value={prevSkip} disabled={currentPage === 1}
-				>◀ Vorige</button
-			>
+		<NavButton name="skip" type="submit" value={prevSkip} size="medium" variant="primary" showIcon={false} disabled={currentPage === 1}>
+			<p> Vorige </p>
+		</NavButton>
 		</li>
 
 		{#each pageNumbers as p}
@@ -50,27 +50,18 @@
 				<li class="button-disabled button">...</li>
 			{:else}
 				<li>
-					<button
-						type="submit"
-						class="button"
-						name="skip"
-						value={(p - 1) * perPage}
-						class:selected={p === currentPage}
-						>{p}
-					</button>
+				<NavButton type="submit" value={(p - 1) * perPage} size="medium" variant="primary" showIcon={false} disabled={currentPage === pageCount}>
+					<p> {p} </p>
+				</NavButton>
 				</li>
 			{/if}
 		{/each}
 
 		<!-- <li class="button-disabled button">{pageCount}</li> -->
 		<li>
-			<button
-				type="submit"
-				class="button"
-				name="skip"
-				value={nextSkip}
-				disabled={currentPage === pageCount}>Volgende ▶</button
-			>
+		<NavButton type="submit" value={nextSkip} size="medium" variant="primary" showIcon={false} disabled={currentPage === pageCount}>
+			<p> Volgende </p>
+		</NavButton>
 		</li>
 	</ul>
 </form>
