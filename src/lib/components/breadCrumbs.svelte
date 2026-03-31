@@ -120,23 +120,6 @@
 		gap: 0.5rem;
 	}
 
-	button {
-		position: relative;
-		display: flex;
-		align-items: center;
-		gap: 0.5rem;
-		appearance: none;
-		padding: 1rem 0.5rem;
-		border-radius: 0.5rem;
-		font-size: 1rem;
-		background-color: var(--c-container);
-		color: var(--c-grey);
-		border: none;
-		width: 100%;
-		text-align: left;
-		box-shadow: 0px -55px 0px 10px var(--c-background);
-	}
-
 	button::after {
 		content: url('data:image/svg+xml,<svg width="12" height="7" viewBox="0 0 12 7" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L6 6L11 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>');
 		position: absolute;

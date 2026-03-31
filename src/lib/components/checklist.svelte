@@ -180,30 +180,6 @@
 		filter: saturate(1.2);
 	}
 
-	.btn-top {
-		position: fixed;
-		bottom: 1rem;
-		right: 1rem;
-		font-size: 1.3rem;
-		padding: 0.4rem 0.8rem;
-		background-color: var(--c-pink);
-		border: none;
-		color: white;
-		margin-top: 1rem;
-		border-radius: 4px;
-		cursor: pointer;
-		text-decoration: none;
-		z-index: 2;
-	}
-
-	.btn-top:hover {
-		filter: saturate(1.2);
-	}
-
-	button:active {
-		filter: saturate(1) brightness(0.9);
-	}
-
 	.submit:not(button) {
 		cursor: auto;
 		background-color: #a0004025;
@@ -366,20 +342,6 @@
 		margin-bottom: 1em;
 	}
 
-	.btn-vertaling {
-		font-size: 1rem;
-		padding: 0.4rem 0.8rem;
-		background-color: var(--c-pink);
-		border: none;
-		color: white;
-		border-radius: 4px;
-		cursor: pointer;
-		z-index: 2;
-	}
-
-	.btn-vertaling:hover {
-		filter: saturate(1.2);
-	}
 
 	.richtlijn-criteria-2 {
 		display: none;

@@ -321,18 +321,6 @@
 		}
 	}
 
-	@media (min-width: 1080px) {
-		.dialog-title {
-			font-size: 28px;
-		}
-	}
-
-	@media (max-width: 720px) {
-		.dialog-title {
-			font-size: 24px;
-		}
-	}
-
 	dialog[open] {
 		display: block;
 	}
@@ -370,21 +358,6 @@
 		color: var(--color-neutral-black);
 	}
 
-	.form-heading button,
-	.form-heading input[type='submit'],
-	.form-heading input[type='reset'] {
-		background: none;
-		color: inherit;
-		border: none;
-		padding: 0;
-		font: inherit;
-		cursor: pointer;
-	}
-
-	.form-heading button:focus {
-		border: black solid 1px;
-	}
-
 	@media (max-width: 720px) {
 		.form-heading {
 			font-size: 16px;
@@ -417,15 +390,6 @@
 			font: inherit;
 			cursor: pointer;
 		}
-	}
-
-	.form-submit-button {
-		width: 100%;
-		margin-top: 1em;
-		border: 1px var(--color-neutral-black) solid;
-		color: var(--color-neutral-black);
-		background-color: var(--dark-3);
-		filter: drop-shadow(var(--color-neutral-black) 2px 2px 4px);
 	}
 
 	.form-textfields {
@@ -474,22 +438,6 @@
 		flex-direction: row;
 		gap: 1em;
 		padding: 1em;
-	}
-
-	button {
-		border-radius: var(--border-radius);
-		color: var(--color-neutral-white);
-		width: fit-content;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		height: 48px;
-		font-size: 16px;
-
-		@media (max-width: 720px) {
-			height: 32px;
-			font-size: 12px;
-		}
 	}
 
 	input[type='text'] {

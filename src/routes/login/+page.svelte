@@ -123,23 +123,6 @@
 		outline: none;
 	}
 
-	.form-submit {
-		margin-top: 1rem;
-		margin-bottom: 1rem;
-		background-color: var(--c-pink);
-		color: var(--c-white);
-		border: 2px solid var(--c-pink);
-		width: 10rem;
-		height: 2.5rem;
-		border-radius: 20px;
-		cursor: pointer;
-		transition: 0.2s ease-in-out;
-		font-size: 16px;
-	}
-
-	.form-submit:hover {
-		background-color: transparent !important;
-	}
 
 	.form-link {
 		padding-top: 1rem;

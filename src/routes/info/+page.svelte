@@ -238,8 +238,6 @@
 		font-size: 16px;
 	}
 
-
-
 	.success-message {
 		color: green;
 	}

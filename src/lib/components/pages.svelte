@@ -114,11 +114,6 @@
 		opacity: 0.5;
 	}
 
-	.selected {
-		background-color: var(--c-pink);
-		font-weight: 900;
-	}
-
 	.button:disabled {
 		cursor: default;
 		opacity: 0.5;
