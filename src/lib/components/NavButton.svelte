@@ -115,13 +115,13 @@
 		width: 12em;
 		padding: 1em 1em;
 		font-size: 16px;
-		justify-content: space-between;
+		justify-content: space-around;
 	}
 	.xlarge {
 		width: 16em;
 		padding: 1em 1em;
 		font-size: 16px;
-		justify-content: space-between;
+		justify-content: space-around;
 	}
 
 	.primary {
