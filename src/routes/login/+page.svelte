@@ -33,7 +33,7 @@
 				<span></span>
 			</p>
 			
-			<NavButton size="medium" variant="secondary" type="submit">Sign In</NavButton>
+			<NavButton aria="Inloggen" size="medium" variant="secondary" type="submit">Inloggen</NavButton>
 
 			<p style="color: red;">{form?.message ?? ''}</p>
 

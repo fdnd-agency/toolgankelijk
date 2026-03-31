@@ -40,7 +40,7 @@
 <Heading {heading} />
 
 <section>
-<NavButton size="xlarge" variant="primary" showIcon={true} onclick={handleDialog}
+<NavButton aria="Partner Toevogen" size="xlarge" variant="primary" showIcon={true} onclick={handleDialog}
     iconName="add">
 	<p> Partner Toevoegen </p>
 </NavButton>
@@ -70,8 +70,8 @@
 	{/each}
 </section>
 
-<NavButton size="medium" variant="primary" showIcon={false} href='#main'>
-	<p> Scroll to Top </p>
+<NavButton size="medium" variant="primary" showIcon={false} href='#main' aria="scroll naar boven">
+	<p> Scroll naar Boven </p>
 </NavButton>
 
 <a href="#main" class="btn-top" onclick={scrollToTop}>⬆</a>

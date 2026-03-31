@@ -33,7 +33,7 @@
 <Heading {heading} />
 
 <section>
-	<NavButton size="large" variant="primary" showIcon={false} onclick={handleDialog}
+	<NavButton aria="Url Toevoegen" size="large" variant="primary" showIcon={false} onclick={handleDialog}
 		iconName="add">
 		<p> URL Toevoegen </p>
 	</NavButton>

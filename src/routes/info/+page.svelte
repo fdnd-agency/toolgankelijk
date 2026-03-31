@@ -108,7 +108,7 @@
 					<input placeholder="email" id="email" type="email" name="email" required />
 					<label for="vraag">Uw vraag</label>
 					<textarea id="vraag" name="vraag" placeholder="Bericht..." required rows="3"></textarea>
-					<NavButton type="submit" size="medium" variant="secondary">
+					<NavButton aria="Verzend Vraag" type="submit" size="medium" variant="secondary">
 						Versturen
 					</NavButton>
 

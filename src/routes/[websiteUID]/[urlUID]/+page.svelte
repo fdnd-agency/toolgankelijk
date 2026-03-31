@@ -80,7 +80,7 @@
 											: 0
 										: 0}%
 								</label>
-								<NavButton variant="secondary" showIcon={false} href="{$page.url.pathname}/{principe.slug}" size="medium">
+								<NavButton variant="secondary" showIcon={false} href="{$page.url.pathname}/{principe.slug}" size="medium" aria="Open Principe">
 									<p> Open </p>
 								</NavButton>
 							</div>

@@ -17,7 +17,7 @@
 
 <div class="bread-crumbs">
 	<div class="dropdown">
-		<NavButton size="large">
+		<NavButton size="large" aria="breadcrumb of {selectedPartner.homepage}">
 			{#if selectedPartner}
 				<span>
 					<img
@@ -55,7 +55,7 @@
 	{#if websites}
 		<span class="seperator">/</span>
 		<div class="dropdown">
-		<NavButton size="large">
+		<NavButton size="large" aria="breadcrumb of {selectedUrl}">
 				{#if selectedUrl}
 					<span>{selectedUrl}</span>
 				{:else}
@@ -84,13 +84,13 @@
 	{#if selectedUrl && principes}
 		<span class="seperator">/</span>
 		<div class="dropdown">
-			<button>
+			<NavButton size="medium" variant="secondary">
 				{#if selectedPrincipe}
 					<span>{selectedPrincipe.titel}</span>
 				{:else}
 					<span>Principes overzicht</span>
 				{/if}
-			</button>
+			</NavButton>
 			<ul>
 				<li>
 					{#if selectedPartner}
@@ -118,25 +118,6 @@
 		display: flex;
 		align-items: center;
 		gap: 0.5rem;
-	}
-
-	button::after {
-		content: url('data:image/svg+xml,<svg width="12" height="7" viewBox="0 0 12 7" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L6 6L11 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>');
-		position: absolute;
-		right: 5%;
-		scale: 1.3;
-		transition: 0.2s;
-	}
-
-	button span,
-	a span {
-		display: flex;
-		align-items: center;
-		gap: 0.5rem;
-		width: 15ch;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
 	}
 
 	.dropdown {
