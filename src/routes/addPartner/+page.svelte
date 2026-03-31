@@ -2,7 +2,6 @@
 	import Dialog from '$lib/components/dialog.svelte';
 	import NavButton from '$lib/components/NavButton.svelte';
 
-
 	let { form } = $props();
 	let dialogRef;
 
@@ -17,9 +16,15 @@
 		<p>Probeer een partner toe te voegen die nog niet in de lijst bestaat!</p>
 	</article>
 
-	<NavButton size="xlarge" variant="primary" showIcon={true} onclick={handleDialog}
-    iconName="add" aria="Partner Toevoegen">
-		<p> Partner Toevoegen </p>
+	<NavButton
+		size="xlarge"
+		variant="primary"
+		showIcon={true}
+		onclick={handleDialog}
+		iconName="add"
+		aria="Partner Toevoegen"
+	>
+		<p>Partner Toevoegen</p>
 	</NavButton>
 
 	<Dialog bind:this={dialogRef} isType="addPartner" />

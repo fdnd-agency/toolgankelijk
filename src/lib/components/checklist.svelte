@@ -104,13 +104,13 @@
 										</div>
 
 										<div class="column">
-										<NavButton
-										size="large"
-										type="button"
-										onclick={(event) => translate(event, succescriterium.index)}>
-											{simpleTranslation ? 'Officiële beschrijving' : 'Simpele beschrijving'}
-										</NavButton>
-
+											<NavButton
+												size="large"
+												type="button"
+												onclick={(event) => translate(event, succescriterium.index)}
+											>
+												{simpleTranslation ? 'Officiële beschrijving' : 'Simpele beschrijving'}
+											</NavButton>
 
 											<input
 												name="check"
@@ -148,11 +148,11 @@
 			</div>
 		{:else}
 			<div class="form-btn">
-			<NavButton type="submit" size="medium" aria="opslaan checklist"> Opslaan </NavButton>
+				<NavButton type="submit" size="medium" aria="opslaan checklist">Opslaan</NavButton>
 
-			<NavButton size="medium" variant="primary" showIcon={false} href='#main'>
-				<p> Scroll to Top </p>
-			</NavButton>
+				<NavButton size="medium" variant="primary" showIcon={false} href="#main">
+					<p>Scroll to Top</p>
+				</NavButton>
 			</div>
 		{/if}
 	</form>
@@ -345,7 +345,6 @@
 	#niveau-toggle {
 		margin-bottom: 1em;
 	}
-
 
 	.richtlijn-criteria-2 {
 		display: none;

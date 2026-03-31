@@ -118,8 +118,6 @@
 	});
 </script>
 
-
-
 {#if !isUrl}
 	<div class="card-wrapper">
 		<article class="color-primary-light" id="card-partner" class:container-off={containerOff}>
@@ -161,21 +159,44 @@
 			{/if}
 
 			<div class="card-icons-partner">
-				{#if !isUrl}	
-				<NavButton onclick={openForm.bind(null, auditType)} aria="start audit van {title}" size="small" variant="secondary" showIcon={true} 
-    			iconName="audit"></NavButton>
-
-
+				{#if !isUrl}
+					<NavButton
+						onclick={openForm.bind(null, auditType)}
+						aria="start audit van {title}"
+						size="small"
+						variant="secondary"
+						showIcon={true}
+						iconName="audit"
+					></NavButton>
 				{/if}
 
-				<NavButton onclick={openForm.bind(null, editType)}
-					aria={isUrl ? `bewerk ${url}` : `bewerk ${title}`} size="small" variant="secondary" showIcon={true} 
-    iconName="edit"></NavButton>
+				<NavButton
+					onclick={openForm.bind(null, editType)}
+					aria={isUrl ? `bewerk ${url}` : `bewerk ${title}`}
+					size="small"
+					variant="secondary"
+					showIcon={true}
+					iconName="edit"
+				></NavButton>
 
-				<NavButton onclick={openForm.bind(null, deleteType)} aria={isUrl ? `verwijder ${url}` : `verwijder ${title}`} size="small" variant="secondary" showIcon={true} 
-    iconName="delete"></NavButton>
+				<NavButton
+					onclick={openForm.bind(null, deleteType)}
+					aria={isUrl ? `verwijder ${url}` : `verwijder ${title}`}
+					size="small"
+					variant="secondary"
+					showIcon={true}
+					iconName="delete"
+				></NavButton>
 
-				<NavButton href={link} aria={isUrl ? `open ${url}` : `open ${title}`} size="medium" variant="secondary" showIcon={false} > Open</NavButton>
+				<NavButton
+					href={link}
+					aria={isUrl ? `open ${url}` : `open ${title}`}
+					size="medium"
+					variant="secondary"
+					showIcon={false}
+				>
+					Open</NavButton
+				>
 			</div>
 		</article>
 	</div>
@@ -192,13 +213,33 @@
 			</div>
 
 			<div class="card-icons-url">
-					<NavButton onclick={openForm.bind(null, editType)}  aria="bewerk ${url}" size="small" variant="secondary" showIcon={true} 
-    iconName="edit"></NavButton>
+				<NavButton
+					onclick={openForm.bind(null, editType)}
+					aria="bewerk ${url}"
+					size="small"
+					variant="secondary"
+					showIcon={true}
+					iconName="edit"
+				></NavButton>
 
-					<NavButton onclick={openForm.bind(null, deleteType)} aria="verwijder ${url}" size="small" variant="secondary" showIcon={true} 
-    iconName="delete"></NavButton>
+				<NavButton
+					onclick={openForm.bind(null, deleteType)}
+					aria="verwijder ${url}"
+					size="small"
+					variant="secondary"
+					showIcon={true}
+					iconName="delete"
+				></NavButton>
 
-				<NavButton href={link} aria={isUrl ? `open ${url}` : `open ${title}`} size="medium" variant="secondary" showIcon={false} > Open</NavButton>
+				<NavButton
+					href={link}
+					aria={isUrl ? `open ${url}` : `open ${title}`}
+					size="medium"
+					variant="secondary"
+					showIcon={false}
+				>
+					Open</NavButton
+				>
 			</div>
 		</article>
 	</div>

@@ -7,7 +7,6 @@
 	import Pages from '$lib/components/pages.svelte';
 	import NavButton from '$lib/components/NavButton.svelte';
 
-
 	let { data, form } = $props();
 
 	let skip = $derived(data.skip);
@@ -33,9 +32,15 @@
 <Heading {heading} />
 
 <section>
-	<NavButton aria="Url Toevoegen" size="large" variant="primary" showIcon={false} onclick={handleDialog}
-		iconName="add">
-		<p> URL Toevoegen </p>
+	<NavButton
+		aria="Url Toevoegen"
+		size="large"
+		variant="primary"
+		showIcon={false}
+		onclick={handleDialog}
+		iconName="add"
+	>
+		<p>URL Toevoegen</p>
 	</NavButton>
 
 	<Search placeholderProp="Home" />
@@ -67,7 +72,6 @@
 		justify-content: space-between;
 		margin: 0 0 1em 1em;
 	}
-
 
 	.cards-container {
 		display: grid;

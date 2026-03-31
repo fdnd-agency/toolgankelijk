@@ -1,6 +1,23 @@
 <script>
 	import Loader from '$lib/components/loader.svelte';
 	import NavButton from '$lib/components/NavButton.svelte';
+	import AccountIcon from '$lib/components/icons/accountIcon.svelte';
+	import AddIcon from '$lib/components/icons/addIcon.svelte';
+	import AlertIcon from '$lib/components/icons/alertIcon.svelte';
+	import AlphabeticalIcon from '$lib/components/icons/alphabeticalIcon.svelte';
+	import AuditIcon from '$lib/components/icons/auditIcon.svelte';
+	import BulbIcon from '$lib/components/icons/bulbIcon.svelte';
+	import CheckIcon from '$lib/components/icons/checkIcon.svelte';
+	import CrossIcon from '$lib/components/icons/crossIcon.svelte';
+	import DeleteIcon from '$lib/components/icons/deleteIcon.svelte';
+	import EditIcon from '$lib/components/icons/editIcon.svelte';
+	import FilterIcon from '$lib/components/icons/filterIcon.svelte';
+	import HomeIcon from '$lib/components/icons/homeIcon.svelte';
+	import InfoIcon from '$lib/components/icons/infoIcon.svelte';
+	import MenuIcon from '$lib/components/icons/menuIcon.svelte';
+	import MoonIcon from '$lib/components/icons/moonIcon.svelte';
+	import SearchIcon from '$lib/components/icons/searchIcon.svelte';
+	import SunIcon from '$lib/components/icons/sunIcon.svelte';
 
 	export let params;
 	export let isType;
@@ -162,14 +179,21 @@
 		{#if !sending}
 			<div class="form-heading">
 				<h2 class="form-heading">{title}</h2>
-				<NavButton onclick={close} aria="sluit het venster" variant="primary" showIcon={true} 
-    iconName="cross" size="small"></NavButton>
+				<NavButton
+					onclick={close}
+					aria="sluit het venster"
+					variant="primary"
+					showIcon={true}
+					iconName="cross"
+					size="small"
+				></NavButton>
 			</div>
 
 			{#if tip !== null}
 				<div class="form-message-tip">
-				<!-- alert icon -->
-				 <p>{tip}</p>
+					<!-- alert icon -->
+					<!-- will be made in the alert component -->
+					<p>{tip}</p>
 				</div>
 			{/if}
 
@@ -209,7 +233,7 @@
 				{#if isType === 'editUrl' || isType === 'editPartner'}
 					<div class="form-edit-textfields">
 						<div class="form-edit-icon">
-							<!-- <EditIcon /> -->
+							<EditIcon />
 						</div>
 						<div class="form-edit-textfields">
 							<label>Typ hier je titel</label>
@@ -223,7 +247,7 @@
 							/>
 
 							<div class="form-edit-icon">
-								<!-- <EditIcon /> -->
+								<EditIcon />
 							</div>
 							<label>Typ hier je URL</label>
 							<input
@@ -248,21 +272,21 @@
 
 				{#if isType === 'deleteUrl'}
 					<div class="form-delete-content" tabindex="0">
-						<!-- <DeleteIcon /> -->
+						<DeleteIcon />
 						<p>Weet je zeker dat je {urlValue} wilt verwijderen?</p>
 					</div>
 				{/if}
 
 				{#if isType === 'deletePartner'}
 					<div class="form-delete-content" tabindex="0">
-						<!-- <DeleteIcon /> -->
+						<DeleteIcon />
 						<p>Weet je zeker dat je {nameValue} wilt verwijderen?</p>
 					</div>
 				{/if}
 
 				{#if isType === 'startAudit'}
 					<div class="form-audit-content" tabindex="0">
-						<!-- <AuditIcon /> -->
+						<AuditIcon />
 						<p>Wilt u een audit uitvoeren op {nameValue}?</p>
 					</div>
 

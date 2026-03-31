@@ -1,5 +1,5 @@
 <script>
-	import NavButton from "./NavButton.svelte";
+	import NavButton from './NavButton.svelte';
 
 	let { params, partners, websites, principes } = $props();
 
@@ -45,7 +45,6 @@
 									alt="logo partner"
 								/>{partner.titel}
 							</span>
-
 						</NavButton>
 					</li>
 				{/if}
@@ -56,13 +55,13 @@
 	{#if websites}
 		<span class="seperator">/</span>
 		<div class="dropdown">
-		<NavButton size="large" aria="breadcrumb of {selectedUrl}">
+			<NavButton size="large" aria="breadcrumb of {selectedUrl}">
 				{#if selectedUrl}
 					<span>{selectedUrl}</span>
 				{:else}
 					<span>Urls overzicht</span>
 				{/if}
-		</NavButton>
+			</NavButton>
 			<ul>
 				<li>
 					{#if selectedPartner}

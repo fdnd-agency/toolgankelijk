@@ -3,7 +3,6 @@
 	import Checklist from '$lib/components/checklist.svelte';
 	import Sidebar from '$lib/components/sidebar.svelte';
 
-
 	let { data, form } = $props();
 
 	let heading = $derived({

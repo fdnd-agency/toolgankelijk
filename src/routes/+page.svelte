@@ -40,10 +40,16 @@
 <Heading {heading} />
 
 <section>
-<NavButton aria="Partner Toevogen" size="xlarge" variant="primary" showIcon={true} onclick={handleDialog}
-    iconName="add">
-	<p> Partner Toevoegen </p>
-</NavButton>
+	<NavButton
+		aria="Partner Toevogen"
+		size="xlarge"
+		variant="primary"
+		showIcon={true}
+		onclick={handleDialog}
+		iconName="add"
+	>
+		<p>Partner Toevoegen</p>
+	</NavButton>
 
 	<Search placeholderProp="Gvb" />
 </section>
@@ -70,8 +76,8 @@
 	{/each}
 </section>
 
-<NavButton size="medium" variant="primary" showIcon={false} href='#main' aria="scroll naar boven">
-	<p> Scroll naar Boven </p>
+<NavButton size="medium" variant="primary" showIcon={false} href="#main" aria="scroll naar boven">
+	<p>Scroll naar Boven</p>
 </NavButton>
 
 <a href="#main" class="btn-top" onclick={scrollToTop}>⬆</a>
@@ -86,7 +92,6 @@
 	a {
 		color: rgb(40, 177, 223);
 	}
-
 
 	.btn-top {
 		position: fixed;

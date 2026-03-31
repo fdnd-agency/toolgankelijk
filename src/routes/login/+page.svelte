@@ -2,7 +2,6 @@
 	import { enhance } from '$app/forms';
 	import NavButton from '$lib/components/NavButton.svelte';
 
-
 	let { form } = $props();
 </script>
 
@@ -32,8 +31,9 @@
 				/>
 				<span></span>
 			</p>
-			
-			<NavButton aria="Inloggen" size="medium" variant="secondary" type="submit">Inloggen</NavButton>
+
+			<NavButton aria="Inloggen" size="medium" variant="secondary" type="submit">Inloggen</NavButton
+			>
 
 			<p style="color: red;">{form?.message ?? ''}</p>
 
@@ -122,7 +122,6 @@
 		border: 1px solid var(--c-white);
 		outline: none;
 	}
-
 
 	.form-link {
 		padding-top: 1rem;
