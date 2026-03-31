@@ -42,14 +42,13 @@
 	<ul class="pages-list">
 		<li>
 			<NavButton
-				name="skip"
-				type="submit"
-				value={prevSkip}
-				size="medium"
-				variant="primary"
-				showIcon={false}
-				disabled={currentPage === 1}
-			>
+                type="submit"
+                name="skip"
+                value={prevSkip}
+                disabled={currentPage === 1}
+                size="medium"
+                variant="primary"
+            >
 				<p>Vorige</p>
 			</NavButton>
 		</li>
@@ -60,13 +59,14 @@
 			{:else}
 				<li>
 					<NavButton
-						type="submit"
-						value={(p - 1) * perPage}
-						size="small"
-						variant="primary"
-						showIcon={false}
-						disabled={currentPage === pageCount}
-					>
+                        type="submit"
+                        name="skip"
+                        value={(p - 1) * perPage}
+                        class={p === currentPage ? 'selected' : ''}
+                        disabled={p === currentPage}
+                        size="medium"
+                        variant="primary"
+                    >
 						<p>{p}</p>
 					</NavButton>
 				</li>
@@ -76,13 +76,13 @@
 		<!-- <li class="button-disabled button">{pageCount}</li> -->
 		<li>
 			<NavButton
-				type="submit"
-				value={nextSkip}
-				size="medium"
-				variant="primary"
-				showIcon={false}
-				disabled={currentPage === pageCount}
-			>
+                type="submit"
+                name="skip"
+                value={nextSkip}
+                disabled={currentPage === pageCount}
+                size="medium"
+                variant="primary"
+            >
 				<p>Volgende</p>
 			</NavButton>
 		</li>
@@ -109,27 +109,4 @@
 		padding: 0;
 	}
 
-	.button {
-		border-radius: 0.25rem;
-		padding: 0.5rem 1rem;
-		background-color: var(--c-modal-button);
-		color: var(--c-white2);
-		border: none;
-		cursor: pointer;
-		transition: 0.3s;
-		font-size: 1rem;
-	}
-
-	.button:hover {
-		background-color: var(--c-pink);
-	}
-
-	.button-disabled {
-		opacity: 0.5;
-	}
-
-	.button:disabled {
-		cursor: default;
-		opacity: 0.5;
-	}
 </style>
