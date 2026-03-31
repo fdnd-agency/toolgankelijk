@@ -63,6 +63,7 @@
     class="navbutton {size} {variant}"
     {onclick}
     {...rest}
+    araia-lable={aria}
 >
     {#if showIcon && ActiveIcon}
         <span class="icon-wrapper">
