@@ -380,7 +380,6 @@
 			font-size: 12px;
 		}
 
-		button,
 		input[type='submit'],
 		input[type='reset'] {
 			background: none;

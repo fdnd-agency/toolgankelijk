@@ -17,7 +17,7 @@
 
 <div class="bread-crumbs">
 	<div class="dropdown">
-		<NavButton size="large" aria="breadcrumb of {selectedPartner.homepage}">
+		<NavButton size="large" aria="breadcrumb of {selectedPartner}">
 			{#if selectedPartner}
 				<span>
 					<img
@@ -37,7 +37,7 @@
 			{#each partners.websites as partner}
 				{#if partner}
 					<li>
-						<a href="/{partner.slug}">
+						<NavButton size="medium" variant="secondary" href="/{partner.slug}">
 							<span>
 								<img
 									width="24"
@@ -45,7 +45,8 @@
 									alt="logo partner"
 								/>{partner.titel}
 							</span>
-						</a>
+
+						</NavButton>
 					</li>
 				{/if}
 			{/each}
