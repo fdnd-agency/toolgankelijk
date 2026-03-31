@@ -42,13 +42,13 @@
 	<ul class="pages-list">
 		<li>
 			<NavButton
-                type="submit"
-                name="skip"
-                value={prevSkip}
-                disabled={currentPage === 1}
-                size="medium"
-                variant="primary"
-            >
+				type="submit"
+				name="skip"
+				value={prevSkip}
+				disabled={currentPage === 1}
+				size="medium"
+				variant="primary"
+			>
 				<p>Vorige</p>
 			</NavButton>
 		</li>
@@ -59,14 +59,14 @@
 			{:else}
 				<li>
 					<NavButton
-                        type="submit"
-                        name="skip"
-                        value={(p - 1) * perPage}
-                        class={p === currentPage ? 'selected' : ''}
-                        disabled={p === currentPage}
-                        size="medium"
-                        variant="primary"
-                    >
+						type="submit"
+						name="skip"
+						value={(p - 1) * perPage}
+						class={p === currentPage ? 'selected' : ''}
+						disabled={p === currentPage}
+						size="medium"
+						variant="primary"
+					>
 						<p>{p}</p>
 					</NavButton>
 				</li>
@@ -76,13 +76,13 @@
 		<!-- <li class="button-disabled button">{pageCount}</li> -->
 		<li>
 			<NavButton
-                type="submit"
-                name="skip"
-                value={nextSkip}
-                disabled={currentPage === pageCount}
-                size="medium"
-                variant="primary"
-            >
+				type="submit"
+				name="skip"
+				value={nextSkip}
+				disabled={currentPage === pageCount}
+				size="medium"
+				variant="primary"
+			>
 				<p>Volgende</p>
 			</NavButton>
 		</li>
@@ -108,5 +108,4 @@
 		list-style: none;
 		padding: 0;
 	}
-
 </style>
