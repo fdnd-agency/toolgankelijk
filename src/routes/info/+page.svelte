@@ -3,6 +3,7 @@
 	import Heading from '$lib/components/heading.svelte';
 	import walking from '$lib/assets/walking_together.svg';
 	import knowledge from '$lib/assets/sharing_knowledge.svg';
+	import NavButton from '$lib/components/NavButton.svelte';
 
 	let heading = $derived({ titel: 'Informatie' });
 
@@ -107,13 +108,9 @@
 					<input placeholder="email" id="email" type="email" name="email" required />
 					<label for="vraag">Uw vraag</label>
 					<textarea id="vraag" name="vraag" placeholder="Bericht..." required rows="3"></textarea>
-					<button type="submit" class="form-button" disabled={isSubmitting}>
-						{#if isSubmitting}
-							versturen...
-						{:else}
-							Verstuur
-						{/if}
-					</button>
+					<NavButton aria="Verzend Vraag" type="submit" size="medium" variant="secondary">
+						Versturen
+					</NavButton>
 
 					{#if successMessage}
 						<p class="success-message">{successMessage}</p>
@@ -239,29 +236,6 @@
 		padding-left: 0.5rem;
 		color: white;
 		font-size: 16px;
-	}
-
-	form:valid .form-button {
-		background-color: var(--c-pink);
-		border: 2px solid var(--c-pink);
-	}
-
-	.form-button {
-		margin-top: 1rem;
-		margin-bottom: 1rem;
-		background-color: grey;
-		color: lightgray;
-		border: 2px solid grey;
-		width: 10rem;
-		height: 2.5rem;
-		border-radius: 20px;
-		cursor: pointer;
-		transition: 0.2s ease-in-out;
-		font-size: 16px;
-	}
-
-	.form-button:hover {
-		background-color: transparent !important;
 	}
 
 	.success-message {

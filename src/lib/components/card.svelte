@@ -1,9 +1,7 @@
 <script>
 	import { onMount } from 'svelte';
 	import Dialog from '$lib/components/dialog.svelte';
-	import AuditIcon from '$lib/components/icons/auditIcon.svelte';
-	import DeleteIcon from '$lib/components/icons/deleteIcon.svelte';
-	import EditIcon from '$lib/components/icons/editIcon.svelte';
+	import NavButton from '$lib/components/NavButton.svelte';
 
 	export let website;
 	export let principes;
@@ -162,28 +160,43 @@
 
 			<div class="card-icons-partner">
 				{#if !isUrl}
-					<button onclick={openForm.bind(null, auditType)} aria-label="start audit van {title}">
-						<AuditIcon />
-					</button>
+					<NavButton
+						onclick={openForm.bind(null, auditType)}
+						aria="start audit van {title}"
+						size="small"
+						variant="secondary"
+						showIcon={true}
+						iconName="audit"
+					></NavButton>
 				{/if}
 
-				<button
+				<NavButton
 					onclick={openForm.bind(null, editType)}
-					aria-label={isUrl ? `bewerk ${url}` : `bewerk ${title}`}
-				>
-					<EditIcon />
-				</button>
+					aria={isUrl ? `bewerk ${url}` : `bewerk ${title}`}
+					size="small"
+					variant="secondary"
+					showIcon={true}
+					iconName="edit"
+				></NavButton>
 
-				<button
+				<NavButton
 					onclick={openForm.bind(null, deleteType)}
-					aria-label={isUrl ? `verwijder ${url}` : `verwijder ${title}`}
-				>
-					<DeleteIcon />
-				</button>
+					aria={isUrl ? `verwijder ${url}` : `verwijder ${title}`}
+					size="small"
+					variant="secondary"
+					showIcon={true}
+					iconName="delete"
+				></NavButton>
 
-				<a href={link} aria-label={isUrl ? `open ${url}` : `open ${title}`} class="card-open">
-					Open
-				</a>
+				<NavButton
+					href={link}
+					aria={isUrl ? `open ${url}` : `open ${title}`}
+					size="medium"
+					variant="secondary"
+					showIcon={false}
+				>
+					Open</NavButton
+				>
 			</div>
 		</article>
 	</div>
@@ -200,15 +213,33 @@
 			</div>
 
 			<div class="card-icons-url">
-				<button onclick={openForm.bind(null, editType)} aria-label="bewerk ${url}">
-					<EditIcon />
-				</button>
+				<NavButton
+					onclick={openForm.bind(null, editType)}
+					aria="bewerk ${url}"
+					size="small"
+					variant="secondary"
+					showIcon={true}
+					iconName="edit"
+				></NavButton>
 
-				<button onclick={openForm.bind(null, deleteType)} aria-label="verwijder ${url}">
-					<DeleteIcon />
-				</button>
+				<NavButton
+					onclick={openForm.bind(null, deleteType)}
+					aria="verwijder ${url}"
+					size="small"
+					variant="secondary"
+					showIcon={true}
+					iconName="delete"
+				></NavButton>
 
-				<a href={link} aria-label="open ${url}" class="card-open"> Open </a>
+				<NavButton
+					href={link}
+					aria={isUrl ? `open ${url}` : `open ${title}`}
+					size="medium"
+					variant="secondary"
+					showIcon={false}
+				>
+					Open</NavButton
+				>
 			</div>
 		</article>
 	</div>
@@ -305,27 +336,6 @@
 		height: fit-content;
 	}
 
-	article button {
-		background: none;
-		cursor: pointer;
-		border: none;
-		border-radius: var(--border-radius);
-		background-color: var(--dark-3);
-		border: var(--color-neutral-black) solid 1px;
-		height: 32px;
-		width: 32px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		padding: 4px;
-
-		&:hover {
-			transition-duration: 0.2s;
-			background-color: var(--light-3);
-			color: var(--color-neutral-black);
-		}
-	}
-
 	#partner-progress-container {
 		display: flex;
 		flex-direction: row;
@@ -399,31 +409,6 @@
 		display: none;
 	}
 
-	.card-open {
-		border-radius: var(--border-radius);
-		background-color: var(--dark-3);
-		color: var(--color-neutral-black);
-		border: var(--color-neutral-black) solid 1px;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		text-decoration: none;
-		width: 8em;
-		height: 2em;
-		filter: drop-shadow(var(--color-neutral-black) 2px 2px 4px);
-
-		&:hover {
-			transition-duration: 0.2s;
-			background-color: var(--light-3);
-			color: var(--color-neutral-black);
-		}
-
-		@media (max-width: 720px) {
-			height: 32px;
-			font-size: 12px;
-		}
-	}
-
 	.card-icons-partner {
 		grid-row: 3/4;
 		grid-column: 2/3;
@@ -432,10 +417,6 @@
 		gap: 0.5em;
 		align-items: center;
 		margin-right: 0.5em;
-
-		button:focus {
-			border: solid 4px black;
-		}
 	}
 
 	.card-icons-url {
@@ -445,10 +426,6 @@
 		justify-content: flex-end;
 		gap: 0.5em;
 		align-items: center;
-
-		button:focus {
-			border: solid 4px black;
-		}
 	}
 
 	@container card-component (width < 600px) {
@@ -511,10 +488,6 @@
 			grid-column: 1/3;
 			grid-row: 2/3;
 			height: 1em;
-		}
-
-		.card-open {
-			margin-left: 1em;
 		}
 
 		.card-icons-partner {

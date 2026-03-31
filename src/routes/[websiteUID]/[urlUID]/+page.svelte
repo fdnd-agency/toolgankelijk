@@ -2,6 +2,7 @@
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 	import Heading from '$lib/components/heading.svelte';
+	import NavButton from '$lib/components/NavButton.svelte';
 
 	let { data } = $props();
 
@@ -53,36 +54,43 @@
 	<ul>
 		{#each principes as principe (principe.index)}
 			<li>
-				<a href="{$page.url.pathname}/{principe.slug}">
-					<div class="principe">
-						<h1>
-							<span>{principe.titel}.</span> Principe {principe.index}
-						</h1>
-						<p>{principe.beschrijving.text}</p>
-						{#each niveaus as n}
-							<p>{n.niveau}</p>
-							<div class="progress-container">
-								<progress
-									name="progress-partner-{n.niveau}"
-									id="progress-partner"
-									max={progressData[principe.index][n.niveau].total || 1}
-									value={progressData[principe.index][n.niveau].behaald || 0}
-								></progress>
-								<label class="progress-percentage" for="progress-partner-{n.niveau}">
-									{progressData[principe.index]?.[n.niveau]
-										? progressData[principe.index][n.niveau].total
-											? Math.round(
-													(progressData[principe.index][n.niveau].behaald /
-														progressData[principe.index][n.niveau].total) *
-														100
-												)
-											: 0
-										: 0}%
-								</label>
-							</div>
-						{/each}
-					</div>
-				</a>
+				<div class="principe">
+					<h1>
+						<span>{principe.titel}.</span> Principe {principe.index}
+					</h1>
+					<p>{principe.beschrijving.text}</p>
+					{#each niveaus as n}
+						<p>{n.niveau}</p>
+						<div class="progress-container">
+							<progress
+								name="progress-partner-{n.niveau}"
+								id="progress-partner"
+								max={progressData[principe.index][n.niveau].total || 1}
+								value={progressData[principe.index][n.niveau].behaald || 0}
+							></progress>
+							<label class="progress-percentage" for="progress-partner-{n.niveau}">
+								{progressData[principe.index]?.[n.niveau]
+									? progressData[principe.index][n.niveau].total
+										? Math.round(
+												(progressData[principe.index][n.niveau].behaald /
+													progressData[principe.index][n.niveau].total) *
+													100
+											)
+										: 0
+									: 0}%
+							</label>
+							<NavButton
+								variant="secondary"
+								showIcon={false}
+								href="{$page.url.pathname}/{principe.slug}"
+								size="medium"
+								aria="Open Principe"
+							>
+								<p>Open</p>
+							</NavButton>
+						</div>
+					{/each}
+				</div>
 			</li>
 		{/each}
 	</ul>
@@ -93,7 +101,7 @@
 		box-sizing: border-box;
 	}
 
-	li a {
+	li {
 		text-decoration: none;
 		color: inherit;
 	}

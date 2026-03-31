@@ -1,5 +1,6 @@
 <script>
 	let { amount, perPage, currentPage } = $props();
+	import NavButton from './NavButton.svelte';
 
 	// calculate the number of pages
 	let pageCount = $derived(Math.ceil(amount / perPage));
@@ -40,9 +41,16 @@
 <form method="GET" data-sveltekit-reload>
 	<ul class="pages-list">
 		<li>
-			<button type="submit" class="button" name="skip" value={prevSkip} disabled={currentPage === 1}
-				>◀ Vorige</button
+			<NavButton
+				type="submit"
+				name="skip"
+				value={prevSkip}
+				disabled={currentPage === 1}
+				size="medium"
+				variant="primary"
 			>
+				<p>Vorige</p>
+			</NavButton>
 		</li>
 
 		{#each pageNumbers as p}
@@ -50,27 +58,33 @@
 				<li class="button-disabled button">...</li>
 			{:else}
 				<li>
-					<button
+					<NavButton
 						type="submit"
-						class="button"
 						name="skip"
 						value={(p - 1) * perPage}
-						class:selected={p === currentPage}
-						>{p}
-					</button>
+						class={p === currentPage ? 'selected' : ''}
+						disabled={p === currentPage}
+						size="medium"
+						variant="primary"
+					>
+						<p>{p}</p>
+					</NavButton>
 				</li>
 			{/if}
 		{/each}
 
 		<!-- <li class="button-disabled button">{pageCount}</li> -->
 		<li>
-			<button
+			<NavButton
 				type="submit"
-				class="button"
 				name="skip"
 				value={nextSkip}
-				disabled={currentPage === pageCount}>Volgende ▶</button
+				disabled={currentPage === pageCount}
+				size="medium"
+				variant="primary"
 			>
+				<p>Volgende</p>
+			</NavButton>
 		</li>
 	</ul>
 </form>
@@ -93,34 +107,5 @@
 		gap: 0.5rem;
 		list-style: none;
 		padding: 0;
-	}
-
-	.button {
-		border-radius: 0.25rem;
-		padding: 0.5rem 1rem;
-		background-color: var(--c-modal-button);
-		color: var(--c-white2);
-		border: none;
-		cursor: pointer;
-		transition: 0.3s;
-		font-size: 1rem;
-	}
-
-	.button:hover {
-		background-color: var(--c-pink);
-	}
-
-	.button-disabled {
-		opacity: 0.5;
-	}
-
-	.selected {
-		background-color: var(--c-pink);
-		font-weight: 900;
-	}
-
-	.button:disabled {
-		cursor: default;
-		opacity: 0.5;
 	}
 </style>
