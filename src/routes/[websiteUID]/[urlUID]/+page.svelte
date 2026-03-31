@@ -1,7 +1,6 @@
 <script>
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
-	import Heading from '$lib/components/heading.svelte';
 	import NavButton from '$lib/components/NavButton.svelte';
 
 	let { data } = $props();

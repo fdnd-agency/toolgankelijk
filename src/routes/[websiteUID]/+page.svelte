@@ -1,6 +1,5 @@
 <script>
 	import { page } from '$app/stores';
-	import Heading from '$lib/components/heading.svelte';
 	import Card from '$lib/components/card.svelte';
 	import Search from '$lib/components/search.svelte';
 	import Dialog from '$lib/components/dialog.svelte';
@@ -28,8 +27,6 @@
 		dialogRef.open();
 	}
 </script>
-
-<Heading {heading} />
 
 <section>
 	<NavButton

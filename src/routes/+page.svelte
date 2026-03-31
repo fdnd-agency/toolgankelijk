@@ -1,7 +1,6 @@
 <script>
 	import { invalidateAll } from '$app/navigation';
 	import { onMount } from 'svelte';
-	import Heading from '$lib/components/heading.svelte';
 	import Card from '$lib/components/card.svelte';
 	import Search from '$lib/components/search.svelte';
 	import Dialog from '$lib/components/dialog.svelte';
@@ -36,8 +35,6 @@
 		}
 	});
 </script>
-
-<Heading {heading} />
 
 <section>
 	<NavButton
