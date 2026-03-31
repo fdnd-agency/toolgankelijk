@@ -125,26 +125,8 @@
 					</svg>
 				</a>
 			{/if}
-			<a aria-label="lightmode button" class="disable-js" href=" ">
-				<button aria-label="lightmode" class="toggle" onclick={toggleLightMode}>
-					<svg
-						id="icon"
-						alt="darkmode icon"
-						width="24"
-						height="24"
-						viewBox="0 0 24 24"
-						xmlns="http://www.w3.org/2000/svg"
-					>
-						<path
-							id="my-svg"
-							d="M12 24C18.6276 24 24 18.6276 24 12C24 5.3724 18.6276 0 12 0C5.3724 0 0 5.3724 0 12C0 18.6276 5.3724 24 12 24ZM12 21.6V2.4C14.5461 2.4 16.9879 3.41143 18.7882 5.21178C20.5886 7.01212 21.6 9.45392 21.6 12C21.6 14.5461 20.5886 16.9879 18.7882 18.7882C16.9879 20.5886 14.5461 21.6 12 21.6Z"
-						/>
-					</svg>
-				</button>
-			</a>
-			<span class="lightmode"></span>
 			{#if user}
-				<button onclick={handleSignOut} class="signout-btn">Sign out</button>
+				<!-- signout button -->
 			{/if}
 		</div>
 		<Hamburger />
@@ -152,32 +134,6 @@
 </header>
 
 <style>
-	.signout-btn {
-		background-color: #b5006c;
-		color: var(--c-white);
-		border: 2px solid #b5006c;
-		border-radius: 20px;
-		width: 8rem;
-		height: 2.2rem;
-		font-size: 1rem;
-		font-weight: 600;
-		cursor: pointer;
-		transition:
-			background 0.2s,
-			color 0.2s,
-			border 0.2s;
-	}
-
-	.signout-btn:hover {
-		background-color: transparent;
-		color: #b5006c;
-		border: 2px solid #b5006c;
-	}
-
-	.lightmode {
-		--c-background: white;
-		--c-container: rgb(227, 0, 89);
-	}
 
 	.visible-hidden {
 		clip: rect(1px, 1px, 1px, 1px);
@@ -195,12 +151,6 @@
 		overflow: auto;
 		position: absolute;
 		width: auto;
-	}
-
-	button {
-		cursor: pointer;
-		background: none;
-		border: none;
 	}
 
 	header {
@@ -234,10 +184,6 @@
 
 	.options svg {
 		fill: var(--c-white2);
-	}
-
-	.disable-js {
-		display: none;
 	}
 
 	.account-icon-img {
