@@ -1,5 +1,6 @@
 <script>
 	let { amount, perPage, currentPage } = $props();
+	import NavButton from "./NavButton.svelte";
 
 	// calculate the number of pages
 	let pageCount = $derived(Math.ceil(amount / perPage));
@@ -50,7 +51,7 @@
 				<li class="button-disabled button">...</li>
 			{:else}
 				<li>
-				<NavButton type="submit" value={(p - 1) * perPage} size="medium" variant="primary" showIcon={false} disabled={currentPage === pageCount}>
+				<NavButton type="submit" value={(p - 1) * perPage} size="small" variant="primary" showIcon={false} disabled={currentPage === pageCount}>
 					<p> {p} </p>
 				</NavButton>
 				</li>
