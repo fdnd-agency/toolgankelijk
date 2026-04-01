@@ -112,17 +112,13 @@
 
 	.container-principes {
 		gap: 1rem;
-		/* margin: 1em 1em; */
 		border-radius: 0.5em;
 	}
 
 	.container-principes ul {
 		list-style: none;
-		/* padding: 2rem; */
 		display: grid;
 		grid-template-columns: repeat(2, 1fr);
-		/* gap: 2rem; */
-		/* background-color: var(--bg-pink); */
 		border-radius: 0.5em;
 	}
 
@@ -165,7 +161,6 @@
 		color: rgb(131, 97, 111);
 	}
 
-	/* Progress Bar Styling */
 	.main-progress,
 	.progress-row {
 		display: flex;
@@ -220,6 +215,5 @@
 		font-size: 1.5rem;
 		font-weight: bold;
 		display: block;
-		/* margin-bottom: 0.5rem; */
 	}
 </style>
