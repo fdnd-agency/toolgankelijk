@@ -20,7 +20,7 @@
 
     let activeFilters = $state({
         principe: 'Alle',
-        niveau: 'Niveau A',
+        niveau: 'Alle',
         showNietVoldaan: false,
         showVoldaan: false
     });
@@ -33,6 +33,15 @@
             return p.titel === activeFilters.principe; 
         })
     );
+
+	let filteredNiveaus = $derived(
+    niveaus.filter((n) => {
+        if (activeFilters.niveau === 'Alle') { 
+            return true;
+        }
+        return n.niveau === activeFilters.niveau;
+    })
+);
 
     function handleApplyFilters(newFilters) {
         activeFilters = newFilters;
@@ -79,7 +88,8 @@
                             <span>{principe.titel}.</span> Principe {principe.index}
                         </h1>
                         <p>{principe.beschrijving.text}</p>
-                        {#each niveaus as n}
+                        
+                        {#each filteredNiveaus as n}
                             <p>{n.niveau}</p>
                             <div class="progress-container">
                                 <progress
@@ -101,6 +111,7 @@
                                 </label>
                             </div>
                         {/each}
+                        
                     </div>
                 </a>
             </li>
