@@ -1,5 +1,6 @@
 <script>
 	import { page } from '$app/stores';
+	import Heading from '$lib/components/heading.svelte';
 	import { onMount } from 'svelte';
 	import NavButton from '$lib/components/NavButton.svelte';
 

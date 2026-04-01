@@ -2,7 +2,6 @@
 	import NavButton from './NavButton.svelte';
 
 	let { params, partners, websites, principes } = $props();
-
 	let selectedPartner = $derived(
 		params.websiteUID ? partners.websites.find(({ slug }) => slug === params.websiteUID) : ''
 	);
@@ -15,16 +14,47 @@
 		'https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=';
 </script>
 
-<div class="bread-crumbs">
-	<div class="dropdown">
+<div class="breadcrumbs">
 		<NavButton size="large" aria="breadcrumb of {selectedPartner}">
+			{#if selectedPartner}
+				<img width="24" src="{faviconAPI}{selectedPartner.homepage}/&size=128" alt="logo partner" />
+				<p> {selectedPartner.titel} </p>
+			{:else}
+				<p>Partners overzicht</p>
+			{/if}
+		</NavButton>
+		<div class="dropdown">
+				<ul>
+				{#each partners.websites as partner}
+					{#if partner}
+						<li>
+							<NavButton size="medium" variant="secondary" href="/{partner.slug}" width="full">
+									<img
+										width="24"
+										src="{faviconAPI}{partner.homepage}/&size=256"
+										alt="logo partner"/>
+									<p>
+										{partner.titel}
+									</p>
+							</NavButton>
+						</li>
+					{/if}
+				{/each}
+			</ul>
+		</div>
+</div>
+
+<!-- <div class="bread-crumbs">
+	<div class="dropdown">
+		<NavButton size="large" aria="breadcrumb of {selectedPartner}" width="full">
 			{#if selectedPartner}
 				<span>
 					<img
 						width="24"
 						src="{faviconAPI}{selectedPartner.homepage}/&size=128"
 						alt="logo partner"
-					/>{selectedPartner.titel}
+					/>
+					{selectedPartner.titel}
 				</span>
 			{:else}
 				<p>Partners overzicht</p>
@@ -37,14 +67,14 @@
 			{#each partners.websites as partner}
 				{#if partner}
 					<li>
-						<NavButton size="medium" variant="secondary" href="/{partner.slug}">
-							<span>
+						<NavButton size="medium" variant="secondary" href="/{partner.slug}" width="full">
 								<img
 									width="24"
 									src="{faviconAPI}{partner.homepage}/&size=256"
-									alt="logo partner"
-								/>{partner.titel}
-							</span>
+									alt="logo partner"/>
+								<p>
+									{partner.titel}
+								</p>
 						</NavButton>
 					</li>
 				{/if}
@@ -55,17 +85,19 @@
 	{#if websites}
 		<span class="seperator">/</span>
 		<div class="dropdown">
-			<NavButton size="large" aria="breadcrumb of {selectedUrl}">
+			<NavButton size="large" aria="breadcrumb of {selectedUrl}" width="full">
 				{#if selectedUrl}
-					<span>{selectedUrl}</span>
+					<p>{selectedUrl}</p>
 				{:else}
-					<span>Urls overzicht</span>
+					<p>Urls overzicht</p>
 				{/if}
 			</NavButton>
 			<ul>
 				<li>
 					{#if selectedPartner}
-						<a href="/{selectedPartner.slug}"><span>Urls overzicht</span></a>
+					<NavButton size="large" aria="breadcrumb of {selectedPartner.slug}" width="full">
+						<p>URLs overzicht</p>
+					</NavButton>
 					{:else}
 						<span>Urls overzicht</span>
 					{/if}
@@ -111,19 +143,18 @@
 			</ul>
 		</div>
 	{/if}
-</div>
+</div> -->
 
 <style>
-	.bread-crumbs {
+	.breadcrumbs {
 		display: flex;
 		align-items: center;
 		gap: 0.5rem;
 	}
 
 	.dropdown {
-		position: relative;
 		display: inline-block;
-		min-width: 12rem;
+		min-width: 10em;
 		height: max-content;
 		z-index: 1;
 	}
@@ -134,67 +165,36 @@
 		width: 1.5rem;
 	}
 
-	.seperator {
-		font-size: 1.5rem;
-		color: var(--c-white2);
-	}
-
 	ul {
 		position: absolute;
-		background-color: #2c2c2c;
-		max-height: 0;
-		width: 100%;
-		border-radius: 0 0 0.5em 0.5em;
+		max-height: 1em;
+		gap: 1em;
+		left: 1em;
+		width: 10em;
 		overflow: hidden;
 		transform: translateY(-100%);
 		transition: 0.2s;
 		z-index: -1;
 	}
 
-	ul li:nth-child(2) {
-		border-top: 1px solid;
-	}
-
-	ul a {
-		display: flex;
-		align-items: center;
-		gap: 0.5rem;
-		color: var(--c-white);
-		background-color: var(--c-container);
-		padding: 12px 16px;
-		text-decoration: none;
-	}
-
 	ul:has(:global(a:focus)) {
 		max-height: min-content;
 		min-width: max-content;
-		transform: translateY(0);
+		transform: translateY(100);
 	}
 
-	ul a:hover {
+	.breadcrumbs a:hover {
 		background-color: var(--c-white);
 		color: var(--c-text-header);
 	}
 
-	.dropdown:hover ul {
+	.breadcrumbs:hover ul {
 		max-height: min-content;
 		min-width: max-content;
 		transform: translateY(0);
 	}
 
-	.dropdown:hover button {
-		background-color: var(--c-container);
-		border-radius: 0.5em 0.5em 0 0;
-	}
 
-	button:has(:global(a:focus)) {
-		background-color: var(--c-container);
-		border-radius: 0.5em 0.5em 0 0;
-	}
-
-	.dropdown:hover button::after {
-		transform: scale(-1, -1);
-	}
 
 	@media print {
 		.bread-crumbs {

@@ -5,6 +5,7 @@
 	import Dialog from '$lib/components/dialog.svelte';
 	import Pages from '$lib/components/pages.svelte';
 	import NavButton from '$lib/components/NavButton.svelte';
+	import Heading from '$lib/components/heading.svelte';
 
 	let { data, form } = $props();
 
@@ -27,6 +28,8 @@
 		dialogRef.open();
 	}
 </script>
+
+<Heading {heading}/>
 
 <section>
 	<NavButton
