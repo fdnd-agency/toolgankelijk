@@ -200,7 +200,7 @@
 	}
 
 	.niveau-sub-card {
-		background-color: rgba(230, 163, 197);
+		background-color: rgba(214,104,161);
 		padding: 0.71rem 0.8rem;
 		border-radius: 15px;
 	}
