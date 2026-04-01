@@ -4,21 +4,21 @@
 
 	let { data, partnerTitle = '', onApply } = $props();
 
-	let principe = 'Alle';
-	let niveau = 'Alle';
-	let showNietVoldaan = false;
-	let showVoldaan = false;
+	let principle = 'All';
+    let level = 'All';
+    let showNotMet = false;
+    let showMet = false;
 
-	function handleApply() {
-		if (onApply) {
-			onApply({
-				principe,
-				niveau,
-				showNietVoldaan,
-				showVoldaan
-			});
-		}
-	}
+    function handleApply() {
+        if (onApply) {
+            onApply({
+                principle,
+                level,
+                showNotMet,
+                showMet
+            });
+        }
+    }
 </script>
 
 <header class="subheader">
@@ -28,10 +28,10 @@
     <form class="controls-container" on:submit|preventDefault={handleApply}>
         
         <div class="control-group">
-            <label class="group-label" for="principe">Selecteer principe:</label>
+            <label class="group-label" for="principle">Selecteer principe:</label>
             <div class="select-wrapper">
-                <select id="principe" bind:value={principe}>
-                    <option value="Alle">Alle Principes</option>
+                <select id="principle" bind:value={principle}>
+                    <option value="All">Alle Principes</option>
                     <option value="Waarneembaar">Waarneembaar</option>
                     <option value="Bedienbaar">Bedienbaar</option>
                     <option value="Begrijpelijk">Begrijpelijk</option>
@@ -41,10 +41,10 @@
         </div>
 
         <div class="control-group">
-            <label class="group-label" for="niveau">Selecteer niveau:</label>
+            <label class="group-label" for="level">Selecteer niveau:</label>
             <div class="select-wrapper">
-                <select id="niveau" bind:value={niveau}>
-                    <option value="Alle">Alle Niveaus</option>
+                <select id="level" bind:value={level}>
+                    <option value="All">Alle Niveaus</option>
                     <option value="A">Niveau A</option>
                     <option value="AA">Niveau AA</option>
                     <option value="AAA">Niveau AAA</option>
@@ -56,11 +56,11 @@
             <legend class="group-label">Principes tonen:</legend>
             <div class="checkboxes">
                 <label class="checkbox-label">
-                    <input type="checkbox" bind:checked={showNietVoldaan} />
+                    <input type="checkbox" bind:checked={showNotMet} />
                     Niet voldaan
                 </label>
                 <label class="checkbox-label">
-                    <input type="checkbox" bind:checked={showVoldaan} />
+                    <input type="checkbox" bind:checked={showMet} />
                     Voldaan
                 </label>
             </div>
