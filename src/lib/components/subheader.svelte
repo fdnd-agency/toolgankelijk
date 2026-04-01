@@ -21,54 +21,54 @@
 	}
 </script>
 
-<div class="subheader">
-	<div class="brand">
-	</div>
+<header class="subheader">
+    <div class="brand">
+    </div>
 
-	<div class="controls-container">
-		<div class="control-group">
-			<label class="group-label" for="principe">Selecteer principe:</label>
-			<div class="select-wrapper">
-				<select id="principe" bind:value={principe}>
-					<option value="Alle">Alle Principes</option>
-					<option value="Waarneembaar">Waarneembaar</option>
-					<option value="Bedienbaar">Bedienbaar</option>
-					<option value="Begrijpelijk">Begrijpelijk</option>
-					<option value="Robuust">Robuust</option>
-				</select>
-			</div>
-		</div>
+    <form class="controls-container" on:submit|preventDefault={handleApply}>
+        
+        <div class="control-group">
+            <label class="group-label" for="principe">Selecteer principe:</label>
+            <div class="select-wrapper">
+                <select id="principe" bind:value={principe}>
+                    <option value="Alle">Alle Principes</option>
+                    <option value="Waarneembaar">Waarneembaar</option>
+                    <option value="Bedienbaar">Bedienbaar</option>
+                    <option value="Begrijpelijk">Begrijpelijk</option>
+                    <option value="Robuust">Robuust</option>
+                </select>
+            </div>
+        </div>
 
-		<div class="control-group">
-			<label class="group-label" for="niveau">Selecteer niveau:</label>
-			<div class="select-wrapper">
-				<select id="niveau" bind:value={niveau}>
-					<option value="Alle">Alle Niveaus</option>
+        <div class="control-group">
+            <label class="group-label" for="niveau">Selecteer niveau:</label>
+            <div class="select-wrapper">
+                <select id="niveau" bind:value={niveau}>
+                    <option value="Alle">Alle Niveaus</option>
+                    <option value="A">Niveau A</option>
+                    <option value="AA">Niveau AA</option>
+                    <option value="AAA">Niveau AAA</option>
+                </select>
+            </div>
+        </div>
 
-					<option value="A">Niveau A</option>
-					<option value="AA">Niveau AA</option>
-					<option value="AAA">Niveau AAA</option>
-				</select>
-			</div>
-		</div>
+        <fieldset class="control-group" style="border: none; padding: 0; margin: 0; min-width: 0;">
+            <legend class="group-label">Principes tonen:</legend>
+            <div class="checkboxes">
+                <label class="checkbox-label">
+                    <input type="checkbox" bind:checked={showNietVoldaan} />
+                    Niet voldaan
+                </label>
+                <label class="checkbox-label">
+                    <input type="checkbox" bind:checked={showVoldaan} />
+                    Voldaan
+                </label>
+            </div>
+        </fieldset>
 
-		<div class="control-group">
-			<span class="group-label">Principes tonen:</span>
-			<div class="checkboxes">
-				<label class="checkbox-label">
-					<input type="checkbox" bind:checked={showNietVoldaan} />
-					Niet voldaan
-				</label>
-				<label class="checkbox-label">
-					<input type="checkbox" bind:checked={showVoldaan} />
-					Voldaan
-				</label>
-			</div>
-		</div>
-
-		<button on:click={handleApply} class="apply-btn">Toepassen</button>
-	</div>
-</div>
+        <button type="submit" class="apply-btn">Toepassen</button>
+    </form>
+</header>
 
 <style>
 	.subheader {
