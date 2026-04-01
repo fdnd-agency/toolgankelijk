@@ -29,13 +29,13 @@
 
 			// All succescriteria for this principe with this niveau
 			const totalChecks = principe.richtlijnen
-				.flatMap((r) => r.succescriteria)
-				.filter((c) => c.niveau === niveauName);
+				.flatMap((guideline) => guideline.succescriteria)
+				.filter((successCriterion) => successCriterion.niveau === niveauName);
 
 			// All succescriteria that are achieved for this principe with this niveau
 			const successChecks = checks
-				.flatMap((c) => c.succescriteria)
-				.filter((c) => c.niveau === niveauName && c.index.startsWith(pIndex + '.'));
+				.flatMap((successCriterion) => successCriterion.succescriteria)
+				.filter((successCriterion) => successCriterion.niveau === niveauName && successCriterion.index.startsWith(pIndex + '.'));
 
 			// Initialize the progressData for this principe and niveau
 			progressData[pIndex].levels[niveauName] = {
