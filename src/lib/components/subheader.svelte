@@ -23,7 +23,6 @@
 
 <div class="subheader">
 	<div class="brand">
-		<h2>{partnerTitle}</h2>
 	</div>
 
 	<div class="controls-container">
