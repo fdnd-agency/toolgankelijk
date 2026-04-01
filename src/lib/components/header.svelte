@@ -27,7 +27,7 @@
 
 <header>
 	<a href="#main" class="visible-hidden">Jump directly to main content</a>
-	<Logo />
+		<Logo />
 	<nav id="header-navigation" class="color-primary-light">
 		<NavButton href="/" size="large" showIcon={true} iconName="home" variant="secondary" active={$page.url.pathname === '/' ? 'active' : ''} >
 			<p>Home</p>
@@ -39,57 +39,13 @@
 			<p>Account</p>
 		</NavButton>
 	</nav>
+	<Hamburger />
 </header>
-
-	<!-- <nav>
-		<a href="/" aria-label="Ga naar het overzicht met alle partners">
+<div class="subheader">
 		{#if user && user.isEmailGeverifieerd}
-			<BreadCrumbs {params} {partners} {websites} {principes} />
+			<BreadCrumbs {params} {partners} {websites} {principes} width="full"/>
 		{/if}
-		<div class="options">
-			{#if user && user.isEmailGeverifieerd}
-				<!-- <a aria-label="home pagina" href="/">
-					<svg
-						class="home-icon-img"
-						alt="back to homepage"
-						aria-hidden="true"
-						xmlns="http://www.w3.org/2000/svg"
-						viewBox="0 0 24 24"
-					>
-						<path
-							d="M11.3 3.3a1 1 0 0 1 1.4 0l6 6 2 2a1 1 0 0 1-1.4 1.4l-.3-.3V19a2 2 0 0 1-2 2h-3a1 1 0 0 1-1-1v-3h-2v3c0 .6-.4 1-1 1H7a2 2 0 0 1-2-2v-6.6l-.3.3a1 1 0 0 1-1.4-1.4l2-2 6-6Z"
-							id="my-svg4"
-						/>
-					</svg>
-				</a> -->
-				<!-- <a href="/login" aria-label="account">
-					<svg
-						class="account-icon-img"
-						alt="account icon"
-						width="800px"
-						height="800px"
-						viewBox="0 0 24 24"
-						id="Layer_1"
-						data-name="Layer 1"
-						xmlns="http://www.w3.org/2000/svg"
-					>
-						<circle id="my-circle" class="cls-1" cx="12" cy="7.25" r="5.73" />
-						<path
-							id="my-svg2"
-							class="cls-1"
-							d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05"
-						/>
-					</svg>
-				</a> -->
-			{/if}
-			{#if user}
-				<!-- signout button -->
-			{/if}
-		</div>
-		<Hamburger />
-	</nav> -->
-
-
+</div>
 <style>
 
 	.visible-hidden {
@@ -112,66 +68,31 @@
 
 	header {
 		position: sticky;
-		top: 0;
-		display: flex;
-		flex-direction: column;
-		z-index: 1;
-	}
-
-	nav {
+		padding-left: 1em;
+		padding-right: 1em;
+		width: 100vw;
+		height: 15vh;
+		background-color: var(--color-primary);
 		display: flex;
 		align-items: center;
-		gap: 1rem;
-		background-color: var(--c-background);
-		padding: 1em;
-		border-bottom: 2px solid #454545;
-	}
+		justify-content: space-around;
+}
 
-	nav > a {
-		z-index: 2;
-	}
+.subheader {
+	height: 10vh;
+	background-color: var(--color-primary-light);
+	display: flex;
+	padding: 1em;
+	align-content: center;
+}
 
-	.options {
+	#header-navigation {
 		display: flex;
-		align-items: center;
-		gap: 0.8rem;
-		margin-left: auto;
-		z-index: 2;
-	}
+		gap: 1em;
 
-	.options svg {
-		fill: var(--c-white2);
-	}
-
-	.account-icon-img {
-		width: 2rem;
-		height: 1.6rem;
-	}
-
-	.home-icon-img {
-		width: 2.2rem;
-		height: 2rem;
-	}
-
-	@media print {
-		.vvr-logo {
-			display: none;
-		}
-
-		.options {
+		@media (max-width: 720px) {
 			display: none;
 		}
 	}
-
-	@media only screen and (max-width: 990px) {
-		nav {
-			display: grid;
-			grid-template-rows: auto;
-			gap: 0.4rem;
-		}
-		nav > a,
-		.options {
-			grid-row: 1;
-		}
-	}
+	
 </style>
