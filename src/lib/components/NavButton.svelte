@@ -28,6 +28,7 @@
 		children,
 		onclick,
 		aria,
+		width = null,
 		active = null,
 		...rest
 	} = $props();
@@ -61,7 +62,7 @@
 	this={tagname}
 	{href}
 	{type}
-	class="navbutton {size} {variant} {active}"
+	class="navbutton {size} {variant} {active} {width}"
 	{onclick}
 	{...rest}
 	araia-label={aria}
@@ -121,7 +122,7 @@
 		padding: 1em 1em;
 		font-size: 16px;
 		justify-content: space-around;
-		
+
 		@media (max-width: 1080px) {
 			width: 8em;
 		}
@@ -148,5 +149,12 @@
 	.active {
 		background-color: var(--color-neutral-white);
 		color: var(--color-primary);
+	}
+
+	/* for the dropdowns */
+	.full {
+		width: 100%;
+		justify-content: space-between;
+		align-items: center;
 	}
 </style>
