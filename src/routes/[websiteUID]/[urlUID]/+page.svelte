@@ -63,8 +63,8 @@
 				<a href="{$page.url.pathname}/{principe.slug}" class="principe-link">
 					<div class="principe-header">
 						<span class="label">
-							<span class="label-icon">▶</span>
-							<span class="label-text">Principe</span>
+							<!-- <span class="label-icon">▶</span>
+							<span class="label-text">Principe</span> -->
 						</span>
 						<h2>{principe.titel}</h2>
 						<p class="description">{principe.beschrijving.text}</p>
