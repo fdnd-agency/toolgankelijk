@@ -28,6 +28,7 @@
 		children,
 		onclick,
 		aria,
+		active = null,
 		...rest
 	} = $props();
 
@@ -60,7 +61,7 @@
 	this={tagname}
 	{href}
 	{type}
-	class="navbutton {size} {variant}"
+	class="navbutton {size} {variant} {active}"
 	{onclick}
 	{...rest}
 	araia-label={aria}
@@ -110,12 +111,20 @@
 		width: 8em;
 		padding: 1em 1em;
 		font-size: 16px;
+
+		@media (max-width: 1080px) {
+			width: 6em;
+		}
 	}
 	.large {
 		width: 12em;
 		padding: 1em 1em;
 		font-size: 16px;
 		justify-content: space-around;
+		
+		@media (max-width: 1080px) {
+			width: 8em;
+		}
 	}
 	.xlarge {
 		width: 16em;
@@ -134,5 +143,10 @@
 		background-color: var(--color-primary-light);
 		color: var(--color-neutral-black);
 		border: var(--color-neutral-darkgrey) 2px solid;
+	}
+
+	.active {
+		background-color: var(--color-neutral-white);
+		color: var(--color-primary);
 	}
 </style>

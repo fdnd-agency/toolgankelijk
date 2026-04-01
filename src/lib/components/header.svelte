@@ -29,13 +29,13 @@
 	<a href="#main" class="visible-hidden">Jump directly to main content</a>
 	<Logo />
 	<nav id="header-navigation" class="color-primary-light">
-		<NavButton href="/home" size="large" showIcon={true} iconName="home" variant="primary">
+		<NavButton href="/" size="large" showIcon={true} iconName="home" variant="secondary" active={$page.url.pathname === '/' ? 'active' : ''} >
 			<p>Home</p>
 		</NavButton>
-		<NavButton hreg="/info" size="large" showIcon={true} iconName="info" variant="primary">
+		<NavButton href="/info" size="large" showIcon={true} iconName="info" variant="secondary" active={$page.url.pathname === '/info' ? 'active' : ''} >
 			<p>Info</p>
 		</NavButton>
-		<NavButton hreg="/info" size="large" showIcon={true} iconName="account" variant="primary">
+		<NavButton href="/account" size="large" showIcon={true} iconName="account" variant="secondary" active={$page.url.pathname === '/account' ? 'active' : ''} >
 			<p>Account</p>
 		</NavButton>
 	</nav>
