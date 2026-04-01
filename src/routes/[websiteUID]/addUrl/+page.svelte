@@ -1,6 +1,7 @@
 <script>
 	import { page } from '$app/stores';
 	import UrlForm from '$lib/components/urlForm.svelte';
+	import NavButton from '$lib/components/NavButton.svelte';
 
 	let { form } = $props();
 

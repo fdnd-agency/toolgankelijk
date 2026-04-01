@@ -2,6 +2,7 @@
     import { page } from '$app/stores';
     import { onMount } from 'svelte';
     import Heading from '$lib/components/heading.svelte';
+	import NavButton from '$lib/components/NavButton.svelte';
     import Subheader from '$lib/components/subheader.svelte';
 
     let { data } = $props();
@@ -132,6 +133,13 @@
                                             : 0
                                         : 0}%
                                 </label>
+									<NavButton
+								variant="secondary"
+								showIcon={false}
+								href="{$page.url.pathname}/{principe.slug}"
+								size="medium"
+								aria="Open Principe"
+							>
                             </div>
                         {/each}
                     </div>

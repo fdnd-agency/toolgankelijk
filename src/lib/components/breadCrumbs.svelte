@@ -1,4 +1,6 @@
 <script>
+	import NavButton from './NavButton.svelte';
+
 	let { params, partners, websites, principes } = $props();
 
 	let selectedPartner = $derived(
@@ -15,7 +17,7 @@
 
 <div class="bread-crumbs">
 	<div class="dropdown">
-		<button>
+		<NavButton size="large" aria="breadcrumb of {selectedPartner}">
 			{#if selectedPartner}
 				<span>
 					<img
@@ -25,9 +27,9 @@
 					/>{selectedPartner.titel}
 				</span>
 			{:else}
-				<span>Partners overzicht</span>
+				<p>Partners overzicht</p>
 			{/if}
-		</button>
+		</NavButton>
 		<ul>
 			<li>
 				<a href="/"><span>Partners overzicht</span></a>
@@ -35,7 +37,7 @@
 			{#each partners.websites as partner}
 				{#if partner}
 					<li>
-						<a href="/{partner.slug}">
+						<NavButton size="medium" variant="secondary" href="/{partner.slug}">
 							<span>
 								<img
 									width="24"
@@ -43,7 +45,7 @@
 									alt="logo partner"
 								/>{partner.titel}
 							</span>
-						</a>
+						</NavButton>
 					</li>
 				{/if}
 			{/each}
@@ -53,13 +55,13 @@
 	{#if websites}
 		<span class="seperator">/</span>
 		<div class="dropdown">
-			<button>
+			<NavButton size="large" aria="breadcrumb of {selectedUrl}">
 				{#if selectedUrl}
 					<span>{selectedUrl}</span>
 				{:else}
 					<span>Urls overzicht</span>
 				{/if}
-			</button>
+			</NavButton>
 			<ul>
 				<li>
 					{#if selectedPartner}
@@ -82,13 +84,13 @@
 	{#if selectedUrl && principes}
 		<span class="seperator">/</span>
 		<div class="dropdown">
-			<button>
+			<NavButton size="medium" variant="secondary">
 				{#if selectedPrincipe}
 					<span>{selectedPrincipe.titel}</span>
 				{:else}
 					<span>Principes overzicht</span>
 				{/if}
-			</button>
+			</NavButton>
 			<ul>
 				<li>
 					{#if selectedPartner}
@@ -116,42 +118,6 @@
 		display: flex;
 		align-items: center;
 		gap: 0.5rem;
-	}
-
-	button {
-		position: relative;
-		display: flex;
-		align-items: center;
-		gap: 0.5rem;
-		appearance: none;
-		padding: 1rem 0.5rem;
-		border-radius: 0.5rem;
-		font-size: 1rem;
-		background-color: var(--c-container);
-		color: var(--c-grey);
-		border: none;
-		width: 100%;
-		text-align: left;
-		box-shadow: 0px -55px 0px 10px var(--c-background);
-	}
-
-	button::after {
-		content: url('data:image/svg+xml,<svg width="12" height="7" viewBox="0 0 12 7" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L6 6L11 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>');
-		position: absolute;
-		right: 5%;
-		scale: 1.3;
-		transition: 0.2s;
-	}
-
-	button span,
-	a span {
-		display: flex;
-		align-items: center;
-		gap: 0.5rem;
-		width: 15ch;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
 	}
 
 	.dropdown {
