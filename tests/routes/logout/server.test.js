@@ -1,12 +1,14 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { POST } from '../../../src/routes/logout/+server.js';
 import * as sessionModule from '$lib/server/session.js';
-import * as sessionRepository from '$lib/repositories/sessionRepository.js';
+import { sessionRepository } from '$lib/server/index.js';
 import { sha256 } from '@oslojs/crypto/sha2';
 import { encodeHexLowerCase } from '@oslojs/encoding';
 
-vi.mock('$lib/repositories/sessionRepository.js', () => ({
-	deleteSessionById: vi.fn()
+vi.mock('$lib/server/index.js', () => ({
+	sessionRepository: {
+		deleteSessionById: vi.fn()
+	}
 }));
 vi.mock('$lib/server/session.js', () => ({
 	deleteSessionTokenCookie: vi.fn()
