@@ -1,12 +1,14 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import * as sessionModule from '$lib/server/session';
-import * as sessionRepository from '$lib/repositories/sessionRepository.js';
+import { sessionRepository } from '$lib/server/index.js';
 
-vi.mock('$lib/repositories/sessionRepository.js', () => ({
-	getSessionByTokenHash: vi.fn(),
-	updateSessionExpiry: vi.fn(),
-	deleteSessionById: vi.fn(),
-	createSessionRecord: vi.fn()
+vi.mock('$lib/server/index.js', () => ({
+	sessionRepository: {
+		getSessionByTokenHash: vi.fn(),
+		updateSessionExpiry: vi.fn(),
+		deleteSessionById: vi.fn(),
+		createSessionRecord: vi.fn()
+	}
 }));
 
 describe('session.js', () => {
