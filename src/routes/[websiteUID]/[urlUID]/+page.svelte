@@ -27,12 +27,12 @@
 
 			// All successcriteria for this principle with this level
 			const totalChecks = (principle.guidelines ?? [])
-				.flatMap((guideline) => guideline?.successcriteria ?? [])
+				.flatMap((guideline) => guideline?.successCriteria ?? [])
 				.filter((criteria) => criteria?.level === levelName);
 
 			// All successcriteria that are achieved for this principle with this level
 			const successChecks = (checks ?? [])
-				.flatMap((check) => check?.successcriteria ?? [])
+				.flatMap((check) => check?.successCriteria ?? [])
 				.filter((criteria) => {
 					return criteria?.level === levelName && criteria?.index?.startsWith(pIndex + '.');
 				});
