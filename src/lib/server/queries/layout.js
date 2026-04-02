@@ -43,7 +43,7 @@ export default function getQueryLayout(gql) {
 					slug
 					checks {
 						id
-						successcriteria: success_criteria {
+						successCriteria: success_criteria {
 							id
 						}
 					}
@@ -63,9 +63,7 @@ export default function getQueryLayout(gql) {
 				title
 				guidelines: Guidelines {
 					id
-					toolgankelijk_guideline_id {
-						id
-					}
+					success_criteria
 				}
 			}
 		}

@@ -34,6 +34,12 @@ export default function getQueryPartner(gql, limit = 20, offset = 0) {
 					id
 					toolgankelijk_guideline_id {
 						id
+						successcriteria: success_criteria {
+							id
+							toolgankelijk_success_criteria_id {
+								id
+							}
+						}
 					}
 				}
 			}
@@ -66,6 +72,15 @@ export function getQueryWebsite(gql, slug, limit = 20, offset = 0) {
 				title
 				guidelines: Guidelines {
 					id
+					toolgankelijk_guideline_id {
+						id
+						successcriteria: success_criteria {
+							id
+							toolgankelijk_success_criteria_id {
+								id
+							}
+						}
+					}
 				}
 			}
 
@@ -147,4 +162,3 @@ export function getQueryDeletePartner(gql, id) {
 		}
 	`;
 }
-

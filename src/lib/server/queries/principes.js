@@ -18,6 +18,17 @@ export default function getQueryPrincipes(gql) {
 					id
 					toolgankelijk_guideline_id {
 						id
+						successcriteria: success_criteria {
+							id
+							toolgankelijk_success_criteria_id {
+								id
+								index
+								level
+								title
+								criteria
+								easyCriteria: easy_criteria
+							}
+						}
 					}
 				}
 			}

@@ -51,6 +51,7 @@ export default function getQueryToolboard(gql, slugUrl, principleSlug) {
 			principes: toolgankelijk_principle {
 				id
 				title
+				description
 				index
 				slug
 				checklist_items {

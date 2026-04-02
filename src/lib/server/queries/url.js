@@ -15,6 +15,11 @@ export default function getQueryUrl(gql, slug) {
 					id
 					successcriteria: success_criteria {
 						id
+						toolgankelijk_success_criteria_id {
+							id
+							index
+							level
+						}
 					}
 				}
 			}
