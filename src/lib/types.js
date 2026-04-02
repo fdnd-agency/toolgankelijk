@@ -2,19 +2,35 @@
 
 /**
  * DOMAIN TYPES
- * ------------
  * Core entities that map closely to domain concepts.
  */
 
 /**
- * URL belonging to a partner website.
+ * WCAG conformance level.
  *
- * @typedef {Object} WebsiteUrl
+ * @typedef {Object} Level
  * @property {string} id
+ * @property {string} level
  * @property {string} slug
- * @property {string} url
- * @property {string} [name]
- * @property {{ id: string, successcriteria?: { id: string }[] }[]} [checks]
+ */
+
+/**
+ * Minimal success-criteria reference (id only), e.g. partner card counts or check junctions.
+ *
+ * @typedef {Object} SuccessCriteriaIdRef
+ * @property {string} id
+ */
+
+/**
+ * Success criteria fields used in principle and toolboard UIs (mapped from junction rows; one row per item).
+ *
+ * @typedef {Object} SuccessCriteria
+ * @property {string} id
+ * @property {string} [index]
+ * @property {string} [level]
+ * @property {string} [title]
+ * @property {{ html: string }} [easyCriteria]
+ * @property {{ html: string }} [criteria]
  */
 
 /**
@@ -29,34 +45,50 @@
  */
 
 /**
- * WCAG principle level.
+ * URL belonging to a partner website.
  *
- * @typedef {Object} Level
+ * @typedef {Object} WebsiteUrl
  * @property {string} id
- * @property {string} level
  * @property {string} slug
+ * @property {string} url
+ * @property {string} [name]
+ * @property {{ id: string, successCriteria?: SuccessCriteriaIdRef[] }[]} [checks]
  */
 
 /**
- * WCAG principle representation used on overview pages.
+ * Guideline with optional nested success criteria (partner overview, principles list).
+ *
+ * @typedef {Object} Guideline
+ * @property {string} id
+ * @property {string} [index]
+ * @property {string} [title]
+ * @property {{ html: string }} [explanation]
+ * @property {(SuccessCriteria|SuccessCriteriaIdRef)[]|null} successCriteria
+ */
+
+/**
+ * WCAG principle with nested guidelines (`getAllPrinciples`, partner queries).
  *
  * @typedef {Object} Principle
- * @property {string} id 
- * @property {string} description
- * @property {string} index
- * @property {string} slug
- * @property {string} title
+ * @property {string} id
+ * @property {string} [description]
+ * @property {string} [index]
+ * @property {string} [slug]
+ * @property {string} [title]
+ * @property {Guideline[]} guidelines
  */
 
 /**
- * Checklist item attached to a WCAG principle in the toolboard.
+ * TOOLBOARD TYPES
+ * URL toolboard page, checklist, and `getToolboard` repository output.
+ */
+
+/**
+ * Check entry used on the toolboard URL view.
  *
- * @typedef {Object} ChecklistItem
+ * @typedef {Object} ToolboardCheck
  * @property {string} id
- * @property {string} check
- * @property {string} question
- * @property {string} explanation
- * @property {string} tip
+ * @property {SuccessCriteria[]} successCriteria
  */
 
 /**
@@ -65,6 +97,10 @@
  * @typedef {Object} ToolboardGuideline
  * @property {string} id
  * @property {string|null} guidelineId
+ * @property {string} [index]
+ * @property {string} [title]
+ * @property {{ html: string }} [explanation]
+ * @property {SuccessCriteria[]} [successCriteria]
  */
 
 /**
@@ -76,16 +112,7 @@
  * @property {string} description
  * @property {string} index
  * @property {string} slug
- * @property {ChecklistItem[]} checklistItems
  * @property {ToolboardGuideline[]} guidelines
- */
-
-/**
- * Check entry used on the toolboard URL view.
- *
- * @typedef {Object} ToolboardCheck
- * @property {string} id
- * @property {{ id: string }[]} successcriteria
  */
 
 /**
@@ -99,26 +126,21 @@
  */
 
 /**
- * An object representing a session.
+ * Data returned by the toolboard repository (`getToolboard`).
  *
- * @typedef {Object} Session
- * @property {string} id
- * @property {string} userId
- * @property {Date} expiresAt
+ * @typedef {Object} ToolboardData
+ * @property {ToolboardUrl|null} url
+ * @property {ToolboardPrinciple|null} principle
+ * @property {ToolboardPrinciple[]} principles
  */
 
 /**
- * An object representing a user.
- *
- * @typedef {Object} User
- * @property {string} id
- * @property {string} email
- * @property {string} username
- * @property {boolean} isEmailVerified
+ * AUTH TYPES
+ * Sessions, users, and email verification used by server auth flows.
  */
 
 /**
- * An email verification request for a user.
+ * Email verification request for a user.
  *
  * @typedef {Object} EmailVerificationRequest
  * @property {string} id
@@ -129,9 +151,27 @@
  */
 
 /**
- * COMBINED / AGGREGATED TYPES
- * ---------------------------
- * Shapes that combine multiple domain entities or represent query results.
+ * Active login session.
+ *
+ * @typedef {Object} Session
+ * @property {string} id
+ * @property {string} userId
+ * @property {Date} expiresAt
+ */
+
+/**
+ * Application user.
+ *
+ * @typedef {Object} User
+ * @property {string} id
+ * @property {string} email
+ * @property {string} username
+ * @property {boolean} isEmailVerified
+ */
+
+/**
+ * AGGREGATED TYPES
+ * Composite shapes from partner or URL repository queries.
  */
 
 /**
@@ -141,6 +181,19 @@
  * @property {PartnerWebsite[]} websites
  * @property {number} totalWebsites
  * @property {Principle[]} principles
+ */
+
+/**
+ * URL details including website reference and checks.
+ * Shape returned by the URL repository.
+ *
+ * @typedef {Object} UrlWithWebsite
+ * @property {string} id
+ * @property {string} slug
+ * @property {string} url
+ * @property {string} [name]
+ * @property {{ id: string, slug?: string }|null} [website]
+ * @property {{ id: string, successCriteria?: SuccessCriteria[] }[]} [checks]
  */
 
 /**
@@ -154,25 +207,32 @@
  */
 
 /**
- * Normalized data returned by the toolboard repository.
- *
- * @typedef {Object} ToolboardData
- * @property {ToolboardUrl|null} url
- * @property {ToolboardPrinciple|null} principle
- * @property {ToolboardPrinciple[]} principles
+ * COMPOSITE WCAG MODEL TYPES
+ * Richer WCAG criterion + checklist composition; only referenced by typedefs here, not imported in app code.
  */
 
 /**
- * URL details including website reference and checks.
- * This is the normalized shape returned by the URL repository.
+ * Checklist item attached to a WCAG success criterion in the toolboard.
  *
- * @typedef {Object} UrlWithWebsite
+ * @typedef {Object} ChecklistItem
  * @property {string} id
- * @property {string} slug
- * @property {string} url
- * @property {string} [name]
- * @property {{ id: string, slug?: string } | null} [website]
- * @property {{ id: string, successcriteria?: { id: string }[] }[]} [checks]
+ * @property {string} check
+ * @property {string} question
+ * @property {string} explanation
+ * @property {string} tip
+ */
+
+/**
+ * WCAG success criterion with nested level and checklist (conceptual / schema-oriented shape).
+ *
+ * @typedef {Object} SuccessCriteriaDetail
+ * @property {string} id
+ * @property {string} index
+ * @property {string} title
+ * @property {string} easy_criteria
+ * @property {string} criteria
+ * @property {Level} level
+ * @property {ChecklistItem[]} checklist_items
  */
 
 export {};
