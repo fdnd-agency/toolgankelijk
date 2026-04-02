@@ -5,6 +5,7 @@
 	import Search from '$lib/components/search.svelte';
 	import Dialog from '$lib/components/dialog.svelte';
 	import Pages from '$lib/components/pages.svelte';
+	import NavButton from '$lib/components/NavButton.svelte';
 
 	let { data, form } = $props();
 
@@ -31,7 +32,17 @@
 <Heading {heading} />
 
 <section>
-	<button class="add-partner" onclick={handleDialog}>Url toevoegen</button>
+	<NavButton
+		aria="Url Toevoegen"
+		size="large"
+		variant="primary"
+		showIcon={false}
+		onclick={handleDialog}
+		iconName="add"
+	>
+		<p>URL Toevoegen</p>
+	</NavButton>
+
 	<Search placeholderProp="Home" />
 </section>
 
@@ -60,26 +71,6 @@
 		display: flex;
 		justify-content: space-between;
 		margin: 0 0 1em 1em;
-	}
-
-	.add-partner {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		border-radius: 0.25em;
-		padding: 0.5em 1em;
-		color: var(--c-white2);
-		background-color: var(--c-modal-button);
-		border: none;
-		font-weight: 600;
-		font-size: 1em;
-		transition: 0.3s;
-		cursor: pointer;
-		text-decoration: none;
-	}
-
-	.add-partner:hover {
-		background-color: var(--c-pink);
 	}
 
 	.cards-container {

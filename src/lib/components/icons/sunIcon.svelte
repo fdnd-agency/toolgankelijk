@@ -1,0 +1,26 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+	<path
+		d="M16.3333 4.33333V3M16.3333 29.6667V28.3333M28.3333 16.3333H29.6667M3 16.3333H4.33333M25 7.66667L27 5.66667M5.66667 27L7.66667 25M5.66667 5.66667L7.66667 7.66667M25 25L27 27"
+		stroke="currentColor"
+		stroke-width="3"
+		stroke-linecap="round"
+	/>
+	<path
+		d="M16.3333 21.6667C19.2789 21.6667 21.6667 19.2789 21.6667 16.3333C21.6667 13.3878 19.2789 11 16.3333 11C13.3878 11 11 13.3878 11 16.3333C11 19.2789 13.3878 21.6667 16.3333 21.6667Z"
+		stroke="currentColor"
+		stroke-width="3"
+		stroke-linecap="round"
+	/>
+</svg>
+
+<style>
+	svg path {
+		fill: none;
+		color: none;
+
+		@media (max-width: 720px) {
+			height: 24px;
+			width: 24px;
+		}
+	}
+</style>

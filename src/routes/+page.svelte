@@ -6,6 +6,8 @@
     import Search from '$lib/components/search.svelte';
     import Dialog from '$lib/components/dialog.svelte';
     import Pages from '$lib/components/pages.svelte';
+	import NavButton from '$lib/components/NavButton.svelte';
+
     
     let { data, form } = $props();
 
@@ -38,8 +40,18 @@
 <Heading {heading} />
 
 <section>
-    <button class="add-partner" onclick={handleDialog}>Partner toevoegen</button>
-    <Search placeholderProp="Gvb" />
+	<NavButton
+		aria="Partner Toevogen"
+		size="xlarge"
+		variant="primary"
+		showIcon={true}
+		onclick={handleDialog}
+		iconName="add"
+	>
+		<p>Partner Toevoegen</p>
+	</NavButton>
+
+	<Search placeholderProp="Gvb" />
 </section>
 
 {#if totalUrls > first}
@@ -63,6 +75,10 @@
         <Card {website} {principes} isUrl={false} />
     {/each}
 </section>
+
+<NavButton size="medium" variant="primary" showIcon={false} href="#main" aria="scroll naar boven">
+	<p>Scroll naar Boven</p>
+</NavButton>
 
 <a href="#main" class="btn-top" onclick={scrollToTop}>⬆</a>
 

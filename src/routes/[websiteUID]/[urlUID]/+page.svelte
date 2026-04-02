@@ -2,6 +2,7 @@
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 	import Heading from '$lib/components/heading.svelte';
+	import NavButton from '$lib/components/NavButton.svelte';
 
 	let { data } = $props();
 
@@ -74,6 +75,16 @@
 							<span class="percentage-text">{getPercent(pData.behaald, pData.total)}%</span>
 						</div> -->
 					</div>
+
+					<NavButton
+								variant="secondary"
+								showIcon={false}
+								href="{$page.url.pathname}/{principe.slug}"
+								size="medium"
+								aria="Open Principe"
+							>
+								<p>Open</p>
+							</NavButton>
 
 					<div class="niveaus-list">
 						{#each niveaus as n}
