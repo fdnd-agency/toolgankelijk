@@ -24,8 +24,8 @@
 	{#if form?.success}
 		<div class="toast"><p>Checklist is opgeslagen!</p></div>
 	{/if}
-	<Checklist guidelines={guidelines} {toolboardData} {levels} />
-	<Sidebar principles={principles} {urlData} />
+	<Checklist {guidelines} {toolboardData} {levels} />
+	<Sidebar {principles} {urlData} />
 </section>
 
 <style>

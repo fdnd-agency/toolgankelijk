@@ -61,7 +61,7 @@
 
 <section class="cards-container">
 	{#each websites as website}
-		<Card {website} {overview} {params} principles={principles} isUrl={true} />
+		<Card {website} {overview} {params} {principles} isUrl={true} />
 	{/each}
 </section>
 

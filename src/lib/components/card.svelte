@@ -78,46 +78,46 @@
 	}
 
 	onMount(() => {
-			if (isUrl) {
-				websiteCriteria = website.checks.reduce((total, check) => {
-					const criteria = check.successCriteria ?? [];
-					return total + criteria.length;
-				}, 0);
+		if (isUrl) {
+			websiteCriteria = website.checks.reduce((total, check) => {
+				const criteria = check.successCriteria ?? [];
+				return total + criteria.length;
+			}, 0);
 
-				totalCriteria =
-					principles.reduce((total, principle) => {
-						principle.guidelines.forEach((guideline) => {
-							const criteria = guideline.successCriteria ?? [];
-							total += criteria.length;
-						});
-						return total;
-					}, 0) * website.checks.length;
-			} else {
-				websiteCriteria = website.urls.reduce((total, url) => {
-					url.checks.forEach((check) => {
-						const criteria = check.successCriteria ?? [];
+			totalCriteria =
+				principles.reduce((total, principle) => {
+					principle.guidelines.forEach((guideline) => {
+						const criteria = guideline.successCriteria ?? [];
 						total += criteria.length;
 					});
 					return total;
-				}, 0);
+				}, 0) * website.checks.length;
+		} else {
+			websiteCriteria = website.urls.reduce((total, url) => {
+				url.checks.forEach((check) => {
+					const criteria = check.successCriteria ?? [];
+					total += criteria.length;
+				});
+				return total;
+			}, 0);
 
-				totalCriteria =
-					principles.reduce((total, principle) => {
-						principle.guidelines.forEach((guideline) => {
-							const criteria = guideline.successCriteria ?? [];
-							total += criteria.length;
-						});
-						return total;
-					}, 0) * website.urls.length;
-			}
+			totalCriteria =
+				principles.reduce((total, principle) => {
+					principle.guidelines.forEach((guideline) => {
+						const criteria = guideline.successCriteria ?? [];
+						total += criteria.length;
+					});
+					return total;
+				}, 0) * website.urls.length;
+		}
 
-			let percentage = Math.round((websiteCriteria / totalCriteria) * 100);
-			if (isNaN(percentage)) {
-				percentage = 0;
-			}
-			progressbar.value = websiteCriteria;
-			progressbar.max = totalCriteria;
-			labelValue.innerHTML = `${percentage}%`;
+		let percentage = Math.round((websiteCriteria / totalCriteria) * 100);
+		if (isNaN(percentage)) {
+			percentage = 0;
+		}
+		progressbar.value = websiteCriteria;
+		progressbar.max = totalCriteria;
+		labelValue.innerHTML = `${percentage}%`;
 	});
 </script>
 

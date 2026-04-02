@@ -182,7 +182,13 @@ export class UrlRepository extends BaseRepository {
 	 */
 	async addSuccessCriterionToCheck({ websiteSlug, urlSlug, checkId, successCriterionId }) {
 		try {
-			const mutation = getMutationAddCheck(this.gql, websiteSlug, urlSlug, checkId, successCriterionId);
+			const mutation = getMutationAddCheck(
+				this.gql,
+				websiteSlug,
+				urlSlug,
+				checkId,
+				successCriterionId
+			);
 			const raw = await this.client.request(mutation);
 			const row = raw.updateWebsite ?? null;
 			return row ? { id: row.id } : null;

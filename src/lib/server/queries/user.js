@@ -109,11 +109,7 @@ export function getMutationCreateEmailVerification(gql) {
 	return gql`
 		mutation CreateEmailVerificationCode($code: String!, $expiresAt: DateTime!, $userId: ID!) {
 			createEmailVerificationCode: create_toolgankelijk_email_verification_code_item(
-				data: {
-					code: $code
-					expires_at: $expiresAt
-					user_id: $userId
-				}
+				data: { code: $code, expires_at: $expiresAt, user_id: $userId }
 			) {
 				id
 				code

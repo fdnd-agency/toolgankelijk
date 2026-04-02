@@ -15,7 +15,7 @@
 	let totalUrls = $derived(data.totalWebsites);
 	const currentPage = $derived(skip / first + 1);
 	let showRegistrationSuccess = $derived(data.showRegistrationSuccess);
-let heading = { title: 'Partners overzicht' };
+	let heading = { title: 'Partners overzicht' };
 	let dialogRef = $state();
 	const principles = $derived(data.principles);
 

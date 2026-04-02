@@ -10,7 +10,7 @@
 	let selectedPrinciple = $derived(
 		params.principleUID ? principles.find(({ slug }) => slug === params.principleUID) : ''
 	);
-	
+
 	const faviconAPI =
 		'https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=';
 </script>

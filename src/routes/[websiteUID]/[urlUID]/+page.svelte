@@ -79,15 +79,15 @@
 											: 0
 										: 0}%
 								</label>
-															<NavButton
-								variant="secondary"
-								showIcon={false}
-								href="{$page.url.pathname}/{principle.slug}"
-								size="medium"
-								aria="Open Principe"
-							>
-								<p>Open</p>
-							</NavButton>
+								<NavButton
+									variant="secondary"
+									showIcon={false}
+									href="{$page.url.pathname}/{principle.slug}"
+									size="medium"
+									aria="Open Principe"
+								>
+									<p>Open</p>
+								</NavButton>
 							</div>
 						{/each}
 					</div>
