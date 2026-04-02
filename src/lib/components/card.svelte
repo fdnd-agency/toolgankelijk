@@ -82,14 +82,14 @@
 	onMount(() => {
 			if (isUrl) {
 				websiteCriteria = website.checks.reduce((total, check) => {
-					const criteria = check.successcriteria ?? [];
+					const criteria = check.successCriteria ?? [];
 					return total + criteria.length;
 				}, 0);
 
 				totalCriteria =
 					principles.reduce((total, principle) => {
 						principle.guidelines.forEach((guideline) => {
-							const criteria = guideline.successcriteria ?? [];
+							const criteria = guideline.successCriteria ?? [];
 							total += criteria.length;
 						});
 						return total;
@@ -97,7 +97,7 @@
 			} else {
 				websiteCriteria = website.urls.reduce((total, url) => {
 					url.checks.forEach((check) => {
-						const criteria = check.successcriteria ?? [];
+						const criteria = check.successCriteria ?? [];
 						total += criteria.length;
 					});
 					return total;
@@ -106,7 +106,7 @@
 				totalCriteria =
 					principles.reduce((total, principle) => {
 						principle.guidelines.forEach((guideline) => {
-							const criteria = guideline.successcriteria ?? [];
+							const criteria = guideline.successCriteria ?? [];
 							total += criteria.length;
 						});
 						return total;

@@ -7,7 +7,7 @@
 	function getLevelsForPrinciple(principle) {
 		const levels = new Set();
 		principle.guidelines.forEach((guideline) =>
-			guideline.successcriteria.forEach((criteria) => {
+			guideline.successCriteria.forEach((criteria) => {
 				if (criteria.level) levels.add(criteria.level);
 			})
 		);
@@ -19,12 +19,12 @@
 	function getProgress(principle, level) {
 		// All successcriteria for this principle and level
 		const total = principle.guidelines
-			.flatMap((g) => g.successcriteria)
+			.flatMap((g) => g.successCriteria)
 			.filter((sc) => sc.level === level).length;
 
 		// All successcriteria that are achieved for this principle and level
 		const behaald = urlData.url.checks
-			.flatMap((check) => check.successcriteria)
+			.flatMap((check) => check.successCriteria)
 			.filter((sc) => sc.level === level && sc.index.startsWith(principle.index + '.')).length;
 
 		return { total, behaald };

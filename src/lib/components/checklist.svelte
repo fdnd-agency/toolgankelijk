@@ -3,21 +3,13 @@
 	import { enhance } from '$app/forms';
 	import loadingIcon from '$lib/assets/loading.svg';
 
-	/**
-	 * @typedef {Object} ChecklistSuccesscriteria
-	 * @property {string} id
-	 * @property {string} index
-	 * @property {string} level
-	 * @property {string} title
-	 * @property {{ html: string }} [easycriteria]
-	 * @property {{ html: string }} [criteria]
-	 */
+	/** @typedef {import('$lib/types').SuccessCriteria} SuccessCriteria */
 	/**
 	 * @typedef {Object} ChecklistGuideline
 	 * @property {string} index
 	 * @property {string} title
-	 * @property {{ html: string }} uitleg
-	 * @property {ChecklistSuccesscriteria[]} successcriteria
+	 * @property {{ html: string }} explanation
+	 * @property {SuccessCriteria[]} successCriteria
 	 */
 	/** @typedef {import('$lib/types').ToolboardData} ToolboardData */
 	/** @typedef {import('$lib/types').Level} Level */
@@ -37,19 +29,19 @@
 	} = /** @type {ChecklistProps} */ ($props());
 
 	let loading = $state(false);
-	const getSuccesscriteriaByLevel = (level) =>
-		toolboardData.url.checks[0].successcriteria.filter((item) => item.level === level);
+	const getSuccessCriteriaByLevel = (level) =>
+		toolboardData.url.checks[0].successCriteria.filter((item) => item.level === level);
 
-	let filteredSuccesscriteria = getSuccesscriteriaByLevel(selectedLevel);
+	let filteredSuccessCriteria = getSuccessCriteriaByLevel(selectedLevel);
 
 	const handleLevelChange = (event) => {
 		selectedLevel = event.target.value;
-		filteredSuccesscriteria = getSuccesscriteriaByLevel(selectedLevel);
+		filteredSuccessCriteria = getSuccessCriteriaByLevel(selectedLevel);
 	};
 
 	let simpleTranslation = $state(true);
 
-	const checkedSuccesscriteria = $derived(toolboardData.url.checks[0].successcriteria);
+	const checkedSuccessCriteria = $derived(toolboardData.url.checks[0].successCriteria);
 
 	function scrollToTop(event) {
 		const mainElement = document.getElementById('main');
@@ -109,15 +101,15 @@
 					<span>Richtlijn {guideline.index}</span>
 					<div>
 						<h2>{guideline.title}</h2>
-						<h3>{@html guideline.uitleg.html}</h3>
+						<h3>{@html guideline.explanation.html}</h3>
 					</div>
 				</summary>
 				<article>
-					{#each guideline.successcriteria as succescriterium}
-						{#if succescriterium.niveau === selectedLevel}
+					{#each guideline.successCriteria as succescriterium}
+						{#if succescriterium.level === selectedLevel}
 							<details>
 								<summary class="criteria-uitklapbaar">
-									<span>Criteria {succescriterium.index} ({succescriterium.niveau})</span>
+									<span>Criteria {succescriterium.index} ({succescriterium.level})</span>
 									<div class="row">
 										<div class="column">
 											<h3>{succescriterium.title}</h3>
@@ -136,7 +128,7 @@
 												name="check"
 												value={succescriterium.id}
 												type="checkbox"
-												checked={checkedSuccesscriteria.find((e) => e.id === succescriterium.id)}
+												checked={checkedSuccessCriteria.find((e) => e.id === succescriterium.id)}
 											/>
 										</div>
 									</div>
@@ -146,8 +138,7 @@
 								<div class="richtlijn-uitleg" aria-live="polite" dataindex="0">
 									<div class="richtlijn-criteria-1">
 										<p id="uitleg" class="tekst-criteria-1">
-											{@html succescriterium.makkelijkeCriteria &&
-												succescriterium.makkelijkeCriteria.html}
+											{@html succescriterium.easyCriteria && succescriterium.easyCriteria.html}
 										</p>
 									</div>
 									<div class="richtlijn-criteria-2">
