@@ -22,6 +22,7 @@
 </script>
 
 <header class="subheader">
+	<!--empty div to space out the controls to the right, logo resided in empty brand div originally-->
     <div class="brand">
     </div>
 
