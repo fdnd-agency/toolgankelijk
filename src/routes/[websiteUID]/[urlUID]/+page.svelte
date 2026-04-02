@@ -2,6 +2,7 @@
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 	import Heading from '$lib/components/heading.svelte';
+	import NavButton from '$lib/components/NavButton.svelte';
 
 	let { data } = $props();
 
@@ -78,6 +79,15 @@
 											: 0
 										: 0}%
 								</label>
+															<NavButton
+								variant="secondary"
+								showIcon={false}
+								href="{$page.url.pathname}/{principle.slug}"
+								size="medium"
+								aria="Open Principe"
+							>
+								<p>Open</p>
+							</NavButton>
 							</div>
 						{/each}
 					</div>
@@ -92,7 +102,7 @@
 		box-sizing: border-box;
 	}
 
-	li a {
+	li {
 		text-decoration: none;
 		color: inherit;
 	}

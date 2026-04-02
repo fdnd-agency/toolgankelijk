@@ -156,9 +156,9 @@ export class ContentRepository extends BaseRepository {
 			/** @type {{ id: string; slug: string; url: string; checks?: QueryCheck[] }|null} */
 			const urlNode = this.firstOrNull(raw?.url);
 			/** @type {QueryPrincipleNode|null} */
-			const principleNode = this.firstOrNull(raw?.principe);
+			const principleNode = this.firstOrNull(raw?.principle);
 			/** @type {QueryPrincipleNode[]} */
-			const principlesNodes = raw?.principes ?? [];
+			const principlesNodes = raw?.principles ?? [];
 
 			const mappedChecks = (urlNode?.checks ?? []).map(
 				/** @param {QueryCheck} check */ (check) => ({

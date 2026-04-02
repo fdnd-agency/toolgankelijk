@@ -6,6 +6,8 @@
 	import Search from '$lib/components/search.svelte';
 	import Dialog from '$lib/components/dialog.svelte';
 	import Pages from '$lib/components/pages.svelte';
+	import NavButton from '$lib/components/NavButton.svelte';
+
 	let { data, form } = $props();
 
 	let skip = $derived(data.skip);
@@ -35,11 +37,20 @@ let heading = { title: 'Partners overzicht' };
 	});
 </script>
 
-
 <Heading {heading} />
 
 <section>
-	<button class="add-partner" onclick={handleDialog}>Partner toevoegen</button>
+	<NavButton
+		aria="Partner Toevogen"
+		size="xlarge"
+		variant="primary"
+		showIcon={true}
+		onclick={handleDialog}
+		iconName="add"
+	>
+		<p>Partner Toevoegen</p>
+	</NavButton>
+
 	<Search placeholderProp="Gvb" />
 </section>
 
@@ -65,6 +76,10 @@ let heading = { title: 'Partners overzicht' };
 	{/each}
 </section>
 
+<NavButton size="medium" variant="primary" showIcon={false} href="#main" aria="scroll naar boven">
+	<p>Scroll naar Boven</p>
+</NavButton>
+
 <a href="#main" class="btn-top" onclick={scrollToTop}>⬆</a>
 
 <style>
@@ -76,26 +91,6 @@ let heading = { title: 'Partners overzicht' };
 
 	a {
 		color: rgb(40, 177, 223);
-	}
-
-	.add-partner {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		border-radius: 0.25em;
-		padding: 0.5em 1em;
-		color: var(--c-white);
-		background-color: var(--c-container);
-		border: none;
-		font-weight: 600;
-		font-size: 1em;
-		transition: 0.3s;
-		cursor: pointer;
-		text-decoration: none;
-	}
-
-	.add-partner:hover {
-		background-color: var(--c-pink);
 	}
 
 	.btn-top {
@@ -125,7 +120,7 @@ let heading = { title: 'Partners overzicht' };
 		margin: 0 1em;
 		margin-bottom: 1em;
 
-			@media (max-width: 700px) {
+		@media (max-width: 700px) {
 			grid-template-columns: 1fr;
 		}
 	}

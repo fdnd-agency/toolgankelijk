@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import { enhance } from '$app/forms';
 	import loadingIcon from '$lib/assets/loading.svg';
+	import NavButton from './NavButton.svelte';
 
 	/** @typedef {import('$lib/types').SuccessCriteria} SuccessCriteria */
 	/**
@@ -116,13 +117,13 @@
 										</div>
 
 										<div class="column">
-											<button
+											<NavButton
+												size="large"
 												type="button"
-												class="btn-vertaling"
 												onclick={(event) => translate(event, succescriterium.index)}
 											>
 												{simpleTranslation ? 'Officiële beschrijving' : 'Simpele beschrijving'}
-											</button>
+											</NavButton>
 
 											<input
 												name="check"
@@ -159,8 +160,11 @@
 			</div>
 		{:else}
 			<div class="form-btn">
-				<button type="submit" class="submit"> Opslaan </button>
-				<a href="#main" class="btn-top" onclick={scrollToTop}>⬆</a>
+				<NavButton type="submit" size="medium" aria="opslaan checklist">Opslaan</NavButton>
+
+				<NavButton size="medium" variant="primary" showIcon={false} href="#main">
+					<p>Scroll to Top</p>
+				</NavButton>
 			</div>
 		{/if}
 	</form>
@@ -190,30 +194,6 @@
 
 	.submit:hover {
 		filter: saturate(1.2);
-	}
-
-	.btn-top {
-		position: fixed;
-		bottom: 1rem;
-		right: 1rem;
-		font-size: 1.3rem;
-		padding: 0.4rem 0.8rem;
-		background-color: var(--c-pink);
-		border: none;
-		color: white;
-		margin-top: 1rem;
-		border-radius: 4px;
-		cursor: pointer;
-		text-decoration: none;
-		z-index: 2;
-	}
-
-	.btn-top:hover {
-		filter: saturate(1.2);
-	}
-
-	button:active {
-		filter: saturate(1) brightness(0.9);
 	}
 
 	.submit:not(button) {
@@ -376,21 +356,6 @@
 
 	#niveau-toggle {
 		margin-bottom: 1em;
-	}
-
-	.btn-vertaling {
-		font-size: 1rem;
-		padding: 0.4rem 0.8rem;
-		background-color: var(--c-pink);
-		border: none;
-		color: white;
-		border-radius: 4px;
-		cursor: pointer;
-		z-index: 2;
-	}
-
-	.btn-vertaling:hover {
-		filter: saturate(1.2);
 	}
 
 	.richtlijn-criteria-2 {

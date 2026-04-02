@@ -1,9 +1,7 @@
 <script>
 	import { onMount } from 'svelte';
 	import Dialog from '$lib/components/dialog.svelte';
-	import AuditIcon from '$lib/components/icons/auditIcon.svelte';
-	import DeleteIcon from '$lib/components/icons/deleteIcon.svelte';
-	import EditIcon from '$lib/components/icons/editIcon.svelte';
+	import NavButton from '$lib/components/NavButton.svelte';
 
 	export let website;
 	export let principles;
@@ -124,108 +122,130 @@
 </script>
 
 {#if !isUrl}
-<div class="card-wrapper">
-	<article class="color-primary-light" id="card-partner" class:container-off={containerOff}>
-		{#if !isUrl}
-			<picture class="card-partner-logo" fetchpriority="high">
-				<!-- picture -->
-				<img
-					class="partner-logo"
-					width="256"
-					height="256"
-					src={faviconAPI + url + '/&size=128'}
-					alt="logo van {title}"
-				/>
-			</picture>
-		{/if}
+	<div class="card-wrapper">
+		<article class="color-primary-light" id="card-partner" class:container-off={containerOff}>
+			{#if !isUrl}
+				<picture class="card-partner-logo" fetchpriority="high">
+					<!-- picture -->
+					<img
+						class="partner-logo"
+						width="256"
+						height="256"
+						src={faviconAPI + url + '/&size=128'}
+						alt="logo van {title}"
+					/>
+				</picture>
+			{/if}
 
-		{#if !isUrl}
-			<h2 class="card-title">{title}</h2>
-		{/if}
+			{#if !isUrl}
+				<h2 class="card-title">{title}</h2>
+			{/if}
 
-		{#if isUrl}
-			<h2 class="card-title-url">{url}</h2>
-		{/if}
+			{#if isUrl}
+				<h2 class="card-title-url">{url}</h2>
+			{/if}
 
-		{#if isUrl}
-		<div id="url-progress-container" class="color-primary">
-			<progress id="progress-partner" max="100" value="0" bind:this={progressbar}> </progress>
-			<label class="progress-percentage" for="progress-partner" bind:this={labelValue}>0%</label>
-		</div>
-		{/if}
+			{#if isUrl}
+				<div id="url-progress-container" class="color-primary">
+					<progress id="progress-partner" max="100" value="0" bind:this={progressbar}> </progress>
+					<label class="progress-percentage" for="progress-partner" bind:this={labelValue}>0%</label
+					>
+				</div>
+			{/if}
 
-		{#if !isUrl}
-		<div id="partner-progress-container" class="color-primary">
-			<progress id="progress-partner" max="100" value="0" bind:this={progressbar}></progress>
-			<label class="progress-percentage" for="progress-partner" bind:this={labelValue}>0%</label>
-		</div>
-		{/if}
+			{#if !isUrl}
+				<div id="partner-progress-container" class="color-primary">
+					<progress id="progress-partner" max="100" value="0" bind:this={progressbar}></progress>
+					<label class="progress-percentage" for="progress-partner" bind:this={labelValue}>0%</label
+					>
+				</div>
+			{/if}
 
+			<div class="card-icons-partner">
+				{#if !isUrl}
+					<NavButton
+						onclick={openForm.bind(null, auditType)}
+						aria="start audit van {title}"
+						size="small"
+						variant="secondary"
+						showIcon={true}
+						iconName="audit"
+					></NavButton>
+				{/if}
 
-		<div class="card-icons-partner">
-	
-		{#if !isUrl}
-			<button
-				onclick={openForm.bind(null, auditType)}
-				aria-label="start audit van {title}"
-			>
-					<AuditIcon />
-			</button>
-		{/if}
+				<NavButton
+					onclick={openForm.bind(null, editType)}
+					aria={isUrl ? `bewerk ${url}` : `bewerk ${title}`}
+					size="small"
+					variant="secondary"
+					showIcon={true}
+					iconName="edit"
+				></NavButton>
 
-			<button onclick={openForm.bind(null, editType)} 
-				aria-label={isUrl ? `bewerk ${url}` : `bewerk ${title}`}>
-						<EditIcon />
-			</button>
+				<NavButton
+					onclick={openForm.bind(null, deleteType)}
+					aria={isUrl ? `verwijder ${url}` : `verwijder ${title}`}
+					size="small"
+					variant="secondary"
+					showIcon={true}
+					iconName="delete"
+				></NavButton>
 
-			<button 
-				onclick={openForm.bind(null, deleteType)} 
-				aria-label={isUrl ? `verwijder ${url}` : `verwijder ${title}`}>
-						<DeleteIcon />
-				</button>
-
-			<a href={link} 
-				aria-label={isUrl ? `open ${url}` : `open ${title}`}
-				class="card-open">
-				Open
-			</a>
-		</div>
-</article>
-</div>
+				<NavButton
+					href={link}
+					aria={isUrl ? `open ${url}` : `open ${title}`}
+					size="medium"
+					variant="secondary"
+					showIcon={false}
+				>
+					Open</NavButton
+				>
+			</div>
+		</article>
+	</div>
 {/if}
 
 {#if isUrl}
-<div class="card-wrapper">
-	<article id="card-url" class="color-primary-light" class:container-off={containerOff}>
+	<div class="card-wrapper">
+		<article id="card-url" class="color-primary-light" class:container-off={containerOff}>
+			<h2 class="card-title-url">{url}</h2>
 
-		<h2 class="card-title-url">{url}</h2>
+			<div id="url-progress-container" class="color-primary">
+				<progress id="progress-partner" max="100" value="0" bind:this={progressbar}> </progress>
+				<label class="progress-percentage" for="progress-partner" bind:this={labelValue}>0%</label>
+			</div>
 
-		<div id="url-progress-container" class="color-primary">
-			<progress id="progress-partner" max="100" value="0" bind:this={progressbar}> </progress>
-			<label class="progress-percentage" for="progress-partner" bind:this={labelValue}>0%</label>
-		</div>
+			<div class="card-icons-url">
+				<NavButton
+					onclick={openForm.bind(null, editType)}
+					aria="bewerk ${url}"
+					size="small"
+					variant="secondary"
+					showIcon={true}
+					iconName="edit"
+				></NavButton>
 
+				<NavButton
+					onclick={openForm.bind(null, deleteType)}
+					aria="verwijder ${url}"
+					size="small"
+					variant="secondary"
+					showIcon={true}
+					iconName="delete"
+				></NavButton>
 
-		<div class="card-icons-url">
-			<button onclick={openForm.bind(null, editType)} 
-				aria-label= "bewerk ${url}">
-						<EditIcon />
-			</button>
-
-			<button 
-				onclick={openForm.bind(null, deleteType)} 
-				aria-label="verwijder ${url}">
-						<DeleteIcon />
-				</button>
-
-			<a href={link} 
-				aria-label="open ${url}"
-				class="card-open">
-				Open
-			</a>
-		</div>
-</article>
-</div>
+				<NavButton
+					href={link}
+					aria={isUrl ? `open ${url}` : `open ${title}`}
+					size="medium"
+					variant="secondary"
+					showIcon={false}
+				>
+					Open</NavButton
+				>
+			</div>
+		</article>
+	</div>
 {/if}
 
 <Dialog
@@ -259,8 +279,8 @@
 <style>
 	.card-wrapper {
 		display: flex;
- 		container-type: inline-size;
-  		container-name: card-component;
+		container-type: inline-size;
+		container-name: card-component;
 	}
 
 	#card-partner {
@@ -269,7 +289,7 @@
 		border-radius: var(--border-radius);
 		width: 100%;
 		transition: 0.25s ease;
-		background: linear-gradient(0.25turn,var(--light-2), var(--dark-1));
+		background: linear-gradient(0.25turn, var(--light-2), var(--dark-1));
 		display: grid;
 		grid-template-columns: 1fr 60%;
 		grid-template-rows: 1fr 20% 20%;
@@ -282,7 +302,7 @@
 		border-radius: var(--border-radius);
 		width: 100%;
 		transition: 0.25s ease;
-		background: linear-gradient(0.25turn,var(--light-2), var(--dark-1));
+		background: linear-gradient(0.25turn, var(--light-2), var(--dark-1));
 		display: grid;
 		grid-template-columns: 40% 60%;
 		grid-template-rows: 60% 10% 30%;
@@ -310,7 +330,6 @@
 		line-break: strict;
 	}
 
-
 	.card-partner-logo {
 		border-radius: var(--border-radius);
 		overflow: hidden;
@@ -318,27 +337,6 @@
 		object-fit: fill;
 		width: fit-content;
 		height: fit-content;
-	}
-
-	article button {
-		background: none;
-		cursor: pointer;
-		border: none;
-		border-radius: var(--border-radius);
-		background-color: var(--dark-3);
-		border: var(--color-neutral-black) solid 1px;
-		height: 32px;
-		width: 32px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		padding: 4px;
-
-		&:hover {
-			transition-duration: 0.2s;
-			background-color: var(--light-3);
-			color: var(--color-neutral-black);
-		}
 	}
 
 	#partner-progress-container {
@@ -366,10 +364,10 @@
 		justify-content: center;
 		align-items: center;
 		gap: 1em;
-		grid-row: 2/3; 
+		grid-row: 2/3;
 		grid-column: 1/3;
 		padding-bottom: 4em;
-		
+
 		label {
 			color: var(--color-neutral-black);
 			margin-bottom: 1em;
@@ -414,31 +412,6 @@
 		display: none;
 	}
 
-	.card-open {
-		border-radius: var(--border-radius);
-		background-color: var(--dark-3);
-		color: var(--color-neutral-black);
-		border: var(--color-neutral-black) solid 1px;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		text-decoration: none;
-		width: 8em;
-		height: 2em;
-		filter: drop-shadow(var(--color-neutral-black) 2px 2px 4px);
-
-		&:hover {
-			transition-duration: 0.2s;
-			background-color: var(--light-3);
-			color: var(--color-neutral-black);
-		}
-
-		@media (max-width: 720px) {
-			height: 32px;
-			font-size: 12px;
-		}
-	}
-
 	.card-icons-partner {
 		grid-row: 3/4;
 		grid-column: 2/3;
@@ -447,10 +420,6 @@
 		gap: 0.5em;
 		align-items: center;
 		margin-right: 0.5em;
-
-		button:focus {
-			border: solid 4px black;
-		}
 	}
 
 	.card-icons-url {
@@ -460,10 +429,6 @@
 		justify-content: flex-end;
 		gap: 0.5em;
 		align-items: center;
-
-		button:focus {
-			border: solid 4px black;
-		}
 	}
 
 	@container card-component (width < 600px) {
@@ -513,31 +478,26 @@
 			grid-column: 2/3;
 			grid-row: 3/4;
 		}
-
 	}
 
-		@container card-component (width < 400px) {
-			.card-partner-logo {
-				width: 250px;
-				height: 250px;
-				grid-column: 1/3;
-			}
-
-			.card-title {
-				grid-column: 1/3;
-				grid-row: 2/3;
-				height: 1em;
-			}
-
-			.card-open {
-				margin-left: 1em;
-			}
-
-			.card-icons-partner{
-				margin-right: 0em;
-				margin-bottom: 1em;
-				grid-row: 5/5;
-				grid-column: 1/3;
-			}
+	@container card-component (width < 400px) {
+		.card-partner-logo {
+			width: 250px;
+			height: 250px;
+			grid-column: 1/3;
 		}
+
+		.card-title {
+			grid-column: 1/3;
+			grid-row: 2/3;
+			height: 1em;
+		}
+
+		.card-icons-partner {
+			margin-right: 0em;
+			margin-bottom: 1em;
+			grid-row: 5/5;
+			grid-column: 1/3;
+		}
+	}
 </style>

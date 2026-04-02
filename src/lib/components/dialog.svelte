@@ -1,12 +1,23 @@
 <script>
 	import Loader from '$lib/components/loader.svelte';
-
-	// icons
-	import ExclamationmarkIcon from './icons/exclamationmarkIcon.svelte';
-	import CrossIcon from './icons/crossIcon.svelte';
-	import EditIcon from './icons/editIcon.svelte';
-	import DeleteIcon from './icons/deleteIcon.svelte';
-	import AuditIcon from './icons/auditIcon.svelte';
+	import NavButton from '$lib/components/NavButton.svelte';
+	import AccountIcon from '$lib/components/icons/accountIcon.svelte';
+	import AddIcon from '$lib/components/icons/addIcon.svelte';
+	import AlertIcon from '$lib/components/icons/alertIcon.svelte';
+	import AlphabeticalIcon from '$lib/components/icons/alphabeticalIcon.svelte';
+	import AuditIcon from '$lib/components/icons/auditIcon.svelte';
+	import BulbIcon from '$lib/components/icons/bulbIcon.svelte';
+	import CheckIcon from '$lib/components/icons/checkIcon.svelte';
+	import CrossIcon from '$lib/components/icons/crossIcon.svelte';
+	import DeleteIcon from '$lib/components/icons/deleteIcon.svelte';
+	import EditIcon from '$lib/components/icons/editIcon.svelte';
+	import FilterIcon from '$lib/components/icons/filterIcon.svelte';
+	import HomeIcon from '$lib/components/icons/homeIcon.svelte';
+	import InfoIcon from '$lib/components/icons/infoIcon.svelte';
+	import MenuIcon from '$lib/components/icons/menuIcon.svelte';
+	import MoonIcon from '$lib/components/icons/moonIcon.svelte';
+	import SearchIcon from '$lib/components/icons/searchIcon.svelte';
+	import SunIcon from '$lib/components/icons/sunIcon.svelte';
 
 	export let params;
 	export let isType;
@@ -80,6 +91,7 @@
 	function close(event) {
 		event.preventDefault();
 		dialog.close();
+		document.body.style.overflowY = 'unset';
 	}
 
 	function closeTip() {
@@ -167,21 +179,21 @@
 		{#if !sending}
 			<div class="form-heading">
 				<h2 class="form-heading">{title}</h2>
-				<button class="form-close-button" onclick={close} aria-label="sluit het venster">
-					<CrossIcon />
-				</button>
+				<NavButton
+					onclick={close}
+					aria="sluit het venster"
+					variant="primary"
+					showIcon={true}
+					iconName="cross"
+					size="small"
+				></NavButton>
 			</div>
 
 			{#if tip !== null}
 				<div class="form-message-tip">
-					<div class="form-exclamation-mark">
-						<ExclamationmarkIcon />
-					</div>
-
-					<p tabindex="0">{tip}</p>
-					<button onclick={closeTip} class="form-close-button" aria-label="sluit de tip">
-						<CrossIcon />
-					</button>
+					<!-- alert icon -->
+					<!-- will be made in the alert component -->
+					<p>{tip}</p>
 				</div>
 			{/if}
 
@@ -290,10 +302,9 @@
 					<input type="hidden" name="slug" id="slug" value={slugValue} />
 				{/if}
 
-				<button class="form-submit-button" aria-label="verzend formulier">
-					<!-- here comes all the is states of submitting -->
+				<NavButton aria="verzend formulier" variant="primary">
 					{submitValue}
-				</button>
+				</NavButton>
 			</form>
 		{/if}
 
@@ -334,18 +345,6 @@
 		}
 	}
 
-	@media (min-width: 1080px) {
-		.dialog-title {
-			font-size: 28px;
-		}
-	}
-
-	@media (max-width: 720px) {
-		.dialog-title {
-			font-size: 24px;
-		}
-	}
-
 	dialog[open] {
 		display: block;
 	}
@@ -383,21 +382,6 @@
 		color: var(--color-neutral-black);
 	}
 
-	.form-heading button,
-	.form-heading input[type='submit'],
-	.form-heading input[type='reset'] {
-		background: none;
-		color: inherit;
-		border: none;
-		padding: 0;
-		font: inherit;
-		cursor: pointer;
-	}
-
-	.form-heading button:focus {
-		border: black solid 1px;
-	}
-
 	@media (max-width: 720px) {
 		.form-heading {
 			font-size: 16px;
@@ -420,7 +404,6 @@
 			font-size: 12px;
 		}
 
-		button,
 		input[type='submit'],
 		input[type='reset'] {
 			background: none;
@@ -430,15 +413,6 @@
 			font: inherit;
 			cursor: pointer;
 		}
-	}
-
-	.form-submit-button {
-		width: 100%;
-		margin-top: 1em;
-		border: 1px var(--color-neutral-black) solid;
-		color: var(--color-neutral-black);
-		background-color: var(--dark-3);
-		filter: drop-shadow(var(--color-neutral-black) 2px 2px 4px);
 	}
 
 	.form-textfields {
@@ -487,22 +461,6 @@
 		flex-direction: row;
 		gap: 1em;
 		padding: 1em;
-	}
-
-	button {
-		border-radius: var(--border-radius);
-		color: var(--color-neutral-white);
-		width: fit-content;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		height: 48px;
-		font-size: 16px;
-
-		@media (max-width: 720px) {
-			height: 32px;
-			font-size: 12px;
-		}
 	}
 
 	input[type='text'] {

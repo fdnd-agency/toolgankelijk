@@ -13,7 +13,7 @@ export default function getQueryToolboard(gql, slugUrl, principleSlug) {
 				}
 			}
 
-			principe: toolgankelijk_principle(filter: { slug: { _eq: "${principleSlug}" } }, limit: 1) {
+			principle: toolgankelijk_principle(filter: { slug: { _eq: "${principleSlug}" } }, limit: 1) {
 				id
 				title
 				description
@@ -48,7 +48,7 @@ export default function getQueryToolboard(gql, slugUrl, principleSlug) {
 				}
 			}
 
-			principes: toolgankelijk_principle {
+			principles: toolgankelijk_principle {
 				id
 				title
 				description
