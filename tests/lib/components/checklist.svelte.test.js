@@ -9,26 +9,26 @@ describe('/checklist.svelte', () => {
 				guidelines: [
 					{
 						index: '1.1',
-						titel: 'Tekstalternatieven',
-						uitleg: { html: 'Beschrijving van richtlijn 1.1' },
-						successcriteria: [
+						title: 'Tekstalternatieven',
+						explanation: { html: 'Beschrijving van richtlijn 1.1' },
+						successCriteria: [
 							{
 								id: 'sc-1',
 								index: '1.1.1',
-								niveau: 'A',
-								titel: 'Niet-tekstuele content',
-								makkelijkeCriteria: { html: 'Eenvoudige beschrijving' },
+								level: 'A',
+								title: 'Niet-tekstuele content',
+								easyCriteria: { html: 'Eenvoudige beschrijving' },
 								criteria: { html: 'Officiële beschrijving' }
 							}
 						]
 					}
 				],
 				toolboardData: {
-					url: { checks: [{ successcriteria: [{ id: 'sc-1', niveau: 'A' }] }] },
+					url: { checks: [{ successCriteria: [{ id: 'sc-1', level: 'A' }] }] },
 					principle: { index: 1 }
 				},
 				levels: [{ level: 'A' }],
-				selectedNiveau: 'A'
+				selectedLevel: 'A'
 			}
 		});
 
