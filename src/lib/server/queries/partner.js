@@ -14,7 +14,7 @@ export default function getQueryPartner(gql, limit = 20, offset = 0) {
 					url
 					checks {
 						id
-						successcriteria: success_criteria {
+						successCriteria: success_criteria {
 							id
 						}
 					}
@@ -60,7 +60,7 @@ export function getQueryWebsite(gql, slug, limit = 20, offset = 0) {
 					slug
 					checks {
 						id
-						successcriteria: success_criteria {
+						successCriteria: success_criteria {
 							id
 						}
 					}
