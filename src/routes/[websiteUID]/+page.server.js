@@ -1,14 +1,10 @@
 import { error, redirect } from '@sveltejs/kit';
-import { getWebsiteBySlug as getWebsiteFromRepository } from '$lib/repositories/partnerRepository.js';
+import { partnerRepository } from '$lib/server/index.js';
 
 // Type definitions
 /**
  * @typedef {import('@sveltejs/kit').LoadEvent} LoadEvent
  */
-
-function delay(ms) {
-	return new Promise((resolve) => setTimeout(resolve, ms));
-}
 
 /**
  * @param {LoadEvent} event
@@ -29,7 +25,7 @@ export async function load(event) {
 		const parentData = await parent();
 		data = parentData.websitesData;
 	} else {
-		data = await getWebsiteFromRepository(websiteUID, { limit: first, offset: skip });
+		data = await partnerRepository.getWebsiteBySlug(websiteUID, { limit: first, offset: skip });
 	}
 
 	if (!data.website) {
