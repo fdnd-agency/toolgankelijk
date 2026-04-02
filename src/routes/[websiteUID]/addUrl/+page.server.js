@@ -1,7 +1,6 @@
 import { directus } from '$lib/utils/directus.js';
 import { redirect } from '@sveltejs/kit';
-import { getWebsiteBySlug as getWebsiteFromRepository } from '$lib/repositories/partnerRepository.js';
-import { addUrl, createEmptyCheckForUrl } from '$lib/repositories/urlRepository.js';
+import { partnerRepository, urlRepository } from '$lib/server/index.js';
 
 export async function load({ params, locals }) {
 	const { websiteUID } = params;
@@ -11,7 +10,7 @@ export async function load({ params, locals }) {
 	if (!locals.user.isEmailVerified) {
 		throw redirect(302, '/verify-email');
 	}
-	const websitesData = await getWebsiteFromRepository(websiteUID);
+	const websitesData = await partnerRepository.getWebsiteBySlug(websiteUID);
 	return websitesData;
 }
 
@@ -23,13 +22,13 @@ export const actions = {
 		const formSlug = formData.get('slug');
 
 		try {
-			const directusCall = await addUrl({
+			const directusCall = await urlRepository.addUrl({
 				urlSlug: name,
 				urlLink: formUrl,
 				websiteSlug: formSlug,
 				urlName: name
 			});
-			await createEmptyCheckForUrl({ websiteSlug: formSlug, urlSlug: name });
+			await urlRepository.createEmptyCheckForUrl({ websiteSlug: formSlug, urlSlug: name });
 
 			return {
 				directusCall,

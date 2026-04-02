@@ -1,4 +1,4 @@
-import { addUrl, createEmptyCheckForUrl } from '$lib/repositories/urlRepository.js';
+import { urlRepository } from '$lib/server/index.js';
 
 // Delay helper
 function delay(ms) {
@@ -34,13 +34,13 @@ export async function POST({ request }) {
 					await sendUpdate({ status: 'Toevoegen gestart', type: 'done' });
 					await delay(500);
 
-					const directusCall = await addUrl({
+					const directusCall = await urlRepository.addUrl({
 						urlSlug: slug,
 						urlLink,
 						websiteSlug,
 						urlName: name
 					});
-					await createEmptyCheckForUrl({ websiteSlug, urlSlug: slug });
+					await urlRepository.createEmptyCheckForUrl({ websiteSlug, urlSlug: slug });
 
 					await sendUpdate({
 						status: `${name} is toegevoegd.`,

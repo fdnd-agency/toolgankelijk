@@ -2,7 +2,7 @@
 import Sitemapper from 'sitemapper';
 import axios from 'axios';
 import { parseHTML } from 'linkedom';
-import { getUrl, addUrl } from '$lib/repositories/urlRepository.js';
+import { urlRepository } from '$lib/server/index.js';
 
 export function isValidUrl(url) {
 	return !url.includes('/document') && !url.includes('/documents');
@@ -113,13 +113,13 @@ export async function processUrls(urls, slug, sendUpdate) {
 		await delay(250);
 
 		try {
-			const existingUrl = await getUrl(urlSlug);
+			const existingUrl = await urlRepository.getUrl(urlSlug);
 			if (existingUrl) {
 				await sendUpdate({ status: `Url bestaat al: ${existingUrl.slug}`, type: 'warning' });
 				total--;
 			} else {
 				await sendUpdate({ status: `Voeg toe: ${link}`, type: 'done' });
-				await addUrl({ urlSlug, urlLink: link, websiteSlug: slug, urlName: path });
+				await urlRepository.addUrl({ urlSlug, urlLink: link, websiteSlug: slug, urlName: path });
 			}
 		} catch (err) {
 			failed[link] = err.message;

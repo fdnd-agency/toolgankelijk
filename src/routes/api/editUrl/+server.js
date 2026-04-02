@@ -1,4 +1,4 @@
-import { updateUrl } from '$lib/repositories/urlRepository.js';
+import { urlRepository } from '$lib/server/index.js';
 
 // Delay helper
 function delay(ms) {
@@ -34,7 +34,7 @@ export async function POST({ request }) {
 					await sendUpdate({ status: 'Bewerken gestart', type: 'done' });
 					await delay(500);
 
-					const response = await updateUrl({ id, slug, url, name });
+					const response = await urlRepository.updateUrl({ id, slug, url, name });
 
 					await sendUpdate({ status: 'Url succesvol bijgewerkt', type: 'done', response });
 					await delay(500);

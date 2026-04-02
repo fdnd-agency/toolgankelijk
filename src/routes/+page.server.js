@@ -1,5 +1,5 @@
 import { redirect } from '@sveltejs/kit';
-import { listPartners } from '$lib/repositories/partnerRepository.js';
+import { partnerRepository } from '$lib/server/index.js';
 
 /**
  * @typedef {import('$lib/types.js').PartnerOverviewData} PartnerOverviewData
@@ -21,7 +21,7 @@ export async function load(event) {
 	const first = 20;
 	const skip = parseInt(url.searchParams.get('skip') || '0');
 
-	const data = await listPartners({
+	const data = await partnerRepository.listPartners({
 		limit: first,
 		offset: skip
 	});

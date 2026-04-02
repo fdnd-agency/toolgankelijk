@@ -1,8 +1,4 @@
-import { updatePartnerById, updatePartnerTotalUrls } from '$lib/repositories/partnerRepository.js';
-import {
-	createEmptyCheckForUrl,
-	getFirstCheck
-} from '$lib/repositories/urlRepository.js';
+import { partnerRepository, urlRepository } from '$lib/server/index.js';
 import {
 	formatUrl,
 	getSitemapPromises,
@@ -71,16 +67,16 @@ export async function POST({ request }) {
 					// Process URLs if toggle is on
 					if (toggle && urls.length) {
 						const { total } = await processUrls(urls, slug, sendUpdate);
-						await updatePartnerTotalUrls({ slug, totalUrls: total });
+						await partnerRepository.updatePartnerTotalUrls({ slug, totalUrls: total });
 						await delay(500);
 						// Create empty check for each url
 						for (const url of urls) {
 							const path = new URL(url).pathname;
 							const urlSlug = (slug + path).replace(/\//g, '-');
 							// Check if a check already exists for this urlSlug
-							const checkId = await getFirstCheck({ websiteSlug: slug, urlSlug });
+							const checkId = await urlRepository.getFirstCheck({ websiteSlug: slug, urlSlug });
 							if (!checkId) {
-								await createEmptyCheckForUrl({ websiteSlug: slug, urlSlug });
+								await urlRepository.createEmptyCheckForUrl({ websiteSlug: slug, urlSlug });
 								await sendUpdate({ status: `Check aangemaakt voor ${url}`, type: 'done' });
 							} else {
 								await sendUpdate({ status: `Check bestaat al voor ${url}`, type: 'warning' });
@@ -89,7 +85,7 @@ export async function POST({ request }) {
 						}
 						await sendUpdate({ status: 'Alle urls zijn toegevoegd', type: 'done' });
 					}
-					await updatePartnerById({ id, name, url, slug });
+					await partnerRepository.updatePartnerById({ id, name, url, slug });
 					await sendUpdate({ status: 'Partner bijgewerkt', type: 'done' });
 				} catch (err) {
 					await sendUpdate({ status: err.message, type: 'error' });

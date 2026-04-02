@@ -1,5 +1,4 @@
-import { createPartner, updatePartnerTotalUrls } from '$lib/repositories/partnerRepository.js';
-import { createEmptyCheckForUrl } from '$lib/repositories/urlRepository.js';
+import { partnerRepository, urlRepository } from '$lib/server/index.js';
 import {
 	formatUrl,
 	getSitemapPromises,
@@ -64,7 +63,7 @@ export async function POST({ request }) {
 
 					// Add or update partner
 					if (!id) {
-						await createPartner({ name, url, slug, totalUrls: urls.length });
+						await partnerRepository.createPartner({ name, url, slug, totalUrls: urls.length });
 						await sendUpdate({ status: 'Partner toegevoegd', type: 'done' });
 						await delay(1000);
 					} else {
@@ -75,13 +74,13 @@ export async function POST({ request }) {
 					// Process URLs if toggle is on
 					if (toggle && urls.length) {
 						const { total } = await processUrls(urls, slug, sendUpdate);
-						await updatePartnerTotalUrls({ slug, totalUrls: total });
+						await partnerRepository.updatePartnerTotalUrls({ slug, totalUrls: total });
 						await delay(1000);
 						// Create empty check for each url
 						for (const url of urls) {
 							const path = new URL(url).pathname;
 							const urlSlug = (slug + path).replace(/\//g, '-');
-							await createEmptyCheckForUrl({ websiteSlug: slug, urlSlug });
+							await urlRepository.createEmptyCheckForUrl({ websiteSlug: slug, urlSlug });
 						}
 
 						await sendUpdate({ status: 'Partner bijgewerkt', type: 'done' });

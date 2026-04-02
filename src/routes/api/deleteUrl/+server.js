@@ -1,4 +1,4 @@
-import { deleteUrlWithChecks } from '$lib/repositories/urlRepository.js';
+import { urlRepository } from '$lib/server/index.js';
 
 // Delay helper
 function delay(ms) {
@@ -31,7 +31,7 @@ export async function POST({ request }) {
 					await sendUpdate({ status: 'Verwijderen gestart', type: 'done' });
 					await delay(500);
 
-					const response = await deleteUrlWithChecks(id);
+					const response = await urlRepository.deleteUrlWithChecks(id);
 
 					await sendUpdate({ status: 'Url succesvol verwijderd', type: 'done', response });
 					await delay(500);

@@ -1,5 +1,4 @@
-import { deletePartnerById, getPartnerUrls } from '$lib/repositories/partnerRepository.js';
-import { deleteUrlWithChecks } from '$lib/repositories/urlRepository.js';
+import { partnerRepository, urlRepository } from '$lib/server/index.js';
 
 // Delay helper
 function delay(ms) {
@@ -36,7 +35,7 @@ export async function POST({ request }) {
 					let skip = 0;
 					const batchSize = 100;
 					while (true) {
-						const urls = await getPartnerUrls(id, { skip, first: batchSize });
+						const urls = await partnerRepository.getPartnerUrls(id, { skip, first: batchSize });
 						if (!urls || urls.length === 0) break;
 						allUrls.push(...urls);
 						skip += batchSize;
@@ -52,7 +51,7 @@ export async function POST({ request }) {
 								status: `Verwijderen url ${i + 1}/${allUrls.length}`,
 								type: 'done'
 							});
-							await deleteUrlWithChecks(link.id);
+							await urlRepository.deleteUrlWithChecks(link.id);
 						} catch (error) {
 							await sendUpdate({
 								status: `Fout bij verwijderen url ${link.id}: ${error.message}`,
@@ -64,7 +63,7 @@ export async function POST({ request }) {
 					await sendUpdate({ status: 'Alle urls verwijderd', type: 'done' });
 
 					// 3. Verwijder de partner
-					const deleteResponse = await deletePartnerById(id);
+					const deleteResponse = await partnerRepository.deletePartnerById(id);
 					await sendUpdate({
 						status: 'Partner verwijderd',
 						type: 'done',

@@ -1,5 +1,5 @@
 import { redirect } from '@sveltejs/kit';
-import { createPartner } from '$lib/repositories/partnerRepository.js';
+import { partnerRepository } from '$lib/server/index.js';
 
 export async function load({ locals }) {
 	if (!locals?.session || !locals?.user) {
@@ -19,7 +19,7 @@ export const actions = {
 		const slug = name.toLowerCase();
 
 		try {
-			const partner = await createPartner({ name, url, slug });
+			const partner = await partnerRepository.createPartner({ name, url, slug });
 
 			return {
 				partner,

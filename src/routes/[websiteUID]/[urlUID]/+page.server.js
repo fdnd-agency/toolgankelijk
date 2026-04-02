@@ -1,6 +1,5 @@
 import { redirect, error } from '@sveltejs/kit';
-import { getUrl } from '$lib/repositories/urlRepository.js';
-import { getAllPrinciples, getLevels } from '$lib/repositories/contentRepository.js';
+import { contentRepository, urlRepository } from '$lib/server/index.js';
 
 export const load = async ({ params, locals }) => {
 	const { websiteUID, urlUID } = params;
@@ -13,9 +12,9 @@ export const load = async ({ params, locals }) => {
 
 	// Fetch URL plus principles and levels via repositories
 	const [url, principlesRaw, levels] = await Promise.all([
-		getUrl(urlUID),
-		getAllPrinciples(),
-		getLevels()
+		urlRepository.getUrl(urlUID),
+		contentRepository.getAllPrinciples(),
+		contentRepository.getLevels()
 	]);
 
 	if (url && url.website?.slug === websiteUID) {

@@ -1,21 +1,15 @@
-import {
-	checkUsernameAvailability,
-	createUser,
-	getUserPasswordHash,
-	getUserByEmail,
-	markUserEmailVerified
-} from '$lib/repositories/userRepository.js';
+import { userRepository } from '$lib/server/index.js';
 
 export function verifyUsernameInput(username) {
 	return username.length > 3 && username.length < 32 && username.trim() === username;
 }
 
 export async function checkUsernameAvailability(username) {
-	return await checkUsernameAvailability(username);
+	return await userRepository.checkUsernameAvailability(username);
 }
 
 export async function createUser(email, username, passwordHash) {
-	const created = await createUser({
+	const created = await userRepository.createUser({
 		email,
 		username,
 		passwordHash,
@@ -28,7 +22,7 @@ export async function createUser(email, username, passwordHash) {
 }
 
 export async function getUserPasswordHash(userId) {
-	const hash = await getUserPasswordHash(userId);
+	const hash = await userRepository.getUserPasswordHash(userId);
 	if (!hash) {
 		throw new Error('Invalid user ID');
 	}
@@ -36,9 +30,9 @@ export async function getUserPasswordHash(userId) {
 }
 
 export async function getUserFromEmail(email) {
-	return await getUserByEmail(email);
+	return await userRepository.getUserByEmail(email);
 }
 
 export async function setUserEmailAsVerified(userId, email) {
-	await markUserEmailVerified(userId);
+	await userRepository.markUserEmailVerified(userId);
 }

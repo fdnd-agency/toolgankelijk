@@ -1,11 +1,5 @@
 import { error, redirect } from '@sveltejs/kit';
-import {
-	getUrl,
-	getFirstCheck,
-	addSuccessCriterionToCheck,
-	removeSuccessCriterionFromCheck
-} from '$lib/repositories/urlRepository.js';
-import { getLevels, getToolboard } from '$lib/repositories/contentRepository.js';
+import { contentRepository, urlRepository } from '$lib/server/index.js';
 
 export const load = async ({ params, locals }) => {
 	const { websiteUID, urlUID, principleUID } = params;
@@ -16,7 +10,7 @@ export const load = async ({ params, locals }) => {
 		throw redirect(302, '/verify-email');
 	}
 
-	const url = await getUrl(urlUID);
+	const url = await urlRepository.getUrl(urlUID);
 
 	if (!url || url.website?.slug !== websiteUID) {
 		throw error(404, {
@@ -24,8 +18,11 @@ export const load = async ({ params, locals }) => {
 		});
 	}
 
-	const toolboardData = await getToolboard({ urlSlug: urlUID, principleSlug: principleUID });
-	const levels = await getLevels();
+	const toolboardData = await contentRepository.getToolboard({
+		urlSlug: urlUID,
+		principleSlug: principleUID
+	});
+	const levels = await contentRepository.getLevels();
 	const levelsData = { levels: levels };
 
 	if (toolboardData.principle === null) {
@@ -42,8 +39,12 @@ export const load = async ({ params, locals }) => {
 
 export const actions = {
 	updateChecklist: async ({ request, params }) => {
+		//FIXME: currently doesn't work
 		const { websiteUID, urlUID, principleUID } = params;
-		const toolboardData = await getToolboard({ urlSlug: urlUID, principleSlug: principleUID });
+		const toolboardData = await contentRepository.getToolboard({
+			urlSlug: urlUID,
+			principleSlug: principleUID
+		});
 		const formData = await request.formData();
 		const checkedSuccesscriteria = formData.getAll('check'); // Array with Successcriteria ID's of the checked inputs of the form on the opened page
 		const principleIndex = formData.get('principe'); // Principe index (1, 2, 3, 4) of the form on the opened page
@@ -51,7 +52,7 @@ export const actions = {
 
 		// Successcriteria with the principe index (1, 2, 3, 4) and niveau (A, AA, AAA) of the form on the opened page that where already checked and stored in the database
 		const currentlyStoredCheckedSuccesscriteria = toolboardData.url.checks[0]
-			? toolboardData.url.checks[0].successcriteria.filter((succescriterium) => {
+			? toolboardData.url.checks[0].successCriteria.filter((succescriterium) => {
 					return succescriterium.level == level && succescriterium.index[0] == principleIndex;
 				})
 			: [];
@@ -92,7 +93,7 @@ export const actions = {
 					return { success: false };
 				}
 
-				const result = await addSuccessCriterionToCheck({
+				const result = await urlRepository.addSuccessCriterionToCheck({
 					websiteSlug: websiteUID,
 					urlSlug: urlUID,
 					checkId,
@@ -118,7 +119,7 @@ export const actions = {
 					return { success: false };
 				}
 
-				const result = await removeSuccessCriterionFromCheck({
+				const result = await urlRepository.removeSuccessCriterionFromCheck({
 					websiteSlug: websiteUID,
 					urlSlug: urlUID,
 					checkId,
@@ -139,7 +140,10 @@ export const actions = {
 
 		async function getCheckId() {
 			try {
-				const checkId = await getFirstCheck({ websiteSlug: websiteUID, urlSlug: urlUID });
+				const checkId = await urlRepository.getFirstCheck({
+					websiteSlug: websiteUID,
+					urlSlug: urlUID
+				});
 				return checkId;
 			} catch (error) {
 				return null;

@@ -1,15 +1,11 @@
 import { generateEmailVerificationCode } from '../utils/generateEmailVerificationCode.js';
 import { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS } from '$env/static/private';
 import nodemailer from 'nodemailer';
-import {
-	getEmailVerificationRequestById,
-	createEmailVerificationRequestRecord,
-	deleteEmailVerificationsForUser
-} from '$lib/repositories/userRepository.js';
+import { userRepository } from '$lib/server/index.js';
 
 // Deze functie haalt het e-mailverificatieverzoek op voor een gebruiker via het request ID
 export async function getUserEmailVerificationRequest(userId, id) {
-	const row = await getEmailVerificationRequestById(id);
+	const row = await userRepository.getEmailVerificationRequestById(id);
 	if (!row || row.userId !== userId) {
 		return null;
 	}
@@ -23,13 +19,17 @@ export async function createEmailVerificationRequest(userId) {
 	const code = generateEmailVerificationCode();
 	const expiresAt = new Date(Date.now() + 1000 * 60 * 10);
 
-	const row = await createEmailVerificationRequestRecord({ code, expiresAt, userId });
+	const row = await userRepository.createEmailVerificationRequestRecord({
+		code,
+		expiresAt,
+		userId
+	});
 	return row;
 }
 
 // Deze functie verwijdert alle e-mailverificatieverzoeken voor een gebruiker
 export async function deleteUserEmailVerificationRequest(userId) {
-	await deleteEmailVerificationsForUser(userId);
+	await userRepository.deleteEmailVerificationsForUser(userId);
 }
 
 // Deze functie stuurt een verificatie-e-mail naar het e-mailadres van de gebruiker

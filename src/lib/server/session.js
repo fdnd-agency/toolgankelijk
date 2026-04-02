@@ -2,12 +2,7 @@
 import * as crypto from 'crypto';
 import { encodeBase32LowerCaseNoPadding, encodeHexLowerCase } from '@oslojs/encoding';
 import { sha256 } from '@oslojs/crypto/sha2';
-import {
-	getSessionByTokenHash,
-	updateSessionExpiry,
-	deleteSessionById,
-	createSessionRecord
-} from '$lib/repositories/sessionRepository.js';
+import { sessionRepository } from '$lib/server/index.js';
 
 // Type definitions
 /**
@@ -27,7 +22,7 @@ import {
  */
 export async function validateSessionToken(token) {
 	const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
-	const sessionRow = await getSessionByTokenHash(sessionId);
+	const sessionRow = await sessionRepository.getSessionByTokenHash(sessionId);
 
 	if (
 		!sessionRow ||
@@ -85,7 +80,7 @@ export async function validateSessionToken(token) {
  * @returns {Promise<{ session: null, user: null }>} An object with nulled session and user values.
  */
 async function invalidateSession(session) {
-	await deleteSessionById(session.id);
+	await sessionRepository.deleteSessionById(session.id);
 	return { session: null, user: null };
 }
 
@@ -99,7 +94,10 @@ async function invalidateSession(session) {
  */
 async function refreshSession(session) {
 	session.expiresAt = new Date(Date.now() + 1000 * 60 * 60 * 24 * 30);
-	await updateSessionExpiry({ sessionId: session.id, expiresAt: session.expiresAt });
+	await sessionRepository.updateSessionExpiry({
+		sessionId: session.id,
+		expiresAt: session.expiresAt
+	});
 	return session;
 }
 
@@ -156,6 +154,6 @@ export function generateSessionToken() {
 export async function createSession(token, userId) {
 	const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
 	const expiresAt = new Date(Date.now() + 1000 * 60 * 60 * 24 * 30);
-	const session = await createSessionRecord({ sessionId, userId, expiresAt });
+	const session = await sessionRepository.createSessionRecord({ sessionId, userId, expiresAt });
 	return session;
 }
