@@ -3,6 +3,7 @@
 	import walking from '$lib/assets/walking_together.svg';
 	import knowledge from '$lib/assets/sharing_knowledge.svg';
 	import NavButton from '$lib/components/NavButton.svelte';
+	import Heading from '$lib/components/heading.svelte';
 
 	let heading = $derived({ titel: 'Informatie' });
 
