@@ -83,7 +83,7 @@
 					<div class="niveaus-list">
 						{#each niveaus as n}
 							{@const nData = pData.levels[n.niveau]}
-							<div class="niveau-sub-card">
+							<div class="niveau-sub-card color-primary">
 								<span class="niveau-label">Niveau</span>
 								<span class="niveau-name">{n.niveau}</span>
 								<div class="progress-row">
@@ -213,22 +213,52 @@
 		flex-direction: column;
 		gap: 0.75rem;
 	}
-
-	.niveau-sub-card {
-		background-color: rgba(214, 104, 161);
-		padding: 0.71rem 0.8rem;
-		border-radius: 15px;
+	
+	.niveau-sub-card.color-primary {
+		background-color: var(--light-2);
+		padding: 1.25rem 1rem;
+		border-radius: 1rem;
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+		margin-bottom: 0.5rem;
+		border: none;
 	}
 
 	.niveau-label {
-		display: block;
-		font-size: 0.75rem;
-		opacity: 0.9;
-		color: rgb(104, 71, 84);
+		color: var(--dark-2);
+		font-size: 0.8rem;
+		font-weight: 500;
+		margin-bottom: -5px;
 	}
+
 	.niveau-name {
-		font-size: 1.5rem;
+		color: var(--dark-3);
+		font-size: 1.8rem;
+		font-weight: 800;
+		line-height: 1;
+	}
+
+	.percentage-text {
+		color: var(--dark-3);
 		font-weight: bold;
-		display: block;
+		font-size: 0.9rem;
+	}
+
+	progress {
+		width: 100%;
+		height: 10px;
+		appearance: none;
+		-webkit-appearance: none;
+	}
+
+	progress::-webkit-progress-bar {
+		background-color: white; 
+		border-radius: 10px;
+	}
+
+	progress::-webkit-progress-value {
+		background-color: var(--color-primary);
+		border-radius: 10px;
 	}
 </style>
