@@ -7,7 +7,7 @@
 
 <style>
 	svg path {
-		fill: none;
+		fill: currentColor;
 		color: none;
 
 		@media (max-width: 720px) {

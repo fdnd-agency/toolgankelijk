@@ -3,6 +3,7 @@
 	import AddIcon from '$lib/components/icons/addIcon.svelte';
 	import AlertIcon from '$lib/components/icons/alertIcon.svelte';
 	import AlphabeticalIcon from '$lib/components/icons/alphabeticalIcon.svelte';
+	import ArrowIcon from '$lib/components/icons/arrowIcon.svelte';
 	import AuditIcon from '$lib/components/icons/auditIcon.svelte';
 	import BulbIcon from '$lib/components/icons/bulbIcon.svelte';
 	import CheckIcon from '$lib/components/icons/checkIcon.svelte';
@@ -28,7 +29,7 @@
 		children,
 		onclick,
 		aria,
-		width = null,
+		effect = null,
 		active = null,
 		...rest
 	} = $props();
@@ -40,6 +41,7 @@
 		add: AddIcon,
 		alert: AlertIcon,
 		alphabetical: AlphabeticalIcon,
+		arrow: ArrowIcon,
 		audit: AuditIcon,
 		bulb: BulbIcon,
 		check: CheckIcon,
@@ -62,18 +64,17 @@
 	this={tagname}
 	{href}
 	{type}
-	class="navbutton {size} {variant} {active} {width}"
+	class="navbutton {size} {variant} {active} {effect}"
 	{onclick}
 	{...rest}
-	araia-label={aria}
+	aria-label={aria}
 >
-	{#if showIcon && ActiveIcon}
-		<span class="icon-wrapper">
-			<ActiveIcon />
-		</span>
-	{/if}
-
-	{@render children?.()}
+{#if showIcon && ActiveIcon}
+    <span class="icon-wrapper">
+        <svelte:component this={ActiveIcon} />
+    </span>
+{/if}
+		{@render children?.()}
 </svelte:element>
 
 <style>
@@ -152,9 +153,21 @@
 	}
 
 	/* for the dropdowns */
-	.full {
+	.select {
 		width: 100%;
 		justify-content: space-between;
 		align-items: center;
+		border: var(--color-neutral-white) 1px solid;
+
+		&:focus {
+			transition-duration: 0.2s;
+			border: var(--color-neutral-white) 2px solid;
+		}
+	}
+
+	.reverse {
+		width: 15em;
+		place-items: center;
+		margin: 0px auto;
 	}
 </style>
