@@ -36,7 +36,11 @@
 			// All succescriteria that are achieved for this principe with this niveau
 			const successChecks = checks
 				.flatMap((successCriterion) => successCriterion.succescriteria)
-				.filter((successCriterion) => successCriterion.niveau === niveauName && successCriterion.index.startsWith(pIndex + '.'));
+				.filter(
+					(successCriterion) =>
+						successCriterion.niveau === niveauName &&
+						successCriterion.index.startsWith(pIndex + '.')
+				);
 
 			// Initialize the progressData for this principe and niveau
 			progressData[pIndex].levels[niveauName] = {
@@ -76,16 +80,6 @@
 						</div> -->
 					</div>
 
-					<NavButton
-								variant="secondary"
-								showIcon={false}
-								href="{$page.url.pathname}/{principe.slug}"
-								size="medium"
-								aria="Open Principe"
-							>
-								<p>Open</p>
-							</NavButton>
-
 					<div class="niveaus-list">
 						{#each niveaus as n}
 							{@const nData = pData.levels[n.niveau]}
@@ -100,6 +94,16 @@
 						{/each}
 					</div>
 				</a>
+
+				<NavButton
+					variant="secondary"
+					showIcon={false}
+					href="{$page.url.pathname}/{principe.slug}"
+					size="medium"
+					aria="Open Principe"
+				>
+					<p>Open</p>
+				</NavButton>
 			</li>
 		{/each}
 	</ul>
@@ -156,7 +160,7 @@
 
 	.label-text {
 		color: rgb(131, 97, 111);
-        opacity: 1;
+		opacity: 1;
 	}
 
 	h2 {
@@ -211,7 +215,7 @@
 	}
 
 	.niveau-sub-card {
-		background-color: rgba(214,104,161);
+		background-color: rgba(214, 104, 161);
 		padding: 0.71rem 0.8rem;
 		border-radius: 15px;
 	}
