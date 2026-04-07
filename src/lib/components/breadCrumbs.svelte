@@ -1,6 +1,7 @@
 <script>
 	import NavButton from './NavButton.svelte';
 
+	let isOpen = $state(false);
 	let { params, partners, websites, principes } = $props();
 	let selectedPartner = $derived(
 		params.websiteUID ? partners.websites.find(({ slug }) => slug === params.websiteUID) : ''
@@ -10,25 +11,28 @@
 		params.principeUID ? principes.find(({ slug }) => slug === params.principeUID) : ''
 	);
 
+function toggleDropdown() {
+        isOpen = !isOpen;
+    }
 	const faviconAPI =
 		'https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=';
 </script>
 
 <div class="breadcrumbs">
-		<NavButton size="large" aria="breadcrumb of {selectedPartner}">
-			{#if selectedPartner}
-				<img width="24" src="{faviconAPI}{selectedPartner.homepage}/&size=128" alt="logo partner" />
-				<p> {selectedPartner.titel} </p>
-			{:else}
-				<p>Partners overzicht</p>
-			{/if}
+		<NavButton onclick={toggleDropdown} size="large" aria="breadcrumb of {selectedPartner}" showIcon={true} iconName="arrow" effect="reverse">
+				{#if selectedPartner}
+					<img width="24" src="{faviconAPI}{selectedPartner.homepage}/&size=128" alt="logo partner" />
+					<p> {selectedPartner.titel} </p>
+				{:else}
+					<p>Partners overzicht</p>
+				{/if}
+
 		</NavButton>
-		<div class="dropdown">
-				<ul>
+				<ul class="dropdown" class:open={isOpen}>
 				{#each partners.websites as partner}
 					{#if partner}
 						<li>
-							<NavButton size="medium" variant="secondary" href="/{partner.slug}" width="full">
+							<NavButton variant="primary" href="/{partner.slug}" effect="select">
 									<img
 										width="24"
 										src="{faviconAPI}{partner.homepage}/&size=256"
@@ -41,7 +45,6 @@
 					{/if}
 				{/each}
 			</ul>
-		</div>
 </div>
 
 <!-- <div class="bread-crumbs">
@@ -147,43 +150,40 @@
 
 <style>
 	.breadcrumbs {
-		display: flex;
-		align-items: center;
 		gap: 0.5rem;
 	}
 
 	.dropdown {
-		display: inline-block;
-		min-width: 10em;
-		height: max-content;
+		width: 15em;
+		left: 0;
+		position: relative;
 		z-index: 1;
-	}
-
-	.dropdown img {
-		border-radius: 4px;
-		height: 1.5rem;
-		width: 1.5rem;
+		transform: translateY(0);
+		background-color: var(--color-primary-light);
+		border: var(--color-primary) solid 3px;
+		border-radius: var(--border-radius);
+		padding: 1em;
+		overflow: hidden;
+		display: none;
 	}
 
 	ul {
-		position: absolute;
-		max-height: 1em;
-		gap: 1em;
-		left: 1em;
-		width: 10em;
+		list-style: none;
 		overflow: hidden;
-		transform: translateY(-100%);
+		display: flex;
+		gap: 0.2em;
+		flex-direction: column;
+		transform: translateY(0);
 		transition: 0.2s;
-		z-index: -1;
 	}
 
 	ul:has(:global(a:focus)) {
 		max-height: min-content;
 		min-width: max-content;
-		transform: translateY(100);
+		transform: translateY(100%);
 	}
 
-	.breadcrumbs a:hover {
+	.breadcrumbs li:hover {
 		background-color: var(--c-white);
 		color: var(--c-text-header);
 	}
@@ -233,4 +233,8 @@
 			position: relative;
 		}
 	}
+
+	.dropdown.open {
+        display: block;
+    }
 </style>
