@@ -64,22 +64,15 @@
 	<ul>
 		{#each principes as principe (principe.index)}
 			{@const pData = progressData[principe.index]}
-			<li class="principe-card">
+			<li class="principe-card color-primary">
 				<a href="{$page.url.pathname}/{principe.slug}" class="principe-link">
 					<div class="principe-header">
 						<span class="label">
-							<!-- <span class="label-icon">▶</span>
-							<span class="label-text">Principe</span> -->
+							<span class="label-text">Principe</span>
 						</span>
 						<h2>{principe.titel}</h2>
 						<p class="description">{principe.beschrijving.text}</p>
-						<!-- Comments out the progress bar of niveau A -->
-						<!-- <div class="main-progress">
-							<progress max={pData.total} value={pData.behaald}></progress>
-							<span class="percentage-text">{getPercent(pData.behaald, pData.total)}%</span>
-						</div> -->
 					</div>
-
 					<div class="niveaus-list">
 						{#each niveaus as n}
 							{@const nData = pData.levels[n.niveau]}
@@ -110,15 +103,6 @@
 </section>
 
 <style>
-	:root {
-		--bg-pink: #e9c2c9;
-		--card-pink: #dfa0b3;
-		--subcard-pink: #d689a3;
-		--progress-fill: #b30059;
-		--progress-bg: #f0f0f0;
-		--text-main: #b30059;
-	}
-
 	.principe-link {
 		text-decoration: none;
 		color: inherit;
@@ -127,14 +111,14 @@
 
 	.container-principes {
 		gap: 1rem;
-		border-radius: 0.5em;
+		border-radius: var(--border-radius);
 	}
 
 	.container-principes ul {
 		list-style: none;
 		display: grid;
 		grid-template-columns: repeat(2, 1fr);
-		border-radius: 0.5em;
+		border-radius: var(--border-radius);
 	}
 
 	/* responsive for mobile */
@@ -145,10 +129,10 @@
 	}
 
 	.principe-card {
-		background-color: rgba(241, 204, 223);
+		background-color: var(--color-primary-light);
 		border-radius: 20px;
 		padding: clamp(1em, 6vw, 2em);
-		color: var(--text-main);
+		color: var(--color-primary);
 		font-family: sans-serif;
 		margin: 1em 1em;
 	}
@@ -159,7 +143,7 @@
 	}
 
 	.label-text {
-		color: rgb(131, 97, 111);
+		color: var(--dark-1);
 		opacity: 1;
 	}
 
@@ -173,7 +157,7 @@
 		font-size: 0.95rem;
 		line-height: 1.4;
 		margin-bottom: 1.5rem;
-		color: rgb(131, 97, 111);
+		color: var(--dark-1);
 	}
 
 	.main-progress,
@@ -190,20 +174,10 @@
 		-webkit-appearance: none;
 	}
 
-	progress::-webkit-progress-bar {
-		background-color: white;
-		border-radius: 10px;
-	}
-
-	progress::-webkit-progress-value {
-		background-color: var(--progress-fill);
-		border-radius: 10px;
-	}
-
 	.percentage-text {
 		font-size: 0.9rem;
 		min-width: 35px;
-		color: rgba(108, 74, 87);
+		color: var(--color-neutral-darkgrey);
 	}
 
 	/* Sub-cards for A, AA, AAA */
@@ -213,7 +187,7 @@
 		flex-direction: column;
 		gap: 0.75rem;
 	}
-	
+
 	.niveau-sub-card.color-primary {
 		background-color: var(--light-2);
 		padding: 1.25rem 1rem;
@@ -253,7 +227,7 @@
 	}
 
 	progress::-webkit-progress-bar {
-		background-color: white; 
+		background-color: var(--color-neutral-white);
 		border-radius: 10px;
 	}
 
