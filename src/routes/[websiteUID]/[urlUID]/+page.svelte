@@ -15,13 +15,14 @@
 	let progressData = $state({});
 	// every progress bar for the niveau of the principes
 	const principes = data.principesData.principes;
-	const niveaus = data.niveauData.niveaus;
+	// !== filters out niveau a
+	const niveaus = data.niveauData.niveaus.filter((n) => n.niveau.toLowerCase() !== 'a');
 	const checks = data.urlData.url.checks;
 
 	principes.forEach((principe) => {
 		// save the index of the principe in the progressData object
 		const pIndex = principe.index;
-		progressData[pIndex] = {};
+		progressData[pIndex] = { total: 0, behaald: 0, levels: {} };
 
 		// for each principe, loop through the niveaus
 		niveaus.forEach((niveau) => {
@@ -29,23 +30,32 @@
 
 			// All succescriteria for this principe with this niveau
 			const totalChecks = principe.richtlijnen
-				.flatMap((check) => check.succescriteria)
-				.filter((criteria) => criteria.niveau === niveauName);
+				.flatMap((guideline) => guideline.succescriteria)
+				.filter((successCriterion) => successCriterion.niveau === niveauName);
 
 			// All succescriteria that are achieved for this principe with this niveau
 			const successChecks = checks
-				.flatMap((check) => check.succescriteria)
+				.flatMap((successCriterion) => successCriterion.succescriteria)
 				.filter(
-					(criteria) => criteria.niveau === niveauName && criteria.index.startsWith(pIndex + '.')
+					(successCriterion) =>
+						successCriterion.niveau === niveauName &&
+						successCriterion.index.startsWith(pIndex + '.')
 				);
 
 			// Initialize the progressData for this principe and niveau
-			progressData[pIndex][niveauName] = {
+			progressData[pIndex].levels[niveauName] = {
 				total: totalChecks.length,
 				behaald: successChecks.length
 			};
+
+			// Aggregate for the main principle bar
+			progressData[pIndex].total += totalChecks.length;
+			progressData[pIndex].behaald += successChecks.length;
 		});
 	});
+
+	// Helper to calculate percentage safely
+	const getPercent = (behaald, total) => (total > 0 ? Math.round((behaald / total) * 100) : 0);
 </script>
 
 <Heading {heading} />
@@ -53,135 +63,176 @@
 <section class="container-principes">
 	<ul>
 		{#each principes as principe (principe.index)}
-			<li>
-				<div class="principe">
-					<h1>
-						<span>{principe.titel}.</span> Principe {principe.index}
-					</h1>
-					<p>{principe.beschrijving.text}</p>
-					{#each niveaus as n}
-						<p>{n.niveau}</p>
-						<div class="progress-container">
-							<progress
-								name="progress-partner-{n.niveau}"
-								id="progress-partner"
-								max={progressData[principe.index][n.niveau].total || 1}
-								value={progressData[principe.index][n.niveau].behaald || 0}
-							></progress>
-							<label class="progress-percentage" for="progress-partner-{n.niveau}">
-								{progressData[principe.index]?.[n.niveau]
-									? progressData[principe.index][n.niveau].total
-										? Math.round(
-												(progressData[principe.index][n.niveau].behaald /
-													progressData[principe.index][n.niveau].total) *
-													100
-											)
-										: 0
-									: 0}%
-							</label>
-							<NavButton
-								variant="secondary"
-								showIcon={false}
-								href="{$page.url.pathname}/{principe.slug}"
-								size="medium"
-								aria="Open Principe"
-							>
-								<p>Open</p>
-							</NavButton>
-						</div>
-					{/each}
-				</div>
+			{@const pData = progressData[principe.index]}
+			<li class="principe-card color-primary">
+				<a href="{$page.url.pathname}/{principe.slug}" class="principe-link">
+					<div class="principe-header">
+						<span class="label">
+							<span class="label-text">Principe</span>
+						</span>
+						<h2>{principe.titel}</h2>
+						<p class="description">{principe.beschrijving.text}</p>
+					</div>
+					<div class="niveaus-list">
+						{#each niveaus as n}
+							{@const nData = pData.levels[n.niveau]}
+							<div class="niveau-sub-card color-primary">
+								<span class="niveau-label">Niveau</span>
+								<span class="niveau-name">{n.niveau}</span>
+								<div class="progress-row">
+									<progress max={nData.total || 1} value={nData.behaald || 0}></progress>
+									<span class="percentage-text">{getPercent(nData.behaald, nData.total)}%</span>
+								</div>
+							</div>
+						{/each}
+					</div>
+				</a>
+
+				<NavButton
+					variant="secondary"
+					showIcon={false}
+					href="{$page.url.pathname}/{principe.slug}"
+					size="medium"
+					aria="Open Principe"
+				>
+					<p>Open</p>
+				</NavButton>
 			</li>
 		{/each}
 	</ul>
 </section>
 
 <style>
-	:global(*) {
-		box-sizing: border-box;
-	}
-
-	li {
+	.principe-link {
 		text-decoration: none;
 		color: inherit;
+		display: block;
 	}
 
-	h1 {
-		font-size: 1.5em;
-		margin-bottom: 0.25em;
+	.container-principes {
+		gap: 1rem;
+		border-radius: var(--border-radius);
 	}
 
 	.container-principes ul {
+		list-style: none;
 		display: grid;
-		grid-template-columns: 1fr 1fr;
-		gap: 1em;
-
-		list-style-type: none;
-		margin: 0 1em;
-		margin-bottom: 1em;
+		grid-template-columns: repeat(2, 1fr);
+		border-radius: var(--border-radius);
 	}
 
-	.container-principes li {
-		border-radius: 0.5em;
-		border: solid 1px transparent;
+	/* responsive for mobile */
+	@media (max-width: 768px) {
+		.container-principes ul {
+			grid-template-columns: 1fr;
+		}
 	}
 
-	.container-principes li:hover {
-		border: solid 1px var(--c-orange);
+	.principe-card {
+		background-color: var(--color-primary-light);
+		border-radius: 20px;
+		padding: clamp(1em, 6vw, 2em);
+		color: var(--color-primary);
+		font-family: sans-serif;
+		margin: 1em 1em;
 	}
 
-	span {
-		color: var(--c-orange);
+	.label {
+		font-size: 0.8rem;
+		font-weight: bold;
 	}
 
-	.principe p {
-		font-size: 1em;
-		margin-bottom: 3rem;
-		width: 80%;
+	.label-text {
+		color: var(--dark-1);
+		opacity: 1;
 	}
 
-	.principe {
-		padding: 2em;
-		background-color: var(--c-container);
+	h2 {
+		font-size: 2.2rem;
+		margin: 0.2rem 0;
+		font-weight: 800;
+	}
 
-		border-radius: 0.5em;
-		height: 100%;
-		border: solid 1px var(--c-container-stroke);
+	.description {
+		font-size: 0.95rem;
+		line-height: 1.4;
+		margin-bottom: 1.5rem;
+		color: var(--dark-1);
+	}
+
+	.main-progress,
+	.progress-row {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+	}
+
+	progress {
+		flex-grow: 1;
+		height: 8px;
+		appearance: none;
+		-webkit-appearance: none;
+	}
+
+	.percentage-text {
+		font-size: 0.9rem;
+		min-width: 35px;
+		color: var(--color-neutral-darkgrey);
+	}
+
+	/* Sub-cards for A, AA, AAA */
+	.niveaus-list {
+		margin-top: 1.5rem;
 		display: flex;
 		flex-direction: column;
-		justify-content: space-between;
+		gap: 0.75rem;
 	}
 
-	.progress-container {
+	.niveau-sub-card.color-primary {
+		background-color: var(--light-2);
+		padding: 1.25rem 1rem;
+		border-radius: 1rem;
 		display: flex;
-		flex-direction: row;
-		justify-content: space-between;
-		align-items: flex-end;
-		gap: 1em;
-		margin-top: 0.25em;
+		flex-direction: column;
+		gap: 0.5rem;
+		margin-bottom: 0.5rem;
+		border: none;
+	}
+
+	.niveau-label {
+		color: var(--dark-2);
+		font-size: 0.8rem;
+		font-weight: 500;
+		margin-bottom: -5px;
+	}
+
+	.niveau-name {
+		color: var(--dark-3);
+		font-size: 1.8rem;
+		font-weight: 800;
+		line-height: 1;
+	}
+
+	.percentage-text {
+		color: var(--dark-3);
+		font-weight: bold;
+		font-size: 0.9rem;
 	}
 
 	progress {
 		width: 100%;
-	}
-
-	progress[value] {
-		-webkit-appearance: none;
+		height: 10px;
 		appearance: none;
-		height: 60%;
+		-webkit-appearance: none;
 	}
 
-	progress[value]::-webkit-progress-bar {
-		background-color: var(--c-container-stroke);
-		border-radius: 0.5em;
+	progress::-webkit-progress-bar {
+		background-color: var(--color-neutral-white);
+		border-radius: 10px;
 	}
 
-	progress[value]::-webkit-progress-value {
-		background-color: var(--c-orange);
-		border-radius: 0.5em;
-	}
-
-	.progress-percentage {
-		height: 85%;
+	progress::-webkit-progress-value {
+		background-color: var(--color-primary);
+		border-radius: 10px;
 	}
 </style>
