@@ -81,7 +81,7 @@
         /* Replaced #b62059 with primary */
         background-color: var(--color-primary);
         /* neutral-black flips between white/black automatically */
-        color: var(--color-neutral-black);
+        color: var(--color-neutral-white);
         font-family: 'Fira Sans Regular', sans-serif;
         display: flex;
         align-items: center;
@@ -114,7 +114,8 @@
 
     .group-label {
         font-size: 0.9rem;
-        color: inherit; /* Follows the header text color */
+        color: var(--color-neutral-black);
+
     }
 
     .select-wrapper {
