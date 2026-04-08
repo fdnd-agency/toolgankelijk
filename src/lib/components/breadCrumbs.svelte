@@ -1,5 +1,10 @@
 <script>
 	import NavButton from './NavButton.svelte';
+	import { slide } from 'svelte/transition';
+
+	let { params, partners, websites, principes, urls } = $props();
+
+	let activeDropdown = $state(null);
 
 	let isOpen = $state(false);
 	let { params, partners, websites, principes } = $props();
@@ -132,7 +137,6 @@ function toggleDropdown() {
 
 	/* make application available for printing */
 	@media print {
-		.bread-crumbs {
 			display: none;
 		}
 	}
