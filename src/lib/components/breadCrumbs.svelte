@@ -101,23 +101,29 @@ function toggleDropdown() {
 
 <style>
 	.breadcrumbs {
-		gap: 0.5rem;
-	}
+        display: flex;
+        flex-direction: row;
+        gap: 0.5rem;
+    }
 
-	.dropdown-url {
+	.dropdown-list {	
+		position: absolute; 
+        top: calc(100% + 0.5rem); 
+        left: 0; 
+        z-index: 10;
+
 		width: 15em;
-		left: 0;
-		position: relative;
-		z-index: 1;
-		transform: translateY(-100%);
-		background-color: var(--color-primary-light);
-		transition-duration: 0.2s;
-		border: var(--color-primary) solid 3px;
-		border-radius: var(--border-radius);
-		padding: 1em;
-		overflow: hidden;
-		display: none;
-	}
+        background-color: var(--color-primary-light);
+        border: var(--color-primary) solid 3px;
+        border-radius: var(--border-radius);
+        padding: 1em;
+        
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 0.3em;
+        margin: 0;
+    }
 
 	ul {
 		list-style: none;
