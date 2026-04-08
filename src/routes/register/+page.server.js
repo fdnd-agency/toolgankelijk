@@ -12,7 +12,7 @@ import {
 export function load(event) {
 	const { locals } = event;
 	if (locals.session !== null && locals.user !== null) {
-		if (!locals.user.isEmailGeverifieerd) {
+		if (!locals.user.isEmailVerified) {
 			throw redirect(302, '/verify-email');
 		}
 		throw redirect(302, '/');

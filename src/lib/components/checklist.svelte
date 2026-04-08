@@ -4,32 +4,45 @@
 	import loadingIcon from '$lib/assets/loading.svg';
 	import NavButton from './NavButton.svelte';
 
+	/** @typedef {import('$lib/types').SuccessCriteria} SuccessCriteria */
+	/**
+	 * @typedef {Object} ChecklistGuideline
+	 * @property {string} index
+	 * @property {string} title
+	 * @property {{ html: string }} explanation
+	 * @property {SuccessCriteria[]} successCriteria
+	 */
+	/** @typedef {import('$lib/types').ToolboardData} ToolboardData */
+	/** @typedef {import('$lib/types').Level} Level */
+	/**
+	 * @typedef {Object} ChecklistProps
+	 * @property {ChecklistGuideline[]} guidelines
+	 * @property {ToolboardData} toolboardData
+	 * @property {Level[]} levels
+	 * @property {string} [selectedLevel]
+	 */
+
 	let {
-		richtlijnen,
+		guidelines,
 		toolboardData,
-		niveaus,
-		selectedNiveau = $bindable(niveaus[0].niveau)
-	} = $props();
+		levels,
+		selectedLevel = $bindable(levels[0].level)
+	} = /** @type {ChecklistProps} */ ($props());
 
 	let loading = $state(false);
+	const getSuccessCriteriaByLevel = (level) =>
+		toolboardData.url.checks[0].successCriteria.filter((item) => item.level === level);
 
-	const getSuccescriteriaByNiveau = (niveau) =>
-		toolboardData.url.checks[0]
-			? toolboardData.url.checks[0].succescriteria.filter((item) => item.niveau === niveau)
-			: [];
+	let filteredSuccessCriteria = getSuccessCriteriaByLevel(selectedLevel);
 
-	let filteredSuccescriteria = getSuccescriteriaByNiveau(selectedNiveau);
-
-	const handleNiveauChange = (event) => {
-		selectedNiveau = event.target.value;
-		filteredSuccescriteria = getSuccescriteriaByNiveau(selectedNiveau);
+	const handleLevelChange = (event) => {
+		selectedLevel = event.target.value;
+		filteredSuccessCriteria = getSuccessCriteriaByLevel(selectedLevel);
 	};
 
 	let simpleTranslation = $state(true);
 
-	const checkedSuccescriteria = $derived(
-		toolboardData.url.checks[0] ? toolboardData.url.checks[0].succescriteria : []
-	);
+	const checkedSuccessCriteria = $derived(toolboardData.url.checks[0].successCriteria);
 
 	function scrollToTop(event) {
 		const mainElement = document.getElementById('main');
@@ -51,8 +64,8 @@
 	}
 
 	onMount(() => {
-		const niveauToggle = document.querySelector('#niveau-toggle');
-		niveauToggle.classList.toggle('disabled');
+		const levelToggle = document.querySelector('#niveau-toggle');
+		levelToggle.classList.toggle('disabled');
 	});
 </script>
 
@@ -60,9 +73,9 @@
 	<div id="niveau-toggle" class="disabled">
 		<label>
 			<p>Selecteer niveau</p>
-			<select bind:value={selectedNiveau} onchange={handleNiveauChange}>
-				{#each niveaus as niveau}
-					<option value={niveau.niveau}>Niveau {niveau.niveau}</option>
+			<select bind:value={selectedLevel} onchange={handleLevelChange}>
+				{#each levels as level}
+					<option value={level.level}>Niveau {level.level}</option>
 				{/each}
 			</select>
 		</label>
@@ -79,28 +92,28 @@
 			};
 		}}
 	>
-		<input type="hidden" name="niveau" value={selectedNiveau} />
-		<input type="hidden" name="principe" value={toolboardData.principe.index} />
+		<input type="hidden" name="niveau" value={selectedLevel} />
+		<input type="hidden" name="principe" value={toolboardData.principle.index} />
 
-		<!-- richtlijnen en succescriteria tekst wordt hier ingeladen! -->
-		{#each richtlijnen as richtlijn}
+		<!-- guidelines en successcriteria tekst wordt hier ingeladen! -->
+		{#each guidelines as guideline}
 			<details>
 				<summary class="collapsible-summary">
-					<span>Richtlijn {richtlijn.index}</span>
+					<span>Richtlijn {guideline.index}</span>
 					<div>
-						<h2>{richtlijn.titel}</h2>
-						<h3>{@html richtlijn.uitleg.html}</h3>
+						<h2>{guideline.title}</h2>
+						<h3>{@html guideline.explanation.html}</h3>
 					</div>
 				</summary>
 				<article>
-					{#each richtlijn.succescriteria as succescriterium}
-						{#if succescriterium.niveau === selectedNiveau}
+					{#each guideline.successCriteria as succescriterium}
+						{#if succescriterium.level === selectedLevel}
 							<details>
 								<summary class="criteria-uitklapbaar">
-									<span>Criteria {succescriterium.index} ({succescriterium.niveau})</span>
+									<span>Criteria {succescriterium.index} ({succescriterium.level})</span>
 									<div class="row">
 										<div class="column">
-											<h3>{succescriterium.titel}</h3>
+											<h3>{succescriterium.title}</h3>
 										</div>
 
 										<div class="column">
@@ -116,7 +129,7 @@
 												name="check"
 												value={succescriterium.id}
 												type="checkbox"
-												checked={checkedSuccescriteria.find((e) => e.id === succescriterium.id)}
+												checked={checkedSuccessCriteria.find((e) => e.id === succescriterium.id)}
 											/>
 										</div>
 									</div>
@@ -126,8 +139,7 @@
 								<div class="richtlijn-uitleg" aria-live="polite" dataindex="0">
 									<div class="richtlijn-criteria-1">
 										<p id="uitleg" class="tekst-criteria-1">
-											{@html succescriterium.makkelijkeCriteria &&
-												succescriterium.makkelijkeCriteria.html}
+											{@html succescriterium.easyCriteria && succescriterium.easyCriteria.html}
 										</p>
 									</div>
 									<div class="richtlijn-criteria-2">

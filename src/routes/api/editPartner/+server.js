@@ -1,9 +1,4 @@
-import { gql } from 'graphql-request';
-import { hygraph } from '$lib/utils/hygraph.js';
-import getQueryUpdatePartner from '$lib/queries/updatePartner';
-import getQueryUpdatePartnerUrls from '$lib/queries/updateUrlsPartner';
-import createEmptyCheck from '$lib/queries/addEmptyCheck';
-import firstCheck from '$lib/queries/firstCheck';
+import { partnerRepository, urlRepository } from '$lib/server/index.js';
 import {
 	formatUrl,
 	getSitemapPromises,
@@ -72,20 +67,16 @@ export async function POST({ request }) {
 					// Process URLs if toggle is on
 					if (toggle && urls.length) {
 						const { total } = await processUrls(urls, slug, sendUpdate);
-						const updateQuery = getQueryUpdatePartnerUrls(gql, slug, total);
-						await hygraph.request(updateQuery);
+						await partnerRepository.updatePartnerTotalUrls({ slug, totalUrls: total });
 						await delay(500);
 						// Create empty check for each url
 						for (const url of urls) {
 							const path = new URL(url).pathname;
 							const urlSlug = (slug + path).replace(/\//g, '-');
 							// Check if a check already exists for this urlSlug
-							const getCheckIdQuery = firstCheck(gql, slug, urlSlug);
-							const getCheckIdResponse = await hygraph.request(getCheckIdQuery);
-							const checks = getCheckIdResponse.website?.urls?.[0]?.checks;
-							if (!checks || checks.length === 0) {
-								let createEmptyCheckEntry = createEmptyCheck(gql, slug, urlSlug);
-								await hygraph.request(createEmptyCheckEntry);
+							const checkId = await urlRepository.getFirstCheck({ websiteSlug: slug, urlSlug });
+							if (!checkId) {
+								await urlRepository.createEmptyCheckForUrl({ websiteSlug: slug, urlSlug });
 								await sendUpdate({ status: `Check aangemaakt voor ${url}`, type: 'done' });
 							} else {
 								await sendUpdate({ status: `Check bestaat al voor ${url}`, type: 'warning' });
@@ -94,8 +85,7 @@ export async function POST({ request }) {
 						}
 						await sendUpdate({ status: 'Alle urls zijn toegevoegd', type: 'done' });
 					}
-					const updateQuery = getQueryUpdatePartner(gql, name, slug, url, id);
-					await hygraph.request(updateQuery);
+					await partnerRepository.updatePartnerById({ id, name, url, slug });
 					await sendUpdate({ status: 'Partner bijgewerkt', type: 'done' });
 				} catch (err) {
 					await sendUpdate({ status: err.message, type: 'error' });

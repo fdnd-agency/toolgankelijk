@@ -1,8 +1,4 @@
-import { gql } from 'graphql-request';
-import { hygraph } from '$lib/utils/hygraph.js';
-import getQueryAddPartner from '$lib/queries/addPartner';
-import getQueryUpdatePartnerUrls from '$lib/queries/updateUrlsPartner';
-import createEmptyCheck from '$lib/queries/addEmptyCheck';
+import { partnerRepository, urlRepository } from '$lib/server/index.js';
 import {
 	formatUrl,
 	getSitemapPromises,
@@ -67,8 +63,7 @@ export async function POST({ request }) {
 
 					// Add or update partner
 					if (!id) {
-						const query = getQueryAddPartner(gql, name, url, slug, urls.length);
-						await hygraph.request(query);
+						await partnerRepository.createPartner({ name, url, slug, totalUrls: urls.length });
 						await sendUpdate({ status: 'Partner toegevoegd', type: 'done' });
 						await delay(1000);
 					} else {
@@ -79,15 +74,13 @@ export async function POST({ request }) {
 					// Process URLs if toggle is on
 					if (toggle && urls.length) {
 						const { total } = await processUrls(urls, slug, sendUpdate);
-						const updateQuery = getQueryUpdatePartnerUrls(gql, slug, total);
-						await hygraph.request(updateQuery);
+						await partnerRepository.updatePartnerTotalUrls({ slug, totalUrls: total });
 						await delay(1000);
 						// Create empty check for each url
 						for (const url of urls) {
 							const path = new URL(url).pathname;
 							const urlSlug = (slug + path).replace(/\//g, '-');
-							let createEmptyCheckEntry = createEmptyCheck(gql, slug, urlSlug);
-							await hygraph.request(createEmptyCheckEntry);
+							await urlRepository.createEmptyCheckForUrl({ websiteSlug: slug, urlSlug });
 						}
 
 						await sendUpdate({ status: 'Partner bijgewerkt', type: 'done' });

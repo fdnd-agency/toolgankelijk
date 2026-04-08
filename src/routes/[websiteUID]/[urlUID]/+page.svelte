@@ -7,81 +7,81 @@
 	let { data } = $props();
 
 	let heading = $derived({
-		titel: data.websitesData.website.titel,
+		title: data.websitesData.website.title,
 		homepage: data.urlData.url.url,
 		url: data.urlData.url.slug
 	});
-
 	let progressData = $state({});
-	// every progress bar for the niveau of the principes
-	const principes = data.principesData.principes;
-	// !== filters out niveau a
-	const niveaus = data.niveauData.niveaus.filter((n) => n.niveau.toLowerCase() !== 'a');
-	const checks = data.urlData.url.checks;
+	// every progress bar for the level of the principles
+	const principles = $derived(data.principlesData.principles);
+	// !== filters out level A
+	const levels = $derived.by(() =>
+		data.levelData.levels.filter((level) => level.level.toLowerCase() !== 'a')
+	);
+	const checks = $derived(data.urlData.url.checks);
 
-	principes.forEach((principe) => {
-		// save the index of the principe in the progressData object
-		const pIndex = principe.index;
-		progressData[pIndex] = { total: 0, behaald: 0, levels: {} };
+	for (const principle of principles) {
+		// save the index of the principle in the progressData object
+		const pIndex = principle.index;
+		progressData[pIndex] = { total: 0, achieved: 0, levels: {} };
 
-		// for each principe, loop through the niveaus
-		niveaus.forEach((niveau) => {
-			const niveauName = niveau.niveau;
+		// for each principle, loop through the levels
+		for (const level of levels) {
+			const levelName = level.level;
 
-			// All succescriteria for this principe with this niveau
-			const totalChecks = principe.richtlijnen
-				.flatMap((guideline) => guideline.succescriteria)
-				.filter((successCriterion) => successCriterion.niveau === niveauName);
+			// All success criteria for this principle with this level
+			const totalChecks = principle.guidelines
+				.flatMap((guideline) => guideline.successCriteria)
+				.filter((successCriterion) => successCriterion.level === levelName);
 
-			// All succescriteria that are achieved for this principe with this niveau
+			// All success criteria that are achieved for this principle with this level
 			const successChecks = checks
-				.flatMap((successCriterion) => successCriterion.succescriteria)
+				.flatMap((check) => check.successCriteria)
 				.filter(
 					(successCriterion) =>
-						successCriterion.niveau === niveauName &&
-						successCriterion.index.startsWith(pIndex + '.')
+						successCriterion.level === levelName && successCriterion.index.startsWith(pIndex + '.')
 				);
 
-			// Initialize the progressData for this principe and niveau
-			progressData[pIndex].levels[niveauName] = {
+			// Initialize the progressData for this principle and level
+			progressData[pIndex].levels[levelName] = {
 				total: totalChecks.length,
-				behaald: successChecks.length
+				achieved: successChecks.length
 			};
 
 			// Aggregate for the main principle bar
 			progressData[pIndex].total += totalChecks.length;
-			progressData[pIndex].behaald += successChecks.length;
-		});
-	});
+			progressData[pIndex].achieved += successChecks.length;
+		}
+	}
 
 	// Helper to calculate percentage safely
-	const getPercent = (behaald, total) => (total > 0 ? Math.round((behaald / total) * 100) : 0);
+	const getPercent = (achieved, total) => (total > 0 ? Math.round((achieved / total) * 100) : 0);
 </script>
 
 <Heading {heading} />
 
-<section class="container-principes">
+<section class="container-principles">
 	<ul>
-		{#each principes as principe (principe.index)}
-			{@const pData = progressData[principe.index]}
-			<li class="principe-card color-primary">
-				<a href="{$page.url.pathname}/{principe.slug}" class="principe-link">
-					<div class="principe-header">
+		{#each principles as principle (principle.index)}
+			{@const pData = progressData[principle.index]}
+			<li class="principle-card color-primary">
+				<a href="{$page.url.pathname}/{principle.slug}" class="principle-link">
+					<div class="principle-header">
 						<span class="label">
 							<span class="label-text">Principe</span>
 						</span>
-						<h2>{principe.titel}</h2>
-						<p class="description">{principe.beschrijving.text}</p>
+						<h2>{principle.title}</h2>
+						<p class="description">{@html principle.description}</p>
 					</div>
-					<div class="niveaus-list">
-						{#each niveaus as n}
-							{@const nData = pData.levels[n.niveau]}
-							<div class="niveau-sub-card color-primary">
-								<span class="niveau-label">Niveau</span>
-								<span class="niveau-name">{n.niveau}</span>
+					<div class="levels-list">
+						{#each levels as level}
+							{@const nData = pData.levels[level.level]}
+							<div class="level-sub-card color-primary">
+								<span class="level-label">Niveau</span>
+								<span class="level-name">{level.level}</span>
 								<div class="progress-row">
-									<progress max={nData.total || 1} value={nData.behaald || 0}></progress>
-									<span class="percentage-text">{getPercent(nData.behaald, nData.total)}%</span>
+									<progress max={nData.total || 1} value={nData.achieved || 0}></progress>
+									<span class="percentage-text">{getPercent(nData.achieved, nData.total)}%</span>
 								</div>
 							</div>
 						{/each}
@@ -91,7 +91,7 @@
 				<NavButton
 					variant="secondary"
 					showIcon={false}
-					href="{$page.url.pathname}/{principe.slug}"
+					href="{$page.url.pathname}/{principle.slug}"
 					size="medium"
 					aria="Open Principe"
 				>
@@ -103,18 +103,18 @@
 </section>
 
 <style>
-	.principe-link {
+	.principle-link {
 		text-decoration: none;
 		color: inherit;
 		display: block;
 	}
 
-	.container-principes {
+	.container-principles {
 		gap: 1rem;
 		border-radius: var(--border-radius);
 	}
 
-	.container-principes ul {
+	.container-principles ul {
 		list-style: none;
 		display: grid;
 		grid-template-columns: repeat(2, 1fr);
@@ -123,12 +123,12 @@
 
 	/* responsive for mobile */
 	@media (max-width: 768px) {
-		.container-principes ul {
+		.container-principles ul {
 			grid-template-columns: 1fr;
 		}
 	}
 
-	.principe-card {
+	.principle-card {
 		background-color: var(--color-primary-light);
 		border-radius: 20px;
 		padding: clamp(1em, 6vw, 2em);
@@ -181,14 +181,14 @@
 	}
 
 	/* Sub-cards for A, AA, AAA */
-	.niveaus-list {
+	.levels-list {
 		margin-top: 1.5rem;
 		display: flex;
 		flex-direction: column;
 		gap: 0.75rem;
 	}
 
-	.niveau-sub-card.color-primary {
+	.level-sub-card.color-primary {
 		background-color: var(--light-2);
 		padding: 1.25rem 1rem;
 		border-radius: 1rem;
@@ -199,14 +199,14 @@
 		border: none;
 	}
 
-	.niveau-label {
+	.level-label {
 		color: var(--dark-2);
 		font-size: 0.8rem;
 		font-weight: 500;
 		margin-bottom: -5px;
 	}
 
-	.niveau-name {
+	.level-name {
 		color: var(--dark-3);
 		font-size: 1.8rem;
 		font-weight: 800;

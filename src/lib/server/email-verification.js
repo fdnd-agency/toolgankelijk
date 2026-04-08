@@ -1,38 +1,15 @@
-import { hygraph } from '$lib/utils/hygraph.js';
-import { gql } from 'graphql-request';
 import { generateEmailVerificationCode } from '../utils/generateEmailVerificationCode.js';
 import { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS } from '$env/static/private';
 import nodemailer from 'nodemailer';
+import { userRepository } from '$lib/server/index.js';
 
 // Deze functie haalt het e-mailverificatieverzoek op voor een gebruiker via het request ID
 export async function getUserEmailVerificationRequest(userId, id) {
-	const query = gql`
-		query GetEmailVerificatieCode($id: ID!) {
-			emailVerificatieCode(where: { id: $id }) {
-				id
-				code
-				houdbaarTot
-				gebruiker {
-					id
-					email
-				}
-			}
-		}
-	`;
-	const variables = { id };
-	const data = await hygraph.request(query, variables);
-	const row = data.emailVerificatieCode;
-	if (!row || row.gebruiker.id !== userId) {
+	const row = await userRepository.getEmailVerificationRequestById(id);
+	if (!row || row.userId !== userId) {
 		return null;
 	}
-	const request = {
-		id: row.id,
-		userId: row.gebruiker.id,
-		code: row.code,
-		email: row.gebruiker.email,
-		expiresAt: new Date(row.houdbaarTot)
-	};
-	return request;
+	return row;
 }
 
 // Deze functie maakt een nieuw e-mailverificatieverzoek aan voor een gebruiker
@@ -42,51 +19,17 @@ export async function createEmailVerificationRequest(userId) {
 	const code = generateEmailVerificationCode();
 	const expiresAt = new Date(Date.now() + 1000 * 60 * 10);
 
-	const mutation = gql`
-		mutation CreateEmailVerificatieCode($code: String!, $houdbaarTot: DateTime!, $userId: ID!) {
-			createEmailVerificatieCode(
-				data: { code: $code, houdbaarTot: $houdbaarTot, gebruiker: { connect: { id: $userId } } }
-			) {
-				id
-				code
-				houdbaarTot
-				gebruiker {
-					id
-					email
-				}
-			}
-		}
-	`;
-
-	const variables = {
+	const row = await userRepository.createEmailVerificationRequestRecord({
 		code,
-		houdbaarTot: expiresAt.toISOString(),
+		expiresAt,
 		userId
-	};
-
-	const data = await hygraph.request(mutation, variables);
-	const row = data.createEmailVerificatieCode;
-
-	const request = {
-		id: row.id,
-		userId: row.gebruiker.id,
-		code: row.code,
-		email: row.gebruiker.email,
-		expiresAt: new Date(row.houdbaarTot)
-	};
-	return request;
+	});
+	return row;
 }
 
 // Deze functie verwijdert alle e-mailverificatieverzoeken voor een gebruiker
 export async function deleteUserEmailVerificationRequest(userId) {
-	const mutation = gql`
-		mutation DeleteEmailVerificatieCode($userId: ID!) {
-			deleteManyEmailVerificatieCodes(where: { gebruiker: { id: $userId } }) {
-				count
-			}
-		}
-	`;
-	await hygraph.request(mutation, { userId });
+	await userRepository.deleteEmailVerificationsForUser(userId);
 }
 
 // Deze functie stuurt een verificatie-e-mail naar het e-mailadres van de gebruiker

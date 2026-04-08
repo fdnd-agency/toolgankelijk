@@ -1,9 +1,4 @@
-import { gql } from 'graphql-request';
-import { hygraph } from '$lib/utils/hygraph.js';
-import getQueryDeletePartner from '$lib/queries/deletePartner';
-import getQueryDeleteUrl from '$lib/queries/deleteUrl';
-import getQueryPartnerUrls from '$lib/queries/partnerUrls';
-import getQueryDeleteChecks from '$lib/queries/deleteChecks';
+import { partnerRepository, urlRepository } from '$lib/server/index.js';
 
 // Delay helper
 function delay(ms) {
@@ -40,8 +35,7 @@ export async function POST({ request }) {
 					let skip = 0;
 					const batchSize = 100;
 					while (true) {
-						let queryPartnerUrls = getQueryPartnerUrls(gql, id, skip, batchSize);
-						const { urls } = await hygraph.request(queryPartnerUrls);
+						const urls = await partnerRepository.getPartnerUrls(id, { skip, first: batchSize });
 						if (!urls || urls.length === 0) break;
 						allUrls.push(...urls);
 						skip += batchSize;
@@ -52,16 +46,12 @@ export async function POST({ request }) {
 					// 2. Verwijder alle urls en checks
 					for (let i = 0; i < allUrls.length; i++) {
 						const link = allUrls[i];
-						let queryDeleteChecks = getQueryDeleteChecks(gql, link.id);
-						let queryDeleteUrls = getQueryDeleteUrl(gql, link.id);
 						try {
 							await sendUpdate({
 								status: `Verwijderen url ${i + 1}/${allUrls.length}`,
 								type: 'done'
 							});
-							await hygraph.request(queryDeleteChecks);
-							await delay(200);
-							await hygraph.request(queryDeleteUrls);
+							await urlRepository.deleteUrlWithChecks(link.id);
 						} catch (error) {
 							await sendUpdate({
 								status: `Fout bij verwijderen url ${link.id}: ${error.message}`,
@@ -73,8 +63,7 @@ export async function POST({ request }) {
 					await sendUpdate({ status: 'Alle urls verwijderd', type: 'done' });
 
 					// 3. Verwijder de partner
-					let queryDelete = getQueryDeletePartner(gql, id);
-					const deleteResponse = await hygraph.request(queryDelete);
+					const deleteResponse = await partnerRepository.deletePartnerById(id);
 					await sendUpdate({
 						status: 'Partner verwijderd',
 						type: 'done',

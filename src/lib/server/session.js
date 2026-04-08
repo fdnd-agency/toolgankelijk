@@ -1,27 +1,14 @@
 //@ts-check
 import * as crypto from 'crypto';
-import { hygraph } from '$lib/utils/hygraph.js';
-import { gql } from 'graphql-request';
 import { encodeBase32LowerCaseNoPadding, encodeHexLowerCase } from '@oslojs/encoding';
 import { sha256 } from '@oslojs/crypto/sha2';
-import getQuerySession from '$lib/queries/session';
-import getQueryDeleteSession from '$lib/queries/deleteSession';
-import getQueryUpdateSession from '$lib/queries/updateSession';
-import getQueryAddSession from '$lib/queries/addSession';
+import { sessionRepository } from '$lib/server/index.js';
 
 // Type definitions
 /**
- * @typedef {Object} Session
- * @property {string|null} id
- * @property {string|null} gebruikerId
- * @property {Date} expiresAt
- */
-/**
- * @typedef {Object} User
- * @property {string} id
- * @property {string} email
- * @property {string} gebruikersnaam
- * @property {boolean} isEmailGeverifieerd
+ * @typedef {import('$lib/types').Session} Session
+ * @typedef {import('$lib/types').User} User
+ * @typedef {import('@sveltejs/kit').RequestEvent} RequestEvent
  */
 
 // Code
@@ -35,31 +22,39 @@ import getQueryAddSession from '$lib/queries/addSession';
  */
 export async function validateSessionToken(token) {
 	const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
-	const { sessie: row } = await hygraph.request(getQuerySession(gql), { sessionId });
+	const sessionRow = await sessionRepository.getSessionByTokenHash(sessionId);
 
-	if (!row) {
+	if (
+		!sessionRow ||
+		!(sessionRow.session_id || sessionRow.id) ||
+		!sessionRow.user_id?.id ||
+		!sessionRow.expires_at
+	) {
 		return { session: null, user: null };
 	}
 
-	/**
-	 * @type {null | Session}
-	 */
+	const sessionIdFromRow = sessionRow.session_id ?? sessionRow.id;
+	const userIdFromRow = sessionRow.user_id.id;
+	const expiresAtFromRow = sessionRow.expires_at;
+
+	/** @type {Session | null} */
 	let session = {
-		id: row.sessieId,
-		gebruikerId: row.gebruikerId.id,
-		expiresAt: new Date(row.expiresAt)
+		id: sessionIdFromRow,
+		userId: userIdFromRow,
+		expiresAt: new Date(expiresAtFromRow)
 	};
 
 	/**
 	 * @type {null | User}
 	 */
 	let user = null;
-	if (row.gebruikerId) {
+	const userNode = sessionRow.user_id;
+	if (userNode) {
 		user = {
-			id: row.gebruikerId.id,
-			email: row.gebruikerId.email,
-			gebruikersnaam: row.gebruikerId.gebruikersnaam,
-			isEmailGeverifieerd: row.gebruikerId.isEmailGeverifieerd
+			id: userNode.id,
+			email: userNode.email,
+			username: userNode.username,
+			isEmailVerified: userNode.is_email_verified ?? false
 		};
 	}
 
@@ -85,8 +80,7 @@ export async function validateSessionToken(token) {
  * @returns {Promise<{ session: null, user: null }>} An object with nulled session and user values.
  */
 async function invalidateSession(session) {
-	// Delete session mutation
-	await hygraph.request(getQueryDeleteSession(gql), { sessionId: session.id });
+	await sessionRepository.deleteSessionById(session.id);
 	return { session: null, user: null };
 }
 
@@ -100,8 +94,7 @@ async function invalidateSession(session) {
  */
 async function refreshSession(session) {
 	session.expiresAt = new Date(Date.now() + 1000 * 60 * 60 * 24 * 30);
-	// Update session mutation
-	await hygraph.request(getQueryUpdateSession(gql), {
+	await sessionRepository.updateSessionExpiry({
 		sessionId: session.id,
 		expiresAt: session.expiresAt
 	});
@@ -112,7 +105,7 @@ async function refreshSession(session) {
  * Sets a session token cookie on the given event.
  *
  * @author Bjarne Zeeman
- * @param {import('@sveltejs/kit').RequestEvent} event - The request event containing cookies.
+ * @param {RequestEvent} event - The request event containing cookies.
  * @param {string} token - The session token to store in the cookie.
  * @param {Date} expiresAt - The expiration date of the cookie.
  */
@@ -131,7 +124,7 @@ export function setSessionTokenCookie(event, token, expiresAt) {
  *
  * @author Maksim Hofker
  * @author Bjarne Zeeman
- * @param {import('@sveltejs/kit').RequestEvent} event - The request event containing cookies.
+ * @param {RequestEvent} event - The request event containing cookies.
  */
 export function deleteSessionTokenCookie(event) {
 	event.cookies.delete('session', { path: '/' });
@@ -155,20 +148,12 @@ export function generateSessionToken() {
  * @author Bjarne Zeeman
  * @async
  * @param {String} token
- * @param {string} gebruikerId
+ * @param {string} userId
  * @returns {Promise<Session>}
  */
-export async function createSession(token, gebruikerId) {
+export async function createSession(token, userId) {
 	const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
-	const session = {
-		id: sessionId,
-		gebruikerId,
-		expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30)
-	};
-	await hygraph.request(getQueryAddSession(gql), {
-		userId: session.gebruikerId,
-		expiresAt: session.expiresAt.toISOString(),
-		sessionId: session.id
-	});
+	const expiresAt = new Date(Date.now() + 1000 * 60 * 60 * 24 * 30);
+	const session = await sessionRepository.createSessionRecord({ sessionId, userId, expiresAt });
 	return session;
 }

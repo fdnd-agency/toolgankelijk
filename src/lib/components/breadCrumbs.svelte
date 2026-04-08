@@ -1,14 +1,14 @@
 <script>
 	import NavButton from './NavButton.svelte';
 
-	let { params, partners, websites, principes } = $props();
+	let { params, partners, websites, principles } = $props();
 
 	let selectedPartner = $derived(
 		params.websiteUID ? partners.websites.find(({ slug }) => slug === params.websiteUID) : ''
 	);
 	let selectedUrl = $derived(params.urlUID ? params.urlUID : '');
-	let selectedPrincipe = $derived(
-		params.principeUID ? principes.find(({ slug }) => slug === params.principeUID) : ''
+	let selectedPrinciple = $derived(
+		params.principleUID ? principles.find(({ slug }) => slug === params.principleUID) : ''
 	);
 
 	const faviconAPI =
@@ -24,7 +24,7 @@
 						width="24"
 						src="{faviconAPI}{selectedPartner.homepage}/&size=128"
 						alt="logo partner"
-					/>{selectedPartner.titel}
+					/>{selectedPartner.title}
 				</span>
 			{:else}
 				<p>Partners overzicht</p>
@@ -43,7 +43,7 @@
 									width="24"
 									src="{faviconAPI}{partner.homepage}/&size=256"
 									alt="logo partner"
-								/>{partner.titel}
+								/>{partner.title}
 							</span>
 						</NavButton>
 					</li>
@@ -81,12 +81,12 @@
 		</div>
 	{/if}
 
-	{#if selectedUrl && principes}
+	{#if selectedUrl && principles}
 		<span class="seperator">/</span>
 		<div class="dropdown">
 			<NavButton size="medium" variant="secondary">
-				{#if selectedPrincipe}
-					<span>{selectedPrincipe.titel}</span>
+				{#if selectedPrinciple}
+					<span>{selectedPrinciple.title}</span>
 				{:else}
 					<span>Principes overzicht</span>
 				{/if}
@@ -99,11 +99,11 @@
 						<span>Principes overzicht</span>
 					{/if}
 				</li>
-				{#each principes as principe}
-					{#if selectedPartner && selectedUrl && principe && principe.slug}
+				{#each principles as principle}
+					{#if selectedPartner && selectedUrl && principle && principle.slug}
 						<li>
-							<a href="/{selectedPartner.slug}/{selectedUrl}/{principe.slug}">
-								<span>{principe.titel}</span>
+							<a href="/{selectedPartner.slug}/{selectedUrl}/{principle.slug}">
+								<span>{principle.title}</span>
 							</a>
 						</li>
 					{/if}
