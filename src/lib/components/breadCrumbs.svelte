@@ -10,8 +10,8 @@
 		params.websiteUID ? partners.websites.find(({ slug }) => slug === params.websiteUID) : ''
 	);
 	let selectedUrl = $derived(params.urlUID ? params.urlUID : '');
-	let selectedPrincipe = $derived(
-		params.principeUID ? principes.find(({ slug }) => slug === params.principeUID) : ''
+	let selectedPrinciple = $derived(
+		params.principleUID ? principles.find(({ slug }) => slug === params.principleUID) : ''
 	);
 
 	function toggleDropdown(dropdownName) {

@@ -1,13 +1,11 @@
-import { gql } from 'graphql-request';
-import { hygraph } from '$lib/utils/hygraph.js';
 import { redirect } from '@sveltejs/kit';
-import getQueryAddPartner from '$lib/queries/addPartner';
+import { partnerRepository } from '$lib/server/index.js';
 
 export async function load({ locals }) {
 	if (!locals?.session || !locals?.user) {
 		throw redirect(302, '/login');
 	}
-	if (!locals.user.isEmailGeverifieerd) {
+	if (!locals.user.isEmailVerified) {
 		throw redirect(302, '/verify-email');
 	}
 	return {};
@@ -21,11 +19,10 @@ export const actions = {
 		const slug = name.toLowerCase();
 
 		try {
-			let query = getQueryAddPartner(gql, name, url, slug);
-			let hygraphCall = await hygraph.request(query);
+			const partner = await partnerRepository.createPartner({ name, url, slug });
 
 			return {
-				hygraphCall,
+				partner,
 				success: true,
 				message: name + ' is toegevoegd.'
 			};

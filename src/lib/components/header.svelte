@@ -11,7 +11,7 @@
 	 * @property {any} params
 	 * @property {any} partners
 	 * @property {any} websites
-	 * @property {any} principes
+	 * @property {any} principles
 	 * @property {any} [user]
 	 */
 

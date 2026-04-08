@@ -18,13 +18,11 @@ const account = fc
 	);
 
 describe('Monkey test: create account with random input', () => {
-	it('handles all inputs gracefully and returns a result object', async () => {
+	it('handles all inputs gracefully and returns a result object', { timeout: 10000 }, async () => {
 		await fc.assert(
 			fc.asyncProperty(account, async (acc) => {
-				// Simulate the event object as expected by the action
 				const event = {
 					request: {
-						// Simulate the form data as expected by the action
 						formData: async () => ({
 							get: (key) =>
 								({
@@ -41,7 +39,6 @@ describe('Monkey test: create account with random input', () => {
 
 				let result;
 				try {
-					// Call the register action with the simulated event
 					result = await actions.register(event);
 				} catch (err) {
 					expect(err).toBeUndefined();

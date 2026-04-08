@@ -1,46 +1,55 @@
-import { describe, it, expect, vi, beforeEach, assert, mockImplementation } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import * as sessionModule from '$lib/server/session';
-import { hygraph } from '$lib/utils/hygraph';
+import { sessionRepository } from '$lib/server/index.js';
+
+vi.mock('$lib/server/index.js', () => ({
+	sessionRepository: {
+		getSessionByTokenHash: vi.fn(),
+		updateSessionExpiry: vi.fn(),
+		deleteSessionById: vi.fn(),
+		createSessionRecord: vi.fn()
+	}
+}));
 
 describe('session.js', () => {
-	let event, resolve;
 	beforeEach(() => {
-		event = {
-			cookies: {
-				get: vi.fn()
-			}
-		};
-		resolve = vi.fn((e) => e);
 		vi.resetAllMocks();
+		vi.useRealTimers();
 	});
 
 	const now = Date.now();
-	const fakeSession = {
+	const fakeSessionRow = {
 		id: '1',
-		sessieId: 'abc123',
-		expiresAt: new Date(now + 10 * 24 * 60 * 60 * 1000), //10 days of lifetime left.
-		gebruikerId: {
+		session_id: 'abc123',
+		expires_at: new Date(now + 10 * 24 * 60 * 60 * 1000).toISOString(), // 10 days of lifetime left
+		user_id: {
 			id: 'u1',
 			email: 'test@example.com',
-			gebruikersnaam: 'tester',
-			isEmailGeverifieerd: true
+			username: 'tester',
+			is_email_verified: true
 		}
 	};
 
 	it('Should refresh a old session', async () => {
 		// Arrange
-		//Mocking hygraph for isolation
-		vi.spyOn(hygraph, 'request').mockImplementation(async (query, vars) => {
-			if (query.includes('DeleteSessie')) return {};
-			if (query.includes('UpdateSessie')) return {};
-			return { sessie: fakeSession };
-		});
-		vi.setSystemTime(now); //Freezes time for better predictability
+		vi.useFakeTimers();
+		vi.setSystemTime(now);
+
+		sessionRepository.getSessionByTokenHash.mockResolvedValue(fakeSessionRow);
+		sessionRepository.updateSessionExpiry.mockResolvedValue(undefined);
+
 		const expectedDate = new Date(now + 1000 * 60 * 60 * 24 * 30);
 
 		// Act
-		const { session, user } = await sessionModule.validateSessionToken('notimportant');
+		const { session } = await sessionModule.validateSessionToken('notimportant');
+
 		// Assert
+		expect(session).not.toBeNull();
 		expect(session.expiresAt).toStrictEqual(expectedDate);
+		expect(sessionRepository.getSessionByTokenHash).toHaveBeenCalledTimes(1);
+		expect(sessionRepository.updateSessionExpiry).toHaveBeenCalledWith({
+			sessionId: 'abc123',
+			expiresAt: expectedDate
+		});
 	});
 });

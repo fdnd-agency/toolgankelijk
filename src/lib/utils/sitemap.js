@@ -2,10 +2,7 @@
 import Sitemapper from 'sitemapper';
 import axios from 'axios';
 import { parseHTML } from 'linkedom';
-import { gql } from 'graphql-request';
-import { hygraph } from '$lib/utils/hygraph.js';
-import getQueryUrl from '$lib/queries/url';
-import getQueryAddUrl from '$lib/queries/addUrl';
+import { urlRepository } from '$lib/server/index.js';
 
 export function isValidUrl(url) {
 	return !url.includes('/document') && !url.includes('/documents');
@@ -116,15 +113,13 @@ export async function processUrls(urls, slug, sendUpdate) {
 		await delay(250);
 
 		try {
-			const checkQuery = getQueryUrl(gql, urlSlug);
-			const checkRes = await hygraph.request(checkQuery);
-			if (checkRes.url) {
-				await sendUpdate({ status: `Url bestaat al: ${checkRes.url.slug}`, type: 'warning' });
+			const existingUrl = await urlRepository.getUrl(urlSlug);
+			if (existingUrl) {
+				await sendUpdate({ status: `Url bestaat al: ${existingUrl.slug}`, type: 'warning' });
 				total--;
 			} else {
 				await sendUpdate({ status: `Voeg toe: ${link}`, type: 'done' });
-				const addQuery = getQueryAddUrl(gql, urlSlug, link, slug, path);
-				await hygraph.request(addQuery);
+				await urlRepository.addUrl({ urlSlug, urlLink: link, websiteSlug: slug, urlName: path });
 			}
 		} catch (err) {
 			failed[link] = err.message;

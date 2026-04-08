@@ -1,9 +1,9 @@
 export default function getQueryNiveaus(gql) {
 	return gql`
-		query Niveaus {
-			niveaus {
+		query Levels {
+			toolgankelijk_level {
 				id
-				niveau
+				level
 				slug
 			}
 		}

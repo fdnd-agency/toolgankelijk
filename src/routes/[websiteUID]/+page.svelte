@@ -11,18 +11,17 @@
 
 	let skip = $derived(data.skip);
 	const first = $derived(data.first);
-	let totalUrls = $derived(data.websites.urlsConnection.aggregate.count);
+	let totalUrls = $derived(data.websites.totalUrls);
 	const currentPage = $derived(skip / first + 1);
 	let heading = $derived({
-		titel: data.websites.website.titel,
-		homepage: data.websites.website.homepage
+		title: data.websites.website?.title ?? 'Onbekende website',
+		homepage: data.websites.website?.homepage ?? ''
 	});
-	let websites = $derived(data.websites.website.urls);
-	let overzicht = $derived(data.websites.website);
+	let websites = $derived(data.websites.website?.urls ?? []);
+	let overview = $derived(data.websites.website);
 	let params = $derived($page.params.websiteUID);
-
 	let dialogRef = $state();
-	const principes = $derived(data.websites.principes);
+	const principles = $derived(data.websites.principles);
 
 	function handleDialog() {
 		dialogRef.open();
@@ -62,7 +61,7 @@
 
 <section class="cards-container">
 	{#each websites as website}
-		<Card {website} {overzicht} {params} {principes} isUrl={true} />
+		<Card {website} {overview} {params} {principles} isUrl={true} />
 	{/each}
 </section>
 

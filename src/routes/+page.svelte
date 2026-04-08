@@ -12,12 +12,12 @@
 
 	let skip = $derived(data.skip);
 	const first = $derived(data.first);
-	let totalUrls = $derived(data.websites.websitesConnection.aggregate.count);
+	let totalUrls = $derived(data.totalWebsites);
 	const currentPage = $derived(skip / first + 1);
 	let showRegistrationSuccess = $derived(data.showRegistrationSuccess);
-	let heading = { titel: 'Partners overzicht' };
+	let heading = { title: 'Partners overzicht' };
 	let dialogRef = $state();
-	const principes = $derived(data.websites.principes);
+	const principles = $derived(data.principles);
 
 	function handleDialog() {
 		dialogRef.open();
@@ -29,7 +29,6 @@
 		mainElement.scrollIntoView({ behavior: 'smooth' });
 	}
 
-	// check if form variable is changed and if so, invalidate the page
 	onMount(() => {
 		if (form?.success) {
 			invalidateAll();
@@ -71,8 +70,8 @@
 <Dialog bind:this={dialogRef} isUrl={false} isType="addPartner" />
 
 <section class="card-container">
-	{#each data.websites.websites as website}
-		<Card {website} {principes} isUrl={false} />
+	{#each data.websites as website}
+		<Card {website} {principles} isUrl={false} />
 	{/each}
 </section>
 
@@ -90,7 +89,30 @@
 	}
 
 	a {
-		color: rgb(40, 177, 223);
+		/* Replaced hardcoded blue with accent-tertiary (closest match) */
+		color: var(--color-accent-tertiary);
+	}
+
+	.add-partner {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		border-radius: var(--border-radius); /* Using global radius */
+		padding: 0.5em 1em;
+		/* Using neutral-black because it flips to white in dark mode automatically */
+		color: var(--color-neutral-black);
+		background-color: var(--color-primary-light);
+		border: none;
+		font-weight: 600;
+		font-size: 1em;
+		transition: 0.3s;
+		cursor: pointer;
+		text-decoration: none;
+	}
+
+	.add-partner:hover {
+		/* Using primary color for hover state */
+		background-color: var(--color-primary);
 	}
 
 	.btn-top {
@@ -99,17 +121,19 @@
 		right: 1rem;
 		font-size: 1.3rem;
 		padding: 0.4rem 0.8rem;
-		background-color: var(--c-pink);
+		/* Replaced var(--c-pink) with semantic primary */
+		background-color: var(--color-primary);
 		border: none;
-		color: white;
+		color: var(--color-neutral-black);
 		margin-top: 1rem;
 		border-radius: 4px;
 		cursor: pointer;
 		text-decoration: none;
+		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 	}
 
 	.btn-top:hover {
-		filter: saturate(1.2);
+		filter: brightness(1.2);
 	}
 
 	.card-container {
@@ -129,41 +153,48 @@
 		position: fixed;
 		bottom: 5rem;
 		right: 1rem;
-		width: 10rem;
-		backdrop-filter: blur(3px);
-		border-radius: 4px;
-		padding: 0.5rem;
-		text-shadow: 0px 0px 5px black;
+		width: 12rem;
+		backdrop-filter: blur(8px);
+		border-radius: var(--border-radius);
+		padding: 0.75rem;
+		/* Removed hardcoded black shadow for better theme support */
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 		animation: fade-out 4s forwards;
 		z-index: 2;
 	}
 
+	.toast p {
+		color: var(--color-neutral-black);
+		font-weight: 500;
+	}
+
 	.toast.success {
-		background-color: #22ff0025;
-		border: 1px solid #22ff00;
+		/* Using the green HSL values from your global CSS for consistency */
+		background-color: hsla(168, 65%, 41%, 0.2);
+		border: 1px solid var(--color-accent-primary);
 	}
 
 	.toast.error {
-		background-color: #a0004025;
-		border: 1px solid var(--c-pink);
+		background-color: hsla(336, 100%, 45%, 0.2);
+		border: 1px solid var(--color-primary);
 	}
 
 	@keyframes fade-out {
 		from {
 			transform: translateX(30vh);
-			display: block;
+			opacity: 1;
 		}
 		10% {
 			transform: translateX(0);
-			display: block;
+			opacity: 1;
 		}
 		80% {
 			transform: translateX(0);
-			display: block;
+			opacity: 1;
 		}
 		to {
 			transform: translateX(30vh);
-			display: none;
+			opacity: 0;
 		}
 	}
 </style>

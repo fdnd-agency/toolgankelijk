@@ -1,7 +1,4 @@
-import { gql } from 'graphql-request';
-import { hygraph } from '$lib/utils/hygraph.js';
-import getQueryAddUrl from '$lib/queries/addUrl';
-import createEmptyCheck from '$lib/queries/addEmptyCheck';
+import { urlRepository } from '$lib/server/index.js';
 
 // Delay helper
 function delay(ms) {
@@ -37,15 +34,18 @@ export async function POST({ request }) {
 					await sendUpdate({ status: 'Toevoegen gestart', type: 'done' });
 					await delay(500);
 
-					let query = getQueryAddUrl(gql, slug, urlLink, websiteSlug, name);
-					let hygraphCall = await hygraph.request(query);
-					let createEmptyCheckEntry = createEmptyCheck(gql, websiteSlug, slug);
-					await hygraph.request(createEmptyCheckEntry);
+					const directusCall = await urlRepository.addUrl({
+						urlSlug: slug,
+						urlLink,
+						websiteSlug,
+						urlName: name
+					});
+					await urlRepository.createEmptyCheckForUrl({ websiteSlug, urlSlug: slug });
 
 					await sendUpdate({
 						status: `${name} is toegevoegd.`,
 						type: 'done',
-						response: hygraphCall
+						response: directusCall
 					});
 					await delay(500);
 				} catch (err) {
