@@ -65,7 +65,7 @@
 			if (activeFilters.level === 'All') {
 				return true;
 			}
-			return n.niveau === activeFilters.level;
+			return n.level === activeFilters.level;
 		})
 	);
 
