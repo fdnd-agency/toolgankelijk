@@ -6,8 +6,6 @@
 
 	let activeDropdown = $state(null);
 
-	let isOpen = $state(false);
-	let { params, partners, websites, principes } = $props();
 	let selectedPartner = $derived(
 		params.websiteUID ? partners.websites.find(({ slug }) => slug === params.websiteUID) : ''
 	);
@@ -16,8 +14,8 @@
 		params.principeUID ? principes.find(({ slug }) => slug === params.principeUID) : ''
 	);
 
-function toggleDropdown() {
-        isOpen = !isOpen;
+	function toggleDropdown(dropdownName) {
+        activeDropdown = activeDropdown === dropdownName ? null : dropdownName;
     }
 
 	const faviconAPI =
@@ -137,15 +135,9 @@ function toggleDropdown() {
 
 	/* make application available for printing */
 	@media print {
+		.breadcrumb-list {
 			display: none;
 		}
 	}
 
-	.open {
-        display: flex;
-		flex-direction: column;
-		gap: 0.3em;
-		transform: translateY(0);
-		transition-duration: 0.2s;
-    }
 </style>
