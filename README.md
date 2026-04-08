@@ -66,7 +66,14 @@ One of the epics of this project is to implent the new design over the old desig
 
 ## Datamodel 
 
-Maksim text
+<a href="docs/ERD.svg">
+  <img src="docs/ERD.svg" alt="Public ERD for Toolgankelijk" width="900">
+</a>
+
+Full size: [`docs/ERD.svg`](docs/ERD.svg)
+
+Source: [`docs/ERD-public.mmd`](docs/ERD-public.mmd)
+
 
 ## Installation
 
