@@ -125,12 +125,9 @@ function toggleDropdown() {
         margin: 0;
     }
 
-	ul {
-		list-style: none;
-		overflow: hidden;
-		display: flex;
-		transition: 0.2s;
-	}
+	.breadcrumb-item {
+        position: relative; 
+    }
 
 
 	/* make application available for printing */
