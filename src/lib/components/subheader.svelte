@@ -1,16 +1,18 @@
 <script>
     import { page } from '$app/stores';
-    import { onMount } from 'svelte';
     import NavButton from './NavButton.svelte';
 
-    let { data, partnerTitle = '', onApply } = $props();
+    let { partnerTitle = '', onApply } = $props();
 
-    let principle = 'All';
-    let level = 'All';
-    let showNotMet = false;
-    let showMet = false;
+    // Internal state for the form fields
+    let principle = $state('All');
+    let level = $state('All');
+    let showNotMet = $state(false);
+    let showMet = $state(false);
 
-    function handleApply() {
+    function handleSubmit(e) {
+        if (e) e.preventDefault();
+        
         if (onApply) {
             onApply({
                 principle,
@@ -23,10 +25,10 @@
 </script>
 
 <header class="subheader">
-<!--empty div to space out the controls to the right, logo resided in empty brand div originally-->
-    <div class="brand"></div>
+    <div class="brand">
+        </div>
 
-    <form class="controls-container" on:submit|preventDefault={handleApply}>
+    <form class="controls-container" onsubmit={handleSubmit}>
         <div class="control-group">
             <label class="group-label" for="principle">Selecteer principe:</label>
             <div class="select-wrapper">
@@ -65,8 +67,13 @@
                 </label>
             </div>
         </fieldset>
+
+        <div class="button-container">
+            <NavButton size="medium" type="submit">
+                Toepassen
+            </NavButton>
+        </div>
     </form>
-    <NavButton size="medium" type="submit">Toepassen</NavButton>
 </header>
 
 <style>
