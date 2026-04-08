@@ -1,6 +1,6 @@
 # Vervoerregio Amsterdam | Toolgankelijk
 
-<img width="196" height="47" alt="image" src="https://github.com/user-attachments/assets/29459d24-305e-4650-b65d-54709cf0104f" />
+![image](static/readme-images/vvr-logo.png)
 
 Live link: [http://toolgankelijk.agency.fdnd.nl/](http://toolgankelijk.agency.fdnd.nl/)
 
@@ -16,8 +16,6 @@ Live link: [http://toolgankelijk.agency.fdnd.nl/](http://toolgankelijk.agency.fd
 - [Licence](#licence)
 
 ## Description
-
-![image](static/readme-images/vvr-logo.png)
 
 Vervoerregio Amsterdam connects munancipilities and works on a ragion where people can achieve their destination easily. The municipalities Aalsmeer, Amstelveen, Amsterdam, Diemen, Edam-Volendam, Haarlemmermeer, Landsmeer, Oostzaan, Ouder-Amstel, Purmerend, Uithoorn, Waterland, Wormerland, Beemster, Purmerend en Zaanstad together forms Vervoerregio Amsterdam. Vervoerregio Amsterdam exist out of 14 munancipilities.
 
