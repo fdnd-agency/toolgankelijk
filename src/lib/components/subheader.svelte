@@ -68,7 +68,7 @@
         </fieldset>
 
         <div class="button-container">
-            <NavButton size="medium" type="submit">
+            <NavButton size="medium" type="submit" variant="secondary">
                 Toepassen
             </NavButton>
         </div>
@@ -127,7 +127,7 @@
         -webkit-appearance: none;
         /* Using primary-light for the dropdown background */
         background-color: var(--color-primary-light);
-        color: var(--color-neutral-white); /* High contrast text */
+        color: var(--color-neutral-black); /* High contrast text */
         border: none;
         padding: 10px 40px 10px 16px;
         border-radius: 6px;
@@ -152,6 +152,10 @@
         pointer-events: none;
     }
 
+    label {
+        color: var(--color-neutral-white);
+    }
+
     .checkboxes {
         display: flex;
         flex-direction: column;
@@ -172,7 +176,7 @@
         -webkit-appearance: none;
         width: 16px;
         height: 16px;
-        background-color: var(--color-neutral-black); /* Box flips color */
+        background-color: var(--color-neutral-white); /* Box flips color */
         border-radius: 2px;
         cursor: pointer;
         margin: 0;
@@ -187,27 +191,6 @@
         color: var(--color-primary);
         font-size: 12px;
         font-weight: bold;
-    }
-
-    .apply-btn {
-        /* Use the darker neutral grey or primary for the button */
-        background-color: var(--color-neutral-darkgrey);
-        color: var(--color-neutral-black);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        padding: 10px 24px;
-        border-radius: 6px;
-        font-size: 0.95rem;
-        font-weight: bold;
-        cursor: pointer;
-        transition: 0.2s;
-        height: fit-content;
-        margin-top: 25px;
-    }
-
-    .apply-btn:hover {
-        filter: brightness(1.1);
-        background-color: var(--color-accent-secondary);
-        color: white;
     }
 
     @media (max-width: 850px) {
