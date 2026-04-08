@@ -13,10 +13,10 @@
 		url: data.urlData.url.slug
 	});
 	let progressData = $state({});
-	// every progress bar for the niveau of the principes
-	const principes = data.principesData.principes;
-	// !== filters out niveau a
-	const niveaus = data.niveauData.niveaus.filter((n) => n.niveau.toLowerCase() !== 'a');
+
+	const principes = data.principlesData.principles;
+	const niveaus = data.levelData.levels.filter((n) => n.level.toLowerCase() !== 'a');
+
 	const checks = data.urlData.url.checks;
 
 	let activeFilters = $state({
@@ -28,7 +28,7 @@
 
 	let filteredPrincipes = $derived(
 		principes.filter((p) => {
-			if (activeFilters.principle !== 'All' && p.titel !== activeFilters.principle) {
+			if (activeFilters.principle !== 'All' && p.title !== activeFilters.principle) {
 				return false;
 			}
 
@@ -41,13 +41,12 @@
 
 				// Check progress against the currently active Niveau (or all of them if "All" is selected)
 				const niveausToCheck =
-					activeFilters.level === 'All' ? niveaus.map((n) => n.niveau) : [activeFilters.level];
+					activeFilters.level === 'All' ? niveaus.map((n) => n.level) : [activeFilters.level];
 
 				niveausToCheck.forEach((niv) => {
-					// grab the math from progressData object
-					if (progressData[p.index] && progressData[p.index][niv]) {
-						total += progressData[p.index][niv].total;
-						behaald += progressData[p.index][niv].behaald;
+					if (progressData[p.index] && progressData[p.index].levels[niv]) {
+						total += progressData[p.index].levels[niv].total;
+						behaald += progressData[p.index].levels[niv].achieved;
 					}
 				});
 
@@ -76,32 +75,40 @@
 
 	principes.forEach((principe) => {
 		const pIndex = principe.index;
-		progressData[pIndex] = { total: 0, behaald: 0, levels: {} };
+		progressData[pIndex] = { total: 0, achieved: 0, levels: {} }; // Changed 'behaald' to 'achieved' for consistency
 
 		niveaus.forEach((niveau) => {
-			const niveauName = niveau.niveau;
-			const totalChecks = principe.richtlijnen
-				.flatMap((guideline) => guideline.succescriteria)
-				.filter((successCriterion) => successCriterion.niveau === niveauName);
+        const niveauName = niveau.level; // From our previous fix
+        
+        // 1. Crash-proof totalChecks (Check if it's guidelines OR richtlijnen!)
+        const guidelinesArray = principe.guidelines || principe.richtlijnen || [];
+        
+        const totalChecks = guidelinesArray
+            // Use ?. just in case successCriteria is missing on a specific guideline
+            .flatMap((guideline) => guideline.successCriteria || guideline.succescriteria || [])
+            // Make sure to use .level here, not .niveau!
+            .filter((successCriterion) => successCriterion.level === niveauName);
 
-			const successChecks = checks
-				.flatMap((check) => check.successCriteria)
-				.filter(
-					(successCriterion) =>
-						successCriterion.level === levelName && successCriterion.index.startsWith(pIndex + '.')
-				);
+        // 2. Crash-proof successChecks
+        const safeChecks = checks || [];
+        const successChecks = safeChecks
+            .flatMap((check) => check.successCriteria || [])
+            .filter(
+                (successCriterion) =>
+                    successCriterion.level === niveauName && successCriterion.index.startsWith(pIndex + '.')
+            );
 
-			// Initialize the progressData for this principle and level
-			progressData[pIndex].levels[levelName] = {
-				total: totalChecks.length,
-				achieved: successChecks.length
-			};
+        // Initialize the progressData for this principle and level
+        progressData[pIndex].levels[niveauName] = {
+            total: totalChecks.length,
+            achieved: successChecks.length
+        };
 
-			// Aggregate for the main principle bar
-			progressData[pIndex].total += totalChecks.length;
-			progressData[pIndex].achieved += successChecks.length;
-		}
-	}
+        // Aggregate for the main principle bar
+        progressData[pIndex].total += totalChecks.length;
+        progressData[pIndex].achieved += successChecks.length;
+    });
+	});
 
 	// Helper to calculate percentage safely
 	const getPercent = (achieved, total) => (total > 0 ? Math.round((achieved / total) * 100) : 0);
@@ -109,57 +116,54 @@
 
 <Heading {heading} />
 
-<Subheader partnerTitle={data.websitesData.website.titel} onApply={handleApplyFilters} />
+<Subheader partnerTitle={data.websitesData.website.title} onApply={handleApplyFilters} />
 
-<section class="container-principes">
-    <ul>
-        {#each filteredPrincipes as principe (principe.index)}
-            {@const pData = progressData[principe.index]}
-            
-            <li class="principe-card color-primary">
-                <a href="{$page.url.pathname}/{principe.slug}" class="principe-link">
-                    <div class="principe-header">
-                        <span class="label">
-                            <span class="label-text">Principe</span>
-                        </span>
-                        <h2>{principe.titel}</h2>
-                        <p class="description">{principe.beschrijving.text}</p>
-                    </div>
+<section class="container-principles">
+	<ul>
+		{#each filteredPrincipes as principe (principe.index)}
+			{@const pData = progressData[principe.index]}
 
-                    <div class="niveaus-list">
-                        {#each filteredNiveaus as n}
-                            {@const nData = pData.levels[n.niveau]}
-                            <div class="niveau-sub-card color-primary">
-                                <span class="niveau-label">Niveau</span>
-                                <span class="niveau-name">{n.niveau}</span>
-                                <div class="progress-row">
-                                    <progress 
-                                        max={nData.total || 1} 
-                                        value={nData.behaald || 0}>
-                                    </progress>
-                                    <span class="percentage-text">{getPercent(nData.behaald, nData.total)}%</span>
-                                </div>
-                            </div>
-                        {/each}
-                    </div>
-                </a>
+			<li class="principle-card color-primary">
+				<a href="{$page.url.pathname}/{principe.slug}" class="principle-link">
+					<div class="principle-header">
+						<span class="label">
+							<span class="label-text">Principle</span>
+						</span>
+						<h2>{principe.title}</h2>
+						<p class="description">{principe.description.text}</p>
+					</div>
 
-                <NavButton
-                    variant="secondary"
-                    showIcon={false}
-                    href="{$page.url.pathname}/{principe.slug}"
-                    size="medium"
-                    aria="Open Principe"
-                >
-                    <p>Open</p>
-                </NavButton>
-            </li>
-        {/each}
-    </ul>
+					<div class="levels-list">
+						{#each filteredNiveaus as n}
+							{@const nData = pData.levels[n.level]}
+							<div class="level-sub-card color-primary">
+								<span class="level-label">Niveau</span>
+								<span class="level-name">{n.level}</span>
+								<div class="progress-row">
+									<progress max={nData.total || 1} value={nData.achieved || 0}> </progress>
+									<span class="percentage-text">{getPercent(nData.achieved, nData.total)}%</span>
+								</div>
+							</div>
+						{/each}
+					</div>
+				</a>
+
+				<NavButton
+					variant="secondary"
+					showIcon={false}
+					href="{$page.url.pathname}/{principe.slug}"
+					size="medium"
+					aria="Open Principe"
+				>
+					<p>Open</p>
+				</NavButton>
+			</li>
+		{/each}
+	</ul>
 </section>
 
 <style>
-	.container-principes a{
+	.container-principles a {
 		text-decoration: none;
 		color: inherit;
 		display: block;
