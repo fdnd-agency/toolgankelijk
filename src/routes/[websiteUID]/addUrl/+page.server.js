@@ -1,20 +1,17 @@
-import { gql } from 'graphql-request';
-import { hygraph } from '$lib/utils/hygraph.js';
+import { directus } from '$lib/utils/directus.js';
 import { redirect } from '@sveltejs/kit';
-import getQueryAddUrl from '$lib/queries/addUrl';
-import getQueryWebsite from '$lib/queries/website';
-import createEmptyCheck from '$lib/queries/addEmptyCheck';
+import { partnerRepository, urlRepository } from '$lib/server/index.js';
 
 export async function load({ params, locals }) {
 	const { websiteUID } = params;
 	if (!locals?.session || !locals?.user) {
 		throw redirect(302, '/login');
 	}
-	if (!locals.user.isEmailGeverifieerd) {
+	if (!locals.user.isEmailVerified) {
 		throw redirect(302, '/verify-email');
 	}
-	let query = getQueryWebsite(gql, websiteUID);
-	return await hygraph.request(query).websitesData;
+	const websitesData = await partnerRepository.getWebsiteBySlug(websiteUID);
+	return websitesData;
 }
 
 export const actions = {
@@ -25,13 +22,16 @@ export const actions = {
 		const formSlug = formData.get('slug');
 
 		try {
-			let query = getQueryAddUrl(gql, name, formUrl, formSlug);
-			let hygraphCall = await hygraph.request(query);
-			let createEmptyCheckEntry = createEmptyCheck(gql, formSlug, name);
-			await hygraph.request(createEmptyCheckEntry);
+			const directusCall = await urlRepository.addUrl({
+				urlSlug: name,
+				urlLink: formUrl,
+				websiteSlug: formSlug,
+				urlName: name
+			});
+			await urlRepository.createEmptyCheckForUrl({ websiteSlug: formSlug, urlSlug: name });
 
 			return {
-				hygraphCall,
+				directusCall,
 				success: true,
 				message: name + ' is toegevoegd.'
 			};

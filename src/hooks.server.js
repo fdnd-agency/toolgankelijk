@@ -15,7 +15,7 @@ export async function handle({ event, resolve }) {
 
 	const { session, user } = await validateSessionToken(token);
 	if (session !== null) {
-		setSessionTokenCookie(event, token, session.houdbaarTot);
+		setSessionTokenCookie(event, token, session.expiresAt);
 	} else {
 		deleteSessionTokenCookie(event);
 	}

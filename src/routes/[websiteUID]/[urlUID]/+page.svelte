@@ -8,11 +8,10 @@
 	let { data } = $props();
 
 	let heading = $derived({
-		titel: data.websitesData.website.titel,
+		title: data.websitesData.website.title,
 		homepage: data.urlData.url.url,
 		url: data.urlData.url.slug
 	});
-
 	let progressData = $state({});
 	// every progress bar for the niveau of the principes
 	const principes = data.principesData.principes;
@@ -86,27 +85,26 @@
 				.filter((successCriterion) => successCriterion.niveau === niveauName);
 
 			const successChecks = checks
-				.flatMap((successCriterion) => successCriterion.succescriteria)
+				.flatMap((check) => check.successCriteria)
 				.filter(
 					(successCriterion) =>
-						successCriterion.niveau === niveauName &&
-						successCriterion.index.startsWith(pIndex + '.')
+						successCriterion.level === levelName && successCriterion.index.startsWith(pIndex + '.')
 				);
 
-			// Initialize the progressData for this principe and niveau
-			progressData[pIndex].levels[niveauName] = {
+			// Initialize the progressData for this principle and level
+			progressData[pIndex].levels[levelName] = {
 				total: totalChecks.length,
-				behaald: successChecks.length
+				achieved: successChecks.length
 			};
 
 			// Aggregate for the main principle bar
 			progressData[pIndex].total += totalChecks.length;
-			progressData[pIndex].behaald += successChecks.length;
-		});
-	});
+			progressData[pIndex].achieved += successChecks.length;
+		}
+	}
 
 	// Helper to calculate percentage safely
-	const getPercent = (behaald, total) => (total > 0 ? Math.round((behaald / total) * 100) : 0);
+	const getPercent = (achieved, total) => (total > 0 ? Math.round((achieved / total) * 100) : 0);
 </script>
 
 <Heading {heading} />
@@ -167,12 +165,12 @@
 		display: block;
 	}
 
-	.container-principes {
+	.container-principles {
 		gap: 1rem;
 		border-radius: var(--border-radius);
 	}
 
-	.container-principes ul {
+	.container-principles ul {
 		list-style: none;
 		display: grid;
 		grid-template-columns: repeat(2, 1fr);
@@ -181,12 +179,12 @@
 
 	/* responsive for mobile */
 	@media (max-width: 768px) {
-		.container-principes ul {
+		.container-principles ul {
 			grid-template-columns: 1fr;
 		}
 	}
 
-	.principe-card {
+	.principle-card {
 		background-color: var(--color-primary-light);
 		border-radius: 20px;
 		padding: clamp(1em, 6vw, 2em);
@@ -239,14 +237,14 @@
 	}
 
 	/* Sub-cards for A, AA, AAA */
-	.niveaus-list {
+	.levels-list {
 		margin-top: 1.5rem;
 		display: flex;
 		flex-direction: column;
 		gap: 0.75rem;
 	}
 
-	.niveau-sub-card.color-primary {
+	.level-sub-card.color-primary {
 		background-color: var(--light-2);
 		padding: 1.25rem 1rem;
 		border-radius: 1rem;
@@ -257,14 +255,14 @@
 		border: none;
 	}
 
-	.niveau-label {
+	.level-label {
 		color: var(--dark-2);
 		font-size: 0.8rem;
 		font-weight: 500;
 		margin-bottom: -5px;
 	}
 
-	.niveau-name {
+	.level-name {
 		color: var(--dark-3);
 		font-size: 1.8rem;
 		font-weight: 800;

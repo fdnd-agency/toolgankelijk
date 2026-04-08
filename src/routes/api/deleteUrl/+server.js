@@ -1,7 +1,4 @@
-import { gql } from 'graphql-request';
-import { hygraph } from '$lib/utils/hygraph.js';
-import getQueryDeleteUrl from '$lib/queries/deleteUrl';
-import getQueryDeleteChecks from '$lib/queries/deleteChecks';
+import { urlRepository } from '$lib/server/index.js';
 
 // Delay helper
 function delay(ms) {
@@ -34,13 +31,7 @@ export async function POST({ request }) {
 					await sendUpdate({ status: 'Verwijderen gestart', type: 'done' });
 					await delay(500);
 
-					const queryDeleteChecks = getQueryDeleteChecks(gql, id);
-					await hygraph.request(queryDeleteChecks);
-					await delay(200); // Add delay
-					await sendUpdate({ status: 'Checks succesvol verwijderd', type: 'done' });
-
-					let query = getQueryDeleteUrl(gql, id);
-					const response = await hygraph.request(query);
+					const response = await urlRepository.deleteUrlWithChecks(id);
 
 					await sendUpdate({ status: 'Url succesvol verwijderd', type: 'done', response });
 					await delay(500);

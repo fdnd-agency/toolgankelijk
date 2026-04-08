@@ -54,7 +54,7 @@ describe('src/routes/login/+page.server.js', () => {
 		vi.spyOn(emailModule, 'verifyEmailInput').mockReturnValue(true);
 		vi.spyOn(userModule, 'getUserFromEmail').mockResolvedValue({
 			id: '1',
-			isEmailGeverifieerd: true
+			isEmailVerified: true
 		});
 		vi.spyOn(userModule, 'getUserPasswordHash').mockResolvedValue('hash');
 		vi.spyOn(passwordModule, 'verifyPasswordHash').mockResolvedValue(false);
@@ -70,7 +70,7 @@ describe('src/routes/login/+page.server.js', () => {
 		vi.spyOn(emailModule, 'verifyEmailInput').mockReturnValue(true);
 		vi.spyOn(userModule, 'getUserFromEmail').mockResolvedValue({
 			id: '1',
-			isEmailGeverifieerd: true
+			isEmailVerified: true
 		});
 		vi.spyOn(userModule, 'getUserPasswordHash').mockResolvedValue('hash');
 		vi.spyOn(passwordModule, 'verifyPasswordHash').mockResolvedValue(true);

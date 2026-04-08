@@ -1,19 +1,19 @@
-import { gql } from 'graphql-request';
-import { hygraph } from '$lib/utils/hygraph.js';
-import getQueryPartner from '$lib/queries/partner';
-import getQueryWebsite from '$lib/queries/website';
-import getQueryPrincipes from '$lib/queries/principes.js';
+import { partnerRepository } from '$lib/server/index.js';
 
 export async function load({ params, locals }) {
-	let { websiteUID } = params;
-	const queryPartner = getQueryPartner(gql);
-	const queryWebsite = getQueryWebsite(gql, websiteUID);
-	const queryPrincipes = getQueryPrincipes(gql);
+	const { websiteUID } = params;
 
+	const partnersData = await partnerRepository.listPartners({ limit: 20, offset: 0 });
+
+	const websitesData = websiteUID
+		? await partnerRepository.getWebsiteBySlug(websiteUID, { limit: 20, offset: 0 }) //If websiteUID is present, get the specific website by slug
+		: { website: null, urls: [], totalUrls: 0, principles: partnersData.principles }; //else return the partners data with all principles
+
+	const principlesData = { principles: websitesData.principles };
 	return {
-		gebruiker: locals.user,
-		partnersData: await hygraph.request(queryPartner),
-		websitesData: await hygraph.request(queryWebsite),
-		principesData: await hygraph.request(queryPrincipes)
+		user: locals.user,
+		partnersData,
+		websitesData,
+		principlesData
 	};
 }
