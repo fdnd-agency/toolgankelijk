@@ -47,7 +47,6 @@
             <div class="select-wrapper">
                 <select id="level" bind:value={level}>
                     <option value="All">Alle Niveaus</option>
-                    <option value="A">Niveau A</option>
                     <option value="AA">Niveau AA</option>
                     <option value="AAA">Niveau AAA</option>
                 </select>
