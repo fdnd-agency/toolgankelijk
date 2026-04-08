@@ -14,11 +14,13 @@
 function toggleDropdown() {
         isOpen = !isOpen;
     }
+
 	const faviconAPI =
 		'https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=';
 </script>
 
 <div class="breadcrumbs">
+
 		<NavButton onclick={toggleDropdown} size="large" aria="breadcrumb of {selectedPartner}" showIcon={true} iconName="arrow" effect="reverse">
 				{#if selectedPartner}
 					<img width="24" src="{faviconAPI}{selectedPartner.homepage}/&size=128" alt="logo partner" />
@@ -28,7 +30,8 @@ function toggleDropdown() {
 				{/if}
 
 		</NavButton>
-				<ul class="dropdown" class:open={isOpen}>
+
+		<ul class="dropdown-url" class:open={isOpen}>
 				{#each partners.websites as partner}
 					{#if partner}
 						<li>
@@ -44,47 +47,33 @@ function toggleDropdown() {
 						</li>
 					{/if}
 				{/each}
+		</ul>
+
+		<NavButton onclick={toggleDropdown} size="large" aria="breadcrumb of {selectedPartner}" showIcon={true} iconName="arrow" effect="reverse">
+				{#if selectedPartner}
+					<img width="24" src="{faviconAPI}{selectedPartner.homepage}/&size=128" alt="logo partner" />
+					<p> {selectedPartner.titel} </p>
+				{:else}
+					<p>Partners overzicht</p>
+				{/if}
+		</NavButton>
+
+		<ul class="dropdown-partners">
+				{#each websites.urls as website}
+					{#if selectedPartner && website && website.slug}
+						<li>
+							<NavButton href="/{selectedPartner.slug}/{website.slug}" effect="reverse">
+								<p>
+									{website.slug}
+								</p>
+							</NavButton>
+						</li>
+					{/if}
+				{/each}
 			</ul>
 </div>
 
 <!-- <div class="bread-crumbs">
-	<div class="dropdown">
-		<NavButton size="large" aria="breadcrumb of {selectedPartner}" width="full">
-			{#if selectedPartner}
-				<span>
-					<img
-						width="24"
-						src="{faviconAPI}{selectedPartner.homepage}/&size=128"
-						alt="logo partner"
-					/>
-					{selectedPartner.titel}
-				</span>
-			{:else}
-				<p>Partners overzicht</p>
-			{/if}
-		</NavButton>
-		<ul>
-			<li>
-				<a href="/"><span>Partners overzicht</span></a>
-			</li>
-			{#each partners.websites as partner}
-				{#if partner}
-					<li>
-						<NavButton size="medium" variant="secondary" href="/{partner.slug}" width="full">
-								<img
-									width="24"
-									src="{faviconAPI}{partner.homepage}/&size=256"
-									alt="logo partner"/>
-								<p>
-									{partner.titel}
-								</p>
-						</NavButton>
-					</li>
-				{/if}
-			{/each}
-		</ul>
-	</div>
-
 	{#if websites}
 		<span class="seperator">/</span>
 		<div class="dropdown">
@@ -153,13 +142,14 @@ function toggleDropdown() {
 		gap: 0.5rem;
 	}
 
-	.dropdown {
+	.dropdown-url {
 		width: 15em;
 		left: 0;
 		position: relative;
 		z-index: 1;
-		transform: translateY(0);
+		transform: translateY(-100%);
 		background-color: var(--color-primary-light);
+		transition-duration: 0.2s;
 		border: var(--color-primary) solid 3px;
 		border-radius: var(--border-radius);
 		padding: 1em;
@@ -171,70 +161,22 @@ function toggleDropdown() {
 		list-style: none;
 		overflow: hidden;
 		display: flex;
-		gap: 0.2em;
-		flex-direction: column;
-		transform: translateY(0);
 		transition: 0.2s;
 	}
 
-	ul:has(:global(a:focus)) {
-		max-height: min-content;
-		min-width: max-content;
-		transform: translateY(100%);
-	}
 
-	.breadcrumbs li:hover {
-		background-color: var(--c-white);
-		color: var(--c-text-header);
-	}
-
-	.breadcrumbs:hover ul {
-		max-height: min-content;
-		min-width: max-content;
-		transform: translateY(0);
-	}
-
-
-
+	/* make application available for printing */
 	@media print {
 		.bread-crumbs {
 			display: none;
 		}
 	}
 
-	@media only screen and (max-width: 990px) {
-		.bread-crumbs {
-			grid-row: 2;
-			grid-column: span 2;
-		}
-
-		.bread-crumbs .dropdown {
-			width: 100%;
-			min-width: min-content;
-		}
-		.bread-crumbs .dropdown ul {
-			width: 100%;
-		}
-	}
-
-	@media only screen and (max-width: 560px) {
-		.bread-crumbs {
-			display: flex;
-			flex-direction: column;
-		}
-		.seperator {
-			display: none;
-		}
-		button {
-			box-shadow: none;
-		}
-		ul {
-			transition: 0s;
-			position: relative;
-		}
-	}
-
-	.dropdown.open {
-        display: block;
+	.open {
+        display: flex;
+		flex-direction: column;
+		gap: 0.3em;
+		transform: translateY(0);
+		transition-duration: 0.2s;
     }
 </style>
