@@ -2,7 +2,7 @@
 	import NavButton from './NavButton.svelte';
 	import { slide } from 'svelte/transition';
 
-	let { params, partners, websites, principes } = $props();
+let { params, partners, websites, principles, user = null } = $props();
 
 	let activeDropdown = $state(null);
 
@@ -10,6 +10,7 @@
 		params.websiteUID ? partners.websites.find(({ slug }) => slug === params.websiteUID) : ''
 	);
 	let selectedUrl = $derived(params.urlUID ? params.urlUID : '');
+    
 	let selectedPrinciple = $derived(
 		params.principleUID ? principles.find(({ slug }) => slug === params.principleUID) : ''
 	);
@@ -20,6 +21,7 @@
 
 	const faviconAPI =
 		'https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=';
+
 </script>
 
 <div class="breadcrumbs">
@@ -27,7 +29,7 @@
     <NavButton onclick={() => toggleDropdown('partner')} size="large" aria="breadcrumb of {selectedPartner}" showIcon={true} iconName="arrow" effect="reverse">
         {#if selectedPartner}
             <img width="24" src="{faviconAPI}{selectedPartner.homepage}/&size=128" alt="logo partner" />
-            <p>{selectedPartner.titel}</p>
+            <p>{selectedPartner.title}</p>
         {:else}
             <p>Partners overzicht</p>
         {/if}
@@ -40,7 +42,7 @@
                     <li>
                         <NavButton variant="primary" href="/{partner.slug}" effect="select">
                             <img width="24" src="{faviconAPI}{partner.homepage}/&size=256" alt="logo partner"/>
-                            <p>{partner.titel}</p>
+                            <p>{partner.title}</p>
                         </NavButton>
                     </li>
                 {/if}
@@ -75,30 +77,30 @@
     {/if}
 
 
-    {#if selectedUrl && principes}
-		<div class="breadcrumb-item">
-        <NavButton onclick={() => toggleDropdown('principe')} size="medium" variant="primary" effect="reverse">
-            {#if selectedPrincipe}
-                <span>{selectedPrincipe.titel}</span>
+    {#if selectedUrl && principles}
+        <div class="breadcrumb-item">
+        <NavButton onclick={() => toggleDropdown('principle')} size="medium" variant="primary" effect="reverse">
+            {#if selectedPrinciple}
+                <span>{selectedPrinciple.title}</span>
             {:else}
-                <span>Principes overzicht</span>
+                <span>Principles overzicht</span>
             {/if}
         </NavButton>
 
-        {#if activeDropdown === 'principe'}
+        {#if activeDropdown === 'principle'}
             <ul class="dropdown-list" transition:slide={{ duration: 200 }}>
-                {#each principes as principe}
-                    {#if selectedPartner && selectedUrl && principe && principe.slug}
+                {#each principles as principle}
+                    {#if selectedPartner && selectedUrl && principle && principle.slug}
                         <li>
-						<NavButton href="/{selectedPartner.slug}/{selectedUrl}/{principe.slug}" effect="full"> 
-                                <p>{principe.titel}</p>
-							</NavButton>
+                        <NavButton href="/{selectedPartner.slug}/{selectedUrl}/{principle.slug}" effect="full"> 
+                                <p>{principle.title}</p>
+                        </NavButton>
                         </li>
                     {/if}
                 {/each}
             </ul>
         {/if}
-		</div>
+        </div>
     {/if}
 </div>
 
@@ -135,7 +137,7 @@
 
 	/* make application available for printing */
 	@media print {
-		.breadcrumb-list {
+		.breadcrumbs {
 			display: none;
 		}
 	}

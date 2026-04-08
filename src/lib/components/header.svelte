@@ -16,7 +16,7 @@
 	 */
 
 	/** @type {Props} */
-	let { params, partners, websites, principes, user = null } = $props();
+	let { params, partners, websites, principles, user = null } = $props();
 
 	async function handleSignOut(event) {
 		event.preventDefault();
@@ -42,8 +42,8 @@
 	<Hamburger />
 </header>
 <div class="subheader">
-		{#if user && user.isEmailGeverifieerd}
-			<BreadCrumbs {params} {partners} {websites} {principes} width="full"/>
+{#if user && user.isEmailVerified}
+			<BreadCrumbs {params} {partners} {websites} {principles} width="full"/>
 		{/if}
 </div>
 <style>
