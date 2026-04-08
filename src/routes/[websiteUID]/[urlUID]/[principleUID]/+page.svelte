@@ -3,7 +3,6 @@
 	import Sidebar from '$lib/components/sidebar.svelte';
 	import Heading from '$lib/components/heading.svelte';
 
-
 	let { data, form } = $props();
 
 	let heading = $derived({

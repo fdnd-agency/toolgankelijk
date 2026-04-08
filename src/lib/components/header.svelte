@@ -27,27 +27,48 @@
 
 <header>
 	<a href="#main" class="visible-hidden">Jump directly to main content</a>
-		<Logo />
+	<Logo />
 	<nav id="header-navigation" class="color-primary-light">
-		<NavButton href="/" size="large" showIcon={true} iconName="home" variant="secondary" active={$page.url.pathname === '/' ? 'active' : ''} >
+		<NavButton
+			href="/"
+			size="large"
+			showIcon={true}
+			iconName="home"
+			variant="secondary"
+			active={$page.url.pathname === '/' ? 'active' : ''}
+		>
 			<p>Home</p>
 		</NavButton>
-		<NavButton href="/info" size="large" showIcon={true} iconName="info" variant="secondary" active={$page.url.pathname === '/info' ? 'active' : ''} >
+		<NavButton
+			href="/info"
+			size="large"
+			showIcon={true}
+			iconName="info"
+			variant="secondary"
+			active={$page.url.pathname === '/info' ? 'active' : ''}
+		>
 			<p>Info</p>
 		</NavButton>
-		<NavButton href="/account" size="large" showIcon={true} iconName="account" variant="secondary" active={$page.url.pathname === '/account' ? 'active' : ''} >
+		<NavButton
+			href="/account"
+			size="large"
+			showIcon={true}
+			iconName="account"
+			variant="secondary"
+			active={$page.url.pathname === '/account' ? 'active' : ''}
+		>
 			<p>Account</p>
 		</NavButton>
 	</nav>
 	<Hamburger />
 </header>
 <div class="subheader">
-{#if user && user.isEmailVerified}
-			<BreadCrumbs {params} {partners} {websites} {principles} width="full"/>
-		{/if}
+	{#if user && user.isEmailVerified}
+		<BreadCrumbs {params} {partners} {websites} {principles} width="full" />
+	{/if}
 </div>
-<style>
 
+<style>
 	.visible-hidden {
 		clip: rect(1px, 1px, 1px, 1px);
 		height: 1px;
@@ -76,15 +97,15 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-around;
-}
+	}
 
-.subheader {
-	height: 10vh;
-	background-color: var(--color-primary-light);
-	display: flex;
-	padding: 1em;
-	align-content: center;
-}
+	.subheader {
+		height: 10vh;
+		background-color: var(--color-primary-light);
+		display: flex;
+		padding: 1em;
+		align-content: center;
+	}
 
 	#header-navigation {
 		display: flex;
@@ -94,5 +115,4 @@
 			display: none;
 		}
 	}
-	
 </style>

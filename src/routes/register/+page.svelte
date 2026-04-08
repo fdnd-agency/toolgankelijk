@@ -8,7 +8,6 @@
 	<title>Create Account · Vervoerregio Amsterdam</title>
 </svelte:head>
 
-
 <section class="form-container">
 	<form method="post" action="?/register" use:enhance>
 		<fieldset class="form-login">

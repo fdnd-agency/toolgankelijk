@@ -36,7 +36,7 @@
 	});
 </script>
 
-<Heading {heading}/>
+<Heading {heading} />
 
 <section>
 	<NavButton

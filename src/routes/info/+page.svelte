@@ -28,7 +28,7 @@
 	}
 </script>
 
-<Heading {heading}/>
+<Heading {heading} />
 
 <div class="content-container">
 	<section class="top-container">
