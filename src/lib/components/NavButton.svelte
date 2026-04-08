@@ -166,8 +166,16 @@
 	}
 
 	.reverse {
-		width: 15em;
+		width: 10em;
 		place-items: center;
 		margin: 0px auto;
+
+		@media (max-width: 720px) {
+			width: 10em;
+		}
+	}
+
+	.full {
+		width: 100%;
 	}
 </style>
