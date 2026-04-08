@@ -7,8 +7,8 @@ on:
     branches: ['dev']
 
 env:
-  HYGRAPH_URL: ${{ secrets.HYGRAPH_URL }}
-  VITE_HYGRAPH_KEY: ${{ secrets.VITE_HYGRAPH_KEY }}
+  DIRECTUS_URL: ${{ secrets.DIRECTUS_URL }}
+  VITE_DIRECTUS_KEY: ${{ secrets.VITE_DIRECTUS_KEY }}
   TOOLGANKELIJK_AUDIT_URL: ${{ vars.TOOLGANKELIJK_AUDIT_URL }}
   SMTP_HOST: ''
   SMTP_PORT:
