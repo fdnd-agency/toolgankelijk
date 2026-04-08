@@ -2,7 +2,7 @@
 	import NavButton from './NavButton.svelte';
 	import { slide } from 'svelte/transition';
 
-	let { params, partners, websites, principes, urls } = $props();
+	let { params, partners, websites, principes } = $props();
 
 	let activeDropdown = $state(null);
 
