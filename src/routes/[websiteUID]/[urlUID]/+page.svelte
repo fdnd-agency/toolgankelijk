@@ -78,36 +78,36 @@
 		progressData[pIndex] = { total: 0, achieved: 0, levels: {} }; // Changed 'behaald' to 'achieved' for consistency
 
 		niveaus.forEach((niveau) => {
-        const niveauName = niveau.level; // From our previous fix
-        
-        // 1. Crash-proof totalChecks (Check if it's guidelines OR richtlijnen!)
-        const guidelinesArray = principe.guidelines || principe.richtlijnen || [];
-        
-        const totalChecks = guidelinesArray
-            // Use ?. just in case successCriteria is missing on a specific guideline
-            .flatMap((guideline) => guideline.successCriteria || guideline.succescriteria || [])
-            // Make sure to use .level here, not .niveau!
-            .filter((successCriterion) => successCriterion.level === niveauName);
+			const niveauName = niveau.level; // From our previous fix
 
-        // 2. Crash-proof successChecks
-        const safeChecks = checks || [];
-        const successChecks = safeChecks
-            .flatMap((check) => check.successCriteria || [])
-            .filter(
-                (successCriterion) =>
-                    successCriterion.level === niveauName && successCriterion.index.startsWith(pIndex + '.')
-            );
+			// 1. Crash-proof totalChecks (Check if it's guidelines OR richtlijnen!)
+			const guidelinesArray = principe.guidelines || principe.richtlijnen || [];
 
-        // Initialize the progressData for this principle and level
-        progressData[pIndex].levels[niveauName] = {
-            total: totalChecks.length,
-            achieved: successChecks.length
-        };
+			const totalChecks = guidelinesArray
+				// Use ?. just in case successCriteria is missing on a specific guideline
+				.flatMap((guideline) => guideline.successCriteria || guideline.succescriteria || [])
+				// Make sure to use .level here, not .niveau!
+				.filter((successCriterion) => successCriterion.level === niveauName);
 
-        // Aggregate for the main principle bar
-        progressData[pIndex].total += totalChecks.length;
-        progressData[pIndex].achieved += successChecks.length;
-    });
+			// 2. Crash-proof successChecks
+			const safeChecks = checks || [];
+			const successChecks = safeChecks
+				.flatMap((check) => check.successCriteria || [])
+				.filter(
+					(successCriterion) =>
+						successCriterion.level === niveauName && successCriterion.index.startsWith(pIndex + '.')
+				);
+
+			// Initialize the progressData for this principle and level
+			progressData[pIndex].levels[niveauName] = {
+				total: totalChecks.length,
+				achieved: successChecks.length
+			};
+
+			// Aggregate for the main principle bar
+			progressData[pIndex].total += totalChecks.length;
+			progressData[pIndex].achieved += successChecks.length;
+		});
 	});
 
 	// Helper to calculate percentage safely

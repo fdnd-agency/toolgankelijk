@@ -35,7 +35,7 @@
 		display: flex;
 		gap: 1rem;
 		align-items: center;
-		background-color: var(--c-container);
+		background-color: var(--color-primary-light);
 		padding: clamp(1em, 6vw, 2em);
 		border-top: 12px solid #b5006c;
 		margin: 1em 1em;

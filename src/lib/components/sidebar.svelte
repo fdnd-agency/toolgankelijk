@@ -80,9 +80,9 @@
 		position: sticky;
 		top: calc(90px + 1em);
 		height: 100%;
-		background-color: var(--c-container);
-		border-radius: 0.5em;
-		border: solid 1px var(--c-container-stroke);
+		background-color: var(--color-primary);
+		border-radius: var(--border-radius);
+		border: solid 1px var(--color-neutral-white);
 		flex-grow: 400;
 		flex-basis: 0;
 		align-self: start;
@@ -93,7 +93,8 @@
 	}
 
 	li:hover {
-		background-color: #3b3939;
+		background-color: var(--color-neutral-black);
+		border-radius: var(--border-radius);
 	}
 
 	a {
@@ -129,12 +130,12 @@
 	}
 
 	progress[value]::-webkit-progress-bar {
-		background-color: var(--c-container-stroke);
+		background-color: var(--color-neutral-white);
 		border-radius: 0.5em;
 	}
 
 	progress[value]::-webkit-progress-value {
-		background-color: var(--c-orange);
+		background-color: var(--color-primary-light);
 		border-radius: 0.5em;
 	}
 

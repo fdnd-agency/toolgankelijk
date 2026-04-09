@@ -183,7 +183,7 @@
 		right: 1rem;
 		font-size: 1.3rem;
 		padding: 0.4rem 0.8rem;
-		background-color: var(--c-pink);
+		background-color: var(--color-primary);
 		border: none;
 		color: white;
 		margin-top: 1rem;
@@ -200,7 +200,7 @@
 		cursor: auto;
 		background-color: #a0004025;
 		backdrop-filter: blur(3px);
-		border: 1px solid var(--c-pink);
+		border: 1px solid var(--color-primary);
 		border-radius: 4px;
 	}
 
@@ -209,10 +209,10 @@
 	}
 
 	select {
-		border-radius: 0.25em;
+		border-radius: var(--border-radius);
 		padding: 0.5em 1em;
 		color: var(--c-white);
-		background-color: var(--c-modal-button);
+		background-color: var(--color-primary-light);
 		border: none;
 		font-weight: 600;
 		font-size: 1em;
@@ -233,9 +233,9 @@
 	}
 
 	form article {
-		background-color: var(--c-container);
+		background-color: var(--color-primary-light);
 		border-radius: 0.5em;
-		border: solid 1px var(--c-container-stroke);
+		border: solid 1px var(--color-neutral-black);
 	}
 
 	h3,
@@ -259,7 +259,7 @@
 	}
 
 	label p {
-		color: var(--c-white2);
+		color: var(--color-neutral-black);
 	}
 
 	details {
@@ -267,7 +267,7 @@
 	}
 
 	summary::marker {
-		color: var(--c-pink);
+		color: var(--color-primary);
 		cursor: pointer;
 	}
 
@@ -276,7 +276,7 @@
 	}
 
 	section details:not(:nth-child(2)) {
-		border-top: 1px solid var(--c-container-stroke);
+		border-top: 1px solid var(--color-neutral-black);
 	}
 
 	.collapsible-summary:hover {
@@ -326,7 +326,7 @@
 		-webkit-appearance: none;
 		appearance: none;
 		margin: 0;
-		color: var(--c-pink);
+		color: var(--color-primary);
 		min-width: 2em;
 		width: 2em;
 		height: 2em;
@@ -343,7 +343,7 @@
 		height: 1em;
 		clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
 		transform: scale(0);
-		background-color: white;
+		background-color: var(--color-primary);
 	}
 
 	input[type='checkbox']:checked::before {
@@ -351,7 +351,7 @@
 	}
 
 	input[type='checkbox']:checked {
-		background-color: var(--c-pink);
+		background-color: var(--color-primary);
 	}
 
 	#niveau-toggle {

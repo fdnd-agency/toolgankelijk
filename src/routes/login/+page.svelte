@@ -57,9 +57,9 @@
 		flex-direction: column;
 		align-items: center;
 		width: 18rem;
-		background-color: var(--c-container);
-		border-color: var(--c-pink);
-		border-radius: 10px;
+		background-color: var(--color-primary-light);
+		border-color: var(--color-primary);
+		border-radius: var(--border-radius);
 		padding-left: 2rem;
 		padding-right: 2rem;
 		padding-top: 1rem;
@@ -67,7 +67,7 @@
 	}
 
 	legend {
-		color: var(--c-white);
+		color: var(--color-primary);
 		padding-top: 2.5rem;
 		text-align: center;
 		font-size: 38px;
@@ -85,7 +85,7 @@
 
 	input:user-invalid + span::before {
 		content: 'Invalid input';
-		color: red;
+		color: darkred;
 		font-size: 12px;
 	}
 
@@ -99,17 +99,17 @@
 	}
 
 	input {
-		background-color: var(--c-container-stroke);
-		border: none;
+		background-color: var(--color-neutral-white);
+		border-radius: var(--border-radius);
 		height: 2.5rem;
 		width: 15rem;
 		padding-left: 0.5rem;
-		color: white;
 		font-size: 16px;
 	}
 
 	input:user-invalid {
 		border: 1px solid red;
+		background-color: darkred;
 		outline: none;
 		animation: shake 0.6s ease-in-out;
 	}
@@ -119,7 +119,8 @@
 	}
 
 	input:focus {
-		border: 1px solid var(--c-white);
+		border: 4px solid var(--color-primary);
+		transition-duration: 0.2s;
 		outline: none;
 	}
 
@@ -130,7 +131,7 @@
 
 	a {
 		font-size: 12px;
-		color: lightblue;
+		color: var(--color-primary);
 	}
 
 	.link-account {
@@ -154,39 +155,39 @@
 		}
 
 		10% {
-			transform: rotate(5deg);
+			transform: rotate(2deg);
 		}
 
 		20% {
-			transform: rotate(5deg);
+			transform: rotate(2deg);
 		}
 
 		30% {
-			transform: rotate(-5deg);
+			transform: rotate(-2deg);
 		}
 
 		40% {
-			transform: rotate(5deg);
+			transform: rotate(2deg);
 		}
 
 		50% {
-			transform: rotate(-5deg);
+			transform: rotate(-2deg);
 		}
 
 		60% {
-			transform: rotate(5deg);
+			transform: rotate(2deg);
 		}
 
 		70% {
-			transform: rotate(-5deg);
+			transform: rotate(-2deg);
 		}
 
 		80% {
-			transform: rotate(5deg);
+			transform: rotate(2deg);
 		}
 
 		90% {
-			transform: rotate(-5deg);
+			transform: rotate(-2deg);
 		}
 
 		100% {
