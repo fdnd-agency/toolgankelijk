@@ -5,7 +5,7 @@
 
 	let { data, children } = $props();
 	let params = $derived($page.params);
-let websites = $derived(data.websitesData);
+	let websites = $derived(data.websitesData);
 	let principles = $derived(data.partnersData.principles);
 
 	let partners = $derived(data.partnersData);

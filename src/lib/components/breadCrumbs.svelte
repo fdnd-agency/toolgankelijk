@@ -90,11 +90,7 @@
 
 	{#if selectedUrl && principles}
 		<div class="breadcrumb-item">
-			<NavButton
-				onclick={() => toggleDropdown('principle')}
-				variant="primary"
-				effect="dropdown"
-			>
+			<NavButton onclick={() => toggleDropdown('principle')} variant="primary" effect="dropdown">
 				{#if selectedPrinciple}
 					<span>{selectedPrinciple.title}</span>
 				{:else}
@@ -127,13 +123,13 @@
 		display: flex;
 		flex-direction: row;
 		gap: 0.5rem;
-        width: 50%;
+		width: 50%;
 
-        @media (max-width: 720px) {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-        }
+		@media (max-width: 720px) {
+			display: flex;
+			flex-direction: column;
+			width: 100%;
+		}
 	}
 
 	.dropdown-list {
@@ -154,7 +150,7 @@
 		gap: 0.3em;
 		margin: 0;
 
-        @media (max-width: 720px) {
+		@media (max-width: 720px) {
 			width: 100%;
 		}
 	}
