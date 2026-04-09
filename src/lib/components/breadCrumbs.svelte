@@ -56,7 +56,7 @@
 		{/if}
 	</div>
 
-	{#if websites}
+	{#if selectedPartner && websites}
 		<div class="breadcrumb-item">
 			<NavButton
 				onclick={() => toggleDropdown('url')}
