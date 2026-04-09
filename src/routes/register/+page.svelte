@@ -77,7 +77,7 @@
 	}
 
 	legend {
-		color: var(--c-white);
+		color: var(--color-neutral-white);
 		padding-top: 2.5rem;
 		text-align: center;
 		font-size: 28px;
@@ -95,12 +95,12 @@
 	}
 
 	input {
-		background-color: var(--c-container-stroke);
+		background-color: var(--color-neutral-white);
 		border: none;
 		height: 2.5rem;
 		width: 15rem;
 		padding-left: 0.5rem;
-		color: white;
+		color: var(--color-neutral-white);
 		font-size: 16px;
 	}
 
