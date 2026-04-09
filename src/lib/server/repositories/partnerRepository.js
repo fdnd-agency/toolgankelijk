@@ -71,6 +71,7 @@ export class PartnerRepository extends BaseRepository {
 			const guidelines = this.normalizeToArray(p.guidelines, { allowSingleObject: false });
 			return {
 				id: /** @type {string} */ (p.id),
+				slug: /** @type {string} */ (p.slug ?? ''),
 				title: /** @type {string} */ (p.title ?? ''),
 				guidelines: guidelines.map((row) => this.#mapPartnerOverviewGuideline(row))
 			};
