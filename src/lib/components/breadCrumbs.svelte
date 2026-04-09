@@ -1,236 +1,167 @@
 <script>
 	import NavButton from './NavButton.svelte';
+	import { slide } from 'svelte/transition';
 
-	let { params, partners, websites, principles } = $props();
+	let { params, partners, websites, principles, user = null } = $props();
+
+	let activeDropdown = $state(null);
 
 	let selectedPartner = $derived(
 		params.websiteUID ? partners.websites.find(({ slug }) => slug === params.websiteUID) : ''
 	);
 	let selectedUrl = $derived(params.urlUID ? params.urlUID : '');
+
 	let selectedPrinciple = $derived(
 		params.principleUID ? principles.find(({ slug }) => slug === params.principleUID) : ''
 	);
+
+	function toggleDropdown(dropdownName) {
+		activeDropdown = activeDropdown === dropdownName ? null : dropdownName;
+	}
 
 	const faviconAPI =
 		'https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=';
 </script>
 
-<div class="bread-crumbs">
-	<div class="dropdown">
-		<NavButton size="large" aria="breadcrumb of {selectedPartner}">
+<div class="breadcrumbs">
+	<div class="breadcrumb-item">
+		<NavButton
+			onclick={() => toggleDropdown('partner')}
+			aria="breadcrumb of {selectedPartner}"
+			showIcon={true}
+			iconName="arrow"
+			effect="dropdown"
+		>
 			{#if selectedPartner}
-				<span>
-					<img
-						width="24"
-						src="{faviconAPI}{selectedPartner.homepage}/&size=128"
-						alt="logo partner"
-					/>{selectedPartner.title}
-				</span>
+				<img width="24" src="{faviconAPI}{selectedPartner.homepage}/&size=128" alt="logo partner" />
+				<p>{selectedPartner.title}</p>
 			{:else}
 				<p>Partners overzicht</p>
 			{/if}
 		</NavButton>
-		<ul>
-			<li>
-				<a href="/"><span>Partners overzicht</span></a>
-			</li>
-			{#each partners.websites as partner}
-				{#if partner}
-					<li>
-						<NavButton size="medium" variant="secondary" href="/{partner.slug}">
-							<span>
-								<img
-									width="24"
-									src="{faviconAPI}{partner.homepage}/&size=256"
-									alt="logo partner"
-								/>{partner.title}
-							</span>
-						</NavButton>
-					</li>
-				{/if}
-			{/each}
-		</ul>
-	</div>
 
-	{#if websites}
-		<span class="seperator">/</span>
-		<div class="dropdown">
-			<NavButton size="large" aria="breadcrumb of {selectedUrl}">
-				{#if selectedUrl}
-					<span>{selectedUrl}</span>
-				{:else}
-					<span>Urls overzicht</span>
-				{/if}
-			</NavButton>
-			<ul>
-				<li>
-					{#if selectedPartner}
-						<a href="/{selectedPartner.slug}"><span>Urls overzicht</span></a>
-					{:else}
-						<span>Urls overzicht</span>
-					{/if}
-				</li>
-				{#each websites.urls as website}
-					{#if selectedPartner && website && website.slug}
+		{#if activeDropdown === 'partner'}
+			<ul class="dropdown-list" transition:slide={{ duration: 200 }}>
+				{#each partners.websites as partner}
+					{#if partner}
 						<li>
-							<a href="/{selectedPartner.slug}/{website.slug}"><span>{website.slug}</span></a>
+							<NavButton variant="primary" href="/{partner.slug}" effect="select">
+								<img width="24" src="{faviconAPI}{partner.homepage}/&size=256" alt="logo partner" />
+								<p>{partner.title}</p>
+							</NavButton>
 						</li>
 					{/if}
 				{/each}
 			</ul>
+		{/if}
+	</div>
+
+	{#if selectedPartner && websites}
+		<div class="breadcrumb-item">
+			<NavButton
+				onclick={() => toggleDropdown('url')}
+				aria="breadcrumb of {selectedUrl}"
+				showIcon={true}
+				iconName="arrow"
+				effect="dropdown"
+			>
+				{#if selectedUrl}
+					<p>{selectedUrl}</p>
+				{:else}
+					<p>URL overzicht</p>
+				{/if}
+			</NavButton>
+
+			{#if activeDropdown === 'url'}
+				<ul class="dropdown-list" transition:slide={{ duration: 200 }}>
+					{#each websites.urls as website}
+						{#if selectedPartner && website && website.slug}
+							<li>
+								<NavButton href="/{selectedPartner.slug}/{website.slug}" effect="full">
+									<p>{website.slug}</p>
+								</NavButton>
+							</li>
+						{/if}
+					{/each}
+				</ul>
+			{/if}
 		</div>
 	{/if}
 
 	{#if selectedUrl && principles}
-		<span class="seperator">/</span>
-		<div class="dropdown">
-			<NavButton size="medium" variant="secondary">
+		<div class="breadcrumb-item">
+			<NavButton onclick={() => toggleDropdown('principle')} variant="primary" effect="dropdown">
 				{#if selectedPrinciple}
 					<span>{selectedPrinciple.title}</span>
 				{:else}
-					<span>Principes overzicht</span>
+					<span>Principles overzicht</span>
 				{/if}
 			</NavButton>
-			<ul>
-				<li>
-					{#if selectedPartner}
-						<a href="/{selectedPartner.slug}/{selectedUrl}"><span>Principes overzicht</span></a>
-					{:else}
-						<span>Principes overzicht</span>
-					{/if}
-				</li>
-				{#each principles as principle}
-					{#if selectedPartner && selectedUrl && principle && principle.slug}
-						<li>
-							<a href="/{selectedPartner.slug}/{selectedUrl}/{principle.slug}">
-								<span>{principle.title}</span>
-							</a>
-						</li>
-					{/if}
-				{/each}
-			</ul>
+
+			{#if activeDropdown === 'principle'}
+				<ul class="dropdown-list" transition:slide={{ duration: 200 }}>
+					{#each principles as principle}
+						{#if selectedPartner && selectedUrl && principle && principle.slug}
+							<li>
+								<NavButton
+									href="/{selectedPartner.slug}/{selectedUrl}/{principle.slug}"
+									effect="full"
+								>
+									<p>{principle.title}</p>
+								</NavButton>
+							</li>
+						{/if}
+					{/each}
+				</ul>
+			{/if}
 		</div>
 	{/if}
 </div>
 
 <style>
-	.bread-crumbs {
+	.breadcrumbs {
 		display: flex;
-		align-items: center;
+		flex-direction: row;
 		gap: 0.5rem;
+		width: 50%;
+
+		@media (max-width: 720px) {
+			display: flex;
+			flex-direction: column;
+			width: 100%;
+		}
 	}
 
-	.dropdown {
-		position: relative;
-		display: inline-block;
-		min-width: 12rem;
-		height: max-content;
-		z-index: 1;
-	}
-
-	.dropdown img {
-		border-radius: 4px;
-		height: 1.5rem;
-		width: 1.5rem;
-	}
-
-	.seperator {
-		font-size: 1.5rem;
-		color: var(--c-white2);
-	}
-
-	ul {
+	.dropdown-list {
 		position: absolute;
-		background-color: #2c2c2c;
-		max-height: 0;
-		width: 100%;
-		border-radius: 0 0 0.5em 0.5em;
-		overflow: hidden;
-		transform: translateY(-100%);
-		transition: 0.2s;
-		z-index: -1;
-	}
+		top: calc(100% + 0.5rem);
+		left: 0;
+		z-index: 10;
 
-	ul li:nth-child(2) {
-		border-top: 1px solid;
-	}
+		width: 15em;
+		background-color: var(--color-primary-light);
+		border: var(--color-primary) solid 3px;
+		border-radius: var(--border-radius);
+		padding: 1em;
 
-	ul a {
+		list-style: none;
 		display: flex;
-		align-items: center;
-		gap: 0.5rem;
-		color: var(--c-white);
-		background-color: var(--c-container);
-		padding: 12px 16px;
-		text-decoration: none;
+		flex-direction: column;
+		gap: 0.3em;
+		margin: 0;
+
+		@media (max-width: 720px) {
+			width: 100%;
+		}
 	}
 
-	ul:has(:global(a:focus)) {
-		max-height: min-content;
-		min-width: max-content;
-		transform: translateY(0);
-	}
-
-	ul a:hover {
-		background-color: var(--c-white);
-		color: var(--c-text-header);
-	}
-
-	.dropdown:hover ul {
-		max-height: min-content;
-		min-width: max-content;
-		transform: translateY(0);
-	}
-
-	.dropdown:hover button {
-		background-color: var(--c-container);
-		border-radius: 0.5em 0.5em 0 0;
-	}
-
-	button:has(:global(a:focus)) {
-		background-color: var(--c-container);
-		border-radius: 0.5em 0.5em 0 0;
-	}
-
-	.dropdown:hover button::after {
-		transform: scale(-1, -1);
+	.breadcrumb-item {
+		position: relative;
 	}
 
 	@media print {
-		.bread-crumbs {
+		.breadcrumbs {
 			display: none;
-		}
-	}
-
-	@media only screen and (max-width: 990px) {
-		.bread-crumbs {
-			grid-row: 2;
-			grid-column: span 2;
-		}
-
-		.bread-crumbs .dropdown {
-			width: 100%;
-			min-width: min-content;
-		}
-		.bread-crumbs .dropdown ul {
-			width: 100%;
-		}
-	}
-
-	@media only screen and (max-width: 560px) {
-		.bread-crumbs {
-			display: flex;
-			flex-direction: column;
-		}
-		.seperator {
-			display: none;
-		}
-		button {
-			box-shadow: none;
-		}
-		ul {
-			transition: 0s;
-			position: relative;
 		}
 	}
 </style>

@@ -1,12 +1,12 @@
 <script>
 	import { invalidateAll } from '$app/navigation';
 	import { onMount } from 'svelte';
-	import Heading from '$lib/components/heading.svelte';
 	import Card from '$lib/components/card.svelte';
 	import Search from '$lib/components/search.svelte';
 	import Dialog from '$lib/components/dialog.svelte';
 	import Pages from '$lib/components/pages.svelte';
 	import NavButton from '$lib/components/NavButton.svelte';
+	import Heading from '$lib/components/heading.svelte';
 
 	let { data, form } = $props();
 

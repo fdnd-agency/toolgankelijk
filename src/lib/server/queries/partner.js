@@ -29,6 +29,7 @@ export default function getQueryPartner(gql, limit = 20, offset = 0) {
 
 			toolgankelijk_principle {
 				id
+				slug
 				title
 				guidelines: Guidelines {
 					id
@@ -69,6 +70,7 @@ export function getQueryWebsite(gql, slug, limit = 20, offset = 0) {
 
 			toolgankelijk_principle {
 				id
+				slug
 				title
 				guidelines: Guidelines {
 					id
