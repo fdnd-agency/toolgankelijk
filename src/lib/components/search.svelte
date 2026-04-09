@@ -47,18 +47,18 @@
 
 	input {
 		padding: 0.5em;
-		border: 1px solid var(--c-modal-button);
-		background-color: var(--c-container);
-		border-radius: 0.25em;
-		color: var(--c-white);
-		width: 8.5em;
+		border: 2px solid var(--color-neutral-black);
+		background-color: var(--color-neutral-white);
+		border-radius: var(--border-radius);
+		color: var(--color-neutral-black);
+		width: 15em;
 		font-size: 1em;
 		font-weight: 600;
 		padding-left: 0.75em;
 	}
 
 	input::placeholder {
-		color: var(--c-grey);
+		color: var(--color-primary);
 		opacity: 0.8;
 	}
 </style>
