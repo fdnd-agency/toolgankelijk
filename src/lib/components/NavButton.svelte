@@ -165,13 +165,16 @@
 		}
 	}
 
-	.reverse {
-		width: 10em;
+	.dropdown {
+		width: 15em;
 		place-items: center;
 		margin: 0px auto;
+		justify-content: space-around;
 
 		@media (max-width: 720px) {
-			width: 10em;
+			width: 100%;
+			justify-content: center;
+			gap: 1em;
 		}
 	}
 

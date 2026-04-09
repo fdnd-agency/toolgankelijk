@@ -27,11 +27,10 @@
 	<div class="breadcrumb-item">
 		<NavButton
 			onclick={() => toggleDropdown('partner')}
-			size="large"
 			aria="breadcrumb of {selectedPartner}"
 			showIcon={true}
 			iconName="arrow"
-			effect="reverse"
+			effect="dropdown"
 		>
 			{#if selectedPartner}
 				<img width="24" src="{faviconAPI}{selectedPartner.homepage}/&size=128" alt="logo partner" />
@@ -61,11 +60,10 @@
 		<div class="breadcrumb-item">
 			<NavButton
 				onclick={() => toggleDropdown('url')}
-				size="large"
 				aria="breadcrumb of {selectedUrl}"
 				showIcon={true}
 				iconName="arrow"
-				effect="reverse"
+				effect="dropdown"
 			>
 				{#if selectedUrl}
 					<p>{selectedUrl}</p>
@@ -94,9 +92,8 @@
 		<div class="breadcrumb-item">
 			<NavButton
 				onclick={() => toggleDropdown('principle')}
-				size="medium"
 				variant="primary"
-				effect="reverse"
+				effect="dropdown"
 			>
 				{#if selectedPrinciple}
 					<span>{selectedPrinciple.title}</span>
@@ -130,6 +127,13 @@
 		display: flex;
 		flex-direction: row;
 		gap: 0.5rem;
+        width: 50%;
+
+        @media (max-width: 720px) {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
 	}
 
 	.dropdown-list {
@@ -149,13 +153,16 @@
 		flex-direction: column;
 		gap: 0.3em;
 		margin: 0;
+
+        @media (max-width: 720px) {
+			width: 100%;
+		}
 	}
 
 	.breadcrumb-item {
 		position: relative;
 	}
 
-	/* make application available for printing */
 	@media print {
 		.breadcrumbs {
 			display: none;

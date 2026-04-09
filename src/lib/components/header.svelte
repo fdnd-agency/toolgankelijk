@@ -100,7 +100,7 @@
 	}
 
 	.subheader {
-		height: 10vh;
+		height: fit-content;
 		background-color: var(--color-primary-light);
 		display: flex;
 		padding: 1em;
