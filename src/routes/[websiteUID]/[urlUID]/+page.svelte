@@ -126,22 +126,18 @@
 			<li class="principle-card color-primary">
 				<a href="{$page.url.pathname}/{principe.slug}" class="principle-link">
 					<div class="principle-header">
-						<span class="label">
-							<span class="label-text">Principle</span>
-						</span>
 						<h2>{principe.title}</h2>
-						<p class="description">{principe.description.text}</p>
 					</div>
 
 					<div class="levels-list">
 						{#each filteredNiveaus as n}
 							{@const nData = pData.levels[n.level]}
 							<div class="level-sub-card color-primary">
-								<span class="level-label">Niveau</span>
-								<span class="level-name">{n.level}</span>
+
+								<h3>Niveau {n.level}</h3>
 								<div class="progress-row">
 									<progress max={nData.total || 1} value={nData.achieved || 0}> </progress>
-									<span class="percentage-text">{getPercent(nData.achieved, nData.total)}%</span>
+									<p class="percentage-text">{getPercent(nData.achieved, nData.total)}%</p>
 								</div>
 							</div>
 						{/each}
