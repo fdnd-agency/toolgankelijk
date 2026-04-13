@@ -1,92 +1,99 @@
 :root {
-	color-scheme: light dark;
-	--color-primary: #b9005f;
-	--color-primary-light: #f1ccdf;
+    color-scheme: light dark;
+    --color-primary: #b9005f;
+    --color-primary-light: #f1ccdf;
 
-	/* accent colors */
-	--color-accent-primary: #7b8f0c;
-	--color-accent-secondary: #46becd;
-	--color-accent-tertiary: #0085c8;
-	--color-accent-quarternary: #6e7dbc;
+    /* accent colors */
+    --color-accent-primary: #7b8f0c;
+    --color-accent-secondary: #46becd;
+    --color-accent-tertiary: #0085c8;
+    --color-accent-quaternary: #6e7dbc; 
 
-	/* neutral colors */
-	--color-neutral-white: #ffffff;
-	--color-neutral-black: #000000;
-	--color-neutral-darkgrey: #6d495a;
-	--color-neutral-lightgrey: #a9999b;
+    /* neutral colors */
+    --color-neutral-white: #ffffff;
+    --color-neutral-black: #000000;
+    --color-neutral-darkgrey: #6d495a;
+    --color-neutral-grey: #a9999b;
 
-	/* gradient colors */
-	--color-gradient-primary: linear-gradient(to right, #b9005f, #de0059);
-	--color-gradient-secondary: linear-gradient(to right, #b9005f, #de005900);
-
-	/* border radius */
-	--border-radius: 12px;
+    /* border radius */
+    --border-radius: 12px;
 }
 
-.color-primary,
-.color-primary-light,
-.color-white,
-.color-black,
-.color-accent-primary,
-.color-accent-secondary,
-.color-accent-tertiary,
-.color-neutral-darkgrey,
-.color-neutral-lightgrey {
-	@supports (color: color-mix(in hsl, white, black)) {
-		--dark-3: color-mix(in hsl, var(--place-holder) 70%, black 30%);
-		--dark-2: color-mix(in hsl, var(--place-holder) 80%, black 20%);
-		--dark-1: color-mix(in hsl, var(--place-holder) 90%, black 10%);
-		--color: color-mix(in hsl, var(--place-holder) 100%, white 0%);
-		--light-1: color-mix(in hsl, var(--place-holder) 100%, white 2%);
-		--light-2: color-mix(in hsl, var(--place-holder) 100%, white 7%);
-		--light-3: color-mix(in hsl, var(--place-holder) 100%, white 12%);
-	}
+/* Fixed @supports nesting structure so it actually works */
+@supports (color: color-mix(in hsl, white, black)) {
+    .color-primary,
+    .color-primary-light,
+    .color-neutral-white,
+    .color-neutral-black,
+    .color-accent-primary,
+    .color-accent-secondary,
+    .color-accent-tertiary,
+    .color-neutral-darkgrey,
+    .color-neutral-grey {
+        --dark-3: color-mix(in hsl, var(--place-holder) 70%, black 30%);
+        --dark-2: color-mix(in hsl, var(--place-holder) 80%, black 20%);
+        --dark-1: color-mix(in hsl, var(--place-holder) 90%, black 10%);
+        --color: color-mix(in hsl, var(--place-holder) 100%, white 0%);
+        --light-1: color-mix(in hsl, var(--place-holder) 100%, white 2%);
+        --light-2: color-mix(in hsl, var(--place-holder) 100%, white 7%);
+        --light-3: color-mix(in hsl, var(--place-holder) 100%, white 12%);
+    }
+}
 
-	@supports (color: oklch(50% 0.1 120)) {
-		--dark-3: oklch(from var(--place-holder) calc(l - 0.2) calc(c + 0.03) h);
-		--dark-2: oklch(from var(--place-holder) calc(l - 0.1) calc(c + 0.02) h);
-		--dark-1: oklch(from var(--place-holder) calc(l - 0.04) calc(c + 0.01) h);
-		--color: oklch(from var(--place-holder) l c h);
-		--light-1: oklch(from var(--place-holder) calc(l + 0.02) calc(c + 0.01) h);
-		--light-2: oklch(from var(--place-holder) calc(l + 0.04) calc(c + 0.02) h);
-		--light-3: oklch(from var(--place-holder) calc(l + 0.06) calc(c + 0.03) h);
-	}
+@supports (color: oklch(from red l c h)) {
+    .color-primary,
+    .color-primary-light,
+    .color-neutral-white,
+    .color-neutral-black,
+    .color-accent-primary,
+    .color-accent-secondary,
+    .color-accent-tertiary,
+    .color-neutral-darkgrey,
+    .color-neutral-grey {
+        --dark-3: oklch(from var(--place-holder) calc(l - 0.2) calc(c + 0.03) h);
+        --dark-2: oklch(from var(--place-holder) calc(l - 0.1) calc(c + 0.02) h);
+        --dark-1: oklch(from var(--place-holder) calc(l - 0.04) calc(c + 0.01) h);
+        --color: oklch(from var(--place-holder) l c h);
+        --light-1: oklch(from var(--place-holder) calc(l + 0.02) calc(c + 0.01) h);
+        --light-2: oklch(from var(--place-holder) calc(l + 0.04) calc(c + 0.02) h);
+        --light-3: oklch(from var(--place-holder) calc(l + 0.06) calc(c + 0.03) h);
+    }
 }
 
 .color-primary {
-	--place-holder: var(--color-primary);
+    --place-holder: var(--color-primary);
 }
 
 .color-primary-light {
-	--place-holder: var(--color-primary-light);
+    --place-holder: var(--color-primary-light);
 }
 
 .color-white {
-	--place-holder: var(--color-white);
+    --place-holder: var(--color-neutral-white); /* Fixed typo here */
 }
 
 .color-black {
-	--place-holder: var(--color-black);
+    --place-holder: var(--color-neutral-black); /* Fixed typo here */
 }
 
 .color-accent-primary {
-	--place-holder: var(--color-accent-primary);
+    --place-holder: var(--color-accent-primary);
 }
 
 .color-accent-secondary {
-	--place-holder: var(--color-accent-secondary);
+    --place-holder: var(--color-accent-secondary);
 }
 
 .color-accent-tertiary {
-	--place-holder: var(--color-accent-tertiary);
+    --place-holder: var(--color-accent-tertiary);
 }
 
 .color-neutral-darkgrey {
-	--place-holder: var(--color-neutral-darkgrey);
+    --place-holder: var(--color-neutral-darkgrey);
 }
 
 .color-neutral-grey {
-	--place-holder: var(--color-neutral-grey);
+    --place-holder: var(--color-neutral-grey);
 }
 
 * {
@@ -146,7 +153,6 @@ p {
 	display: none;
 }
 
-/* prevents the button to have the html style */
 button {
 	background: none;
 	border: none;
