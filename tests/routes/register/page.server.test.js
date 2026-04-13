@@ -40,9 +40,9 @@ vi.mock('$lib/server/password', () => ({
 	hashPassword: vi.fn()
 }));
 vi.mock('$lib/server/session', () => ({
-	createSession: vi.fn(),
-	generateSessionToken: vi.fn(),
-	setSessionTokenCookie: vi.fn()
+	sessionService: {
+		createAndSetSession: vi.fn()
+	}
 }));
 
 describe('src/routes/register/+page.server.js', () => {
@@ -236,8 +236,7 @@ describe('src/routes/register/+page.server.js', () => {
 		passwordModule.verifyPasswordStrength.mockResolvedValue({ valid: true });
 		passwordModule.hashPassword.mockResolvedValue('hashed-password');
 		userModule.createUser.mockResolvedValue({ id: 'user-id', email: 'test@vervoerregio.nl' });
-		sessionModule.generateSessionToken.mockReturnValue('token');
-		sessionModule.createSession.mockResolvedValue({ expiresAt: 'future-date' });
+		sessionModule.sessionService.createAndSetSession.mockResolvedValue({ expiresAt: 'future-date' });
 
 		try {
 			await actions.register(event);
@@ -256,8 +255,6 @@ describe('src/routes/register/+page.server.js', () => {
 			'John',
 			'hashed-password'
 		);
-		expect(sessionModule.generateSessionToken).toHaveBeenCalled();
-		expect(sessionModule.createSession).toHaveBeenCalledWith('token', 'user-id');
-		expect(sessionModule.setSessionTokenCookie).toHaveBeenCalledWith(event, 'token', 'future-date');
+		expect(sessionModule.sessionService.createAndSetSession).toHaveBeenCalledWith(event, 'user-id');
 	});
 });

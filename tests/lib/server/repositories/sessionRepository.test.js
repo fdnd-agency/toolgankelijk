@@ -22,18 +22,30 @@ describe('SessionRepository', () => {
 	});
 
 	describe('getSessionByTokenHash', () => {
-		it('returns first session row from GraphQL response', async () => {
+		it('returns mapped session and user from GraphQL response', async () => {
 			const row = {
 				id: 's1',
 				session_id: 'opaque',
 				expires_at: new Date().toISOString(),
-				user_id: { id: 'u1', email: 'a@b.c', username: 'u' }
+				user_id: { id: 'u1', email: 'a@b.c', username: 'u', is_email_verified: true }
 			};
 			client.request.mockResolvedValue({ session: [row] });
 
 			const result = await repository.getSessionByTokenHash('hashed');
 
-			expect(result).toEqual(row);
+			expect(result).toEqual({
+				session: {
+					id: 'opaque',
+					userId: 'u1',
+					expiresAt: new Date(row.expires_at)
+				},
+				user: {
+					id: 'u1',
+					email: 'a@b.c',
+					username: 'u',
+					isEmailVerified: true
+				}
+			});
 			expect(client.request).toHaveBeenCalledWith(
 				expect.objectContaining({
 					variables: { sessionId: 'hashed' }
@@ -154,30 +166,30 @@ describe('SessionRepository', () => {
 			vi.unstubAllGlobals();
 		});
 
-		it('returns null when response is not ok', async () => {
+		it('throws when response is not ok', async () => {
 			vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: false }));
 
-			const result = await repository.createSessionRecord({
-				sessionId: 'a',
-				userId: 'b',
-				expiresAt: new Date()
-			});
-
-			expect(result).toBeNull();
+			await expect(
+				repository.createSessionRecord({
+					sessionId: 'a',
+					userId: 'b',
+					expiresAt: new Date()
+				})
+			).rejects.toThrow();
 			vi.unstubAllGlobals();
 		});
 
-		it('returns null when fetch throws', async () => {
+		it('throws when fetch throws', async () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
 			vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('offline')));
 
-			const result = await repository.createSessionRecord({
-				sessionId: 'a',
-				userId: 'b',
-				expiresAt: new Date()
-			});
-
-			expect(result).toBeNull();
+			await expect(
+				repository.createSessionRecord({
+					sessionId: 'a',
+					userId: 'b',
+					expiresAt: new Date()
+				})
+			).rejects.toThrow('offline');
 			spy.mockRestore();
 			vi.unstubAllGlobals();
 		});
