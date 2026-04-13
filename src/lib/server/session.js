@@ -109,7 +109,7 @@ export class SessionService {
 	 */
 	async DeleteSession(event) {
 		const token = event.cookies.get('session');
-		if (!token) { //
+		if (!token) {
 			event.cookies.delete('session', { path: '/' });
 			return;
 		}

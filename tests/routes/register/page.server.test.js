@@ -236,7 +236,9 @@ describe('src/routes/register/+page.server.js', () => {
 		passwordModule.verifyPasswordStrength.mockResolvedValue({ valid: true });
 		passwordModule.hashPassword.mockResolvedValue('hashed-password');
 		userModule.createUser.mockResolvedValue({ id: 'user-id', email: 'test@vervoerregio.nl' });
-		sessionModule.sessionService.createAndSetSession.mockResolvedValue({ expiresAt: 'future-date' });
+		sessionModule.sessionService.createAndSetSession.mockResolvedValue({
+			expiresAt: 'future-date'
+		});
 
 		try {
 			await actions.register(event);
