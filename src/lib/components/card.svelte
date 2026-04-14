@@ -123,7 +123,7 @@
 
 {#if !isUrl}
 	<div class="card-wrapper">
-		<article class="color-primary-light" id="card-partner" class:container-off={containerOff}>
+		<article id="card-partner" class:container-off={containerOff}>
 			{#if !isUrl}
 				<picture class="card-partner-logo" fetchpriority="high">
 					<!-- picture -->
@@ -146,7 +146,7 @@
 			{/if}
 
 			{#if isUrl}
-				<div id="url-progress-container" class="color-primary">
+				<div id="url-progress-container">
 					<progress id="progress-partner" max="100" value="0" bind:this={progressbar}> </progress>
 					<label class="progress-percentage" for="progress-partner" bind:this={labelValue}>0%</label
 					>
@@ -154,7 +154,7 @@
 			{/if}
 
 			{#if !isUrl}
-				<div id="partner-progress-container" class="color-primary">
+				<div id="partner-progress-container">
 					<progress id="progress-partner" max="100" value="0" bind:this={progressbar}></progress>
 					<label class="progress-percentage" for="progress-partner" bind:this={labelValue}>0%</label
 					>
@@ -207,7 +207,7 @@
 
 {#if isUrl}
 	<div class="card-wrapper">
-		<article id="card-url" class="color-primary-light" class:container-off={containerOff}>
+		<article id="card-url" class:container-off={containerOff}>
 			<h2 class="card-title-url">{url}</h2>
 
 			<div id="url-progress-container" class="color-primary">
@@ -284,12 +284,11 @@
 	}
 
 	#card-partner {
-		background-color: var(--light-1);
+		background-color:  var(--color-neutral-grey);
 		padding: 1em;
 		border-radius: var(--border-radius);
 		width: 100%;
 		transition: 0.25s ease;
-		background: linear-gradient(0.25turn, var(--light-2), var(--dark-1));
 		display: grid;
 		grid-template-columns: 1fr 60%;
 		grid-template-rows: 1fr 20% 20%;
@@ -297,12 +296,11 @@
 	}
 
 	#card-url {
-		background-color: var(--light-1);
+		background-color: var(--color-neutral-grey);
 		padding: 1em;
 		border-radius: var(--border-radius);
 		width: 100%;
 		transition: 0.25s ease;
-		background: linear-gradient(0.25turn, var(--light-2), var(--dark-1));
 		display: grid;
 		grid-template-columns: 40% 60%;
 		grid-template-rows: 60% 10% 30%;
@@ -377,32 +375,27 @@
 	progress {
 		width: 100%;
 		border-radius: 0.5rem;
-		background-color: var(--color-neutral-lightgrey);
+		background-color: var(--color-neutral-darkgrey);
 		border: none;
 		overflow: hidden;
 	}
 
-	progress[value] {
-		-webkit-appearance: none;
-		appearance: none;
-	}
+progress::-webkit-progress-bar {
+    background-color: var(--color-neutral-darkgrey);
+    border-radius: var(--border-radius);
+}
 
-	progress[value]::-webkit-progress-bar {
-		background-color: var(--color-neutral-lightgrey);
-		border-radius: 0.5rem;
-	}
+progress::-webkit-progress-value {
+    background-color: var(--color-primary);
+    border-radius: 0.5rem;
+    transition: width 1s ease-out;
+}
 
-	progress[value]::-webkit-progress-value {
-		background-color: var(--color);
-		border-radius: 0.5rem;
-		transition: 1s ease-out;
-	}
-
-	progress[value]::-moz-progress-bar {
-		background-color: var(--color-neutral-lightgrey);
-		border-radius: 0.5rem;
-		transition: 1s ease-out;
-	}
+progress::-moz-progress-bar {
+    background-color: var(--color-primary);
+    border-radius: 0.5rem;
+    transition: width 1s ease-out;
+}
 
 	.progress-percentage {
 		height: 85%;
