@@ -167,7 +167,7 @@
 		-webkit-appearance: none;
 		width: 16px;
 		height: 16px;
-		background-color: var(--color-neutral-white); 
+		background-color: var(--color-neutral-white);
 		border-radius: 2px;
 		cursor: pointer;
 		margin: 0;

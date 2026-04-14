@@ -133,7 +133,6 @@
 						{#each filteredNiveaus as n}
 							{@const nData = pData.levels[n.level]}
 							<div class="level-sub-card">
-
 								<h3 class="h3-niveaus">Niveau {n.level}</h3>
 								<div class="progress-row">
 									<progress max={nData.total || 1} value={nData.achieved || 0}> </progress>
@@ -232,7 +231,6 @@
 		background-color: var(--color-neutral-grey);
 	}
 
-
 	.percentage-text {
 		font-weight: bold;
 		font-size: 0.9rem;
@@ -250,7 +248,6 @@
 		background-color: var(--color-neutral-white);
 		border-radius: var(--border-radius);
 		border: var(--color-neutral-black) solid 1px;
-
 	}
 
 	progress::-webkit-progress-value {

@@ -284,7 +284,7 @@
 	}
 
 	#card-partner {
-		background-color:  var(--color-neutral-grey);
+		background-color: var(--color-neutral-grey);
 		padding: 1em;
 		border-radius: var(--border-radius);
 		width: 100%;
@@ -380,22 +380,22 @@
 		overflow: hidden;
 	}
 
-progress::-webkit-progress-bar {
-    background-color: var(--color-neutral-darkgrey);
-    border-radius: var(--border-radius);
-}
+	progress::-webkit-progress-bar {
+		background-color: var(--color-neutral-darkgrey);
+		border-radius: var(--border-radius);
+	}
 
-progress::-webkit-progress-value {
-    background-color: var(--color-primary);
-    border-radius: 0.5rem;
-    transition: width 1s ease-out;
-}
+	progress::-webkit-progress-value {
+		background-color: var(--color-primary);
+		border-radius: 0.5rem;
+		transition: width 1s ease-out;
+	}
 
-progress::-moz-progress-bar {
-    background-color: var(--color-primary);
-    border-radius: 0.5rem;
-    transition: width 1s ease-out;
-}
+	progress::-moz-progress-bar {
+		background-color: var(--color-primary);
+		border-radius: 0.5rem;
+		transition: width 1s ease-out;
+	}
 
 	.progress-percentage {
 		height: 85%;
