@@ -2,7 +2,7 @@ import { fail, redirect } from '@sveltejs/kit';
 import { checkEmailAvailability, verifyEmailInput, isValidEmailDomain } from '$lib/server/email';
 import { createUser, verifyUsernameInput, checkUsernameAvailability } from '$lib/server/user';
 import { verifyPasswordStrength, hashPassword } from '$lib/server/password';
-import { createSession, generateSessionToken, setSessionTokenCookie } from '$lib/server/session';
+import { sessionService } from '$lib/server/session';
 import {
 	createEmailVerificationRequest,
 	sendVerificationEmail,
@@ -90,9 +90,7 @@ export const actions = {
 		const emailVerificationRequest = await createEmailVerificationRequest(user.id);
 		sendVerificationEmail(emailVerificationRequest.email, emailVerificationRequest.code);
 		setEmailVerificationRequestCookie(event, emailVerificationRequest);
-		const sessionToken = generateSessionToken();
-		const session = await createSession(sessionToken, user.id);
-		setSessionTokenCookie(event, sessionToken, session.expiresAt);
+		await sessionService.createAndSetSession(event, user.id);
 
 		throw redirect(302, '/verify-email');
 	}

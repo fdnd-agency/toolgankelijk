@@ -11,149 +11,143 @@ import { sessionRepository } from '$lib/server/index.js';
  * @typedef {import('@sveltejs/kit').RequestEvent} RequestEvent
  */
 
-// Code
 /**
- * Validates a Session token
- * @author Maksim Hofker
- * @author Bjarne Zeeman
- * @async
- * @param {String} token The session token to be validated
- * @returns {Promise<{ session: Session | null , user: User  | null }>}
+ * This class is responsible for all session related operations
  */
-export async function validateSessionToken(token) {
-	const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
-	const sessionRow = await sessionRepository.getSessionByTokenHash(sessionId);
+export class SessionService {
+	/**
+	 * Validates a Session token
+	 * @async
+	 * @param {String} token The session token to be validated
+	 * @returns {Promise<{ session: Session | null , user: User  | null }>}
+	 */
+	async validateSessionToken(token) {
+		const sessionData = await sessionRepository.getSessionByTokenHash(
+			encodeHexLowerCase(sha256(new TextEncoder().encode(token)))
+		);
+		if (!sessionData) {
+			return { session: null, user: null };
+		}
 
-	if (
-		!sessionRow ||
-		!(sessionRow.session_id || sessionRow.id) ||
-		!sessionRow.user_id?.id ||
-		!sessionRow.expires_at
-	) {
+		let { session, user } = sessionData;
+
+		// Invalidate session if outdated Else refresh if old.
+		if (Date.now() >= session.expiresAt.getTime()) {
+			return this.invalidateSession(session);
+		} else if (Date.now() >= session.expiresAt.getTime() - 1000 * 60 * 60 * 24 * 15) {
+			session = await this.refreshSession(session);
+		}
+		return { session, user };
+	}
+
+	/**
+	 * Deletes the given session from Hygraph.
+	 *
+	 * Note:
+	 * This function does NOT clear the session cookie.
+	 *
+	 * @async
+	 * @param {Session} session - The session to delete.
+	 * @returns {Promise<{ session: null, user: null }>} An object with nulled session and user values.
+	 */
+	async invalidateSession(session) {
+		await sessionRepository.deleteSessionById(session.id);
 		return { session: null, user: null };
 	}
 
-	const sessionIdFromRow = sessionRow.session_id ?? sessionRow.id;
-	const userIdFromRow = sessionRow.user_id.id;
-	const expiresAtFromRow = sessionRow.expires_at;
-
-	/** @type {Session | null} */
-	let session = {
-		id: sessionIdFromRow,
-		userId: userIdFromRow,
-		expiresAt: new Date(expiresAtFromRow)
-	};
+	/**
+	 * Refreshes a session
+	 * @async
+	 * @param { Session } session - The session object to be refreshed
+	 * @returns {Promise<Session>} A session with a refreshed lifetime
+	 */
+	async refreshSession(session) {
+		session.expiresAt = new Date(Date.now() + 1000 * 60 * 60 * 24 * 30);
+		await sessionRepository.updateSessionExpiry({
+			sessionId: session.id,
+			expiresAt: session.expiresAt
+		});
+		return session;
+	}
 
 	/**
-	 * @type {null | User}
+	 * Sets a session token cookie on the given event.
+	 *
+	 * @author Bjarne Zeeman
+	 * @param {RequestEvent} event - The request event containing cookies.
+	 * @param {string} token - The session token to store in the cookie.
+	 * @param {Date} expiresAt - The expiration date of the cookie.
 	 */
-	let user = null;
-	const userNode = sessionRow.user_id;
-	if (userNode) {
-		user = {
-			id: userNode.id,
-			email: userNode.email,
-			username: userNode.username,
-			isEmailVerified: userNode.is_email_verified ?? false
-		};
+	setSessionTokenCookie(event, token, expiresAt) {
+		event.cookies.set('session', token, {
+			httpOnly: true,
+			path: '/',
+			secure: import.meta.env.PROD,
+			sameSite: 'lax',
+			expires: expiresAt
+		});
 	}
 
-	//Invalidate session if outdated Else Refresh session if old
-	if (Date.now() >= session.expiresAt.getTime()) {
-		({ session, user } = await invalidateSession(session));
-	} else if (Date.now() >= session.expiresAt.getTime() - 1000 * 60 * 60 * 24 * 15) {
-		session = await refreshSession(session);
+	/**
+	 * Creates a session and sets the session cookie.
+	 *
+	 * @param {RequestEvent} event - The request event containing cookies.
+	 * @param {string} userId - The user id for the new session.
+	 * @returns {Promise<Session>}
+	 */
+	async createAndSetSession(event, userId) {
+		const sessionToken = this.#generateSessionToken();
+		const session = await this.#createSession(sessionToken, userId);
+		this.setSessionTokenCookie(event, sessionToken, session.expiresAt);
+		return session;
 	}
-	return { session, user };
+
+	/**
+	 * Deletes a session from DB and clears the local session cookie.
+	 *
+	 * @param {RequestEvent} event - The request event containing cookies.
+	 */
+	async DeleteSession(event) {
+		const token = event.cookies.get('session');
+		if (!token) {
+			event.cookies.delete('session', { path: '/' });
+			return;
+		}
+
+		const sessionRow = await sessionRepository.getSessionByTokenHash(
+			encodeHexLowerCase(sha256(new TextEncoder().encode(token)))
+		);
+		if (sessionRow?.session) {
+			await this.invalidateSession(sessionRow.session);
+		}
+
+		event.cookies.delete('session', { path: '/' });
+	}
+
+	/**
+	 * Generates a session token
+	 *
+	 * @returns {String} session token
+	 */
+	#generateSessionToken() {
+		const tokenBytes = crypto.randomBytes(20);
+		const token = encodeBase32LowerCaseNoPadding(tokenBytes).toLowerCase();
+		return token;
+	}
+
+	/**
+	 * Creates a new Session
+	 *
+	 * @async
+	 * @param {String} token
+	 * @param {string} userId
+	 * @returns {Promise<Session>}
+	 */
+	async #createSession(token, userId) {
+		const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
+		const expiresAt = new Date(Date.now() + 1000 * 60 * 60 * 24 * 30);
+		return sessionRepository.createSessionRecord({ sessionId, userId, expiresAt });
+	}
 }
 
-/**
- * Deletes the given session from Hygraph.
- *
- * Note:
- * This function does NOT clear the session cookie.
- *
- * @async
- * @author Maksim Hofker
- * @author Bjarne Zeeman
- * @param {Session} session - The session to delete.
- * @returns {Promise<{ session: null, user: null }>} An object with nulled session and user values.
- */
-async function invalidateSession(session) {
-	await sessionRepository.deleteSessionById(session.id);
-	return { session: null, user: null };
-}
-
-/**
- * Refreshes a session
- * @async
- * @author Maksim Hofker
- * @author Bjarne Zeeman
- * @param { Session } session - The session object to be refreshed
- * @returns {Promise<Session>} A session with a refreshed lifetime
- */
-async function refreshSession(session) {
-	session.expiresAt = new Date(Date.now() + 1000 * 60 * 60 * 24 * 30);
-	await sessionRepository.updateSessionExpiry({
-		sessionId: session.id,
-		expiresAt: session.expiresAt
-	});
-	return session;
-}
-
-/**
- * Sets a session token cookie on the given event.
- *
- * @author Bjarne Zeeman
- * @param {RequestEvent} event - The request event containing cookies.
- * @param {string} token - The session token to store in the cookie.
- * @param {Date} expiresAt - The expiration date of the cookie.
- */
-export function setSessionTokenCookie(event, token, expiresAt) {
-	event.cookies.set('session', token, {
-		httpOnly: true,
-		path: '/',
-		secure: import.meta.env.PROD,
-		sameSite: 'lax',
-		expires: expiresAt
-	});
-}
-
-/**
- * Deletes a session token cookie on the given event.
- *
- * @author Maksim Hofker
- * @author Bjarne Zeeman
- * @param {RequestEvent} event - The request event containing cookies.
- */
-export function deleteSessionTokenCookie(event) {
-	event.cookies.delete('session', { path: '/' });
-}
-
-/**
- * Generates a session token
- *
- * @author Bjarne Zeeman
- * @returns {String} session token
- */
-export function generateSessionToken() {
-	const tokenBytes = crypto.randomBytes(20);
-	const token = encodeBase32LowerCaseNoPadding(tokenBytes).toLowerCase();
-	return token;
-}
-
-/**
- * Creates a new Session
- *
- * @author Bjarne Zeeman
- * @async
- * @param {String} token
- * @param {string} userId
- * @returns {Promise<Session>}
- */
-export async function createSession(token, userId) {
-	const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
-	const expiresAt = new Date(Date.now() + 1000 * 60 * 60 * 24 * 30);
-	const session = await sessionRepository.createSessionRecord({ sessionId, userId, expiresAt });
-	return session;
-}
+export const sessionService = new SessionService();

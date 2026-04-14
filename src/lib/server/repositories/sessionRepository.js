@@ -11,18 +11,11 @@ import getQuerySession, {
 import { DIRECTUS_URL, VITE_DIRECTUS_KEY } from '$env/static/private';
 
 /** @typedef {import('$lib/types').Session} Session */
+/** @typedef {import('$lib/types').User} User */
 /**
- * @typedef {{
- *   id?: string;
- *   session_id?: string;
- *   expires_at?: string;
- *   user_id?: {
- *     id: string;
- *     email: string;
- *     username: string;
- *     is_email_verified?: boolean;
- *   };
- * }} SessionRow
+ */
+/**
+ * @typedef {{ session: Session; user: User }} SessionWithUser
  */
 
 /**
@@ -35,7 +28,7 @@ export class SessionRepository extends BaseRepository {
 	 * Load session row by token hash (hex string stored from the session cookie).
 	 *
 	 * @param {string} sessionId Hashed session id as used in GraphQL variables (`sessionId`).
-	 * @returns {Promise<SessionRow | null>}
+	 * @returns {Promise<SessionWithUser | null>}
 	 */
 	async getSessionByTokenHash(sessionId) {
 		try {
@@ -45,7 +38,36 @@ export class SessionRepository extends BaseRepository {
 				variables: { sessionId }
 			});
 			const row = this.firstOrNull(sessionResult);
-			return row ?? null;
+			if (!row) {
+				return null;
+			}
+
+			const mapped = {
+				session: {
+					id: row.session_id ?? row.id ?? '',
+					userId: row.user_id?.id ?? '',
+					expiresAt: row.expires_at ? new Date(row.expires_at) : new Date('')
+				},
+				user: {
+					id: row.user_id?.id ?? '',
+					email: row.user_id?.email ?? '',
+					username: row.user_id?.username ?? '',
+					isEmailVerified: row.user_id?.is_email_verified ?? false
+				}
+			};
+
+			const requiredFields = [
+				mapped.session.id,
+				mapped.session.userId,
+				mapped.user.id,
+				mapped.user.email,
+				mapped.user.username
+			];
+			if (!requiredFields.every(Boolean) || Number.isNaN(mapped.session.expiresAt.getTime())) {
+				return null;
+			}
+
+			return mapped;
 		} catch (error) {
 			console.error('sessionRepository.getSessionByTokenHash failed', error);
 			return null;
@@ -94,7 +116,7 @@ export class SessionRepository extends BaseRepository {
 	 * Insert a session via Directus REST (server-side key). Returns a minimal `Session` for cookies.
 	 *
 	 * @param {{ sessionId: string; userId: string; expiresAt: Date }} input `sessionId` is the opaque token string (not the hash).
-	 * @returns {Promise<Session | null>}
+	 * @returns {Promise<Session>}
 	 */
 	async createSessionRecord({ sessionId, userId, expiresAt }) {
 		try {
@@ -112,13 +134,13 @@ export class SessionRepository extends BaseRepository {
 			});
 
 			if (!response.ok) {
-				return null;
+				throw new Error('createSessionRecord failed: response not ok');
 			}
 
 			return { id: sessionId, userId, expiresAt };
 		} catch (error) {
 			console.error('sessionRepository.createSessionRecord failed', error);
-			return null;
+			throw error;
 		}
 	}
 }
