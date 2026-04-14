@@ -229,10 +229,7 @@
 		border-radius: var(--border-radius);
 		width: 100%;
 		transition: 0.25s ease;
-		background: linear-gradient(0.25turn, var(--light-2), var(--dark-1));
-		display: grid;
-		grid-template-columns: 1fr 60%;
-		grid-template-rows: 1fr 20% 20%;
+		display: flex;
 		opacity: 0.8;
 	}
 
@@ -242,11 +239,17 @@
 		border-radius: var(--border-radius);
 		width: 100%;
 		transition: 0.25s ease;
-		background: linear-gradient(0.25turn, var(--light-2), var(--dark-1));
-		display: grid;
-		grid-template-columns: 40% 60%;
-		grid-template-rows: 60% 10% 30%;
+		display: flex;
+		gap: 1em;
 		opacity: 0.8;
+	}
+
+	.card-content {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-around;
+		gap: 1em;
+		width: 100%;
 	}
 
 	article:hover {
@@ -260,21 +263,16 @@
 		overflow: hidden;
 		text-overflow: ellipsis;
 		color: var(--color-neutral-black);
-		grid-column: 2/3;
-		margin-left: 1em;
+		margin-left: 0.5em;
 	}
 
 	.card-title-url {
-		grid-column: 1/2;
-		font-size: 28px;
-		line-break: strict;
+		font-size: 20px;
+		width: 50%;
 	}
 
 	.card-partner-logo {
 		border-radius: var(--border-radius);
-		overflow: hidden;
-		grid-row: 1/4;
-		object-fit: fill;
 		width: fit-content;
 		height: fit-content;
 	}
@@ -303,10 +301,6 @@
 		justify-content: space-between;
 		justify-content: center;
 		align-items: center;
-		gap: 1em;
-		grid-row: 2/3;
-		grid-column: 1/3;
-		padding-bottom: 4em;
 
 		label {
 			color: var(--color-neutral-black);
@@ -359,12 +353,9 @@
 		justify-content: flex-end;
 		gap: 0.5em;
 		align-items: center;
-		margin-right: 0.5em;
 	}
 
 	.card-icons-url {
-		grid-row: 3/4;
-		grid-column: 2/3;
 		display: flex;
 		justify-content: flex-end;
 		gap: 0.5em;
@@ -373,23 +364,16 @@
 
 	@container card-component (width < 600px) {
 		#card-partner {
-			grid-template-rows: 60% 1fr 1fr 1fr;
-			grid-template-columns: 1fr;
 			height: fit-content;
 		}
 
 		.card-title-url {
-			grid-row: 1/2;
-			grid-column: 1/3;
 			overflow: hidden;
 		}
 
 		.card-title {
-			grid-row: 2/3;
-			grid-column: 1/3;
 			display: flex;
 			align-items: flex-end;
-			margin-left: 0em;
 		}
 
 		#partner-progress-container {
@@ -403,20 +387,10 @@
 		}
 
 		.card-partner-logo {
-			grid-column: 1/3;
-			grid-row: 1/1;
-			width: auto;
-			height: auto;
+			width: 32px;
+			height: 32px;
 		}
 
-		.card-icons-partner {
-			grid-row: 5/5;
-		}
-
-		.card-icons-url {
-			grid-column: 2/3;
-			grid-row: 3/4;
-		}
 	}
 
 	@container card-component (width < 400px) {
