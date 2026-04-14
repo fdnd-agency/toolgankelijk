@@ -122,132 +122,71 @@
 	faviconSrc = `${faviconAPI}${new URL(url).hostname}`;
 </script>
 
-{#if !isUrl}
-	<div class="card-wrapper">
-		<article class="color-primary-light" id="card-partner" class:container-off={containerOff}>
-			{#if !isUrl}
-				<picture class="card-partner-logo" fetchpriority="high">
-					<!-- picture -->
-					<img
-						class="partner-logo"
-						width="256"
-						height="256"
-						src={faviconAPI + url + '/&size=128'}
-						alt="logo van {title}"
-					/>
-				</picture>
-			{/if}
+<div class="card-wrapper">
+    <article class="color-primary-light" id={isUrl ? 'card-url' : 'card-partner'} class:container-off={containerOff}>
+        
+        {#if !isUrl}
+            <picture class="card-partner-logo" fetchpriority="high">
+                <img
+                    class="partner-logo"
+                    src={faviconSrc} 
+                    alt="logo van {title}"
+                />
+            </picture>
+        {/if}
 
-			{#if !isUrl}
-				<h2 class="card-title">{title}</h2>
-			{/if}
+        <div class="card-content">
+            <h2 class={isUrl ? "card-title-url" : "card-title"}>{title}</h2>
 
-			{#if isUrl}
-				<h2 class="card-title-url">{url}</h2>
-			{/if}
+            <div id={isUrl ? "url-progress-container" : "partner-progress-container"} class="color-primary">
+                <progress id="progress-partner" max="100" value="0" bind:this={progressbar}></progress>
+                <label class="progress-percentage" for="progress-partner" bind:this={labelValue}>0%</label>
+            </div>
 
-			{#if isUrl}
-				<div id="url-progress-container" class="color-primary">
-					<progress id="progress-partner" max="100" value="0" bind:this={progressbar}> </progress>
-					<label class="progress-percentage" for="progress-partner" bind:this={labelValue}>0%</label
-					>
-				</div>
-			{/if}
+            <div class={isUrl ? "card-icons-url" : "card-icons-partner"}>
+                
+                {#if !isUrl}
+                    <NavButton
+                        onclick={openForm.bind(null, auditType)}
+                        aria="start audit {title}"
+                        size="small"
+                        variant="secondary"
+                        showIcon={true}
+                        iconName="audit"
+                    ></NavButton>
+                {/if}
 
-			{#if !isUrl}
-				<div id="partner-progress-container" class="color-primary">
-					<progress id="progress-partner" max="100" value="0" bind:this={progressbar}></progress>
-					<label class="progress-percentage" for="progress-partner" bind:this={labelValue}>0%</label
-					>
-				</div>
-			{/if}
+                <NavButton
+                    onclick={openForm.bind(null, editType)}
+                    aria="bewerk {title}"
+                    size="small"
+                    variant="secondary"
+                    showIcon={true}
+                    iconName="edit"
+                ></NavButton>
 
-			<div class="card-icons-partner">
-				{#if !isUrl}
-					<NavButton
-						onclick={openForm.bind(null, auditType)}
-						aria="start audit van {title}"
-						size="small"
-						variant="secondary"
-						showIcon={true}
-						iconName="audit"
-					></NavButton>
-				{/if}
+                <NavButton
+                    onclick={openForm.bind(null, deleteType)}
+                    aria="verwijder {title}"
+                    size="small"
+                    variant="secondary"
+                    showIcon={true}
+                    iconName="delete"
+                ></NavButton>
 
-				<NavButton
-					onclick={openForm.bind(null, editType)}
-					aria={isUrl ? `bewerk ${url}` : `bewerk ${title}`}
-					size="small"
-					variant="secondary"
-					showIcon={true}
-					iconName="edit"
-				></NavButton>
-
-				<NavButton
-					onclick={openForm.bind(null, deleteType)}
-					aria={isUrl ? `verwijder ${url}` : `verwijder ${title}`}
-					size="small"
-					variant="secondary"
-					showIcon={true}
-					iconName="delete"
-				></NavButton>
-
-				<NavButton
-					href={link}
-					aria={isUrl ? `open ${url}` : `open ${title}`}
-					size="medium"
-					variant="secondary"
-					showIcon={false}
-				>
-					Open</NavButton
-				>
-			</div>
-		</article>
-	</div>
-{/if}
-
-{#if isUrl}
-	<div class="card-wrapper">
-		<article id="card-url" class="color-primary-light" class:container-off={containerOff}>
-			<h2 class="card-title-url">{url}</h2>
-
-			<div id="url-progress-container" class="color-primary">
-				<progress id="progress-partner" max="100" value="0" bind:this={progressbar}> </progress>
-				<label class="progress-percentage" for="progress-partner" bind:this={labelValue}>0%</label>
-			</div>
-
-			<div class="card-icons-url">
-				<NavButton
-					onclick={openForm.bind(null, editType)}
-					aria="bewerk ${url}"
-					size="small"
-					variant="secondary"
-					showIcon={true}
-					iconName="edit"
-				></NavButton>
-
-				<NavButton
-					onclick={openForm.bind(null, deleteType)}
-					aria="verwijder ${url}"
-					size="small"
-					variant="secondary"
-					showIcon={true}
-					iconName="delete"
-				></NavButton>
-
-				<NavButton
-					href={link}
-					aria={isUrl ? `open ${url}` : `open ${title}`}
-					size="medium"
-					variant="secondary"
-					showIcon={false}
-				>
-					Open</NavButton
-				>
-			</div>
-		</article>
-	</div>
-{/if}
+                <NavButton
+                    href={link}
+                    aria="open {title}"
+                    size="medium"
+                    variant="secondary"
+                    showIcon={false}
+                >
+                    Open
+                </NavButton>
+            </div>
+        </div>
+    </article>
+</div>
 
 <Dialog
 	bind:this={dialogRefEdit}
