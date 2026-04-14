@@ -219,6 +219,7 @@
 <style>
 	.card-wrapper {
 		display: flex;
+		gap: 4em;
 		container-type: inline-size;
 		container-name: card-component;
 	}
@@ -273,29 +274,21 @@
 
 	.card-partner-logo {
 		border-radius: var(--border-radius);
-		width: fit-content;
-		height: fit-content;
+		width: 128px;
+		height: 128px;
 	}
 
 	#partner-progress-container {
 		display: flex;
-		flex-direction: row;
-		justify-content: space-between;
-		align-items: center;
-		align-items: flex-end;
-		gap: 1rem;
-		margin-top: 0.25rem;
-		grid-row-start: 2;
-		grid-column-start: 2;
-		margin: 1em;
-		margin-left: 3em;
-
+		margin-left: 1em;
+		gap: 1em;
 		label {
 			color: var(--color-neutral-black);
 		}
 	}
 
 	#url-progress-container {
+		margin-left: 0.5em;
 		display: flex;
 		flex-direction: row;
 		justify-content: space-between;
@@ -304,7 +297,6 @@
 
 		label {
 			color: var(--color-neutral-black);
-			margin-bottom: 1em;
 		}
 	}
 
@@ -395,8 +387,8 @@
 
 	@container card-component (width < 400px) {
 		.card-partner-logo {
-			width: 250px;
-			height: 250px;
+			width: 32px;
+			height: 32px;
 			grid-column: 1/3;
 		}
 
