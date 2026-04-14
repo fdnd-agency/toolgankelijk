@@ -14,6 +14,7 @@
 	let dialogRefEdit;
 	let dialogRefDelete;
 	let dialogRefAudit;
+	let faviconSrc;
 
 	let labelValue;
 	let progressbar;
@@ -27,9 +28,7 @@
 	const updatedTime = new Date(website.updatedAt);
 	const currentTime = new Date();
 	const timeDifference = Math.floor((currentTime - updatedTime) / (60 * 1000)); // Verschil in minuten
-	const faviconAPI =
-		'https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=';
-
+	const faviconAPI = 'https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=';	
 	if (isUrl) {
 		// show url
 		link = params + '/' + website.slug;
@@ -119,6 +118,8 @@
 		progressbar.max = totalCriteria;
 		labelValue.innerHTML = `${percentage}%`;
 	});
+
+	faviconSrc = `${faviconAPI}${new URL(url).hostname}`;
 </script>
 
 {#if !isUrl}
@@ -455,7 +456,6 @@
 		#partner-progress-container {
 			grid-row: 3/4;
 			grid-column: 1/3;
-			margin-left: 0em;
 		}
 
 		#url-progress-container {
