@@ -1,39 +1,110 @@
-<div>
-	<progress id="progress-partner" max="100" value="35"></progress>
-	<label for="progress-partner">8/25</label>
+<script>
+		import { onMount } from 'svelte';
+
+		let progressbar;
+		let url;
+		let websiteCriteria;
+		let totalCriteria;
+
+		onMount(() => {
+		if (isUrl) {
+			websiteCriteria = website.checks.reduce((total, check) => {
+				const criteria = check.successCriteria ?? [];
+				return total + criteria.length;
+			}, 0);
+
+			totalCriteria =
+				principles.reduce((total, principle) => {
+					principle.guidelines.forEach((guideline) => {
+						const criteria = guideline.successCriteria ?? [];
+						total += criteria.length;
+					});
+					return total;
+				}, 0) * website.checks.length;
+		} else {
+			websiteCriteria = website.urls.reduce((total, url) => {
+				url.checks.forEach((check) => {
+					const criteria = check.successCriteria ?? [];
+					total += criteria.length;
+				});
+				return total;
+			}, 0);
+
+			totalCriteria =
+				principles.reduce((total, principle) => {
+					principle.guidelines.forEach((guideline) => {
+						const criteria = guideline.successCriteria ?? [];
+						total += criteria.length;
+					});
+					return total;
+				}, 0) * website.urls.length;
+		}
+
+		let percentage = Math.round((websiteCriteria / totalCriteria) * 100);
+		if (isNaN(percentage)) {
+			percentage = 0;
+		}
+		progressbar.value = websiteCriteria;
+		progressbar.max = totalCriteria;
+		labelValue.innerHTML = `${percentage}%`;
+	});
+</script>
+
+<div class="progressbar-container">
+	<!-- automatically tested -->
+	<progress class="progress-automatically-tested" max="100" value="80"></progress>
+	<!-- manual tests -->
+	<!-- <progress class="progress-manually-tested" max="100" value="80"></progress> -->
+	<label class="progess-label">80%</label>
 </div>
 
 <style>
-	div {
-		display: flex;
-		flex-direction: row;
-		justify-content: space-between;
-		align-items: flex-end;
-		gap: 1em;
-		margin-top: 0.25em;
-	}
+.progressbar-container {
+	display: flex;
+	gap: 2em;
+}
+
+.progress-automatically-tested {
+	width: 100%;
+	margin-left: 1em;
+	height: 4em;
+}
+
+.progess-label {
+	font-size: 28px;
+}
 
 	progress {
 		width: 100%;
+		border-radius: 0.5rem;
+		background-color: var(--color-neutral-darkgrey);
+		border: none;
+		overflow: hidden;
 	}
 
-	progress[value] {
-		-webkit-appearance: none;
-		appearance: none;
-		height: 10px;
+	progress::-webkit-progress-bar {
+		background-color: var(--color-neutral-darkgrey);
+		border-radius: var(--border-radius);
 	}
 
-	progress[value]::-webkit-progress-bar {
-		background-color: var(--c-container-stroke);
-		border-radius: 0.5em;
+	progress::-webkit-progress-value {
+		background-color: var(--color-primary);
+		border-radius: 0.5rem;
+		transition: width 1s ease-out;
 	}
 
-	progress[value]::-webkit-progress-value {
-		background-color: var(--c-pink);
-		border-radius: 0.5em;
+	progress::-moz-progress-bar {
+		background-color: var(--color-primary);
+		border-radius: 0.5rem;
+		transition: width 1s ease-out;
 	}
 
-	label {
+	.progress-percentage {
 		height: 85%;
 	}
+
+
+
+
+
 </style>
