@@ -8,7 +8,7 @@
 	}
 </script>
 
-<div class="account-card">
+<div class="account-card color-primary">
 	<div class="logo-box">
 		<span class="logo-text">
 			<svg
@@ -34,7 +34,7 @@
 
 <style>
 	.account-card {
-		background-color: #f7dfeb;
+		background-color: var(--light-2);
 		border-radius: 8px;
 		padding: 40px 100px;
 		margin-top: 10%;
