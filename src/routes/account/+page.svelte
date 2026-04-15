@@ -27,6 +27,7 @@
 	</div>
 
 	<h1 class="user-title">{data.user.username}</h1>
+	<h1 class="user-title">{data.user.email}</h1>
 
 	<button on:click={handleSignOut} class="signout-btn"> Sign out </button>
 </div>
