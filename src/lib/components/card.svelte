@@ -27,8 +27,9 @@
 	let containerOff = false;
 	const updatedTime = new Date(website.updatedAt);
 	const currentTime = new Date();
-	const timeDifference = Math.floor((currentTime - updatedTime) / (60 * 1000)); // Verschil in minuten
-	const faviconAPI = 'https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=';	
+	const timeDifference = Math.floor((currentTime - updatedTime) / (60 * 1000)); 
+	const faviconAPI =
+		'https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=';
 	if (isUrl) {
 		// show url
 		link = params + '/' + website.slug;
@@ -118,9 +119,7 @@
 		progressbar.max = totalCriteria;
 		labelValue.innerHTML = `${percentage}%`;
 	});
-
-	faviconSrc = `${faviconAPI}${new URL(url).hostname}`;
-</script>
+	</script>
 
 <div class="card-wrapper">
     <article class="color-primary-light" id={isUrl ? 'card-url' : 'card-partner'} class:container-off={containerOff}>
@@ -129,7 +128,7 @@
             <picture class="card-partner-logo" fetchpriority="high">
                 <img
                     class="partner-logo"
-                    src={faviconSrc} 
+                    src={faviconAPI + url + '/&size=128'}
                     alt="logo van {title}"
                 />
             </picture>
