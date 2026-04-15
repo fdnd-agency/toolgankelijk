@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import Dialog from '$lib/components/dialog.svelte';
 	import NavButton from '$lib/components/NavButton.svelte';
+	import ProgressBar from '$lib/components/progressbar.svelte';
 
 	export let website;
 	export let principles;
@@ -137,10 +138,11 @@
         <div class="card-content">
             <h2 class={isUrl ? "card-title-url" : "card-title"}>{title}</h2>
 
-            <div id={isUrl ? "url-progress-container" : "partner-progress-container"} class="color-primary">
+            <!-- <div id={isUrl ? "url-progress-container" : "partner-progress-container"} class="color-primary">
                 <progress id="progress-partner" max="100" value="0" bind:this={progressbar}></progress>
-                <label class="progress-percentage" for="progress-partner" bind:this={labelValue}>0%</label>
-            </div>
+                <label class="progress-percentage" for="progress-partner" bind:this={labelValue}>%</label>
+            </div> -->
+			<ProgressBar />
 
             <div class={isUrl ? "card-icons-url" : "card-icons-partner"}>
                 
@@ -299,34 +301,6 @@
 		}
 	}
 
-	progress {
-		width: 100%;
-		border-radius: 0.5rem;
-		background-color: var(--color-neutral-darkgrey);
-		border: none;
-		overflow: hidden;
-	}
-
-	progress::-webkit-progress-bar {
-		background-color: var(--color-neutral-darkgrey);
-		border-radius: var(--border-radius);
-	}
-
-	progress::-webkit-progress-value {
-		background-color: var(--color-primary);
-		border-radius: 0.5rem;
-		transition: width 1s ease-out;
-	}
-
-	progress::-moz-progress-bar {
-		background-color: var(--color-primary);
-		border-radius: 0.5rem;
-		transition: width 1s ease-out;
-	}
-
-	.progress-percentage {
-		height: 85%;
-	}
 
 	.container-off {
 		display: none;
