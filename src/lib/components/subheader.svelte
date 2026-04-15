@@ -26,12 +26,22 @@
 	}
 </script>
 
-<header class="subheader">
-	<div class="brand"></div>
 <div class="subheader">
 	{#if user && user.isEmailVerified}
 		<BreadCrumbs {params} {partners} {websites} {principles} width="full" />
 	{/if}
+
+	<div class="subheader-form">
+	<NavButton
+        size="small"
+        variant="primary"
+        showIcon={true}
+        iconName="add"
+    ></NavButton>
+
+	<Search placeholderProp="Zoeken" />
+	</div>
+
 
 <!-- this will be placed on a sidebar of the principles page -->
 	<!-- <div class="brand"></div>
