@@ -14,6 +14,7 @@
 	let dialogRefEdit;
 	let dialogRefDelete;
 	let dialogRefAudit;
+	let faviconSrc;
 
 	let labelValue;
 	let progressbar;
@@ -26,10 +27,9 @@
 	let containerOff = false;
 	const updatedTime = new Date(website.updatedAt);
 	const currentTime = new Date();
-	const timeDifference = Math.floor((currentTime - updatedTime) / (60 * 1000)); // Verschil in minuten
+	const timeDifference = Math.floor((currentTime - updatedTime) / (60 * 1000)); 
 	const faviconAPI =
 		'https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=';
-
 	if (isUrl) {
 		// show url
 		link = params + '/' + website.slug;
@@ -119,134 +119,73 @@
 		progressbar.max = totalCriteria;
 		labelValue.innerHTML = `${percentage}%`;
 	});
-</script>
+	</script>
 
-{#if !isUrl}
-	<div class="card-wrapper">
-		<article id="card-partner" class:container-off={containerOff}>
-			{#if !isUrl}
-				<picture class="card-partner-logo" fetchpriority="high">
-					<!-- picture -->
-					<img
-						class="partner-logo"
-						width="256"
-						height="256"
-						src={faviconAPI + url + '/&size=128'}
-						alt="logo van {title}"
-					/>
-				</picture>
-			{/if}
+<div class="card-wrapper">
+    <article class="color-primary-light" id={isUrl ? 'card-url' : 'card-partner'} class:container-off={containerOff}>
+        
+        {#if !isUrl}
+            <picture class="card-partner-logo" fetchpriority="high">
+                <img
+                    class="partner-logo"
+                    src={faviconAPI + url + '/&size=128'}
+                    alt="logo van {title}"
+                />
+            </picture>
+        {/if}
 
-			{#if !isUrl}
-				<h2 class="card-title">{title}</h2>
-			{/if}
+        <div class="card-content">
+            <h2 class={isUrl ? "card-title-url" : "card-title"}>{title}</h2>
 
-			{#if isUrl}
-				<h2 class="card-title-url">{url}</h2>
-			{/if}
+            <div id={isUrl ? "url-progress-container" : "partner-progress-container"} class="color-primary">
+                <progress id="progress-partner" max="100" value="0" bind:this={progressbar}></progress>
+                <label class="progress-percentage" for="progress-partner" bind:this={labelValue}>0%</label>
+            </div>
 
-			{#if isUrl}
-				<div id="url-progress-container">
-					<progress id="progress-partner" max="100" value="0" bind:this={progressbar}> </progress>
-					<label class="progress-percentage" for="progress-partner" bind:this={labelValue}>0%</label
-					>
-				</div>
-			{/if}
+            <div class={isUrl ? "card-icons-url" : "card-icons-partner"}>
+                
+                {#if !isUrl}
+                    <NavButton
+                        onclick={openForm.bind(null, auditType)}
+                        aria="start audit {title}"
+                        size="small"
+                        variant="secondary"
+                        showIcon={true}
+                        iconName="audit"
+                    ></NavButton>
+                {/if}
 
-			{#if !isUrl}
-				<div id="partner-progress-container">
-					<progress id="progress-partner" max="100" value="0" bind:this={progressbar}></progress>
-					<label class="progress-percentage" for="progress-partner" bind:this={labelValue}>0%</label
-					>
-				</div>
-			{/if}
+                <NavButton
+                    onclick={openForm.bind(null, editType)}
+                    aria="bewerk {title}"
+                    size="small"
+                    variant="secondary"
+                    showIcon={true}
+                    iconName="edit"
+                ></NavButton>
 
-			<div class="card-icons-partner">
-				{#if !isUrl}
-					<NavButton
-						onclick={openForm.bind(null, auditType)}
-						aria="start audit van {title}"
-						size="small"
-						variant="secondary"
-						showIcon={true}
-						iconName="audit"
-					></NavButton>
-				{/if}
+                <NavButton
+                    onclick={openForm.bind(null, deleteType)}
+                    aria="verwijder {title}"
+                    size="small"
+                    variant="secondary"
+                    showIcon={true}
+                    iconName="delete"
+                ></NavButton>
 
-				<NavButton
-					onclick={openForm.bind(null, editType)}
-					aria={isUrl ? `bewerk ${url}` : `bewerk ${title}`}
-					size="small"
-					variant="secondary"
-					showIcon={true}
-					iconName="edit"
-				></NavButton>
-
-				<NavButton
-					onclick={openForm.bind(null, deleteType)}
-					aria={isUrl ? `verwijder ${url}` : `verwijder ${title}`}
-					size="small"
-					variant="secondary"
-					showIcon={true}
-					iconName="delete"
-				></NavButton>
-
-				<NavButton
-					href={link}
-					aria={isUrl ? `open ${url}` : `open ${title}`}
-					size="medium"
-					variant="secondary"
-					showIcon={false}
-				>
-					Open</NavButton
-				>
-			</div>
-		</article>
-	</div>
-{/if}
-
-{#if isUrl}
-	<div class="card-wrapper">
-		<article id="card-url" class:container-off={containerOff}>
-			<h2 class="card-title-url">{url}</h2>
-
-			<div id="url-progress-container" class="color-primary">
-				<progress id="progress-partner" max="100" value="0" bind:this={progressbar}> </progress>
-				<label class="progress-percentage" for="progress-partner" bind:this={labelValue}>0%</label>
-			</div>
-
-			<div class="card-icons-url">
-				<NavButton
-					onclick={openForm.bind(null, editType)}
-					aria="bewerk ${url}"
-					size="small"
-					variant="secondary"
-					showIcon={true}
-					iconName="edit"
-				></NavButton>
-
-				<NavButton
-					onclick={openForm.bind(null, deleteType)}
-					aria="verwijder ${url}"
-					size="small"
-					variant="secondary"
-					showIcon={true}
-					iconName="delete"
-				></NavButton>
-
-				<NavButton
-					href={link}
-					aria={isUrl ? `open ${url}` : `open ${title}`}
-					size="medium"
-					variant="secondary"
-					showIcon={false}
-				>
-					Open</NavButton
-				>
-			</div>
-		</article>
-	</div>
-{/if}
+                <NavButton
+                    href={link}
+                    aria="open {title}"
+                    size="medium"
+                    variant="secondary"
+                    showIcon={false}
+                >
+                    Open
+                </NavButton>
+            </div>
+        </div>
+    </article>
+</div>
 
 <Dialog
 	bind:this={dialogRefEdit}
@@ -279,6 +218,7 @@
 <style>
 	.card-wrapper {
 		display: flex;
+		gap: 4em;
 		container-type: inline-size;
 		container-name: card-component;
 	}
@@ -289,9 +229,7 @@
 		border-radius: var(--border-radius);
 		width: 100%;
 		transition: 0.25s ease;
-		display: grid;
-		grid-template-columns: 1fr 60%;
-		grid-template-rows: 1fr 20% 20%;
+		display: flex;
 		opacity: 0.8;
 	}
 
@@ -301,10 +239,17 @@
 		border-radius: var(--border-radius);
 		width: 100%;
 		transition: 0.25s ease;
-		display: grid;
-		grid-template-columns: 40% 60%;
-		grid-template-rows: 60% 10% 30%;
+		display: flex;
+		gap: 1em;
 		opacity: 0.8;
+	}
+
+	.card-content {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-around;
+		gap: 1em;
+		width: 100%;
 	}
 
 	article:hover {
@@ -318,57 +263,39 @@
 		overflow: hidden;
 		text-overflow: ellipsis;
 		color: var(--color-neutral-black);
-		grid-column: 2/3;
-		margin-left: 1em;
+		margin-left: 0.5em;
 	}
 
 	.card-title-url {
-		grid-column: 1/2;
-		font-size: 28px;
-		line-break: strict;
+		font-size: 20px;
+		width: 50%;
 	}
 
 	.card-partner-logo {
 		border-radius: var(--border-radius);
-		overflow: hidden;
-		grid-row: 1/4;
-		object-fit: fill;
-		width: fit-content;
-		height: fit-content;
+		width: 128px;
+		height: 128px;
 	}
 
 	#partner-progress-container {
 		display: flex;
-		flex-direction: row;
-		justify-content: space-between;
-		align-items: center;
-		align-items: flex-end;
-		gap: 1rem;
-		margin-top: 0.25rem;
-		grid-row-start: 2;
-		grid-column-start: 2;
-		margin: 1em;
-		margin-left: 3em;
-
+		margin-left: 1em;
+		gap: 1em;
 		label {
 			color: var(--color-neutral-black);
 		}
 	}
 
 	#url-progress-container {
+		margin-left: 0.5em;
 		display: flex;
 		flex-direction: row;
 		justify-content: space-between;
 		justify-content: center;
 		align-items: center;
-		gap: 1em;
-		grid-row: 2/3;
-		grid-column: 1/3;
-		padding-bottom: 4em;
 
 		label {
 			color: var(--color-neutral-black);
-			margin-bottom: 1em;
 		}
 	}
 
@@ -412,85 +339,13 @@
 		justify-content: flex-end;
 		gap: 0.5em;
 		align-items: center;
-		margin-right: 0.5em;
 	}
 
 	.card-icons-url {
-		grid-row: 3/4;
-		grid-column: 2/3;
 		display: flex;
 		justify-content: flex-end;
 		gap: 0.5em;
 		align-items: center;
 	}
 
-	@container card-component (width < 600px) {
-		#card-partner {
-			grid-template-rows: 60% 1fr 1fr 1fr;
-			grid-template-columns: 1fr;
-			height: fit-content;
-		}
-
-		.card-title-url {
-			grid-row: 1/2;
-			grid-column: 1/3;
-			overflow: hidden;
-		}
-
-		.card-title {
-			grid-row: 2/3;
-			grid-column: 1/3;
-			display: flex;
-			align-items: flex-end;
-			margin-left: 0em;
-		}
-
-		#partner-progress-container {
-			grid-row: 3/4;
-			grid-column: 1/3;
-			margin-left: 0em;
-		}
-
-		#url-progress-container {
-			grid-row: 2/3;
-			grid-column: 1/3;
-		}
-
-		.card-partner-logo {
-			grid-column: 1/3;
-			grid-row: 1/1;
-			width: auto;
-			height: auto;
-		}
-
-		.card-icons-partner {
-			grid-row: 5/5;
-		}
-
-		.card-icons-url {
-			grid-column: 2/3;
-			grid-row: 3/4;
-		}
-	}
-
-	@container card-component (width < 400px) {
-		.card-partner-logo {
-			width: 250px;
-			height: 250px;
-			grid-column: 1/3;
-		}
-
-		.card-title {
-			grid-column: 1/3;
-			grid-row: 2/3;
-			height: 1em;
-		}
-
-		.card-icons-partner {
-			margin-right: 0em;
-			margin-bottom: 1em;
-			grid-row: 5/5;
-			grid-column: 1/3;
-		}
-	}
 </style>
