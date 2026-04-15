@@ -1,29 +1,5 @@
 <script>
-	import { enhance } from '$app/forms';
-	import walking from '$lib/assets/walking_together.svg';
-	import knowledge from '$lib/assets/sharing_knowledge.svg';
-	import NavButton from '$lib/components/NavButton.svelte';
 	let { data } = $props();
-	console.log(data);
-
-	let successMessage = $state('');
-	let errorMessage = $state('');
-
-	function handleEnhance({ formElement }) {
-		const handleSubmit = async ({ result }) => {
-			isSubmitting = false;
-			successMessage = 'Verzonden!';
-
-			if (result.type === 'failure') {
-				errorMessage = 'Er is iets fout gegaan';
-				errorMessage = result.data.data.error;
-			} else {
-				formElement.reset();
-				successMessage = result.data.data.message;
-			}
-		};
-		return handleSubmit;
-	}
 
 	async function handleSignOut(event) {
 		event.preventDefault();
@@ -50,7 +26,7 @@
 		</span>
 	</div>
 
-	<h1 class="user-title">{data.user.username || 'GVB'}</h1>
+	<h1 class="user-title">{data.user.username}</h1>
 
 	<button on:click={handleSignOut} class="signout-btn"> Sign out </button>
 </div>
