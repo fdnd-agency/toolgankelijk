@@ -74,9 +74,7 @@
 
 <style>
 	.subheader {
-		/* Replaced #b62059 with primary */
 		background-color: var(--color-primary);
-		/* neutral-black flips between white/black automatically */
 		color: var(--color-neutral-white);
 		font-family: 'Fira Sans Regular', sans-serif;
 		display: flex;
@@ -86,7 +84,6 @@
 		margin: 1em 1em;
 		border-radius: var(--border-radius);
 		border-bottom-left-radius: 20px;
-		box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 		gap: 1rem;
 	}
 
@@ -110,7 +107,7 @@
 
 	.group-label {
 		font-size: 0.9rem;
-		color: var(--color-neutral-black);
+		color: var(--color-neutral-white);
 	}
 
 	.select-wrapper {
@@ -121,9 +118,8 @@
 	select {
 		appearance: none;
 		-webkit-appearance: none;
-		/* Using primary-light for the dropdown background */
 		background-color: var(--color-primary-light);
-		color: var(--color-neutral-black); /* High contrast text */
+		color: var(--color-neutral-black);
 		border: none;
 		padding: 10px 40px 10px 16px;
 		border-radius: 6px;
@@ -139,7 +135,6 @@
 	.select-wrapper::after {
 		content: '▼';
 		font-size: 0.6rem;
-		/* Arrow matches the deep primary color */
 		color: var(--color-primary);
 		position: absolute;
 		right: 14px;
@@ -172,7 +167,7 @@
 		-webkit-appearance: none;
 		width: 16px;
 		height: 16px;
-		background-color: var(--color-neutral-white); /* Box flips color */
+		background-color: var(--color-neutral-white);
 		border-radius: 2px;
 		cursor: pointer;
 		margin: 0;

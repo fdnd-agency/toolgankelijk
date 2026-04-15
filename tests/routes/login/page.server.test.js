@@ -74,13 +74,9 @@ describe('src/routes/login/+page.server.js', () => {
 		});
 		vi.spyOn(userModule, 'getUserPasswordHash').mockResolvedValue('hash');
 		vi.spyOn(passwordModule, 'verifyPasswordHash').mockResolvedValue(true);
-		vi.spyOn(sessionModule, 'generateSessionToken').mockReturnValue('token');
-		vi.spyOn(sessionModule, 'createSession').mockResolvedValue({
-			expiresAt: new Date(Date.now() + 10000)
-		});
-		const setSessionTokenCookie = vi
-			.spyOn(sessionModule, 'setSessionTokenCookie')
-			.mockImplementation(() => {});
+		const createAndSetSession = vi
+			.spyOn(sessionModule.sessionService, 'createAndSetSession')
+			.mockResolvedValue({ expiresAt: new Date(Date.now() + 10000) });
 
 		try {
 			await actions.signin(event);
@@ -90,6 +86,6 @@ describe('src/routes/login/+page.server.js', () => {
 			expect(e.location).toBe('/');
 		}
 
-		expect(setSessionTokenCookie).toHaveBeenCalled();
+		expect(createAndSetSession).toHaveBeenCalledWith(event, '1');
 	});
 });

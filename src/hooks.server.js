@@ -1,8 +1,4 @@
-import {
-	validateSessionToken,
-	setSessionTokenCookie,
-	deleteSessionTokenCookie
-} from '$lib/server/session';
+import { sessionService } from '$lib/server/session';
 
 export async function handle({ event, resolve }) {
 	event.locals.user = null;
@@ -13,11 +9,11 @@ export async function handle({ event, resolve }) {
 		return resolve(event);
 	}
 
-	const { session, user } = await validateSessionToken(token);
+	const { session, user } = await sessionService.validateSessionToken(token);
 	if (session !== null) {
-		setSessionTokenCookie(event, token, session.expiresAt);
+		sessionService.setSessionTokenCookie(event, token, session.expiresAt);
 	} else {
-		deleteSessionTokenCookie(event);
+		await sessionService.DeleteSession(event);
 	}
 
 	event.locals.session = session;

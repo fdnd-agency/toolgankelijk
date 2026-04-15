@@ -18,15 +18,17 @@ describe('session.js', () => {
 	});
 
 	const now = Date.now();
-	const fakeSessionRow = {
-		id: '1',
-		session_id: 'abc123',
-		expires_at: new Date(now + 10 * 24 * 60 * 60 * 1000).toISOString(), // 10 days of lifetime left
-		user_id: {
+	const fakeSessionData = {
+		session: {
+			id: 'abc123',
+			userId: 'u1',
+			expiresAt: new Date(now + 10 * 24 * 60 * 60 * 1000) // 10 days of lifetime left
+		},
+		user: {
 			id: 'u1',
 			email: 'test@example.com',
 			username: 'tester',
-			is_email_verified: true
+			isEmailVerified: true
 		}
 	};
 
@@ -35,13 +37,13 @@ describe('session.js', () => {
 		vi.useFakeTimers();
 		vi.setSystemTime(now);
 
-		sessionRepository.getSessionByTokenHash.mockResolvedValue(fakeSessionRow);
+		sessionRepository.getSessionByTokenHash.mockResolvedValue(fakeSessionData);
 		sessionRepository.updateSessionExpiry.mockResolvedValue(undefined);
 
 		const expectedDate = new Date(now + 1000 * 60 * 60 * 24 * 30);
 
 		// Act
-		const { session } = await sessionModule.validateSessionToken('notimportant');
+		const { session } = await sessionModule.sessionService.validateSessionToken('notimportant');
 
 		// Assert
 		expect(session).not.toBeNull();

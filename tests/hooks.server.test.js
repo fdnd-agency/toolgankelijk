@@ -32,11 +32,13 @@ describe('hooks.server.js', () => {
 	it('should set session and user if token is valid', async () => {
 		// Arrange
 		event.cookies.get.mockReturnValue('token');
-		vi.spyOn(sessionModule, 'validateSessionToken').mockResolvedValue({
+		vi.spyOn(sessionModule.sessionService, 'validateSessionToken').mockResolvedValue({
 			session: { expiresAt: new Date(Date.now() + 10000) },
 			user: { id: '1' }
 		});
-		const setCookie = vi.spyOn(sessionModule, 'setSessionTokenCookie').mockImplementation(() => {});
+		const setCookie = vi
+			.spyOn(sessionModule.sessionService, 'setSessionTokenCookie')
+			.mockImplementation(() => {});
 
 		// Act
 		await handle({ event, resolve });
@@ -51,12 +53,12 @@ describe('hooks.server.js', () => {
 	it('should delete session cookie if token is invalid', async () => {
 		// Arrange
 		event.cookies.get.mockReturnValue('token');
-		vi.spyOn(sessionModule, 'validateSessionToken').mockResolvedValue({
+		vi.spyOn(sessionModule.sessionService, 'validateSessionToken').mockResolvedValue({
 			session: null,
 			user: null
 		});
 		const deleteCookie = vi
-			.spyOn(sessionModule, 'deleteSessionTokenCookie')
+			.spyOn(sessionModule.sessionService, 'DeleteSession')
 			.mockImplementation(() => {});
 
 		// Act

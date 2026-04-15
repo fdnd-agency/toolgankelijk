@@ -224,7 +224,7 @@
 	}
 
 	#card-partner {
-		background-color: var(--light-1);
+		background-color: var(--color-neutral-grey);
 		padding: 1em;
 		border-radius: var(--border-radius);
 		width: 100%;
@@ -234,7 +234,7 @@
 	}
 
 	#card-url {
-		background-color: var(--light-1);
+		background-color: var(--color-neutral-grey);
 		padding: 1em;
 		border-radius: var(--border-radius);
 		width: 100%;
@@ -302,31 +302,26 @@
 	progress {
 		width: 100%;
 		border-radius: 0.5rem;
-		background-color: var(--color-neutral-lightgrey);
+		background-color: var(--color-neutral-darkgrey);
 		border: none;
 		overflow: hidden;
 	}
 
-	progress[value] {
-		-webkit-appearance: none;
-		appearance: none;
+	progress::-webkit-progress-bar {
+		background-color: var(--color-neutral-darkgrey);
+		border-radius: var(--border-radius);
 	}
 
-	progress[value]::-webkit-progress-bar {
-		background-color: var(--color-neutral-lightgrey);
+	progress::-webkit-progress-value {
+		background-color: var(--color-primary);
 		border-radius: 0.5rem;
+		transition: width 1s ease-out;
 	}
 
-	progress[value]::-webkit-progress-value {
-		background-color: var(--color);
+	progress::-moz-progress-bar {
+		background-color: var(--color-primary);
 		border-radius: 0.5rem;
-		transition: 1s ease-out;
-	}
-
-	progress[value]::-moz-progress-bar {
-		background-color: var(--color-neutral-lightgrey);
-		border-radius: 0.5rem;
-		transition: 1s ease-out;
+		transition: width 1s ease-out;
 	}
 
 	.progress-percentage {
