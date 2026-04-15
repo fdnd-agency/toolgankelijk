@@ -36,12 +36,13 @@
 	.account-card {
 		background-color: var(--light-2);
 		border-radius: 8px;
-		padding: 40px 100px;
-		margin-top: 10%;
+		padding: 40px 124px;
+		margin: 10% auto 0 auto;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+		width: 70%;
+		box-sizing: border-box;
 	}
 
 	.logo-box {
@@ -71,8 +72,6 @@
 
 	.signout-btn {
 		background-color: #f1d5e3;
-		color: #000000;
-		border: none;
 		border-radius: 24px;
 		padding: 8px 32px;
 		font-size: 1rem;
