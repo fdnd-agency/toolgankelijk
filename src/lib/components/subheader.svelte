@@ -1,6 +1,7 @@
 <script>
 	import { page } from '$app/stores';
 	import NavButton from './NavButton.svelte';
+	import BreadCrumbs from './breadCrumbs.svelte';
 
 	let { partnerTitle = '', onApply } = $props();
 
@@ -26,6 +27,10 @@
 
 <header class="subheader">
 	<div class="brand"></div>
+<div class="subheader">
+	{#if user && user.isEmailVerified}
+		<BreadCrumbs {params} {partners} {websites} {principles} width="full" />
+	{/if}
 
 	<form class="controls-container" onsubmit={handleSubmit}>
 		<div class="control-group">
@@ -71,21 +76,8 @@
 		</div>
 	</form>
 </header>
+</div>
 
-<style>
-	.subheader {
-		background-color: var(--color-primary);
-		color: var(--color-neutral-white);
-		font-family: 'Fira Sans Regular', sans-serif;
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		padding: clamp(1em, 6vw, 2em);
-		margin: 1em 1em;
-		border-radius: var(--border-radius);
-		border-bottom-left-radius: 20px;
-		gap: 1rem;
-	}
 
 	.brand {
 		flex: 1;
@@ -218,5 +210,21 @@
 			flex-direction: row;
 			gap: 1.5rem;
 		}
+	}
+</style> -->
+
+<style>
+	.subheader {
+		height: fit-content;
+		background-color: var(--color-primary-light);
+		display: flex;
+		padding: 1em;
+		align-content: center;
+		justify-content: space-around;
+	}
+
+	.subheader-form {
+		display: flex;
+		gap: 1em;
 	}
 </style>
