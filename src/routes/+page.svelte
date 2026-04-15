@@ -2,7 +2,6 @@
 	import { invalidateAll } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import Card from '$lib/components/card.svelte';
-	import Search from '$lib/components/search.svelte';
 	import Dialog from '$lib/components/dialog.svelte';
 	import Pages from '$lib/components/pages.svelte';
 	import NavButton from '$lib/components/NavButton.svelte';
@@ -37,21 +36,6 @@
 </script>
 
 <Heading {heading} />
-
-<section>
-	<NavButton
-		aria="Partner Toevogen"
-		size="xlarge"
-		variant="primary"
-		showIcon={true}
-		onclick={handleDialog}
-		iconName="add"
-	>
-		<p>Partner Toevoegen</p>
-	</NavButton>
-
-	<Search placeholderProp="Gvb" />
-</section>
 
 {#if totalUrls > first}
 	<Pages amount={totalUrls} perPage={first} {currentPage} />
