@@ -2,8 +2,9 @@
 	import { page } from '$app/stores';
 	import NavButton from './NavButton.svelte';
 	import BreadCrumbs from './breadCrumbs.svelte';
+	import Search from '$lib/components/search.svelte';
 
-	let { partnerTitle = '', onApply } = $props();
+	let {params, partners, websites, principles, user = null } = $props();
 
 	// Internal state for the form fields
 	let principle = $state('All');
@@ -32,6 +33,8 @@
 		<BreadCrumbs {params} {partners} {websites} {principles} width="full" />
 	{/if}
 
+<!-- this will be placed on a sidebar of the principles page -->
+	<!-- <div class="brand"></div>
 	<form class="controls-container" onsubmit={handleSubmit}>
 		<div class="control-group">
 			<label class="group-label" for="principle">Selecteer principe:</label>
@@ -74,10 +77,10 @@
 		<div class="button-container">
 			<NavButton size="medium" type="submit" variant="secondary">Toepassen</NavButton>
 		</div>
-	</form>
-</header>
+	</form> -->
 </div>
 
+<!-- <style>
 
 	.brand {
 		flex: 1;
