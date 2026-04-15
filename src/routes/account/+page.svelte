@@ -83,7 +83,7 @@
 		gap: 8px;
 		transition: opacity 0.2s;
 		border: 2px solid black;
-		color: white;
+		color: black;
 	}
 
 	.signout-btn:hover {
