@@ -73,15 +73,11 @@
 	}
 
 	.cards-container {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
+		display: flex;
+		flex-direction: column;
 		gap: 1em;
 		list-style-type: none;
 		margin: 0 1em;
-
-		@media (max-width: 720px) {
-			grid-template-columns: 1fr;
-		}
 	}
 
 	.toast {
