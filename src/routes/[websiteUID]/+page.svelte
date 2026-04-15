@@ -30,20 +30,6 @@
 
 <Heading {heading} />
 
-<section>
-	<NavButton
-		aria="Url Toevoegen"
-		size="large"
-		variant="primary"
-		showIcon={false}
-		onclick={handleDialog}
-		iconName="add"
-	>
-		<p>URL Toevoegen</p>
-	</NavButton>
-
-	<Search placeholderProp="Home" />
-</section>
 
 {#if totalUrls > first}
 	<section>
