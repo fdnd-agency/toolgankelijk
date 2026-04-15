@@ -2,6 +2,7 @@
 	import { onNavigate } from '$app/navigation';
 	import { page } from '$app/stores';
 	import Header from '$lib/components/header.svelte';
+	import SubHeader from '$lib/components/subheader.svelte';
 
 	let { data, children } = $props();
 	let params = $derived($page.params);
@@ -22,7 +23,8 @@
 	});
 </script>
 
-<Header {params} {partners} {websites} {principles} user={data.user} />
+<Header/>
+<SubHeader  {params} {partners} {websites} {principles} user={data.user} />
 
 <main id="main">
 	{@render children?.()}
