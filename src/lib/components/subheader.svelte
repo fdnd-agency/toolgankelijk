@@ -4,26 +4,32 @@
 	import BreadCrumbs from './breadCrumbs.svelte';
 	import Search from '$lib/components/search.svelte';
 
-	let {params, partners, websites, principles, user = null } = $props();
+	let {params, 
+		partners, 
+		websites, 
+		principles, 
+		user = null,
+		showAdd = false
+	} = $props();
 
 	// Internal state for the form fields
-	let principle = $state('All');
-	let level = $state('All');
-	let showNotMet = $state(false);
-	let showMet = $state(false);
+	// let principle = $state('All');
+	// let level = $state('All');
+	// let showNotMet = $state(false);
+	// let showMet = $state(false);
 
-	function handleSubmit(e) {
-		if (e) e.preventDefault();
+	// function handleSubmit(e) {
+	// 	if (e) e.preventDefault();
 
-		if (onApply) {
-			onApply({
-				principle,
-				level,
-				showNotMet,
-				showMet
-			});
-		}
-	}
+	// 	if (onApply) {
+	// 		onApply({
+	// 			principle,
+	// 			level,
+	// 			showNotMet,
+	// 			showMet
+	// 		});
+	// 	}
+	// }
 </script>
 
 <div class="subheader">
@@ -31,13 +37,18 @@
 		<BreadCrumbs {params} {partners} {websites} {principles} width="full" />
 	{/if}
 
+
 	<div class="subheader-form">
+
+	{#if showAdd}
 	<NavButton
         size="small"
         variant="primary"
         showIcon={true}
         iconName="add"
+		event={onclick}
     ></NavButton>
+	{/if}
 
 	<Search placeholderProp="Zoeken" />
 	</div>
