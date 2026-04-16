@@ -16,9 +16,8 @@
 		</span>
 	</div>
 
-	<h1 class="user-title">{data.user.username}</h1>
-	<h1 class="user-title">{data.user.email}</h1>
-
+	<h2 class="user-title">{data.user.username}</h2>
+	<h2 class="user-title">{data.user.email}</h2>
 	<button on:click={handleSignOut} class="signout-btn"> Sign out </button>
 </div>
 
@@ -54,9 +53,6 @@
 	}
 
 	.user-title {
-		color: white;
-		font-size: 1.5rem;
-		font-weight: 700;
 		margin: 0 0 24px 0;
 	}
 
