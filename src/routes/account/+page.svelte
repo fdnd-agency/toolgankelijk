@@ -1,4 +1,5 @@
 <script>
+	import AccountIcon from '$lib/components/icons/accountIcon.svelte';
 	let { data } = $props();
 
 	async function handleSignOut(event) {
@@ -11,18 +12,7 @@
 <div class="account-card color-primary">
 	<div class="logo-box">
 		<span class="logo-text">
-			<svg
-				class="btn-icon"
-				viewBox="0 0 24 24"
-				fill="none"
-				stroke="currentColor"
-				stroke-width="2"
-				stroke-linecap="round"
-				stroke-linejoin="round"
-			>
-				<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-				<circle cx="12" cy="7" r="4"></circle>
-			</svg>
+			<AccountIcon class="btn-icon"></AccountIcon>
 		</span>
 	</div>
 
@@ -90,13 +80,13 @@
 		color: #b5006c;
 		opacity: 0.9;
 	}
-
-	.btn-icon {
-		width: 18px;
-		height: 18px;
+	.logo-text :global(svg) {
+		width: 50px;
+		height: 50px;
+		color: black;
 	}
 
-	.logo-text > .btn-icon {
+	.logo-text :global(.btn-icon) {
 		width: 50px;
 		height: 50px;
 		color: #000000;
