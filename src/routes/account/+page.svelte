@@ -16,7 +16,7 @@
 		</span>
 	</div>
 
-	<h2 class="user-title">{data.user.username}</h2>
+	<h2>{data.user.username}</h2>
 	<h2 class="user-title">{data.user.email}</h2>
 	<button on:click={handleSignOut} class="signout-btn"> Sign out </button>
 </div>
@@ -45,6 +45,10 @@
 		margin-bottom: 20px;
 	}
 
+	h2 {
+		margin: 0 0 24px 0;
+	}
+
 	.logo-text {
 		font-size: 1.5rem;
 		font-weight: 800;
@@ -53,7 +57,10 @@
 	}
 
 	.user-title {
-		margin: 0 0 24px 0;
+		max-width: 100%;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
 
 	.signout-btn {
