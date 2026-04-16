@@ -103,11 +103,6 @@
 	box-sizing: border-box;
 }
 
-main {
-	margin-right: 5%;
-	margin-left: 5%;
-}
-
 /* Text styles */
 h1 {
 	font-size: 3rem;
