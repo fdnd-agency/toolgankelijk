@@ -70,10 +70,11 @@
 	aria-label={aria}
 >
 	{#if showIcon && ActiveIcon}
-		<span class="icon-wrapper">
-			<svelte:component this={ActiveIcon} />
-		</span>
+    <span class="icon-wrapper">
+        <ActiveIcon />
+    </span>
 	{/if}
+	
 	{@render children?.()}
 </svelte:element>
 
