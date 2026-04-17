@@ -11,13 +11,12 @@
 
 	let { data, form } = $props();
 	let params = $derived($page.params);
-	let websites = $derived(data.websitesData);
-
 	let partners = $derived(data.partnersData);
 
 	let skip = $derived(data.skip);
 	const first = $derived(data.first);
 	let totalUrls = $derived(data.totalWebsites);
+	const websitesList = $derived(data.websites.allWebsites || []);
 	const currentPage = $derived(skip / first + 1);
 	let showRegistrationSuccess = $derived(data.showRegistrationSuccess);
 	let heading = { title: 'Partners overzicht' };
@@ -47,12 +46,12 @@
 
 <SubHeader 
 	{params} 
-	{partners} 
-	{websites} 
-	{principles} 
-	user={data.user}
-	showAdd={true}
-	onAdd={openAddUrl} />
+    partners={partners}
+    websites={websitesList} 
+    {principles} 
+    user={data.user}
+    showAdd={true}
+    onAdd={openAddUrl} />
 <Dialog bind:this={dialogRef} {params} isType="addPartner" />
 
 
@@ -71,8 +70,6 @@
 {:else if form?.success == false}
 	<div class="toast error"><p>{form?.message}</p></div>
 {/if}
-
-
 
 <section class="card-container">
 	{#each data.websites as website}
