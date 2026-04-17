@@ -6,6 +6,7 @@
 	import Pages from '$lib/components/pages.svelte';
 	import NavButton from '$lib/components/NavButton.svelte';
 	import Heading from '$lib/components/heading.svelte';
+	import SubHeader from '$lib/components/subheader.svelte';
 
 	let { data, form } = $props();
 
@@ -23,11 +24,19 @@
 	let dialogRef = $state();
 	const principles = $derived(data.websites.principles);
 
-	function handleDialog() {
-		dialogRef.open();
-	}
+	function openAddUrl() {
+        dialogRef?.open();
+    }
 </script>
 
+<SubHeader 
+	{params} 
+	{websites} 
+	{principles} 
+	user={data.user}
+	showAdd={true}
+	onAdd={openAddUrl} />
+<Dialog bind:this={dialogRef} {params} isType="addUrl" />
 <Heading {heading} />
 
 
