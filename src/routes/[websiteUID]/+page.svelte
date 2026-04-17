@@ -1,28 +1,35 @@
 <script>
 	import { page } from '$app/stores';
 	import Card from '$lib/components/card.svelte';
-	import Search from '$lib/components/search.svelte';
 	import Dialog from '$lib/components/dialog.svelte';
 	import Pages from '$lib/components/pages.svelte';
-	import NavButton from '$lib/components/NavButton.svelte';
 	import Heading from '$lib/components/heading.svelte';
 	import SubHeader from '$lib/components/subheader.svelte';
 
 	let { data, form } = $props();
+	let params = $derived($page.params);
 
+	const globalWebsites = Array.isArray(data.websitesData) ? data.websitesData : [];
+
+	// pages
 	let skip = $derived(data.skip);
 	const first = $derived(data.first);
-	let totalUrls = $derived(data.websites.totalUrls);
+
 	const currentPage = $derived(skip / first + 1);
+	let totalUrls = $derived(data.websites.totalUrls);
+	
+	// overview
+	let overview = $derived(data.websites?.website);
+	let partners = $derived(data.partnersData || []);
+    let principles = $derived(data.principles || []);
+	let currentUrls = $derived(overview?.urls ?? []);
+
 	let heading = $derived({
-		title: data.websites.website?.title ?? 'Onbekende website',
-		homepage: data.websites.website?.homepage ?? ''
-	});
-	let websites = $derived(data.websites.website?.urls ?? []);
-	let overview = $derived(data.websites.website);
-	let params = $derived($page.params.websiteUID);
+        title: overview?.title ?? 'Onbekende website',
+        homepage: overview?.homepage ?? ''
+    });
+
 	let dialogRef = $state();
-	const principles = $derived(data.websites.principles);
 
 	function openAddUrl() {
         dialogRef?.open();

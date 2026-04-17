@@ -13,7 +13,7 @@
 	let activeDropdown = $state(null);
 	let partnerList = $derived(Array.isArray(partners) ? partners : (partners?.websites || []));
 
-    let selectedPartner = $derived(
+	let selectedPartner = $derived(
         params.websiteUID ? partnerList.find(({ slug }) => slug === params.websiteUID) : null
     );
 
@@ -27,12 +27,16 @@
         websites.filter(w => w.name) 
     );
 
+	let selectedPrinciple = $derived(
+        params.principleUID ? principles.find(({ slug }) => slug === params.principleUID) : null
+    );
+
 	function toggleDropdown(dropdownName) {
 		activeDropdown = activeDropdown === dropdownName ? null : dropdownName;
 	}
 	const faviconAPI =
 		'https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=';
-
+console.log(selectedPartner)
 </script>
 
 <div class="breadcrumbs">
