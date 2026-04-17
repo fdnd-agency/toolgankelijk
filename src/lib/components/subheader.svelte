@@ -2,14 +2,15 @@
 	import { page } from '$app/stores';
 	import NavButton from './NavButton.svelte';
 	import BreadCrumbs from './breadCrumbs.svelte';
-	import Search from '$lib/components/search.svelte';
+	import Input from '$lib/components/input.svelte';
 
 	let {params, 
 		partners, 
 		websites, 
 		principles, 
 		user = null,
-		showAdd = false
+		showAdd = false,
+		onAdd
 	} = $props();
 
 	// Internal state for the form fields
@@ -46,11 +47,17 @@
         variant="primary"
         showIcon={true}
         iconName="add"
-		event={onclick}
+		onclick={onAdd}
     ></NavButton>
 	{/if}
 
-	<Search placeholderProp="Zoeken" />
+	<form>
+	<Input
+	showIcon={true}
+	iconName="search"
+	size="full"
+	/>
+	</form>
 	</div>
 
 
