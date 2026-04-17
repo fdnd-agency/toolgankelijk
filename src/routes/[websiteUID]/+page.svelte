@@ -30,15 +30,31 @@
 </script>
 
 <SubHeader 
-	{params} 
-	{websites} 
-	{principles} 
-	user={data.user}
-	showAdd={true}
-	onAdd={openAddUrl} />
-<Dialog bind:this={dialogRef} {params} isType="addUrl" />
+    {params} 
+    partners={partners}
+    websites={currentUrls} 
+    {principles}
+    {overview} 
+    user={data.user}
+    showAdd={true}
+    onAdd={openAddUrl} 
+/>
+
+<Dialog bind:this={dialogRef} params={params.websiteUID} isType="addUrl" />
 <Heading {heading} />
 
+
+<section class="cards-container">
+{#each currentUrls as website}
+		<Card 
+            {website} 
+            {overview}
+            {params} 
+            {principles} 
+            isUrl={true} 
+        />
+    {/each}
+</section>
 
 {#if totalUrls > first}
 	<section>
@@ -52,13 +68,6 @@
 	<div class="toast"><p>{form?.message}</p></div>
 {/if}
 
-<Dialog bind:this={dialogRef} {params} isType="addUrl" />
-
-<section class="cards-container">
-	{#each websites as website}
-		<Card {website} {overview} {params} {principles} isUrl={true} />
-	{/each}
-</section>
 
 <style>
 	section {
