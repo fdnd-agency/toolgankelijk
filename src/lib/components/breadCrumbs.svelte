@@ -54,8 +54,8 @@
 
 		{#if activeDropdown === 'partner'}
 			<ul class="dropdown-list" transition:slide={{ duration: 200 }}>
-				{#each partners.websites as partner}
-					{#if partner}
+				{#each partnerList as partner}
+					{#if partner && partner.slug}
 						<li>
 							<NavButton variant="primary" href="/{partner.slug}" effect="select">
 								<img width="24" src="{faviconAPI}{partner.homepage}/&size=256" alt="logo partner" />
@@ -68,7 +68,6 @@
 		{/if}
 	</div>
 
-	{#if selectedPartner && websites}
 		<div class="breadcrumb-item">
 			<NavButton
 				onclick={() => toggleDropdown('url')}
@@ -77,20 +76,20 @@
 				iconName="arrow"
 				effect="dropdown"
 			>
-				{#if selectedUrl}
-					<p>{selectedUrl}</p>
-				{:else}
-					<p>URL overzicht</p>
-				{/if}
+				{#if selectedUrlItem}
+                    <p>{selectedUrlItem.name || selectedUrlItem.title}</p>
+                {:else}
+                    <p>URL overzicht</p>
+                {/if}
 			</NavButton>
 
 			{#if activeDropdown === 'url'}
 				<ul class="dropdown-list" transition:slide={{ duration: 200 }}>
-					{#each websites.urls as website}
-						{#if selectedPartner && website && website.slug}
+					{#each urlList as urlItem}
+						{#if selectedPartner && urlItem && urlItem.slug}
 							<li>
-								<NavButton href="/{selectedPartner.slug}/{website.slug}" effect="full">
-									<p>{website.slug}</p>
+								<NavButton href="/{selectedPartner.slug}/{urlItem.slug}" effect="full">
+									<p>{urlItem.name}</p>
 								</NavButton>
 							</li>
 						{/if}
@@ -100,7 +99,7 @@
 		</div>
 	{/if}
 
-	{#if selectedUrl && principles}
+	{#if selectedUrlItem && principles.length > 0}
 		<div class="breadcrumb-item">
 			<NavButton onclick={() => toggleDropdown('principle')} variant="primary" effect="dropdown">
 				{#if selectedPrinciple}
@@ -113,10 +112,10 @@
 			{#if activeDropdown === 'principle'}
 				<ul class="dropdown-list" transition:slide={{ duration: 200 }}>
 					{#each principles as principle}
-						{#if selectedPartner && selectedUrl && principle && principle.slug}
+						{#if selectedPartner && selectedUrlItem && principle && principle.slug}
 							<li>
 								<NavButton
-									href="/{selectedPartner.slug}/{selectedUrl}/{principle.slug}"
+									href="/{selectedPartner.slug}/{selectedUrlItem.slug}/{principle.slug}"
 									effect="full"
 								>
 									<p>{principle.title}</p>
