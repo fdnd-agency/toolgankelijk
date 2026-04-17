@@ -68,7 +68,13 @@
 	width: 100%;
 }
 
-input[type='text'] {
+label {
+	position: absolute;
+	margin-top: 0.5em;
+	margin-left: 0.5em;
+}
+
+input {
 	height: 48px;
 	width: 100%;
 	background-color: var(--color-neutral-white);
@@ -83,5 +89,4 @@ input[type='text'] {
 			font-size: 12px;
 	}
 }
-	
 </style>
