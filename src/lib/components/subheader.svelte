@@ -4,14 +4,16 @@
 	import BreadCrumbs from './breadCrumbs.svelte';
 	import Input from '$lib/components/input.svelte';
 
-	let {params, 
-		partners, 
-		websites, 
-		principles, 
-		user = null,
-		showAdd = false,
-		onAdd
-	} = $props();
+let { 
+        params, 
+        user, 
+        partners = [], 
+        websites = [], 
+        principles = [],
+		overview,
+        showAdd = false, 
+        onAdd 
+    } = $props();
 
 	// Internal state for the form fields
 	// let principle = $state('All');
@@ -35,7 +37,7 @@
 
 <div class="subheader">
 	{#if user && user.isEmailVerified}
-		<BreadCrumbs {params} {partners} {websites} {principles} width="full" />
+		<BreadCrumbs {params} {partners} {websites} {overview} {principles} width="full" />	
 	{/if}
 
 
