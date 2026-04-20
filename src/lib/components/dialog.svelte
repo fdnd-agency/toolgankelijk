@@ -1,6 +1,6 @@
 <script>
 	import Loader from '$lib/components/loader.svelte';
-	import NavButton from '$lib/components/NavButton.svelte';
+	import NavButton from '$lib/components/navButton.svelte';
 	import AccountIcon from '$lib/components/icons/accountIcon.svelte';
 	import AddIcon from '$lib/components/icons/addIcon.svelte';
 	import AlertIcon from '$lib/components/icons/alertIcon.svelte';

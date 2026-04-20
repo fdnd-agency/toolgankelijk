@@ -1,6 +1,6 @@
 <script>
 	import Dialog from '$lib/components/dialog.svelte';
-	import NavButton from '$lib/components/NavButton.svelte';
+	import NavButton from '$lib/components/navButton.svelte';
 
 	let { form } = $props();
 	let dialogRef;

@@ -3,8 +3,8 @@
 
 	import Logo from './logoHeader.svelte';
 	import BreadCrumbs from '$lib/components/breadCrumbs.svelte';
-	import Hamburger from '$lib/components/hamburger.svelte';
-	import NavButton from './NavButton.svelte';
+	import Hamburger from '$lib/components/hamburgerMenu.svelte';
+	import NavButton from './navButton.svelte';
 
 	/**
 	 * @typedef {Object} Props

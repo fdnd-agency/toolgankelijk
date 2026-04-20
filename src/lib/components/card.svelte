@@ -1,7 +1,7 @@
 <script>
 	import { onMount } from 'svelte';
 	import Dialog from '$lib/components/dialog.svelte';
-	import NavButton from '$lib/components/NavButton.svelte';
+	import NavButton from '$lib/components/navButton.svelte';
 
 	export let website;
 	export let principles;

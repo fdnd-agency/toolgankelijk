@@ -2,7 +2,7 @@
 	import { page } from '$app/stores';
 	import Heading from '$lib/components/heading.svelte';
 	import { onMount } from 'svelte';
-	import NavButton from '$lib/components/NavButton.svelte';
+	import NavButton from '$lib/components/navButton.svelte';
 	import Subheader from '$lib/components/subheader.svelte';
 
 	let { data } = $props();

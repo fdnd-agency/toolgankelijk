@@ -1,6 +1,6 @@
 <script>
 	import { enhance } from '$app/forms';
-	import NavButton from '$lib/components/NavButton.svelte';
+	import NavButton from '$lib/components/navButton.svelte';
 
 	let { form } = $props();
 </script>
