@@ -12,14 +12,12 @@
 <section class="form-container">
 	<form method="post" action="?/signin" use:enhance>
 		<fieldset class="form-login">
-			<legend>Login</legend>
+			<legend>Login met email</legend>
 			<p>
-				<label for="email">Email</label>
 				<input id="email" type="email" name="email" placeholder="Email" required />
 				<span></span>
 			</p>
 			<p>
-				<label for="password">Password</label>
 				<input
 					id="password"
 					type="password"
@@ -30,6 +28,7 @@
 					required
 				/>
 				<span></span>
+				<a class="link-password" href="/info">Forgot password?</a>
 			</p>
 
 			<NavButton aria="Inloggen" size="medium" variant="secondary" type="submit">Inloggen</NavButton
@@ -39,7 +38,6 @@
 
 			<div class="form-link">
 				<a class="link-account" href="/register">Don't have an account?</a>
-				<a class="link-password" href="/info">Forgot password?</a>
 			</div>
 		</fieldset>
 	</form>
@@ -56,7 +54,7 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		width: 18rem;
+		width: 50rem;
 		background-color: var(--color-primary-light);
 		border-color: var(--color-primary);
 		border-radius: var(--border-radius);
@@ -64,11 +62,12 @@
 		padding-right: 2rem;
 		padding-top: 1rem;
 		padding-bottom: 1.5rem;
+		border: none;
 	}
 
 	legend {
-		color: var(--color-primary);
-		padding-top: 2.5rem;
+		color: var(--color-neutral-black);
+		padding-top: 3.5rem;
 		text-align: center;
 		font-size: 38px;
 	}
@@ -139,7 +138,7 @@
 	}
 
 	.link-password {
-		padding-left: 1rem;
+		padding-left: 0.5rem;
 	}
 
 	@media screen and (max-width: 380px) {
