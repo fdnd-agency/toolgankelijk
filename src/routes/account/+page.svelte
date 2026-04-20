@@ -48,7 +48,7 @@
 
 	h2 {
 		margin: 0 0 24px 0;
-		color: var(--color-neutral-white); 
+		color: var(--color-neutral-white);
 	}
 
 	.logo-text {
