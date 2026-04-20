@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { render, screen } from '@testing-library/svelte';
-import Header from '$lib/components/header.svelte';
+import Header from '$lib/components/templates/header.svelte';
 
 const mockedPageState = vi.hoisted(() => ({ pathname: '/' }));
 

@@ -1,6 +1,6 @@
 <script>
 	import { page } from '$app/stores';
-	import NavButton from './navButton.svelte';
+	import NavButton from '../moleculues/navButton.svelte';
 
 	let { partnerTitle = '', onApply } = $props();
 

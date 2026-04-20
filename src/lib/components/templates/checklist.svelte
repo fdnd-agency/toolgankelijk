@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import { enhance } from '$app/forms';
 	import loadingIcon from '$lib/assets/loading.svg';
-	import NavButton from './navButton.svelte';
+	import NavButton from '../moleculues/navButton.svelte';
 
 	/** @typedef {import('$lib/types').SuccessCriteria} SuccessCriteria */
 	/**

@@ -1,6 +1,6 @@
 <script>
-	import AccountIcon from '$lib/components/icons/accountIcon.svelte';
-	import NavButton from '$lib/components/navButton.svelte';
+	import AccountIcon from '$lib/components/atoms/icons/accountIcon.svelte';
+	import NavButton from '$lib/components/moleculues/navButton.svelte';
 	let { data } = $props();
 
 	async function handleSignOut(event) {

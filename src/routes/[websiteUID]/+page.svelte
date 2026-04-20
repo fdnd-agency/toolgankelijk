@@ -1,11 +1,11 @@
 <script>
 	import { page } from '$app/stores';
-	import Card from '$lib/components/card.svelte';
-	import Search from '$lib/components/search.svelte';
-	import Dialog from '$lib/components/dialog.svelte';
-	import Pages from '$lib/components/pages.svelte';
-	import NavButton from '$lib/components/navButton.svelte';
-	import Heading from '$lib/components/heading.svelte';
+	import Card from '$lib/components/templates/card.svelte';
+	import Search from '$lib/components/moleculues/search.svelte';
+	import Dialog from '$lib/components/templates/dialog.svelte';
+	import Pages from '$lib/components/organisms/pages.svelte';
+	import NavButton from '$lib/components/moleculues/navButton.svelte';
+	import Heading from '$lib/components/moleculues/heading.svelte';
 
 	let { data, form } = $props();
 

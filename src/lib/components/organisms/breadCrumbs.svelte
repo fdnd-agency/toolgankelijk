@@ -1,5 +1,5 @@
 <script>
-	import NavButton from './navButton.svelte';
+	import NavButton from '../moleculues/navButton.svelte';
 	import { slide } from 'svelte/transition';
 
 	let { params, partners, websites, principles, user = null } = $props();

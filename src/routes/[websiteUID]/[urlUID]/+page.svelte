@@ -1,9 +1,9 @@
 <script>
 	import { page } from '$app/stores';
-	import Heading from '$lib/components/heading.svelte';
+	import Heading from '$lib/components/moleculues/heading.svelte';
 	import { onMount } from 'svelte';
-	import NavButton from '$lib/components/navButton.svelte';
-	import Subheader from '$lib/components/subheader.svelte';
+	import NavButton from '$lib/components/moleculues/navButton.svelte';
+	import Subheader from '$lib/components/templates/subheader.svelte';
 
 	let { data } = $props();
 

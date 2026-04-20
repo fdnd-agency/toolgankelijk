@@ -1,6 +1,6 @@
 <script>
 	let { amount, perPage, currentPage } = $props();
-	import NavButton from './navButton.svelte';
+	import NavButton from '../moleculues/navButton.svelte';
 
 	// calculate the number of pages
 	let pageCount = $derived(Math.ceil(amount / perPage));

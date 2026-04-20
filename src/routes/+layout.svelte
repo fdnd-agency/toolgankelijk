@@ -1,7 +1,7 @@
 <script>
 	import { onNavigate } from '$app/navigation';
 	import { page } from '$app/stores';
-	import Header from '$lib/components/header.svelte';
+	import Header from '$lib/components/templates/header.svelte';
 
 	let { data, children } = $props();
 	let params = $derived($page.params);

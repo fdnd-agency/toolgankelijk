@@ -1,5 +1,5 @@
 <script>
-	import NavButton from './navButton.svelte';
+	import NavButton from '../moleculues/navButton.svelte';
 </script>
 
 <div class="hamburger-wrapper">

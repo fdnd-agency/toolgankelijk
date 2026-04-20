@@ -1,22 +1,22 @@
 <script>
-	import AccountIcon from '$lib/components/icons/accountIcon.svelte';
-	import AddIcon from '$lib/components/icons/addIcon.svelte';
-	import AlertIcon from '$lib/components/icons/alertIcon.svelte';
-	import AlphabeticalIcon from '$lib/components/icons/alphabeticalIcon.svelte';
-	import ArrowIcon from '$lib/components/icons/arrowIcon.svelte';
-	import AuditIcon from '$lib/components/icons/auditIcon.svelte';
-	import BulbIcon from '$lib/components/icons/bulbIcon.svelte';
-	import CheckIcon from '$lib/components/icons/checkIcon.svelte';
-	import CrossIcon from '$lib/components/icons/crossIcon.svelte';
-	import DeleteIcon from '$lib/components/icons/deleteIcon.svelte';
-	import EditIcon from '$lib/components/icons/editIcon.svelte';
-	import FilterIcon from '$lib/components/icons/filterIcon.svelte';
-	import HomeIcon from '$lib/components/icons/homeIcon.svelte';
-	import InfoIcon from '$lib/components/icons/infoIcon.svelte';
-	import MenuIcon from '$lib/components/icons/menuIcon.svelte';
-	import MoonIcon from '$lib/components/icons/moonIcon.svelte';
-	import SearchIcon from '$lib/components/icons/searchIcon.svelte';
-	import SunIcon from '$lib/components/icons/sunIcon.svelte';
+	import AccountIcon from '$lib/components/atoms/icons/accountIcon.svelte';
+	import AddIcon from '$lib/components/atoms/icons/addIcon.svelte';
+	import AlertIcon from '$lib/components/atoms/icons/alertIcon.svelte';
+	import AlphabeticalIcon from '$lib/components/atoms/icons/alphabeticalIcon.svelte';
+	import ArrowIcon from '$lib/components/atoms/icons/arrowIcon.svelte';
+	import AuditIcon from '$lib/components/atoms/icons/auditIcon.svelte';
+	import BulbIcon from '$lib/components/atoms/icons/bulbIcon.svelte';
+	import CheckIcon from '$lib/components/atoms/icons/checkIcon.svelte';
+	import CrossIcon from '$lib/components/atoms/icons/crossIcon.svelte';
+	import DeleteIcon from '$lib/components/atoms/icons/deleteIcon.svelte';
+	import EditIcon from '$lib/components/atoms/icons/editIcon.svelte';
+	import FilterIcon from '$lib/components/atoms/icons/filterIcon.svelte';
+	import HomeIcon from '$lib/components/atoms/icons/homeIcon.svelte';
+	import InfoIcon from '$lib/components/atoms/icons/infoIcon.svelte';
+	import MenuIcon from '$lib/components/atoms/icons/menuIcon.svelte';
+	import MoonIcon from '$lib/components/atoms/icons/moonIcon.svelte';
+	import SearchIcon from '$lib/components/atoms/icons/searchIcon.svelte';
+	import SunIcon from '$lib/components/atoms/icons/sunIcon.svelte';
 
 	let {
 		iconName,

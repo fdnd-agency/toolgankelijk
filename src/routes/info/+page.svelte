@@ -2,8 +2,8 @@
 	import { enhance } from '$app/forms';
 	import walking from '$lib/assets/walking_together.svg';
 	import knowledge from '$lib/assets/sharing_knowledge.svg';
-	import NavButton from '$lib/components/navButton.svelte';
-	import Heading from '$lib/components/heading.svelte';
+	import NavButton from '$lib/components/moleculues/navButton.svelte';
+	import Heading from '$lib/components/moleculues/heading.svelte';
 
 	let heading = $derived({ titel: 'Informatie' });
 
