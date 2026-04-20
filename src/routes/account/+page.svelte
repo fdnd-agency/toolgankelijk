@@ -18,7 +18,7 @@
 	</div>
 
 	<h2>{data.user.username}</h2>
-	<h2 class="user-title">{data.user.email}</h2>
+	<h2 class="user-title color-neutral-white">{data.user.email}</h2>
 	<NavButton on:click={handleSignOut} variant="primary" size="large">Sign out</NavButton>
 </div>
 
@@ -48,7 +48,7 @@
 
 	h2 {
 		margin: 0 0 24px 0;
-		color: white;
+		color: var(--color-neutral-white); 
 	}
 
 	.logo-text {
