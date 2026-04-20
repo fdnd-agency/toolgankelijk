@@ -53,12 +53,15 @@ let {
     ></NavButton>
 
 	<form>
-	<Input
-	showIcon={true}
-	iconName="search"
-	size="full"
-	/>
+	<NavButton
+        size="small"
+        variant="primary"
+        showIcon={true}
+        iconName="search"
+		onclick={onAdd}
+    ></NavButton>
 	</form>
+			{/if}
 	</div>
 
 
