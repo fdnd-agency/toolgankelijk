@@ -3,10 +3,14 @@
 	import Dialog from '$lib/components/dialog.svelte';
 	import NavButton from '$lib/components/NavButton.svelte';
 
-	export let website;
-	export let principles;
-	export let params;
-	export let isUrl = false;
+
+	let {
+		website,
+		principle,
+		params,
+		isUrl = false
+	} = $props();
+
 
 	let editType;
 	let deleteType;
