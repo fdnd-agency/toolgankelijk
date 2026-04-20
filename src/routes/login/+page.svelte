@@ -10,37 +10,54 @@
 </svelte:head>
 
 <section class="form-container">
-	<form method="post" action="?/signin" use:enhance>
-		<fieldset class="form-login">
-			<legend>Login met email</legend>
-			<p>
-				<input id="email" type="email" name="email" placeholder="Email" required />
-				<span></span>
-			</p>
-			<p>
-				<input
-					id="password"
-					type="password"
-					name="password"
-					minlength="6"
-					placeholder="Password"
-					autocomplete="off"
-					required
-				/>
-				<span></span>
-				<a class="link-password" href="/info">Forgot password?</a>
-			</p>
+	<div class="form-background">
+		<form method="post" action="?/signin" use:enhance>
+			<fieldset class="form-login">
+				<legend>Log in met email</legend>
 
-			<NavButton aria="Inloggen" size="medium" variant="secondary" type="submit">Inloggen</NavButton
-			>
+				<svg
+					class="decorative-line"
+					viewBox="0 0 500 15"
+					preserveAspectRatio="none"
+					xmlns="http://www.w3.org/2000/svg"
+				>
+					<path
+						d="M0,1 L120,1 L135,14 L500,14"
+						stroke="var(--color-primary, #C10058)"
+						stroke-width="1.5"
+						fill="none"
+					/>
+				</svg>
 
-			<p style="color: red;">{form?.message ?? ''}</p>
+				<p>
+					<input id="email" type="email" name="email" placeholder="Email" required />
+					<span></span>
+				</p>
+				<p>
+					<input
+						id="password"
+						type="password"
+						name="password"
+						minlength="6"
+						placeholder="Wachtwoord"
+						autocomplete="off"
+						required
+					/>
+					<span></span>
+					<a class="link-password" href="/info">Wachtwoord vergeten</a>
+				</p>
 
-			<div class="form-link">
-				<a class="link-account" href="/register">Don't have an account?</a>
-			</div>
-		</fieldset>
-	</form>
+				<NavButton aria="Inloggen" size="medium" variant="primary" type="submit">Log in</NavButton>
+
+				<p style="color: red; padding-top: 0;">{form?.message ?? ''}</p>
+
+				<div class="form-link">
+					<span class="text-account">Nog geen account?</span>
+					<a class="link-account" href="/register">Registreren</a>
+				</div>
+			</fieldset>
+		</form>
+	</div>
 </section>
 
 <style>
@@ -100,7 +117,7 @@
 	input {
 		background-color: var(--color-neutral-white);
 		border-radius: var(--border-radius);
-		height: 2.5rem;
+		height: 2.8rem;
 		width: 15rem;
 		padding-left: 0.5rem;
 		font-size: 16px;
