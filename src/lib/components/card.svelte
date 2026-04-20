@@ -3,26 +3,25 @@
 	import Dialog from '$lib/components/dialog.svelte';
 	import NavButton from '$lib/components/NavButton.svelte';
 
-
 	let {
 		website,
-		principle,
+		principles = [],
 		params,
 		isUrl = false
 	} = $props();
 
+	let dialogRefEdit = $state();
+    let dialogRefDelete = $state();
+    let dialogRefAudit = $state();
+    let progressbar = $state();
+    let labelValue = $state();
+    let lastTime = $state('');
 
 	let editType;
 	let deleteType;
 	let auditType;
-	let dialogRefEdit;
-	let dialogRefDelete;
-	let dialogRefAudit;
 	let faviconSrc;
 
-	let labelValue;
-	let progressbar;
-	let lastTime;
 	let link;
 	let title;
 	let url;
