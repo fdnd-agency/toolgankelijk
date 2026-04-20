@@ -51,7 +51,6 @@ let {
         iconName="add"
 		onclick={onAdd}
     ></NavButton>
-	{/if}
 
 	<form>
 	<Input
@@ -253,7 +252,7 @@ let {
 		display: flex;
 		padding: 1em;
 		align-content: center;
-		justify-content: space-around;
+		justify-content: space-between;
 
 	@media (max-width: 720px) {
 		display: flex;

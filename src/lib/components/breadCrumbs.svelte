@@ -36,7 +36,7 @@
 	}
 	const faviconAPI =
 		'https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=';
-console.log(selectedPartner)
+
 </script>
 
 <div class="breadcrumbs">
