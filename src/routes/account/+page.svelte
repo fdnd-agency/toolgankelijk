@@ -48,6 +48,7 @@
 
 	h2 {
 		margin: 0 0 24px 0;
+		color: white;
 	}
 
 	.logo-text {
