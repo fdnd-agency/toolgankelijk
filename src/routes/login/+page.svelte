@@ -67,11 +67,18 @@
 		margin-top: 3rem;
 	}
 
+	.form-background {
+        background-color: var(--color-primary);
+        padding: 3.5rem 4.5rem;
+        width: 100%;
+        max-width: 55rem;
+        border-radius: var(--border-radius);
+    }
+
 	.form-login {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		width: 50rem;
 		background-color: var(--color-primary-light);
 		border-color: var(--color-primary);
 		border-radius: var(--border-radius);
