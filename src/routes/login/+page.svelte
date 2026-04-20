@@ -22,7 +22,7 @@
 					xmlns="http://www.w3.org/2000/svg"
 				>
 					<path
-						d="M0,1 L120,1 L135,14 L500,14"
+						d="M -2 14 L 120 13 L 132 4 L 507 3"
 						stroke="var(--color-primary, #C10058)"
 						stroke-width="1.5"
 						fill="none"
@@ -94,6 +94,7 @@
 		padding-top: 3.5rem;
 		text-align: center;
 		font-size: 38px;
+		font-weight: bold;
 	}
 
 	p {
