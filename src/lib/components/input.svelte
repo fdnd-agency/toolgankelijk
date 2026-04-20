@@ -72,6 +72,10 @@ label {
 	position: absolute;
 	margin-top: 0.5em;
 	margin-left: 0.5em;
+
+	@media (max-width: 720px) {
+			color: var(--color-neutral-white);
+	}
 }
 
 input {
@@ -85,7 +89,9 @@ input {
 	padding-left: 1em;
 
 	@media (max-width: 720px) {
-			height: 32px;
+			height: 48px;
+			width: 48px;
+			background-color: var(--color-primary);
 			font-size: 12px;
 	}
 }

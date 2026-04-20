@@ -254,6 +254,11 @@ let {
 		padding: 1em;
 		align-content: center;
 		justify-content: space-around;
+
+	@media (max-width: 720px) {
+		display: flex;
+		gap: 0.5em;
+	}
 	}
 
 	.subheader-form {
