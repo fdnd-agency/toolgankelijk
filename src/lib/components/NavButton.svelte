@@ -90,6 +90,9 @@
 		border: var(--border-white, 1px solid transparent);
 		height: 3em;
 		gap: 0.5em;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
 
 	.navbutton:hover {
@@ -181,5 +184,6 @@
 
 	.full {
 		width: 100%;
+		justify-content: flex-start;
 	}
 </style>
