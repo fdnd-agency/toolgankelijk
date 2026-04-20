@@ -15,19 +15,6 @@
 			<fieldset class="form-login">
 				<legend>Log in met email</legend>
 
-				<svg
-					class="decorative-line"
-					viewBox="0 0 500 15"
-					preserveAspectRatio="none"
-					xmlns="http://www.w3.org/2000/svg"
-				>
-					<path
-						d="M -2 14 L 120 13 L 132 4 L 507 3"
-						stroke="var(--color-primary, #C10058)"
-						stroke-width="1.5"
-						fill="none"
-					/>
-				</svg>
 
 				<p>
 					<input id="email" type="email" name="email" placeholder="Email" required />
