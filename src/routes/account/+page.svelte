@@ -19,7 +19,7 @@
 
 	<h2>{data.user.username}</h2>
 	<h2 class="user-title color-neutral-white">{data.user.email}</h2>
-	<NavButton on:click={handleSignOut} variant="primary" size="large">Sign out</NavButton>
+	<NavButton onclick={handleSignOut} variant="primary" size="large">Sign out</NavButton>
 </div>
 
 <style>
