@@ -1,5 +1,6 @@
 <script>
 	import AccountIcon from '$lib/components/icons/accountIcon.svelte';
+	import NavButton from '$lib/components/NavButton.svelte';
 	let { data } = $props();
 
 	async function handleSignOut(event) {
@@ -18,7 +19,7 @@
 
 	<h2>{data.user.username}</h2>
 	<h2 class="user-title">{data.user.email}</h2>
-	<button on:click={handleSignOut} class="signout-btn"> Sign out </button>
+	<NavButton on:click={handleSignOut} variant="primary" size="large">Sign out</NavButton>
 </div>
 
 <style>
@@ -62,28 +63,6 @@
 		overflow: hidden;
 		text-overflow: ellipsis;
 	}
-
-	.signout-btn {
-		background-color: var(--color-primary-light);
-		border-radius: 24px;
-		padding: 8px 32px;
-		font-size: 1rem;
-		font-weight: 700;
-		cursor: pointer;
-		display: flex;
-		align-items: center;
-		gap: 8px;
-		transition: opacity 0.2s;
-		border: 2px solid var(--color-neutral-black);
-		color: var(--color-neutral-black);
-	}
-
-	.signout-btn:hover {
-		background-color: transparent;
-		color: var(--color-primary);
-		opacity: 0.9;
-	}
-
 	.logo-text :global(svg) {
 		width: 50px;
 		height: 50px;
