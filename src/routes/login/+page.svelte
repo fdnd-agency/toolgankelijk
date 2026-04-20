@@ -13,7 +13,7 @@
 	<div class="form-background">
 		<form method="post" action="?/signin" use:enhance>
 			<fieldset class="form-login">
-				<legend>Log in met email</legend>
+				<legend>Inloggen</legend>
 
 
 				<p>
@@ -31,7 +31,7 @@
 						required
 					/>
 					<span></span>
-					<a class="link-password" href="/info">Wachtwoord vergeten</a>
+					<a class="link-password" href="/info">Wachtwoord vergeten?</a>
 				</p>
 
 				<NavButton aria="Inloggen" size="medium" variant="primary" type="submit">Log in</NavButton>
