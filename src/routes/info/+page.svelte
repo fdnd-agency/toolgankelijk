@@ -30,36 +30,31 @@
 
 <Heading {heading} />
 
-<div class="content-container">
-	<section class="top-container">
-		<section class="text-container">
-			<h3><span>Vervoerregio Amsterdam.</span> HvA</h3>
+<div class="info-wrapper">
+	<section class="text-container">
+			<h2><span>Vervoerregio Amsterdam.</span> HvA</h2>
 			<br />
 			<p>
 				Wij hebben samen met studenten van de Hogeschool van Amsterdam een checklist ontwikkeld
 				waarin op eenvoudige wijze wordt uitgelegd wat hierbij komt kijken en welke stappen u kunt
 				nemen om uw website en app toegankelijk te maken.
 			</p>
-		</section>
-		<section class="image-container">
 			<img src={walking} class="text-image" alt="darkmode icon" />
-		</section>
 	</section>
 
-	<section class="left-container">
-		<h3 id="wettelijk">is uw website al toegankelijk?</h3>
-		<br />
-		<p>
-			Binnen 2025 moet dit al! Voor overheden is dit al verplicht. En vanaf 2025 moet iedere nieuwe
-			website en app digitaal toegankelijk zijn. Dit moet volgens het EAA (European Accessibility
-			Act). Dit zou er mee moeten helpen dat iedereen elke website zou kunnen bezoeken, niet
-			uitmakende dat iemand een beperking heeft
-		</p>
+	<section class="text-container">
+			<h2 id="wettelijk">is uw website al toegankelijk?</h2>
+			<p>
+				Binnen 2025 moet dit al! Voor overheden is dit al verplicht. En vanaf 2025 moet iedere nieuwe
+				website en app digitaal toegankelijk zijn. Dit moet volgens het EAA (European Accessibility
+				Act). Dit zou er mee moeten helpen dat iedereen elke website zou kunnen bezoeken, niet
+				uitmakende dat iemand een beperking heeft
+			</p>
 	</section>
 
-	<section class="right-container">
+	<section class="text-container">
 		<h3>Wat kunt u doen om uw website toegankelijk te maken?</h3>
-		<br />
+
 		<p>
 			De Vervoerregio Amsterdam heeft samen met studenten van de Hogeschool van Amsterdam een
 			checklist ontwikkeld waarin op eenvoudige wijze wordt uitgelegd wat hierbij komt kijken en
@@ -67,30 +62,33 @@
 		</p>
 	</section>
 
-	<section class="bot-left-container">
-		<section class="text-container">
-			<h3>Wat is de wettelijke achtergrond?</h3>
-			<br />
+	<section class="text-container">
+		<h3>Wat kunt u doen om uw website toegankelijk te maken?</h3>
+
+		<p>
+			De Vervoerregio Amsterdam heeft samen met studenten van de Hogeschool van Amsterdam een
+			checklist ontwikkeld waarin op eenvoudige wijze wordt uitgelegd wat hierbij komt kijken en
+			welke stappen u kunt nemen om uw website en app toegankelijk te maken.
+		</p>
+	</section>
+
+	<section class="text-container">
+			<h2>Wat is de wettelijke achtergrond?</h2>
 			<p>
 				In Nederland zijn er ca. 2 miljoen mensen met een beperking. Als deze mensen uw website of
 				app niet kunnen gebruiken, dan zorgt dat dat deze mensen worden uitgesloten van de
 				samenleving. Medio 2025 wordt om die reden door.
-				<br /><br />
+
 				De Europese Unie de European Accessibility Act (EAA) of Europese Toegankelijkheidswet ingevoerd.
 				De wet zorgt ervoor dat digitale barrières worden verwijderd voor mensen met een beperking. De
 				eisen zijn gebaseerd op de Web Content Accessibility Guidelines (WCAG) van het World Wide Web
 				Consortium
 			</p>
-		</section>
-		<section class="image-container">
-			<img src={knowledge} class="text-image" alt="Sharing Knowledge" />
-		</section>
+		<img src={knowledge} class="text-image" alt="Sharing Knowledge" />
 	</section>
 
-	<section class="bot-right-container">
-		<section class="text-container">
-			<h3>Contact opnemen?</h3>
-			<br />
+	<section class="text-container">
+			<h2>Contact opnemen?</h2>
 			<p>
 				Indien u vragen heeft of mocht er nog enige onduidelijkheid bestaan, kunt u via onderstaand
 				formulier contact met ons opnemen.
@@ -121,11 +119,17 @@
 					{/if}
 				</fieldset>
 			</form>
-		</section>
 	</section>
 </div>
 
 <style>
+
+.info-wrapper {
+	display: flex;
+	flex-direction: column;
+	gap: 2em;
+}
+
 	.text-container p {
 		max-width: 50rem;
 	}
@@ -175,14 +179,15 @@
 		height: 13em;
 	}
 
-	.top-container,
+	.text-container,
 	.left-container,
 	.right-container,
 	.bot-left-container,
 	.bot-right-container {
 		padding: 2em;
-		background-color: var(--c-container);
-		border-radius: 0.5em;
+		color: var(--color-neutral-white);
+		background-color: var(--color-primary);
+		border-radius: var(--border-radius);
 	}
 
 	span {
