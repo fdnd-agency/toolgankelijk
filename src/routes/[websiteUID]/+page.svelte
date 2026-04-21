@@ -45,12 +45,6 @@
 	<Search placeholderProp="Home" />
 </section>
 
-{#if totalUrls > first}
-	<section>
-		<Pages amount={totalUrls} perPage={first} {currentPage} />
-	</section>
-{/if}
-
 {#if form?.success}
 	<div class="toast"><p>{form?.message}</p></div>
 {:else if form?.success == false}
@@ -63,6 +57,12 @@
 	{#each websites as website}
 		<Card {website} {overview} {params} {principles} isUrl={true} />
 	{/each}
+
+	{#if totalUrls > first}
+	<section>
+		<Pages amount={totalUrls} perPage={first} {currentPage} />
+	</section>
+{/if}
 </section>
 
 <style>

@@ -53,10 +53,6 @@
 	<Search placeholderProp="Gvb" />
 </section>
 
-{#if totalUrls > first}
-	<Pages amount={totalUrls} perPage={first} {currentPage} />
-{/if}
-
 {#if showRegistrationSuccess}
 	<div class="toast success"><p>Account succesvol aangemaakt!</p></div>
 {/if}
@@ -73,6 +69,10 @@
 	{#each data.websites as website}
 		<Card {website} {principles} isUrl={false} />
 	{/each}
+
+	{#if totalUrls > first}
+		<Pages amount={totalUrls} perPage={first} {currentPage} />
+	{/if}
 </section>
 
 <NavButton size="medium" variant="primary" showIcon={false} href="#main" aria="scroll naar boven">
