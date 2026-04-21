@@ -92,7 +92,6 @@
 		gap: 0.5em;
 		white-space: nowrap;
 		overflow: hidden;
-		text-overflow: ellipsis;
 	}
 
 	.navbutton:hover {
@@ -185,5 +184,22 @@
 	.full {
 		width: 100%;
 		justify-content: flex-start;
+		text-overflow: ellipsis;
+		white-space: no-wrap;
+		overflow: hidden;
+		margin: 0;
+		transition: all 0.2s ease;
+    	display: block;
+		
+
+		&:hover {
+			height: fit-content;
+		}
+
+		@media (max-width: 720px) {
+			white-space: normal;
+			word-break: break-all;
+			padding: 0.5rem 0;
+		}
 	}
 </style>
