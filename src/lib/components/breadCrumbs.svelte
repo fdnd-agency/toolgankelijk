@@ -1,4 +1,5 @@
 <script>
+	import { act } from '@testing-library/svelte';
 	import NavButton from './NavButton.svelte';
 	import { slide } from 'svelte/transition';
 
@@ -37,6 +38,11 @@
 	const faviconAPI =
 		'https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=';
 
+	$effect(() => {
+		if (params) {
+			activeDropdown = null;
+		}
+	})
 </script>
 
 <div class="breadcrumbs">
@@ -94,7 +100,7 @@
 						{#if selectedPartner && urlItem && urlItem.slug}
 							<li>
 								<NavButton href="/{selectedPartner.slug}/{urlItem.slug}" effect="full">
-									<p>{urlItem.name}</p>
+									<p title={urlItem.name}>{urlItem.name}</p>
 								</NavButton>
 							</li>
 						{/if}
@@ -151,20 +157,35 @@
 	.dropdown-list {
 		position: absolute;
 		top: calc(100% + 0.5rem);
-		left: 0;
 		z-index: 10;
-
+		height: fit-content;
+		box-sizing: border-box;
 		width: 15em;
 		background-color: var(--color-primary-light);
 		border: var(--color-primary) solid 3px;
 		border-radius: var(--border-radius);
-		padding: 1em;
 
+		padding: 1em;
 		list-style: none;
 		display: flex;
 		flex-direction: column;
 		gap: 0.3em;
 		margin: 0;
+
+
+		li {
+			width: 100%;
+			overflow-x: auto;
+    		-webkit-overflow-scrolling: touch;
+			scroll-snap-align: start;
+		}
+
+		li:hover p {
+			white-space: normal;    
+    		word-break: break-all;    
+    		overflow: visible;
+			white-space: nowrap;
+		}
 
 		@media (max-width: 720px) {
 			width: 100%;
