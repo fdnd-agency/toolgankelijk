@@ -150,6 +150,13 @@
 		}
 	}
 
+	.scroll-to-top-wrapper {
+		position: relative;
+		padding: 1em;
+		z-index: 3;
+		transform: rotate(180deg);
+	}
+
 	.toast {
 		position: fixed;
 		bottom: 5rem;
@@ -199,10 +206,5 @@
 		}
 	}
 
-	.scroll-to-top-wrapper {
-	position: relative;
-	padding: 1em;
-	z-index: 3;
-	transform: rotate(180deg);
-}
+
 </style>
