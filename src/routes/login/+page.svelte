@@ -10,41 +10,40 @@
 </svelte:head>
 
 <section class="form-container">
-	<div class="form-background">
-		<form method="post" action="?/signin" use:enhance>
-			<fieldset class="form-login">
-				<legend>Inloggen</legend>
+    <div class="form-background">
+        <form method="post" action="?/signin" use:enhance>
+            <div class="form-login">
+                <h1 class="form-title">Inloggen</h1>
 
+                <p>
+                    <input id="email" type="email" name="email" placeholder="Email" required />
+                    <span></span>
+                </p>
+                <p>
+                    <input
+                        id="password"
+                        type="password"
+                        name="password"
+                        minlength="6"
+                        placeholder="Wachtwoord"
+                        autocomplete="off"
+                        required
+                    />
+                    <span></span>
+                    <a class="link-password" href="/info">Wachtwoord vergeten?</a>
+                </p>
 
-				<p>
-					<input id="email" type="email" name="email" placeholder="Email" required />
-					<span></span>
-				</p>
-				<p>
-					<input
-						id="password"
-						type="password"
-						name="password"
-						minlength="6"
-						placeholder="Wachtwoord"
-						autocomplete="off"
-						required
-					/>
-					<span></span>
-					<a class="link-password" href="/info">Wachtwoord vergeten?</a>
-				</p>
+                <NavButton aria="Inloggen" size="medium" variant="primary" type="submit">Log in</NavButton>
 
-				<NavButton aria="Inloggen" size="medium" variant="primary" type="submit">Log in</NavButton>
+                <p style="color: red; padding-top: 0;">{form?.message ?? ''}</p>
 
-				<p style="color: red; padding-top: 0;">{form?.message ?? ''}</p>
-
-				<div class="form-link">
-					<span class="text-account">Nog geen account?</span>
-					<a class="link-account" href="/register">Registreren</a>
-				</div>
-			</fieldset>
-		</form>
-	</div>
+                <div class="form-link">
+                    <span class="text-account">Nog geen account?</span>
+                    <a class="link-account" href="/register">Registreren</a>
+                </div>
+            </div>
+        </form>
+    </div>
 </section>
 
 <style>
