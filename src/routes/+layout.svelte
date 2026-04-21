@@ -2,6 +2,7 @@
 	import { onNavigate } from '$app/navigation';
 	import { page } from '$app/stores';
 	import Header from '$lib/components/templates/header.svelte';
+	import NavButton from '$lib/components/moleculues/navButton.svelte';
 
 	let { data, children } = $props();
 	let params = $derived($page.params);
@@ -24,6 +25,11 @@
 
 <Header {params} {partners} {websites} {principles} user={data.user} />
 
+
+
 <main id="main">
 	{@render children?.()}
+
+
 </main>
+

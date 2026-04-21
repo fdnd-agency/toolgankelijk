@@ -75,11 +75,12 @@
 	{/if}
 </section>
 
-<NavButton size="medium" variant="primary" showIcon={false} href="#main" aria="scroll naar boven">
-	<p>Scroll naar Boven</p>
-</NavButton>
+<div class="scroll-to-top-wrapper">
+	<NavButton size="small" variant="primary" showIcon={true} iconName="arrow" href="#main" aria="scroll naar boven">
+	</NavButton>
+</div>
 
-<a href="#main" class="btn-top" onclick={scrollToTop}>⬆</a>
+
 
 <style>
 	section {
@@ -197,4 +198,11 @@
 			opacity: 0;
 		}
 	}
+
+	.scroll-to-top-wrapper {
+	position: relative;
+	padding: 1em;
+	z-index: 3;
+	transform: rotate(180deg);
+}
 </style>
