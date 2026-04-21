@@ -1,12 +1,12 @@
 <script>
-	import { enhance } from '$app/forms';
-	import NavButton from '$lib/components/NavButton.svelte';
+    import { enhance } from '$app/forms';
+    import NavButton from '$lib/components/NavButton.svelte';
 
-	let { form } = $props();
+    let { form } = $props();
 </script>
 
 <svelte:head>
-	<title>Login · Vervoerregio Amsterdam</title>
+    <title>Login · Vervoerregio Amsterdam</title>
 </svelte:head>
 
 <section class="form-container">
@@ -47,86 +47,93 @@
 </section>
 
 <style>
-	.form-container {
-		display: flex;
-		justify-content: center;
-		margin-top: 3rem;
-	}
+    .form-container {
+        display: flex;
+        justify-content: center;
+        padding: 3rem 1rem;
+    }
 
-	.form-background {
+    .form-background {
         background-color: var(--color-primary);
-        padding: 3.5rem 4.5rem;
+        padding: 4rem 2rem; 
         width: 100%;
-        max-width: 55rem;
+        max-width: 45rem;
         border-radius: var(--border-radius);
     }
 
-	.form-login {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		background-color: var(--color-primary-light);
-		border-color: var(--color-primary);
-		border-radius: var(--border-radius);
-		padding-left: 2rem;
-		padding-right: 2rem;
-		padding-top: 1rem;
-		padding-bottom: 1.5rem;
-		border: none;
-	}
+    form {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
 
-	legend {
-		color: var(--color-neutral-black);
-		padding-top: 3.5rem;
-		text-align: center;
-		font-size: 38px;
-		font-weight: bold;
-	}
+    .form-login {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: var(--color-neutral-white);
+        border: none;
+        border-radius: var(--border-radius);
+        padding: 3rem 2.5rem;
+        width: 100%;
+        max-width: 26rem; 
+    }
 
-	p {
-		display: flex;
-		flex-direction: column;
-		padding-top: 1rem;
-	}
+    .form-title {
+        color: var(--color-primary);
+        text-align: center;
+        font-size: 2.2rem;
+        font-weight: 700;
+        margin: 0 0 1rem 0; 
+    }
 
-	span::before {
-		content: ' ';
-	}
+    p {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        margin: 0 0 1.5rem 0;
+        padding: 0;
+        position: relative;
+    }
 
-	input:user-invalid + span::before {
-		content: 'Invalid input';
-		color: darkred;
-		font-size: 12px;
-	}
+    input {
+        background-color: var(--color-neutral-white);
+        border: 1px solid var(--color-neutral-grey);
+        border-radius: 8px;
+        height: 3.2rem;
+        width: 100%;
+        padding: 0 1rem;
+        font-size: 1rem;
+        color: var(--color-neutral-darkgrey);
+        box-sizing: border-box;
+        transition: all 0.2s ease-in-out;
+    }
 
-	input:user-invalid + span {
-		animation: shake 0.6s ease-in-out;
-	}
+    input::placeholder {
+        color: var(--color-neutral-grey);
+    }
 
-	label {
-		padding-bottom: 0.3rem;
-		font-size: 16px;
-	}
+    input:focus {
+        border-color: var(--color-primary);
+        box-shadow: 0 0 0 4px var(--color-primary-light); 
+        outline: none;
+    }
 
-	input {
-		background-color: var(--color-neutral-white);
-		border-radius: var(--border-radius);
-		height: 2.8rem;
-		width: 15rem;
-		padding-left: 0.5rem;
-		font-size: 16px;
-	}
+    span::before {
+        content: ' ';
+        display: block;
+    }
 
-	input:user-invalid {
-		border: 1px solid red;
-		background-color: darkred;
-		outline: none;
-		animation: shake 0.6s ease-in-out;
-	}
+    input:user-invalid {
+        border-color: red;
+        background-color: #fff5f5;
+        outline: none;
+    	animation: shake 0.6s ease-in-out;
+    }
 
-	input:user-invalid:focus {
-		border: 1px solid red;
-	}
+    input:user-invalid:focus {
+  	border: 1px solid red;
+    }
 
 	input:focus {
 		border: 4px solid var(--color-primary);
@@ -134,32 +141,42 @@
 		outline: none;
 	}
 
-	.form-link {
-		padding-top: 1rem;
-		padding-bottom: 0;
-	}
+    /* --- Links & Footer --- */
+    .form-link {
+        padding-top: 1.5rem;
+        display: flex;
+        gap: 0.4rem;
+        color: var(--color-neutral-darkgrey);
+        font-size: 0.9rem;
+    }
 
-	a {
-		font-size: 12px;
-		color: var(--color-primary);
-	}
+    a {
+        font-size: 0.85rem;
+        color: var(--color-primary);
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.2s ease;
+    }
 
-	.link-account {
-		padding-right: 1rem;
-	}
+    a:hover {
+        color: var(--color-neutral-darkgrey);
+        text-decoration: underline;
+    }
 
-	.link-password {
-		padding-left: 0.5rem;
-	}
+    .link-password {
+        align-self: flex-end;
+        padding-top: 0.5rem;
+    }
 
-	@media screen and (max-width: 380px) {
-		.form-login {
-			padding-left: 1rem;
-			padding-right: 1rem;
-		}
-	}
+    /* --- Media Queries & Animations --- */
+    @media screen and (max-width: 480px) {
 
-	@keyframes shake {
+        .form-login {
+            padding: 2rem 1.5rem;
+        }
+    }
+
+   @keyframes shake {
 		0% {
 			transform: rotate(0deg);
 		}
