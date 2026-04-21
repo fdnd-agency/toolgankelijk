@@ -59,10 +59,8 @@
 	{/each}
 
 	{#if totalUrls > first}
-	<section>
 		<Pages amount={totalUrls} perPage={first} {currentPage} />
-	</section>
-{/if}
+	{/if}
 </section>
 
 <style>
