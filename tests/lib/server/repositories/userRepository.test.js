@@ -2,7 +2,6 @@
  * Tests for the UserRepository class.
  */
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { gql } from 'graphql-request';
 import { UserRepository } from '$lib/server/repositories/userRepository.js';
 
 describe('UserRepository', () => {
@@ -11,26 +10,26 @@ describe('UserRepository', () => {
 
 	beforeEach(() => {
 		vi.clearAllMocks();
-		client = { request: vi.fn() };
-		repository = new UserRepository({ client, gql });
+		client = { query: vi.fn() };
+		repository = new UserRepository({ client });
 	});
 
 	describe('checkUsernameAvailability', () => {
 		it('returns true when no users match', async () => {
-			client.request.mockResolvedValue({ users: [] });
+			client.query.mockResolvedValue({ users: [] });
 
 			await expect(repository.checkUsernameAvailability('free')).resolves.toBe(true);
 		});
 
 		it('returns false when users exist', async () => {
-			client.request.mockResolvedValue({ users: [{ id: '1' }] });
+			client.query.mockResolvedValue({ users: [{ id: '1' }] });
 
 			await expect(repository.checkUsernameAvailability('taken')).resolves.toBe(false);
 		});
 
 		it('returns false on error', async () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-			client.request.mockRejectedValue(new Error('fail'));
+			client.query.mockRejectedValue(new Error('fail'));
 
 			await expect(repository.checkUsernameAvailability('x')).resolves.toBe(false);
 			spy.mockRestore();
@@ -39,7 +38,7 @@ describe('UserRepository', () => {
 
 	describe('createUser', () => {
 		it('maps createUser row to User', async () => {
-			client.request.mockResolvedValue({
+			client.query.mockResolvedValue({
 				createUser: {
 					id: 'u1',
 					email: 'e@x.com',
@@ -63,7 +62,7 @@ describe('UserRepository', () => {
 		});
 
 		it('defaults isEmailVerified to false when omitted', async () => {
-			client.request.mockResolvedValue({
+			client.query.mockResolvedValue({
 				createUser: {
 					id: 'u1',
 					email: 'e@x.com',
@@ -81,7 +80,7 @@ describe('UserRepository', () => {
 		});
 
 		it('returns null when createUser is missing', async () => {
-			client.request.mockResolvedValue({ createUser: null });
+			client.query.mockResolvedValue({ createUser: null });
 
 			const result = await repository.createUser({
 				email: 'e@x.com',
@@ -94,7 +93,7 @@ describe('UserRepository', () => {
 
 		it('returns null when request fails', async () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-			client.request.mockRejectedValue(new Error('graphql'));
+			client.query.mockRejectedValue(new Error('graphql'));
 
 			const result = await repository.createUser({
 				email: 'e@x.com',
@@ -109,7 +108,7 @@ describe('UserRepository', () => {
 
 	describe('getUserPasswordHash', () => {
 		it('returns password from first user row', async () => {
-			client.request.mockResolvedValue({
+			client.query.mockResolvedValue({
 				user: [{ password: 'stored-hash' }]
 			});
 
@@ -117,14 +116,14 @@ describe('UserRepository', () => {
 		});
 
 		it('returns null when no row', async () => {
-			client.request.mockResolvedValue({ user: [] });
+			client.query.mockResolvedValue({ user: [] });
 
 			await expect(repository.getUserPasswordHash('uid')).resolves.toBeNull();
 		});
 
 		it('returns null when request fails', async () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-			client.request.mockRejectedValue(new Error('fail'));
+			client.query.mockRejectedValue(new Error('fail'));
 
 			await expect(repository.getUserPasswordHash('uid')).resolves.toBeNull();
 			spy.mockRestore();
@@ -133,7 +132,7 @@ describe('UserRepository', () => {
 
 	describe('getUserByEmail', () => {
 		it('maps row using is_email_verified', async () => {
-			client.request.mockResolvedValue({
+			client.query.mockResolvedValue({
 				user: [
 					{
 						id: '1',
@@ -155,14 +154,14 @@ describe('UserRepository', () => {
 		});
 
 		it('returns null when no user row', async () => {
-			client.request.mockResolvedValue({ user: [] });
+			client.query.mockResolvedValue({ user: [] });
 
 			await expect(repository.getUserByEmail('none@x.com')).resolves.toBeNull();
 		});
 
 		it('returns null when request fails', async () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-			client.request.mockRejectedValue(new Error('fail'));
+			client.query.mockRejectedValue(new Error('fail'));
 
 			await expect(repository.getUserByEmail('a@b.c')).resolves.toBeNull();
 			spy.mockRestore();
@@ -172,14 +171,14 @@ describe('UserRepository', () => {
 	describe('markUserEmailVerified', () => {
 		it('returns updateUser payload', async () => {
 			const updated = { id: '1', isEmailVerified: true };
-			client.request.mockResolvedValue({ updateUser: updated });
+			client.query.mockResolvedValue({ updateUser: updated });
 
 			await expect(repository.markUserEmailVerified('1')).resolves.toEqual(updated);
 		});
 
 		it('returns null when request fails', async () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-			client.request.mockRejectedValue(new Error('fail'));
+			client.query.mockRejectedValue(new Error('fail'));
 
 			await expect(repository.markUserEmailVerified('1')).resolves.toBeNull();
 			spy.mockRestore();
@@ -188,20 +187,20 @@ describe('UserRepository', () => {
 
 	describe('checkEmailAvailability', () => {
 		it('returns true when toolgankelijk_user is empty', async () => {
-			client.request.mockResolvedValue({ toolgankelijk_user: [] });
+			client.query.mockResolvedValue({ toolgankelijk_user: [] });
 
 			await expect(repository.checkEmailAvailability('new@x.com')).resolves.toBe(true);
 		});
 
 		it('returns false when email exists', async () => {
-			client.request.mockResolvedValue({ toolgankelijk_user: [{ id: '1' }] });
+			client.query.mockResolvedValue({ toolgankelijk_user: [{ id: '1' }] });
 
 			await expect(repository.checkEmailAvailability('taken@x.com')).resolves.toBe(false);
 		});
 
 		it('returns false when request fails', async () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-			client.request.mockRejectedValue(new Error('fail'));
+			client.query.mockRejectedValue(new Error('fail'));
 
 			await expect(repository.checkEmailAvailability('x@y.z')).resolves.toBe(false);
 			spy.mockRestore();
@@ -211,13 +210,13 @@ describe('UserRepository', () => {
 	describe('getValidEmailDomains', () => {
 		it('returns domain list from API', async () => {
 			const domains = [{ domain: 'school.nl' }];
-			client.request.mockResolvedValue({ toolgankelijk_email_domain: domains });
+			client.query.mockResolvedValue({ toolgankelijk_email_domain: domains });
 			await expect(repository.getValidEmailDomains()).resolves.toEqual(domains);
 		});
 
 		it('returns [] on error', async () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-			client.request.mockRejectedValue(new Error('fail'));
+			client.query.mockRejectedValue(new Error('fail'));
 			await expect(repository.getValidEmailDomains()).resolves.toEqual([]);
 			spy.mockRestore();
 		});
@@ -226,7 +225,7 @@ describe('UserRepository', () => {
 	describe('getEmailVerificationRequestById', () => {
 		it('maps emailVerificationCode to EmailVerificationRequest', async () => {
 			const expires = '2026-12-31T23:59:59.000Z';
-			client.request.mockResolvedValue({
+			client.query.mockResolvedValue({
 				emailVerificationCode: {
 					id: 'ev1',
 					code: '123456',
@@ -247,13 +246,13 @@ describe('UserRepository', () => {
 		});
 
 		it('returns null when verification row is missing', async () => {
-			client.request.mockResolvedValue({ emailVerificationCode: null });
+			client.query.mockResolvedValue({ emailVerificationCode: null });
 			await expect(repository.getEmailVerificationRequestById('missing')).resolves.toBeNull();
 		});
 
 		it('returns null when request fails', async () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-			client.request.mockRejectedValue(new Error('fail'));
+			client.query.mockRejectedValue(new Error('fail'));
 			await expect(repository.getEmailVerificationRequestById('ev1')).resolves.toBeNull();
 			spy.mockRestore();
 		});
@@ -262,7 +261,7 @@ describe('UserRepository', () => {
 	describe('createEmailVerificationRequestRecord', () => {
 		it('maps mutation result', async () => {
 			const expiresAt = new Date('2026-01-01T00:00:00.000Z');
-			client.request.mockResolvedValue({
+			client.query.mockResolvedValue({
 				createEmailVerificationCode: {
 					id: 'ev1',
 					code: 'abc',
@@ -287,7 +286,7 @@ describe('UserRepository', () => {
 		});
 
 		it('returns null when mutation returns no row', async () => {
-			client.request.mockResolvedValue({ createEmailVerificationCode: null });
+			client.query.mockResolvedValue({ createEmailVerificationCode: null });
 			const result = await repository.createEmailVerificationRequestRecord({
 				code: 'c',
 				expiresAt: new Date(),
@@ -298,7 +297,7 @@ describe('UserRepository', () => {
 
 		it('returns null when request fails', async () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-			client.request.mockRejectedValue(new Error('fail'));
+			client.query.mockRejectedValue(new Error('fail'));
 			const result = await repository.createEmailVerificationRequestRecord({
 				code: 'c',
 				expiresAt: new Date(),
@@ -311,7 +310,7 @@ describe('UserRepository', () => {
 
 	describe('deleteEmailVerificationsForUser', () => {
 		it('returns delete payload', async () => {
-			client.request.mockResolvedValue({ deleteEmailVerificationCodes: { ids: ['a', 'b'] } });
+			client.query.mockResolvedValue({ deleteEmailVerificationCodes: { ids: ['a', 'b'] } });
 			await expect(repository.deleteEmailVerificationsForUser('u1')).resolves.toEqual({
 				ids: ['a', 'b']
 			});
@@ -319,7 +318,7 @@ describe('UserRepository', () => {
 
 		it('returns null when request fails', async () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-			client.request.mockRejectedValue(new Error('fail'));
+			client.query.mockRejectedValue(new Error('fail'));
 			await expect(repository.deleteEmailVerificationsForUser('u1')).resolves.toBeNull();
 			spy.mockRestore();
 		});

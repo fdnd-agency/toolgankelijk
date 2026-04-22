@@ -3,7 +3,7 @@
 /**
  * Sessions: GraphQL for read/update/delete; REST POST to create rows (same collection as GraphQL).
  */
-import { BaseRepository } from '$lib/server/repositories/baseRepository.js';
+import { DirectusRepositoryBase } from '$lib/server/repositories/baseRepository.js';
 import getQuerySession, {
 	getQueryUpdateSession,
 	getQueryDeleteSession
@@ -21,7 +21,7 @@ import { DIRECTUS_URL, VITE_DIRECTUS_KEY } from '$env/static/private';
 /**
  * Persists opaque session tokens (hashed) and ties them to users for `locals.session`.
  */
-export class SessionRepository extends BaseRepository {
+export class SessionRepository extends DirectusRepositoryBase {
 	// Main functions
 
 	/**
@@ -32,11 +32,8 @@ export class SessionRepository extends BaseRepository {
 	 */
 	async getSessionByTokenHash(sessionId) {
 		try {
-			const query = getQuerySession(this.gql);
-			const { session: sessionResult } = await this.client.request({
-				document: query,
-				variables: { sessionId }
-			});
+			const query = getQuerySession();
+			const { session: sessionResult } = await this.client.query(query, { sessionId });
 			const row = this.firstOrNull(sessionResult);
 			if (!row) {
 				return null;
@@ -80,11 +77,8 @@ export class SessionRepository extends BaseRepository {
 	 */
 	async updateSessionExpiry({ sessionId, expiresAt }) {
 		try {
-			const mutation = getQueryUpdateSession(this.gql);
-			const raw = await this.client.request({
-				document: mutation,
-				variables: { sessionId, expiresAt }
-			});
+			const mutation = getQueryUpdateSession();
+			const raw = await this.client.query(mutation, { sessionId, expiresAt });
 			return raw.updateSessie ?? null;
 		} catch (error) {
 			console.error('sessionRepository.updateSessionExpiry failed', error);
@@ -100,11 +94,8 @@ export class SessionRepository extends BaseRepository {
 	 */
 	async deleteSessionById(sessionId) {
 		try {
-			const mutation = getQueryDeleteSession(this.gql);
-			const raw = await this.client.request({
-				document: mutation,
-				variables: { sessionId }
-			});
+			const mutation = getQueryDeleteSession();
+			const raw = await this.client.query(mutation, { sessionId });
 			return raw.deleteSessie ?? null;
 		} catch (error) {
 			console.error('sessionRepository.deleteSessionById failed', error);

@@ -2,7 +2,6 @@
  * Tests for the PartnerRepository class.
  */
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { gql } from 'graphql-request';
 import { PartnerRepository } from '$lib/server/repositories/partnerRepository.js';
 
 describe('PartnerRepository', () => {
@@ -11,14 +10,14 @@ describe('PartnerRepository', () => {
 
 	beforeEach(() => {
 		vi.clearAllMocks();
-		client = { request: vi.fn() };
-		repository = new PartnerRepository({ client, gql });
+		client = { query: vi.fn() };
+		repository = new PartnerRepository({ client });
 	});
 
 	describe('listPartners', () => {
 		it('returns websites, count, and normalized principles', async () => {
 			const websites = [{ id: 'w1', title: 'Site' }];
-			client.request.mockResolvedValue({
+			client.query.mockResolvedValue({
 				toolgankelijk_website: websites,
 				toolgankelijk_website_aggregated: [{ count: { id: 5 } }],
 				toolgankelijk_principle: [
@@ -50,7 +49,7 @@ describe('PartnerRepository', () => {
 
 		it('returns empty structure on error', async () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-			client.request.mockRejectedValue(new Error('fail'));
+			client.query.mockRejectedValue(new Error('fail'));
 
 			const result = await repository.listPartners();
 
@@ -65,7 +64,7 @@ describe('PartnerRepository', () => {
 				id: 'w1',
 				urls: [{ id: 'url1' }]
 			};
-			client.request.mockResolvedValue({
+			client.query.mockResolvedValue({
 				toolgankelijk_website: [website],
 				toolgankelijk_url_aggregated: [{ count: { id: 3 } }],
 				toolgankelijk_principle: []
@@ -81,7 +80,7 @@ describe('PartnerRepository', () => {
 
 		it('returns empty defaults on error', async () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-			client.request.mockRejectedValue(new Error('fail'));
+			client.query.mockRejectedValue(new Error('fail'));
 
 			const result = await repository.getWebsiteBySlug('x');
 
@@ -97,7 +96,7 @@ describe('PartnerRepository', () => {
 
 	describe('getPartnerUrls', () => {
 		it('maps toolgankelijk_url to id-only list', async () => {
-			client.request.mockResolvedValue({
+			client.query.mockResolvedValue({
 				toolgankelijk_url: [{ id: 'a' }, { id: 'b' }]
 			});
 
@@ -108,7 +107,7 @@ describe('PartnerRepository', () => {
 
 		it('returns [] on error', async () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-			client.request.mockRejectedValue(new Error('fail'));
+			client.query.mockRejectedValue(new Error('fail'));
 
 			await expect(repository.getPartnerUrls('p')).resolves.toEqual([]);
 			spy.mockRestore();
@@ -117,7 +116,7 @@ describe('PartnerRepository', () => {
 
 	describe('createPartner', () => {
 		it('maps create payload to PartnerWebsite', async () => {
-			client.request.mockResolvedValue({
+			client.query.mockResolvedValue({
 				create_toolgankelijk_website_item: {
 					id: 'w1',
 					title: 'T',
@@ -141,7 +140,7 @@ describe('PartnerRepository', () => {
 		});
 
 		it('returns null when mutation returns no row', async () => {
-			client.request.mockResolvedValue({ create_toolgankelijk_website_item: null });
+			client.query.mockResolvedValue({ create_toolgankelijk_website_item: null });
 
 			const result = await repository.createPartner({
 				name: 'T',
@@ -154,7 +153,7 @@ describe('PartnerRepository', () => {
 
 		it('returns null when request fails', async () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-			client.request.mockRejectedValue(new Error('fail'));
+			client.query.mockRejectedValue(new Error('fail'));
 
 			const result = await repository.createPartner({
 				name: 'T',
@@ -169,7 +168,7 @@ describe('PartnerRepository', () => {
 
 	describe('updatePartnerById', () => {
 		it('returns partner with title/homepage from arguments', async () => {
-			client.request.mockResolvedValue({
+			client.query.mockResolvedValue({
 				update_toolgankelijk_website_item: { id: 'w1' }
 			});
 
@@ -189,7 +188,7 @@ describe('PartnerRepository', () => {
 		});
 
 		it('returns null when mutation returns no row', async () => {
-			client.request.mockResolvedValue({ update_toolgankelijk_website_item: null });
+			client.query.mockResolvedValue({ update_toolgankelijk_website_item: null });
 
 			const result = await repository.updatePartnerById({
 				id: 'w1',
@@ -203,7 +202,7 @@ describe('PartnerRepository', () => {
 
 		it('returns null when request fails', async () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-			client.request.mockRejectedValue(new Error('fail'));
+			client.query.mockRejectedValue(new Error('fail'));
 
 			const result = await repository.updatePartnerById({
 				id: 'w1',
@@ -219,7 +218,7 @@ describe('PartnerRepository', () => {
 
 	describe('updatePartnerTotalUrls', () => {
 		it('returns id and totalUrls', async () => {
-			client.request.mockResolvedValue({
+			client.query.mockResolvedValue({
 				update_toolgankelijk_website_item: { id: 'w1' }
 			});
 
@@ -229,7 +228,7 @@ describe('PartnerRepository', () => {
 		});
 
 		it('returns null when mutation returns no row', async () => {
-			client.request.mockResolvedValue({ update_toolgankelijk_website_item: null });
+			client.query.mockResolvedValue({ update_toolgankelijk_website_item: null });
 
 			await expect(
 				repository.updatePartnerTotalUrls({ slug: 's', totalUrls: 1 })
@@ -238,7 +237,7 @@ describe('PartnerRepository', () => {
 
 		it('returns null when request fails', async () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-			client.request.mockRejectedValue(new Error('fail'));
+			client.query.mockRejectedValue(new Error('fail'));
 
 			await expect(
 				repository.updatePartnerTotalUrls({ slug: 's', totalUrls: 1 })
@@ -249,7 +248,7 @@ describe('PartnerRepository', () => {
 
 	describe('deletePartnerById', () => {
 		it('returns deleted id', async () => {
-			client.request.mockResolvedValue({
+			client.query.mockResolvedValue({
 				delete_toolgankelijk_website_item: { id: 'w1' }
 			});
 
@@ -257,7 +256,7 @@ describe('PartnerRepository', () => {
 		});
 
 		it('returns null when delete row missing', async () => {
-			client.request.mockResolvedValue({
+			client.query.mockResolvedValue({
 				delete_toolgankelijk_website_item: null
 			});
 
@@ -266,7 +265,7 @@ describe('PartnerRepository', () => {
 
 		it('returns null when request fails', async () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-			client.request.mockRejectedValue(new Error('fail'));
+			client.query.mockRejectedValue(new Error('fail'));
 
 			await expect(repository.deletePartnerById('w1')).resolves.toBeNull();
 			spy.mockRestore();
