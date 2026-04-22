@@ -185,7 +185,7 @@
 		width: 100%;
 		justify-content: flex-start;
 		text-overflow: ellipsis;
-		white-space: no-wrap;
+		white-space: nowrap;
 		overflow: hidden;
 		margin: 0;
 		transition: all 0.2s ease;
