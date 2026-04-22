@@ -22,7 +22,9 @@
 	});
 </script>
 
-<Header {params} {partners} {websites} {principles} user={data.user} />
+{#if $page.url.pathname !== '/login'}
+    <Header {params} {partners} {websites} {principles} user={data.user} />
+{/if}
 
 <main id="main">
 	{@render children?.()}
