@@ -1,24 +1,26 @@
 <script>
-	import { onNavigate } from '$app/navigation';
-	import Header from '$lib/components/header.svelte';
+    import { onNavigate } from '$app/navigation';
+    import { page } from '$app/stores';
+    import Header from '$lib/components/header.svelte';
 
-	let { children } = $props();
+    let { children } = $props();
 
+    onNavigate((navigation) => {
+        if (!document.startViewTransition) return;
 
-	onNavigate((navigation) => {
-		if (!document.startViewTransition) return;
-
-		return new Promise((resolve) => {
-			document.startViewTransition(async () => {
-				resolve();
-				await navigation.complete;
-			});
-		});
-	});
+        return new Promise((resolve) => {
+            document.startViewTransition(async () => {
+                resolve();
+                await navigation.complete;
+            });
+        });
+    });
 </script>
 
-<Header/>
+{#if $page.url.pathname !== '/login'}
+    <Header/>
+{/if}
 
 <main id="main">
-	{@render children?.()}
+    {@render children?.()}
 </main>
