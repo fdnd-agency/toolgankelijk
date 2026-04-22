@@ -1,139 +1,144 @@
 <script>
-    import { enhance } from '$app/forms';
-    import NavButton from '$lib/components/NavButton.svelte';
+	import { enhance } from '$app/forms';
+	import NavButton from '$lib/components/NavButton.svelte';
 
-    let { form } = $props();
+	let { form } = $props();
 </script>
 
 <svelte:head>
-    <title>Login · Vervoerregio Amsterdam</title>
+	<title>Login · Vervoerregio Amsterdam</title>
 </svelte:head>
 
 <section class="form-container">
-    <div class="form-background">
-        <form method="post" action="?/signin" use:enhance>
-            <div class="form-login">
-                <h1 class="form-title">Inloggen</h1>
+	<div class="form-background">
+		<form method="post" action="?/signin" use:enhance>
+			<div class="form-login">
+				<h1 class="form-title">Inloggen</h1>
 
-                <p>
-                    <input id="email" type="email" name="email" placeholder="Email" required />
-                    <span></span>
-                </p>
-                <p>
-                    <input
-                        id="password"
-                        type="password"
-                        name="password"
-                        minlength="6"
-                        placeholder="Wachtwoord"
-                        autocomplete="off"
-                        required
-                    />
-                    <span></span>
-                    <a class="link-password" href="/info">Wachtwoord vergeten?</a>
-                </p>
+				<p>
+					<input id="email" type="email" name="email" placeholder="Email" required />
+					<span></span>
+				</p>
+				<p>
+					<input
+						id="password"
+						type="password"
+						name="password"
+						minlength="6"
+						placeholder="Wachtwoord"
+						autocomplete="off"
+						required
+					/>
+					<span></span>
+					<a class="link-password" href="/info">Wachtwoord vergeten?</a>
+				</p>
 
-                <NavButton aria="Inloggen" size="medium" variant="primary" type="submit">Log in</NavButton>
+				<NavButton aria="Inloggen" size="medium" variant="primary" type="submit">Log in</NavButton>
 
-                <p style="color: red; padding-top: 0;">{form?.message ?? ''}</p>
+				<p class="error-message">{form?.message ?? ''}</p>
 
-                <div class="form-link">
-                    <span class="text-account">Nog geen account?</span>
-                    <a class="link-account" href="/register">Registreren</a>
-                </div>
-            </div>
-        </form>
-    </div>
+				<div class="form-link">
+					<span class="text-account">Nog geen account?</span>
+					<a class="link-account" href="/register">Registreren</a>
+				</div>
+			</div>
+		</form>
+	</div>
 </section>
 
 <style>
-    .form-container {
-        display: flex;
-        justify-content: center;
-        padding: 3rem 1rem;
-    }
+	.form-container {
+		display: flex;
+		justify-content: center;
+		padding: 3rem 1rem;
+	}
 
-    .form-background {
-        background-color: var(--color-primary);
-        padding: 4rem 2rem; 
-        width: 100%;
-        max-width: 45rem;
-        border-radius: var(--border-radius);
-    }
+	.form-background {
+		background-color: var(--color-primary);
+		padding: 4rem 2rem;
+		width: 100%;
+		max-width: 45rem;
+		border-radius: var(--border-radius);
+	}
 
-    form {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-    }
+	form {
+		width: 100%;
+		display: flex;
+		justify-content: center;
+	}
 
-    .form-login {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        background-color: var(--color-neutral-white);
-        border: none;
-        border-radius: var(--border-radius);
-        padding: 3rem 2.5rem;
-        width: 100%;
-        max-width: 26rem; 
-    }
+	.form-login {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		background-color: var(--color-neutral-white);
+		border: none;
+		border-radius: var(--border-radius);
+		padding: 3rem 2.5rem;
+		width: 100%;
+		max-width: 26rem;
+	}
 
-    .form-title {
-        color: var(--color-primary);
-        text-align: center;
-        font-size: 2.2rem;
-        font-weight: 700;
-        margin: 0 0 1rem 0; 
-    }
+	.form-title {
+		color: var(--color-primary);
+		text-align: center;
+		font-size: 2.2rem;
+		font-weight: 700;
+		margin: 0 0 1rem 0;
+	}
 
-    p {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        margin: 0 0 1.5rem 0;
-        padding: 0;
-        position: relative;
-    }
+	p {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+		margin: 0 0 1.5rem 0;
+		padding: 0;
+		position: relative;
+	}
 
-    input {
-        background-color: var(--color-neutral-white);
-        border: 1px solid var(--color-neutral-grey);
-        border-radius: 8px;
-        height: 3.2rem;
-        width: 100%;
-        padding: 0 1rem;
-        font-size: 1rem;
-        color: var(--color-neutral-darkgrey);
-        box-sizing: border-box;
-        transition: all 0.2s ease-in-out;
-    }
+	.error-message {
+		color: red;
+		padding-top: 0;
+	}
 
-    input::placeholder {
-        color: var(--color-neutral-grey);
-    }
+	input {
+		background-color: var(--color-neutral-white);
+		border: 1px solid var(--color-neutral-grey);
+		border-radius: 8px;
+		height: 3.2rem;
+		width: 100%;
+		padding: 0 1rem;
+		font-size: 1rem;
+		color: var(--color-neutral-darkgrey);
+		box-sizing: border-box;
+		transition: all 0.2s ease-in-out;
+	}
 
-    input:focus {
-        border-color: var(--color-primary);
-        box-shadow: 0 0 0 4px var(--color-primary-light); 
-        outline: none;
-    }
+	input::placeholder {
+		color: var(--color-neutral-grey);
+	}
 
-    span::before {
-        content: ' ';
-        display: block;
-    }
+	input:focus {
+		border-color: var(--color-primary);
+		box-shadow: 0 0 0 4px var(--color-primary-light);
+		outline: none;
+	}
 
-    input:user-invalid {
-        border-color: red;
-        background-color: #fff5f5;
-        outline: none;
-    	animation: shake 0.6s ease-in-out;
-    }
+	span::before {
+		content: ' ';
+		display: block;
+	}
 
-    input:user-invalid:focus {
-  	border: 1px solid red;
-    }
+	input:user-invalid {
+		border-color: red;
+		background-color: #fff5f5;
+		outline: none;
+		animation: shake 0.6s ease-in-out;
+	}
+
+	input:user-invalid:focus {
+		border: 1px solid red;
+	}
 
 	input:focus {
 		border: 4px solid var(--color-primary);
@@ -141,42 +146,41 @@
 		outline: none;
 	}
 
-    /* --- Links & Footer --- */
-    .form-link {
-        padding-top: 1.5rem;
-        display: flex;
-        gap: 0.4rem;
-        color: var(--color-neutral-darkgrey);
-        font-size: 0.9rem;
-    }
+	/* --- Links & Footer --- */
+	.form-link {
+		padding-top: 1.5rem;
+		display: flex;
+		gap: 0.4rem;
+		color: var(--color-neutral-darkgrey);
+		font-size: 0.9rem;
+	}
 
-    a {
-        font-size: 0.85rem;
-        color: var(--color-primary);
-        text-decoration: none;
-        font-weight: 500;
-        transition: color 0.2s ease;
-    }
+	a {
+		font-size: 0.85rem;
+		color: var(--color-primary);
+		text-decoration: none;
+		font-weight: 500;
+		transition: color 0.2s ease;
+	}
 
-    a:hover {
-        color: var(--color-neutral-darkgrey);
-        text-decoration: underline;
-    }
+	a:hover {
+		color: var(--color-neutral-darkgrey);
+		text-decoration: underline;
+	}
 
-    .link-password {
-        align-self: flex-end;
-        padding-top: 0.5rem;
-    }
+	.link-password {
+		align-self: flex-end;
+		padding-top: 0.5rem;
+	}
 
-    /* --- Media Queries & Animations --- */
-    @media screen and (max-width: 480px) {
+	/* --- Media Queries & Animations --- */
+	@media screen and (max-width: 480px) {
+		.form-login {
+			padding: 2rem 1.5rem;
+		}
+	}
 
-        .form-login {
-            padding: 2rem 1.5rem;
-        }
-    }
-
-   @keyframes shake {
+	@keyframes shake {
 		0% {
 			transform: rotate(0deg);
 		}
