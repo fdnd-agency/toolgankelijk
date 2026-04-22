@@ -1,5 +1,5 @@
-export function getQueryCheckUsernameAvailability(gql) {
-	return gql`
+export function getQueryCheckUsernameAvailability() {
+	return `
 		query CheckUsernameAvailability($username: String!) {
 			users: toolgankelijk_user(filter: { username: { _eq: $username } }, limit: 1) {
 				id
@@ -8,8 +8,8 @@ export function getQueryCheckUsernameAvailability(gql) {
 	`;
 }
 
-export function getMutationCreateUser(gql) {
-	return gql`
+export function getMutationCreateUser() {
+	return `
 		mutation CreateUser(
 			$email: String!
 			$username: String!
@@ -33,8 +33,8 @@ export function getMutationCreateUser(gql) {
 	`;
 }
 
-export function getQueryUserPasswordHash(gql, id) {
-	return gql`
+export function getQueryUserPasswordHash(id) {
+	return `
 		query GetUserPassword {
 			user: toolgankelijk_user(filter: { id: { _eq: "${id}" } }, limit: 1) {
 				password: password
@@ -43,8 +43,8 @@ export function getQueryUserPasswordHash(gql, id) {
 	`;
 }
 
-export function getQueryUserFromEmail(gql) {
-	return gql`
+export function getQueryUserFromEmail() {
+	return `
 		query GetUserFromEmail($email: String!) {
 			user: toolgankelijk_user(filter: { email: { _eq: $email } }, limit: 1) {
 				id
@@ -56,8 +56,8 @@ export function getQueryUserFromEmail(gql) {
 	`;
 }
 
-export function getMutationSetUserEmailAsVerified(gql, id) {
-	return gql`
+export function getMutationSetUserEmailAsVerified(id) {
+	return `
 		mutation SetUserEmailAsVerified {
 			updateUser: update_toolgankelijk_user_item(id: "${id}", data: { is_email_verified: true }) {
 				id
@@ -66,8 +66,8 @@ export function getMutationSetUserEmailAsVerified(gql, id) {
 	`;
 }
 
-export function getQueryCheckEmail(gql) {
-	return gql`
+export function getQueryCheckEmail() {
+	return `
 		query CheckEmail($email: String!) {
 			toolgankelijk_user(filter: { email: { _eq: $email } }, limit: 1) {
 				id
@@ -76,8 +76,8 @@ export function getQueryCheckEmail(gql) {
 	`;
 }
 
-export function getQueryValidEmailDomains(gql) {
-	return gql`
+export function getQueryValidEmailDomains() {
+	return `
 		query GetValidEmailDomains {
 			toolgankelijk_email_domain {
 				domain
@@ -86,8 +86,8 @@ export function getQueryValidEmailDomains(gql) {
 	`;
 }
 
-export function getQueryEmailVerificationById(gql, id) {
-	return gql`
+export function getQueryEmailVerificationById(id) {
+	return `
 		query GetEmailVerificationCode {
 			emailVerificationCode: toolgankelijk_email_verification_code(
 				filter: { id: { _eq: "${id}" } }
@@ -105,8 +105,8 @@ export function getQueryEmailVerificationById(gql, id) {
 	`;
 }
 
-export function getMutationCreateEmailVerification(gql) {
-	return gql`
+export function getMutationCreateEmailVerification() {
+	return `
 		mutation CreateEmailVerificationCode($code: String!, $expiresAt: DateTime!, $userId: ID!) {
 			createEmailVerificationCode: create_toolgankelijk_email_verification_code_item(
 				data: { code: $code, expires_at: $expiresAt, user_id: $userId }
@@ -123,8 +123,8 @@ export function getMutationCreateEmailVerification(gql) {
 	`;
 }
 
-export function getMutationDeleteEmailVerificationsForUser(gql) {
-	return gql`
+export function getMutationDeleteEmailVerificationsForUser() {
+	return `
 		mutation DeleteEmailVerificationCodes($userId: ID!) {
 			deleteEmailVerificationCodes: delete_toolgankelijk_email_verification_code_items(
 				filter: { user_id: { _eq: $userId } }

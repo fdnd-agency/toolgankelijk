@@ -1,5 +1,5 @@
-export default function getQueryLayout(gql) {
-	return gql`
+export default function getQueryLayout() {
+	return `
 		query Layout(
 			$slug: String
 			$partnerLimit: Int!
