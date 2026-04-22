@@ -77,6 +77,56 @@
 		window.scrollTo({ top: 0, behavior: 'smooth' });
 	}
 
+	/**
+	 * Calculates the percentage of the progressbar based on the websiteCriteria and totalCriteria.
+	 * @
+	 * Warns for bad values.
+	 * 
+	 * @param {number} websiteCriteria - The number of criteria that have been met.
+	 * @param {number} totalCriteria - The total number of criteria.
+	 * @returns {number} The percentage of the progressbar as a number between 0 and 100.
+	 */
+function calculatePercentage(websiteCriteria, totalCriteria) {
+	// Validation
+	// Values must be finite
+	if (!Number.isFinite(websiteCriteria) || !Number.isFinite(totalCriteria)) {
+		console.warn('Card progressbar received non-finite values!', {
+			websiteCriteria,
+			totalCriteria,
+		});
+		return 0;
+	}
+
+	// criteria values must be positive
+	if (totalCriteria <= 0 || websiteCriteria < 0) {
+		console.warn('Card progressbar received out-of-range criteria values!', {
+			websiteCriteria,
+			totalCriteria,
+		});
+		return 0;
+	}
+	// websiteCriteria must not be greater than totalCriteria
+	if (websiteCriteria > totalCriteria) {
+		console.warn('Card progressbar received more websiteCriteria than totalCriteria!', {
+			websiteCriteria,
+			totalCriteria,
+		});
+	}
+
+	// Calculation
+	let percentage = (websiteCriteria / totalCriteria) * 100;
+
+	// Impossible values are set to 0.
+	if (!Number.isFinite(percentage)) {
+		return 0;
+	}
+
+	// Clamp to [0, 100]
+	percentage = Math.round(Math.min(Math.max(percentage, 0), 100));
+
+	return percentage;
+}
+
 	onMount(() => {
 		if (isUrl) {
 			websiteCriteria = website.checks.reduce((total, check) => {
@@ -111,10 +161,8 @@
 				}, 0) * website.urls.length;
 		}
 
-		let percentage = Math.round((websiteCriteria / totalCriteria) * 100);
-		if (isNaN(percentage)) {
-			percentage = 0;
-		}
+		let percentage = calculatePercentage(websiteCriteria, totalCriteria);
+		
 		progressbar.value = websiteCriteria;
 		progressbar.max = totalCriteria;
 		labelValue.innerHTML = `${percentage}%`;
