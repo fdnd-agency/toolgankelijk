@@ -109,13 +109,13 @@
 		width: 100%;
 		padding: 0 1rem;
 		font-size: 1rem;
-		color: var(--color-neutral-darkgrey);
+		color: var(--color-neutral-black);
 		box-sizing: border-box;
 		transition: all 0.2s ease-in-out;
 	}
 
 	input::placeholder {
-		color: var(--color-neutral-grey);
+		color: var(--color-neutral-black);
 	}
 
 	input:focus {
