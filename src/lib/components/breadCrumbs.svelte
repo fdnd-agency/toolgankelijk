@@ -183,10 +183,8 @@
 
 		li:hover p {
 			white-space: normal;    
-    		word-break: break-all;    
+    		word-break: normal;    
     		overflow: visible;
-			white-space: nowrap;
-			word-wrap: normal;
 		}
 
 		@media (max-width: 720px) {

@@ -58,7 +58,6 @@ let {
         variant="primary"
         showIcon={true}
         iconName="search"
-		onclick={onAdd}
     ></NavButton>
 	</form>
 			{/if}
