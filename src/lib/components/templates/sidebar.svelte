@@ -65,16 +65,6 @@
 </aside>
 
 <style>
-	h4 {
-		font-size: 1.5rem;
-		font-weight: 500;
-		font-family: 'Inter', sans-serif;
-	}
-
-	span {
-		font-weight: 100;
-	}
-
 	aside {
 		display: block;
 		position: -webkit-sticky;
@@ -108,10 +98,6 @@
 		display: flex;
 		gap: 1em;
 		flex-direction: column;
-	}
-
-	span {
-		font-weight: 100;
 	}
 
 	div {

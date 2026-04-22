@@ -385,10 +385,6 @@
 	}
 
 	@media print {
-		.btn-top {
-			display: none;
-		}
-
 		.submit {
 			display: none;
 		}

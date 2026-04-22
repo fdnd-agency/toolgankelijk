@@ -386,16 +386,6 @@
 			height: 32px;
 			font-size: 12px;
 		}
-
-		input[type='submit'],
-		input[type='reset'] {
-			background: none;
-			color: inherit;
-			border: none;
-			padding: 0;
-			font: inherit;
-			cursor: pointer;
-		}
 	}
 
 	.form-textfields {

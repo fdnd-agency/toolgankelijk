@@ -13,6 +13,8 @@
 	<input id={addFor} placeholder={placeholderProp} class="input {showIcon ? 'has-icon' : ''}" />
 </div>
 
+<style>
+
 .full {
 	width: 100%;
 }
@@ -25,22 +27,23 @@ label {
 	@media (max-width: 720px) {
 			color: var(--color-neutral-white);
 	}
+}
 
-	input {
+input {
+	height: 48px;
+	width: 100%;
+	background-color: var(--color-neutral-white);
+	color: var(--color-neutral-black);
+	border: var(--color-neutral-black) 1px solid;
+	border-radius: 12px;
+	font-size: 16px;
+	padding-left: 1em;
+
+	@media (max-width: 720px) {
 		height: 48px;
-		width: 100%;
-		background-color: var(--color-neutral-white);
-		color: var(--color-neutral-black);
-		border: var(--color-neutral-black) 1px solid;
-		border-radius: 12px;
-		font-size: 16px;
-		padding-left: 1em;
-
-		@media (max-width: 720px) {
-			height: 48px;
-			width: 48px;
-			background-color: var(--color-primary);
-			font-size: 12px;
-		}
+		width: 48px;
+		background-color: var(--color-primary);
+		font-size: 12px;
 	}
+}
 </style>
