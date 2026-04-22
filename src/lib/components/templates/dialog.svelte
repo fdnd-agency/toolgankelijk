@@ -1,5 +1,5 @@
 <script>
-	import Icon from '$lib/components/atoms/icon.svelte'
+	import NavButton from '../NavButton.svelte';
 
 	export let params;
 	export let isType;
