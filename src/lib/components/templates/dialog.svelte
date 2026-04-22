@@ -1,5 +1,6 @@
 <script>
-	import NavButton from '../NavButton.svelte';
+	import Icon from "../atoms/icon.svelte"
+	import NavButton from "../moleculues/navButton.svelte";
 
 	export let params;
 	export let isType;
@@ -215,7 +216,7 @@
 				{#if isType === 'editUrl' || isType === 'editPartner'}
 					<div class="form-edit-textfields">
 						<div class="form-edit-icon">
-							<EditIcon />
+							<Icon iconName="edit" />
 						</div>
 						<div class="form-edit-textfields">
 							<label>Typ hier je titel</label>
@@ -229,7 +230,7 @@
 							/>
 
 							<div class="form-edit-icon">
-								<EditIcon />
+								<Icon iconName="edit" />
 							</div>
 							<label>Typ hier je URL</label>
 							<input
@@ -254,21 +255,21 @@
 
 				{#if isType === 'deleteUrl'}
 					<div class="form-delete-content" tabindex="0">
-						<DeleteIcon />
+						<Icon iconName="delete" />
 						<p>Weet je zeker dat je {urlValue} wilt verwijderen?</p>
 					</div>
 				{/if}
 
 				{#if isType === 'deletePartner'}
 					<div class="form-delete-content" tabindex="0">
-						<DeleteIcon />
+						<Icon iconName="delete" />
 						<p>Weet je zeker dat je {nameValue} wilt verwijderen?</p>
 					</div>
 				{/if}
 
 				{#if isType === 'startAudit'}
 					<div class="form-audit-content" tabindex="0">
-						<AuditIcon />
+						<Icon iconName="audit" />
 						<p>Wilt u een audit uitvoeren op {nameValue}?</p>
 					</div>
 
