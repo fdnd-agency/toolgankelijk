@@ -1,4 +1,3 @@
-import { directus } from '$lib/utils/directus.js';
 import { redirect } from '@sveltejs/kit';
 import { partnerRepository, urlRepository } from '$lib/server/index.js';
 
