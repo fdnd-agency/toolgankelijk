@@ -158,13 +158,11 @@
 		position: absolute;
 		top: calc(100% + 0.5rem);
 		z-index: 10;
-		height: fit-content;
 		box-sizing: border-box;
 		width: 15em;
 		background-color: var(--color-primary-light);
 		border: var(--color-primary) solid 3px;
 		border-radius: var(--border-radius);
-
 		padding: 1em;
 		list-style: none;
 		display: flex;
@@ -172,12 +170,15 @@
 		gap: 0.3em;
 		margin: 0;
 
+		max-height: 18.2em;
+		overflow-y: auto;
 
 		li {
 			width: 100%;
-			overflow-x: auto;
+			height: 100%;
     		-webkit-overflow-scrolling: touch;
 			scroll-snap-align: start;
+			flex-shrink: 0;
 		}
 
 		li:hover p {
@@ -185,6 +186,7 @@
     		word-break: break-all;    
     		overflow: visible;
 			white-space: nowrap;
+			word-wrap: normal;
 		}
 
 		@media (max-width: 720px) {
