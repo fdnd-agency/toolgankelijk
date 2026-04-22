@@ -76,11 +76,15 @@
 </section>
 
 <div class="scroll-to-top-wrapper">
-	<NavButton size="small" variant="primary" showIcon={true} iconName="arrow" href="#main" aria="scroll naar boven">
-	</NavButton>
+	<NavButton
+		size="small"
+		variant="primary"
+		showIcon={true}
+		iconName="arrow"
+		href="#main"
+		aria="scroll naar boven"
+	></NavButton>
 </div>
-
-
 
 <style>
 	section {
@@ -205,6 +209,4 @@
 			opacity: 0;
 		}
 	}
-
-
 </style>
