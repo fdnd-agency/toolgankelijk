@@ -5,6 +5,9 @@
 	import Hamburger from '$lib/components/hamburger.svelte';
 	import NavButton from './NavButton.svelte';
 
+	const minimalRoutes = ['/login', '/register'];
+  
+
 	/**
 	 * @typedef {Object} Props
 	 * @property {any} params
@@ -25,41 +28,44 @@
 </script>
 
 <header>
-	<a href="#main" class="visible-hidden">Jump directly to main content</a>
-	<Logo />
-	<nav id="header-navigation" class="color-primary-light">
-		<NavButton
-			href="/"
-			size="large"
-			showIcon={true}
-			iconName="home"
-			variant="secondary"
-			active={$page.url.pathname === '/' ? 'active' : ''}
-		>
-			<p>Home</p>
-		</NavButton>
-		<NavButton
-			href="/info"
-			size="large"
-			showIcon={true}
-			iconName="info"
-			variant="secondary"
-			active={$page.url.pathname === '/info' ? 'active' : ''}
-		>
-			<p>Info</p>
-		</NavButton>
-		<NavButton
-			href="/account"
-			size="large"
-			showIcon={true}
-			iconName="account"
-			variant="secondary"
-			active={$page.url.pathname === '/account' ? 'active' : ''}
-		>
-			<p>Account</p>
-		</NavButton>
-	</nav>
-	<Hamburger />
+    <a href="#main" class="visible-hidden">Jump directly to main content</a>
+    <Logo />
+    
+    {#if !minimalRoutes.includes($page.url.pathname)}
+        <nav id="header-navigation" class="color-primary-light">
+            <NavButton
+                href="/"
+                size="large"
+                showIcon={true}
+                iconName="home"
+                variant="secondary"
+                active={$page.url.pathname === '/' ? 'active' : ''}
+            >
+                <p>Home</p>
+            </NavButton>
+            <NavButton
+                href="/info"
+                size="large"
+                showIcon={true}
+                iconName="info"
+                variant="secondary"
+                active={$page.url.pathname === '/info' ? 'active' : ''}
+            >
+                <p>Info</p>
+            </NavButton>
+            <NavButton
+                href="/account"
+                size="large"
+                showIcon={true}
+                iconName="account"
+                variant="secondary"
+                active={$page.url.pathname === '/account' ? 'active' : ''}
+            >
+                <p>Account</p>
+            </NavButton>
+        </nav>
+        <Hamburger />
+    {/if}
 </header>
 
 <style>
