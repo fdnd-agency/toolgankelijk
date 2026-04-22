@@ -87,12 +87,6 @@
 		font-size: 28px;
 	}
 
-	p {
-		display: flex;
-		flex-direction: column;
-		padding-top: 1rem;
-	}
-
 	label {
 		padding-bottom: 0.3rem;
 		font-size: 16px;

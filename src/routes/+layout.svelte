@@ -29,7 +29,5 @@
 
 <main id="main">
 	{@render children?.()}
-
-
 </main>
 

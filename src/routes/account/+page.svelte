@@ -46,11 +46,6 @@
 		margin-bottom: 20px;
 	}
 
-	h2 {
-		margin: 0 0 24px 0;
-		color: var(--color-neutral-white);
-	}
-
 	.logo-text {
 		font-size: 1.5rem;
 		font-weight: 800;

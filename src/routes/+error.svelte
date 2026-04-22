@@ -31,41 +31,11 @@
 		border-radius: 0.5em;
 	}
 
-	h1 {
-		padding-left: 0.25em;
-	}
-
-	span {
-		color: var(--c-pink);
-	}
-
-	p {
-		max-width: 60em;
-	}
-
 	.content-container {
 		gap: 1rem;
 		background-color: var(--c-container);
 		padding: 2em;
 		margin: 1em 0.75em;
 		border-radius: 0.5em;
-	}
-
-	a {
-		display: inline-block;
-		margin-top: 1.75em;
-		padding: 1rem;
-		font-size: 1rem;
-		cursor: pointer;
-		text-align: center;
-		text-decoration: none;
-		color: #fff;
-		background-color: #636363;
-		border-radius: 4px;
-		transition: 0.3s;
-	}
-
-	a:hover {
-		opacity: 0.75;
 	}
 </style>

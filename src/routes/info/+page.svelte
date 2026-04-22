@@ -123,80 +123,25 @@
 </div>
 
 <style>
-
-.info-wrapper {
-	display: flex;
-	flex-direction: column;
-	gap: 2em;
-}
+	.info-wrapper {
+		display: flex;
+		flex-direction: column;
+		gap: 2em;
+	}
 
 	.text-container p {
 		max-width: 50rem;
-	}
-
-	.top-container {
-		grid-area: top;
-		display: flex;
-		align-items: flex-start;
-		justify-content: flex-start;
-	}
-
-	.left-container {
-		grid-area: left;
-	}
-
-	.right-container {
-		grid-area: right;
-	}
-
-	.bot-left-container {
-		grid-area: botleft;
-		display: flex;
-		align-items: flex-start;
-		justify-content: flex-start;
-	}
-
-	.bot-right-container {
-		grid-area: botright;
-		display: flex;
-		align-items: flex-start;
-		justify-content: flex-start;
-	}
-
-	.content-container {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		grid-template-rows: 0.3fr 0.5fr 1fr 1fr;
-		grid-template-areas:
-			'top top'
-			'left right'
-			'botleft botright';
-		margin: 1em 1em;
-		gap: 1em;
 	}
 
 	.text-image {
 		height: 13em;
 	}
 
-	.text-container,
-	.left-container,
-	.right-container,
-	.bot-left-container,
-	.bot-right-container {
+	.text-container {
 		padding: 2em;
 		color: var(--color-neutral-white);
 		background-color: var(--color-primary);
 		border-radius: var(--border-radius);
-	}
-
-	span {
-		color: var(--c-pink);
-	}
-
-	.image-container {
-		margin-left: auto;
-		align-self: center;
 	}
 
 	.form-vraag {
@@ -249,21 +194,5 @@
 	.error-message {
 		color: red;
 	}
-
-	@media only screen and (max-width: 1100px) {
-		.content-container {
-			grid-template-columns: 1fr;
-			grid-template-rows: 1fr 1fr 1fr 1fr;
-			grid-template-areas:
-				'top'
-				'left'
-				'right'
-				'botleft'
-				'botright';
-		}
-
-		.text-image {
-			height: 10em;
-		}
-	}
+	
 </style>

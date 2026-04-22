@@ -73,12 +73,6 @@
 		font-size: 38px;
 	}
 
-	p {
-		display: flex;
-		flex-direction: column;
-		padding-top: 1rem;
-	}
-
 	span::before {
 		content: ' ';
 	}
@@ -127,11 +121,6 @@
 	.form-link {
 		padding-top: 1rem;
 		padding-bottom: 0;
-	}
-
-	a {
-		font-size: 12px;
-		color: var(--color-primary);
 	}
 
 	.link-account {

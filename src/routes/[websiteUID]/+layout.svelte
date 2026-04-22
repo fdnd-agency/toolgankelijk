@@ -11,10 +11,10 @@
 </div>
 
 <style>
-.scroll-to-top-wrapper {
-	position: relative;
-	padding: 1em;
-	z-index: 3;
-	transform: rotate(180deg);
-}
+	.scroll-to-top-wrapper {
+		position: relative;
+		padding: 1em;
+		z-index: 3;
+		transform: rotate(180deg);
+	}
 </style>
