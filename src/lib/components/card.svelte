@@ -98,8 +98,8 @@
 		}
 
 		// criteria values must be positive
-		if (totalCriteria <= 0 || websiteCriteria < 0) {
-			console.warn('Card progressbar received out-of-range criteria values!', {
+		if (totalCriteria < 0 || websiteCriteria < 0) {
+			console.warn('Card progressbar received negative values!', {
 				websiteCriteria,
 				totalCriteria
 			});
