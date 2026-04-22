@@ -1,24 +1,33 @@
 //@ts-check
 
 /**
- * URLs under a website (`toolgankelijk_url`), checks, and success-criteria mutations for the toolboard.
+ * URLs under a website (`toolgankelijk_url`), checks, and success-criteria updates for the toolboard.
  */
-import { BaseRepository } from '$lib/server/repositories/baseRepository.js';
-import getQueryUrl, {
-	getQueryAddUrl,
-	getQueryUpdateUrl,
-	getQueryDeleteUrl,
-	getQueryDeleteChecks,
-	createEmptyCheck,
-	getQueryFirstCheck,
-	getMutationAddCheck,
-	getMutationDeleteCheck
-} from '../queries/url.js';
+import {
+	createItem,
+	deleteItem,
+	deleteItems,
+	readItem,
+	readItems,
+	updateItem
+} from '@directus/sdk';
+import { DirectusRepositoryBase } from '$lib/server/repositories/baseRepository.js';
 
 /** @typedef {import('$lib/types').UrlWithWebsite} UrlWithWebsite */
 
-export class UrlRepository extends BaseRepository {
-	// Main functions
+const COLLECTION_URL = 'toolgankelijk_url';
+const COLLECTION_CHECK = 'toolgankelijk_check';
+
+export class UrlRepository extends DirectusRepositoryBase {
+	/**
+	 * @param {unknown} check
+	 */
+	_successCriteriaRows(check) {
+		const raw = /** @type {Record<string, unknown>} */ (check);
+		return this.normalizeToArray(raw.success_criteria ?? raw.successcriteria, {
+			allowSingleObject: false
+		});
+	}
 
 	/**
 	 * Load one URL by slug with nested checks and success criteria (flattened from junction rows).
@@ -28,18 +37,32 @@ export class UrlRepository extends BaseRepository {
 	 */
 	async getUrl(slug) {
 		try {
-			const query = getQueryUrl(this.gql, slug);
-			const raw = await this.client.request(query);
-			const node = this.firstOrNull(raw?.toolgankelijk_url);
+			const rows = await this.client.request(
+				readItems(COLLECTION_URL, {
+					filter: { slug: { _eq: slug } },
+					limit: 1,
+					fields: [
+						'id',
+						'name',
+						'url',
+						'slug',
+						'website_id.slug',
+						'checks.id',
+						'checks.success_criteria.id',
+						'checks.success_criteria.toolgankelijk_success_criteria_id.id',
+						'checks.success_criteria.toolgankelijk_success_criteria_id.index',
+						'checks.success_criteria.toolgankelijk_success_criteria_id.level'
+					]
+				})
+			);
+			const node = this.firstOrNull(rows);
 
 			if (!node) return null;
 
 			const checks = this.normalizeToArray(node.checks, { allowSingleObject: false }).map(
 				(check) => ({
 					id: check.id,
-					successCriteria: this.normalizeToArray(check.successcriteria, {
-						allowSingleObject: false
-					}).map((row) => {
+					successCriteria: this._successCriteriaRows(check).map((row) => {
 						const criteria = this.unwrapRelation(row, 'toolgankelijk_success_criteria_id') ?? {};
 						return {
 							id: criteria.id ?? row.id ?? '',
@@ -72,10 +95,32 @@ export class UrlRepository extends BaseRepository {
 	 */
 	async addUrl({ urlSlug, urlLink, websiteSlug, urlName }) {
 		try {
-			const query = getQueryAddUrl(this.gql, urlSlug, urlLink, websiteSlug, urlName);
-			const raw = await this.client.request(query);
-			const row = raw.create_toolgankelijk_url_item ?? null;
-			return row ? { id: row.id } : null;
+			const websites = await this.client.request(
+				readItems('toolgankelijk_website', {
+					filter: { slug: { _eq: String(websiteSlug) } },
+					limit: 1,
+					fields: ['id', 'slug']
+				})
+			);
+			const website = this.firstOrNull(websites);
+			if (!website?.id) {
+				return null;
+			}
+			const created = /** @type {{ id?: string }} */ (
+				await this.client.request(
+					createItem(
+						COLLECTION_URL,
+						{
+							name: urlName,
+							url: urlLink,
+							slug: urlSlug,
+							website_id: website.id
+						},
+						{ fields: ['id'] }
+					)
+				)
+			);
+			return created?.id ? { id: created.id } : null;
 		} catch (error) {
 			console.error('urlRepository.addUrl failed', error);
 			return null;
@@ -90,10 +135,10 @@ export class UrlRepository extends BaseRepository {
 	 */
 	async updateUrl({ id, slug, url, name }) {
 		try {
-			const query = getQueryUpdateUrl(this.gql, slug, url, id, name);
-			const raw = await this.client.request(query);
-			const row = raw.update_toolgankelijk_url_item ?? null;
-			return row ? { id: row.id, slug, url, name } : null;
+			const row = /** @type {{ id?: string }} */ (
+				await this.client.request(updateItem(COLLECTION_URL, id, { slug, url, name }))
+			);
+			return row?.id ? { id: row.id, slug, url, name } : null;
 		} catch (error) {
 			console.error('urlRepository.updateUrl failed', error);
 			return null;
@@ -108,10 +153,8 @@ export class UrlRepository extends BaseRepository {
 	 */
 	async deleteUrl(id) {
 		try {
-			const query = getQueryDeleteUrl(this.gql, id);
-			const raw = await this.client.request(query);
-			const row = raw.delete_toolgankelijk_url_item ?? null;
-			return row ? { id: row.id } : null;
+			await this.client.request(deleteItem(COLLECTION_URL, id));
+			return { id };
 		} catch (error) {
 			console.error('urlRepository.deleteUrl failed', error);
 			return null;
@@ -126,12 +169,13 @@ export class UrlRepository extends BaseRepository {
 	 */
 	async deleteUrlWithChecks(id) {
 		try {
-			const checksQuery = getQueryDeleteChecks(this.gql, id);
-			await this.client.request(checksQuery);
-			const deleteQuery = getQueryDeleteUrl(this.gql, id);
-			const raw = await this.client.request(deleteQuery);
-			const row = raw.delete_toolgankelijk_url_item ?? null;
-			return row ? { id: row.id } : null;
+			await this.client.request(
+				deleteItems(COLLECTION_CHECK, {
+					filter: { url: { _eq: id } }
+				})
+			);
+			await this.client.request(deleteItem(COLLECTION_URL, id));
+			return { id };
 		} catch (error) {
 			console.error('urlRepository.deleteUrlWithChecks failed', error);
 			return null;
@@ -139,17 +183,32 @@ export class UrlRepository extends BaseRepository {
 	}
 
 	/**
-	 * Ensure a URL has a check row (nested update on website) for new toolboard entries.
+	 * Ensure a URL has a check row for new toolboard entries.
 	 *
 	 * @param {{ websiteSlug: string; urlSlug: string }} input
 	 * @returns {Promise<{ id: string } | null>}
 	 */
 	async createEmptyCheckForUrl({ websiteSlug, urlSlug }) {
 		try {
-			const mutation = createEmptyCheck(this.gql, websiteSlug, urlSlug);
-			const raw = await this.client.request(mutation);
-			const row = raw.updateWebsite ?? null;
-			return row ? { id: row.id } : null;
+			const rows = await this.client.request(
+				readItems(COLLECTION_URL, {
+					filter: { slug: { _eq: urlSlug } },
+					fields: ['id', 'website_id.slug']
+				})
+			);
+			const urlRow = this.normalizeToArray(rows, { allowSingleObject: false }).find(
+				(row) => row?.website_id?.slug === websiteSlug
+			);
+			if (!urlRow?.id) return null;
+
+			const created = /** @type {{ id?: string }} */ (
+				await this.client.request(
+					createItem(COLLECTION_CHECK, {
+						url: urlRow.id
+					})
+				)
+			);
+			return created?.id ? { id: created.id } : null;
 		} catch (error) {
 			console.error('urlRepository.createEmptyCheckForUrl failed', error);
 			return null;
@@ -164,10 +223,17 @@ export class UrlRepository extends BaseRepository {
 	 */
 	async getFirstCheck({ websiteSlug, urlSlug }) {
 		try {
-			const query = getQueryFirstCheck(this.gql, websiteSlug, urlSlug);
-			const raw = await this.client.request(query);
-			const checkId = raw.website?.urls?.[0]?.checks?.[0]?.id ?? null;
-			return checkId;
+			const rows = await this.client.request(
+				readItems(COLLECTION_URL, {
+					filter: { slug: { _eq: urlSlug } },
+					fields: ['website_id.slug', 'checks.id']
+				})
+			);
+			const url = this.normalizeToArray(rows, { allowSingleObject: false }).find(
+				(row) => row?.website_id?.slug === websiteSlug
+			);
+			const checks = this.normalizeToArray(url?.checks, { allowSingleObject: false });
+			return checks[0]?.id ?? null;
 		} catch (error) {
 			console.error('urlRepository.getFirstCheck failed', error);
 			return null;
@@ -175,49 +241,99 @@ export class UrlRepository extends BaseRepository {
 	}
 
 	/**
-	 * Link a success criterion to a check (nested website mutation).
+	 * Success-criteria ids currently linked to a check (M2M junction rows).
 	 *
-	 * @param {{ websiteSlug: string; urlSlug: string; checkId: string; successCriterionId: string }} input
+	 * @param {string} checkId
+	 * @returns {Promise<string[]>}
+	 */
+	async getLinkedSuccessCriteriaIds(checkId) {
+		const row = await this.client.request(
+			readItem(COLLECTION_CHECK, checkId, {
+				fields: ['success_criteria.toolgankelijk_success_criteria_id.id']
+			})
+		);
+		const rows = this._successCriteriaRows(row ?? {});
+		return rows
+			.map((r) => this.unwrapRelation(r, 'toolgankelijk_success_criteria_id')?.id)
+			.filter((id) => id != null && id !== '')
+			.map((id) => String(id));
+	}
+
+	/**
+	 * Junction row id + criterion id pairs for a check's success_criteria relation.
+	 *
+	 * @param {string} checkId
+	 * @returns {Promise<Array<{ junctionId: string; criterionId: string }>>}
+	 */
+	async getLinkedSuccessCriteriaRows(checkId) {
+		const row = await this.client.request(
+			readItem(COLLECTION_CHECK, checkId, {
+				fields: ['success_criteria.id', 'success_criteria.toolgankelijk_success_criteria_id.id']
+			})
+		);
+		const rows = this._successCriteriaRows(row ?? {});
+		return rows
+			.map((r) => ({
+				junctionId: String(r?.id ?? ''),
+				criterionId: String(this.unwrapRelation(r, 'toolgankelijk_success_criteria_id')?.id ?? '')
+			}))
+			.filter((r) => r.junctionId !== '' && r.criterionId !== '');
+	}
+
+	/**
+	 * Link a success criterion to a check (M2M: read current links, append id, replace relation set).
+	 *
+	 * @param {{ websiteSlug?: string; urlSlug?: string; checkId: string; successCriteriaId: string }} input
 	 * @returns {Promise<{ id: string } | null>}
 	 */
-	async addSuccessCriterionToCheck({ websiteSlug, urlSlug, checkId, successCriterionId }) {
+	async addSuccessCriteriaToCheck({ checkId, successCriteriaId }) {
 		try {
-			const mutation = getMutationAddCheck(
-				this.gql,
-				websiteSlug,
-				urlSlug,
-				checkId,
-				successCriterionId
+			const existing = await this.getLinkedSuccessCriteriaIds(checkId);
+			if (existing.includes(String(successCriteriaId))) {
+				return { id: checkId };
+			}
+			const row = /** @type {{ id?: string }} */ (
+				await this.client.request(
+					updateItem(COLLECTION_CHECK, checkId, {
+						success_criteria: {
+							create: [
+								{
+									toolgankelijk_success_criteria_id: String(successCriteriaId)
+								}
+							]
+						}
+					})
+				)
 			);
-			const raw = await this.client.request(mutation);
-			const row = raw.updateWebsite ?? null;
-			return row ? { id: row.id } : null;
+			return row?.id ? { id: row.id } : null;
 		} catch (error) {
-			console.error('urlRepository.addSuccessCriterionToCheck failed', error);
+			console.error('urlRepository.addSuccessCriteriaToCheck failed', error);
 			return null;
 		}
 	}
 
 	/**
-	 * Remove a success criterion from a check (nested website mutation).
+	 * Remove a success criterion from a check (M2M: read current links, filter id out, replace set).
 	 *
-	 * @param {{ websiteSlug: string; urlSlug: string; checkId: string; successCriterionId: string }} input
+	 * @param {{ websiteSlug?: string; urlSlug?: string; checkId: string; successCriteriaId: string }} input
 	 * @returns {Promise<{ id: string } | null>}
 	 */
-	async removeSuccessCriterionFromCheck({ websiteSlug, urlSlug, checkId, successCriterionId }) {
+	async removeSuccessCriteriaFromCheck({ checkId, successCriteriaId }) {
 		try {
-			const mutation = getMutationDeleteCheck(
-				this.gql,
-				websiteSlug,
-				urlSlug,
-				checkId,
-				successCriterionId
+			const linkedRows = await this.getLinkedSuccessCriteriaRows(checkId);
+			const junctionIdsToDelete = linkedRows
+				.filter((row) => row.criterionId === String(successCriteriaId))
+				.map((row) => row.junctionId);
+			if (junctionIdsToDelete.length === 0) {
+				return { id: checkId };
+			}
+			const relationCollection = 'toolgankelijk_check_toolgankelijk_success_criteria';
+			await this.client.request(
+				deleteItems(relationCollection, { filter: { id: { _in: junctionIdsToDelete } } })
 			);
-			const raw = await this.client.request(mutation);
-			const row = raw.updateWebsite ?? null;
-			return row ? { id: row.id } : null;
+			return { id: String(checkId) };
 		} catch (error) {
-			console.error('urlRepository.removeSuccessCriterionFromCheck failed', error);
+			console.error('urlRepository.removeSuccessCriteriaFromCheck failed', error);
 			return null;
 		}
 	}

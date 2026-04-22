@@ -1,8 +1,7 @@
 /**
- * Tests for the UrlRepository class.
+ * Tests for the UrlRepository class (Directus REST SDK).
  */
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { gql } from 'graphql-request';
 import { UrlRepository } from '$lib/server/repositories/urlRepository.js';
 
 describe('UrlRepository', () => {
@@ -12,36 +11,34 @@ describe('UrlRepository', () => {
 	beforeEach(() => {
 		vi.clearAllMocks();
 		client = { request: vi.fn() };
-		repository = new UrlRepository({ client, gql });
+		repository = new UrlRepository({ client });
 	});
 
 	describe('getUrl', () => {
 		it('maps URL node with checks and success criteria', async () => {
-			client.request.mockResolvedValue({
-				toolgankelijk_url: [
-					{
-						id: 'url-1',
-						name: 'Home',
-						url: 'https://x/',
-						slug: 'home',
-						website_id: { id: 'w1' },
-						checks: [
-							{
-								id: 'c1',
-								successcriteria: [
-									{
-										toolgankelijk_success_criteria_id: {
-											id: 'sc1',
-											index: '1.1.1',
-											level: 'A'
-										}
+			client.request.mockResolvedValue([
+				{
+					id: 'url-1',
+					name: 'Home',
+					url: 'https://x/',
+					slug: 'home',
+					website_id: { id: 'w1' },
+					checks: [
+						{
+							id: 'c1',
+							success_criteria: [
+								{
+									toolgankelijk_success_criteria_id: {
+										id: 'sc1',
+										index: '1.1.1',
+										level: 'A'
 									}
-								]
-							}
-						]
-					}
-				]
-			});
+								}
+							]
+						}
+					]
+				}
+			]);
 
 			const result = await repository.getUrl('home');
 
@@ -67,7 +64,7 @@ describe('UrlRepository', () => {
 		});
 
 		it('returns null when no URL', async () => {
-			client.request.mockResolvedValue({ toolgankelijk_url: [] });
+			client.request.mockResolvedValue([]);
 
 			await expect(repository.getUrl('missing')).resolves.toBeNull();
 		});
@@ -82,10 +79,8 @@ describe('UrlRepository', () => {
 	});
 
 	describe('addUrl', () => {
-		it('returns id from create mutation', async () => {
-			client.request.mockResolvedValue({
-				create_toolgankelijk_url_item: { id: 'new-id' }
-			});
+		it('returns id from create item', async () => {
+			client.request.mockResolvedValue({ id: 'new-id' });
 
 			const result = await repository.addUrl({
 				urlSlug: 'p',
@@ -97,8 +92,8 @@ describe('UrlRepository', () => {
 			expect(result).toEqual({ id: 'new-id' });
 		});
 
-		it('returns null when mutation returns no row', async () => {
-			client.request.mockResolvedValue({ create_toolgankelijk_url_item: null });
+		it('returns null when create returns no id', async () => {
+			client.request.mockResolvedValue({});
 
 			const result = await repository.addUrl({
 				urlSlug: 'p',
@@ -128,9 +123,7 @@ describe('UrlRepository', () => {
 
 	describe('updateUrl', () => {
 		it('returns id and fields when row exists', async () => {
-			client.request.mockResolvedValue({
-				update_toolgankelijk_url_item: { id: 'u1' }
-			});
+			client.request.mockResolvedValue({ id: 'u1' });
 
 			const result = await repository.updateUrl({
 				id: 'u1',
@@ -142,8 +135,8 @@ describe('UrlRepository', () => {
 			expect(result).toEqual({ id: 'u1', slug: 's', url: 'https://z', name: 'N' });
 		});
 
-		it('returns null when mutation returns no row', async () => {
-			client.request.mockResolvedValue({ update_toolgankelijk_url_item: null });
+		it('returns null when update returns no id', async () => {
+			client.request.mockResolvedValue({});
 
 			const result = await repository.updateUrl({
 				id: 'u1',
@@ -172,18 +165,10 @@ describe('UrlRepository', () => {
 	});
 
 	describe('deleteUrl', () => {
-		it('returns deleted id', async () => {
-			client.request.mockResolvedValue({
-				delete_toolgankelijk_url_item: { id: 'd1' }
-			});
+		it('returns deleted id on success', async () => {
+			client.request.mockResolvedValue(undefined);
 
 			await expect(repository.deleteUrl('d1')).resolves.toEqual({ id: 'd1' });
-		});
-
-		it('returns null when mutation returns no row', async () => {
-			client.request.mockResolvedValue({ delete_toolgankelijk_url_item: null });
-
-			await expect(repository.deleteUrl('missing')).resolves.toBeNull();
 		});
 
 		it('returns null when request fails', async () => {
@@ -197,11 +182,7 @@ describe('UrlRepository', () => {
 
 	describe('deleteUrlWithChecks', () => {
 		it('requests checks delete then URL delete', async () => {
-			client.request
-				.mockResolvedValueOnce({}) // delete checks query
-				.mockResolvedValueOnce({
-					delete_toolgankelijk_url_item: { id: 'u1' }
-				});
+			client.request.mockResolvedValue(undefined);
 
 			const result = await repository.deleteUrlWithChecks('u1');
 
@@ -220,31 +201,36 @@ describe('UrlRepository', () => {
 			spy.mockRestore();
 		});
 
-		it('returns null when URL delete returns no row', async () => {
+		it('returns null when URL delete fails', async () => {
+			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
 			client.request
-				.mockResolvedValueOnce({})
-				.mockResolvedValueOnce({ delete_toolgankelijk_url_item: null });
+				.mockResolvedValueOnce(undefined)
+				.mockRejectedValueOnce(new Error('url delete failed'));
 
 			const result = await repository.deleteUrlWithChecks('u1');
 
 			expect(result).toBeNull();
+			spy.mockRestore();
 		});
 	});
 
 	describe('createEmptyCheckForUrl', () => {
-		it('returns updateWebsite id', async () => {
-			client.request.mockResolvedValue({ updateWebsite: { id: 'w1' } });
+		it('returns new check id after resolving URL', async () => {
+			client.request
+				.mockResolvedValueOnce([{ id: 'url-1', website_id: { slug: 'ws' } }])
+				.mockResolvedValueOnce({ id: 'chk-1' });
 
 			const result = await repository.createEmptyCheckForUrl({
 				websiteSlug: 'ws',
 				urlSlug: 'us'
 			});
 
-			expect(result).toEqual({ id: 'w1' });
+			expect(result).toEqual({ id: 'chk-1' });
+			expect(client.request).toHaveBeenCalledTimes(2);
 		});
 
-		it('returns null when mutation returns no website row', async () => {
-			client.request.mockResolvedValue({ updateWebsite: null });
+		it('returns null when no URL row', async () => {
+			client.request.mockResolvedValueOnce([]);
 
 			const result = await repository.createEmptyCheckForUrl({
 				websiteSlug: 'ws',
@@ -252,6 +238,7 @@ describe('UrlRepository', () => {
 			});
 
 			expect(result).toBeNull();
+			expect(client.request).toHaveBeenCalledTimes(1);
 		});
 
 		it('returns null when request fails', async () => {
@@ -270,19 +257,15 @@ describe('UrlRepository', () => {
 
 	describe('getFirstCheck', () => {
 		it('returns first check id from nested shape', async () => {
-			client.request.mockResolvedValue({
-				website: {
-					urls: [{ checks: [{ id: 'chk-1' }] }]
-				}
-			});
+			client.request.mockResolvedValue([{ website_id: { slug: 'w' }, checks: [{ id: 'chk-1' }] }]);
 
 			await expect(repository.getFirstCheck({ websiteSlug: 'w', urlSlug: 'u' })).resolves.toBe(
 				'chk-1'
 			);
 		});
 
-		it('returns null when path missing', async () => {
-			client.request.mockResolvedValue({ website: { urls: [] } });
+		it('returns null when no URL', async () => {
+			client.request.mockResolvedValue([]);
 
 			await expect(
 				repository.getFirstCheck({ websiteSlug: 'w', urlSlug: 'u' })
@@ -300,28 +283,49 @@ describe('UrlRepository', () => {
 		});
 	});
 
-	describe('addSuccessCriterionToCheck', () => {
-		it('returns website id from mutation', async () => {
-			client.request.mockResolvedValue({ updateWebsite: { id: 'wid' } });
+	describe('addSuccessCriteriaToCheck', () => {
+		it('loads links then returns check id from update', async () => {
+			client.request
+				.mockResolvedValueOnce({
+					success_criteria: [{ toolgankelijk_success_criteria_id: { id: 'existing' } }]
+				})
+				.mockResolvedValueOnce({ id: 'c' });
 
-			const result = await repository.addSuccessCriterionToCheck({
+			const result = await repository.addSuccessCriteriaToCheck({
 				websiteSlug: 'w',
 				urlSlug: 'u',
 				checkId: 'c',
-				successCriterionId: 'sc'
+				successCriteriaId: 'sc'
 			});
 
-			expect(result).toEqual({ id: 'wid' });
+			expect(result).toEqual({ id: 'c' });
+			expect(client.request).toHaveBeenCalledTimes(2);
 		});
 
-		it('returns null when mutation returns no website row', async () => {
-			client.request.mockResolvedValue({ updateWebsite: null });
+		it('returns check id without update when criterion already linked', async () => {
+			client.request.mockResolvedValueOnce({
+				success_criteria: [{ toolgankelijk_success_criteria_id: { id: 'sc' } }]
+			});
 
-			const result = await repository.addSuccessCriterionToCheck({
+			const result = await repository.addSuccessCriteriaToCheck({
 				websiteSlug: 'w',
 				urlSlug: 'u',
 				checkId: 'c',
-				successCriterionId: 'sc'
+				successCriteriaId: 'sc'
+			});
+
+			expect(result).toEqual({ id: 'c' });
+			expect(client.request).toHaveBeenCalledTimes(1);
+		});
+
+		it('returns null when update returns no id', async () => {
+			client.request.mockResolvedValueOnce({ success_criteria: [] }).mockResolvedValueOnce({});
+
+			const result = await repository.addSuccessCriteriaToCheck({
+				websiteSlug: 'w',
+				urlSlug: 'u',
+				checkId: 'c',
+				successCriteriaId: 'sc'
 			});
 
 			expect(result).toBeNull();
@@ -331,11 +335,11 @@ describe('UrlRepository', () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
 			client.request.mockRejectedValue(new Error('fail'));
 
-			const result = await repository.addSuccessCriterionToCheck({
+			const result = await repository.addSuccessCriteriaToCheck({
 				websiteSlug: 'w',
 				urlSlug: 'u',
 				checkId: 'c',
-				successCriterionId: 'sc'
+				successCriteriaId: 'sc'
 			});
 
 			expect(result).toBeNull();
@@ -343,42 +347,54 @@ describe('UrlRepository', () => {
 		});
 	});
 
-	describe('removeSuccessCriterionFromCheck', () => {
-		it('returns website id from mutation', async () => {
-			client.request.mockResolvedValue({ updateWebsite: { id: 'wid' } });
+	describe('removeSuccessCriteriaFromCheck', () => {
+		it('loads links then returns check id from update', async () => {
+			client.request
+				.mockResolvedValueOnce({
+					success_criteria: [
+						{ id: 'j1', toolgankelijk_success_criteria_id: { id: 'sc' } },
+						{ id: 'j2', toolgankelijk_success_criteria_id: { id: 'keep' } }
+					]
+				})
+				.mockResolvedValueOnce({ id: 'c' });
 
-			const result = await repository.removeSuccessCriterionFromCheck({
+			const result = await repository.removeSuccessCriteriaFromCheck({
 				websiteSlug: 'w',
 				urlSlug: 'u',
 				checkId: 'c',
-				successCriterionId: 'sc'
+				successCriteriaId: 'sc'
 			});
 
-			expect(result).toEqual({ id: 'wid' });
+			expect(result).toEqual({ id: 'c' });
+			expect(client.request).toHaveBeenCalledTimes(2);
 		});
 
-		it('returns null when mutation returns no website row', async () => {
-			client.request.mockResolvedValue({ updateWebsite: null });
+		it('returns check id when junction delete succeeds', async () => {
+			client.request
+				.mockResolvedValueOnce({
+					success_criteria: [{ id: 'j1', toolgankelijk_success_criteria_id: { id: 'sc' } }]
+				})
+				.mockResolvedValueOnce({});
 
-			const result = await repository.removeSuccessCriterionFromCheck({
+			const result = await repository.removeSuccessCriteriaFromCheck({
 				websiteSlug: 'w',
 				urlSlug: 'u',
 				checkId: 'c',
-				successCriterionId: 'sc'
+				successCriteriaId: 'sc'
 			});
 
-			expect(result).toBeNull();
+			expect(result).toEqual({ id: 'c' });
 		});
 
 		it('returns null when request fails', async () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
 			client.request.mockRejectedValue(new Error('fail'));
 
-			const result = await repository.removeSuccessCriterionFromCheck({
+			const result = await repository.removeSuccessCriteriaFromCheck({
 				websiteSlug: 'w',
 				urlSlug: 'u',
 				checkId: 'c',
-				successCriterionId: 'sc'
+				successCriteriaId: 'sc'
 			});
 
 			expect(result).toBeNull();
