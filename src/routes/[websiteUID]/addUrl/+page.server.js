@@ -27,6 +27,12 @@ export const actions = {
 				websiteSlug: formSlug,
 				urlName: name
 			});
+			if (!directusCall) {
+				return {
+					message: 'Url kon niet worden opgeslagen.',
+					success: false
+				};
+			}
 			await urlRepository.createEmptyCheckForUrl({ websiteSlug: formSlug, urlSlug: name });
 
 			return {

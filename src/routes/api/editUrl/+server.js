@@ -35,6 +35,11 @@ export async function POST({ request }) {
 					await delay(500);
 
 					const response = await urlRepository.updateUrl({ id, slug, url, name });
+					if (!response) {
+						await sendUpdate({ status: 'Url kon niet worden bijgewerkt', type: 'error' });
+						await delay(500);
+						return;
+					}
 
 					await sendUpdate({ status: 'Url succesvol bijgewerkt', type: 'done', response });
 					await delay(500);

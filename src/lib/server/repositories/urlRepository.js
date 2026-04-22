@@ -12,6 +12,7 @@ import {
 	updateItem
 } from '@directus/sdk';
 import { DirectusRepositoryBase } from '$lib/server/repositories/baseRepository.js';
+import { normalizeHttpUrl } from '$lib/utils/url.js';
 
 /** @typedef {import('$lib/types').UrlWithWebsite} UrlWithWebsite */
 
@@ -95,6 +96,12 @@ export class UrlRepository extends DirectusRepositoryBase {
 	 */
 	async addUrl({ urlSlug, urlLink, websiteSlug, urlName }) {
 		try {
+			const normalizedUrlLink = normalizeHttpUrl(urlLink);
+			if (!normalizedUrlLink) {
+				console.error('urlRepository.addUrl invalid url', { urlLink });
+				return null;
+			}
+
 			const websites = await this.client.request(
 				readItems('toolgankelijk_website', {
 					filter: { slug: { _eq: String(websiteSlug) } },
@@ -112,7 +119,7 @@ export class UrlRepository extends DirectusRepositoryBase {
 						COLLECTION_URL,
 						{
 							name: urlName,
-							url: urlLink,
+							url: normalizedUrlLink,
 							slug: urlSlug,
 							website_id: website.id
 						},
@@ -135,10 +142,16 @@ export class UrlRepository extends DirectusRepositoryBase {
 	 */
 	async updateUrl({ id, slug, url, name }) {
 		try {
+			const normalizedUrl = normalizeHttpUrl(url);
+			if (!normalizedUrl) {
+				console.error('urlRepository.updateUrl invalid url', { url });
+				return null;
+			}
+
 			const row = /** @type {{ id?: string }} */ (
-				await this.client.request(updateItem(COLLECTION_URL, id, { slug, url, name }))
+				await this.client.request(updateItem(COLLECTION_URL, id, { slug, url: normalizedUrl, name }))
 			);
-			return row?.id ? { id: row.id, slug, url, name } : null;
+			return row?.id ? { id: row.id, slug, url: normalizedUrl, name } : null;
 		} catch (error) {
 			console.error('urlRepository.updateUrl failed', error);
 			return null;
