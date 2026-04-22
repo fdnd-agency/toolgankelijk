@@ -106,7 +106,9 @@ describe('ContentRepository', () => {
 						checks: [
 							{
 								id: 'c1',
-								successcriteria: [{ id: 'junction-1', toolgankelijk_success_criteria_id: { id: 's1' } }]
+								successcriteria: [
+									{ id: 'junction-1', toolgankelijk_success_criteria_id: { id: 's1' } }
+								]
 							}
 						]
 					}

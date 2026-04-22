@@ -76,7 +76,10 @@ describe('SessionRepository', () => {
 			});
 
 			expect(result).toEqual({ id: 'row-1' });
-			expect(client.query).toHaveBeenCalledWith(expect.any(String), { sessionId: 'hash', expiresAt });
+			expect(client.query).toHaveBeenCalledWith(expect.any(String), {
+				sessionId: 'hash',
+				expiresAt
+			});
 		});
 
 		it('returns null on error', async () => {
