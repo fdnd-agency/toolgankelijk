@@ -20,10 +20,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
         with:
-          node-version: 25-slim
+          node-version: '25'
           cache: 'npm'
       - run: npm ci
       - run: npm run build
@@ -32,10 +32,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
         with:
-          node-version: 25-slim
+          node-version: '25'
           cache: 'npm'
       - run: npm i
       - run: npm test --if-present
@@ -44,10 +44,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
         with:
-          node-version: 25-slim
+          node-version: '25'
           cache: 'npm'
       - run: npm i
       - run: npm run lint --if-present
