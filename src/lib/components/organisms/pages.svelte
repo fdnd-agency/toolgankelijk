@@ -55,25 +55,36 @@
 
 		{#each pageNumbers as p}
 			{#if p === '...'}
-				<li class="button-disabled button">...</li>
+				<li class="button-disabled button">
+					<NavButton
+					size="small"
+					>
+						...
+					</NavButton>
+				</li>
 			{:else}
 				<li>
 					<NavButton
-						type="submit"
-						name="skip"
-						value={(p - 1) * perPage}
-						class={p === currentPage ? 'selected' : ''}
-						disabled={p === currentPage}
-						size="medium"
-						variant="primary"
+					size="small"
+					variant="primary" 
+					type="submit" 
+					name="skip" 
+					class={p === currentPage ? 'selected' : ''} 
+					effect="pages"
+					disabled={p === currentPage} 
+					value={(p - 1) * perPage}
 					>
-						<p>{p}</p>
+						<NavButton
+						size="small">
+							{p}
+						</NavButton>
 					</NavButton>
 				</li>
 			{/if}
 		{/each}
 
 		<!-- <li class="button-disabled button">{pageCount}</li> -->
+
 		<li>
 			<NavButton
 				type="submit"
