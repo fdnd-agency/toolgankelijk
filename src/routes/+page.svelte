@@ -1,18 +1,22 @@
 <script>
 	import { invalidateAll } from '$app/navigation';
 	import { onMount } from 'svelte';
+	import { page } from '$app/stores';
 	import Card from '$lib/components/card.svelte';
-	import Search from '$lib/components/search.svelte';
 	import Dialog from '$lib/components/dialog.svelte';
 	import Pages from '$lib/components/pages.svelte';
 	import NavButton from '$lib/components/NavButton.svelte';
 	import Heading from '$lib/components/heading.svelte';
+	import SubHeader from '$lib/components/subheader.svelte';
 
 	let { data, form } = $props();
+	let params = $derived($page.params);
+	let partners = $derived(data.partnersData);
 
 	let skip = $derived(data.skip);
 	const first = $derived(data.first);
 	let totalUrls = $derived(data.totalWebsites);
+	const websitesList = $derived(data.websites.allWebsites || []);
 	const currentPage = $derived(skip / first + 1);
 	let showRegistrationSuccess = $derived(data.showRegistrationSuccess);
 	let heading = { title: 'Partners overzicht' };
@@ -34,24 +38,24 @@
 			invalidateAll();
 		}
 	});
+
+	function openAddUrl() {
+        dialogRef?.open();
+    }
 </script>
 
+<SubHeader 
+	{params} 
+    partners={partners}
+    websites={websitesList} 
+    {principles} 
+    user={data.user}
+    showAdd={true}
+    onAdd={openAddUrl} />
+<Dialog bind:this={dialogRef} {params} isType="addPartner" />
+
+
 <Heading {heading} />
-
-<section>
-	<NavButton
-		aria="Partner Toevogen"
-		size="xlarge"
-		variant="primary"
-		showIcon={true}
-		onclick={handleDialog}
-		iconName="add"
-	>
-		<p>Partner Toevoegen</p>
-	</NavButton>
-
-	<Search placeholderProp="Gvb" />
-</section>
 
 {#if totalUrls > first}
 	<Pages amount={totalUrls} perPage={first} {currentPage} />
@@ -66,8 +70,6 @@
 {:else if form?.success == false}
 	<div class="toast error"><p>{form?.message}</p></div>
 {/if}
-
-<Dialog bind:this={dialogRef} isUrl={false} isType="addPartner" />
 
 <section class="card-container">
 	{#each data.websites as website}

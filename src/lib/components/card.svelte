@@ -3,49 +3,43 @@
 	import Dialog from '$lib/components/dialog.svelte';
 	import NavButton from '$lib/components/NavButton.svelte';
 
-	export let website;
-	export let principles;
-	export let params;
-	export let isUrl = false;
+	let {
+		website,
+		principles = [],
+		params,
+		isUrl = false
+	} = $props();
 
-	let editType;
-	let deleteType;
-	let auditType;
-	let dialogRefEdit;
-	let dialogRefDelete;
-	let dialogRefAudit;
+	let dialogRefEdit = $state();
+    let dialogRefDelete = $state();
+    let dialogRefAudit = $state();
+    let progressbar = $state();
+    let labelValue = $state();
+    let lastTime = $state('');
+
+	let editType = $derived(isUrl ? 'editUrl' : 'editPartner');
+    let deleteType = $derived(isUrl ? 'deleteUrl' : 'deletePartner');
+    const auditType = 'startAudit';
+
+	let link = $derived(isUrl 
+        ? `/${params.websiteUID}/${website.slug}` 
+        : `/${website.slug}`
+    );
+
+	let url = $derived(isUrl ? website.url : website.homepage);
+    let title = $derived(isUrl ? (website.name || website.title) : website.title);
+
 	let faviconSrc;
 
-	let labelValue;
-	let progressbar;
-	let lastTime;
-	let link;
-	let title;
-	let url;
 	let websiteCriteria;
 	let totalCriteria;
 	let containerOff = false;
+
 	const updatedTime = new Date(website.updatedAt);
 	const currentTime = new Date();
 	const timeDifference = Math.floor((currentTime - updatedTime) / (60 * 1000)); 
 	const faviconAPI =
 		'https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=';
-	if (isUrl) {
-		// show url
-		link = params + '/' + website.slug;
-		url = website.url;
-		title = website.name;
-		editType = 'editUrl';
-		deleteType = 'deleteUrl';
-	} else {
-		// show website
-		link = website.slug + '?partner=' + website.slug;
-		url = website.homepage;
-		title = website.title;
-		editType = 'editPartner';
-		deleteType = 'deletePartner';
-		auditType = 'startAudit';
-	}
 
 	if (timeDifference >= 60) {
 		let minutes = timeDifference % 60;

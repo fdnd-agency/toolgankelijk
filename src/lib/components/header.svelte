@@ -1,6 +1,5 @@
 <script>
 	import { page } from '$app/stores';
-
 	import Logo from './logoHeader.svelte';
 	import BreadCrumbs from '$lib/components/breadCrumbs.svelte';
 	import Hamburger from '$lib/components/hamburger.svelte';
@@ -62,11 +61,6 @@
 	</nav>
 	<Hamburger />
 </header>
-<div class="subheader">
-	{#if user && user.isEmailVerified}
-		<BreadCrumbs {params} {partners} {websites} {principles} width="full" />
-	{/if}
-</div>
 
 <style>
 	.visible-hidden {
@@ -99,13 +93,7 @@
 		justify-content: space-around;
 	}
 
-	.subheader {
-		height: fit-content;
-		background-color: var(--color-primary-light);
-		display: flex;
-		padding: 1em;
-		align-content: center;
-	}
+
 
 	#header-navigation {
 		display: flex;
