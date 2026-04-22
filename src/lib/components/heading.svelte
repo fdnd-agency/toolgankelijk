@@ -33,22 +33,7 @@
 <style>
 	section {
 		display: flex;
-		gap: 1rem;
-		align-items: center;
-		background-color: var(--color-primary-light);
-		padding: clamp(1em, 6vw, 2em);
-		border-top: 12px solid #b5006c;
-		margin: 1em 1em;
-		border-radius: 0.5em;
-	}
-
-	section img {
-		box-shadow: 0px 0px 0px 8px #202020;
-		border-radius: 0.3rem;
-		background-color: #202020;
-	}
-
-	h1 {
-		font-size: clamp(1.3rem, 4vw, 3.8rem);
+		gap: 1em;
+		padding: 1em;
 	}
 </style>

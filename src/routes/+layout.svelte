@@ -1,14 +1,9 @@
 <script>
 	import { onNavigate } from '$app/navigation';
-	import { page } from '$app/stores';
 	import Header from '$lib/components/header.svelte';
 
-	let { data, children } = $props();
-	let params = $derived($page.params);
-	let websites = $derived(data.websitesData);
-	let principles = $derived(data.partnersData.principles);
+	let { children } = $props();
 
-	let partners = $derived(data.partnersData);
 
 	onNavigate((navigation) => {
 		if (!document.startViewTransition) return;
@@ -22,9 +17,7 @@
 	});
 </script>
 
-{#if $page.url.pathname !== '/login'}
-    <Header {params} {partners} {websites} {principles} user={data.user} />
-{/if}
+<Header/>
 
 <main id="main">
 	{@render children?.()}
