@@ -1,5 +1,4 @@
 <script>
-	import { onMount } from 'svelte';
 	import Dialog from '$lib/components/templates/dialog.svelte';
 	import NavButton from '$lib/components/moleculues/navButton.svelte';
 
@@ -77,39 +76,14 @@
 		window.scrollTo({ top: 0, behavior: 'smooth' });
 	}
 
-	onMount(() => {
-		if (isUrl) {
-			websiteCriteria = website.checks.reduce((total, check) => {
-				const criteria = check.successCriteria ?? [];
-				return total + criteria.length;
-			}, 0);
-
-			totalCriteria =
-				principles.reduce((total, principle) => {
-					principle.guidelines.forEach((guideline) => {
-						const criteria = guideline.successCriteria ?? [];
-						total += criteria.length;
-					});
-					return total;
-				}, 0) * website.checks.length;
-		} else {
-			websiteCriteria = website.urls.reduce((total, url) => {
-				url.checks.forEach((check) => {
-					const criteria = check.successCriteria ?? [];
-					total += criteria.length;
-				});
-				return total;
-			}, 0);
-
-			totalCriteria =
-				principles.reduce((total, principle) => {
-					principle.guidelines.forEach((guideline) => {
-						const criteria = guideline.successCriteria ?? [];
-						total += criteria.length;
-					});
-					return total;
-				}, 0) * website.urls.length;
-		}
+        if (isUrl) {
+            success = website.checks?.reduce((acc, c) => acc + (c.successCriteria?.length || 0), 0) || 0;
+            total = baseCriteriaCount * (website.checks?.length || 0);
+        } else {
+            success = website.urls?.reduce((acc, u) => 
+                acc + u.checks.reduce((cAcc, c) => cAcc + (c.successCriteria?.length || 0), 0), 0) || 0;
+            total = baseCriteriaCount * (website.urls?.length || 0);
+        }
 
 		let percentage = Math.round((websiteCriteria / totalCriteria) * 100);
 		if (isNaN(percentage)) {
