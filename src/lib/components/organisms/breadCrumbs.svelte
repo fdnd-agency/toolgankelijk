@@ -1,6 +1,6 @@
 <script>
 	import { act } from '@testing-library/svelte';
-	import NavButton from './NavButton.svelte';
+	import NavButton from '../moleculues/navButton.svelte';
 	import { slide } from 'svelte/transition';
 
 	let { 

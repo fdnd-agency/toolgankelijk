@@ -1,4 +1,5 @@
 <script>
+	import { page } from '$app/state';
 	import { invalidateAll } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import Card from '$lib/components/templates/card.svelte';
