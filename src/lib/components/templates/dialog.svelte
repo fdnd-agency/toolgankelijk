@@ -1,32 +1,6 @@
 <script>
 	import Icon from "../atoms/icon.svelte"
 	import NavButton from "../moleculues/navButton.svelte";
-
-	export let params;
-	export let isType;
-	export let id;
-	export let name;
-	export let url;
-	export let slug;
-	export let website;
-
-	let idValue = id ? id : '';
-	let nameValue = name ? name : '';
-	let urlValue = url ? url : '';
-	let slugValue = params ? params : slug ? slug : '';
-	let submitValue;
-
-	let sending = false;
-	let logs = [];
-	let urlCount = 0;
-	let urlTotal = 0;
-	let type = 0;
-
-	let title;
-	let action;
-	let dialog;
-	let tip;
-
 	if (isType === 'addPartner') {
 		title = 'Partner toevoegen';
 		action = '/api/addPartner';
@@ -68,6 +42,29 @@
 	}
 	import Loader from "../moleculues/loader.svelte";
 
+	let { 
+        params,
+        isType,
+        id = '',
+        name = '',
+        url = '',
+        slug = '',
+        website = {},
+        dialog 
+    } = $props();
+
+	let formData = $state({
+        id: id,
+        name: name,
+        url: url,
+        slug: params || slug
+    });
+
+	let sending = $state(false);
+    let showTip = $state(true);
+    let logs = $state([]);
+    let urlCount = $state(0);
+    let urlTotal = $state(0);
 	export function open() {
 		dialog.showModal();
 	}
