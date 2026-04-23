@@ -3,31 +3,23 @@
 	import Dialog from '$lib/components/dialog.svelte';
 	import NavButton from '$lib/components/NavButton.svelte';
 
-	let {
-		website,
-		principles = [],
-		params,
-		isUrl = false
-	} = $props();
+	let { website, principles = [], params, isUrl = false } = $props();
 
 	let dialogRefEdit = $state();
-    let dialogRefDelete = $state();
-    let dialogRefAudit = $state();
-    let progressbar = $state();
-    let labelValue = $state();
-    let lastTime = $state('');
+	let dialogRefDelete = $state();
+	let dialogRefAudit = $state();
+	let progressbar = $state();
+	let labelValue = $state();
+	let lastTime = $state('');
 
 	let editType = $derived(isUrl ? 'editUrl' : 'editPartner');
-    let deleteType = $derived(isUrl ? 'deleteUrl' : 'deletePartner');
-    const auditType = 'startAudit';
+	let deleteType = $derived(isUrl ? 'deleteUrl' : 'deletePartner');
+	const auditType = 'startAudit';
 
-	let link = $derived(isUrl 
-        ? `/${params.websiteUID}/${website.slug}` 
-        : `/${website.slug}`
-    );
+	let link = $derived(isUrl ? `/${params.websiteUID}/${website.slug}` : `/${website.slug}`);
 
 	let url = $derived(isUrl ? website.url : website.homepage);
-    let title = $derived(isUrl ? (website.name || website.title) : website.title);
+	let title = $derived(isUrl ? website.name || website.title : website.title);
 
 	let faviconSrc;
 
@@ -37,7 +29,7 @@
 
 	const updatedTime = new Date(website.updatedAt);
 	const currentTime = new Date();
-	const timeDifference = Math.floor((currentTime - updatedTime) / (60 * 1000)); 
+	const timeDifference = Math.floor((currentTime - updatedTime) / (60 * 1000));
 	const faviconAPI =
 		'https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=';
 
@@ -113,72 +105,73 @@
 		progressbar.max = totalCriteria;
 		labelValue.innerHTML = `${percentage}%`;
 	});
-	</script>
+</script>
 
 <div class="card-wrapper">
-    <article class="color-primary-light" id={isUrl ? 'card-url' : 'card-partner'} class:container-off={containerOff}>
-        
-        {#if !isUrl}
-            <picture class="card-partner-logo" fetchpriority="high">
-                <img
-                    class="partner-logo"
-                    src={faviconAPI + url + '/&size=128'}
-                    alt="logo van {title}"
-                />
-            </picture>
-        {/if}
+	<article
+		class="color-primary-light"
+		id={isUrl ? 'card-url' : 'card-partner'}
+		class:container-off={containerOff}
+	>
+		{#if !isUrl}
+			<picture class="card-partner-logo" fetchpriority="high">
+				<img class="partner-logo" src={faviconAPI + url + '/&size=128'} alt="logo van {title}" />
+			</picture>
+		{/if}
 
-        <div class="card-content">
-            <h2 class={isUrl ? "card-title-url" : "card-title"}>{title}</h2>
+		<div class="card-content">
+			<h2 class={isUrl ? 'card-title-url' : 'card-title'}>{title}</h2>
 
-            <div id={isUrl ? "url-progress-container" : "partner-progress-container"} class="color-primary">
-                <progress id="progress-partner" max="100" value="0" bind:this={progressbar}></progress>
-                <label class="progress-percentage" for="progress-partner" bind:this={labelValue}>0%</label>
-            </div>
+			<div
+				id={isUrl ? 'url-progress-container' : 'partner-progress-container'}
+				class="color-primary"
+			>
+				<progress id="progress-partner" max="100" value="0" bind:this={progressbar}></progress>
+				<label class="progress-percentage" for="progress-partner" bind:this={labelValue}>0%</label>
+			</div>
 
-            <div class={isUrl ? "card-icons-url" : "card-icons-partner"}>
-                
-                {#if !isUrl}
-                    <NavButton
-                        onclick={openForm.bind(null, auditType)}
-                        aria="start audit {title}"
-                        size="small"
-                        variant="secondary"
-                        showIcon={true}
-                        iconName="audit"
-                    ></NavButton>
-                {/if}
+			<div class={isUrl ? 'card-icons-url' : 'card-icons-partner'}>
+				{#if !isUrl}
+					<NavButton
+						onclick={openForm.bind(null, auditType)}
+						aria="start audit {title}"
+						size="small"
+						variant="secondary"
+						showIcon={true}
+						iconName="audit"
+					></NavButton>
+				{/if}
 
-                <NavButton
-                    onclick={openForm.bind(null, editType)}
-                    aria="bewerk {title}"
-                    size="small"
-                    variant="secondary"
-                    showIcon={true}
-                    iconName="edit"
-                ></NavButton>
+				<NavButton
+					onclick={openForm.bind(null, editType)}
+					aria="bewerk {title}"
+					size="small"
+					variant="secondary"
+					showIcon={true}
+					iconName="edit"
+				></NavButton>
 
-                <NavButton
-                    onclick={openForm.bind(null, deleteType)}
-                    aria="verwijder {title}"
-                    size="small"
-                    variant="secondary"
-                    showIcon={true}
-                    iconName="delete"
-                ></NavButton>
+				<NavButton
+					onclick={openForm.bind(null, deleteType)}
+					aria="verwijder {title}"
+					size="small"
+					variant="secondary"
+					showIcon={true}
+					iconName="delete"
+				></NavButton>
 
-                <NavButton
-                    href={link}
-                    aria="open {title}"
-                    size="medium"
-                    variant="secondary"
-                    showIcon={false}
-                >
-                    Open
-                </NavButton>
-            </div>
-        </div>
-    </article>
+				<NavButton
+					href={link}
+					aria="open {title}"
+					size="medium"
+					variant="secondary"
+					showIcon={false}
+				>
+					Open
+				</NavButton>
+			</div>
+		</div>
+	</article>
 </div>
 
 <Dialog
@@ -341,5 +334,4 @@
 		gap: 0.5em;
 		align-items: center;
 	}
-
 </style>

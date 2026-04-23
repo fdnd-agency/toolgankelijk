@@ -5,7 +5,6 @@
 	import DeleteIcon from '$lib/components/icons/deleteIcon.svelte';
 	import EditIcon from '$lib/components/icons/editIcon.svelte';
 
-
 	export let params;
 	export let isType;
 	export let id;
@@ -135,9 +134,14 @@
 
 			for (const part of parts) {
 				if (!part.startsWith('data:')) continue;
-				const { status, type, error, count, total, currentUrl: streamCurrentUrl } = JSON.parse(
-					part.replace(/^data:\s*/, '')
-				);
+				const {
+					status,
+					type,
+					error,
+					count,
+					total,
+					currentUrl: streamCurrentUrl
+				} = JSON.parse(part.replace(/^data:\s*/, ''));
 				if (count && total) {
 					urlCount = count;
 					urlTotal = total;
@@ -457,27 +461,6 @@
 		padding: 1em;
 	}
 
-	.sending-indicator {
-		display: flex;
-		align-items: center;
-		gap: 0.5rem;
-		margin-top: 0.75rem;
-		padding: 0.75rem 1rem;
-		border-radius: 8px;
-		background-color: var(--dark-2);
-		color: var(--color-neutral-black);
-	}
-
-	.sending-spinner {
-		width: 1rem;
-		height: 1rem;
-		border: 2px solid var(--color-primary);
-		border-bottom-color: transparent;
-		border-radius: 50%;
-		display: inline-block;
-		animation: rotation 1s linear infinite;
-	}
-
 	input[type='text'] {
 		height: 48px;
 		width: 100%;
@@ -491,15 +474,6 @@
 		@media (max-width: 720px) {
 			height: 32px;
 			font-size: 12px;
-		}
-	}
-
-	@keyframes rotation {
-		0% {
-			transform: rotate(0deg);
-		}
-		100% {
-			transform: rotate(360deg);
 		}
 	}
 </style>

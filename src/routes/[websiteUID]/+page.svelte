@@ -17,50 +17,43 @@
 
 	const currentPage = $derived(skip / first + 1);
 	let totalUrls = $derived(data.websites.totalUrls);
-	
+
 	// overview
 	let overview = $derived(data.websites?.website);
 	let partners = $derived(data.partnersData || []);
-    let principles = $derived(data.principles || []);
+	let principles = $derived(data.principles || []);
 	let currentUrls = $derived(overview?.urls ?? []);
 
 	let heading = $derived({
-        title: overview?.title ?? 'Onbekende website',
-        homepage: overview?.homepage ?? ''
-    });
+		title: overview?.title ?? 'Onbekende website',
+		homepage: overview?.homepage ?? ''
+	});
 
 	let dialogRef = $state();
 
 	function openAddUrl() {
-        dialogRef?.open();
-    }
+		dialogRef?.open();
+	}
 </script>
 
-<SubHeader 
-    {params} 
-    partners={partners}
-    websites={currentUrls} 
-    {principles}
-    {overview} 
-    user={data.user}
-    showAdd={true}
-    onAdd={openAddUrl} 
+<SubHeader
+	{params}
+	{partners}
+	websites={currentUrls}
+	{principles}
+	{overview}
+	user={data.user}
+	showAdd={true}
+	onAdd={openAddUrl}
 />
 
 <Dialog bind:this={dialogRef} params={params.websiteUID} isType="addUrl" />
 <Heading {heading} />
 
-
 <section class="cards-container">
-{#each currentUrls as website}
-		<Card 
-            {website} 
-            {overview}
-            {params} 
-            {principles} 
-            isUrl={true} 
-        />
-    {/each}
+	{#each currentUrls as website}
+		<Card {website} {overview} {params} {principles} isUrl={true} />
+	{/each}
 </section>
 
 {#if totalUrls > first}
@@ -74,7 +67,6 @@
 {:else if form?.success == false}
 	<div class="toast"><p>{form?.message}</p></div>
 {/if}
-
 
 <style>
 	section {

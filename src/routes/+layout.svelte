@@ -4,7 +4,6 @@
 
 	let { children } = $props();
 
-
 	onNavigate((navigation) => {
 		if (!document.startViewTransition) return;
 
@@ -17,7 +16,7 @@
 	});
 </script>
 
-<Header/>
+<Header />
 
 <main id="main">
 	{@render children?.()}

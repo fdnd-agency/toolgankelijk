@@ -93,8 +93,6 @@
 		justify-content: space-around;
 	}
 
-
-
 	#header-navigation {
 		display: flex;
 		gap: 1em;

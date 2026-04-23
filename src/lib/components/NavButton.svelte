@@ -70,11 +70,11 @@
 	aria-label={aria}
 >
 	{#if showIcon && ActiveIcon}
-    <span class="icon-wrapper">
-        <ActiveIcon />
-    </span>
+		<span class="icon-wrapper">
+			<ActiveIcon />
+		</span>
 	{/if}
-	
+
 	{@render children?.()}
 </svelte:element>
 
@@ -189,8 +189,7 @@
 		overflow: hidden;
 		margin: 0;
 		transition: all 0.2s ease;
-    	display: block;
-		
+		display: block;
 
 		&:hover {
 			height: fit-content;

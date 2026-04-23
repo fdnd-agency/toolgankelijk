@@ -40,20 +40,20 @@
 	});
 
 	function openAddUrl() {
-        dialogRef?.open();
-    }
+		dialogRef?.open();
+	}
 </script>
 
-<SubHeader 
-	{params} 
-    partners={partners}
-    websites={websitesList} 
-    {principles} 
-    user={data.user}
-    showAdd={true}
-    onAdd={openAddUrl} />
+<SubHeader
+	{params}
+	{partners}
+	websites={websitesList}
+	{principles}
+	user={data.user}
+	showAdd={true}
+	onAdd={openAddUrl}
+/>
 <Dialog bind:this={dialogRef} {params} isType="addPartner" />
-
 
 <Heading {heading} />
 
