@@ -26,31 +26,6 @@
     let logs = $state([]);
     let urlCount = $state(0);
     let urlTotal = $state(0);
-	export function open() {
-		dialog.showModal();
-	}
-
-	function close(event) {
-		event.preventDefault();
-		dialog.close();
-		document.body.style.overflowY = 'unset';
-	}
-
-	function closeTip() {
-		const tipMessage = document.querySelector('.form-message-tip');
-		tipMessage.remove();
-	}
-
-	async function submitHandling(event) {
-		// prevent default form submission
-		event.preventDefault();
-
-		// start loading animation
-		sending = true;
-
-		logs = [];
-		urlCount = 0;
-		urlTotal = 0;
 
 	const typeConfig = {
         addPartner: { title: 'Partner toevoegen', action: '/api/addPartner', tip: 'Voeg een bestaande website toe.', btn: 'Toevoegen', type: 0 },
@@ -64,63 +39,78 @@
 
 	const config = $derived(typeConfig[isType] || {});
 
-		if (!postRes.ok) {
-			console.error('POST-fout', postRes.status);
-			sending = false;
-			return;
-		}
 	const showTextFields = $derived(['addUrl', 'addPartner', 'editUrl', 'editPartner'].includes(isType));
     const isEdit = $derived(isType === 'editUrl' || isType === 'editPartner');
     const isDelete = $derived(isType === 'deleteUrl' || isType === 'deletePartner');
 
-		// Check if the response is a stream
-		if (!postRes.body) {
-			console.error('Geen stream ontvangen');
-			sending = false;
-			return;
-		}
+	export function open() {
+        dialog?.showModal();
+        showTip = true;
+    }
 
-		// Stream reading
-		const reader = postRes.body.getReader();
-		const decoder = new TextDecoder();
-		let buffer = '';
-		let done = false;
+	function close(event) {
+        event?.preventDefault();
+        dialog?.close();
+        document.body.style.overflowY = 'unset';
+    }
 
-		while (!done) {
-			const { value, done: streamDone } = await reader.read();
-			if (streamDone) break;
+	async function submitHandling(event) {
+        event.preventDefault();
+        sending = true;
+        logs = [];
+        urlCount = 0;
+        urlTotal = 0;
 
-			buffer += decoder.decode(value, { stream: true });
-			const parts = buffer.split('\n\n');
-			buffer = parts.pop();
+        const postRes = await fetch(config.action, {
+            method: 'POST',
+            body: new FormData(event.target)
+        });
 
-			for (const part of parts) {
-				if (!part.startsWith('data:')) continue;
-				const { status, type, error, count, total } = JSON.parse(part.replace(/^data:\s*/, ''));
-				if (count && total) {
-					urlCount = count;
-					urlTotal = total;
-				}
-				if (error) {
-					logs = [...logs, { status: error, type: 'error' }];
-				} else {
-					if (logs.length > 0 && logs[logs.length - 1].type === 'loading' && type !== 'loading') {
-						logs = logs.filter((log) => log.type !== 'loading');
-					}
-					logs = [...logs, { status, type }];
-				}
+        if (!postRes.ok || !postRes.body) {
+            console.error('Fetch error or no stream received');
+            sending = false;
+            return;
+        }
 
-				if (status === 'Alle urls zijn toegevoegd') {
-					done = true;
-					break;
-				}
-			}
-		}
+        const reader = postRes.body.getReader();
+        const decoder = new TextDecoder();
+        let buffer = '';
+        let done = false;
 
-		sending = false;
-		dialog.close();
-		window.location.reload();
-	}
+        while (!done) {
+            const { value, done: streamDone } = await reader.read();
+            if (streamDone) break;
+
+            buffer += decoder.decode(value, { stream: true });
+            const parts = buffer.split('\n\n');
+            buffer = parts.pop();
+
+            for (const part of parts) {
+                if (!part.startsWith('data:')) continue;
+                const { status, type, error, count, total } = JSON.parse(part.replace(/^data:\s*/, ''));
+                
+                if (count && total) {
+                    urlCount = count;
+                    urlTotal = total;
+                }
+                
+                if (error) {
+                    logs = [...logs, { status: error, type: 'error' }];
+                } else {
+                    if (logs.length > 0 && logs[logs.length - 1].type === 'loading' && type !== 'loading') {
+                        logs = logs.filter((log) => log.type !== 'loading');
+                    }
+                    logs = [...logs, { status, type }];
+                }
+
+                if (status === 'Alle urls zijn toegevoegd') done = true;
+            }
+        }
+
+        sending = false;
+        dialog.close();
+        window.location.reload();
+    }
 </script>
 
 <dialog bind:this={dialog}>
