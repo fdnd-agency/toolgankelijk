@@ -39,33 +39,72 @@ export async function POST({ request }) {
 					// Check if the audit server is running
 					await fetch(`${TOOLGANKELIJK_AUDIT_URL}/api/isProjectRunning`);
 
-					await sendUpdate({ status: 'Audit gestart', type: 'done' });
-					await delay(500);
-					await sendUpdate({ status: 'Urls worden gecheckt, dit duurt even', type: 'loading' });
-					await delay(500);
+					const totalUrls = urls.length;
+					await sendUpdate({ status: 'Audit gestart', type: 'done', count: 0, total: totalUrls });
+					await delay(300);
 
-					const response = await fetch(`${TOOLGANKELIJK_AUDIT_URL}/api/specifiedUrls`, {
-						method: 'POST',
-						headers: {
-							'Content-Type': 'application/json'
-						},
-						body: JSON.stringify({ urls: urls, websiteSlug })
-					});
+					for (let index = 0; index < totalUrls; index++) {
+						const current = urls[index];
+						const currentUrl = current?.url ?? `url-${index + 1}`;
+						const progress = index + 1;
 
-					const responseData = await response.json();
+						await sendUpdate({
+							status: `Url wordt geaudit: ${currentUrl}`,
+							type: 'loading',
+							count: progress,
+							total: totalUrls,
+							currentUrl
+						});
 
-					if (response.status === 409) {
-						await sendUpdate({ status: responseData.message, type: 'warning', response });
-						await delay(2000);
-					} else if (response.status === 500) {
-						await sendUpdate({ status: responseData.error, type: 'error', response });
-						await delay(2000);
-					} else {
-						await sendUpdate({ status: 'Urls succesvol bijgewerkt', type: 'done', response });
-						await delay(500);
-						await sendUpdate({ status: 'Audit afgerond', type: 'done' });
-						await delay(2000);
+						const response = await fetch(`${TOOLGANKELIJK_AUDIT_URL}/api/specifiedUrls`, {
+							method: 'POST',
+							headers: {
+								'Content-Type': 'application/json'
+							},
+							body: JSON.stringify({ urls: [current], websiteSlug })
+						});
+
+						const responseData = await response.json();
+
+						if (response.status === 409) {
+							await sendUpdate({
+								status: responseData.message,
+								type: 'warning',
+								count: progress,
+								total: totalUrls,
+								currentUrl
+							});
+							continue;
+						}
+
+						if (response.status === 500) {
+							await sendUpdate({
+								status: responseData.error,
+								type: 'error',
+								count: progress,
+								total: totalUrls,
+								currentUrl
+							});
+							continue;
+						}
+
+						await sendUpdate({
+							status: `Url succesvol bijgewerkt: ${currentUrl}`,
+							type: 'done',
+							count: progress,
+							total: totalUrls,
+							currentUrl
+						});
 					}
+
+					await delay(300);
+					await sendUpdate({
+						status: 'Audit afgerond',
+						type: 'done',
+						count: totalUrls,
+						total: totalUrls
+					});
+					await delay(1200);
 				} catch (err) {
 					await sendUpdate({
 						status: `Fout bij verbinden met audit server: ${err.message}`,

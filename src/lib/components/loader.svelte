@@ -17,7 +17,7 @@
 <details class="loader-container" aria-hidden="true" open>
 	<summary>
 		<p>Logs ({logCount})</p>
-		{#if type !== 1}
+		{#if type === 1}
 			{#if urlCount && urlTotal}
 				<p><span class="loader"></span>Urls ({urlCount}/{urlTotal})</p>
 			{:else}
