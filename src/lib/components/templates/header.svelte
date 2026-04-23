@@ -6,6 +6,9 @@
 	import Hamburger from '$lib/components/organisms/hamburgerMenu.svelte';
 	import NavButton from '../moleculues/navButton.svelte';
 
+	const minimalRoutes = ['/login', '/register'];
+  
+
 	/**
 	 * @typedef {Object} Props
 	 * @property {any} params
@@ -26,47 +29,45 @@
 </script>
 
 <header>
-	<a href="#main" class="visible-hidden">Jump directly to main content</a>
-	<Logo />
-	<nav id="header-navigation" class="color-primary-light">
-		<NavButton
-			href="/"
-			size="large"
-			showIcon={true}
-			iconName="home"
-			variant="secondary"
-			active={$page.url.pathname === '/' ? 'active' : ''}
-		>
-			<p>Home</p>
-		</NavButton>
-		<NavButton
-			href="/info"
-			size="large"
-			showIcon={true}
-			iconName="info"
-			variant="secondary"
-			active={$page.url.pathname === '/info' ? 'active' : ''}
-		>
-			<p>Info</p>
-		</NavButton>
-		<NavButton
-			href="/account"
-			size="large"
-			showIcon={true}
-			iconName="account"
-			variant="secondary"
-			active={$page.url.pathname === '/account' ? 'active' : ''}
-		>
-			<p>Account</p>
-		</NavButton>
-	</nav>
-	<Hamburger />
+    <a href="#main" class="visible-hidden">Jump directly to main content</a>
+    <Logo />
+    
+    {#if !minimalRoutes.includes($page.url.pathname)}
+        <nav id="header-navigation" class="color-primary-light">
+            <NavButton
+                href="/"
+                size="large"
+                showIcon={true}
+                iconName="home"
+                variant="secondary"
+                active={$page.url.pathname === '/' ? 'active' : ''}
+            >
+                <p>Home</p>
+            </NavButton>
+            <NavButton
+                href="/info"
+                size="large"
+                showIcon={true}
+                iconName="info"
+                variant="secondary"
+                active={$page.url.pathname === '/info' ? 'active' : ''}
+            >
+                <p>Info</p>
+            </NavButton>
+            <NavButton
+                href="/account"
+                size="large"
+                showIcon={true}
+                iconName="account"
+                variant="secondary"
+                active={$page.url.pathname === '/account' ? 'active' : ''}
+            >
+                <p>Account</p>
+            </NavButton>
+        </nav>
+        <Hamburger />
+    {/if}
 </header>
-<div class="subheader">
-	{#if user && user.isEmailVerified}
-		<BreadCrumbs {params} {partners} {websites} {principles} width="full" />
-	{/if}
-</div>
 
 <style>
 	.visible-hidden {
@@ -99,13 +100,7 @@
 		justify-content: space-around;
 	}
 
-	.subheader {
-		height: fit-content;
-		background-color: var(--color-primary-light);
-		display: flex;
-		padding: 1em;
-		align-content: center;
-	}
+
 
 	#header-navigation {
 		display: flex;

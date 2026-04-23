@@ -5,28 +5,56 @@
 	let { partnerTitle = '', onApply } = $props();
 
 	// Internal state for the form fields
-	let principle = $state('All');
-	let level = $state('All');
-	let showNotMet = $state(false);
-	let showMet = $state(false);
+	// let principle = $state('All');
+	// let level = $state('All');
+	// let showNotMet = $state(false);
+	// let showMet = $state(false);
 
-	function handleSubmit(e) {
-		if (e) e.preventDefault();
+	// function handleSubmit(e) {
+	// 	if (e) e.preventDefault();
 
-		if (onApply) {
-			onApply({
-				principle,
-				level,
-				showNotMet,
-				showMet
-			});
-		}
-	}
+	// 	if (onApply) {
+	// 		onApply({
+	// 			principle,
+	// 			level,
+	// 			showNotMet,
+	// 			showMet
+	// 		});
+	// 	}
+	// }
 </script>
 
-<header class="subheader">
-	<div class="brand"></div>
+<div class="subheader">
+	{#if user && user.isEmailVerified}
+		<BreadCrumbs {params} {partners} {websites} {overview} {principles} width="full" />	
+	{/if}
 
+
+	<div class="subheader-form">
+
+	{#if showAdd}
+	<NavButton
+        size="small"
+        variant="primary"
+        showIcon={true}
+        iconName="add"
+		onclick={onAdd}
+    ></NavButton>
+
+	<form>
+	<NavButton
+        size="small"
+        variant="primary"
+        showIcon={true}
+        iconName="search"
+    ></NavButton>
+	</form>
+			{/if}
+	</div>
+
+
+<!-- this will be placed on a sidebar of the principles page -->
+	<!-- <div class="brand"></div>
 	<form class="controls-container" onsubmit={handleSubmit}>
 		<div class="control-group">
 			<label class="group-label" for="principle">Selecteer principe:</label>
@@ -69,23 +97,10 @@
 		<div class="button-container">
 			<NavButton size="medium" type="submit" variant="secondary">Toepassen</NavButton>
 		</div>
-	</form>
-</header>
+	</form> -->
+</div>
 
-<style>
-	.subheader {
-		background-color: var(--color-primary);
-		color: var(--color-neutral-white);
-		font-family: 'Fira Sans Regular', sans-serif;
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		padding: clamp(1em, 6vw, 2em);
-		margin: 1em 1em;
-		border-radius: var(--border-radius);
-		border-bottom-left-radius: 20px;
-		gap: 1rem;
-	}
+<!-- <style>
 
 	.brand {
 		flex: 1;
@@ -218,5 +233,26 @@
 			flex-direction: row;
 			gap: 1.5rem;
 		}
+	}
+</style> -->
+
+<style>
+	.subheader {
+		height: fit-content;
+		background-color: var(--color-primary-light);
+		display: flex;
+		padding: 1em;
+		align-content: center;
+		justify-content: space-between;
+
+	@media (max-width: 720px) {
+		display: flex;
+		gap: 0.5em;
+	}
+	}
+
+	.subheader-form {
+		display: flex;
+		gap: 1em;
 	}
 </style>

@@ -3,12 +3,8 @@
 	import { page } from '$app/stores';
 	import Header from '$lib/components/templates/header.svelte';
 
-	let { data, children } = $props();
-	let params = $derived($page.params);
-	let websites = $derived(data.websitesData);
-	let principles = $derived(data.partnersData.principles);
+	let { children } = $props();
 
-	let partners = $derived(data.partnersData);
 
 	onNavigate((navigation) => {
 		if (!document.startViewTransition) return;
@@ -22,7 +18,7 @@
 	});
 </script>
 
-<Header {params} {partners} {websites} {principles} user={data.user} />
+<Header/>
 
 <main id="main">
 	{@render children?.()}

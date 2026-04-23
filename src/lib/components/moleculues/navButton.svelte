@@ -70,10 +70,11 @@
 	aria-label={aria}
 >
 	{#if showIcon && ActiveIcon}
-		<span class="icon-wrapper">
-			<svelte:component this={ActiveIcon} />
-		</span>
+    <span class="icon-wrapper">
+        <ActiveIcon />
+    </span>
 	{/if}
+	
 	{@render children?.()}
 </svelte:element>
 
@@ -89,6 +90,8 @@
 		border: var(--border-white, 1px solid transparent);
 		height: 3em;
 		gap: 0.5em;
+		white-space: nowrap;
+		overflow: hidden;
 	}
 
 	.navbutton:hover {
@@ -180,5 +183,23 @@
 
 	.full {
 		width: 100%;
+		justify-content: flex-start;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
+		margin: 0;
+		transition: all 0.2s ease;
+    	display: block;
+		
+
+		&:hover {
+			height: fit-content;
+		}
+
+		@media (max-width: 720px) {
+			white-space: normal;
+			word-break: break-all;
+			padding: 0.5rem 0;
+		}
 	}
 </style>
