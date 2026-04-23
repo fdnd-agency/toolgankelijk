@@ -1,45 +1,6 @@
 <script>
 	import Icon from "../atoms/icon.svelte"
 	import NavButton from "../moleculues/navButton.svelte";
-	if (isType === 'addPartner') {
-		title = 'Partner toevoegen';
-		action = '/api/addPartner';
-		tip = 'Voeg een bestaande website toe.';
-		submitValue = 'Toevoegen';
-	} else if (isType === 'editPartner') {
-		title = 'Partner bewerken';
-		action = '/api/editPartner';
-		tip = null;
-		submitValue = 'Bewerken';
-	} else if (isType === 'deletePartner') {
-		title = 'Partner verwijderen';
-		action = '/api/deletePartner';
-		tip = 'Deze partner wordt permanent verwijderd.';
-		submitValue = 'Verwijderen';
-	} else if (isType === 'addUrl') {
-		title = 'Url toevoegen';
-		action = '/api/addUrl';
-		tip = 'Voeg een bestaande url toe.';
-		submitValue = 'Toevoegen';
-	} else if (isType === 'editUrl') {
-		title = 'Url bewerken';
-		action = '/api/editUrl';
-		tip = null;
-		submitValue = 'Bewerken';
-	} else if (isType === 'deleteUrl') {
-		title = 'Url verwijderen';
-		action = '/api/deleteUrl';
-		tip = 'Deze url wordt permanent verwijderd.';
-		submitValue = 'Verwijderen';
-	} else if (isType === 'startAudit') {
-		title = 'Audit starten';
-		action = '/api/startAudit';
-		tip = null;
-		submitValue = 'Starten';
-		type = 1;
-	} else {
-		console.log('Geen type opgegeven');
-	}
 	import Loader from "../moleculues/loader.svelte";
 
 	let { 
@@ -91,13 +52,17 @@
 		urlCount = 0;
 		urlTotal = 0;
 
-		// handle form submission
-		const formData = new FormData(event.target);
+	const typeConfig = {
+        addPartner: { title: 'Partner toevoegen', action: '/api/addPartner', tip: 'Voeg een bestaande website toe.', btn: 'Toevoegen', type: 0 },
+        editPartner: { title: 'Partner bewerken', action: '/api/editPartner', tip: null, btn: 'Bewerken', type: 0 },
+        deletePartner: { title: 'Partner verwijderen', action: '/api/deletePartner', tip: 'Deze partner wordt permanent verwijderd.', btn: 'Verwijderen', type: 0 },
+        addUrl: { title: 'Url toevoegen', action: '/api/addUrl', tip: 'Voeg een bestaande url toe.', btn: 'Toevoegen', type: 0 },
+        editUrl: { title: 'Url bewerken', action: '/api/editUrl', tip: null, btn: 'Bewerken', type: 0 },
+        deleteUrl: { title: 'Url verwijderen', action: '/api/deleteUrl', tip: 'Deze url wordt permanent verwijderd.', btn: 'Verwijderen', type: 0 },
+        startAudit: { title: 'Audit starten', action: '/api/startAudit', tip: null, btn: 'Starten', type: 1 }
+    };
 
-		const postRes = await fetch(action, {
-			method: 'POST',
-			body: formData
-		});
+	const config = $derived(typeConfig[isType] || {});
 
 		if (!postRes.ok) {
 			console.error('POST-fout', postRes.status);
@@ -159,7 +124,7 @@
 	<section class="color-primary-light">
 		{#if !sending}
 			<div class="form-heading">
-				<h2 class="form-heading">{title}</h2>
+				<h2 class="form-heading">{config.title}</h2>
 				<NavButton
 					onclick={close}
 					aria="sluit het venster"
@@ -170,132 +135,45 @@
 				></NavButton>
 			</div>
 
-			{#if tip !== null}
+			{#if config.tip && showTip}
 				<div class="form-message-tip">
-					<!-- alert icon -->
-					<!-- will be made in the alert component -->
-					<p>{tip}</p>
+					<p>{config.tip}</p>
 				</div>
 			{/if}
 
 			<form onsubmit={submitHandling}>
-				<input type="hidden" value={idValue} name="id" />
-
-				<!-- here comes the content of the section -->
-				{#if isType === 'addUrl' || isType === 'addPartner'}
-					<div class="form-textfields">
-						<label>Typ hier je titel</label>
-						<input
-							name="name"
-							id="name"
-							type="text"
-							required
-							placeholder="Typ hier je titel"
-							autocomplete="given-name"
-							bind:value={nameValue}
-						/>
-
-						<label>Typ hier je URL</label>
-						<input
-							name="url"
-							id="url"
-							type="text"
-							required
-							placeholder="Typ hier je URL link"
-							bind:value={urlValue}
-						/>
-					</div>
-					<div class="form-checkbox">
-						<input id="sitemap" name="sitemap" type="checkbox" />
-						<label for="sitemap">Sitemap ophalen van deze partner?</label>
-					</div>
-				{/if}
-
-				{#if isType === 'editUrl' || isType === 'editPartner'}
-					<div class="form-edit-textfields">
-						<div class="form-edit-icon">
-							<Icon iconName="edit" />
-						</div>
-						<div class="form-edit-textfields">
-							<label>Typ hier je titel</label>
-							<input
-								name="name"
-								id="name"
-								type="text"
-								required
-								placeholder="Typ hier je titel"
-								bind:value={nameValue}
-							/>
 
 							<div class="form-edit-icon">
 								<Icon iconName="edit" />
 							</div>
-							<label>Typ hier je URL</label>
-							<input
-								name="url"
-								id="url"
-								type="text"
-								required
-								placeholder="Typ hier je URL link"
-								bind:value={urlValue}
-							/>
-						</div>
+						{/if}
+
+                        <label for="name">Typ hier je titel</label>
+                        <input name="name" id="name" type="text" required placeholder="Typ hier je titel" bind:value={formData.name} />
+
+						{#if isEdit}
+							<div class="form-edit-icon">
+								<Icon iconName="edit" />
+							</div>
+						{/if}
+
+                        <label for="url">Typ hier je URL</label>
+                        <input name="url" id="url" type="text" required placeholder="Typ hier je URL link" bind:value={formData.url} />
 					</div>
+
 					<div class="form-checkbox">
-						<input id="sitemap" name="sitemap" type="checkbox" />
-						<label for="sitemap">Sitemap ophalen van deze partner?</label>
-					</div>
+                        <input id="sitemap" name="sitemap" type="checkbox" />
+                        <label for="sitemap">Sitemap ophalen van deze partner?</label>
+                    </div>
 				{/if}
 
-				{#if isType === 'addUrl' || isType === 'editUrl' || isType === 'editPartner'}
-					<input type="hidden" id="slug" name="slug" value={slugValue} readonly />
-				{/if}
+				{#if isDelete}
+                    <div class="form-delete-content" tabindex="0">
+                        <Icon iconName="delete" />
+                        <p>Weet je zeker dat je {isType === 'deleteUrl' ? formData.url : formData.name} wilt verwijderen?</p>
+                    </div>
+                {/if}
 
-				{#if isType === 'deleteUrl'}
-					<div class="form-delete-content" tabindex="0">
-						<Icon iconName="delete" />
-						<p>Weet je zeker dat je {urlValue} wilt verwijderen?</p>
-					</div>
-				{/if}
-
-				{#if isType === 'deletePartner'}
-					<div class="form-delete-content" tabindex="0">
-						<Icon iconName="delete" />
-						<p>Weet je zeker dat je {nameValue} wilt verwijderen?</p>
-					</div>
-				{/if}
-
-				{#if isType === 'startAudit'}
-					<div class="form-audit-content" tabindex="0">
-						<Icon iconName="audit" />
-						<p>Wilt u een audit uitvoeren op {nameValue}?</p>
-					</div>
-
-					<input class="id-field" type="hidden" name="id" value={idValue} id={idValue} />
-					<input
-						type="hidden"
-						name="urls"
-						id="urls"
-						value={JSON.stringify(
-							website.urls?.map((item) => ({ url: item.url, urlSlug: item.slug }))
-						)}
-					/>
-					<input type="hidden" name="slug" id="slug" value={slugValue} />
-				{/if}
-
-				<NavButton aria="verzend formulier" variant="primary">
-					{submitValue}
-				</NavButton>
-			</form>
-		{/if}
-
-		{#if sending}
-			<div class="tip-message" aria-label="tip message">
-				<p><span>{nameValue}</span> wordt verwerkt, sluit de pagina niet.</p>
-			</div>
-			<Loader itemArray={logs} {urlCount} {urlTotal} {type} />
-		{/if}
-	</section>
 				{#if isType === 'startAudit'}
                     <div class="form-delete-content" tabindex="0">
                         <Icon iconName="delete" />
@@ -313,6 +191,7 @@
 				</div>
 				<Loader itemArray={logs} {urlCount} {urlTotal} type={config.type} />
 			{/if}
+    </section>
 </dialog>
 
 <style>
