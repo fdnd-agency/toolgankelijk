@@ -66,6 +66,7 @@
 	} else {
 		console.log('Geen type opgegeven');
 	}
+	import Loader from "../moleculues/loader.svelte";
 
 	export function open() {
 		dialog.showModal();
@@ -298,6 +299,23 @@
 			<Loader itemArray={logs} {urlCount} {urlTotal} {type} />
 		{/if}
 	</section>
+				{#if isType === 'startAudit'}
+                    <div class="form-delete-content" tabindex="0">
+                        <Icon iconName="delete" />
+                        <p>Weet je zeker dat je {isType === 'deleteUrl' ? formData.url : formData.name} wilt verwijderen?</p>
+                    </div>
+                {/if}
+
+					<NavButton aria="verzend formulier" variant="primary">
+						{config.btn}
+					</NavButton>
+				</form>
+				{:else}
+				<div class="tip-message" aria-label="tip message">
+					<p><span>{formData.name}</span> wordt verwerkt, sluit de pagina niet.</p>
+				</div>
+				<Loader itemArray={logs} {urlCount} {urlTotal} type={config.type} />
+			{/if}
 </dialog>
 
 <style>
