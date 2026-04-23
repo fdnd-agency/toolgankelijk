@@ -69,6 +69,9 @@
 			sending = false;
 			return;
 		}
+	const showTextFields = $derived(['addUrl', 'addPartner', 'editUrl', 'editPartner'].includes(isType));
+    const isEdit = $derived(isType === 'editUrl' || isType === 'editPartner');
+    const isDelete = $derived(isType === 'deleteUrl' || isType === 'deletePartner');
 
 		// Check if the response is a stream
 		if (!postRes.body) {
@@ -142,7 +145,14 @@
 			{/if}
 
 			<form onsubmit={submitHandling}>
+				<input type="hidden" name="id" value={formData.id} />
+				{#if showTextFields}
+					<input type="hidden" name="slug" value={formData.slug} readonly />
+                {/if}
 
+				{#if showTextFields}
+					<div class={isEdit ? "form-edit-textfields" : "form-textfields"}>
+						{#if isEdit}
 							<div class="form-edit-icon">
 								<Icon iconName="edit" />
 							</div>
