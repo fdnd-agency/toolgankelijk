@@ -2,13 +2,19 @@
 	import NavButton from '../moleculues/navButton.svelte';
 	import { slide } from 'svelte/transition';
 
-	let { params, partners, websites, principles, user = null } = $props();
+	let { 
+		params, 
+		partners, 
+		websites, 
+		principles
+	} = $props();
 
 	let activeDropdown = $state(null);
 
 	let selectedPartner = $derived(
 		params.websiteUID ? partners.websites.find(({ slug }) => slug === params.websiteUID) : ''
 	);
+	
 	let selectedUrl = $derived(params.urlUID ? params.urlUID : '');
 
 	let selectedPrinciple = $derived(

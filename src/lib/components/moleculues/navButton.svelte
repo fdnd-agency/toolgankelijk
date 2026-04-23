@@ -144,4 +144,8 @@
 	.pages {
 		align-content: center;
 	}
+	
+	.invisible {
+		display: none;
+	}
 </style>

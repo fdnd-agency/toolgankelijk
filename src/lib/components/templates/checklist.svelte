@@ -4,30 +4,12 @@
 	import loadingIcon from '$lib/assets/loading.svg';
 	import NavButton from '../moleculues/navButton.svelte';
 
-	/** @typedef {import('$lib/types').SuccessCriteria} SuccessCriteria */
-	/**
-	 * @typedef {Object} ChecklistGuideline
-	 * @property {string} index
-	 * @property {string} title
-	 * @property {{ html: string }} explanation
-	 * @property {SuccessCriteria[]} successCriteria
-	 */
-	/** @typedef {import('$lib/types').ToolboardData} ToolboardData */
-	/** @typedef {import('$lib/types').Level} Level */
-	/**
-	 * @typedef {Object} ChecklistProps
-	 * @property {ChecklistGuideline[]} guidelines
-	 * @property {ToolboardData} toolboardData
-	 * @property {Level[]} levels
-	 * @property {string} [selectedLevel]
-	 */
-
 	let {
 		guidelines,
 		toolboardData,
 		levels,
 		selectedLevel = $bindable(levels[0].level)
-	} = /** @type {ChecklistProps} */ ($props());
+	} = ($props());
 
 	let loading = $state(false);
 	const getSuccessCriteriaByLevel = (level) =>
@@ -43,12 +25,6 @@
 	let simpleTranslation = $state(true);
 
 	const checkedSuccessCriteria = $derived(toolboardData.url.checks[0].successCriteria);
-
-	function scrollToTop(event) {
-		const mainElement = document.getElementById('main');
-		mainElement.scrollIntoView({ behavior: 'smooth' });
-		event.preventDefault();
-	}
 
 	function translate(event) {
 		const button = event.target;

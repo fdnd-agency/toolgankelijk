@@ -6,27 +6,20 @@
 	import Hamburger from '$lib/components/organisms/hamburgerMenu.svelte';
 	import NavButton from '../moleculues/navButton.svelte';
 
-	/**
-	 * @typedef {Object} Props
-	 * @property {any} params
-	 * @property {any} partners
-	 * @property {any} websites
-	 * @property {any} principles
-	 * @property {any} [user]
-	 */
-
-	/** @type {Props} */
-	let { params, partners, websites, principles, user = null } = $props();
-
-	async function handleSignOut(event) {
-		event.preventDefault();
-		await fetch('/logout', { method: 'POST' });
-		window.location.href = '/login';
-	}
+	let { 
+		params, 
+		partners, 
+		websites, 
+		principles, 
+		user = null 
+	} = $props();
 </script>
 
 <header>
-	<a href="#main" class="visible-hidden">Jump directly to main content</a>
+	<NavButton effect="invisible" href="#main">
+		Jump directly to main content
+	</NavButton>
+	
 	<Logo />
 	<nav id="header-navigation" class="color-primary-light">
 		<NavButton
