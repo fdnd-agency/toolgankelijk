@@ -48,6 +48,8 @@
 		border: var(--border-white, 1px solid transparent);
 		height: 3em;
 		gap: 0.5em;
+		white-space: nowrap;
+		overflow: hidden;
 	}
 
 	.navbutton:hover {

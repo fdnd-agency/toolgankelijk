@@ -9,10 +9,13 @@
 	import Heading from '$lib/components/moleculues/heading.svelte';
 
 	let { data, form } = $props();
+	let params = $derived($page.params);
+	let partners = $derived(data.partnersData);
 
 	let skip = $derived(data.skip);
 	const first = $derived(data.first);
 	let totalUrls = $derived(data.totalWebsites);
+	const websitesList = $derived(data.websites.allWebsites || []);
 	const currentPage = $derived(skip / first + 1);
 	let showRegistrationSuccess = $derived(data.showRegistrationSuccess);
 	let heading = { title: 'Partners overzicht' };
@@ -34,7 +37,22 @@
 			invalidateAll();
 		}
 	});
+
+	function openAddUrl() {
+        dialogRef?.open();
+    }
 </script>
+
+<SubHeader 
+	{params} 
+    partners={partners}
+    websites={websitesList} 
+    {principles} 
+    user={data.user}
+    showAdd={true}
+    onAdd={openAddUrl} />
+<Dialog bind:this={dialogRef} {params} isType="addPartner" />
+
 
 <Heading {heading} />
 
@@ -62,8 +80,6 @@
 {:else if form?.success == false}
 	<div class="toast error"><p>{form?.message}</p></div>
 {/if}
-
-<Dialog bind:this={dialogRef} isUrl={false} isType="addPartner" />
 
 <section class="card-container">
 	{#each data.websites as website}

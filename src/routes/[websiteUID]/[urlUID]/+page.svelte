@@ -116,8 +116,6 @@
 
 <Heading {heading} />
 
-<Subheader partnerTitle={data.websitesData.website.title} onApply={handleApplyFilters} />
-
 <section class="container-principles">
 	<ul>
 		{#each filteredPrincipes as principe (principe.index)}
