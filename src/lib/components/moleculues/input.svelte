@@ -17,7 +17,6 @@
 	</label>
 	<input id={addFor} placeholder={placeholderProp} class="input {showIcon ? 'has-icon' : ''}" />
 </div>
-
 <style>
 .full {
 	width: 100%;

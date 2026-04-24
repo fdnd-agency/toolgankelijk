@@ -114,7 +114,7 @@
 	const getPercent = (achieved, total) => (total > 0 ? Math.round((achieved / total) * 100) : 0);
 </script>
 
-<Heading {heading} />
+<Subheader partnerTitle={data.websitesData.website.title} onApply={handleApplyFilters} />
 
 <section class="container-principles">
 	<ul>

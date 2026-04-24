@@ -1,10 +1,9 @@
 <script>
 	import { page } from '$app/stores';
 	import Card from '$lib/components/templates/card.svelte';
-	import Search from '$lib/components/moleculues/search.svelte';
 	import Dialog from '$lib/components/templates/dialog.svelte';
 	import Pages from '$lib/components/organisms/pages.svelte';
-	import NavButton from '$lib/components/moleculues/navButton.svelte';
+	import SubHeader from '$lib/components/templates/subheader.svelte';
 	import Heading from '$lib/components/moleculues/heading.svelte';
 
 	let { data, form } = $props();
@@ -48,21 +47,9 @@
     onAdd={openAddUrl} 
 />
 
-<Dialog bind:this={dialogRef} params={params.websiteUID} isType="addUrl" />
 <Heading {heading} />
 
-
-<section class="cards-container">
-{#each currentUrls as website}
-		<Card 
-            {website} 
-            {overview}
-            {params} 
-            {principles} 
-            isUrl={true} 
-        />
-    {/each}
-</section>
+<Dialog bind:this={dialogRef} params={params.websiteUID} isType="addUrl" />
 
 {#if form?.success}
 	<div class="toast"><p>{form?.message}</p></div>

@@ -1,8 +1,18 @@
 <script>
 	import { page } from '$app/stores';
-	import NavButton from '../moleculues/navButton.svelte';
+	import NavButton from '$lib/components/moleculues/navButton.svelte';
+	import BreadCrumbs from '$lib/components/organisms/breadCrumbs.svelte';
 
-	let { partnerTitle = '', onApply } = $props();
+	let { 
+        params, 
+        user, 
+        partners = [], 
+        websites = [], 
+        principles = [],
+		overview,
+        showAdd = false, 
+        onAdd 
+    } = $props();
 
 	// Internal state for the form fields
 	// let principle = $state('All');

@@ -1,14 +1,16 @@
 <script>
+	import { page } from '$app/stores';
 	import { invalidateAll } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import Card from '$lib/components/templates/card.svelte';
-	import Search from '$lib/components/moleculues/search.svelte';
+	import SubHeader from '$lib/components/templates/subheader.svelte';
 	import Dialog from '$lib/components/templates/dialog.svelte';
 	import Pages from '$lib/components/organisms/pages.svelte';
 	import NavButton from '$lib/components/moleculues/navButton.svelte';
 	import Heading from '$lib/components/moleculues/heading.svelte';
 
 	let { data, form } = $props();
+
 	let params = $derived($page.params);
 	let partners = $derived(data.partnersData);
 
@@ -21,6 +23,7 @@
 	let heading = { title: 'Partners overzicht' };
 	let dialogRef = $state();
 	const principles = $derived(data.principles);
+
 
 	function handleDialog() {
 		dialogRef.open();
@@ -51,25 +54,15 @@
     user={data.user}
     showAdd={true}
     onAdd={openAddUrl} />
+
 <Dialog bind:this={dialogRef} {params} isType="addPartner" />
 
 
 <Heading {heading} />
 
-<section>
-	<NavButton
-		aria="Partner Toevogen"
-		size="xlarge"
-		variant="primary"
-		showIcon={true}
-		onclick={handleDialog}
-		iconName="add"
-	>
-		<p>Partner Toevoegen</p>
-	</NavButton>
-
-	<Search placeholderProp="Gvb" />
-</section>
+{#if totalUrls > first}
+	<Pages amount={totalUrls} perPage={first} {currentPage} />
+{/if}
 
 {#if showRegistrationSuccess}
 	<div class="toast success"><p>Account succesvol aangemaakt!</p></div>
@@ -85,28 +78,67 @@
 	{#each data.websites as website}
 		<Card {website} {principles} isUrl={false} />
 	{/each}
-
-	{#if totalUrls > first}
-		<Pages amount={totalUrls} perPage={first} {currentPage} />
-	{/if}
 </section>
 
-<div class="scroll-to-top-wrapper">
-	<NavButton
-		size="small"
-		variant="primary"
-		showIcon={true}
-		iconName="arrow"
-		href="#main"
-		aria="scroll naar boven"
-	></NavButton>
-</div>
+<NavButton size="medium" variant="primary" showIcon={false} href="#main" aria="scroll naar boven">
+	<p>Scroll naar Boven</p>
+</NavButton>
+
+<a href="#main" class="btn-top" onclick={scrollToTop}>⬆</a>
 
 <style>
 	section {
 		display: flex;
 		justify-content: space-between;
 		margin: 0 0 1em 1em;
+	}
+
+	a {
+		/* Replaced hardcoded blue with accent-tertiary (closest match) */
+		color: var(--color-accent-tertiary);
+	}
+
+	.add-partner {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		border-radius: var(--border-radius); /* Using global radius */
+		padding: 0.5em 1em;
+		/* Using neutral-black because it flips to white in dark mode automatically */
+		color: var(--color-neutral-black);
+		background-color: var(--color-primary-light);
+		border: none;
+		font-weight: 600;
+		font-size: 1em;
+		transition: 0.3s;
+		cursor: pointer;
+		text-decoration: none;
+	}
+
+	.add-partner:hover {
+		/* Using primary color for hover state */
+		background-color: var(--color-primary);
+	}
+
+	.btn-top {
+		position: fixed;
+		bottom: 1rem;
+		right: 1rem;
+		font-size: 1.3rem;
+		padding: 0.4rem 0.8rem;
+		/* Replaced var(--c-pink) with semantic primary */
+		background-color: var(--color-primary);
+		border: none;
+		color: var(--color-neutral-black);
+		margin-top: 1rem;
+		border-radius: 4px;
+		cursor: pointer;
+		text-decoration: none;
+		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+	}
+
+	.btn-top:hover {
+		filter: brightness(1.2);
 	}
 
 	.card-container {
@@ -122,13 +154,6 @@
 		}
 	}
 
-	.scroll-to-top-wrapper {
-		position: relative;
-		padding: 1em;
-		z-index: 3;
-		transform: rotate(180deg);
-	}
-
 	.toast {
 		position: fixed;
 		bottom: 5rem;
@@ -137,26 +162,26 @@
 		backdrop-filter: blur(8px);
 		border-radius: var(--border-radius);
 		padding: 0.75rem;
-
 		/* Removed hardcoded black shadow for better theme support */
 		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 		animation: fade-out 4s forwards;
 		z-index: 2;
+	}
 
-		p {
-			color: var(--color-neutral-black);
-			font-weight: 500;
-		}
+	.toast p {
+		color: var(--color-neutral-black);
+		font-weight: 500;
+	}
 
-		&.success {
-			background-color: hsla(168, 65%, 41%, 0.2);
-			border: 1px solid var(--color-accent-primary);
-		}
+	.toast.success {
+		/* Using the green HSL values from your global CSS for consistency */
+		background-color: hsla(168, 65%, 41%, 0.2);
+		border: 1px solid var(--color-accent-primary);
+	}
 
-		&.error {
-			background-color: hsla(336, 100%, 45%, 0.2);
-			border: 1px solid var(--color-primary);
-		}
+	.toast.error {
+		background-color: hsla(336, 100%, 45%, 0.2);
+		border: 1px solid var(--color-primary);
 	}
 
 	@keyframes fade-out {

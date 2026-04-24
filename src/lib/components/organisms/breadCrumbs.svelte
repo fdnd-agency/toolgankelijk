@@ -1,21 +1,23 @@
 <script>
+	import { act } from '@testing-library/svelte';
 	import NavButton from '../moleculues/navButton.svelte';
 	import { slide } from 'svelte/transition';
 
 	let { 
-		params, 
-		partners, 
-		websites, 
-		principles
-	} = $props();
+        params, 
+        partners = [], 
+        websites = [], 
+        principles = [], 
+		overview
+    } = $props();
 
 	let activeDropdown = $state(null);
 	let partnerList = $derived(Array.isArray(partners) ? partners : (partners?.websites || []));
 
 	let selectedPartner = $derived(
-		params.websiteUID ? partners.websites.find(({ slug }) => slug === params.websiteUID) : ''
-	);
-	
+        params.websiteUID ? partnerList.find(({ slug }) => slug === params.websiteUID) : null
+    );
+
 	let selectedUrl = $derived(params.urlUID ? params.urlUID : '');
 
 	let selectedUrlItem = $derived(
