@@ -3,7 +3,8 @@ import { customEndpoint } from '@directus/sdk';
 import { directusClient } from '$lib/utils/directus.js';
 
 describe('$lib/utils/directus', () => {
-	it('Test Directus client connection', async () => {
+	/** This test checks if the directus client is able to connect to the Directus API. */
+	it('directus client is able to connect to the Directus API', async () => {
 		const response = await directusClient.request(
 			customEndpoint({
 				path: '/users/me',
@@ -11,7 +12,7 @@ describe('$lib/utils/directus', () => {
 			})
 		);
 
-		// We only need to check if the response is 200, invalid tokens return 401.
-		expect(response.status).toBe(200);
+		// `response.status` is the user account status, which is `active` if the token is valid.
+		expect(response.status).toBe('active');
 	});
 });
