@@ -3,12 +3,12 @@
 /**
  * Sessions: GraphQL for read/update/delete; REST POST to create rows (same collection as GraphQL).
  */
+import { createItem } from '@directus/sdk';
 import { DirectusRepositoryBase } from '$lib/server/repositories/baseRepository.js';
 import getQuerySession, {
 	getQueryUpdateSession,
 	getQueryDeleteSession
 } from '../queries/session.js';
-import { DIRECTUS_URL, VITE_DIRECTUS_KEY } from '$env/static/private';
 
 /** @typedef {import('$lib/types').Session} Session */
 /** @typedef {import('$lib/types').User} User */
@@ -110,28 +110,17 @@ export class SessionRepository extends DirectusRepositoryBase {
 	 * @returns {Promise<Session>}
 	 */
 	async createSessionRecord({ sessionId, userId, expiresAt }) {
-		try {
-			const response = await fetch(`${DIRECTUS_URL}/items/toolgankelijk_session`, {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-					Authorization: `Bearer ${VITE_DIRECTUS_KEY}`
-				},
-				body: JSON.stringify({
-					session_id: sessionId,
-					expires_at: expiresAt.toISOString(),
-					user_id: userId
-				})
-			});
-
-			if (!response.ok) {
-				throw new Error('createSessionRecord failed: response not ok');
-			}
-
-			return { id: sessionId, userId, expiresAt };
-		} catch (error) {
-			console.error('sessionRepository.createSessionRecord failed', error);
-			throw error;
+		const created = await this.client.request(
+			createItem('toolgankelijk_session', {
+				session_id: sessionId,
+				expires_at: expiresAt.toISOString(),
+				user_id: userId
+			})
+		);
+		if (!created?.id) {
+			throw new Error('createSessionRecord failed: response not ok');
 		}
+
+		return { id: sessionId, userId, expiresAt };
 	}
 }

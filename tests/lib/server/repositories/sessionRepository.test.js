@@ -3,11 +3,6 @@
  */
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-vi.mock('$env/static/private', () => ({
-	DIRECTUS_URL: 'https://directus.test',
-	VITE_DIRECTUS_KEY: 'test-token'
-}));
-
 import { SessionRepository } from '$lib/server/repositories/sessionRepository.js';
 
 describe('SessionRepository', () => {
@@ -16,17 +11,17 @@ describe('SessionRepository', () => {
 
 	beforeEach(() => {
 		vi.clearAllMocks();
-		client = { query: vi.fn() };
+		client = { query: vi.fn(), request: vi.fn() };
 		repository = new SessionRepository({ client });
 	});
 
 	describe('getSessionByTokenHash', () => {
 		it('returns mapped session and user from GraphQL response', async () => {
 			const row = {
-				id: 's1',
-				session_id: 'opaque',
+				id: '1',
+				session_id: 'sessionToken',
 				expires_at: new Date().toISOString(),
-				user_id: { id: 'u1', email: 'a@b.c', username: 'u', is_email_verified: true }
+				user_id: { id: '1', email: 'a@b.c', username: 'u', is_email_verified: true }
 			};
 			client.query.mockResolvedValue({ session: [row] });
 
@@ -34,25 +29,25 @@ describe('SessionRepository', () => {
 
 			expect(result).toEqual({
 				session: {
-					id: 'opaque',
-					userId: 'u1',
+					id: 'sessionToken',
+					userId: '1',
 					expiresAt: new Date(row.expires_at)
 				},
 				user: {
-					id: 'u1',
+					id: '1',
 					email: 'a@b.c',
 					username: 'u',
 					isEmailVerified: true
 				}
 			});
-			expect(client.query).toHaveBeenCalledWith(expect.any(String), { sessionId: 'hashed' });
+			expect(client.query).toHaveBeenCalledWith(expect.any(String), { sessionId: 'sessionToken' });
 		});
 
 		it('returns null when request fails', async () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
 			client.query.mockRejectedValue(new Error('network'));
 
-			const result = await repository.getSessionByTokenHash('x');
+			const result = await repository.getSessionByTokenHash('sessionToken');
 
 			expect(result).toBeNull();
 			spy.mockRestore();
@@ -61,23 +56,23 @@ describe('SessionRepository', () => {
 		it('returns null when session list is empty', async () => {
 			client.query.mockResolvedValue({ session: [] });
 
-			await expect(repository.getSessionByTokenHash('unknown')).resolves.toBeNull();
+			await expect(repository.getSessionByTokenHash('sessionToken')).resolves.toBeNull();
 		});
 	});
 
 	describe('updateSessionExpiry', () => {
 		it('returns update payload from GraphQL', async () => {
-			const expiresAt = new Date('2026-01-15T12:00:00.000Z');
-			client.query.mockResolvedValue({ updateSessie: { id: 'row-1' } });
+			const expiresAt = new Date('2000-01-01');
+			client.query.mockResolvedValue({ updateSessie: { id: '1' } });
 
 			const result = await repository.updateSessionExpiry({
-				sessionId: 'hash',
+				sessionId: 'sessionToken',
 				expiresAt
 			});
 
-			expect(result).toEqual({ id: 'row-1' });
+			expect(result).toEqual({ id: '1' });
 			expect(client.query).toHaveBeenCalledWith(expect.any(String), {
-				sessionId: 'hash',
+				sessionId: 'sessionToken',
 				expiresAt
 			});
 		});
@@ -87,7 +82,7 @@ describe('SessionRepository', () => {
 			client.query.mockRejectedValue(new Error('fail'));
 
 			expect(
-				await repository.updateSessionExpiry({ sessionId: 'a', expiresAt: new Date() })
+				await repository.updateSessionExpiry({ sessionId: 'sessionToken', expiresAt: new Date() })
 			).toBeNull();
 			spy.mockRestore();
 		});
@@ -96,96 +91,59 @@ describe('SessionRepository', () => {
 			client.query.mockResolvedValue({ updateSessie: null });
 
 			await expect(
-				repository.updateSessionExpiry({ sessionId: 'x', expiresAt: new Date() })
+				repository.updateSessionExpiry({ sessionId: 'sessionToken', expiresAt: new Date() })
 			).resolves.toBeNull();
 		});
 	});
 
 	describe('deleteSessionById', () => {
 		it('returns delete payload from GraphQL', async () => {
-			client.query.mockResolvedValue({ deleteSessie: { id: 'del-1' } });
+			client.query.mockResolvedValue({ deleteSessie: { id: '1' } });
 
-			const result = await repository.deleteSessionById('hash');
+			const result = await repository.deleteSessionById('sessionToken');
 
-			expect(result).toEqual({ id: 'del-1' });
+			expect(result).toEqual({ id: '1' });
 		});
 
 		it('returns null when mutation returns no row', async () => {
 			client.query.mockResolvedValue({ deleteSessie: null });
 
-			await expect(repository.deleteSessionById('x')).resolves.toBeNull();
+			await expect(repository.deleteSessionById('sessionToken')).resolves.toBeNull();
 		});
 
 		it('returns null on error', async () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
 			client.query.mockRejectedValue(new Error('fail'));
 
-			expect(await repository.deleteSessionById('x')).toBeNull();
+			expect(await repository.deleteSessionById('sessionToken')).toBeNull();
 			spy.mockRestore();
 		});
 	});
 
 	describe('createSessionRecord', () => {
-		it('returns session shape when REST POST succeeds', async () => {
-			const fetchMock = vi.fn().mockResolvedValue({
-				ok: true,
-				json: vi.fn().mockResolvedValue({ data: { id: '1' } })
-			});
-			vi.stubGlobal('fetch', fetchMock);
-
-			const expiresAt = new Date('2026-06-01T00:00:00.000Z');
+		it('returns session shape when Directus create succeeds', async () => {
+			client.request.mockResolvedValue({ id: '1' });
+			const expiresAt = new Date('2000-01-01');
 			const result = await repository.createSessionRecord({
-				sessionId: 'opaque-token',
-				userId: 'user-1',
+				sessionId: 'sessionToken',
+				userId: '1',
 				expiresAt
 			});
 
-			expect(result).toEqual({ id: 'opaque-token', userId: 'user-1', expiresAt });
-			expect(fetchMock).toHaveBeenCalledWith(
-				'https://directus.test/items/toolgankelijk_session',
-				expect.objectContaining({
-					method: 'POST',
-					headers: expect.objectContaining({
-						Authorization: 'Bearer test-token',
-						'Content-Type': 'application/json'
-					}),
-					body: JSON.stringify({
-						session_id: 'opaque-token',
-						expires_at: expiresAt.toISOString(),
-						user_id: 'user-1'
-					})
-				})
-			);
-
-			vi.unstubAllGlobals();
+			expect(result).toEqual({ id: 'sessionToken', userId: '1', expiresAt });
+			expect(client.request).toHaveBeenCalledTimes(1);
 		});
 
-		it('throws when response is not ok', async () => {
-			vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: false }));
+		it('throws when Directus request fails', async () => {
+			client.request.mockRejectedValue(new Error('offline'));
 
 			await expect(
 				repository.createSessionRecord({
-					sessionId: 'a',
-					userId: 'b',
-					expiresAt: new Date()
-				})
-			).rejects.toThrow();
-			vi.unstubAllGlobals();
-		});
-
-		it('throws when fetch throws', async () => {
-			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-			vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('offline')));
-
-			await expect(
-				repository.createSessionRecord({
-					sessionId: 'a',
-					userId: 'b',
+					sessionId: 'sessionToken',
+					userId: '1',
 					expiresAt: new Date()
 				})
 			).rejects.toThrow('offline');
-			spy.mockRestore();
-			vi.unstubAllGlobals();
 		});
 	});
 });
