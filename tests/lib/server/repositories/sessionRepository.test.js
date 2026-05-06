@@ -40,14 +40,14 @@ describe('SessionRepository', () => {
 					isEmailVerified: true
 				}
 			});
-			expect(client.query).toHaveBeenCalledWith(expect.any(String), { sessionId: 'sessionToken' });
+			expect(client.query).toHaveBeenCalledWith(expect.any(String), { sessionId: 'hashed' });
 		});
 
 		it('returns null when request fails', async () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
 			client.query.mockRejectedValue(new Error('network'));
 
-			const result = await repository.getSessionByTokenHash('sessionToken');
+			const result = await repository.getSessionByTokenHash('x');
 
 			expect(result).toBeNull();
 			spy.mockRestore();
@@ -56,7 +56,7 @@ describe('SessionRepository', () => {
 		it('returns null when session list is empty', async () => {
 			client.query.mockResolvedValue({ session: [] });
 
-			await expect(repository.getSessionByTokenHash('sessionToken')).resolves.toBeNull();
+			await expect(repository.getSessionByTokenHash('unknown')).resolves.toBeNull();
 		});
 	});
 
@@ -66,13 +66,13 @@ describe('SessionRepository', () => {
 			client.query.mockResolvedValue({ updateSessie: { id: '1' } });
 
 			const result = await repository.updateSessionExpiry({
-				sessionId: 'sessionToken',
+				sessionId: 'hash',
 				expiresAt
 			});
 
 			expect(result).toEqual({ id: '1' });
 			expect(client.query).toHaveBeenCalledWith(expect.any(String), {
-				sessionId: 'sessionToken',
+				sessionId: 'hash',
 				expiresAt
 			});
 		});
@@ -108,14 +108,14 @@ describe('SessionRepository', () => {
 		it('returns null when mutation returns no row', async () => {
 			client.query.mockResolvedValue({ deleteSessie: null });
 
-			await expect(repository.deleteSessionById('sessionToken')).resolves.toBeNull();
+			await expect(repository.deleteSessionById('x')).resolves.toBeNull();
 		});
 
 		it('returns null on error', async () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
 			client.query.mockRejectedValue(new Error('fail'));
 
-			expect(await repository.deleteSessionById('sessionToken')).toBeNull();
+			expect(await repository.deleteSessionById('x')).toBeNull();
 			spy.mockRestore();
 		});
 	});
