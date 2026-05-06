@@ -55,7 +55,7 @@ describe('/header.svelte', () => {
 		expect(accountLink.className.includes('active')).toBe(false);
 	});
 
-	it('renders breadcrumbs only for verified users', () => {
+	it('renders breadcrumbs only for verified users', async () => {
 		const view = render(Header, {
 			props: {
 				params: {},
@@ -68,13 +68,13 @@ describe('/header.svelte', () => {
 
 		expect(screen.queryByText('Partners overzicht')).toBeNull();
 
-		view.rerender({
+		await view.rerender({
 			params: {},
 			partners: { websites: [] },
 			websites: { urls: [] },
 			principles: [],
 			user: { isEmailVerified: true }
 		});
-		expect(screen.getByText('Partners overzicht')).toBeTruthy();
+		expect(await screen.findByText('Partners overzicht')).toBeTruthy();
 	});
 });
