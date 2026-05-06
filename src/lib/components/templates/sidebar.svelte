@@ -1,4 +1,5 @@
 <script>
+	import NavButton from '../molecules/navButton.svelte';
 	let { principles, urlData } = $props();
 
 	let baseUrl = $derived(`/${urlData.url.website.slug}/${urlData.url.slug}`);
@@ -34,46 +35,34 @@
 <aside>
 	<ul>
 		{#each principles as principle}
-			<li data-sveltekit-reload>
-				<a href="{baseUrl}/{principle.slug}">
-					<h4>{principle.title}</h4>
-					<span>Principe {principle.index}</span>
+			<li>
+				<h3>{principle.title}</h3>
+				<div class="progress-container">
 					{#each getLevelsForPrinciple(principle) as level}
-						<div class="progress-container">
-							<span>{level}</span>
-							<progress
-								id="progress-partner-{level}"
-								max={getProgress(principle, level).total || 1}
-								value={getProgress(principle, level).behaald || 0}
-							></progress>
-							<label class="progress-percentage" for="progress-partner-{level}">
-								{getProgress(principle, level).total
-									? Math.round(
-											(getProgress(principle, level).behaald /
-												getProgress(principle, level).total) *
-												100
-										)
-									: 0}%
-							</label>
-						</div>
+						<p>{level}</p>
+
+						<progress
+							id="progress-partner-{level}"
+							max={getProgress(principle, level).total || 1}
+							value={getProgress(principle, level).behaald || 0}
+						></progress>
+
+						<label class="progress-percentage" for="progress-partner-{level}">
+							{getProgress(principle, level).total
+								? Math.round(
+										(getProgress(principle, level).behaald / getProgress(principle, level).total) *
+											100
+									)
+								: 0}%
+						</label>
 					{/each}
-				</a>
+				</div>
 			</li>
 		{/each}
 	</ul>
 </aside>
 
 <style>
-	h4 {
-		font-size: 1.5rem;
-		font-weight: 500;
-		font-family: 'Inter', sans-serif;
-	}
-
-	span {
-		font-weight: 100;
-	}
-
 	aside {
 		display: block;
 		position: -webkit-sticky;
@@ -88,16 +77,12 @@
 		align-self: start;
 	}
 
-	li {
-		display: flex;
-	}
-
 	li:hover {
 		background-color: var(--color-neutral-black);
 		border-radius: var(--border-radius);
 	}
 
-	a {
+	li {
 		width: 100%;
 		height: 100%;
 		border-bottom: 1px solid var(--c-container-stroke);
@@ -106,8 +91,10 @@
 		text-decoration: none;
 	}
 
-	span {
-		font-weight: 100;
+	.progress-container {
+		display: flex;
+		gap: 1em;
+		flex-direction: column;
 	}
 
 	div {

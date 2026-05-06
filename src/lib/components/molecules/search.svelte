@@ -42,7 +42,7 @@
 	}
 
 	label {
-		display: none;
+		color: var(--c-white2);
 	}
 
 	input {

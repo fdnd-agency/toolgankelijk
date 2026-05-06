@@ -1,6 +1,6 @@
 <script>
 	import { enhance } from '$app/forms';
-	import NavButton from '$lib/components/NavButton.svelte';
+	import NavButton from '$lib/components/molecules/navButton.svelte';
 
 	let { form } = $props();
 </script>
@@ -87,13 +87,8 @@
 		margin: 0 0 1rem 0;
 	}
 
-	p {
-		display: flex;
-		flex-direction: column;
-		width: 100%;
-		margin: 0 0 1.5rem 0;
-		padding: 0;
-		position: relative;
+	span::before {
+		content: ' ';
 	}
 
 	.error-message {
@@ -153,14 +148,6 @@
 		gap: 0.4rem;
 		color: var(--color-neutral-darkgrey);
 		font-size: 0.9rem;
-	}
-
-	a {
-		font-size: 0.85rem;
-		color: var(--color-primary);
-		text-decoration: none;
-		font-weight: 500;
-		transition: color 0.2s ease;
 	}
 
 	a:hover {

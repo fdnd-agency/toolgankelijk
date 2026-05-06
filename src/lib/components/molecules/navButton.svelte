@@ -1,22 +1,5 @@
 <script>
-	import AccountIcon from '$lib/components/icons/accountIcon.svelte';
-	import AddIcon from '$lib/components/icons/addIcon.svelte';
-	import AlertIcon from '$lib/components/icons/alertIcon.svelte';
-	import AlphabeticalIcon from '$lib/components/icons/alphabeticalIcon.svelte';
-	import ArrowIcon from '$lib/components/icons/arrowIcon.svelte';
-	import AuditIcon from '$lib/components/icons/auditIcon.svelte';
-	import BulbIcon from '$lib/components/icons/bulbIcon.svelte';
-	import CheckIcon from '$lib/components/icons/checkIcon.svelte';
-	import CrossIcon from '$lib/components/icons/crossIcon.svelte';
-	import DeleteIcon from '$lib/components/icons/deleteIcon.svelte';
-	import EditIcon from '$lib/components/icons/editIcon.svelte';
-	import FilterIcon from '$lib/components/icons/filterIcon.svelte';
-	import HomeIcon from '$lib/components/icons/homeIcon.svelte';
-	import InfoIcon from '$lib/components/icons/infoIcon.svelte';
-	import MenuIcon from '$lib/components/icons/menuIcon.svelte';
-	import MoonIcon from '$lib/components/icons/moonIcon.svelte';
-	import SearchIcon from '$lib/components/icons/searchIcon.svelte';
-	import SunIcon from '$lib/components/icons/sunIcon.svelte';
+	import Icon from '$lib/components/atoms/icon.svelte';
 
 	let {
 		iconName,
@@ -35,29 +18,6 @@
 	} = $props();
 
 	const tagname = $derived(as || (href ? 'a' : 'button'));
-
-	const iconMap = {
-		account: AccountIcon,
-		add: AddIcon,
-		alert: AlertIcon,
-		alphabetical: AlphabeticalIcon,
-		arrow: ArrowIcon,
-		audit: AuditIcon,
-		bulb: BulbIcon,
-		check: CheckIcon,
-		cross: CrossIcon,
-		delete: DeleteIcon,
-		edit: EditIcon,
-		filter: FilterIcon,
-		home: HomeIcon,
-		info: InfoIcon,
-		menu: MenuIcon,
-		moon: MoonIcon,
-		search: SearchIcon,
-		sun: SunIcon
-	};
-
-	const ActiveIcon = $derived(iconName ? iconMap[iconName] : null);
 </script>
 
 <svelte:element
@@ -69,12 +29,10 @@
 	{...rest}
 	aria-label={aria}
 >
-	{#if showIcon && ActiveIcon}
-    <span class="icon-wrapper">
-        <ActiveIcon />
-    </span>
-	{/if}
-	
+	<span class="icon-wrapper">
+		<Icon showIcon={true} {iconName} />
+	</span>
+
 	{@render children?.()}
 </svelte:element>
 
@@ -90,8 +48,6 @@
 		border: var(--border-white, 1px solid transparent);
 		height: 3em;
 		gap: 0.5em;
-		white-space: nowrap;
-		overflow: hidden;
 	}
 
 	.navbutton:hover {
@@ -183,23 +139,13 @@
 
 	.full {
 		width: 100%;
-		justify-content: flex-start;
-		text-overflow: ellipsis;
-		white-space: nowrap;
-		overflow: hidden;
-		margin: 0;
-		transition: all 0.2s ease;
-    	display: block;
-		
+	}
 
-		&:hover {
-			height: fit-content;
-		}
+	.pages {
+		align-content: center;
+	}
 
-		@media (max-width: 720px) {
-			white-space: normal;
-			word-break: break-all;
-			padding: 0.5rem 0;
-		}
+	.invisible {
+		display: none;
 	}
 </style>

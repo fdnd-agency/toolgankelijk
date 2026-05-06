@@ -1,9 +1,8 @@
 <script>
 	import { onNavigate } from '$app/navigation';
-	import Header from '$lib/components/header.svelte';
+	import Header from '$lib/components/templates/header.svelte';
 
 	let { children } = $props();
-
 
 	onNavigate((navigation) => {
 		if (!document.startViewTransition) return;
@@ -17,7 +16,7 @@
 	});
 </script>
 
-<Header/>
+<Header />
 
 <main id="main">
 	{@render children?.()}
