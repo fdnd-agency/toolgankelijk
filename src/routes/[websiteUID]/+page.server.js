@@ -1,14 +1,6 @@
 import { error, redirect } from '@sveltejs/kit';
 import { partnerRepository } from '$lib/server/index.js';
 
-// Type definitions
-/**
- * @typedef {import('@sveltejs/kit').LoadEvent} LoadEvent
- */
-
-/**
- * @param {LoadEvent} event
- */
 export async function load(event) {
 	const { params, url, locals, parent } = event;
 	const { websiteUID } = params;
