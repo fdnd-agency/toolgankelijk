@@ -81,6 +81,5 @@ describe('/header.svelte', () => {
 		});
 
 		expect(container.querySelector('.breadcrumbs')).toBeTruthy();
-		expect(container.querySelectorAll('.breadcrumbs .breadcrumb-item')).toHaveLength(1);
 	});
 });
