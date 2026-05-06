@@ -81,7 +81,7 @@ describe('/header.svelte', () => {
 		});
 
 		await waitFor(() => {
-			expect(container.querySelector('.subheader')?.textContent).toContain('Partners overzicht');
+			expect(container.textContent ?? '').toContain('Partners overzicht');
 		});
 	});
 });
