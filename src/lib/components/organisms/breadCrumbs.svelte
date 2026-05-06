@@ -1,10 +1,9 @@
 <script>
-	import { act } from '@testing-library/svelte';
 	import NavButton from '../moleculues/navButton.svelte';
 	import { slide } from 'svelte/transition';
 
 	let { 
-        params, 
+        params = {}, 
         partners = [], 
         websites = [], 
         principles = [], 
@@ -21,12 +20,12 @@
 	let selectedUrl = $derived(params.urlUID ? params.urlUID : '');
 
 	let selectedUrlItem = $derived(
-        params.urlUID ? websites.find(({ slug }) => slug === params.urlUID) : null
-    );
+		params?.urlUID ? (websites || []).find(({ slug }) => slug === params.urlUID) : null
+	);
 
 	let urlList = $derived(
-        websites.filter(w => w.name) 
-    );
+		(websites || []).filter(w => w?.name) 
+	);
 
 	let selectedPrinciple = $derived(
         params.principleUID ? principles.find(({ slug }) => slug === params.principleUID) : null
