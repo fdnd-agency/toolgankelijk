@@ -56,7 +56,7 @@ describe('/header.svelte', () => {
 	});
 
 	it('does not render breadcrumbs for unverified users', () => {
-		render(Header, {
+		const { container } = render(Header, {
 			props: {
 				params: {},
 				partners: { websites: [] },
@@ -66,11 +66,11 @@ describe('/header.svelte', () => {
 			}
 		});
 
-		expect(screen.queryByText((content) => content.includes('Partners overzicht'))).toBeNull();
+		expect(container.querySelector('.breadcrumbs')).toBeNull();
 	});
 
-	it('renders breadcrumbs for verified users', async () => {
-		render(Header, {
+	it('renders breadcrumbs for verified users', () => {
+		const { container } = render(Header, {
 			props: {
 				params: {},
 				partners: { websites: [] },
@@ -80,6 +80,8 @@ describe('/header.svelte', () => {
 			}
 		});
 
-		expect(await screen.findByText((content) => content.includes('Partners overzicht'))).toBeTruthy();
+		const breadcrumbs = container.querySelector('.breadcrumbs');
+		expect(breadcrumbs).toBeTruthy();
+		expect(breadcrumbs?.textContent).toContain('Partners overzicht');
 	});
 });
