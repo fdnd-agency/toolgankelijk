@@ -3,7 +3,7 @@
 /**
  * App users (`toolgankelijk_user`), email verification codes, and allow-list domains.
  */
-import { BaseRepository } from '$lib/server/repositories/baseRepository.js';
+import { DirectusRepositoryBase } from '$lib/server/repositories/baseRepository.js';
 import {
 	getQueryCheckUsernameAvailability,
 	getMutationCreateUser,
@@ -23,7 +23,7 @@ import {
 /**
  * Account and verification persistence used by auth and email flows.
  */
-export class UserRepository extends BaseRepository {
+export class UserRepository extends DirectusRepositoryBase {
 	// Main functions
 
 	/**
@@ -34,8 +34,8 @@ export class UserRepository extends BaseRepository {
 	 */
 	async checkUsernameAvailability(username) {
 		try {
-			const query = getQueryCheckUsernameAvailability(this.gql);
-			const data = await this.client.request(query, { username });
+			const query = getQueryCheckUsernameAvailability();
+			const data = await this.client.query(query, { username });
 			return !(data.users && data.users.length);
 		} catch (error) {
 			console.error('userRepository.checkUsernameAvailability failed', error);
@@ -51,9 +51,9 @@ export class UserRepository extends BaseRepository {
 	 */
 	async createUser({ email, username, passwordHash, isEmailVerified = false }) {
 		try {
-			const mutation = getMutationCreateUser(this.gql);
+			const mutation = getMutationCreateUser();
 			const variables = { email, username, password: passwordHash, isEmailVerified };
-			const data = await this.client.request(mutation, variables);
+			const data = await this.client.query(mutation, variables);
 			const row = data.createUser ?? null;
 			if (!row) return null;
 			return {
@@ -76,8 +76,8 @@ export class UserRepository extends BaseRepository {
 	 */
 	async getUserPasswordHash(userId) {
 		try {
-			const query = getQueryUserPasswordHash(this.gql, userId);
-			const data = await this.client.request(query);
+			const query = getQueryUserPasswordHash(userId);
+			const data = await this.client.query(query);
 			const row = this.firstOrNull(data.user);
 			return row?.password ?? null;
 		} catch (error) {
@@ -94,8 +94,8 @@ export class UserRepository extends BaseRepository {
 	 */
 	async getUserByEmail(email) {
 		try {
-			const query = getQueryUserFromEmail(this.gql);
-			const data = await this.client.request(query, { email });
+			const query = getQueryUserFromEmail();
+			const data = await this.client.query(query, { email });
 			const row = this.firstOrNull(data.user);
 			if (!row) return null;
 			return {
@@ -118,8 +118,8 @@ export class UserRepository extends BaseRepository {
 	 */
 	async markUserEmailVerified(userId) {
 		try {
-			const mutation = getMutationSetUserEmailAsVerified(this.gql, userId);
-			const data = await this.client.request(mutation);
+			const mutation = getMutationSetUserEmailAsVerified(userId);
+			const data = await this.client.query(mutation);
 			return data.updateUser ?? null;
 		} catch (error) {
 			console.error('userRepository.markUserEmailVerified failed', error);
@@ -135,8 +135,8 @@ export class UserRepository extends BaseRepository {
 	 */
 	async checkEmailAvailability(email) {
 		try {
-			const query = getQueryCheckEmail(this.gql);
-			const data = await this.client.request(query, { email });
+			const query = getQueryCheckEmail();
+			const data = await this.client.query(query, { email });
 			const users = data.toolgankelijk_user ?? [];
 			return users.length === 0;
 		} catch (error) {
@@ -150,8 +150,8 @@ export class UserRepository extends BaseRepository {
 	 */
 	async getValidEmailDomains() {
 		try {
-			const query = getQueryValidEmailDomains(this.gql);
-			const data = await this.client.request(query);
+			const query = getQueryValidEmailDomains();
+			const data = await this.client.query(query);
 			return data.toolgankelijk_email_domain ?? [];
 		} catch (error) {
 			console.error('userRepository.getValidEmailDomains failed', error);
@@ -167,8 +167,8 @@ export class UserRepository extends BaseRepository {
 	 */
 	async getEmailVerificationRequestById(id) {
 		try {
-			const query = getQueryEmailVerificationById(this.gql, id);
-			const data = await this.client.request(query);
+			const query = getQueryEmailVerificationById(id);
+			const data = await this.client.query(query);
 			const row = data.emailVerificationCode ?? null;
 			if (!row) return null;
 			return {
@@ -190,13 +190,13 @@ export class UserRepository extends BaseRepository {
 	 */
 	async createEmailVerificationRequestRecord({ code, expiresAt, userId }) {
 		try {
-			const mutation = getMutationCreateEmailVerification(this.gql);
+			const mutation = getMutationCreateEmailVerification();
 			const variables = {
 				code,
 				expiresAt: expiresAt.toISOString(),
 				userId
 			};
-			const data = await this.client.request(mutation, variables);
+			const data = await this.client.query(mutation, variables);
 			const row = data.createEmailVerificationCode ?? null;
 			if (!row) return null;
 			return {
@@ -220,8 +220,8 @@ export class UserRepository extends BaseRepository {
 	 */
 	async deleteEmailVerificationsForUser(userId) {
 		try {
-			const mutation = getMutationDeleteEmailVerificationsForUser(this.gql);
-			const data = await this.client.request(mutation, { userId });
+			const mutation = getMutationDeleteEmailVerificationsForUser();
+			const data = await this.client.query(mutation, { userId });
 			return data.deleteEmailVerificationCodes ?? null;
 		} catch (error) {
 			console.error('userRepository.deleteEmailVerificationsForUser failed', error);

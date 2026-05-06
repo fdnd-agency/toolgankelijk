@@ -3,7 +3,7 @@
 /**
  * Partner websites (`toolgankelijk_website`): overview list, detail by slug, URL ids, and CRUD.
  */
-import { BaseRepository } from '$lib/server/repositories/baseRepository.js';
+import { DirectusRepositoryBase } from '$lib/server/repositories/baseRepository.js';
 import getQueryPartner, {
 	getQueryWebsite,
 	getQueryUrlsByPartnerId,
@@ -21,7 +21,7 @@ import getQueryPartner, {
 /**
  * Maps partner GraphQL payloads (principles, guidelines, success-criteria junctions) to normalized app types.
  */
-export class PartnerRepository extends BaseRepository {
+export class PartnerRepository extends DirectusRepositoryBase {
 	// Helper functions
 
 	/**
@@ -88,8 +88,8 @@ export class PartnerRepository extends BaseRepository {
 	 */
 	async listPartners({ limit = 20, offset = 0 } = {}) {
 		try {
-			const query = getQueryPartner(this.gql, limit, offset);
-			const raw = await this.client.request(query);
+			const query = getQueryPartner(limit, offset);
+			const raw = await this.client.query(query);
 			const principles = this.#normalizePartnerPrinciples(raw.toolgankelijk_principle ?? []);
 
 			return {
@@ -112,8 +112,8 @@ export class PartnerRepository extends BaseRepository {
 	 */
 	async getWebsiteBySlug(slug, { limit = 20, offset = 0 } = {}) {
 		try {
-			const query = getQueryWebsite(this.gql, slug, limit, offset);
-			const raw = await this.client.request(query);
+			const query = getQueryWebsite(slug, limit, offset);
+			const raw = await this.client.query(query);
 
 			const websiteNode = raw.toolgankelijk_website?.[0] ?? null;
 			const principles = this.#normalizePartnerPrinciples(raw.toolgankelijk_principle ?? []);
@@ -139,8 +139,8 @@ export class PartnerRepository extends BaseRepository {
 	 */
 	async getPartnerUrls(partnerId, { skip = 0, first = 100 } = {}) {
 		try {
-			const query = getQueryUrlsByPartnerId(this.gql, partnerId, skip, first);
-			const raw = await this.client.request(query);
+			const query = getQueryUrlsByPartnerId(partnerId, skip, first);
+			const raw = await this.client.query(query);
 			/** @type {WebsiteUrl[]} */
 			const urls = raw.toolgankelijk_url ?? [];
 			return urls.map(
@@ -163,8 +163,8 @@ export class PartnerRepository extends BaseRepository {
 	 */
 	async createPartner({ name, url, slug, totalUrls = 0 }) {
 		try {
-			const query = getQueryAddPartner(this.gql, name, url, slug, totalUrls);
-			const raw = await this.client.request(query);
+			const query = getQueryAddPartner(name, url, slug, totalUrls);
+			const raw = await this.client.query(query);
 			const row = raw.create_toolgankelijk_website_item ?? null;
 			if (!row) return null;
 			return {
@@ -187,8 +187,8 @@ export class PartnerRepository extends BaseRepository {
 	 */
 	async updatePartnerById({ id, name, url, slug }) {
 		try {
-			const query = getQueryUpdatePartner(this.gql, name, slug, url, id);
-			const raw = await this.client.request(query);
+			const query = getQueryUpdatePartner(name, slug, url, id);
+			const raw = await this.client.query(query);
 			const row = raw.update_toolgankelijk_website_item ?? null;
 			if (!row) return null;
 			return {
@@ -211,8 +211,8 @@ export class PartnerRepository extends BaseRepository {
 	 */
 	async updatePartnerTotalUrls({ slug, totalUrls }) {
 		try {
-			const query = getQueryUpdatePartnerUrls(this.gql, slug, totalUrls);
-			const raw = await this.client.request(query);
+			const query = getQueryUpdatePartnerUrls(slug, totalUrls);
+			const raw = await this.client.query(query);
 			const row = raw.update_toolgankelijk_website_item ?? null;
 			if (!row) return null;
 			return {
@@ -233,8 +233,8 @@ export class PartnerRepository extends BaseRepository {
 	 */
 	async deletePartnerById(partnerId) {
 		try {
-			const query = getQueryDeletePartner(this.gql, partnerId);
-			const raw = await this.client.request(query);
+			const query = getQueryDeletePartner(partnerId);
+			const raw = await this.client.query(query);
 			const row = raw.delete_toolgankelijk_website_item ?? null;
 			return row ? { id: row.id } : null;
 		} catch (error) {

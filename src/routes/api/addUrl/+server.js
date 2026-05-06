@@ -40,6 +40,14 @@ export async function POST({ request }) {
 						websiteSlug,
 						urlName: name
 					});
+					if (!directusCall) {
+						await sendUpdate({
+							status: 'Url kon niet worden opgeslagen.',
+							type: 'error'
+						});
+						await delay(500);
+						return;
+					}
 					await urlRepository.createEmptyCheckForUrl({ websiteSlug, urlSlug: slug });
 
 					await sendUpdate({

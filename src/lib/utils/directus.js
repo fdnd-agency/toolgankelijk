@@ -1,10 +1,14 @@
 import { DIRECTUS_URL, VITE_DIRECTUS_KEY } from '$env/static/private';
-import { GraphQLClient } from 'graphql-request';
+import { createDirectus, graphql, rest, staticToken } from '@directus/sdk';
 
-const DIRECTUS_GRAPHQL_URL = `${DIRECTUS_URL.replace(/\/+$/, '')}/graphql`;
+const baseUrl = DIRECTUS_URL.replace(/\/+$/, '');
+const token = VITE_DIRECTUS_KEY;
 
-export const directus = new GraphQLClient(DIRECTUS_GRAPHQL_URL, {
-	headers: {
-		Authorization: `Bearer ${VITE_DIRECTUS_KEY}`
-	}
-});
+if (!baseUrl || !token) {
+	throw new Error('DIRECTUS_URL and VITE_DIRECTUS_KEY must be set');
+}
+
+export const directusClient = createDirectus(baseUrl)
+	.with(staticToken(token))
+	.with(rest())
+	.with(graphql());

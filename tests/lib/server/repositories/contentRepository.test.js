@@ -2,7 +2,6 @@
  * Tests for the ContentRepository class.
  */
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { gql } from 'graphql-request';
 import { ContentRepository } from '$lib/server/repositories/contentRepository.js';
 
 describe('ContentRepository', () => {
@@ -11,13 +10,13 @@ describe('ContentRepository', () => {
 
 	beforeEach(() => {
 		vi.clearAllMocks();
-		client = { request: vi.fn() };
-		repository = new ContentRepository({ client, gql });
+		client = { query: vi.fn() };
+		repository = new ContentRepository({ client });
 	});
 
 	describe('getAllPrinciples', () => {
 		it('maps principles and guideline junction rows', async () => {
-			client.request.mockResolvedValue({
+			client.query.mockResolvedValue({
 				toolgankelijk_principle: [
 					{
 						id: 'p1',
@@ -63,7 +62,7 @@ describe('ContentRepository', () => {
 
 		it('returns [] on error', async () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-			client.request.mockRejectedValue(new Error('fail'));
+			client.query.mockRejectedValue(new Error('fail'));
 
 			await expect(repository.getAllPrinciples()).resolves.toEqual([]);
 			spy.mockRestore();
@@ -72,7 +71,7 @@ describe('ContentRepository', () => {
 
 	describe('getLevels', () => {
 		it('maps level nodes', async () => {
-			client.request.mockResolvedValue({
+			client.query.mockResolvedValue({
 				toolgankelijk_level: [
 					{ id: 'l1', level: 'A', slug: 'a' },
 					{ id: 'l2', level: 'AA', slug: 'aa' }
@@ -89,7 +88,7 @@ describe('ContentRepository', () => {
 
 		it('returns [] on error', async () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-			client.request.mockRejectedValue(new Error('fail'));
+			client.query.mockRejectedValue(new Error('fail'));
 
 			await expect(repository.getLevels()).resolves.toEqual([]);
 			spy.mockRestore();
@@ -98,13 +97,20 @@ describe('ContentRepository', () => {
 
 	describe('getToolboard', () => {
 		it('builds toolboard payload with url, principle, and principles list', async () => {
-			client.request.mockResolvedValue({
+			client.query.mockResolvedValue({
 				url: [
 					{
 						id: 'u1',
 						slug: 'page',
 						url: 'https://x/page',
-						checks: [{ id: 'c1', successcriteria: [{ id: 's1' }] }]
+						checks: [
+							{
+								id: 'c1',
+								successcriteria: [
+									{ id: 'junction-1', toolgankelijk_success_criteria_id: { id: 's1' } }
+								]
+							}
+						]
 					}
 				],
 				principle: [
@@ -145,7 +151,7 @@ describe('ContentRepository', () => {
 		});
 
 		it('uses placeholder check when url has no checks', async () => {
-			client.request.mockResolvedValue({
+			client.query.mockResolvedValue({
 				url: [
 					{
 						id: 'u1',
@@ -167,7 +173,7 @@ describe('ContentRepository', () => {
 		});
 
 		it('returns null url and principle when GraphQL returns empty collections', async () => {
-			client.request.mockResolvedValue({
+			client.query.mockResolvedValue({
 				url: [],
 				principle: [],
 				principles: []
@@ -185,7 +191,7 @@ describe('ContentRepository', () => {
 
 		it('returns empty toolboard on error', async () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-			client.request.mockRejectedValue(new Error('fail'));
+			client.query.mockRejectedValue(new Error('fail'));
 
 			const result = await repository.getToolboard({
 				urlSlug: 'a',
