@@ -149,7 +149,9 @@ export class UrlRepository extends DirectusRepositoryBase {
 			}
 
 			const row = /** @type {{ id?: string }} */ (
-				await this.client.request(updateItem(COLLECTION_URL, id, { slug, url: normalizedUrl, name }))
+				await this.client.request(
+					updateItem(COLLECTION_URL, id, { slug, url: normalizedUrl, name })
+				)
 			);
 			return row?.id ? { id: row.id, slug, url: normalizedUrl, name } : null;
 		} catch (error) {
