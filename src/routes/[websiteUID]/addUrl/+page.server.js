@@ -1,4 +1,3 @@
-import { directus } from '$lib/utils/directus.js';
 import { redirect } from '@sveltejs/kit';
 import { partnerRepository, urlRepository } from '$lib/server/index.js';
 
@@ -28,6 +27,12 @@ export const actions = {
 				websiteSlug: formSlug,
 				urlName: name
 			});
+			if (!directusCall) {
+				return {
+					message: 'Url kon niet worden opgeslagen.',
+					success: false
+				};
+			}
 			await urlRepository.createEmptyCheckForUrl({ websiteSlug: formSlug, urlSlug: name });
 
 			return {

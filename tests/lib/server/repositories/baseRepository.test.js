@@ -2,16 +2,14 @@
  * Tests for the BaseRepository class.
  */
 import { beforeEach, describe, it, expect } from 'vitest';
-import { gql } from 'graphql-request';
-import { BaseRepository } from '$lib/server/repositories/baseRepository.js';
+import { DirectusRepositoryBase } from '$lib/server/repositories/baseRepository.js';
 
 /**
- * Creates a new BaseRepository instance.
+ * Creates a new repository instance with shared helper methods.
  */
 function createBaseRepository() {
-	return new BaseRepository({
-		client: { request: () => {} },
-		gql
+	return new DirectusRepositoryBase({
+		client: { query: () => {} }
 	});
 }
 
