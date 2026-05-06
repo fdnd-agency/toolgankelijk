@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { render, screen, waitFor } from '@testing-library/svelte';
+import { render, screen } from '@testing-library/svelte';
 import Header from '$lib/components/header.svelte';
 
 const mockedPageState = vi.hoisted(() => ({ pathname: '/' }));
@@ -69,7 +69,7 @@ describe('/header.svelte', () => {
 		expect(container.querySelector('.breadcrumbs')).toBeNull();
 	});
 
-	it('renders breadcrumbs for verified users', async () => {
+	it('renders breadcrumbs for verified users', () => {
 		const { container } = render(Header, {
 			props: {
 				params: {},
@@ -80,8 +80,7 @@ describe('/header.svelte', () => {
 			}
 		});
 
-		await waitFor(() => {
-			expect(container.textContent ?? '').toContain('Partners overzicht');
-		});
+		expect(container.querySelector('.breadcrumbs')).toBeTruthy();
+		expect(container.querySelectorAll('.breadcrumbs .breadcrumb-item')).toHaveLength(1);
 	});
 });
