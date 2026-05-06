@@ -31,16 +31,18 @@ With the application you can run a performance audit, to check the status of you
 
 Since the last sprint review there are several changes in the application. We recognised that the design was bugging a lot so we simplified the code. Lots of code and component are refactored now. The header is simplified where you can navigate through all pages (info, account and partner overview). 
 
-<img width="2998" height="594" alt="image" src="https://github.com/user-attachments/assets/e0b115b9-a2e5-4bc9-bda8-3a317d458850" />
-
 
 **Header**
 
 The header has a update it is simplified and the logo of the header is responsive. It solves the bug of displaying the wrong colors in the design. Also there is an account page where you can logout when you are on that page. It also includes a hamburger button
 
-**Darkmode**
+**Subheader**
 
-The dark mode has been removed due to the soft launch that is coming up. This is a unnecesary function and collapse between the old and new design. The color system is still used.
+<img width="3024" height="390" alt="image" src="https://github.com/user-attachments/assets/e989e8df-49ef-420a-9c63-1674256418c2" />
+
+In the subheader you will find the breadcrumbs which were in the header first. This was first placed in the header. You can navigate here through different urls and partners. You can also add a partner/url to the page with the add button. You can also search for the url/partners with the search tool in the right corner.
+
+The subheader will be disabled on the principles page cause there only will be the filter function as a sidebar. On the subheader here is only the navigate back to the url oversight button.
 
 **Consistent icons**
 
