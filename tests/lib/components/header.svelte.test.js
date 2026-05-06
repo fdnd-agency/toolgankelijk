@@ -56,7 +56,7 @@ describe('/header.svelte', () => {
 	});
 
 	it('renders breadcrumbs only for verified users', () => {
-		render(Header, {
+		const view = render(Header, {
 			props: {
 				params: {},
 				partners: { websites: [] },
@@ -68,14 +68,12 @@ describe('/header.svelte', () => {
 
 		expect(screen.queryByText('Partners overzicht')).toBeNull();
 
-		render(Header, {
-			props: {
-				params: {},
-				partners: { websites: [] },
-				websites: { urls: [] },
-				principles: [],
-				user: { isEmailVerified: true }
-			}
+		view.rerender({
+			params: {},
+			partners: { websites: [] },
+			websites: { urls: [] },
+			principles: [],
+			user: { isEmailVerified: true }
 		});
 		expect(screen.getByText('Partners overzicht')).toBeTruthy();
 	});
