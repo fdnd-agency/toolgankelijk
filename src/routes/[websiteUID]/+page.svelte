@@ -60,7 +60,7 @@
 <Dialog bind:this={dialogRef} {params} isType="addUrl" />
 
 <section class="cards-container">
-	{#each websites as website}
+	{#each currentUrls as website}
 		<Card {website} {overview} {params} {principles} isUrl={true} />
 	{/each}
 
