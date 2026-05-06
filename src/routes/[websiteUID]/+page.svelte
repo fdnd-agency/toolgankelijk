@@ -21,7 +21,7 @@
 	// overview
 	let overview = $derived(data.websites?.website);
 	let partners = $derived(data.partnersData || []);
-	let principles = $derived(data.principles || []);
+	let principles = $derived(data.websites?.principles || []);
 	let currentUrls = $derived(overview?.urls ?? []);
 
 	let heading = $derived({

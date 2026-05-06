@@ -50,6 +50,47 @@
 		return `${Math.floor(days / 365)} jaar geleden`;
 	});
 
+	function calculatePercentage(websiteCriteria, totalCriteria) {
+		// Validation
+		// Values must be finite
+		if (!Number.isFinite(websiteCriteria) || !Number.isFinite(totalCriteria)) {
+			console.warn('Card progressbar received non-finite values!', {
+				websiteCriteria,
+				totalCriteria
+			});
+			return 0;
+		}
+
+		// criteria values must be positive
+		if (totalCriteria < 0 || websiteCriteria < 0) {
+			console.warn('Card progressbar received negative values!', {
+				websiteCriteria,
+				totalCriteria
+			});
+			return 0;
+		}
+		// websiteCriteria must not be greater than totalCriteria
+		if (websiteCriteria > totalCriteria) {
+			console.warn('Card progressbar received more websiteCriteria than totalCriteria!', {
+				websiteCriteria,
+				totalCriteria
+			});
+		}
+
+		// Calculation
+		let percentage = (websiteCriteria / totalCriteria) * 100;
+
+		// Impossible values are set to 0.
+		if (!Number.isFinite(percentage)) {
+			return 0;
+		}
+
+		// Clamp to [0, 100]
+		percentage = Math.round(Math.min(Math.max(percentage, 0), 100));
+
+		return percentage;
+	}
+
 	const stats = $derived.by(() => {
 		let total = 0;
 		let success = 0;
@@ -62,7 +103,7 @@
 
 		if (isUrl) {
 			success = website.checks?.reduce((acc, c) => acc + (c.successCriteria?.length || 0), 0) || 0;
-			total = baseCriteriaCount * (website.checks?.length || 0);
+			total = baseCriteriaCount;
 		} else {
 			success =
 				website.urls?.reduce(
@@ -73,7 +114,7 @@
 			total = baseCriteriaCount * (website.urls?.length || 0);
 		}
 
-		return { success, total, percent: total > 0 ? Math.round((success / total) * 100) : 0 };
+		return { success, total, percent: calculatePercentage(success, total) };
 	});
 
 	function openForm(type, event) {
@@ -116,10 +157,8 @@
 				id={isUrl ? 'url-progress-container' : 'partner-progress-container'}
 				class="color-primary"
 			>
-				<progress id="progress-partner" max="100" value="0" bind:this={stats.total}></progress>
-				<label class="progress-percentage" for="progress-partner" bind:this={stats.percent}
-					>0%</label
-				>
+				<progress id="progress-partner" max="100" value={stats.percent}></progress>
+				<label class="progress-percentage" for="progress-partner">{stats.percent}%</label>
 			</div>
 
 			<div class={isUrl ? 'card-icons-url' : 'card-icons-partner'}>
