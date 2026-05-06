@@ -1,11 +1,5 @@
 <script>
-	let { 
-		itemArray = [], 
-		urlCount, 
-		urlTotal,
-		logList, 
-		prevLen = 0,
-		type } = $props();
+	let { itemArray = [], urlCount, urlTotal, logList, prevLen = 0, type } = $props();
 
 	let logCount = $derived(itemArray.length);
 

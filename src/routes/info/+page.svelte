@@ -32,33 +32,23 @@
 
 <div class="info-wrapper">
 	<section class="text-container">
-			<h2><span>Vervoerregio Amsterdam.</span> HvA</h2>
-			<br />
-			<p>
-				Wij hebben samen met studenten van de Hogeschool van Amsterdam een checklist ontwikkeld
-				waarin op eenvoudige wijze wordt uitgelegd wat hierbij komt kijken en welke stappen u kunt
-				nemen om uw website en app toegankelijk te maken.
-			</p>
-			<img src={walking} class="text-image" alt="darkmode icon" />
-	</section>
-
-	<section class="text-container">
-			<h2 id="wettelijk">is uw website al toegankelijk?</h2>
-			<p>
-				Binnen 2025 moet dit al! Voor overheden is dit al verplicht. En vanaf 2025 moet iedere nieuwe
-				website en app digitaal toegankelijk zijn. Dit moet volgens het EAA (European Accessibility
-				Act). Dit zou er mee moeten helpen dat iedereen elke website zou kunnen bezoeken, niet
-				uitmakende dat iemand een beperking heeft
-			</p>
-	</section>
-
-	<section class="text-container">
-		<h3>Wat kunt u doen om uw website toegankelijk te maken?</h3>
-
+		<h2><span>Vervoerregio Amsterdam.</span> HvA</h2>
+		<br />
 		<p>
-			De Vervoerregio Amsterdam heeft samen met studenten van de Hogeschool van Amsterdam een
-			checklist ontwikkeld waarin op eenvoudige wijze wordt uitgelegd wat hierbij komt kijken en
-			welke stappen u kunt nemen om uw website en app toegankelijk te maken.
+			Wij hebben samen met studenten van de Hogeschool van Amsterdam een checklist ontwikkeld waarin
+			op eenvoudige wijze wordt uitgelegd wat hierbij komt kijken en welke stappen u kunt nemen om
+			uw website en app toegankelijk te maken.
+		</p>
+		<img src={walking} class="text-image" alt="darkmode icon" />
+	</section>
+
+	<section class="text-container">
+		<h2 id="wettelijk">is uw website al toegankelijk?</h2>
+		<p>
+			Binnen 2025 moet dit al! Voor overheden is dit al verplicht. En vanaf 2025 moet iedere nieuwe
+			website en app digitaal toegankelijk zijn. Dit moet volgens het EAA (European Accessibility
+			Act). Dit zou er mee moeten helpen dat iedereen elke website zou kunnen bezoeken, niet
+			uitmakende dat iemand een beperking heeft
 		</p>
 	</section>
 
@@ -73,52 +63,60 @@
 	</section>
 
 	<section class="text-container">
-			<h2>Wat is de wettelijke achtergrond?</h2>
-			<p>
-				In Nederland zijn er ca. 2 miljoen mensen met een beperking. Als deze mensen uw website of
-				app niet kunnen gebruiken, dan zorgt dat dat deze mensen worden uitgesloten van de
-				samenleving. Medio 2025 wordt om die reden door.
+		<h3>Wat kunt u doen om uw website toegankelijk te maken?</h3>
 
-				De Europese Unie de European Accessibility Act (EAA) of Europese Toegankelijkheidswet ingevoerd.
-				De wet zorgt ervoor dat digitale barrières worden verwijderd voor mensen met een beperking. De
-				eisen zijn gebaseerd op de Web Content Accessibility Guidelines (WCAG) van het World Wide Web
-				Consortium
-			</p>
+		<p>
+			De Vervoerregio Amsterdam heeft samen met studenten van de Hogeschool van Amsterdam een
+			checklist ontwikkeld waarin op eenvoudige wijze wordt uitgelegd wat hierbij komt kijken en
+			welke stappen u kunt nemen om uw website en app toegankelijk te maken.
+		</p>
+	</section>
+
+	<section class="text-container">
+		<h2>Wat is de wettelijke achtergrond?</h2>
+		<p>
+			In Nederland zijn er ca. 2 miljoen mensen met een beperking. Als deze mensen uw website of app
+			niet kunnen gebruiken, dan zorgt dat dat deze mensen worden uitgesloten van de samenleving.
+			Medio 2025 wordt om die reden door. De Europese Unie de European Accessibility Act (EAA) of
+			Europese Toegankelijkheidswet ingevoerd. De wet zorgt ervoor dat digitale barrières worden
+			verwijderd voor mensen met een beperking. De eisen zijn gebaseerd op de Web Content
+			Accessibility Guidelines (WCAG) van het World Wide Web Consortium
+		</p>
 		<img src={knowledge} class="text-image" alt="Sharing Knowledge" />
 	</section>
 
 	<section class="text-container">
-			<h2>Contact opnemen?</h2>
-			<p>
-				Indien u vragen heeft of mocht er nog enige onduidelijkheid bestaan, kunt u via onderstaand
-				formulier contact met ons opnemen.
-			</p>
-			<form
-				action="/info"
-				use:enhance={handleEnhance}
-				onsubmit={() => (isSubmitting = true)}
-				method="POST"
-			>
-				<fieldset class="form-vraag">
-					<label for="name">Naam</label>
-					<input id="name" placeholder="name" type="text" name="name" required />
-					<label for="mail">Email</label>
-					<input placeholder="email" id="email" type="email" name="email" required />
-					<label for="vraag">Uw vraag</label>
-					<textarea id="vraag" name="vraag" placeholder="Bericht..." required rows="3"></textarea>
-					<NavButton aria="Verzend Vraag" type="submit" size="medium" variant="secondary">
-						Versturen
-					</NavButton>
+		<h2>Contact opnemen?</h2>
+		<p>
+			Indien u vragen heeft of mocht er nog enige onduidelijkheid bestaan, kunt u via onderstaand
+			formulier contact met ons opnemen.
+		</p>
+		<form
+			action="/info"
+			use:enhance={handleEnhance}
+			onsubmit={() => (isSubmitting = true)}
+			method="POST"
+		>
+			<fieldset class="form-vraag">
+				<label for="name">Naam</label>
+				<input id="name" placeholder="name" type="text" name="name" required />
+				<label for="mail">Email</label>
+				<input placeholder="email" id="email" type="email" name="email" required />
+				<label for="vraag">Uw vraag</label>
+				<textarea id="vraag" name="vraag" placeholder="Bericht..." required rows="3"></textarea>
+				<NavButton aria="Verzend Vraag" type="submit" size="medium" variant="secondary">
+					Versturen
+				</NavButton>
 
-					{#if successMessage}
-						<p class="success-message">{successMessage}</p>
-					{/if}
+				{#if successMessage}
+					<p class="success-message">{successMessage}</p>
+				{/if}
 
-					{#if errorMessage}
-						<p class="error-message">{errorMessage}</p>
-					{/if}
-				</fieldset>
-			</form>
+				{#if errorMessage}
+					<p class="error-message">{errorMessage}</p>
+				{/if}
+			</fieldset>
+		</form>
 	</section>
 </div>
 
@@ -194,5 +192,4 @@
 	.error-message {
 		color: red;
 	}
-	
 </style>

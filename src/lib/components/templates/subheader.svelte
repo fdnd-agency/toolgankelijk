@@ -3,16 +3,16 @@
 	import NavButton from '$lib/components/molecules/navButton.svelte';
 	import BreadCrumbs from '$lib/components/organisms/breadCrumbs.svelte';
 
-	let { 
-        params, 
-        user, 
-        partners = [], 
-        websites = [], 
-        principles = [],
+	let {
+		params,
+		user,
+		partners = [],
+		websites = [],
+		principles = [],
 		overview,
-        showAdd = false, 
-        onAdd 
-    } = $props();
+		showAdd = false,
+		onAdd
+	} = $props();
 
 	// Internal state for the form fields
 	// let principle = $state('All');
@@ -36,34 +36,21 @@
 
 <div class="subheader">
 	{#if user && user.isEmailVerified}
-		<BreadCrumbs {params} {partners} {websites} {overview} {principles} width="full" />	
+		<BreadCrumbs {params} {partners} {websites} {overview} {principles} width="full" />
 	{/if}
 
-
 	<div class="subheader-form">
+		{#if showAdd}
+			<NavButton size="small" variant="primary" showIcon={true} iconName="add" onclick={onAdd}
+			></NavButton>
 
-	{#if showAdd}
-	<NavButton
-        size="small"
-        variant="primary"
-        showIcon={true}
-        iconName="add"
-		onclick={onAdd}
-    ></NavButton>
-
-	<form>
-	<NavButton
-        size="small"
-        variant="primary"
-        showIcon={true}
-        iconName="search"
-    ></NavButton>
-	</form>
-			{/if}
+			<form>
+				<NavButton size="small" variant="primary" showIcon={true} iconName="search"></NavButton>
+			</form>
+		{/if}
 	</div>
 
-
-<!-- this will be placed on a sidebar of the principles page -->
+	<!-- this will be placed on a sidebar of the principles page -->
 	<!-- <div class="brand"></div>
 	<form class="controls-container" onsubmit={handleSubmit}>
 		<div class="control-group">
@@ -255,10 +242,10 @@
 		align-content: center;
 		justify-content: space-between;
 
-	@media (max-width: 720px) {
-		display: flex;
-		gap: 0.5em;
-	}
+		@media (max-width: 720px) {
+			display: flex;
+			gap: 0.5em;
+		}
 	}
 
 	.subheader-form {

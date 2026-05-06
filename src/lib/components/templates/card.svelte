@@ -2,150 +2,168 @@
 	import Dialog from '$lib/components/templates/dialog.svelte';
 	import NavButton from '$lib/components/molecules/navButton.svelte';
 
-	let { 
-        principles = [], 
-        website = {},
-        params,
-        isUrl = false,
-        dialogRefAudit,
-        dialogRefDelete,
-        dialogRefEdit,
-        containerOff = false
-    } = $props();
+	let {
+		principles = [],
+		website = {},
+		params,
+		isUrl = false,
+		dialogRefAudit,
+		dialogRefDelete,
+		dialogRefEdit,
+		containerOff = false
+	} = $props();
 
-	const typeConfig = $derived(isUrl ? {
-		link: `${params?.websiteUID || ''}/${website.slug}`,
-        url: website.url,
-        title: website.name,
-        edit: 'editUrl',
-        delete: 'deleteUrl',
-        audit: null
-	} : {
-		link: `/${website.slug}?partner=${website.slug}`,
-        url: website.homepage,
-        title: website.title,
-        edit: 'editPartner',
-        delete: 'deletePartner',
-        audit: 'startAudit'
-	});
-	
+	const typeConfig = $derived(
+		isUrl
+			? {
+					link: `${params?.websiteUID || ''}/${website.slug}`,
+					url: website.url,
+					title: website.name,
+					edit: 'editUrl',
+					delete: 'deleteUrl',
+					audit: null
+				}
+			: {
+					link: `/${website.slug}?partner=${website.slug}`,
+					url: website.homepage,
+					title: website.title,
+					edit: 'editPartner',
+					delete: 'deletePartner',
+					audit: 'startAudit'
+				}
+	);
+
 	const lastTime = $derived.by(() => {
-        if (!website.updatedAt) return 'Zojuist';
-        const diffInMs = new Date() - new Date(website.updatedAt);
-        const mins = Math.floor(diffInMs / 60000);
-        
-        if (mins < 1) return 'Zojuist';
-        if (mins < 60) return `${mins} min geleden`;
-        
-        const hours = Math.floor(mins / 60);
-        if (hours < 24) return `${hours} uur en ${mins % 60} min geleden`;
-        
-        const days = Math.floor(hours / 24);
-        if (days < 365) return days === 1 ? '1 dag geleden' : `${days} dagen geleden`;
-        
-        return `${Math.floor(days / 365)} jaar geleden`;
-    });
+		if (!website.updatedAt) return 'Zojuist';
+		const diffInMs = new Date() - new Date(website.updatedAt);
+		const mins = Math.floor(diffInMs / 60000);
+
+		if (mins < 1) return 'Zojuist';
+		if (mins < 60) return `${mins} min geleden`;
+
+		const hours = Math.floor(mins / 60);
+		if (hours < 24) return `${hours} uur en ${mins % 60} min geleden`;
+
+		const days = Math.floor(hours / 24);
+		if (days < 365) return days === 1 ? '1 dag geleden' : `${days} dagen geleden`;
+
+		return `${Math.floor(days / 365)} jaar geleden`;
+	});
 
 	const stats = $derived.by(() => {
-        let total = 0;
-        let success = 0;
+		let total = 0;
+		let success = 0;
 
-        const baseCriteriaCount = principles.reduce((acc, p) => 
-            acc + p.guidelines.reduce((gAcc, g) => gAcc + (g.successCriteria?.length || 0), 0), 0);
+		const baseCriteriaCount = principles.reduce(
+			(acc, p) =>
+				acc + p.guidelines.reduce((gAcc, g) => gAcc + (g.successCriteria?.length || 0), 0),
+			0
+		);
 
-        if (isUrl) {
-            success = website.checks?.reduce((acc, c) => acc + (c.successCriteria?.length || 0), 0) || 0;
-            total = baseCriteriaCount * (website.checks?.length || 0);
-        } else {
-            success = website.urls?.reduce((acc, u) => 
-                acc + u.checks.reduce((cAcc, c) => cAcc + (c.successCriteria?.length || 0), 0), 0) || 0;
-            total = baseCriteriaCount * (website.urls?.length || 0);
-        }
+		if (isUrl) {
+			success = website.checks?.reduce((acc, c) => acc + (c.successCriteria?.length || 0), 0) || 0;
+			total = baseCriteriaCount * (website.checks?.length || 0);
+		} else {
+			success =
+				website.urls?.reduce(
+					(acc, u) =>
+						acc + u.checks.reduce((cAcc, c) => cAcc + (c.successCriteria?.length || 0), 0),
+					0
+				) || 0;
+			total = baseCriteriaCount * (website.urls?.length || 0);
+		}
 
-        return { success, total, percent: total > 0 ? Math.round((success / total) * 100) : 0 };
-    });
+		return { success, total, percent: total > 0 ? Math.round((success / total) * 100) : 0 };
+	});
 
 	function openForm(type, event) {
-        event.preventDefault();
-        const map = { 
-            [typeConfig.edit]: dialogRefEdit, 
-            [typeConfig.delete]: dialogRefDelete, 
-            [typeConfig.audit]: dialogRefAudit 
-        };
-        map[type]?.open();
-        
-        document.body.style.overflowY = 'hidden';
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
+		event.preventDefault();
+		const map = {
+			[typeConfig.edit]: dialogRefEdit,
+			[typeConfig.delete]: dialogRefDelete,
+			[typeConfig.audit]: dialogRefAudit
+		};
+		map[type]?.open();
 
-    const faviconAPI =
-        'https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=';
+		document.body.style.overflowY = 'hidden';
+		window.scrollTo({ top: 0, behavior: 'smooth' });
+	}
+
+	const faviconAPI =
+		'https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=';
 </script>
 
 <div class="card-wrapper">
-    <article class="color-primary-light" id={isUrl ? 'card-url' : 'card-partner'} class:container-off={containerOff}>
-        
-        {#if !isUrl}
-            <picture class="card-partner-logo" fetchpriority="high">
-                <img
-                    class="partner-logo"
-                    src="{faviconAPI}{typeConfig.url}/&size=128"
-                    alt="logo van {typeConfig.title}"
-                />
-            </picture>
-        {/if}
+	<article
+		class="color-primary-light"
+		id={isUrl ? 'card-url' : 'card-partner'}
+		class:container-off={containerOff}
+	>
+		{#if !isUrl}
+			<picture class="card-partner-logo" fetchpriority="high">
+				<img
+					class="partner-logo"
+					src="{faviconAPI}{typeConfig.url}/&size=128"
+					alt="logo van {typeConfig.title}"
+				/>
+			</picture>
+		{/if}
 
-        <div class="card-content">
-            <h2 class={isUrl ? "card-title-url" : "card-title"}>{typeConfig.title}</h2>
+		<div class="card-content">
+			<h2 class={isUrl ? 'card-title-url' : 'card-title'}>{typeConfig.title}</h2>
 
-            <div id={isUrl ? "url-progress-container" : "partner-progress-container"} class="color-primary">
-                <progress id="progress-partner" max="100" value="0" bind:this={stats.total}></progress>
-                <label class="progress-percentage" for="progress-partner" bind:this={stats.percent}>0%</label>
-            </div>
+			<div
+				id={isUrl ? 'url-progress-container' : 'partner-progress-container'}
+				class="color-primary"
+			>
+				<progress id="progress-partner" max="100" value="0" bind:this={stats.total}></progress>
+				<label class="progress-percentage" for="progress-partner" bind:this={stats.percent}
+					>0%</label
+				>
+			</div>
 
-            <div class={isUrl ? "card-icons-url" : "card-icons-partner"}>
-                
-                {#if !isUrl && typeConfig.audit}
-                    <NavButton
-                        onclick={(e) => openForm(typeConfig.audit, e)}
-                        aria="start audit {typeConfig.title}"
-                        size="small"
-                        variant="secondary"
-                        showIcon={true}
-                        iconName="audit"
-                    ></NavButton>
-                {/if}
+			<div class={isUrl ? 'card-icons-url' : 'card-icons-partner'}>
+				{#if !isUrl && typeConfig.audit}
+					<NavButton
+						onclick={(e) => openForm(typeConfig.audit, e)}
+						aria="start audit {typeConfig.title}"
+						size="small"
+						variant="secondary"
+						showIcon={true}
+						iconName="audit"
+					></NavButton>
+				{/if}
 
-                <NavButton
-                    onclick={(e) => openForm(typeConfig.edit, e)}
-                    aria="bewerk {typeConfig.title}"
-                    size="small"
-                    variant="secondary"
-                    showIcon={true}
-                    iconName="edit"
-                ></NavButton>
+				<NavButton
+					onclick={(e) => openForm(typeConfig.edit, e)}
+					aria="bewerk {typeConfig.title}"
+					size="small"
+					variant="secondary"
+					showIcon={true}
+					iconName="edit"
+				></NavButton>
 
-                <NavButton
-                    onclick={(e) => openForm(typeConfig.delete, e)}
-                    aria="verwijder {typeConfig.title}"
-                    size="small"
-                    variant="secondary"
-                    showIcon={true}
-                    iconName="delete"
-                ></NavButton>
+				<NavButton
+					onclick={(e) => openForm(typeConfig.delete, e)}
+					aria="verwijder {typeConfig.title}"
+					size="small"
+					variant="secondary"
+					showIcon={true}
+					iconName="delete"
+				></NavButton>
 
-                <NavButton
-                    href={typeConfig.link}
-                    aria="open {typeConfig.title}"
-                    size="medium"
-                    variant="secondary"
-                    showIcon={false}
-                >
-                    Open
-                </NavButton>
-            </div>
-        </div>
-    </article>
+				<NavButton
+					href={typeConfig.link}
+					aria="open {typeConfig.title}"
+					size="medium"
+					variant="secondary"
+					showIcon={false}
+				>
+					Open
+				</NavButton>
+			</div>
+		</div>
+	</article>
 </div>
 
 <Dialog
@@ -167,15 +185,15 @@
 	{website}
 />
 {#if !isUrl && typeConfig.audit}
-<Dialog
-	bind:this={dialogRefAudit}
-	isType={typeConfig.audit}
-	id={website.id}
-	name={typeConfig.title}
-	url={typeConfig.url}
-	slug={website.slug}
-	{website}
-/>
+	<Dialog
+		bind:this={dialogRefAudit}
+		isType={typeConfig.audit}
+		id={website.id}
+		name={typeConfig.title}
+		url={typeConfig.url}
+		slug={website.slug}
+		{website}
+	/>
 {/if}
 
 <style>
@@ -310,5 +328,4 @@
 		gap: 0.5em;
 		align-items: center;
 	}
-
 </style>

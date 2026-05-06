@@ -21,9 +21,9 @@
 </section>
 
 <style>
-.form-container {
-	display: flex;
-	justify-content: center;
-	margin-top: 3rem;
-}
+	.form-container {
+		display: flex;
+		justify-content: center;
+		margin-top: 3rem;
+	}
 </style>

@@ -50,9 +50,7 @@
 					required
 				/>
 			</p>
-			<NavButton type="submit" size="large" showIcon={true} iconName="add"> 
-				Maak
-			</NavButton>
+			<NavButton type="submit" size="large" showIcon={true} iconName="add">Maak</NavButton>
 			<button type="submit" class="form-submit">Create</button>
 			<p style="color: red;">{form?.message ?? ''}</p>
 		</fieldset>

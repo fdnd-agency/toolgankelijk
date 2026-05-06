@@ -10,14 +10,12 @@
 		<h2><span>Oeps!</span> Er is iets mis gegaan.</h2>
 		<p>
 			De pagina die je zoekt, is helaas niet gevonden. Misschien heb je een verkeerde afslag genomen
-			of is er iets misgegaan tijdens het navigeren van onze tool. Probeer het opnieuw om op de juiste
-			pagina te belanden.
+			of is er iets misgegaan tijdens het navigeren van onze tool. Probeer het opnieuw om op de
+			juiste pagina te belanden.
 		</p>
 		<NavButton href="/" showIcon={true} iconName="home"></NavButton>
 	</div>
 </section>
-
-
 
 <style>
 	section {

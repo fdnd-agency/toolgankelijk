@@ -6,20 +6,12 @@
 	import Hamburger from '$lib/components/organisms/hamburgerMenu.svelte';
 	import NavButton from '../molecules/navButton.svelte';
 
-	let { 
-		params, 
-		partners, 
-		websites, 
-		principles, 
-		user = null 
-	} = $props();
+	let { params, partners, websites, principles, user = null } = $props();
 </script>
 
 <header>
-	<NavButton effect="invisible" href="#main">
-		Jump directly to main content
-	</NavButton>
-	
+	<NavButton effect="invisible" href="#main">Jump directly to main content</NavButton>
+
 	<Logo />
 	<nav id="header-navigation" class="color-primary-light">
 		<NavButton

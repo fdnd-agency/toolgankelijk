@@ -2,20 +2,14 @@
 	import NavButton from '../molecules/navButton.svelte';
 	import { slide } from 'svelte/transition';
 
-	let { 
-        params = {}, 
-        partners = [], 
-        websites = [], 
-        principles = [], 
-		overview
-    } = $props();
+	let { params = {}, partners = [], websites = [], principles = [], overview } = $props();
 
 	let activeDropdown = $state(null);
-	let partnerList = $derived(Array.isArray(partners) ? partners : (partners?.websites || []));
+	let partnerList = $derived(Array.isArray(partners) ? partners : partners?.websites || []);
 
 	let selectedPartner = $derived(
-        params.websiteUID ? partnerList.find(({ slug }) => slug === params.websiteUID) : null
-    );
+		params.websiteUID ? partnerList.find(({ slug }) => slug === params.websiteUID) : null
+	);
 
 	let selectedUrl = $derived(params.urlUID ? params.urlUID : '');
 
@@ -23,13 +17,11 @@
 		params?.urlUID ? (websites || []).find(({ slug }) => slug === params.urlUID) : null
 	);
 
-	let urlList = $derived(
-		(websites || []).filter(w => w?.name) 
-	);
+	let urlList = $derived((websites || []).filter((w) => w?.name));
 
 	let selectedPrinciple = $derived(
-        params.principleUID ? principles.find(({ slug }) => slug === params.principleUID) : null
-    );
+		params.principleUID ? principles.find(({ slug }) => slug === params.principleUID) : null
+	);
 
 	function toggleDropdown(dropdownName) {
 		activeDropdown = activeDropdown === dropdownName ? null : dropdownName;
@@ -41,7 +33,7 @@
 		if (params) {
 			activeDropdown = null;
 		}
-	})
+	});
 </script>
 
 <div class="breadcrumbs">
@@ -87,10 +79,10 @@
 				effect="dropdown"
 			>
 				{#if selectedUrlItem}
-                    <p>{selectedUrlItem.name || selectedUrlItem.title}</p>
-                {:else}
-                    <p>URL overzicht</p>
-                {/if}
+					<p>{selectedUrlItem.name || selectedUrlItem.title}</p>
+				{:else}
+					<p>URL overzicht</p>
+				{/if}
 			</NavButton>
 
 			{#if activeDropdown === 'url'}
@@ -175,15 +167,15 @@
 		li {
 			width: 100%;
 			height: 100%;
-    		-webkit-overflow-scrolling: touch;
+			-webkit-overflow-scrolling: touch;
 			scroll-snap-align: start;
 			flex-shrink: 0;
 		}
 
 		li:hover p {
-			white-space: normal;    
-    		word-break: normal;    
-    		overflow: visible;
+			white-space: normal;
+			word-break: normal;
+			overflow: visible;
 		}
 
 		@media (max-width: 720px) {

@@ -1,5 +1,5 @@
 <script>
-	import NavButton from "../molecules/navButton.svelte";
+	import NavButton from '../molecules/navButton.svelte';
 	let { principles, urlData } = $props();
 
 	let baseUrl = $derived(`/${urlData.url.website.slug}/${urlData.url.slug}`);
@@ -37,28 +37,26 @@
 		{#each principles as principle}
 			<li>
 				<h3>{principle.title}</h3>
-					<div class="progress-container">
+				<div class="progress-container">
 					{#each getLevelsForPrinciple(principle) as level}
-						
-							<p>{level}</p>
-							
-							<progress
-								id="progress-partner-{level}"
-								max={getProgress(principle, level).total || 1}
-								value={getProgress(principle, level).behaald || 0}
-							></progress>
+						<p>{level}</p>
 
-							<label class="progress-percentage" for="progress-partner-{level}">
-								{getProgress(principle, level).total
-									? Math.round(
-											(getProgress(principle, level).behaald /
-												getProgress(principle, level).total) *
-												100
-										)
-									: 0}%
-							</label>
+						<progress
+							id="progress-partner-{level}"
+							max={getProgress(principle, level).total || 1}
+							value={getProgress(principle, level).behaald || 0}
+						></progress>
+
+						<label class="progress-percentage" for="progress-partner-{level}">
+							{getProgress(principle, level).total
+								? Math.round(
+										(getProgress(principle, level).behaald / getProgress(principle, level).total) *
+											100
+									)
+								: 0}%
+						</label>
 					{/each}
-					</div>
+				</div>
 			</li>
 		{/each}
 	</ul>
@@ -78,7 +76,6 @@
 		flex-basis: 0;
 		align-self: start;
 	}
-
 
 	li:hover {
 		background-color: var(--color-neutral-black);

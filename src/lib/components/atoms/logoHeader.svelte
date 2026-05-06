@@ -49,7 +49,7 @@
 	a {
 		text-decoration: none;
 	}
-	
+
 	svg path {
 		color: var(--color-neutral-white);
 	}

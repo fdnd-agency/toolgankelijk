@@ -1,116 +1,145 @@
 <script>
-	import Icon from "../atoms/icon.svelte"
-	import NavButton from "../molecules/navButton.svelte";
-	import Loader from "../molecules/loader.svelte";
+	import Icon from '../atoms/icon.svelte';
+	import NavButton from '../molecules/navButton.svelte';
+	import Loader from '../molecules/loader.svelte';
 
-	let { 
-        params,
-        isType,
-        id = '',
-        name = '',
-        url = '',
-        slug = '',
-        website = {},
-        dialog 
-    } = $props();
+	let { params, isType, id = '', name = '', url = '', slug = '', website = {}, dialog } = $props();
 
 	let formData = $state({
-        id: id,
-        name: name,
-        url: url,
-        slug: params || slug
-    });
+		id: id,
+		name: name,
+		url: url,
+		slug: params || slug
+	});
 
 	let sending = $state(false);
-    let showTip = $state(true);
-    let logs = $state([]);
-    let urlCount = $state(0);
-    let urlTotal = $state(0);
+	let showTip = $state(true);
+	let logs = $state([]);
+	let urlCount = $state(0);
+	let urlTotal = $state(0);
 
 	const typeConfig = {
-        addPartner: { title: 'Partner toevoegen', action: '/api/addPartner', tip: 'Voeg een bestaande website toe.', btn: 'Toevoegen', type: 0 },
-        editPartner: { title: 'Partner bewerken', action: '/api/editPartner', tip: null, btn: 'Bewerken', type: 0 },
-        deletePartner: { title: 'Partner verwijderen', action: '/api/deletePartner', tip: 'Deze partner wordt permanent verwijderd.', btn: 'Verwijderen', type: 0 },
-        addUrl: { title: 'Url toevoegen', action: '/api/addUrl', tip: 'Voeg een bestaande url toe.', btn: 'Toevoegen', type: 0 },
-        editUrl: { title: 'Url bewerken', action: '/api/editUrl', tip: null, btn: 'Bewerken', type: 0 },
-        deleteUrl: { title: 'Url verwijderen', action: '/api/deleteUrl', tip: 'Deze url wordt permanent verwijderd.', btn: 'Verwijderen', type: 0 },
-        startAudit: { title: 'Audit starten', action: '/api/startAudit', tip: null, btn: 'Starten', type: 1 }
-    };
+		addPartner: {
+			title: 'Partner toevoegen',
+			action: '/api/addPartner',
+			tip: 'Voeg een bestaande website toe.',
+			btn: 'Toevoegen',
+			type: 0
+		},
+		editPartner: {
+			title: 'Partner bewerken',
+			action: '/api/editPartner',
+			tip: null,
+			btn: 'Bewerken',
+			type: 0
+		},
+		deletePartner: {
+			title: 'Partner verwijderen',
+			action: '/api/deletePartner',
+			tip: 'Deze partner wordt permanent verwijderd.',
+			btn: 'Verwijderen',
+			type: 0
+		},
+		addUrl: {
+			title: 'Url toevoegen',
+			action: '/api/addUrl',
+			tip: 'Voeg een bestaande url toe.',
+			btn: 'Toevoegen',
+			type: 0
+		},
+		editUrl: { title: 'Url bewerken', action: '/api/editUrl', tip: null, btn: 'Bewerken', type: 0 },
+		deleteUrl: {
+			title: 'Url verwijderen',
+			action: '/api/deleteUrl',
+			tip: 'Deze url wordt permanent verwijderd.',
+			btn: 'Verwijderen',
+			type: 0
+		},
+		startAudit: {
+			title: 'Audit starten',
+			action: '/api/startAudit',
+			tip: null,
+			btn: 'Starten',
+			type: 1
+		}
+	};
 
 	const config = $derived(typeConfig[isType] || {});
 
-	const showTextFields = $derived(['addUrl', 'addPartner', 'editUrl', 'editPartner'].includes(isType));
-    const isEdit = $derived(isType === 'editUrl' || isType === 'editPartner');
-    const isDelete = $derived(isType === 'deleteUrl' || isType === 'deletePartner');
+	const showTextFields = $derived(
+		['addUrl', 'addPartner', 'editUrl', 'editPartner'].includes(isType)
+	);
+	const isEdit = $derived(isType === 'editUrl' || isType === 'editPartner');
+	const isDelete = $derived(isType === 'deleteUrl' || isType === 'deletePartner');
 
 	export function open() {
-        dialog?.showModal();
-        showTip = true;
-    }
+		dialog?.showModal();
+		showTip = true;
+	}
 
 	function close(event) {
-        event?.preventDefault();
-        dialog?.close();
-        document.body.style.overflowY = 'unset';
-    }
+		event?.preventDefault();
+		dialog?.close();
+		document.body.style.overflowY = 'unset';
+	}
 
 	async function submitHandling(event) {
-        event.preventDefault();
-        sending = true;
-        logs = [];
-        urlCount = 0;
-        urlTotal = 0;
+		event.preventDefault();
+		sending = true;
+		logs = [];
+		urlCount = 0;
+		urlTotal = 0;
 
-        const postRes = await fetch(config.action, {
-            method: 'POST',
-            body: new FormData(event.target)
-        });
+		const postRes = await fetch(config.action, {
+			method: 'POST',
+			body: new FormData(event.target)
+		});
 
-        if (!postRes.ok || !postRes.body) {
-            console.error('Fetch error or no stream received');
-            sending = false;
-            return;
-        }
+		if (!postRes.ok || !postRes.body) {
+			console.error('Fetch error or no stream received');
+			sending = false;
+			return;
+		}
 
-        const reader = postRes.body.getReader();
-        const decoder = new TextDecoder();
-        let buffer = '';
-        let done = false;
+		const reader = postRes.body.getReader();
+		const decoder = new TextDecoder();
+		let buffer = '';
+		let done = false;
 
-        while (!done) {
-            const { value, done: streamDone } = await reader.read();
-            if (streamDone) break;
+		while (!done) {
+			const { value, done: streamDone } = await reader.read();
+			if (streamDone) break;
 
-            buffer += decoder.decode(value, { stream: true });
-            const parts = buffer.split('\n\n');
-            buffer = parts.pop();
+			buffer += decoder.decode(value, { stream: true });
+			const parts = buffer.split('\n\n');
+			buffer = parts.pop();
 
-            for (const part of parts) {
-                if (!part.startsWith('data:')) continue;
-                const { status, type, error, count, total } = JSON.parse(part.replace(/^data:\s*/, ''));
-                
-                if (count && total) {
-                    urlCount = count;
-                    urlTotal = total;
-                }
-                
-                if (error) {
-                    logs = [...logs, { status: error, type: 'error' }];
-                } else {
-                    if (logs.length > 0 && logs[logs.length - 1].type === 'loading' && type !== 'loading') {
-                        logs = logs.filter((log) => log.type !== 'loading');
-                    }
-                    logs = [...logs, { status, type }];
-                }
+			for (const part of parts) {
+				if (!part.startsWith('data:')) continue;
+				const { status, type, error, count, total } = JSON.parse(part.replace(/^data:\s*/, ''));
 
-                if (status === 'Alle urls zijn toegevoegd') done = true;
-            }
-        }
+				if (count && total) {
+					urlCount = count;
+					urlTotal = total;
+				}
 
-        sending = false;
-        dialog.close();
-        window.location.reload();
-    }
+				if (error) {
+					logs = [...logs, { status: error, type: 'error' }];
+				} else {
+					if (logs.length > 0 && logs[logs.length - 1].type === 'loading' && type !== 'loading') {
+						logs = logs.filter((log) => log.type !== 'loading');
+					}
+					logs = [...logs, { status, type }];
+				}
+
+				if (status === 'Alle urls zijn toegevoegd') done = true;
+			}
+		}
+
+		sending = false;
+		dialog.close();
+		window.location.reload();
+	}
 </script>
 
 <dialog bind:this={dialog}>
@@ -138,18 +167,25 @@
 				<input type="hidden" name="id" value={formData.id} />
 				{#if showTextFields}
 					<input type="hidden" name="slug" value={formData.slug} readonly />
-                {/if}
+				{/if}
 
 				{#if showTextFields}
-					<div class={isEdit ? "form-edit-textfields" : "form-textfields"}>
+					<div class={isEdit ? 'form-edit-textfields' : 'form-textfields'}>
 						{#if isEdit}
 							<div class="form-edit-icon">
 								<Icon iconName="edit" />
 							</div>
 						{/if}
 
-                        <label for="name">Typ hier je titel</label>
-                        <input name="name" id="name" type="text" required placeholder="Typ hier je titel" bind:value={formData.name} />
+						<label for="name">Typ hier je titel</label>
+						<input
+							name="name"
+							id="name"
+							type="text"
+							required
+							placeholder="Typ hier je titel"
+							bind:value={formData.name}
+						/>
 
 						{#if isEdit}
 							<div class="form-edit-icon">
@@ -157,41 +193,52 @@
 							</div>
 						{/if}
 
-                        <label for="url">Typ hier je URL</label>
-                        <input name="url" id="url" type="text" required placeholder="Typ hier je URL link" bind:value={formData.url} />
+						<label for="url">Typ hier je URL</label>
+						<input
+							name="url"
+							id="url"
+							type="text"
+							required
+							placeholder="Typ hier je URL link"
+							bind:value={formData.url}
+						/>
 					</div>
 
 					<div class="form-checkbox">
-                        <input id="sitemap" name="sitemap" type="checkbox" />
-                        <label for="sitemap">Sitemap ophalen van deze partner?</label>
-                    </div>
+						<input id="sitemap" name="sitemap" type="checkbox" />
+						<label for="sitemap">Sitemap ophalen van deze partner?</label>
+					</div>
 				{/if}
 
 				{#if isDelete}
-                    <div class="form-delete-content" tabindex="0">
-                        <Icon iconName="delete" />
-                        <p>Weet je zeker dat je {isType === 'deleteUrl' ? formData.url : formData.name} wilt verwijderen?</p>
-                    </div>
-                {/if}
+					<div class="form-delete-content" tabindex="0">
+						<Icon iconName="delete" />
+						<p>
+							Weet je zeker dat je {isType === 'deleteUrl' ? formData.url : formData.name} wilt verwijderen?
+						</p>
+					</div>
+				{/if}
 
 				{#if isType === 'startAudit'}
-                    <div class="form-delete-content" tabindex="0">
-                        <Icon iconName="delete" />
-                        <p>Weet je zeker dat je {isType === 'deleteUrl' ? formData.url : formData.name} wilt verwijderen?</p>
-                    </div>
-                {/if}
+					<div class="form-delete-content" tabindex="0">
+						<Icon iconName="delete" />
+						<p>
+							Weet je zeker dat je {isType === 'deleteUrl' ? formData.url : formData.name} wilt verwijderen?
+						</p>
+					</div>
+				{/if}
 
-					<NavButton aria="verzend formulier" variant="primary">
-						{config.btn}
-					</NavButton>
-				</form>
-				{:else}
-				<div class="tip-message" aria-label="tip message">
-					<p><span>{formData.name}</span> wordt verwerkt, sluit de pagina niet.</p>
-				</div>
-				<Loader itemArray={logs} {urlCount} {urlTotal} type={config.type} />
-			{/if}
-    </section>
+				<NavButton aria="verzend formulier" variant="primary">
+					{config.btn}
+				</NavButton>
+			</form>
+		{:else}
+			<div class="tip-message" aria-label="tip message">
+				<p><span>{formData.name}</span> wordt verwerkt, sluit de pagina niet.</p>
+			</div>
+			<Loader itemArray={logs} {urlCount} {urlTotal} type={config.type} />
+		{/if}
+	</section>
 </dialog>
 
 <style>
