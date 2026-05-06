@@ -128,11 +128,11 @@ describe('UrlRepository', () => {
 			const result = await repository.updateUrl({
 				id: 'u1',
 				slug: 's',
-				url: 'https://z',
+				url: 'https://z/',
 				name: 'N'
 			});
 
-			expect(result).toEqual({ id: 'u1', slug: 's', url: 'https://z', name: 'N' });
+			expect(result).toEqual({ id: 'u1', slug: 's', url: 'https://z/', name: 'N' });
 		});
 
 		it('returns null when update returns no id', async () => {
@@ -141,7 +141,7 @@ describe('UrlRepository', () => {
 			const result = await repository.updateUrl({
 				id: 'u1',
 				slug: 's',
-				url: 'https://z',
+				url: 'https://z/',
 				name: 'N'
 			});
 
@@ -155,7 +155,7 @@ describe('UrlRepository', () => {
 			const result = await repository.updateUrl({
 				id: 'u1',
 				slug: 's',
-				url: 'https://z',
+				url: 'https://z/',
 				name: 'N'
 			});
 
