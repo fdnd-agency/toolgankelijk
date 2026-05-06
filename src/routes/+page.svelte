@@ -6,8 +6,8 @@
 	import SubHeader from '$lib/components/templates/subheader.svelte';
 	import Dialog from '$lib/components/templates/dialog.svelte';
 	import Pages from '$lib/components/organisms/pages.svelte';
-	import NavButton from '$lib/components/moleculues/navButton.svelte';
-	import Heading from '$lib/components/moleculues/heading.svelte';
+	import NavButton from '$lib/components/molecules/navButton.svelte';
+	import Heading from '$lib/components/molecules/heading.svelte';
 
 	let { data, form } = $props();
 

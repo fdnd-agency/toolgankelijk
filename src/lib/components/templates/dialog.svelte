@@ -1,7 +1,7 @@
 <script>
 	import Icon from "../atoms/icon.svelte"
-	import NavButton from "../moleculues/navButton.svelte";
-	import Loader from "../moleculues/loader.svelte";
+	import NavButton from "../molecules/navButton.svelte";
+	import Loader from "../molecules/loader.svelte";
 
 	let { 
         params,

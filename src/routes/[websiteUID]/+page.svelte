@@ -4,7 +4,7 @@
 	import Dialog from '$lib/components/templates/dialog.svelte';
 	import Pages from '$lib/components/organisms/pages.svelte';
 	import SubHeader from '$lib/components/templates/subheader.svelte';
-	import Heading from '$lib/components/moleculues/heading.svelte';
+	import Heading from '$lib/components/molecules/heading.svelte';
 
 	let { data, form } = $props();
 	let params = $derived($page.params);

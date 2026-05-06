@@ -1,7 +1,7 @@
 <script>
 	import { page } from '$app/stores';
 	import UrlForm from '$lib/components/urlForm.svelte';
-	import NavButton from '$lib/components/moleculues/navButton.svelte';
+	import NavButton from '$lib/components/molecules/navButton.svelte';
 
 	let { form } = $props();
 

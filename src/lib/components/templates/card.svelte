@@ -1,6 +1,6 @@
 <script>
 	import Dialog from '$lib/components/templates/dialog.svelte';
-	import NavButton from '$lib/components/moleculues/navButton.svelte';
+	import NavButton from '$lib/components/molecules/navButton.svelte';
 
 	let { 
         principles = [], 

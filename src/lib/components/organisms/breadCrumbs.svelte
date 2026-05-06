@@ -1,5 +1,5 @@
 <script>
-	import NavButton from '../moleculues/navButton.svelte';
+	import NavButton from '../molecules/navButton.svelte';
 	import { slide } from 'svelte/transition';
 
 	let { 

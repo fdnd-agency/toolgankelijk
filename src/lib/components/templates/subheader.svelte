@@ -1,6 +1,6 @@
 <script>
 	import { page } from '$app/stores';
-	import NavButton from '$lib/components/moleculues/navButton.svelte';
+	import NavButton from '$lib/components/molecules/navButton.svelte';
 	import BreadCrumbs from '$lib/components/organisms/breadCrumbs.svelte';
 
 	let { 

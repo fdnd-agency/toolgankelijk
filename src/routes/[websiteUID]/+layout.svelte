@@ -1,6 +1,6 @@
 <script>
 	let { children } = $props();
-	import NavButton from '$lib/components/moleculues/navButton.svelte';
+	import NavButton from '$lib/components/molecules/navButton.svelte';
 </script>
 
 {@render children?.()}

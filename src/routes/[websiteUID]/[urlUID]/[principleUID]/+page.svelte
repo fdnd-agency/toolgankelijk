@@ -1,7 +1,7 @@
 <script>
 	import Checklist from '$lib/components/templates/checklist.svelte';
 	import Sidebar from '$lib/components/templates/sidebar.svelte';
-	import Heading from '$lib/components/moleculues/heading.svelte';
+	import Heading from '$lib/components/molecules/heading.svelte';
 
 	let { data, form } = $props();
 

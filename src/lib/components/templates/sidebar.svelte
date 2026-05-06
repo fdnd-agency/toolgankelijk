@@ -1,5 +1,5 @@
 <script>
-	import NavButton from "../moleculues/navButton.svelte";
+	import NavButton from "../molecules/navButton.svelte";
 	let { principles, urlData } = $props();
 
 	let baseUrl = $derived(`/${urlData.url.website.slug}/${urlData.url.slug}`);
