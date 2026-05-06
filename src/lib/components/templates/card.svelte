@@ -14,14 +14,14 @@
     } = $props();
 
 	const typeConfig = $derived(isUrl ? {
-		link: `${params}/${website.slug}`,
+		link: `${params?.websiteUID || ''}/${website.slug}`,
         url: website.url,
         title: website.name,
         edit: 'editUrl',
         delete: 'deleteUrl',
         audit: null
 	} : {
-		link: `${website.slug}?partner=${website.slug}`,
+		link: `/${website.slug}?partner=${website.slug}`,
         url: website.homepage,
         title: website.title,
         edit: 'editPartner',
