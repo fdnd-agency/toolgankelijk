@@ -77,7 +77,7 @@ The subheader will be disabled on the principles page cause there only will be t
 
 **Login and Accountpage**
 
-<img width="2704" height="322" alt="image" src="https://github.com/user-attachments/assets/bb0b9e04-7aff-4f02-abcd-cef6a71f0982" />
+<img width="935" height="987" alt="Screenshot (177)" src="https://github.com/user-attachments/assets/635364e8-6707-42e4-9c4b-5fd53e2f2825" />
 
 The login page has seen an massive design overhaul, allowing for a more welcoming appeareance. The account page has seen an overhaul too, now an user can signout and see their account details like email and username.
 
