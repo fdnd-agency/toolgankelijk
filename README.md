@@ -79,7 +79,7 @@ The subheader will be disabled on the principles page cause there only will be t
 
 <img width="2704" height="322" alt="image" src="https://github.com/user-attachments/assets/bb0b9e04-7aff-4f02-abcd-cef6a71f0982" />
 
-The application has seen a major design overhaul in different areas. The toolboard has been overhauled with new colors, better contrast levels and a more consistent look.  Also, a new subheader has been added to make navigation more intuitive and responsive.  
+The login page has seen an massive design overhaul, allowing for a more welcoming appeareance. The account page has seen an overhaul too, now an user can signout and see their account details like email and username.
 
 **Checklist and Audit Running**
 
@@ -108,7 +108,7 @@ Source: [`docs/ERD-public.mmd`](docs/ERD-public.mmd)
 
 - [Tom] - CMD student
 - [Maksim](https://github.com/MaksimH2O) – Backend Developer
-- [Rick](https://github.com/RickFDND) - Frontend Developer
+- [Joost](https://github.com/JoostVDL4) - Frontend Developer
 - [Miel](https://github.com/miel775) - Frontend Developer
 
 ## Sources 💡
