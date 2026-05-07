@@ -244,7 +244,7 @@
 	}
 
 	#card-partner {
-		background-color: var(--color-neutral-grey);
+		background-color: var(--color-background-card);
 		padding: 1em;
 		border-radius: var(--border-radius);
 		width: 100%;
