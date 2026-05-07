@@ -2,8 +2,6 @@
 
 ![image](static/readme-images/vvr-logo.png)
 
-Live link: [http://toolgankelijk.agency.fdnd.nl/](http://toolgankelijk.agency.fdnd.nl/)
-
 ## Contents
 
 - [Description](#description)
@@ -27,14 +25,47 @@ With the application you can run a performance audit, to check the status of you
 
 ![image](static/readme-images/partners-overview.png)
 
+## Design System
+
+<img width="1640" height="930" alt="image" src="https://github.com/user-attachments/assets/3941c7de-52fa-4483-b160-72a68c2e2002" />
+
+Due to implenting the new design, we proposed the design system according the atomic design. The design system is made out of the Atomic Design where templates are build out of a hierarchy of components this is divided by: Atoms, Molecules, Organisms and Templates. 
+
+These are the components that are made inside the design system
+
+Atoms
+- Icons
+- Logo
+- Seperator
+
+Molecules
+- Alert
+- Checkbox
+- Heading
+- Input
+- Loader
+- NavButton
+- Progressbar
+- Search
+
+Organisms
+- Breadcrumbs
+- HamburgerMenu
+- Pages
+
+Templates
+- Header
+- Card
+- Checklist
+- Dialog
+- Sidebar
+- SubHeader
+
+The components are all composiitions of the code which can be reused everytime. The information will be loaded on each pages.
+
 ## New Features
 
 Since the last sprint review there are several changes in the application. We recognised that the design was bugging a lot so we simplified the code. Lots of code and component are refactored now. The header is simplified where you can navigate through all pages (info, account and partner overview). 
-
-
-**Header**
-
-The header has a update it is simplified and the logo of the header is responsive. It solves the bug of displaying the wrong colors in the design. Also there is an account page where you can logout when you are on that page. It also includes a hamburger button
 
 **Subheader**
 
@@ -44,27 +75,13 @@ In the subheader you will find the breadcrumbs which were in the header first. T
 
 The subheader will be disabled on the principles page cause there only will be the filter function as a sidebar. On the subheader here is only the navigate back to the url oversight button.
 
-**Consistent icons**
-
-The icons are imported as svelte components and are all consistent, this can be added to the nav button or loose in the design.
-
-<img width="396" height="120" alt="image" src="https://github.com/user-attachments/assets/9ac5f9ad-36f2-441f-87e2-8b1569169c81" />
-
-
-**NavButtons**
-
-The NavButtons is a component that can be used for navigation to a page or a button. It is build up out of a svelte element which can be defined with a link or a onclick function.
-
-**Design Overhaul**
+**Login and Accountpage**
 
 <img width="2704" height="322" alt="image" src="https://github.com/user-attachments/assets/bb0b9e04-7aff-4f02-abcd-cef6a71f0982" />
 
-
 The application has seen a major design overhaul in different areas. The toolboard has been overhauled with new colors, better contrast levels and a more consistent look.  Also, a new subheader has been added to make navigation more intuitive and responsive.  
 
-## New Design
-
-One of the epics of this project is to implent the new design over the old design which is working fully on the Responsive, Accesbillity, Perfromance and Progressive Enhancement principles. The styleguide we use for the design is imported from this [styleguide](https://github.com/fdnd-agency/toolgankelijk/blob/main/Vervoerregio%20Handboek_Huisstijl_v5_2025_LR.pdf).
+**Checklist and Audit Running**
 
 ## Datamodel 
 
@@ -89,6 +106,7 @@ Source: [`docs/ERD-public.mmd`](docs/ERD-public.mmd)
 
 ## Projectteam 2026
 
+- [Tom] - CMD student
 - [Maksim](https://github.com/MaksimH2O) – Backend Developer
 - [Rick](https://github.com/RickFDND) - Frontend Developer
 - [Miel](https://github.com/miel775) - Frontend Developer
