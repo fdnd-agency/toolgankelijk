@@ -191,15 +191,17 @@
 					iconName="delete"
 				></NavButton>
 
-				<NavButton
-					href={typeConfig.link}
-					aria="open {typeConfig.title}"
-					size="medium"
-					variant="secondary"
-					showIcon={false}
-				>
-					Open
-				</NavButton>
+				<div class="custom-nav-override">
+					<NavButton
+						href={typeConfig.link}
+						aria-label={`open ${typeConfig.title}`}
+						size="medium"
+						variant="secondary"
+						showIcon={false}
+					>
+						Open
+					</NavButton>
+				</div>
 			</div>
 		</div>
 	</article>
@@ -366,5 +368,12 @@
 		justify-content: flex-end;
 		gap: 0.5em;
 		align-items: center;
+	}
+
+	.custom-nav-override :global(button),
+	.custom-nav-override :global(a) {
+		background-color: #b9005f !important;
+		border-color: #b9005f !important;
+		color: white !important;
 	}
 </style>
