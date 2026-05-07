@@ -1,8 +1,45 @@
 import { TOOLGANKELIJK_AUDIT_URL } from '$env/static/private';
+import { SseConsumer, SseProducer } from '$lib/server/sseHandler.js';
 
-// Delay helper
-function delay(ms) {
-	return new Promise((resolve) => setTimeout(resolve, ms));
+const STATE_BY_OUTCOME = { pass: 'success', error: 'failed' };
+const TYPE_BY_STATE = { success: 'done', mixed: 'warning', failed: 'error' };
+
+function toClientMessage(eventType, payload, fallbackWebsiteSlug, urlBySlug = {}) {
+	const websiteSlug = payload.websiteSlug ?? fallbackWebsiteSlug;
+
+	if (eventType === 'done' && payload.urlSlug) {
+		const outcome = payload.outcome ?? 'error';
+		const state = STATE_BY_OUTCOME[outcome] ?? 'mixed';
+		const type = TYPE_BY_STATE[state] ?? 'error';
+		const originalUrl = urlBySlug[payload.urlSlug];
+		const urlLabel = originalUrl ?? payload.urlSlug;
+
+		return {
+			status: `${urlLabel} - ${state}`,
+			type,
+			state,
+			outcome,
+			urlSlug: payload.urlSlug,
+			websiteSlug
+		};
+	}
+
+	const base = {
+		status: payload.status ?? 'Audit update ontvangen',
+		type: payload.type ?? eventType ?? 'loading'
+	};
+
+	// Include summary for potential future use without breaking current UI
+	if (eventType === 'summary' && payload.summary) {
+		return {
+			...base,
+			type: 'done',
+			summary: payload.summary,
+			websiteSlug
+		};
+	}
+
+	return base;
 }
 
 export async function POST({ request }) {
@@ -12,107 +49,104 @@ export async function POST({ request }) {
 
 	const stream = new ReadableStream({
 		start(controller) {
-			const enc = new TextEncoder();
-			let closed = false;
-			const safeClose = () => {
-				if (!closed) {
-					try {
-						controller.close();
-					} catch (error) {
-						console.error('Error closing stream:', error);
-					}
-					closed = true;
-				}
-			};
-			const sendUpdate = async (msg) =>
-				controller.enqueue(enc.encode(`data: ${JSON.stringify(msg)}\n\n`));
+			const sseProducer = new SseProducer(controller);
+			const sseConsumer = new SseConsumer();
+			const sendAndPause = async (status, type, waitMs) =>
+				sseProducer.sendAndPause({ status, type }, waitMs);
 
 			(async () => {
 				try {
 					if (urls.length === 0) {
-						await sendUpdate({ status: "Geen URL's om te auditen", type: 'error' });
-						await delay(2000);
-						safeClose();
+						await sendAndPause("Geen URL's om te auditen", 'error', 2000);
 						return;
 					}
 
 					// Check if the audit server is running
 					await fetch(`${TOOLGANKELIJK_AUDIT_URL}/api/isProjectRunning`);
 
-					const totalUrls = urls.length;
-					await sendUpdate({ status: 'Audit gestart', type: 'done', count: 0, total: totalUrls });
-					await delay(300);
-
-					for (let index = 0; index < totalUrls; index++) {
-						const current = urls[index];
-						const currentUrl = current?.url ?? `url-${index + 1}`;
-						const progress = index + 1;
-
-						await sendUpdate({
-							status: `Url wordt geaudit: ${currentUrl}`,
-							type: 'loading',
-							count: progress,
-							total: totalUrls,
-							currentUrl
-						});
-
-						const response = await fetch(`${TOOLGANKELIJK_AUDIT_URL}/api/specifiedUrls`, {
-							method: 'POST',
-							headers: {
-								'Content-Type': 'application/json'
-							},
-							body: JSON.stringify({ urls: [current], websiteSlug })
-						});
-
-						const responseData = await response.json();
-
-						if (response.status === 409) {
-							await sendUpdate({
-								status: responseData.message,
-								type: 'warning',
-								count: progress,
-								total: totalUrls,
-								currentUrl
-							});
-							continue;
-						}
-
-						if (response.status === 500) {
-							await sendUpdate({
-								status: responseData.error,
-								type: 'error',
-								count: progress,
-								total: totalUrls,
-								currentUrl
-							});
-							continue;
-						}
-
-						await sendUpdate({
-							status: `Url succesvol bijgewerkt: ${currentUrl}`,
-							type: 'done',
-							count: progress,
-							total: totalUrls,
-							currentUrl
-						});
+					for (const [status, type, waitMs] of [
+						['Audit gestart', 'done', 500],
+						['Urls worden gecheckt, dit duurt even', 'loading', 500]
+					]) {
+						await sendAndPause(status, type, waitMs);
 					}
 
-					await delay(300);
-					await sendUpdate({
-						status: 'Audit afgerond',
-						type: 'done',
-						count: totalUrls,
-						total: totalUrls
+					const response = await fetch(`${TOOLGANKELIJK_AUDIT_URL}/api/specifiedUrls`, {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						body: JSON.stringify({ urls, websiteSlug })
 					});
-					await delay(1200);
+
+					if (!response.ok) {
+						let errorMessage = `Audit service fout: ${response.status}`;
+						try {
+							const maybeJson = await response.json();
+							errorMessage = maybeJson?.message || maybeJson?.error || errorMessage;
+						} catch {
+							// ignore json parse failures and keep generic error
+						}
+
+						await sendAndPause(errorMessage, 'error', 2000);
+						return;
+					}
+
+					if (!response.body) {
+						await sendAndPause('Geen audit stream ontvangen', 'error', 2000);
+						return;
+					}
+
+					let processedCount = 0;
+					const totalUrls = urls.length;
+					const urlBySlug = Object.fromEntries(
+						urls.map((urlEntry) => [urlEntry.urlSlug, urlEntry.url])
+					);
+					const forwardAuditEvent = async ({ eventType, payload }, includeProgress = true) => {
+						const clientMessage = toClientMessage(
+							eventType,
+							payload,
+							websiteSlug,
+							includeProgress ? urlBySlug : {}
+						);
+
+						if (includeProgress && payload.urlSlug) {
+							if (eventType === 'done') processedCount += 1;
+							clientMessage.currentUrl = urlBySlug[payload.urlSlug] ?? payload.urlSlug;
+							clientMessage.count = processedCount;
+							clientMessage.total = totalUrls;
+						}
+
+						console.info('[startAudit] forwarding SSE event to client', {
+							eventType,
+							includeProgress,
+							clientMessage
+						});
+						sseProducer.send(clientMessage);
+					};
+
+					await sseConsumer.consume(response.body, {
+						onEvent: (event) => forwardAuditEvent(event, true),
+						onTrailingEvent: (event) => forwardAuditEvent(event, false),
+						onParseError: async (parseError, context) => {
+							const suffix = context?.eventType ? ` (event: ${context.eventType})` : '';
+							console.warn('[startAudit] failed to parse upstream SSE event', {
+								error: parseError.message,
+								eventType: context?.eventType
+							});
+							sseProducer.send({
+								status: `Ongeldige audit update ontvangen${suffix}: ${parseError.message}`,
+								type: 'warning'
+							});
+						},
+						onTrailingParseError: async () => {}
+					});
+
+					await sendAndPause('Audit afgerond', 'done', 1000);
 				} catch (err) {
-					await sendUpdate({
-						status: `Fout bij verbinden met audit server: ${err.message}`,
-						type: 'error'
-					});
-					await delay(2000);
+					await sendAndPause(`Fout bij verbinden met audit server: ${err.message}`, 'error', 2000);
 				} finally {
-					safeClose();
+					sseProducer.close();
 				}
 			})();
 		}
