@@ -81,7 +81,15 @@ The subheader will be disabled on the principles page cause there only will be t
 
 The login page has seen an massive design overhaul, allowing for a more welcoming appeareance. The account page has seen an overhaul too, now an user can signout and see their account details like email and username.
 
-**Checklist and Audit Running**
+**Checklist fix**  
+  The checklist is fully functional again, allowing users to manually audit the audit results.
+
+**Repository refactor**  
+  Repositories now inherit from a base repository class and use the Directus SDK client for REST and GraphQL queries.  
+  `UrlRepository` has been specifically refactored to use REST queries instead of the old GraphQL implementation.
+
+**Card component improvement**  
+  Progress bars in the card component are now validated correctly. If an invalid number is found, the percentage is set to `0` and a warning is thrown, this ensures that a user will never see infinity instead of a number.
 
 ## Datamodel 
 
