@@ -143,15 +143,17 @@
 					</div>
 				</a>
 
-				<NavButton
-					variant="secondary"
-					showIcon={false}
-					href="{$page.url.pathname}/{principe.slug}"
-					size="medium"
-					aria="Open Principe"
-				>
-					<p>Open</p>
-				</NavButton>
+				<div class="custom-nav-override">
+					<NavButton
+						variant="secondary"
+						showIcon={false}
+						href="{$page.url.pathname}/{principe.slug}"
+						size="medium"
+						aria="Open Principe"
+					>
+						<p>Open</p>
+					</NavButton>
+				</div>
 			</li>
 		{/each}
 	</ul>
@@ -189,12 +191,13 @@
 	}
 
 	.principle-card {
-		background-color: var(--color-neutral-grey);
+		background-color: var(--color-background-card);
 		border-radius: var(--border-radius);
 		padding: 1em;
 		color: var(--color-neutral-black);
 		font-family: sans-serif;
 		margin: 1em 1em;
+		box-shadow: 0px 4px 10px -2px rgba(0, 0, 0, 0.25);
 	}
 
 	.progress-row {
@@ -228,7 +231,7 @@
 		display: flex;
 		flex-direction: column;
 		gap: 0.75rem;
-		background-color: var(--color-neutral-grey);
+		background-color: var(--color-background-card);
 	}
 
 	.percentage-text {
@@ -253,5 +256,12 @@
 	progress::-webkit-progress-value {
 		background-color: var(--color-primary);
 		border-radius: var(--border-radius);
+	}
+
+	.custom-nav-override :global(button),
+	.custom-nav-override :global(a) {
+		background-color: #b9005f !important;
+		border-color: #b9005f !important;
+		color: white !important;
 	}
 </style>
