@@ -1,8 +1,7 @@
 <script>
 	import { page } from '$app/stores';
-	import NavButton from './NavButton.svelte';
-	import BreadCrumbs from './breadCrumbs.svelte';
-	import Input from '$lib/components/input.svelte';
+	import NavButton from '$lib/components/molecules/navButton.svelte';
+	import BreadCrumbs from '$lib/components/organisms/breadCrumbs.svelte';
 
 	let {
 		params,

@@ -1,9 +1,8 @@
 <script>
-	import { act } from '@testing-library/svelte';
-	import NavButton from './NavButton.svelte';
+	import NavButton from '../molecules/navButton.svelte';
 	import { slide } from 'svelte/transition';
 
-	let { params, partners = [], websites = [], principles = [], overview } = $props();
+	let { params = {}, partners = [], websites = [], principles = [], overview } = $props();
 
 	let activeDropdown = $state(null);
 	let partnerList = $derived(Array.isArray(partners) ? partners : partners?.websites || []);
@@ -15,10 +14,10 @@
 	let selectedUrl = $derived(params.urlUID ? params.urlUID : '');
 
 	let selectedUrlItem = $derived(
-		params.urlUID ? websites.find(({ slug }) => slug === params.urlUID) : null
+		params?.urlUID ? (websites || []).find(({ slug }) => slug === params.urlUID) : null
 	);
 
-	let urlList = $derived(websites.filter((w) => w.name));
+	let urlList = $derived((websites || []).filter((w) => w?.name));
 
 	let selectedPrinciple = $derived(
 		params.principleUID ? principles.find(({ slug }) => slug === params.principleUID) : null

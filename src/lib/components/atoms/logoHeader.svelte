@@ -1,4 +1,4 @@
-<div class="logo-header">
+<a class="logo-header" href="/">
 	<svg
 		id="logo"
 		width="179"
@@ -43,9 +43,13 @@
 		<p>Vervoerregio</p>
 		<p>Amsterdam</p>
 	</div>
-</div>
+</a>
 
 <style>
+	a {
+		text-decoration: none;
+	}
+
 	svg path {
 		color: var(--color-neutral-white);
 	}

@@ -1,5 +1,5 @@
-export default function getQueryPrincipes(gql) {
-	return gql`
+export default function getQueryPrincipes() {
+	return `
 		query Principles {
 			toolgankelijk_principle {
 				id

@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/svelte';
-import Checklist from '$lib/components/checklist.svelte';
+import Checklist from '$lib/components/templates/checklist.svelte';
 
 describe('/checklist.svelte', () => {
 	it('controleert of de "officiële/simpele beschrijving" knop aanwezig is', () => {

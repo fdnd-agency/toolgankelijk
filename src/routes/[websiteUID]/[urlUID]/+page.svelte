@@ -1,9 +1,9 @@
 <script>
 	import { page } from '$app/stores';
-	import Heading from '$lib/components/heading.svelte';
+	import Heading from '$lib/components/molecules/heading.svelte';
 	import { onMount } from 'svelte';
-	import NavButton from '$lib/components/NavButton.svelte';
-	import Subheader from '$lib/components/subheader.svelte';
+	import NavButton from '$lib/components/molecules/navButton.svelte';
+	import Subheader from '$lib/components/templates/subheader.svelte';
 
 	let { data } = $props();
 
@@ -113,6 +113,8 @@
 	// Helper to calculate percentage safely
 	const getPercent = (achieved, total) => (total > 0 ? Math.round((achieved / total) * 100) : 0);
 </script>
+
+<Subheader partnerTitle={data.websitesData.website.title} onApply={handleApplyFilters} />
 
 <Heading {heading} />
 

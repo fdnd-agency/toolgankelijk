@@ -1,5 +1,6 @@
 <script>
 	import { enhance } from '$app/forms';
+	import NavButton from '$lib/components/molecules/navButton.svelte';
 
 	let { form } = $props();
 </script>
@@ -49,6 +50,7 @@
 					required
 				/>
 			</p>
+			<NavButton type="submit" size="large" showIcon={true} iconName="add">Maak</NavButton>
 			<button type="submit" class="form-submit">Create</button>
 			<p style="color: red;">{form?.message ?? ''}</p>
 		</fieldset>
@@ -81,12 +83,6 @@
 		padding-top: 2.5rem;
 		text-align: center;
 		font-size: 28px;
-	}
-
-	p {
-		display: flex;
-		flex-direction: column;
-		padding-top: 1rem;
 	}
 
 	label {

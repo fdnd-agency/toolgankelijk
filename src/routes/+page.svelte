@@ -1,15 +1,16 @@
 <script>
+	import { page } from '$app/stores';
 	import { invalidateAll } from '$app/navigation';
 	import { onMount } from 'svelte';
-	import { page } from '$app/stores';
-	import Card from '$lib/components/card.svelte';
-	import Dialog from '$lib/components/dialog.svelte';
-	import Pages from '$lib/components/pages.svelte';
-	import NavButton from '$lib/components/NavButton.svelte';
-	import Heading from '$lib/components/heading.svelte';
-	import SubHeader from '$lib/components/subheader.svelte';
+	import Card from '$lib/components/templates/card.svelte';
+	import SubHeader from '$lib/components/templates/subheader.svelte';
+	import Dialog from '$lib/components/templates/dialog.svelte';
+	import Pages from '$lib/components/organisms/pages.svelte';
+	import NavButton from '$lib/components/molecules/navButton.svelte';
+	import Heading from '$lib/components/molecules/heading.svelte';
 
 	let { data, form } = $props();
+
 	let params = $derived($page.params);
 	let partners = $derived(data.partnersData);
 
@@ -53,6 +54,7 @@
 	showAdd={true}
 	onAdd={openAddUrl}
 />
+
 <Dialog bind:this={dialogRef} {params} isType="addPartner" />
 
 <Heading {heading} />

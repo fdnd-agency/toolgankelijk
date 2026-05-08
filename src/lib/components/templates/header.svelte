@@ -1,31 +1,17 @@
 <script>
 	import { page } from '$app/stores';
-	import Logo from './logoHeader.svelte';
-	import BreadCrumbs from '$lib/components/breadCrumbs.svelte';
-	import Hamburger from '$lib/components/hamburger.svelte';
-	import NavButton from './NavButton.svelte';
 
-	/**
-	 * @typedef {Object} Props
-	 * @property {any} params
-	 * @property {any} partners
-	 * @property {any} websites
-	 * @property {any} principles
-	 * @property {any} [user]
-	 */
+	import Logo from '../atoms/logoHeader.svelte';
+	import BreadCrumbs from '$lib/components/organisms/breadCrumbs.svelte';
+	import Hamburger from '$lib/components/organisms/hamburgerMenu.svelte';
+	import NavButton from '../molecules/navButton.svelte';
 
-	/** @type {Props} */
 	let { params, partners, websites, principles, user = null } = $props();
-
-	async function handleSignOut(event) {
-		event.preventDefault();
-		await fetch('/logout', { method: 'POST' });
-		window.location.href = '/login';
-	}
 </script>
 
 <header>
-	<a href="#main" class="visible-hidden">Jump directly to main content</a>
+	<NavButton effect="invisible" href="#main">Jump directly to main content</NavButton>
+
 	<Logo />
 	<nav id="header-navigation" class="color-primary-light">
 		<NavButton
@@ -63,24 +49,6 @@
 </header>
 
 <style>
-	.visible-hidden {
-		clip: rect(1px, 1px, 1px, 1px);
-		height: 1px;
-		overflow: hidden;
-		color: white;
-		position: absolute;
-		white-space: nowrap;
-		width: 1px;
-	}
-
-	.visible-hidden:focus {
-		clip: auto;
-		height: auto;
-		overflow: auto;
-		position: absolute;
-		width: auto;
-	}
-
 	header {
 		position: sticky;
 		padding-left: 1em;

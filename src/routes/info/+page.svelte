@@ -2,8 +2,8 @@
 	import { enhance } from '$app/forms';
 	import walking from '$lib/assets/walking_together.svg';
 	import knowledge from '$lib/assets/sharing_knowledge.svg';
-	import NavButton from '$lib/components/NavButton.svelte';
-	import Heading from '$lib/components/heading.svelte';
+	import NavButton from '$lib/components/molecules/navButton.svelte';
+	import Heading from '$lib/components/molecules/heading.svelte';
 
 	let heading = $derived({ titel: 'Informatie' });
 
@@ -30,25 +30,20 @@
 
 <Heading {heading} />
 
-<div class="content-container">
-	<section class="top-container">
-		<section class="text-container">
-			<h3><span>Vervoerregio Amsterdam.</span> HvA</h3>
-			<br />
-			<p>
-				Wij hebben samen met studenten van de Hogeschool van Amsterdam een checklist ontwikkeld
-				waarin op eenvoudige wijze wordt uitgelegd wat hierbij komt kijken en welke stappen u kunt
-				nemen om uw website en app toegankelijk te maken.
-			</p>
-		</section>
-		<section class="image-container">
-			<img src={walking} class="text-image" alt="darkmode icon" />
-		</section>
+<div class="info-wrapper">
+	<section class="text-container">
+		<h2><span>Vervoerregio Amsterdam.</span> HvA</h2>
+		<br />
+		<p>
+			Wij hebben samen met studenten van de Hogeschool van Amsterdam een checklist ontwikkeld waarin
+			op eenvoudige wijze wordt uitgelegd wat hierbij komt kijken en welke stappen u kunt nemen om
+			uw website en app toegankelijk te maken.
+		</p>
+		<img src={walking} class="text-image" alt="darkmode icon" />
 	</section>
 
-	<section class="left-container">
-		<h3 id="wettelijk">is uw website al toegankelijk?</h3>
-		<br />
+	<section class="text-container">
+		<h2 id="wettelijk">is uw website al toegankelijk?</h2>
 		<p>
 			Binnen 2025 moet dit al! Voor overheden is dit al verplicht. En vanaf 2025 moet iedere nieuwe
 			website en app digitaal toegankelijk zijn. Dit moet volgens het EAA (European Accessibility
@@ -57,9 +52,9 @@
 		</p>
 	</section>
 
-	<section class="right-container">
+	<section class="text-container">
 		<h3>Wat kunt u doen om uw website toegankelijk te maken?</h3>
-		<br />
+
 		<p>
 			De Vervoerregio Amsterdam heeft samen met studenten van de Hogeschool van Amsterdam een
 			checklist ontwikkeld waarin op eenvoudige wijze wordt uitgelegd wat hierbij komt kijken en
@@ -67,131 +62,84 @@
 		</p>
 	</section>
 
-	<section class="bot-left-container">
-		<section class="text-container">
-			<h3>Wat is de wettelijke achtergrond?</h3>
-			<br />
-			<p>
-				In Nederland zijn er ca. 2 miljoen mensen met een beperking. Als deze mensen uw website of
-				app niet kunnen gebruiken, dan zorgt dat dat deze mensen worden uitgesloten van de
-				samenleving. Medio 2025 wordt om die reden door.
-				<br /><br />
-				De Europese Unie de European Accessibility Act (EAA) of Europese Toegankelijkheidswet ingevoerd.
-				De wet zorgt ervoor dat digitale barrières worden verwijderd voor mensen met een beperking. De
-				eisen zijn gebaseerd op de Web Content Accessibility Guidelines (WCAG) van het World Wide Web
-				Consortium
-			</p>
-		</section>
-		<section class="image-container">
-			<img src={knowledge} class="text-image" alt="Sharing Knowledge" />
-		</section>
+	<section class="text-container">
+		<h3>Wat kunt u doen om uw website toegankelijk te maken?</h3>
+
+		<p>
+			De Vervoerregio Amsterdam heeft samen met studenten van de Hogeschool van Amsterdam een
+			checklist ontwikkeld waarin op eenvoudige wijze wordt uitgelegd wat hierbij komt kijken en
+			welke stappen u kunt nemen om uw website en app toegankelijk te maken.
+		</p>
 	</section>
 
-	<section class="bot-right-container">
-		<section class="text-container">
-			<h3>Contact opnemen?</h3>
-			<br />
-			<p>
-				Indien u vragen heeft of mocht er nog enige onduidelijkheid bestaan, kunt u via onderstaand
-				formulier contact met ons opnemen.
-			</p>
-			<form
-				action="/info"
-				use:enhance={handleEnhance}
-				onsubmit={() => (isSubmitting = true)}
-				method="POST"
-			>
-				<fieldset class="form-vraag">
-					<label for="name">Naam</label>
-					<input id="name" placeholder="name" type="text" name="name" required />
-					<label for="mail">Email</label>
-					<input placeholder="email" id="email" type="email" name="email" required />
-					<label for="vraag">Uw vraag</label>
-					<textarea id="vraag" name="vraag" placeholder="Bericht..." required rows="3"></textarea>
-					<NavButton aria="Verzend Vraag" type="submit" size="medium" variant="secondary">
-						Versturen
-					</NavButton>
+	<section class="text-container">
+		<h2>Wat is de wettelijke achtergrond?</h2>
+		<p>
+			In Nederland zijn er ca. 2 miljoen mensen met een beperking. Als deze mensen uw website of app
+			niet kunnen gebruiken, dan zorgt dat dat deze mensen worden uitgesloten van de samenleving.
+			Medio 2025 wordt om die reden door. De Europese Unie de European Accessibility Act (EAA) of
+			Europese Toegankelijkheidswet ingevoerd. De wet zorgt ervoor dat digitale barrières worden
+			verwijderd voor mensen met een beperking. De eisen zijn gebaseerd op de Web Content
+			Accessibility Guidelines (WCAG) van het World Wide Web Consortium
+		</p>
+		<img src={knowledge} class="text-image" alt="Sharing Knowledge" />
+	</section>
 
-					{#if successMessage}
-						<p class="success-message">{successMessage}</p>
-					{/if}
+	<section class="text-container">
+		<h2>Contact opnemen?</h2>
+		<p>
+			Indien u vragen heeft of mocht er nog enige onduidelijkheid bestaan, kunt u via onderstaand
+			formulier contact met ons opnemen.
+		</p>
+		<form
+			action="/info"
+			use:enhance={handleEnhance}
+			onsubmit={() => (isSubmitting = true)}
+			method="POST"
+		>
+			<fieldset class="form-vraag">
+				<label for="name">Naam</label>
+				<input id="name" placeholder="name" type="text" name="name" required />
+				<label for="mail">Email</label>
+				<input placeholder="email" id="email" type="email" name="email" required />
+				<label for="vraag">Uw vraag</label>
+				<textarea id="vraag" name="vraag" placeholder="Bericht..." required rows="3"></textarea>
+				<NavButton aria="Verzend Vraag" type="submit" size="medium" variant="secondary">
+					Versturen
+				</NavButton>
 
-					{#if errorMessage}
-						<p class="error-message">{errorMessage}</p>
-					{/if}
-				</fieldset>
-			</form>
-		</section>
+				{#if successMessage}
+					<p class="success-message">{successMessage}</p>
+				{/if}
+
+				{#if errorMessage}
+					<p class="error-message">{errorMessage}</p>
+				{/if}
+			</fieldset>
+		</form>
 	</section>
 </div>
 
 <style>
+	.info-wrapper {
+		display: flex;
+		flex-direction: column;
+		gap: 2em;
+	}
+
 	.text-container p {
 		max-width: 50rem;
-	}
-
-	.top-container {
-		grid-area: top;
-		display: flex;
-		align-items: flex-start;
-		justify-content: flex-start;
-	}
-
-	.left-container {
-		grid-area: left;
-	}
-
-	.right-container {
-		grid-area: right;
-	}
-
-	.bot-left-container {
-		grid-area: botleft;
-		display: flex;
-		align-items: flex-start;
-		justify-content: flex-start;
-	}
-
-	.bot-right-container {
-		grid-area: botright;
-		display: flex;
-		align-items: flex-start;
-		justify-content: flex-start;
-	}
-
-	.content-container {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		grid-template-rows: 0.3fr 0.5fr 1fr 1fr;
-		grid-template-areas:
-			'top top'
-			'left right'
-			'botleft botright';
-		margin: 1em 1em;
-		gap: 1em;
 	}
 
 	.text-image {
 		height: 13em;
 	}
 
-	.top-container,
-	.left-container,
-	.right-container,
-	.bot-left-container,
-	.bot-right-container {
+	.text-container {
 		padding: 2em;
-		background-color: var(--c-container);
-		border-radius: 0.5em;
-	}
-
-	span {
-		color: var(--c-pink);
-	}
-
-	.image-container {
-		margin-left: auto;
-		align-self: center;
+		color: var(--color-neutral-white);
+		background-color: var(--color-primary);
+		border-radius: var(--border-radius);
 	}
 
 	.form-vraag {
@@ -243,22 +191,5 @@
 	}
 	.error-message {
 		color: red;
-	}
-
-	@media only screen and (max-width: 1100px) {
-		.content-container {
-			grid-template-columns: 1fr;
-			grid-template-rows: 1fr 1fr 1fr 1fr;
-			grid-template-areas:
-				'top'
-				'left'
-				'right'
-				'botleft'
-				'botright';
-		}
-
-		.text-image {
-			height: 10em;
-		}
 	}
 </style>

@@ -1,15 +1,5 @@
 import { redirect } from '@sveltejs/kit';
 import { partnerRepository } from '$lib/server/index.js';
-
-/**
- * @typedef {import('$lib/types.js').PartnerOverviewData} PartnerOverviewData
- * @typedef {import('@sveltejs/kit').LoadEvent} LoadEvent
- */
-
-/**
- * @param {LoadEvent} event
- * @returns {Promise<PartnerOverviewData & { first: number; skip: number; showRegistrationSuccess: boolean }>}
- */
 export async function load(event) {
 	const { url, locals, cookies } = event;
 	if (locals.session === null || locals.user === null) {

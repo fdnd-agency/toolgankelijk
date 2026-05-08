@@ -1,10 +1,10 @@
 <script>
 	import { page } from '$app/stores';
-	import Card from '$lib/components/card.svelte';
-	import Dialog from '$lib/components/dialog.svelte';
-	import Pages from '$lib/components/pages.svelte';
-	import Heading from '$lib/components/heading.svelte';
-	import SubHeader from '$lib/components/subheader.svelte';
+	import Card from '$lib/components/templates/card.svelte';
+	import Dialog from '$lib/components/templates/dialog.svelte';
+	import Pages from '$lib/components/organisms/pages.svelte';
+	import SubHeader from '$lib/components/templates/subheader.svelte';
+	import Heading from '$lib/components/molecules/heading.svelte';
 
 	let { data, form } = $props();
 	let params = $derived($page.params);
@@ -18,13 +18,17 @@
 	const currentPage = $derived(skip / first + 1);
 	let totalUrls = $derived(data.websites.totalUrls);
 
+
 	// overview
 	let overview = $derived(data.websites?.website);
 	let partners = $derived(data.partnersData || []);
-	let principles = $derived(data.principles || []);
+	let principles = $derived(data.websites?.principles || []);
 	let currentUrls = $derived(overview?.urls ?? []);
 
 	let heading = $derived({
+		title: overview?.title ?? 'Onbekende website',
+		homepage: overview?.homepage ?? ''
+	});
 		title: overview?.title ?? 'Onbekende website',
 		homepage: overview?.homepage ?? ''
 	});
@@ -47,26 +51,27 @@
 	onAdd={openAddUrl}
 />
 
-<Dialog bind:this={dialogRef} params={params.websiteUID} isType="addUrl" />
 <Heading {heading} />
 
-<section class="cards-container">
-	{#each currentUrls as website}
-		<Card {website} {overview} {params} {principles} isUrl={true} />
-	{/each}
-</section>
-
-{#if totalUrls > first}
-	<section>
-		<Pages amount={totalUrls} perPage={first} {currentPage} />
-	</section>
-{/if}
+<Dialog bind:this={dialogRef} params={params.websiteUID} isType="addUrl" />
 
 {#if form?.success}
 	<div class="toast"><p>{form?.message}</p></div>
 {:else if form?.success == false}
 	<div class="toast"><p>{form?.message}</p></div>
 {/if}
+
+<Dialog bind:this={dialogRef} {params} isType="addUrl" />
+
+<section class="cards-container">
+	{#each currentUrls as website}
+		<Card {website} {overview} {params} {principles} isUrl={true} />
+	{/each}
+
+	{#if totalUrls > first}
+		<Pages amount={totalUrls} perPage={first} {currentPage} />
+	{/if}
+</section>
 
 <style>
 	section {

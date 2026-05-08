@@ -3,12 +3,12 @@
 /**
  * Sessions: GraphQL for read/update/delete; REST POST to create rows (same collection as GraphQL).
  */
-import { BaseRepository } from '$lib/server/repositories/baseRepository.js';
+import { createItem } from '@directus/sdk';
+import { DirectusRepositoryBase } from '$lib/server/repositories/baseRepository.js';
 import getQuerySession, {
 	getQueryUpdateSession,
 	getQueryDeleteSession
 } from '../queries/session.js';
-import { DIRECTUS_URL, VITE_DIRECTUS_KEY } from '$env/static/private';
 
 /** @typedef {import('$lib/types').Session} Session */
 /** @typedef {import('$lib/types').User} User */
@@ -21,7 +21,7 @@ import { DIRECTUS_URL, VITE_DIRECTUS_KEY } from '$env/static/private';
 /**
  * Persists opaque session tokens (hashed) and ties them to users for `locals.session`.
  */
-export class SessionRepository extends BaseRepository {
+export class SessionRepository extends DirectusRepositoryBase {
 	// Main functions
 
 	/**
@@ -32,11 +32,8 @@ export class SessionRepository extends BaseRepository {
 	 */
 	async getSessionByTokenHash(sessionId) {
 		try {
-			const query = getQuerySession(this.gql);
-			const { session: sessionResult } = await this.client.request({
-				document: query,
-				variables: { sessionId }
-			});
+			const query = getQuerySession();
+			const { session: sessionResult } = await this.client.query(query, { sessionId });
 			const row = this.firstOrNull(sessionResult);
 			if (!row) {
 				return null;
@@ -80,11 +77,8 @@ export class SessionRepository extends BaseRepository {
 	 */
 	async updateSessionExpiry({ sessionId, expiresAt }) {
 		try {
-			const mutation = getQueryUpdateSession(this.gql);
-			const raw = await this.client.request({
-				document: mutation,
-				variables: { sessionId, expiresAt }
-			});
+			const mutation = getQueryUpdateSession();
+			const raw = await this.client.query(mutation, { sessionId, expiresAt });
 			return raw.updateSessie ?? null;
 		} catch (error) {
 			console.error('sessionRepository.updateSessionExpiry failed', error);
@@ -100,11 +94,8 @@ export class SessionRepository extends BaseRepository {
 	 */
 	async deleteSessionById(sessionId) {
 		try {
-			const mutation = getQueryDeleteSession(this.gql);
-			const raw = await this.client.request({
-				document: mutation,
-				variables: { sessionId }
-			});
+			const mutation = getQueryDeleteSession();
+			const raw = await this.client.query(mutation, { sessionId });
 			return raw.deleteSessie ?? null;
 		} catch (error) {
 			console.error('sessionRepository.deleteSessionById failed', error);
@@ -119,28 +110,17 @@ export class SessionRepository extends BaseRepository {
 	 * @returns {Promise<Session>}
 	 */
 	async createSessionRecord({ sessionId, userId, expiresAt }) {
-		try {
-			const response = await fetch(`${DIRECTUS_URL}/items/toolgankelijk_session`, {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-					Authorization: `Bearer ${VITE_DIRECTUS_KEY}`
-				},
-				body: JSON.stringify({
-					session_id: sessionId,
-					expires_at: expiresAt.toISOString(),
-					user_id: userId
-				})
-			});
-
-			if (!response.ok) {
-				throw new Error('createSessionRecord failed: response not ok');
-			}
-
-			return { id: sessionId, userId, expiresAt };
-		} catch (error) {
-			console.error('sessionRepository.createSessionRecord failed', error);
-			throw error;
+		const created = await this.client.request(
+			createItem('toolgankelijk_session', {
+				session_id: sessionId,
+				expires_at: expiresAt.toISOString(),
+				user_id: userId
+			})
+		);
+		if (!created?.id) {
+			throw new Error('createSessionRecord failed: response not ok');
 		}
+
+		return { id: sessionId, userId, expiresAt };
 	}
 }

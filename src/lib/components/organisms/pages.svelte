@@ -1,6 +1,7 @@
 <script>
+	import NavButton from '../molecules/navButton.svelte';
+
 	let { amount, perPage, currentPage } = $props();
-	import NavButton from './NavButton.svelte';
 
 	// calculate the number of pages
 	let pageCount = $derived(Math.ceil(amount / perPage));
@@ -55,25 +56,31 @@
 
 		{#each pageNumbers as p}
 			{#if p === '...'}
-				<li class="button-disabled button">...</li>
+				<li class="button-disabled button">
+					<NavButton size="small">...</NavButton>
+				</li>
 			{:else}
 				<li>
 					<NavButton
+						size="small"
+						variant="primary"
 						type="submit"
 						name="skip"
-						value={(p - 1) * perPage}
 						class={p === currentPage ? 'selected' : ''}
+						effect="pages"
 						disabled={p === currentPage}
-						size="medium"
-						variant="primary"
+						value={(p - 1) * perPage}
 					>
-						<p>{p}</p>
+						<NavButton size="small">
+							{p}
+						</NavButton>
 					</NavButton>
 				</li>
 			{/if}
 		{/each}
 
 		<!-- <li class="button-disabled button">{pageCount}</li> -->
+
 		<li>
 			<NavButton
 				type="submit"

@@ -1,6 +1,6 @@
 <script>
 	import { onNavigate } from '$app/navigation';
-	import Header from '$lib/components/header.svelte';
+	import Header from '$lib/components/templates/header.svelte';
 
 	let { children } = $props();
 

@@ -1,4 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import { deleteItem, readItems } from '@directus/sdk';
 
 // The mocks must be before imports that use these modules to ensure Vitest replaces them first.
 vi.mock('$lib/server/email-verification', () => ({
@@ -14,7 +15,7 @@ vi.mock('$lib/server/email-verification', () => ({
 }));
 
 import { actions } from '../../src/routes/register/+page.server.js';
-import { requestWithRetry } from '../utils/requestWithRetry.js';
+import { directusClient } from '../../src/lib/utils/directus.js';
 
 describe('src/routes/register/+page.server.js integration', () => {
 	let event;
@@ -55,40 +56,23 @@ describe('src/routes/register/+page.server.js integration', () => {
 	});
 
 	afterEach(async () => {
-		// Find the user by email for cleanup
-		const userQuery = `
-        query ($email: String!) {
-            gebruiker: toolgankelijk_user(filter: { email: { _eq: $email } }, limit: 1) {
-                id
-                sessions {
-                    id
-                }
-            }
-        }
-    `;
-		const userData = await requestWithRetry(userQuery, { email: uniqueEmail });
-		const createdUser = userData.gebruiker?.[0];
+		const users = await directusClient.request(
+			readItems('toolgankelijk_user', {
+				filter: { email: { _eq: uniqueEmail } },
+				limit: 1,
+				fields: ['id', { sessions: ['id'] }]
+			})
+		);
+		const createdUser = users?.[0];
 		const createdUserId = createdUser?.id;
 		const createdSessionIds = createdUser?.sessions?.map((s) => s.id) ?? [];
 
-		// Delete sessions
 		for (const sessieId of createdSessionIds) {
-			const deleteSessionMutation = `
-				mutation ($id: ID!) {
-					deleteSession: delete_toolgankelijk_session_item(id: $id) { id }
-				}
-			`;
-			await requestWithRetry(deleteSessionMutation, { id: sessieId });
+			await directusClient.request(deleteItem('toolgankelijk_session', sessieId));
 		}
 
-		// Delete user
 		if (createdUserId) {
-			const deleteUserMutation = `
-				mutation ($id: ID!) {
-					deleteUser: delete_toolgankelijk_user_item(id: $id) { id }
-				}
-			`;
-			await requestWithRetry(deleteUserMutation, { id: createdUserId });
+			await directusClient.request(deleteItem('toolgankelijk_user', createdUserId));
 		}
 	});
 });
