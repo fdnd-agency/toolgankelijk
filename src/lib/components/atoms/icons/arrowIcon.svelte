@@ -1,0 +1,21 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+	<path
+		d="M15.5674 26.25L5.17481 8.25L4.74121 7.5L27.2588 7.5L26.8252 8.25L16.4326 26.25L16 27L15.5674 26.25Z"
+		fill="currentColor"
+		stroke="currentColor"
+	/>
+</svg>
+
+<style>
+	svg path {
+		fill: currentColor;
+		color: none;
+	}
+
+	@media (max-width: 720px) {
+		.responsive-icon {
+			height: 24px;
+			width: 24px;
+		}
+	}
+</style>

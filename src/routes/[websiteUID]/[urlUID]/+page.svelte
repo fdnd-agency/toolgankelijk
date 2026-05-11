@@ -1,9 +1,9 @@
 <script>
 	import { page } from '$app/stores';
+	import Heading from '$lib/components/molecules/heading.svelte';
 	import { onMount } from 'svelte';
-	import Heading from '$lib/components/heading.svelte';
-	import NavButton from '$lib/components/NavButton.svelte';
-	import Subheader from '$lib/components/subheader.svelte';
+	import NavButton from '$lib/components/molecules/navButton.svelte';
+	import Subheader from '$lib/components/templates/subheader.svelte';
 
 	let { data } = $props();
 
@@ -78,85 +78,82 @@
 		progressData[pIndex] = { total: 0, achieved: 0, levels: {} }; // Changed 'behaald' to 'achieved' for consistency
 
 		niveaus.forEach((niveau) => {
-        const niveauName = niveau.level; // From our previous fix
-        
-        // 1. Crash-proof totalChecks (Check if it's guidelines OR richtlijnen!)
-        const guidelinesArray = principe.guidelines || principe.richtlijnen || [];
-        
-        const totalChecks = guidelinesArray
-            // Use ?. just in case successCriteria is missing on a specific guideline
-            .flatMap((guideline) => guideline.successCriteria || guideline.succescriteria || [])
-            // Make sure to use .level here, not .niveau!
-            .filter((successCriterion) => successCriterion.level === niveauName);
+			const niveauName = niveau.level; // From our previous fix
 
-        // 2. Crash-proof successChecks
-        const safeChecks = checks || [];
-        const successChecks = safeChecks
-            .flatMap((check) => check.successCriteria || [])
-            .filter(
-                (successCriterion) =>
-                    successCriterion.level === niveauName && successCriterion.index.startsWith(pIndex + '.')
-            );
+			// 1. Crash-proof totalChecks (Check if it's guidelines OR richtlijnen!)
+			const guidelinesArray = principe.guidelines || principe.richtlijnen || [];
 
-        // Initialize the progressData for this principle and level
-        progressData[pIndex].levels[niveauName] = {
-            total: totalChecks.length,
-            achieved: successChecks.length
-        };
+			const totalChecks = guidelinesArray
+				// Use ?. just in case successCriteria is missing on a specific guideline
+				.flatMap((guideline) => guideline.successCriteria || guideline.succescriteria || [])
+				// Make sure to use .level here, not .niveau!
+				.filter((successCriterion) => successCriterion.level === niveauName);
 
-        // Aggregate for the main principle bar
-        progressData[pIndex].total += totalChecks.length;
-        progressData[pIndex].achieved += successChecks.length;
-    });
+			// 2. Crash-proof successChecks
+			const safeChecks = checks || [];
+			const successChecks = safeChecks
+				.flatMap((check) => check.successCriteria || [])
+				.filter(
+					(successCriterion) =>
+						successCriterion.level === niveauName && successCriterion.index.startsWith(pIndex + '.')
+				);
+
+			// Initialize the progressData for this principle and level
+			progressData[pIndex].levels[niveauName] = {
+				total: totalChecks.length,
+				achieved: successChecks.length
+			};
+
+			// Aggregate for the main principle bar
+			progressData[pIndex].total += totalChecks.length;
+			progressData[pIndex].achieved += successChecks.length;
+		});
 	});
 
 	// Helper to calculate percentage safely
 	const getPercent = (achieved, total) => (total > 0 ? Math.round((achieved / total) * 100) : 0);
 </script>
 
-<Heading {heading} />
-
 <Subheader partnerTitle={data.websitesData.website.title} onApply={handleApplyFilters} />
+
+<Heading {heading} />
 
 <section class="container-principles">
 	<ul>
 		{#each filteredPrincipes as principe (principe.index)}
 			{@const pData = progressData[principe.index]}
 
-			<li class="principle-card color-primary">
+			<li class="principle-card">
 				<a href="{$page.url.pathname}/{principe.slug}" class="principle-link">
 					<div class="principle-header">
-						<span class="label">
-							<span class="label-text">Principle</span>
-						</span>
 						<h2>{principe.title}</h2>
-						<p class="description">{principe.description.text}</p>
 					</div>
 
 					<div class="levels-list">
 						{#each filteredNiveaus as n}
 							{@const nData = pData.levels[n.level]}
-							<div class="level-sub-card color-primary">
-								<span class="level-label">Niveau</span>
-								<span class="level-name">{n.level}</span>
+							<div class="level-sub-card">
+								<h3 class="h3-niveaus">Niveau {n.level}</h3>
 								<div class="progress-row">
 									<progress max={nData.total || 1} value={nData.achieved || 0}> </progress>
-									<span class="percentage-text">{getPercent(nData.achieved, nData.total)}%</span>
+									<p class="percentage-text">{getPercent(nData.achieved, nData.total)}%</p>
 								</div>
 							</div>
 						{/each}
 					</div>
 				</a>
 
-				<NavButton
-					variant="secondary"
-					showIcon={false}
-					href="{$page.url.pathname}/{principe.slug}"
-					size="medium"
-					aria="Open Principe"
-				>
-					<p>Open</p>
-				</NavButton>
+				<div class="custom-nav-override">
+					<NavButton
+						variant="secondary"
+						showIcon={false}
+						href="{$page.url.pathname}/{principe.slug}"
+						size="medium"
+						aria="Open Principe"
+					>
+						<p>Open</p>
+					</NavButton>
+				</div>
 			</li>
 		{/each}
 	</ul>
@@ -172,6 +169,7 @@
 	.container-principles {
 		gap: 1rem;
 		border-radius: var(--border-radius);
+		color: var(--color-neutral-white);
 	}
 
 	.container-principles ul {
@@ -179,6 +177,10 @@
 		display: grid;
 		grid-template-columns: repeat(2, 1fr);
 		border-radius: var(--border-radius);
+	}
+
+	.h3-niveaus {
+		font-size: 24px;
 	}
 
 	/* responsive for mobile */
@@ -189,42 +191,26 @@
 	}
 
 	.principle-card {
-		background-color: var(--color-primary-light);
-		border-radius: 20px;
-		padding: clamp(1em, 6vw, 2em);
-		color: var(--color-primary);
+		background-color: var(--color-background-card);
+		border-radius: var(--border-radius);
+		padding: 1em;
+		color: var(--color-neutral-black);
 		font-family: sans-serif;
 		margin: 1em 1em;
+		box-shadow: 0px 4px 10px -2px rgba(0, 0, 0, 0.25);
 	}
 
-	.label {
-		font-size: 0.8rem;
-		font-weight: bold;
-	}
-
-	.label-text {
-		color: var(--dark-1);
-		opacity: 1;
-	}
-
-	h2 {
-		font-size: 2.2rem;
-		margin: 0.2rem 0;
-		font-weight: 800;
-	}
-
-	.description {
-		font-size: 0.95rem;
-		line-height: 1.4;
-		margin-bottom: 1.5rem;
-		color: var(--dark-1);
-	}
-
-	.main-progress,
 	.progress-row {
 		display: flex;
 		align-items: center;
 		gap: 1rem;
+
+		p {
+			display: flex;
+			align-items: center;
+			font-size: 24px;
+			margin-top: 0.2em;
+		}
 	}
 
 	progress {
@@ -240,41 +226,15 @@
 		color: var(--color-neutral-darkgrey);
 	}
 
-	/* Sub-cards for A, AA, AAA */
 	.levels-list {
 		margin-top: 1.5rem;
 		display: flex;
 		flex-direction: column;
 		gap: 0.75rem;
-	}
-
-	.level-sub-card.color-primary {
-		background-color: var(--light-2);
-		padding: 1.25rem 1rem;
-		border-radius: 1rem;
-		display: flex;
-		flex-direction: column;
-		gap: 0.5rem;
-		margin-bottom: 0.5rem;
-		border: none;
-	}
-
-	.level-label {
-		color: var(--dark-2);
-		font-size: 0.8rem;
-		font-weight: 500;
-		margin-bottom: -5px;
-	}
-
-	.level-name {
-		color: var(--dark-3);
-		font-size: 1.8rem;
-		font-weight: 800;
-		line-height: 1;
+		background-color: var(--color-background-card);
 	}
 
 	.percentage-text {
-		color: var(--dark-3);
 		font-weight: bold;
 		font-size: 0.9rem;
 	}
@@ -284,15 +244,24 @@
 		height: 10px;
 		appearance: none;
 		-webkit-appearance: none;
+		height: 1em;
 	}
 
 	progress::-webkit-progress-bar {
 		background-color: var(--color-neutral-white);
-		border-radius: 10px;
+		border-radius: var(--border-radius);
+		border: var(--color-neutral-black) solid 1px;
 	}
 
 	progress::-webkit-progress-value {
 		background-color: var(--color-primary);
-		border-radius: 10px;
+		border-radius: var(--border-radius);
+	}
+
+	.custom-nav-override :global(button),
+	.custom-nav-override :global(a) {
+		background-color: #b9005f !important;
+		border-color: #b9005f !important;
+		color: white !important;
 	}
 </style>

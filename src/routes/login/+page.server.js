@@ -2,7 +2,7 @@ import { fail, redirect } from '@sveltejs/kit';
 import { verifyEmailInput } from '$lib/server/email';
 import { getUserFromEmail, getUserPasswordHash } from '$lib/server/user';
 import { verifyPasswordHash } from '$lib/server/password';
-import { createSession, generateSessionToken, setSessionTokenCookie } from '$lib/server/session';
+import { sessionService } from '$lib/server/session';
 
 export function load(event) {
 	const { locals } = event;
@@ -54,9 +54,7 @@ export const actions = {
 			});
 		}
 
-		const sessionToken = generateSessionToken();
-		const session = await createSession(sessionToken, user.id);
-		setSessionTokenCookie(event, sessionToken, session.expiresAt);
+		await sessionService.createAndSetSession(event, user.id);
 
 		if (!user.isEmailVerified) {
 			throw redirect(302, '/verify-email');

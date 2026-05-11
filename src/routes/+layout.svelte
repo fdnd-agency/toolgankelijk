@@ -1,14 +1,8 @@
 <script>
 	import { onNavigate } from '$app/navigation';
-	import { page } from '$app/stores';
-	import Header from '$lib/components/header.svelte';
+	import Header from '$lib/components/templates/header.svelte';
 
-	let { data, children } = $props();
-	let params = $derived($page.params);
-	let websites = $derived(data.websitesData.website);
-	let principles = $derived(data.partnersData.principles);
-
-	let partners = $derived(data.partnersData);
+	let { children } = $props();
 
 	onNavigate((navigation) => {
 		if (!document.startViewTransition) return;
@@ -22,7 +16,7 @@
 	});
 </script>
 
-<Header {params} {partners} {websites} {principles} user={data.user} />
+<Header />
 
 <main id="main">
 	{@render children?.()}

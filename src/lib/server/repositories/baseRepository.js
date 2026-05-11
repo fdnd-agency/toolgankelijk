@@ -1,27 +1,12 @@
 //@ts-check
 
-/**
- * @typedef {object} BaseRepositoryDeps
- * @property {import('graphql-request').GraphQLClient} client
- * @property {typeof import('graphql-request').gql} gql
- */
+/** @typedef {typeof import('$lib/utils/directus.js').directusClient} DirectusClient */
+/** @typedef {{ client: DirectusClient }} DirectusRepositoryDependencies */
 
 /**
- * Base class for Directus-backed repositories.
- *
- * Subclasses use these helpers to normalize GraphQL relation shapes (arrays, `data` wrappers,
- * junction rows) before mapping to app types.
+ * Contains shared helpers for repositories
  */
-export class BaseRepository {
-	/**
-	 * @param {BaseRepositoryDeps} deps
-	 */
-	constructor({ client, gql }) {
-		/** @type {BaseRepositoryDeps['client']} */
-		this.client = client;
-		/** @type {BaseRepositoryDeps['gql']} */
-		this.gql = gql;
-	}
+class BaseRepository {
 	// Helper functions
 
 	/**
@@ -70,5 +55,20 @@ export class BaseRepository {
 		if (Array.isArray(value)) return /** @type {T|null} */ (value[0] ?? null);
 		if (value && typeof value === 'object') return /** @type {T} */ (value);
 		return null;
+	}
+}
+
+/**
+ * repository base for a Directus client.
+ */
+export class DirectusRepositoryBase extends BaseRepository {
+	/**
+	 * @param {DirectusRepositoryDependencies} deps
+	 */
+	constructor({ client }) {
+		super();
+		if (!client) throw new Error('DirectusRepositoryBase requires a Directus client');
+		/** @type {DirectusClient} */
+		this.client = client;
 	}
 }

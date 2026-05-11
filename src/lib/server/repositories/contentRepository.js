@@ -3,7 +3,7 @@
 /**
  * WCAG principles, conformance levels, and toolboard page data (URL + principle + guidelines for checks).
  */
-import { BaseRepository } from '$lib/server/repositories/baseRepository.js';
+import { DirectusRepositoryBase } from '$lib/server/repositories/baseRepository.js';
 import getQueryNiveaus from '../queries/niveaus.js';
 import getQueryPrincipes from '../queries/principes.js';
 import getQueryToolboard from '../queries/toolboard.js';
@@ -12,13 +12,13 @@ import getQueryToolboard from '../queries/toolboard.js';
 /** @typedef {import('$lib/types').Level} Level */
 /** @typedef {import('$lib/types').ToolboardData} ToolboardData */
 /** @typedef {import('$lib/types').ToolboardUrl} ToolboardUrl */
-/** @typedef {{ id: string; successcriteria?: Array<{ id: string; index?: string; level?: string }> }} QueryCheck */
+/** @typedef {{ id: string; successcriteria?: Array<{ id: string; index?: string; level?: string; toolgankelijk_success_criteria_id?: { id?: string } }> }} QueryCheck */
 /** @typedef {{ id: string; title?: string; description?: string; index?: string; slug?: string; guidelines?: Array<{ id?: string; toolgankelijk_guideline_id?: Record<string, unknown> }> }} QueryPrincipleNode */
 
 /**
  * Content and checklist mapping for principles list and per-URL toolboard views.
  */
-export class ContentRepository extends BaseRepository {
+export class ContentRepository extends DirectusRepositoryBase {
 	// Helper functions
 
 	/**
@@ -91,8 +91,8 @@ export class ContentRepository extends BaseRepository {
 	 */
 	async getAllPrinciples() {
 		try {
-			const query = getQueryPrincipes(this.gql);
-			const raw = await this.client.request(query);
+			const query = getQueryPrincipes();
+			const raw = await this.client.query(query);
 
 			/** @type {QueryPrincipleNode[]} */
 			const nodes = raw.toolgankelijk_principle ?? [];
@@ -123,8 +123,8 @@ export class ContentRepository extends BaseRepository {
 	 */
 	async getLevels() {
 		try {
-			const query = getQueryNiveaus(this.gql);
-			const raw = await this.client.request(query);
+			const query = getQueryNiveaus();
+			const raw = await this.client.query(query);
 
 			/** @type {Array<{ id: string; level: string; slug: string }>} */
 			const nodes = raw.toolgankelijk_level ?? [];
@@ -150,8 +150,8 @@ export class ContentRepository extends BaseRepository {
 	 */
 	async getToolboard({ urlSlug, principleSlug }) {
 		try {
-			const query = getQueryToolboard(this.gql, urlSlug, principleSlug);
-			const raw = await this.client.request(query);
+			const query = getQueryToolboard(urlSlug, principleSlug);
+			const raw = await this.client.query(query);
 
 			/** @type {{ id: string; slug: string; url: string; checks?: QueryCheck[] }|null} */
 			const urlNode = this.firstOrNull(raw?.url);
@@ -164,8 +164,10 @@ export class ContentRepository extends BaseRepository {
 				/** @param {QueryCheck} check */ (check) => ({
 					id: check.id,
 					successCriteria: (check.successcriteria ?? []).map(
-						/** @param {{ id: string }} sc */ (sc) => ({
-							id: sc.id
+						/** @param {{ id: string; toolgankelijk_success_criteria_id?: { id?: string } }} sc */ (
+							sc
+						) => ({
+							id: sc.toolgankelijk_success_criteria_id?.id ?? sc.id
 						})
 					)
 				})

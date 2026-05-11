@@ -1,55 +1,55 @@
 <script>
 	import { page } from '$app/stores';
-	import Heading from '$lib/components/heading.svelte';
-	import Card from '$lib/components/card.svelte';
-	import Search from '$lib/components/search.svelte';
-	import Dialog from '$lib/components/dialog.svelte';
-	import Pages from '$lib/components/pages.svelte';
-	import NavButton from '$lib/components/NavButton.svelte';
+	import Card from '$lib/components/templates/card.svelte';
+	import Dialog from '$lib/components/templates/dialog.svelte';
+	import Pages from '$lib/components/organisms/pages.svelte';
+	import SubHeader from '$lib/components/templates/subheader.svelte';
+	import Heading from '$lib/components/molecules/heading.svelte';
 
 	let { data, form } = $props();
+	let params = $derived($page.params);
 
+	const globalWebsites = Array.isArray(data.websitesData) ? data.websitesData : [];
+
+	// pages
 	let skip = $derived(data.skip);
 	const first = $derived(data.first);
-	let totalUrls = $derived(data.websites.totalUrls);
-	const currentPage = $derived(skip / first + 1);
-	let heading = $derived({
-		title: data.websites.website?.title ?? 'Onbekende website',
-		homepage: data.websites.website?.homepage ?? ''
-	});
-	let websites = $derived(data.websites.website?.urls ?? []);
-	let overview = $derived(data.websites.website);
-	let params = $derived($page.params.websiteUID);
-	let dialogRef = $state();
-	const principles = $derived(data.websites.principles);
 
-	function handleDialog() {
-		dialogRef.open();
+	const currentPage = $derived(skip / first + 1);
+	let totalUrls = $derived(data.websites.totalUrls);
+
+	// overview
+	let overview = $derived(data.websites?.website);
+	let partners = $derived(data.partnersData || []);
+	let principles = $derived(data.websites?.principles || []);
+	let currentUrls = $derived(overview?.urls ?? []);
+
+	let heading = $derived({
+		title: overview?.title ?? 'Onbekende website',
+		homepage: overview?.homepage ?? ''
+	});
+
+	let dialogRef = $state();
+
+	function openAddUrl() {
+		dialogRef?.open();
 	}
 </script>
 
+<SubHeader
+	{params}
+	{partners}
+	websites={currentUrls}
+	{principles}
+	{overview}
+	user={data.user}
+	showAdd={true}
+	onAdd={openAddUrl}
+/>
+
 <Heading {heading} />
 
-<section>
-	<NavButton
-		aria="Url Toevoegen"
-		size="large"
-		variant="primary"
-		showIcon={false}
-		onclick={handleDialog}
-		iconName="add"
-	>
-		<p>URL Toevoegen</p>
-	</NavButton>
-
-	<Search placeholderProp="Home" />
-</section>
-
-{#if totalUrls > first}
-	<section>
-		<Pages amount={totalUrls} perPage={first} {currentPage} />
-	</section>
-{/if}
+<Dialog bind:this={dialogRef} params={params.websiteUID} isType="addUrl" />
 
 {#if form?.success}
 	<div class="toast"><p>{form?.message}</p></div>
@@ -60,9 +60,13 @@
 <Dialog bind:this={dialogRef} {params} isType="addUrl" />
 
 <section class="cards-container">
-	{#each websites as website}
+	{#each currentUrls as website}
 		<Card {website} {overview} {params} {principles} isUrl={true} />
 	{/each}
+
+	{#if totalUrls > first}
+		<Pages amount={totalUrls} perPage={first} {currentPage} />
+	{/if}
 </section>
 
 <style>
@@ -73,15 +77,11 @@
 	}
 
 	.cards-container {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
+		display: flex;
+		flex-direction: column;
 		gap: 1em;
 		list-style-type: none;
 		margin: 0 1em;
-
-		@media (max-width: 720px) {
-			grid-template-columns: 1fr;
-		}
 	}
 
 	.toast {

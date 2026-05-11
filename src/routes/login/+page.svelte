@@ -1,6 +1,6 @@
 <script>
 	import { enhance } from '$app/forms';
-	import NavButton from '$lib/components/NavButton.svelte';
+	import NavButton from '$lib/components/molecules/navButton.svelte';
 
 	let { form } = $props();
 </script>
@@ -10,106 +10,123 @@
 </svelte:head>
 
 <section class="form-container">
-	<form method="post" action="?/signin" use:enhance>
-		<fieldset class="form-login">
-			<legend>Login</legend>
-			<p>
-				<label for="email">Email</label>
-				<input id="email" type="email" name="email" placeholder="Email" required />
-				<span></span>
-			</p>
-			<p>
-				<label for="password">Password</label>
-				<input
-					id="password"
-					type="password"
-					name="password"
-					minlength="6"
-					placeholder="Password"
-					autocomplete="off"
-					required
-				/>
-				<span></span>
-			</p>
+	<div class="form-background">
+		<form method="post" action="?/signin" use:enhance>
+			<div class="form-login">
+				<h1 class="form-title">Inloggen</h1>
 
-			<NavButton aria="Inloggen" size="medium" variant="secondary" type="submit">Inloggen</NavButton
-			>
+				<p>
+					<input id="email" type="email" name="email" placeholder="Email" required />
+					<span></span>
+				</p>
+				<p>
+					<input
+						id="password"
+						type="password"
+						name="password"
+						minlength="6"
+						placeholder="Wachtwoord"
+						autocomplete="off"
+						required
+					/>
+					<span></span>
+					<a class="link-password" href="/info">Wachtwoord vergeten?</a>
+				</p>
 
-			<p style="color: red;">{form?.message ?? ''}</p>
+				<NavButton aria="Inloggen" size="medium" variant="primary" type="submit">Log in</NavButton>
 
-			<div class="form-link">
-				<a class="link-account" href="/register">Don't have an account?</a>
-				<a class="link-password" href="/info">Forgot password?</a>
+				<p class="error-message">{form?.message ?? ''}</p>
+
+				<div class="form-link">
+					<span class="text-account">Nog geen account?</span>
+					<a class="link-account" href="/register">Registreren</a>
+				</div>
 			</div>
-		</fieldset>
-	</form>
+		</form>
+	</div>
 </section>
 
 <style>
 	.form-container {
 		display: flex;
 		justify-content: center;
-		margin-top: 3rem;
+		padding: 3rem 1rem;
+	}
+
+	.form-background {
+		background-color: var(--color-primary);
+		padding: 4rem 2rem;
+		width: 100%;
+		max-width: 45rem;
+		border-radius: var(--border-radius);
+	}
+
+	form {
+		width: 100%;
+		display: flex;
+		justify-content: center;
 	}
 
 	.form-login {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		width: 18rem;
-		background-color: var(--c-container);
-		border-color: var(--c-pink);
-		border-radius: 10px;
-		padding-left: 2rem;
-		padding-right: 2rem;
-		padding-top: 1rem;
-		padding-bottom: 1.5rem;
+		background-color: var(--color-neutral-white);
+		border: none;
+		border-radius: var(--border-radius);
+		padding: 3rem 2.5rem;
+		width: 100%;
+		max-width: 26rem;
 	}
 
-	legend {
-		color: var(--c-white);
-		padding-top: 2.5rem;
+	.form-title {
+		color: var(--color-primary);
 		text-align: center;
-		font-size: 38px;
-	}
-
-	p {
-		display: flex;
-		flex-direction: column;
-		padding-top: 1rem;
+		font-size: 2.2rem;
+		font-weight: 700;
+		margin: 0 0 1rem 0;
 	}
 
 	span::before {
 		content: ' ';
 	}
 
-	input:user-invalid + span::before {
-		content: 'Invalid input';
+	.error-message {
 		color: red;
-		font-size: 12px;
-	}
-
-	input:user-invalid + span {
-		animation: shake 0.6s ease-in-out;
-	}
-
-	label {
-		padding-bottom: 0.3rem;
-		font-size: 16px;
+		padding-top: 0;
 	}
 
 	input {
-		background-color: var(--c-container-stroke);
-		border: none;
-		height: 2.5rem;
-		width: 15rem;
-		padding-left: 0.5rem;
-		color: white;
-		font-size: 16px;
+		background-color: var(--color-neutral-white);
+		border: 1px solid var(--color-neutral-grey);
+		border-radius: 8px;
+		height: 3.2rem;
+		width: 100%;
+		padding: 0 1rem;
+		font-size: 1rem;
+		color: var(--color-neutral-black);
+		box-sizing: border-box;
+		transition: all 0.2s ease-in-out;
+	}
+
+	input::placeholder {
+		color: var(--color-neutral-black);
+	}
+
+	input:focus {
+		border-color: var(--color-primary);
+		box-shadow: 0 0 0 4px var(--color-primary-light);
+		outline: none;
+	}
+
+	span::before {
+		content: ' ';
+		display: block;
 	}
 
 	input:user-invalid {
-		border: 1px solid red;
+		border-color: red;
+		background-color: #fff5f5;
 		outline: none;
 		animation: shake 0.6s ease-in-out;
 	}
@@ -119,32 +136,34 @@
 	}
 
 	input:focus {
-		border: 1px solid var(--c-white);
+		border: 4px solid var(--color-primary);
+		transition-duration: 0.2s;
 		outline: none;
 	}
 
+	/* --- Links & Footer --- */
 	.form-link {
-		padding-top: 1rem;
-		padding-bottom: 0;
+		padding-top: 1.5rem;
+		display: flex;
+		gap: 0.4rem;
+		color: var(--color-neutral-darkgrey);
+		font-size: 0.9rem;
 	}
 
-	a {
-		font-size: 12px;
-		color: lightblue;
-	}
-
-	.link-account {
-		padding-right: 1rem;
+	a:hover {
+		color: var(--color-neutral-darkgrey);
+		text-decoration: underline;
 	}
 
 	.link-password {
-		padding-left: 1rem;
+		align-self: flex-end;
+		padding-top: 0.5rem;
 	}
 
-	@media screen and (max-width: 380px) {
+	/* --- Media Queries & Animations --- */
+	@media screen and (max-width: 480px) {
 		.form-login {
-			padding-left: 1rem;
-			padding-right: 1rem;
+			padding: 2rem 1.5rem;
 		}
 	}
 
@@ -154,39 +173,39 @@
 		}
 
 		10% {
-			transform: rotate(5deg);
+			transform: rotate(2deg);
 		}
 
 		20% {
-			transform: rotate(5deg);
+			transform: rotate(2deg);
 		}
 
 		30% {
-			transform: rotate(-5deg);
+			transform: rotate(-2deg);
 		}
 
 		40% {
-			transform: rotate(5deg);
+			transform: rotate(2deg);
 		}
 
 		50% {
-			transform: rotate(-5deg);
+			transform: rotate(-2deg);
 		}
 
 		60% {
-			transform: rotate(5deg);
+			transform: rotate(2deg);
 		}
 
 		70% {
-			transform: rotate(-5deg);
+			transform: rotate(-2deg);
 		}
 
 		80% {
-			transform: rotate(5deg);
+			transform: rotate(2deg);
 		}
 
 		90% {
-			transform: rotate(-5deg);
+			transform: rotate(-2deg);
 		}
 
 		100% {

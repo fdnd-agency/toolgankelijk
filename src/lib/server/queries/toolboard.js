@@ -1,5 +1,5 @@
-export default function getQueryToolboard(gql, slugUrl, principleSlug) {
-	return gql`
+export default function getQueryToolboard(slugUrl, principleSlug) {
+	return `
 		query Toolboard {
 			url: toolgankelijk_url(filter: { slug: { _eq: "${slugUrl}" } }, limit: 1) {
 				id
@@ -9,6 +9,9 @@ export default function getQueryToolboard(gql, slugUrl, principleSlug) {
 					id
 					successcriteria: success_criteria {
 						id
+						toolgankelijk_success_criteria_id {
+							id
+						}
 					}
 				}
 			}
