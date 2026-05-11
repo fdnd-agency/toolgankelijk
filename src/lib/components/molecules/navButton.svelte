@@ -4,6 +4,8 @@
 	let {
 		iconName,
 		showIcon = false,
+		target = null,
+		action = null,
 		type,
 		variant = 'primary',
 		size = 'medium',
@@ -25,6 +27,8 @@
 	{href}
 	{type}
 	class="navbutton {size} {variant} {active} {effect}"
+	popovertarget={target}
+	popovertargetaction={action}
 	{onclick}
 	{...rest}
 	aria-label={aria}
