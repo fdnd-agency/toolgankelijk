@@ -2,11 +2,9 @@
 	import { page } from '$app/stores';
 
 	import Logo from '../atoms/logoHeader.svelte';
-	import BreadCrumbs from '$lib/components/organisms/breadCrumbs.svelte';
 	import Hamburger from '$lib/components/organisms/hamburgerMenu.svelte';
 	import NavButton from '../molecules/navButton.svelte';
 
-	let { params, partners, websites, principles, user = null } = $props();
 </script>
 
 <header>
