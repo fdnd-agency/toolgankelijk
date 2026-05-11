@@ -116,7 +116,6 @@
         }
     }
 
-
     .menu-header {
         display: flex;
         justify-content: flex-end; 
@@ -130,5 +129,8 @@
         width: 100%;
     }
 
-}
+    .hamburger-menu::backdrop {
+        background-color: var(--color-neutral-black);
+        opacity: 0.3;
+    }
 </style>
