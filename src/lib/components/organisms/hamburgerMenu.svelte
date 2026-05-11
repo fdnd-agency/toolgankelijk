@@ -16,6 +16,19 @@
         size="small"
     />
 </div>
+
+<div popover="auto" id={menuId} class="hamburger-menu">
+    <div class="menu-header">
+        <NavButton
+            target={menuId}
+            action="hide"
+            aria="close menu"
+            showIcon={true}
+            iconName="cross"
+            variant="primary"
+            size="small"
+        />
+    </div>
 </div>
 
 <style>
