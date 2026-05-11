@@ -1,17 +1,21 @@
 <script>
-	import NavButton from '../molecules/navButton.svelte';
+    import { page } from '$app/stores';
+    import NavButton from '../molecules/navButton.svelte';
+
+    const menuId = "mobile-nav-menu";
 </script>
 
 <div class="hamburger-wrapper">
-	<NavButton
-		href="#footer"
-		aria="open menu"
-		showIcon={true}
-		iconName="menu"
-		variant="secondary"
-		effect="header"
-		size="small"
-	></NavButton>
+    <NavButton
+        target={menuId}
+        aria="open menu"
+        showIcon={true}
+        iconName="menu"
+        variant="secondary"
+        effect="header"
+        size="small"
+    />
+</div>
 </div>
 
 <style>
