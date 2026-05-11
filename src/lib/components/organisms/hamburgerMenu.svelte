@@ -9,6 +9,7 @@
 		showIcon={true}
 		iconName="menu"
 		variant="secondary"
+		effect="header"
 		size="small"
 	></NavButton>
 </div>
