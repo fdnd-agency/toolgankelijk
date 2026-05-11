@@ -217,13 +217,11 @@
 							Weet je zeker dat je {isType === 'deleteUrl' ? formData.url : formData.name} wilt verwijderen?
 						</p>
 					</div>
-				{/if}
-
-				{#if isType === 'startAudit'}
-					<div class="form-delete-content" tabindex="0">
-						<Icon iconName="delete" />
+				{:else if isType === 'startAudit'}
+					<div class="form-audit-content" tabindex="0">
+						<Icon iconName="audit" />
 						<p>
-							Weet je zeker dat je {isType === 'deleteUrl' ? formData.url : formData.name} wilt verwijderen?
+							Weet je zeker dat je een audit wilt starten voor {formData.name}?
 						</p>
 					</div>
 				{/if}
