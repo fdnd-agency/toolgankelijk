@@ -94,6 +94,28 @@
         inset: 7em 0 0 auto;
         background-color: var(--color-primary-light);
 
+        transition: 
+            translate 0.4s ease, 
+            display 0.4s allow-discrete, 
+            overlay 0.4s allow-discrete;
+        
+        translate: 100% 0;
+
+        &:popover-open {
+            translate: 0 0;
+        }
+
+        @starting-style {
+            &:popover-open {
+                translate: 100% 0;
+            }
+        }
+
+		@media (min-width: 720px) {
+            display: none;
+        }
+    }
+
 
     .menu-header {
         display: flex;
