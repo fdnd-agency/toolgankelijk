@@ -76,10 +76,37 @@
 </div>
 
 <style>
-	.hamburger-wrapper {
-		display: none;
-		@media (max-width: 720px) {
-			display: block;
-		}
-	}
+    .hamburger-wrapper {
+        display: none;
+        @media (max-width: 720px) {
+            display: block;
+        }
+    }
+
+    .hamburger-menu {
+        height: 100dvh;
+        width: 100%;
+        padding: 1.5em;
+		position: absolute;
+		z-index: 2;
+        margin: 0;
+        border: none;
+        inset: 7em 0 0 auto;
+        background-color: var(--color-primary-light);
+
+
+    .menu-header {
+        display: flex;
+        justify-content: flex-end; 
+        margin-bottom: 2rem;
+    }
+
+    nav {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        width: 100%;
+    }
+
+}
 </style>
