@@ -106,10 +106,7 @@
 		border: var(--color-neutral-darkgrey) 2px solid;
 	}
 
-	.active {
-		background-color: var(--color-neutral-white);
-		color: var(--color-primary);
-	}
+
 
 	/* for the dropdowns */
 	.select {
@@ -147,5 +144,21 @@
 
 	.invisible {
 		display: none;
+	}
+
+	.header {
+		background-color: var(--color-primary);
+		color: var(--color-neutral-white);
+		border: none;
+		border-bottom: 2px solid var(--color-neutral-white);
+		border-radius: 0px;
+		border-top-left-radius: 12px;
+		border-top-right-radius: 12px;
+	}
+
+	.active {
+		transition-duration: 0.3s;
+		background-color: var(--color-neutral-white);
+		color: var(--color-primary);
 	}
 </style>
