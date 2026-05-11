@@ -13,7 +13,9 @@
 	<NavButton effect="invisible" href="#main">Jump directly to main content</NavButton>
 
 	<Logo />
+
 	<nav id="header-navigation">
+	<div id="header-navigation-wrapper">
 		<NavButton
 			href="/"
 			size="large"
@@ -37,6 +39,7 @@
 		>
 			<p>Info</p>
 		</NavButton>
+		</div>
 
 		<div class="account-button">
 			<NavButton
@@ -63,19 +66,31 @@
 		background-color: var(--color-primary);
 		display: flex;
 		align-items: center;
-		justify-content: space-between;
+		gap: 1em;
 		padding-left: 5%;
 		padding-right: 5%;
 	}
 
 	#header-navigation {
 		display: flex;
-		gap: 2em;
-		justify-content: flex-end;
+		justify-content: space-around;
+
 
 		@media (max-width: 720px) {
 			display: none;
 		}
+	}
+
+	.account-button {
+		position: absolute;
+		right: 5%;
+		top: 4%;
+	}
+
+	#header-navigation-wrapper {
+		display: flex;
+		place-items: flex-end;
+		gap: 1em;
 	}
 
 </style>
