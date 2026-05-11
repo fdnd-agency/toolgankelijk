@@ -29,6 +29,50 @@
             size="small"
         />
     </div>
+
+    <nav>
+        <NavButton
+            href="/"
+            target={menuId}
+            action="hide"
+            size="large"
+            showIcon={true}
+            iconName="home"
+            variant="primary"
+            effect="full"           
+            active={$page.url.pathname === '/' ? 'active' : ''}
+        >
+            <p>Home</p>
+        </NavButton>
+
+        <NavButton
+            href="/info"
+            target={menuId}
+            action="hide"
+            size="large"
+            showIcon={true}
+            iconName="info"
+            variant="primary"
+            effect="full"
+            active={$page.url.pathname === '/info' ? 'active' : ''}
+        >
+            <p>Info</p>
+        </NavButton>
+
+        <NavButton
+            href="/account"
+            target={menuId}
+            action="hide"
+            size="large"
+            showIcon={true}
+            iconName="account"
+            effect="full"
+            variant="primary"
+            active={$page.url.pathname === '/account' ? 'active' : ''}
+        >
+            <p>Account</p>
+        </NavButton>
+    </nav>
 </div>
 
 <style>
