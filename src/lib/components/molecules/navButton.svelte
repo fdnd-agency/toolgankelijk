@@ -129,7 +129,7 @@
 		width: 15em;
 		place-items: center;
 		margin: 0px auto;
-		justify-content: space-around;
+		justify-content: space-between;
 
 		@media (max-width: 720px) {
 			width: 100%;
@@ -140,6 +140,7 @@
 
 	.full {
 		width: 100%;
+		justify-content: space-between;
 	}
 
 	.pages {
@@ -154,6 +155,7 @@
 		background-color: var(--color-primary);
 		color: var(--color-neutral-white);
 		border: none;
+		justify-content: space-between;
 
 	}
 
