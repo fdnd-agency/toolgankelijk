@@ -7,7 +7,6 @@
 	import Dialog from '$lib/components/templates/dialog.svelte';
 	import Pages from '$lib/components/organisms/pages.svelte';
 	import NavButton from '$lib/components/molecules/navButton.svelte';
-	import Heading from '$lib/components/molecules/heading.svelte';
 
 	let { data, form } = $props();
 
@@ -53,11 +52,11 @@
 	user={data.user}
 	showAdd={true}
 	onAdd={openAddUrl}
+	{heading}
 />
 
 <Dialog bind:this={dialogRef} {params} isType="addPartner" />
 
-<Heading {heading} />
 
 {#if totalUrls > first}
 	<Pages amount={totalUrls} perPage={first} {currentPage} />

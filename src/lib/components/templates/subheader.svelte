@@ -2,6 +2,7 @@
 	import { page } from '$app/stores';
 	import NavButton from '$lib/components/molecules/navButton.svelte';
 	import BreadCrumbs from '$lib/components/organisms/breadCrumbs.svelte';
+	import Heading from '$lib/components/molecules/heading.svelte';
 
 	let {
 		params,
@@ -11,7 +12,8 @@
 		principles = [],
 		overview,
 		showAdd = false,
-		onAdd
+		onAdd,
+		heading
 	} = $props();
 
 	// Internal state for the form fields
@@ -35,6 +37,7 @@
 </script>
 
 <div class="subheader">
+	<Heading {heading}/>
 	{#if user && user.isEmailVerified}
 		<BreadCrumbs {params} {partners} {websites} {overview} {principles} width="full" />
 	{/if}
@@ -235,10 +238,11 @@
 
 <style>
 	.subheader {
-		height: fit-content;
-		background-color: var(--color-primary-light);
+		padding-left: 5%;
+		padding-right: 5%;
+		padding-top: 1em;
+		height: 7em;
 		display: flex;
-		padding: 1em;
 		align-content: center;
 		justify-content: space-between;
 

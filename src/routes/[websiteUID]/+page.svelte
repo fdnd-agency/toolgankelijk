@@ -45,9 +45,9 @@
 	user={data.user}
 	showAdd={true}
 	onAdd={openAddUrl}
+	{heading}
 />
 
-<Heading {heading} />
 
 <Dialog bind:this={dialogRef} params={params.websiteUID} isType="addUrl" />
 
