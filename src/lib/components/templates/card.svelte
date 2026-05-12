@@ -191,15 +191,17 @@
 					iconName="delete"
 				></NavButton>
 
-				<NavButton
-					href={typeConfig.link}
-					aria="open {typeConfig.title}"
-					size="medium"
-					variant="secondary"
-					showIcon={false}
-				>
-					Open
-				</NavButton>
+				<div class="custom-nav-override">
+					<NavButton
+						href={typeConfig.link}
+						aria-label={`open ${typeConfig.title}`}
+						size="medium"
+						variant="secondary"
+						showIcon={false}
+					>
+						Open
+					</NavButton>
+				</div>
 			</div>
 		</div>
 	</article>
@@ -241,10 +243,11 @@
 		gap: 4em;
 		container-type: inline-size;
 		container-name: card-component;
+		box-shadow: 0px 4px 10px -2px rgba(0, 0, 0, 0.25);
 	}
 
 	#card-partner {
-		background-color: var(--color-neutral-grey);
+		background-color: var(--color-background-card);
 		padding: 1em;
 		border-radius: var(--border-radius);
 		width: 100%;
@@ -254,7 +257,7 @@
 	}
 
 	#card-url {
-		background-color: var(--color-neutral-grey);
+		background-color: var(--color-background-card);
 		padding: 1em;
 		border-radius: var(--border-radius);
 		width: 100%;
@@ -366,5 +369,12 @@
 		justify-content: flex-end;
 		gap: 0.5em;
 		align-items: center;
+	}
+
+	.custom-nav-override :global(button),
+	.custom-nav-override :global(a) {
+		background-color: #b9005f !important;
+		border-color: #b9005f !important;
+		color: white !important;
 	}
 </style>
