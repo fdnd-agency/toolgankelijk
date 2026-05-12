@@ -80,6 +80,8 @@
         display: none;
         @media (max-width: 720px) {
             display: block;
+            position: absolute;
+            right: 5%;
         }
     }
 
@@ -112,6 +114,7 @@
                 display: none;
             }
         }
+    }
 
     .hamburger-menu:popover-open {
         translate: 0 0;
