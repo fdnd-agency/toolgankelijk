@@ -3,6 +3,7 @@
 	import NavButton from '$lib/components/molecules/navButton.svelte';
 	import BreadCrumbs from '$lib/components/organisms/breadCrumbs.svelte';
 	import Heading from '$lib/components/molecules/heading.svelte';
+	import Search from '$lib/components/molecules/search.svelte';
 
 	let {
 		params,
@@ -46,15 +47,12 @@
 		{#if showAdd}
 			<NavButton size="small" variant="primary" showIcon={true} iconName="add" onclick={onAdd}
 			></NavButton>
-
-			<form>
-				<NavButton size="small" variant="primary" showIcon={true} iconName="search"></NavButton>
-			</form>
+			<Search />
 		{/if}
 	</div>
 
 	<!-- this will be placed on a sidebar of the principles page -->
-	<!-- <div class="brand"></div>
+	<div class="brand"></div>
 	<form class="controls-container" onsubmit={handleSubmit}>
 		<div class="control-group">
 			<label class="group-label" for="principle">Selecteer principe:</label>
@@ -97,11 +95,10 @@
 		<div class="button-container">
 			<NavButton size="medium" type="submit" variant="secondary">Toepassen</NavButton>
 		</div>
-	</form> -->
+	</form>
 </div>
 
-<!-- <style>
-
+<style>
 	.brand {
 		flex: 1;
 		padding-right: 20px;
@@ -234,9 +231,6 @@
 			gap: 1.5rem;
 		}
 	}
-</style> -->
-
-<style>
 	.subheader {
 		padding-left: 5%;
 		padding-right: 5%;
