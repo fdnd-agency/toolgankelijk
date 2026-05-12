@@ -154,15 +154,14 @@
 		background-color: var(--color-primary);
 		color: var(--color-neutral-white);
 		border: none;
-		border-bottom: 2px solid var(--color-neutral-white);
-		border-radius: 0px;
-		border-top-left-radius: 12px;
-		border-top-right-radius: 12px;
+
 	}
 
 	.active {
 		transition-duration: 0.3s;
-		background-color: var(--color-neutral-white);
-		color: var(--color-primary);
+		border-bottom: 5px solid var(--color-neutral-white);
+		border-radius: 0px;
+		border-top-left-radius: 12px;
+		border-top-right-radius: 12px;
 	}
 </style>
