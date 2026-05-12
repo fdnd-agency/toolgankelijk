@@ -17,24 +17,23 @@
 		heading
 	} = $props();
 
-	// Internal state for the form fields
-	// let principle = $state('All');
-	// let level = $state('All');
-	// let showNotMet = $state(false);
-	// let showMet = $state(false);
+	let principle = $state('All');
+	let level = $state('All');
+	let showNotMet = $state(false);
+	let showMet = $state(false);
 
-	// function handleSubmit(e) {
-	// 	if (e) e.preventDefault();
+	function handleSubmit(e) {
+		if (e) e.preventDefault();
 
-	// 	if (onApply) {
-	// 		onApply({
-	// 			principle,
-	// 			level,
-	// 			showNotMet,
-	// 			showMet
-	// 		});
-	// 	}
-	// }
+		if (onApply) {
+			onApply({
+				principle,
+				level,
+				showNotMet,
+				showMet
+			});
+		}
+	}
 </script>
 
 <div class="subheader">
