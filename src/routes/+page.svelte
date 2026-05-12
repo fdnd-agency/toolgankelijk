@@ -44,17 +44,6 @@
 	}
 </script>
 
-<SubHeader
-	{params}
-	{partners}
-	websites={websitesList}
-	{principles}
-	user={data.user}
-	showAdd={true}
-	onAdd={openAddUrl}
-	{heading}
-/>
-
 <Dialog bind:this={dialogRef} {params} isType="addPartner" />
 
 

@@ -22,19 +22,6 @@
 	let levels = $derived(data.levelsData.levels);
 </script>
 
-<SubHeader
-	{params}
-	{partners}
-	websites={currentUrls}
-	{principles}
-	{overview}
-	user={data.user}
-	showAdd={true}
-	onAdd={openAddUrl}
-	{heading}
-/>
-
-
 <section>
 	{#if form?.success}
 		<div class="toast"><p>Checklist is opgeslagen!</p></div>

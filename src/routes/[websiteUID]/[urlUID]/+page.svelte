@@ -114,18 +114,6 @@
 	const getPercent = (achieved, total) => (total > 0 ? Math.round((achieved / total) * 100) : 0);
 </script>
 
-<SubHeader
-	{params}
-	{partners}
-	websites={currentUrls}
-	{principles}
-	{overview}
-	user={data.user}
-	showAdd={true}
-	onAdd={openAddUrl}
-	{heading}
-/>
-
 
 <section class="container-principles">
 	<ul>
