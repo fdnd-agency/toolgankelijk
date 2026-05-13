@@ -266,13 +266,18 @@
 			top: 8%;
 		}
 	}
-	
+
 	:global(.navbutton:focus) {
-		border: none !important;
+		transition: border-color 0.2s ease-in-out !important;
+		border: transparent 2px solid !important;
+	}
+
+	:global(.navbutton:focus) {
+		border-color: transparent !important;
 	}
 
 	:global(.navbutton:hover) {
-		border: white 3px solid !important;
+		border-color: white !important;
 	}
 
 	dialog[open] {
