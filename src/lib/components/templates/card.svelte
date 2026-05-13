@@ -243,7 +243,6 @@
 		gap: 4em;
 		container-type: inline-size;
 		container-name: card-component;
-		box-shadow: 0px 4px 10px -2px rgba(0, 0, 0, 0.25);
 	}
 
 	#card-partner {
