@@ -144,7 +144,6 @@
 				</a>
 
 				<div class="custom-nav-override">
-					<div class="custom-nav-override">
 						<NavButton
 							variant="secondary"
 							showIcon={false}
@@ -152,9 +151,8 @@
 							size="medium"
 							aria="Open Principe"
 						>
-							<span class="open-text">Open</span>
 						</NavButton>
-					</div>
+						<p>Open</p>
 				</div>
 			</li>
 		{/each}
