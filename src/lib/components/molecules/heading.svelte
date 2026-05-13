@@ -1,8 +1,5 @@
 <script>
 	let { heading } = $props();
-
-	const faviconAPI =
-		'https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=';
 </script>
 
 <svelte:head>
@@ -21,19 +18,7 @@
 	{/if}
 </svelte:head>
 
-<section>
-	{#if heading.homepage}
-		<img width="60" src="{faviconAPI}{heading.homepage}/&size=128" alt="logo partner" />
-	{/if}
 	<h1>
 		{heading.title}{#if heading.url}/{heading.url}{/if}
 	</h1>
-</section>
 
-<style>
-	section {
-		display: flex;
-		gap: 1em;
-		padding: 1em;
-	}
-</style>

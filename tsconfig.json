@@ -1,0 +1,8 @@
+{
+	"extends": "./.svelte-kit/jsconfig.json",
+	"compilerOptions": {
+		//These checks will only occur if you use @ts-check
+		"strict": true,
+		"noImplicitAny": true
+	}
+}

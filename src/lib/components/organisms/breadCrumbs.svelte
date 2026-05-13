@@ -41,12 +41,11 @@
 		<NavButton
 			onclick={() => toggleDropdown('partner')}
 			aria="breadcrumb of {selectedPartner}"
+			effect="dropdown"
 			showIcon={true}
 			iconName="arrow"
-			effect="dropdown"
 		>
 			{#if selectedPartner}
-				<img width="24" src="{faviconAPI}{selectedPartner.homepage}/&size=128" alt="logo partner" />
 				<p>{selectedPartner.title}</p>
 			{:else}
 				<p>Partners overzicht</p>
@@ -59,7 +58,6 @@
 					{#if partner && partner.slug}
 						<li>
 							<NavButton variant="primary" href="/{partner.slug}" effect="select">
-								<img width="24" src="{faviconAPI}{partner.homepage}/&size=256" alt="logo partner" />
 								<p>{partner.title}</p>
 							</NavButton>
 						</li>
@@ -74,8 +72,6 @@
 			<NavButton
 				onclick={() => toggleDropdown('url')}
 				aria="breadcrumb of {selectedUrl}"
-				showIcon={true}
-				iconName="arrow"
 				effect="dropdown"
 			>
 				{#if selectedUrlItem}
@@ -150,7 +146,7 @@
 		top: calc(100% + 0.5rem);
 		z-index: 10;
 		box-sizing: border-box;
-		width: 15em;
+		width: 16em;
 		background-color: var(--color-primary-light);
 		border: var(--color-primary) solid 3px;
 		border-radius: var(--border-radius);
