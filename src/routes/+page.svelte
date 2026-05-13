@@ -19,7 +19,6 @@
 	const websitesList = $derived(data.websites.allWebsites || []);
 	const currentPage = $derived(skip / first + 1);
 	let showRegistrationSuccess = $derived(data.showRegistrationSuccess);
-	let heading = { title: 'Partners overzicht' };
 	let dialogRef = $state();
 	const principles = $derived(data.principles);
 
@@ -70,8 +69,6 @@
 <NavButton size="medium" variant="primary" showIcon={false} href="#main" aria="scroll naar boven">
 	<p>Scroll naar Boven</p>
 </NavButton>
-
-<a href="#main" class="btn-top" onclick={scrollToTop}>⬆</a>
 
 <style>
 	section {
