@@ -18,7 +18,6 @@
 	const currentPage = $derived(skip / first + 1);
 	let totalUrls = $derived(data.websites.totalUrls);
 
-
 	// overview
 	let overview = $derived(data.websites?.website);
 	let partners = $derived(data.partnersData || []);
@@ -26,9 +25,6 @@
 	let currentUrls = $derived(overview?.urls ?? []);
 
 	let heading = $derived({
-		title: overview?.title ?? 'Onbekende website',
-		homepage: overview?.homepage ?? ''
-	});
 		title: overview?.title ?? 'Onbekende website',
 		homepage: overview?.homepage ?? ''
 	});
