@@ -33,6 +33,7 @@
 		align-items: center;
 		width: 70%;
 		box-sizing: border-box;
+		color: var(--color-neutral-white);
 	}
 
 	.logo-box {
