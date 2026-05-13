@@ -266,6 +266,13 @@
 			top: 8%;
 		}
 	}
+	:global(.navbutton:focus) {
+		border: none !important;
+	}
+
+	:global(.navbutton:hover) {
+		border: white 3px solid;
+	}
 
 	dialog[open] {
 		display: block;
