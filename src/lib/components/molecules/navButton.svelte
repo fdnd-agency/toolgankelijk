@@ -33,7 +33,9 @@
 		<Icon showIcon={true} {iconName} />
 	</span>
 
-	{@render children?.()}
+	<span class="text">
+		{@render children?.()}
+	</span>
 </svelte:element>
 
 <style>
@@ -61,6 +63,15 @@
 	.icon-wrapper {
 		display: inline-flex;
 		align-items: center;
+	}
+
+	.text {
+		flex: 1;
+        min-width: 0; 
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-align: left;
 	}
 
 	.small {
@@ -114,9 +125,13 @@
 	/* for the dropdowns */
 	.select {
 		width: 100%;
-		justify-content: space-between;
+		font-size: 12px;
+		height: 2em;
+		justify-content: flex-start;
 		align-items: center;
 		border: var(--color-neutral-white) 1px solid;
+
+		display: inline-flex;
 
 		&:focus {
 			transition-duration: 0.2s;
@@ -125,10 +140,15 @@
 	}
 
 	.dropdown {
-		width: 15em;
+		width: 16em;
+		font-size: 16px;
 		place-items: center;
 		margin: 0px auto;
-		justify-content: space-around;
+		justify-content: space-between;
+		flex-direction: row-reverse;
+		height: 2em;
+
+		display: inline-flex;
 
 		@media (max-width: 720px) {
 			width: 100%;
@@ -147,5 +167,16 @@
 
 	.invisible {
 		display: none;
+	}
+
+	.cross {
+		width: 2em;
+		height: 2em;
+	}
+
+	.disabled {
+		filter:grayscale(100);
+		opacity: 0.3;
+		height: 2em;
 	}
 </style>
