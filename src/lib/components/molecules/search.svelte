@@ -1,5 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
+	import Icon from '$lib/components/atoms/icon.svelte';
 
 	let { placeholderProp } = $props();
 
@@ -23,8 +24,7 @@
 </script>
 
 <form class="form-off" oninput={submitPartner}>
-	<label for="partner-search">Zoeken</label>
-	<input type="search" id="partner-search" placeholder={placeholderProp} bind:value={input} />
+	<input type="search" id="partner-search" placeholder="zoeken" bind:value={input} />
 </form>
 
 <style>
@@ -42,11 +42,15 @@
 	}
 
 	label {
-		color: var(--c-white2);
+		position: relative;
+		align-items: center;
+		left: 7em;
+		opacity: 0.3;
 	}
 
 	input {
 		padding: 0.5em;
+		height: 2.5em;
 		border: 2px solid var(--color-neutral-black);
 		background-color: var(--color-neutral-white);
 		border-radius: var(--border-radius);
@@ -55,6 +59,7 @@
 		font-size: 1em;
 		font-weight: 600;
 		padding-left: 0.75em;
+		opacity: 0.3;
 	}
 
 	input::placeholder {
