@@ -12,7 +12,7 @@
         showIcon={true}
         iconName="menu"
         variant="secondary"
-        effect="header"
+        effect="hamburger"
         size="small"
     />
 </div>

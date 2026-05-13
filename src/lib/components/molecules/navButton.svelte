@@ -166,4 +166,8 @@
 		border-top-left-radius: 12px;
 		border-top-right-radius: 12px;
 	}
+
+	.hamburger {
+		justify-content: center;
+	}
 </style>
