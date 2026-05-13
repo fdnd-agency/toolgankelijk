@@ -8,6 +8,7 @@ import {
 	setEmailVerificationRequestCookie
 } from '$lib/server/email-verification';
 import { setUserEmailAsVerified } from '$lib/server/user';
+import { delay } from '$lib/utils/delay.js';
 
 export async function load(event) {
 	// Controleer of de gebruiker is ingelogd
@@ -40,10 +41,6 @@ export const actions = {
 	verify: verifyCode,
 	resend: resendEmail
 };
-
-function delay(ms) {
-	return new Promise((resolve) => setTimeout(resolve, ms));
-}
 
 // Deze functie handelt de verificatie van de door de gebruiker ingevoerde code af
 async function verifyCode(event) {

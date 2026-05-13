@@ -1,11 +1,15 @@
 import { partnerRepository, urlRepository } from '$lib/server/index.js';
 import {
+	createSSEJobResponse,
+	pushSSEUpdate
+} from '$lib/server/SSE.js';
+import { delay } from '$lib/utils/delay.js';
+import {
 	formatUrl,
 	getSitemapPromises,
 	pickFirstSitemap,
 	crawlUrls,
-	processUrls,
-	delay
+	processUrls
 } from '$lib/utils/sitemap.js';
 
 export async function POST({ request }) {
@@ -30,78 +34,63 @@ export async function POST({ request }) {
 		'robots.txt'
 	];
 
-	const stream = new ReadableStream({
-		start(controller) {
-			const enc = new TextEncoder();
-			let closed = false;
-			const safeClose = () => {
-				if (!closed) {
-					try {
-						controller.close();
-					} catch (error) {
-						console.error('Error closing stream:', error);
+	return createSSEJobResponse(request, async (session) => {
+		const pushProgressUpdateToClient = async (clientUpdatePayload) => {
+			try {
+				if (session.isConnected) pushSSEUpdate(session, clientUpdatePayload);
+			} catch {}
+		};
+
+		try {
+			await pushProgressUpdateToClient({ status: 'Partner bijwerken gestart', type: 'done' });
+			await delay(500);
+
+			let url = rawUrl;
+			let urls = [];
+			if (toggle) {
+				url = await formatUrl(rawUrl, pushProgressUpdateToClient);
+				const promises = getSitemapPromises(url, sitemapPaths, pushProgressUpdateToClient);
+				const sitemapUrls = await pickFirstSitemap(promises, pushProgressUpdateToClient);
+
+				urls =
+					sitemapUrls.length > 0
+						? sitemapUrls
+						: await crawlUrls(url, pushProgressUpdateToClient);
+			}
+
+			await pushProgressUpdateToClient({ status: 'Partner data verwerken', type: 'done' });
+
+			if (toggle && urls.length) {
+				const { total } = await processUrls(urls, slug, pushProgressUpdateToClient);
+				await partnerRepository.updatePartnerTotalUrls({ slug, totalUrls: total });
+				await delay(500);
+				for (const urlEntry of urls) {
+					const path = new URL(urlEntry).pathname;
+					const urlSlug = (slug + path).replace(/\//g, '-');
+					const checkId = await urlRepository.getFirstCheck({ websiteSlug: slug, urlSlug });
+					if (!checkId) {
+						await urlRepository.createEmptyCheckForUrl({ websiteSlug: slug, urlSlug });
+						await pushProgressUpdateToClient({
+							status: `Check aangemaakt voor ${urlEntry}`,
+							type: 'done'
+						});
+					} else {
+						await pushProgressUpdateToClient({
+							status: `Check bestaat al voor ${urlEntry}`,
+							type: 'warning'
+						});
 					}
-					closed = true;
+					await delay(1000);
 				}
-			};
-			const sendUpdate = async (msg) =>
-				controller.enqueue(enc.encode(`data: ${JSON.stringify(msg)}\n\n`));
-
-			(async () => {
-				try {
-					await sendUpdate({ status: 'Partner bijwerken gestart', type: 'done' });
-					await delay(500);
-
-					let url = rawUrl;
-					let urls = [];
-					if (toggle) {
-						url = await formatUrl(rawUrl, sendUpdate);
-						const promises = getSitemapPromises(url, sitemapPaths, sendUpdate);
-						const sitemapUrls = await pickFirstSitemap(promises, sendUpdate);
-
-						urls = sitemapUrls.length > 0 ? sitemapUrls : await crawlUrls(url, sendUpdate);
-					}
-
-					await sendUpdate({ status: 'Partner data verwerken', type: 'done' });
-
-					// Process URLs if toggle is on
-					if (toggle && urls.length) {
-						const { total } = await processUrls(urls, slug, sendUpdate);
-						await partnerRepository.updatePartnerTotalUrls({ slug, totalUrls: total });
-						await delay(500);
-						// Create empty check for each url
-						for (const url of urls) {
-							const path = new URL(url).pathname;
-							const urlSlug = (slug + path).replace(/\//g, '-');
-							// Check if a check already exists for this urlSlug
-							const checkId = await urlRepository.getFirstCheck({ websiteSlug: slug, urlSlug });
-							if (!checkId) {
-								await urlRepository.createEmptyCheckForUrl({ websiteSlug: slug, urlSlug });
-								await sendUpdate({ status: `Check aangemaakt voor ${url}`, type: 'done' });
-							} else {
-								await sendUpdate({ status: `Check bestaat al voor ${url}`, type: 'warning' });
-							}
-							await delay(1000);
-						}
-						await sendUpdate({ status: 'Alle urls zijn toegevoegd', type: 'done' });
-					}
-					await partnerRepository.updatePartnerById({ id, name, url, slug });
-					await sendUpdate({ status: 'Partner bijgewerkt', type: 'done' });
-				} catch (err) {
-					await sendUpdate({ status: err.message, type: 'error' });
-				} finally {
-					safeClose();
-				}
-			})();
-		}
-	});
-
-	return new Response(stream, {
-		headers: {
-			'Content-Type': 'text/event-stream',
-			'Cache-Control': 'no-cache',
-			Connection: 'keep-alive',
-			'Transfer-Encoding': 'chunked'
+				await pushProgressUpdateToClient({ status: 'Alle urls zijn toegevoegd', type: 'done' });
+			}
+			await partnerRepository.updatePartnerById({ id, name, url, slug });
+			await pushProgressUpdateToClient({ status: 'Partner bijgewerkt', type: 'done' });
+		} catch (error) {
+			await pushProgressUpdateToClient({
+				status: error instanceof Error ? error.message : String(error),
+				type: 'error'
+			});
 		}
 	});
 }
