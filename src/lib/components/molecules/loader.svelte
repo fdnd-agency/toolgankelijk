@@ -1,12 +1,20 @@
 <script>
-	let { itemArray = [], urlCount, urlTotal, logList, prevLen = 0, type } = $props();
+	let {
+		logItems = [],
+		urlCount,
+		urlTotal,
+		type
+	} = $props();
 
-	let logCount = $derived(itemArray.length);
+	let logListElement = $state(null);
+	let previousLogItemCount = $state(0);
+
+	let logCount = $derived(logItems.length);
 
 	$effect(() => {
-		if (itemArray.length > prevLen && logList) {
-			logList.scrollTop = logList.scrollHeight;
-			prevLen = itemArray.length;
+		if (logItems.length > previousLogItemCount && logListElement) {
+			logListElement.scrollTop = logListElement.scrollHeight;
+			previousLogItemCount = logItems.length;
 		}
 	});
 </script>
@@ -22,15 +30,15 @@
 			{/if}
 		{/if}
 	</summary>
-	<ul class="log-list" role="log" aria-live="polite" bind:this={logList}>
-		{#each itemArray as item}
-			<li class="log-item {item.type}">
-				{#if item.type === 'loading'}
+	<ul class="log-list" role="log" aria-live="polite" bind:this={logListElement}>
+		{#each logItems as logItem}
+			<li class="log-item {logItem.type}">
+				{#if logItem.type === 'loading'}
 					<span class="loader"></span>
 				{:else}
-					<img src="/icons/{item.type}.svg" alt={item.type} width="16" height="16" />
+					<img src="/icons/{logItem.type}.svg" alt={logItem.type} width="16" height="16" />
 				{/if}
-				{item.status}
+				{logItem.status}
 			</li>
 		{/each}
 	</ul>

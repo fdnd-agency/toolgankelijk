@@ -83,25 +83,50 @@
 		document.body.style.overflowY = 'unset';
 	}
 
-	async function submitHandling(event) {
+	function splitSseDoubleNewlineFrames(buffer) {
+		const frames = buffer.split('\n\n');
+		const remainder = frames.pop() ?? '';
+		return { frames, remainder };
+	}
+
+	function getFirstDataLineFromSseFrame(rawFrame) {
+		const trimmed = rawFrame.trim();
+		if (!trimmed) return null;
+		return (
+			trimmed
+				.split('\n')
+				.map((line) => line.trimEnd())
+				.find((line) => line.startsWith('data:')) ?? null
+		);
+	}
+
+	function parseSseJsonPayload(dataLine) {
+		try {
+			return JSON.parse(dataLine.replace(/^data:\s*/, ''));
+		} catch {
+			return null;
+		}
+	}
+
+	async function handleFormSubmit(event) {
 		event.preventDefault();
 		sending = true;
 		logs = [];
 		urlCount = 0;
 		urlTotal = 0;
 
-		const postRes = await fetch(config.action, {
+		const postResponse = await fetch(config.action, {
 			method: 'POST',
 			body: new FormData(event.target)
 		});
 
-		if (!postRes.ok || !postRes.body) {
+		if (!postResponse.ok || !postResponse.body) {
 			console.error('Fetch error or no stream received');
 			sending = false;
 			return;
 		}
 
-		const reader = postRes.body.getReader();
+		const reader = postResponse.body.getReader();
 		const decoder = new TextDecoder();
 		let buffer = '';
 		let done = false;
@@ -111,14 +136,19 @@
 			if (streamDone) break;
 
 			buffer += decoder.decode(value, { stream: true });
-			const parts = buffer.split('\n\n');
-			buffer = parts.pop();
+			const { frames: completeFrames, remainder } = splitSseDoubleNewlineFrames(buffer);
+			buffer = remainder;
 
-			for (const part of parts) {
-				if (!part.startsWith('data:')) continue;
-				const { status, type, error, count, total } = JSON.parse(part.replace(/^data:\s*/, ''));
+			for (const rawFrame of completeFrames) {
+				const dataLine = getFirstDataLineFromSseFrame(rawFrame);
+				if (!dataLine) continue;
 
-				if (count && total) {
+				const parsedPayload = parseSseJsonPayload(dataLine);
+				if (!parsedPayload) continue;
+
+				const { status, type, error, count, total } = parsedPayload;
+
+				if (Number.isFinite(count) && Number.isFinite(total)) {
 					urlCount = count;
 					urlTotal = total;
 				}
@@ -126,8 +156,12 @@
 				if (error) {
 					logs = [...logs, { status: error, type: 'error' }];
 				} else {
-					if (logs.length > 0 && logs[logs.length - 1].type === 'loading' && type !== 'loading') {
-						logs = logs.filter((log) => log.type !== 'loading');
+					if (
+						logs.length > 0 &&
+						logs[logs.length - 1].type === 'loading' &&
+						type !== 'loading'
+					) {
+						logs = logs.filter((logEntry) => logEntry.type !== 'loading');
 					}
 					logs = [...logs, { status, type }];
 				}
@@ -163,9 +197,21 @@
 				</div>
 			{/if}
 
-			<form onsubmit={submitHandling}>
+			<form onsubmit={handleFormSubmit}>
 				<input type="hidden" name="id" value={formData.id} />
-				{#if showTextFields}
+				{#if isType === 'startAudit'}
+					<input type="hidden" name="slug" value={website.slug ?? formData.slug} />
+					<input
+						type="hidden"
+						name="urls"
+						value={JSON.stringify(
+							(website.urls ?? []).map((websiteUrlEntry) => ({
+								url: websiteUrlEntry.url,
+								urlSlug: websiteUrlEntry.slug
+							}))
+						)}
+					/>
+				{:else if showTextFields}
 					<input type="hidden" name="slug" value={formData.slug} readonly />
 				{/if}
 
@@ -234,7 +280,12 @@
 			<div class="tip-message" aria-label="tip message">
 				<p><span>{formData.name}</span> wordt verwerkt, sluit de pagina niet.</p>
 			</div>
-			<Loader itemArray={logs} {urlCount} {urlTotal} type={config.type} />
+			<Loader
+				logItems={logs}
+				{urlCount}
+				{urlTotal}
+				type={config.type}
+			/>
 		{/if}
 	</section>
 </dialog>
