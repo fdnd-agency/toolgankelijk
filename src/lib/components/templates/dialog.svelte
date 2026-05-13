@@ -350,6 +350,12 @@
 		}
 	}
 
+	.form-edit-textfields {
+		display: flex;
+		flex-direction: column;
+		gap: 0.3rem;
+	}
+
 	.form-checkbox {
 		padding: 1em;
 	}
