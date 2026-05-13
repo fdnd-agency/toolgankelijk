@@ -53,7 +53,30 @@
 		</NavButton>
 
 		{#if activeDropdown === 'partner'}
-			<ul class="dropdown-list" transition:slide={{ duration: 200 }}>
+			<ul id="dropdown-list-wrapper" class="color-primary-light" transition:slide={{ duration: 200 }} >
+			<div class="dropdown-controls">
+				<NavButton
+					onclick={() => toggleDropdown('partner')}
+					aria="breadcrumb of {selectedPartner}"
+					effect="dropdown"
+				>
+					{#if selectedPartner}
+						<p>{selectedPartner.title}</p>
+					{:else}
+						<p>Partners overzicht</p>
+					{/if}
+				</NavButton>
+
+				<NavButton 
+				variant="primary" 
+				size="small" 
+				showIcon={true} 
+				iconName="cross" 
+				effect="cross"
+				onclick={() => toggleDropdown()}>
+				</NavButton>
+			</div>
+			<div class="dropdown-list">
 				{#each partnerList as partner}
 					{#if partner && partner.slug}
 						<li>
@@ -63,6 +86,7 @@
 						</li>
 					{/if}
 				{/each}
+				</div>
 			</ul>
 		{/if}
 	</div>
@@ -82,18 +106,36 @@
 			</NavButton>
 
 			{#if activeDropdown === 'url'}
-				<ul class="dropdown-list" transition:slide={{ duration: 200 }}>
-					{#each urlList as urlItem}
-						{#if selectedPartner && urlItem && urlItem.slug}
-							<li>
-								<NavButton href="/{selectedPartner.slug}/{urlItem.slug}" effect="full">
-									<p title={urlItem.name}>{urlItem.name}</p>
-								</NavButton>
-							</li>
-						{/if}
-					{/each}
+				<ul id="dropdown-list-wrapper" transition:slide={{ duration: 200 }}>
+							<div class="dropdown-controls">
+				<NavButton
+					effect="dropdown"
+				>
+					URL dropdown
+				</NavButton>
+				<NavButton 
+				variant="primary" 
+				size="small" 
+				showIcon={true} 
+				iconName="cross" 
+				effect="cross"
+				onclick={() => toggleDropdown()}>
+				</NavButton>
+			</div>
+					<div class="dropdown-list">
+						{#each urlList as urlItem}
+							{#if selectedPartner && urlItem && urlItem.slug}
+								<li>
+									<NavButton href="/{selectedPartner.slug}/{urlItem.slug}" effect="select">
+										<p title={urlItem.name}>{urlItem.name}</p>
+									</NavButton>
+								</li>
+							{/if}
+						{/each}
+					</div>
 				</ul>
 			{/if}
+			
 		</div>
 	{/if}
 
@@ -108,19 +150,38 @@
 			</NavButton>
 
 			{#if activeDropdown === 'principle'}
-				<ul class="dropdown-list" transition:slide={{ duration: 200 }}>
+				<ul id="dropdown-list-wrapper" transition:slide={{ duration: 200 }}>
+
+				<div class="dropdown-controls">
+					<NavButton
+						effect="dropdown"
+					>
+						Principes
+					</NavButton>
+					<NavButton 
+					variant="primary" 
+					size="small" 
+					showIcon={true} 
+					iconName="cross" 
+					effect="cross"
+					onclick={() => toggleDropdown()}>
+					</NavButton>
+				</div>
+
+				<div class="dropdown-list">
 					{#each principles as principle}
 						{#if selectedPartner && selectedUrlItem && principle && principle.slug}
 							<li>
 								<NavButton
 									href="/{selectedPartner.slug}/{selectedUrlItem.slug}/{principle.slug}"
-									effect="full"
+									effect="select"
 								>
 									<p>{principle.title}</p>
 								</NavButton>
 							</li>
 						{/if}
 					{/each}
+					</div>
 				</ul>
 			{/if}
 		</div>
@@ -141,9 +202,9 @@
 		}
 	}
 
-	.dropdown-list {
+	#dropdown-list-wrapper {
 		position: absolute;
-		top: calc(100% + 0.5rem);
+		top: calc(100% + 0.1em);
 		z-index: 10;
 		box-sizing: border-box;
 		width: 16em;
@@ -151,13 +212,26 @@
 		border: var(--color-primary) solid 3px;
 		border-radius: var(--border-radius);
 		padding: 1em;
+
+		&:target {
+			display: block;
+		}
+	}
+
+	.dropdown-list {
 		list-style: none;
 		display: flex;
 		flex-direction: column;
 		gap: 0.3em;
 		margin: 0;
+		background-color: var(--dark-2);
+		padding-top: 1em;
+		padding-bottom: 1em;
+		padding-left: 0.5em;
+		padding-right: 0.5em;
+		border-radius: var(--border-radius);
 
-		max-height: 18.2em;
+		max-height: 12em;
 		overflow-y: auto;
 
 		li {
@@ -177,6 +251,17 @@
 		@media (max-width: 720px) {
 			width: 100%;
 		}
+	}
+
+	.dropdown-list:target {
+		display: block;
+	}
+
+	.dropdown-controls {
+		display: flex;
+		justify-content: flex-end;
+		padding-bottom: 0.5em;
+		gap: 1em;
 	}
 
 	.breadcrumb-item {
