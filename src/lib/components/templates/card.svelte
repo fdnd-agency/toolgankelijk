@@ -243,7 +243,6 @@
 		gap: 4em;
 		container-type: inline-size;
 		container-name: card-component;
-		box-shadow: 0px 4px 10px -2px rgba(0, 0, 0, 0.25);
 	}
 
 	#card-partner {
@@ -298,6 +297,9 @@
 		border-radius: var(--border-radius);
 		width: 128px;
 		height: 128px;
+		display: flex;
+		background: white;
+		justify-content: center;
 	}
 
 	#partner-progress-container {
@@ -362,6 +364,10 @@
 		justify-content: flex-end;
 		gap: 0.5em;
 		align-items: center;
+	}
+
+	.card-icons-partner > :global(.navbutton) {
+			border: none !important;
 	}
 
 	.card-icons-url {

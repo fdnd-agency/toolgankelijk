@@ -79,11 +79,17 @@
 	{/each}
 </section>
 
-<NavButton size="medium" variant="primary" showIcon={false} href="#main" aria="scroll naar boven">
-	<p>Scroll naar Boven</p>
-</NavButton>
-
-<a href="#main" class="btn-top" onclick={scrollToTop}>⬆</a>
+<div class="scroll-color-override">
+	<NavButton
+		size="medium"
+		variant="primary"
+		showIcon={true}
+		iconName="arrow"
+		href="#main"
+		aria-label="scroll naar boven"
+		onClick={scrollToTop}
+	></NavButton>
+</div>
 
 <style>
 	section {
@@ -134,6 +140,20 @@
 		cursor: pointer;
 		text-decoration: none;
 		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+	}
+
+	.scroll-color-override {
+		display: flex;
+		justify-content: flex-end;
+	}
+
+	.scroll-color-override > :global(.navbutton) {
+		background-color: #c7337f !important;
+	}
+
+	.scroll-color-override :global(svg),
+	.scroll-color-override :global(img) {
+		transform: rotate(180deg);
 	}
 
 	.btn-top:hover {

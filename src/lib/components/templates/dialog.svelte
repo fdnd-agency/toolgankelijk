@@ -267,6 +267,19 @@
 		}
 	}
 
+	:global(.navbutton:focus) {
+		transition: border-color 0.2s ease-in-out !important;
+		border: transparent 2px solid !important;
+	}
+
+	:global(.navbutton:focus) {
+		border-color: transparent !important;
+	}
+
+	:global(.navbutton:hover) {
+		border-color: white !important;
+	}
+
 	dialog[open] {
 		display: block;
 	}
@@ -335,6 +348,12 @@
 		label {
 			display: none;
 		}
+	}
+
+	.form-edit-textfields {
+		display: flex;
+		flex-direction: column;
+		gap: 0.3rem;
 	}
 
 	.form-checkbox {
