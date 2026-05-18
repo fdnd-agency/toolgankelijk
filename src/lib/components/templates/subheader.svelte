@@ -65,7 +65,7 @@
 		</div>
 
 		<div class="subheader-dropdown-wrapper">
-			<NavButton size="small" showIcon={true} iconName="arrow" effect="disabled"></NavButton>
+			<NavButton size="small" showIcon={true} iconName="arrow" effect="disabled" aria="dropdown menu"></NavButton>
 		</div>
 	</div>
 </div>

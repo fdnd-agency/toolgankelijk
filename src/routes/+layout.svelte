@@ -26,7 +26,10 @@
 
 	let showSubHeader = $derived(
         !$page.url.pathname.startsWith('/info') && 
-        !$page.url.pathname.startsWith('/account')
+        !$page.url.pathname.startsWith('/account') &&
+		!$page.url.pathname.startsWith('/login') &&
+		!$page.url.pathname.startsWith('/register') &&
+		!$page.url.pathname.startsWith('/logout')
     );
 
 	onNavigate((navigation) => {
