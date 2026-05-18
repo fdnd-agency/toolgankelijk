@@ -49,7 +49,7 @@
 		text-decoration: none;
 		border: var(--border-white, 1px solid transparent);
 		height: 3em;
-		gap: 0.5em;
+		gap: 0.3em;
 	}
 
 	.navbutton:hover {
@@ -78,6 +78,7 @@
 		width: 3em;
 		padding: 1em 1em;
 		font-size: 16px;
+		gap: 0;
 	}
 	.medium {
 		width: 8em;
@@ -147,8 +148,11 @@
 		justify-content: space-between;
 		flex-direction: row-reverse;
 		height: 2em;
-
 		display: inline-flex;
+
+		@media (max-width: 1320px) {
+		width: 12em;
+		}
 
 		@media (max-width: 720px) {
 			width: 100%;
@@ -170,8 +174,8 @@
 	}
 
 	.cross {
-		width: 2em;
 		height: 2em;
+		width: 2em;
 	}
 
 	.disabled {

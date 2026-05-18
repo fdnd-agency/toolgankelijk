@@ -153,6 +153,7 @@
 					variant="primary"
 					showIcon={true}
 					iconName="cross"
+					effect="cross"
 					size="small"
 				></NavButton>
 			</div>

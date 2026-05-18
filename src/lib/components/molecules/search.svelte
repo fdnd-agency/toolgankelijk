@@ -55,11 +55,15 @@
 		background-color: var(--color-neutral-white);
 		border-radius: var(--border-radius);
 		color: var(--color-neutral-black);
-		width: 15em;
+		width: 20em;
 		font-size: 1em;
 		font-weight: 600;
 		padding-left: 0.75em;
 		opacity: 0.3;
+
+		@media (max-width: 1080px) {
+			width: 12em;
+		}
 	}
 
 	input::placeholder {
