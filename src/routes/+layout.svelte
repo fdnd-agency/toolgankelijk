@@ -24,6 +24,11 @@
 		url: data.urlData?.url?.slug ?? ''
 	});
 
+	let showSubHeader = $derived(
+        !$page.url.pathname.startsWith('/info') && 
+        !$page.url.pathname.startsWith('/account')
+    );
+
 	onNavigate((navigation) => {
 		if (!document.startViewTransition) return;
 
@@ -37,6 +42,8 @@
 </script>
 
 <Header />
+
+{#if showSubHeader}
 <SubHeader 
 	{params} 
 	{partners} 
@@ -46,6 +53,7 @@
 	user={data.user}
 	overview={data.urlData?.url?.website || data.websitesData?.website}
 />
+{/if}
 
 <main id="main">
 	{@render children?.()}
