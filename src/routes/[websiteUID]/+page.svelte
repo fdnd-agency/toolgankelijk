@@ -35,7 +35,6 @@
 	}
 </script>
 
-
 <Dialog bind:this={dialogRef} params={params.websiteUID} isType="addUrl" />
 
 {#if form?.success}

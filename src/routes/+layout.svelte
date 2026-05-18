@@ -9,9 +9,7 @@
 	let params = $derived($page.params);
 
 	let websitesArray = $derived(
-		data.urlData?.url?.website?.urls || 
-		data.websitesData?.website?.urls || 
-		[]
+		data.urlData?.url?.website?.urls || data.websitesData?.website?.urls || []
 	);
 
 	let websites = $derived(data.websitesData || []);
@@ -25,12 +23,12 @@
 	});
 
 	let showSubHeader = $derived(
-        !$page.url.pathname.startsWith('/info') && 
-        !$page.url.pathname.startsWith('/account') &&
-		!$page.url.pathname.startsWith('/login') &&
-		!$page.url.pathname.startsWith('/register') &&
-		!$page.url.pathname.startsWith('/logout')
-    );
+		!$page.url.pathname.startsWith('/info') &&
+			!$page.url.pathname.startsWith('/account') &&
+			!$page.url.pathname.startsWith('/login') &&
+			!$page.url.pathname.startsWith('/register') &&
+			!$page.url.pathname.startsWith('/logout')
+	);
 
 	onNavigate((navigation) => {
 		if (!document.startViewTransition) return;
@@ -47,15 +45,15 @@
 <Header />
 
 {#if showSubHeader}
-<SubHeader 
-	{params} 
-	{partners} 
-	websites={websitesArray}
-	{principles} 
-	{heading}
-	user={data.user}
-	overview={data.urlData?.url?.website || data.websitesData?.website}
-/>
+	<SubHeader
+		{params}
+		{partners}
+		websites={websitesArray}
+		{principles}
+		{heading}
+		user={data.user}
+		overview={data.urlData?.url?.website || data.websitesData?.website}
+	/>
 {/if}
 
 <main id="main">

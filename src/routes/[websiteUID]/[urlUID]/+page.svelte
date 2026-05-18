@@ -114,7 +114,6 @@
 	const getPercent = (achieved, total) => (total > 0 ? Math.round((achieved / total) * 100) : 0);
 </script>
 
-
 <section class="container-principles">
 	<ul>
 		{#each filteredPrincipes as principe (principe.index)}

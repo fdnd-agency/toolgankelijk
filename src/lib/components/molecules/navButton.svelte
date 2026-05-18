@@ -67,11 +67,11 @@
 
 	.text {
 		flex: 1;
-        min-width: 0; 
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        text-align: left;
+		min-width: 0;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		text-align: left;
 	}
 
 	.small {
@@ -151,7 +151,7 @@
 		display: inline-flex;
 
 		@media (max-width: 1320px) {
-		width: 12em;
+			width: 12em;
 		}
 
 		@media (max-width: 1080px) {
@@ -179,7 +179,7 @@
 	}
 
 	.disabled {
-		filter:grayscale(100);
+		filter: grayscale(100);
 		opacity: 0.3;
 		height: 2em;
 	}

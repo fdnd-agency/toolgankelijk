@@ -45,7 +45,6 @@
 
 <Dialog bind:this={dialogRef} {params} isType="addPartner" />
 
-
 {#if totalUrls > first}
 	<Pages amount={totalUrls} perPage={first} {currentPage} />
 {/if}

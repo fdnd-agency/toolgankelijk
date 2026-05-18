@@ -53,39 +53,43 @@
 		</NavButton>
 
 		{#if activeDropdown === 'partner'}
-			<ul id="dropdown-list-wrapper" class="color-primary-light" transition:slide={{ duration: 200 }} >
-			<div class="dropdown-controls">
-				<NavButton
-					onclick={() => toggleDropdown('partner')}
-					aria="breadcrumb of {selectedPartner}"
-					effect="dropdown"
-				>
-					{#if selectedPartner}
-						<p>{selectedPartner.title}</p>
-					{:else}
-						<p>Partners overzicht</p>
-					{/if}
-				</NavButton>
+			<ul
+				id="dropdown-list-wrapper"
+				class="color-primary-light"
+				transition:slide={{ duration: 200 }}
+			>
+				<div class="dropdown-controls">
+					<NavButton
+						onclick={() => toggleDropdown('partner')}
+						aria="breadcrumb of {selectedPartner}"
+						effect="dropdown"
+					>
+						{#if selectedPartner}
+							<p>{selectedPartner.title}</p>
+						{:else}
+							<p>Partners overzicht</p>
+						{/if}
+					</NavButton>
 
-				<NavButton 
-				variant="primary" 
-				size="small" 
-				showIcon={true} 
-				iconName="cross" 
-				effect="cross"
-				onclick={() => toggleDropdown()}>
-				</NavButton>
-			</div>
-			<div class="dropdown-list">
-				{#each partnerList as partner}
-					{#if partner && partner.slug}
-						<li>
-							<NavButton variant="primary" href="/{partner.slug}" effect="select">
-								<p>{partner.title}</p>
-							</NavButton>
-						</li>
-					{/if}
-				{/each}
+					<NavButton
+						variant="primary"
+						size="small"
+						showIcon={true}
+						iconName="cross"
+						effect="cross"
+						onclick={() => toggleDropdown()}
+					></NavButton>
+				</div>
+				<div class="dropdown-list">
+					{#each partnerList as partner}
+						{#if partner && partner.slug}
+							<li>
+								<NavButton variant="primary" href="/{partner.slug}" effect="select">
+									<p>{partner.title}</p>
+								</NavButton>
+							</li>
+						{/if}
+					{/each}
 				</div>
 			</ul>
 		{/if}
@@ -108,22 +112,22 @@
 			</NavButton>
 
 			{#if activeDropdown === 'url'}
-				<ul id="dropdown-list-wrapper" class="color-primary-light"  transition:slide={{ duration: 200 }}>
-							<div class="dropdown-controls">
-				<NavButton
-					effect="dropdown-wrap"
+				<ul
+					id="dropdown-list-wrapper"
+					class="color-primary-light"
+					transition:slide={{ duration: 200 }}
 				>
-					URL dropdown
-				</NavButton>
-				<NavButton 
-				variant="primary" 
-				size="small" 
-				showIcon={true} 
-				iconName="cross" 
-				effect="cross"
-				onclick={() => toggleDropdown()}>
-				</NavButton>
-			</div>
+					<div class="dropdown-controls">
+						<NavButton effect="dropdown-wrap">URL dropdown</NavButton>
+						<NavButton
+							variant="primary"
+							size="small"
+							showIcon={true}
+							iconName="cross"
+							effect="cross"
+							onclick={() => toggleDropdown()}
+						></NavButton>
+					</div>
 					<div class="dropdown-list">
 						{#each urlList as urlItem}
 							{#if selectedPartner && urlItem && urlItem.slug}
@@ -137,19 +141,19 @@
 					</div>
 				</ul>
 			{/if}
-			
 		</div>
 	{/if}
 
 	{#if selectedUrlItem && principles.length > 0}
 		<div class="breadcrumb-item">
-			<NavButton 
-			onclick={() => toggleDropdown('principle')} 
-			variant="primary" 
-			effect="dropdown" 
-			showIcon={true}
-			iconName="arrow"
-			aria="{selectedPrinciple.title} || Principe Overzicht">
+			<NavButton
+				onclick={() => toggleDropdown('principle')}
+				variant="primary"
+				effect="dropdown"
+				showIcon={true}
+				iconName="arrow"
+				aria="{selectedPrinciple.title} || Principe Overzicht"
+			>
 				{#if selectedPrinciple}
 					<span>{selectedPrinciple.title}</span>
 				{:else}
@@ -158,41 +162,38 @@
 			</NavButton>
 
 			{#if activeDropdown === 'principle'}
-				<ul id="dropdown-list-wrapper" class="color-primary-light" transition:slide={{ duration: 200 }}>
+				<ul
+					id="dropdown-list-wrapper"
+					class="color-primary-light"
+					transition:slide={{ duration: 200 }}
+				>
+					<div class="dropdown-controls">
+						<NavButton effect="dropdown" aria="Principes">Principes</NavButton>
+						<NavButton
+							variant="primary"
+							size="small"
+							showIcon={true}
+							iconName="cross"
+							effect="cross"
+							aria="sluiten"
+							onclick={() => toggleDropdown()}
+						></NavButton>
+					</div>
 
-				<div class="dropdown-controls">
-					<NavButton
-						effect="dropdown"
-						aria="Principes"
-					>
-						Principes
-					</NavButton>
-					<NavButton 
-					variant="primary" 
-					size="small" 
-					showIcon={true} 
-					iconName="cross" 
-					effect="cross"
-					aria="sluiten"
-					onclick={() => toggleDropdown()}
-					>
-					</NavButton>
-				</div>
-
-				<div class="dropdown-list">
-					{#each principles as principle}
-						{#if selectedPartner && selectedUrlItem && principle && principle.slug}
-							<li>
-								<NavButton
-									href="/{selectedPartner.slug}/{selectedUrlItem.slug}/{principle.slug}"
-									effect="select"
-									aria={principle.title}
-								>
-									<p>{principle.title}</p>
-								</NavButton>
-							</li>
-						{/if}
-					{/each}
+					<div class="dropdown-list">
+						{#each principles as principle}
+							{#if selectedPartner && selectedUrlItem && principle && principle.slug}
+								<li>
+									<NavButton
+										href="/{selectedPartner.slug}/{selectedUrlItem.slug}/{principle.slug}"
+										effect="select"
+										aria={principle.title}
+									>
+										<p>{principle.title}</p>
+									</NavButton>
+								</li>
+							{/if}
+						{/each}
 					</div>
 				</ul>
 			{/if}

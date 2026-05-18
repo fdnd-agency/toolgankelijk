@@ -38,7 +38,7 @@
 
 <div class="subheader">
 	<div class="subheader-heading">
-		<Heading {heading}/>
+		<Heading {heading} />
 		{#if user && user.isEmailVerified}
 			<BreadCrumbs {params} {partners} {websites} {overview} {principles} width="full" />
 		{/if}
@@ -47,30 +47,38 @@
 	<div class="subheader-form">
 		<!-- this will be placed on a sidebar of the principles page -->
 		<div class="subheader-form-up-wrapper">
-			<NavButton size="small" variant="primary" showIcon={true} iconName="add" onclick={onAdd} effect="disabled"
+			<NavButton
+				size="small"
+				variant="primary"
+				showIcon={true}
+				iconName="add"
+				onclick={onAdd}
+				effect="disabled"
 			></NavButton>
-			<Search effect="disabled"/>
+			<Search effect="disabled" />
 		</div>
 
 		<div class="subheader-form-down-wrapper">
 			<p>Sorteren op</p>
 
-			<NavButton effect="disabled">
-				Levels
-			</NavButton>
+			<NavButton effect="disabled">Levels</NavButton>
 
-			<NavButton effect="disabled">
-				Principles
-			</NavButton>
+			<NavButton effect="disabled">Principles</NavButton>
 		</div>
 
 		<div class="subheader-dropdown-wrapper">
-			<NavButton size="small" showIcon={true} iconName="arrow" effect="disabled" aria="dropdown menu"></NavButton>
+			<NavButton
+				size="small"
+				showIcon={true}
+				iconName="arrow"
+				effect="disabled"
+				aria="dropdown menu"
+			></NavButton>
 		</div>
 	</div>
 </div>
 
-<style>	
+<style>
 	.subheader {
 		height: 10em;
 		padding-left: 5%;
@@ -98,7 +106,7 @@
 		gap: 0.5em;
 		width: 100%;
 	}
-	
+
 	.subheader-form {
 		display: flex;
 		gap: 0.5em;
@@ -112,7 +120,7 @@
 		justify-content: flex-end;
 		align-items: center;
 
-		@media (max-width: 1080px) { 
+		@media (max-width: 1080px) {
 			padding-left: 4em;
 		}
 

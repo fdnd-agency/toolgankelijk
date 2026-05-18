@@ -18,7 +18,6 @@
 	{/if}
 </svelte:head>
 
-	<h1>
-		{heading.title}{#if heading.url}/{heading.url}{/if}
-	</h1>
-
+<h1>
+	{heading.title}{#if heading.url}/{heading.url}{/if}
+</h1>
