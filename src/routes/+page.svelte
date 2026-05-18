@@ -83,13 +83,12 @@
 	<NavButton
 		size="medium"
 		variant="primary"
-		showIcon={false}
+		showIcon={true}
+		iconName="arrow"
 		href="#main"
 		aria-label="scroll naar boven"
 		onClick={scrollToTop}
-	>
-		<p>⬆</p>
-	</NavButton>
+	></NavButton>
 </div>
 
 <style>
@@ -141,6 +140,11 @@
 		cursor: pointer;
 		text-decoration: none;
 		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+	}
+
+	.scroll-color-override {
+		display: flex;
+		justify-content: flex-end;
 	}
 
 	.scroll-color-override > :global(.navbutton) {
