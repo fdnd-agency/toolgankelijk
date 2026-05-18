@@ -151,6 +151,11 @@
 		background-color: #c7337f !important;
 	}
 
+	.scroll-color-override :global(svg),
+	.scroll-color-override :global(img) {
+		transform: rotate(180deg);
+	}
+
 	.btn-top:hover {
 		filter: brightness(1.2);
 	}
