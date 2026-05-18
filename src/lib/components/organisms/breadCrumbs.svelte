@@ -111,7 +111,7 @@
 				<ul id="dropdown-list-wrapper" class="color-primary-light"  transition:slide={{ duration: 200 }}>
 							<div class="dropdown-controls">
 				<NavButton
-					effect="dropdown"
+					effect="dropdown-wrap"
 				>
 					URL dropdown
 				</NavButton>
@@ -143,8 +143,13 @@
 
 	{#if selectedUrlItem && principles.length > 0}
 		<div class="breadcrumb-item">
-			<NavButton onclick={() => toggleDropdown('principle')} variant="primary" effect="dropdown" showIcon={true}
-				iconName="arrow">
+			<NavButton 
+			onclick={() => toggleDropdown('principle')} 
+			variant="primary" 
+			effect="dropdown" 
+			showIcon={true}
+			iconName="arrow"
+			aria="{selectedPrinciple.title} || Principe Overzicht">
 				{#if selectedPrinciple}
 					<span>{selectedPrinciple.title}</span>
 				{:else}
@@ -158,6 +163,7 @@
 				<div class="dropdown-controls">
 					<NavButton
 						effect="dropdown"
+						aria="Principes"
 					>
 						Principes
 					</NavButton>
@@ -167,7 +173,9 @@
 					showIcon={true} 
 					iconName="cross" 
 					effect="cross"
-					onclick={() => toggleDropdown()}>
+					aria="sluiten"
+					onclick={() => toggleDropdown()}
+					>
 					</NavButton>
 				</div>
 
@@ -178,6 +186,7 @@
 								<NavButton
 									href="/{selectedPartner.slug}/{selectedUrlItem.slug}/{principle.slug}"
 									effect="select"
+									aria={principle.title}
 								>
 									<p>{principle.title}</p>
 								</NavButton>
@@ -220,7 +229,7 @@
 			width: 12em;
 		}
 
-		@media (max-width: 720px) {
+		@media (max-width: 1080px) {
 			width: 100%;
 		}
 
@@ -241,7 +250,6 @@
 		padding-left: 0.5em;
 		padding-right: 0.5em;
 		border-radius: var(--border-radius);
-
 		max-height: 12em;
 		overflow-y: auto;
 
@@ -272,6 +280,10 @@
 		display: flex;
 		padding-bottom: 0.5em;
 		gap: 1em;
+
+		@media (max-width: 1320px) {
+			gap: 0.2em;
+		}
 	}
 
 	.breadcrumb-item {
