@@ -32,57 +32,60 @@
 
 <div class="info-wrapper">
 	<section class="text-container">
-		<h2><span>Vervoerregio Amsterdam.</span> HvA</h2>
+		<h2><span>Vervoerregio Amsterdam</span> HvA</h2>
 		<br />
 		<p>
-			Wij hebben samen met studenten van de Hogeschool van Amsterdam een checklist ontwikkeld waarin
-			op eenvoudige wijze wordt uitgelegd wat hierbij komt kijken en welke stappen u kunt nemen om
-			uw website en app toegankelijk te maken.
+			Wij hebben samen met studenten van de Hogeschool van Amsterdam een praktische en
+			overzichtelijke checklist ontwikkeld. In deze checklist wordt op een eenvoudige en
+			begrijpelijke manier uitgelegd wat er komt kijken bij digitale toegankelijkheid van websites
+			en apps. Daarnaast biedt de checklist concrete handvatten en duidelijke stappen die u kunt
+			nemen om uw website en app toegankelijker te maken voor alle gebruikers, inclusief mensen met
+			een beperking. Op deze manier kunt u stap voor stap werken aan een gebruiksvriendelijke,
+			inclusieve en beter toegankelijke digitale omgeving.
 		</p>
+	</section>
+
+	<section class="text-container">
 		<img src={walking} class="text-image" alt="darkmode icon" />
+		<div class="text-subcontainer text-subcontainer--light">
+			<h2 id="wettelijk">Is uw website al toegankelijk?</h2>
+			<p>
+				Binnen 2025 moet dit al! Voor overheden is dit al verplicht. En vanaf 2025 moet iedere
+				nieuwe website en app digitaal toegankelijk zijn. Dit moet volgens het EAA (European
+				Accessibility Act). Dit zou er mee moeten helpen dat iedereen elke website zou kunnen
+				bezoeken, niet uitmakende dat iemand een beperking heeft.
+			</p>
+		</div>
 	</section>
 
 	<section class="text-container">
-		<h2 id="wettelijk">is uw website al toegankelijk?</h2>
-		<p>
-			Binnen 2025 moet dit al! Voor overheden is dit al verplicht. En vanaf 2025 moet iedere nieuwe
-			website en app digitaal toegankelijk zijn. Dit moet volgens het EAA (European Accessibility
-			Act). Dit zou er mee moeten helpen dat iedereen elke website zou kunnen bezoeken, niet
-			uitmakende dat iemand een beperking heeft
-		</p>
+		<div class="text-subcontainer text-subcontainer--dark">
+			<h3>Wat kunt u doen om uw website toegankelijk te maken?</h3>
+
+			<p>
+				De Vervoerregio Amsterdam heeft samen met studenten van de Hogeschool van Amsterdam een
+				praktische checklist ontwikkeld waarin op een eenvoudige en toegankelijke manier wordt
+				uitgelegd wat er komt kijken bij het digitaal toegankelijk maken van websites en apps.
+				Daarnaast beschrijft de checklist welke stappen organisaties kunnen nemen om hun website en
+				app toegankelijker en gebruiksvriendelijker te maken voor een brede groep gebruikers,
+				waaronder mensen met een beperking.
+			</p>
+		</div>
 	</section>
 
 	<section class="text-container">
-		<h3>Wat kunt u doen om uw website toegankelijk te maken?</h3>
-
-		<p>
-			De Vervoerregio Amsterdam heeft samen met studenten van de Hogeschool van Amsterdam een
-			checklist ontwikkeld waarin op eenvoudige wijze wordt uitgelegd wat hierbij komt kijken en
-			welke stappen u kunt nemen om uw website en app toegankelijk te maken.
-		</p>
-	</section>
-
-	<section class="text-container">
-		<h3>Wat kunt u doen om uw website toegankelijk te maken?</h3>
-
-		<p>
-			De Vervoerregio Amsterdam heeft samen met studenten van de Hogeschool van Amsterdam een
-			checklist ontwikkeld waarin op eenvoudige wijze wordt uitgelegd wat hierbij komt kijken en
-			welke stappen u kunt nemen om uw website en app toegankelijk te maken.
-		</p>
-	</section>
-
-	<section class="text-container">
-		<h2>Wat is de wettelijke achtergrond?</h2>
-		<p>
-			In Nederland zijn er ca. 2 miljoen mensen met een beperking. Als deze mensen uw website of app
-			niet kunnen gebruiken, dan zorgt dat dat deze mensen worden uitgesloten van de samenleving.
-			Medio 2025 wordt om die reden door. De Europese Unie de European Accessibility Act (EAA) of
-			Europese Toegankelijkheidswet ingevoerd. De wet zorgt ervoor dat digitale barrières worden
-			verwijderd voor mensen met een beperking. De eisen zijn gebaseerd op de Web Content
-			Accessibility Guidelines (WCAG) van het World Wide Web Consortium
-		</p>
 		<img src={knowledge} class="text-image" alt="Sharing Knowledge" />
+		<div class="text-subcontainer">
+			<h2>Wat is de wettelijke achtergrond?</h2>
+			<p>
+				In Nederland zijn er ca. 2 miljoen mensen met een beperking. Als deze mensen uw website of
+				app niet kunnen gebruiken, dan zorgt dat dat deze mensen worden uitgesloten van de
+				samenleving. Medio 2025 wordt om die reden door. De Europese Unie de European Accessibility
+				Act (EAA) of Europese Toegankelijkheidswet ingevoerd. De wet zorgt ervoor dat digitale
+				barrières worden verwijderd voor mensen met een beperking. De eisen zijn gebaseerd op de Web
+				Content Accessibility Guidelines (WCAG) van het World Wide Web Consortium.
+			</p>
+		</div>
 	</section>
 
 	<section class="text-container">
@@ -127,19 +130,64 @@
 		gap: 2em;
 	}
 
+	.text-container:nth-of-type(1) {
+		color: #470026;
+		background-color: white;
+	}
+
+	.text-container:nth-of-type(2) {
+		color: #ffffff;
+		background-color: #7a8f0b;
+		display: flex;
+		align-items: center;
+		gap: 2rem;
+	}
+
+	.text-container:nth-of-type(3) {
+		color: #470026;
+		background-color: white;
+		display: flex;
+		align-items: center;
+		gap: 2rem;
+	}
+
+	.text-container:nth-of-type(4) {
+		display: flex;
+		align-items: center;
+	}
+
 	.text-container p {
 		max-width: 50rem;
 	}
 
 	.text-image {
 		height: 13em;
+		width: 30%;
 	}
 
 	.text-container {
 		padding: 2em;
 		color: var(--color-neutral-white);
 		background-color: var(--color-primary);
-		border-radius: var(--border-radius);
+		height: 40vh;
+	}
+
+	.text-subcontainer {
+		display: flex;
+		flex-direction: column;
+		gap: 1.5rem;
+	}
+
+	.text-subcontainer h3 {
+		font-weight: 700;
+	}
+
+	.text-subcontainer--light {
+		color: #ffffff;
+	}
+
+	.text-subcontainer--dark {
+		color: #470026;
 	}
 
 	.form-vraag {
