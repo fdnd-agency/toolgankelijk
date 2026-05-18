@@ -83,7 +83,7 @@
 				samenleving. Medio 2025 wordt om die reden door.
 
 				<br />
-				<br>
+				<br />
 				De Europese Unie de European Accessibility Act (EAA) of Europese Toegankelijkheidswet ingevoerd.
 				De wet zorgt ervoor dat digitale barrières worden verwijderd voor mensen met een beperking. De
 				eisen zijn gebaseerd op de Web Content Accessibility Guidelines (WCAG) van het World Wide Web
@@ -98,32 +98,34 @@
 			Indien u vragen heeft of mocht er nog enige onduidelijkheid bestaan, kunt u via onderstaand
 			formulier contact met ons opnemen.
 		</p>
-		<form
-			action="/info"
-			use:enhance={handleEnhance}
-			onsubmit={() => (isSubmitting = true)}
-			method="POST"
-		>
-			<fieldset class="form-vraag">
-				<label for="name">Naam</label>
-				<input id="name" placeholder="name" type="text" name="name" required />
-				<label for="mail">Email</label>
-				<input placeholder="email" id="email" type="email" name="email" required />
-				<label for="vraag">Uw vraag</label>
-				<textarea id="vraag" name="vraag" placeholder="Bericht..." required rows="3"></textarea>
-				<NavButton aria="Verzend Vraag" type="submit" size="medium" variant="secondary">
-					Versturen
-				</NavButton>
+		<div class="text-subcontainer">
+			<form
+				action="/info"
+				use:enhance={handleEnhance}
+				onsubmit={() => (isSubmitting = true)}
+				method="POST"
+			>
+				<fieldset class="form-vraag">
+					<label for="name">Naam</label>
+					<input id="name" placeholder="naam" type="text" name="name" required />
+					<label for="mail">Email</label>
+					<input placeholder="email" id="email" type="email" name="email" required />
+					<label for="vraag">Uw vraag</label>
+					<textarea id="vraag" name="vraag" placeholder="Bericht..." required rows="3"></textarea>
+					<NavButton aria="Verzend Vraag" type="submit" size="medium" variant="secondary">
+						Verstuur
+					</NavButton>
 
-				{#if successMessage}
-					<p class="success-message">{successMessage}</p>
-				{/if}
+					{#if successMessage}
+						<p class="success-message">{successMessage}</p>
+					{/if}
 
-				{#if errorMessage}
-					<p class="error-message">{errorMessage}</p>
-				{/if}
-			</fieldset>
-		</form>
+					{#if errorMessage}
+						<p class="error-message">{errorMessage}</p>
+					{/if}
+				</fieldset>
+			</form>
+		</div>
 	</section>
 </div>
 
@@ -162,7 +164,19 @@
 	.text-container:nth-of-type(4) {
 		display: flex;
 		align-items: center;
-		background-color: #0084C8;
+		background-color: #0084c8;
+	}
+
+	.text-container:nth-of-type(5) {
+		display: flex;
+		align-items: left;
+		flex-direction: column;
+		background-color: #ffffff;
+		color: #470026;
+	}
+
+	form {
+		padding-top: 1.5rem;
 	}
 
 	.text-container p {
@@ -213,7 +227,7 @@
 	}
 
 	input {
-		background-color: var(--c-container-stroke);
+		background-color: var(--color-background-card);
 		border: none;
 		height: 2.5rem;
 		width: 15rem;
@@ -234,7 +248,7 @@
 	}
 
 	textarea {
-		background-color: var(--c-container-stroke);
+		background-color: var(--color-background-card);
 		border: none;
 		height: 4rem;
 		width: 15rem;
@@ -248,5 +262,10 @@
 	}
 	.error-message {
 		color: red;
+	}
+	
+	:global(.navbutton) {
+		background-color: #B9005F !important;
+		color: #FFFFFF !important;
 	}
 </style>
