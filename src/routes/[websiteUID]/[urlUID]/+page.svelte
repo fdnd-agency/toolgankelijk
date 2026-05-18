@@ -144,15 +144,15 @@
 				</a>
 
 				<div class="custom-nav-override">
-						<NavButton
-							variant="secondary"
-							showIcon={false}
-							href="{$page.url.pathname}/{principe.slug}"
-							size="medium"
-							aria="Open Principe"
-						>
-						</NavButton>
+					<NavButton
+						variant="secondary"
+						showIcon={false}
+						href="{$page.url.pathname}/{principe.slug}"
+						size="medium"
+						aria="Open Principe"
+					>
 						<p>Open</p>
+					</NavButton>
 				</div>
 			</li>
 		{/each}
