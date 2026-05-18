@@ -1,4 +1,5 @@
-import { FetchConnection, createResponse } from 'better-sse';
+//@ts-check
+import { FetchConnection, SseError, createResponse } from 'better-sse';
 
 /** SSE server and client */
 
@@ -55,83 +56,132 @@ import { FetchConnection, createResponse } from 'better-sse';
  * @property {SSEOnParseError} [onTrailingParseError]
  */
 
+/**
+ * @typedef {{ isConnected: boolean; push: (data: unknown, eventName?: string) => unknown }} SseSessionLike
+ * @typedef {AsyncIterable<{ type?: string } & Record<string, unknown>>} EventSource
+ * @typedef {(err: unknown) => { type?: string } & Record<string, unknown>} SSEError
+ */
+
+/**
+ * @typedef {Object} SseResponseOptions
+ * @property {number} [status]
+ */
+
 //#endregion TYPES
 export class SSEService {
-	/** Formats a stream write/close failure message. */
-	static formatStreamErrorMessage(error) {
+	/**
+	 * @param {Error | unknown} error
+	 */
+	static errorMessage(error) {
 		if (error instanceof Error) return error.message;
 		if (error === undefined) return 'Stream writer rejected without a reason';
 		return String(error);
 	}
+	/** @param {unknown} err @param {{ phase: string; eventType?: string; session?: SseSessionLike }} ctx */
+	static handleSsePushError(err, ctx) {
+		if (ctx.session?.isConnected === false || err instanceof SseError) {
+			console.warn(
+				`[sse] ${ctx.phase} not delivered (session inactive)` +
+					(ctx.eventType ? ` [${ctx.eventType}]` : '')
+			);
+			return;
+		}
+		console.error(`[sse] ${ctx.phase} push failed:`, err);
+	}
 
-	/** Wrapper for fetch connection that can handle write/close rejections after the client disconnects. */
+	/** Catches rejected writes after disconnect. */
 	static ResilientFetchConnection = class ResilientFetchConnection extends FetchConnection {
+		/** @type {TextEncoder} */
+		static textEncoder = new TextEncoder();
+
+		/** @param {string} chunk */
 		sendChunk = (chunk) => {
-			const encoded = FetchConnection.encoder.encode(chunk);
+			const encoded = ResilientFetchConnection.textEncoder.encode(chunk);
+			// @ts-ignore
 			void this.writer.write(encoded).catch((err) => {
-				console.warn(
-					`[SSEOutbound] stream write skipped: ${SSEService.formatStreamErrorMessage(err)}`
-				);
+				console.warn(`[sse] stream write skipped: ${SSEService.errorMessage(err)}`);
 			});
 		};
 
 		cleanup = () => {
+			// @ts-ignore
 			void this.writer.close().catch((err) => {
-				console.warn(
-					`[SSEOutbound] stream close skipped: ${SSEService.formatStreamErrorMessage(err)}`
-				);
+				console.warn(`[sse] stream close skipped: ${SSEService.errorMessage(err)}`);
 			});
 		};
 	};
 
-	/** Closes the SSE session */
-	closeSSESession(session) {
+	/**
+	 * @param {import('better-sse').Session} session
+	 */
+	static closeSession(session) {
 		if (!session.isConnected) return;
 		try {
+			// @ts-ignore - onDisconnected is private in Session
 			session.onDisconnected?.();
-		} catch (error) {
-			console.error('[SSEOutbound] failed to close session:', error);
+		} catch (err) {
+			console.error('[sse] failed to close session:', err);
 		}
 	}
 
-	/** Creates a SSE response for a job */
-	createSSEJobResponse(request, runJob, options = {}) {
+	/**
+	 * Creates a `better-sse` response.
+	 *
+	 * @param {Request} request
+	 * @param {(session: import('better-sse').Session) => (void | Promise<void>)} callback
+	 * @param {SseResponseOptions} options
+	 */
+	static createSseResponse(request, callback, { status = 200 } = {}) {
 		const connection = new SSEService.ResilientFetchConnection(request, null, {
-			statusCode: options.statusCode ?? 200,
+			statusCode: status,
 			headers: {
 				'Content-Type': 'text/event-stream; charset=utf-8',
 				Connection: 'keep-alive',
-				'Cache-Control': 'no-cache',
-				...(options.headers ?? {})
+				'Cache-Control': 'no-cache'
 			}
 		});
 
-		return createResponse(
-			connection,
-			{
-				retry: options.retry ?? null,
-				keepAlive: options.keepAlive ?? null
-			},
-			(session) => {
-				void (async () => {
-					try {
-						await runJob(session);
-					} finally {
-						this.closeSSESession(session);
-					}
-				})().catch((error) => console.error('[SSEOutbound] job task failed:', error));
+		return createResponse(connection, async (session) => {
+			try {
+				await callback(session);
+			} catch (err) {
+				console.error('[sse] session task:', err);
+			} finally {
+				SSEService.closeSession(session);
 			}
-		);
+		});
 	}
 
-	/** Pushes a JSON payload to the browser as an SSE `message` event. */
+	/**
+	 * Pushes data to the session, handling errors and disconnection states.
+	 *
+	 * @param {SseSessionLike} session
+	 * @param {unknown} data
+	 * @param {string} eventName
+	 */
+	static push(session, data, eventName = 'message') {
+		if (!session.isConnected) return;
+		try {
+			session.push(data, eventName);
+		} catch (error) {
+			SSEService.handleSsePushError(error, { phase: 'event', eventType: eventName, session });
+		}
+	}
+	/**
+	 * Pushes a JSON payload to the browser as an SSE `message` event.
+	 * @param {unknown[]} session
+	 * @param {unknown} clientUpdatePayload
+	 */
 	pushSSEUpdate(session, clientUpdatePayload) {
 		session.push(clientUpdatePayload, 'message');
 	}
 }
 /** Consumes an upstream SSE stream, parses the blocks and calls handlers.*/
 export class SSEConsumer {
-	static #parseSSEMessageBlock(block) {
+	/**
+	 * @param {string} block
+	 */
+	static parseSSEMessageBlock(block) {
 		const lines = block.split('\n');
 		let eventType = '';
 		const dataLines = [];
@@ -155,7 +205,11 @@ export class SSEConsumer {
 		};
 	}
 
-	/** Consumes the readable stream until done */
+	/**
+	 * Consumes the readable stream until done
+	 * @param {ReadableStream<Uint8Array>} readable
+	 * @param {SSEConsumeHandlers} [handlers]
+	 */
 	async consume(readable, handlers = {}) {
 		const { onEvent, onParseError, onTrailingEvent, onTrailingParseError } = handlers;
 		if (!readable) return;
@@ -166,12 +220,12 @@ export class SSEConsumer {
 		let streamDone = false;
 
 		const processMessageBlock = async (
-			block,
-			streamEventHandler,
-			parseErrorHandler,
+			/** @type {string} */ block,
+			/** @type {SSEOnStreamEvent | undefined} */ streamEventHandler,
+			/** @type {SSEOnParseError | undefined} */ parseErrorHandler,
 			isTrailing = false
 		) => {
-			const parsedBlock = SSEConsumer.#parseSSEMessageBlock(block);
+			const parsedBlock = SSEConsumer.parseSSEMessageBlock(block);
 			if (!parsedBlock) return;
 
 			try {

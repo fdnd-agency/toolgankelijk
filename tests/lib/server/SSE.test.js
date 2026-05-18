@@ -8,21 +8,21 @@ describe('SSEService', () => {
 		sseService = new SSEService();
 	});
 
-	describe('formatStreamErrorMessage', () => {
+	describe('ErrorMessage', () => {
 		it('should return error message if error is an instance of Error', () => {
 			const error = new Error('test error');
-			expect(SSEService.formatStreamErrorMessage(error)).toBe('test error');
+			expect(SSEService.errorMessage(error)).toBe('test error');
 		});
 
 		it('should return default message if error is undefined', () => {
-			expect(SSEService.formatStreamErrorMessage(undefined)).toBe(
+			expect(SSEService.errorMessage(undefined)).toBe(
 				'Stream writer rejected without a reason'
 			);
 		});
 
 		it('should return string representation for other types', () => {
-			expect(SSEService.formatStreamErrorMessage('string error')).toBe('string error');
-			expect(SSEService.formatStreamErrorMessage(123)).toBe('123');
+			expect(SSEService.errorMessage('string error')).toBe('string error');
+			expect(SSEService.errorMessage(123)).toBe('123');
 		});
 	});
 });
