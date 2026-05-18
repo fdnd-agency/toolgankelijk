@@ -57,7 +57,7 @@
 	}
 
 	.navbutton:focus {
-		border: white 3px solid;
+		border: white 1px solid;
 	}
 
 	.icon-wrapper {
@@ -154,7 +154,7 @@
 		width: 12em;
 		}
 
-		@media (max-width: 720px) {
+		@media (max-width: 1080px) {
 			width: 100%;
 			justify-content: center;
 			gap: 1em;

@@ -116,7 +116,7 @@
 			padding-left: 4em;
 		}
 
-		@media (max-width: 720px) {
+		@media (max-width: 1080px) {
 			display: none;
 		}
 	}
@@ -127,15 +127,16 @@
 		align-items: center;
 		justify-content: flex-start;
 
-		@media (max-width: 720px) {
+		@media (max-width: 1080px) {
 			display: none;
 		}
 	}
 
 	.subheader-dropdown-wrapper {
 		padding-bottom: 1em;
+		margin-left: 1em;
 
-		@media (min-width: 720px) {
+		@media (min-width: 1080px) {
 			display: none;
 		}
 	}
