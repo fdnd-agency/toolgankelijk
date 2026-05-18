@@ -185,7 +185,7 @@
 
     .text-image {
         height: 13em;
-        width: 30%;
+        width: 25%;
     }
 
     .text-subcontainer {
