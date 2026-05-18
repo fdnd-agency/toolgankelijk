@@ -56,75 +56,79 @@ import { FetchConnection, createResponse } from 'better-sse';
  */
 
 //#endregion TYPES
+export class SSEService {
+	/** Formats a stream write/close failure message. */
+	static formatStreamErrorMessage(error) {
+		if (error instanceof Error) return error.message;
+		if (error === undefined) return 'Stream writer rejected without a reason';
+		return String(error);
+	}
 
-/** Formats a stream write/close failure message. */
-function formatStreamErrorMessage(error) {
-	if (error instanceof Error) return error.message;
-	if (error === undefined) return 'Stream writer rejected without a reason';
-	return String(error);
-}
+	/** Wrapper for fetch connection that can handle write/close rejections after the client disconnects. */
+	static ResilientFetchConnection = class ResilientFetchConnection extends FetchConnection {
+		sendChunk = (chunk) => {
+			const encoded = FetchConnection.encoder.encode(chunk);
+			void this.writer.write(encoded).catch((err) => {
+				console.warn(
+					`[SSEOutbound] stream write skipped: ${SSEService.formatStreamErrorMessage(err)}`
+				);
+			});
+		};
 
-/** Wrapper for fetch connection that can handle write/close rejections after the client disconnects. */
-export class ResilientSSEFetchConnection extends FetchConnection {
-	sendChunk = (chunk) => {
-		const encoded = FetchConnection.encoder.encode(chunk);
-		void this.writer.write(encoded).catch((err) => {
-			console.warn(`[SSEOutbound] stream write skipped: ${formatStreamErrorMessage(err)}`);
-		});
+		cleanup = () => {
+			void this.writer.close().catch((err) => {
+				console.warn(
+					`[SSEOutbound] stream close skipped: ${SSEService.formatStreamErrorMessage(err)}`
+				);
+			});
+		};
 	};
 
-	cleanup = () => {
-		void this.writer.close().catch((err) => {
-			console.warn(`[SSEOutbound] stream close skipped: ${formatStreamErrorMessage(err)}`);
-		});
-	};
-}
+	/** Closes the SSE session */
+	closeSSESession(session) {
+		if (!session.isConnected) return;
+		try {
+			session.onDisconnected?.();
+		} catch (error) {
+			console.error('[SSEOutbound] failed to close session:', error);
+		}
+	}
 
-/** Closes the SSE session */
-function closeSSESession(session) {
-	if (!session.isConnected) return;
-	try {
-		session.onDisconnected?.();
-	} catch (error) {
-		console.error('[SSEOutbound] failed to close session:', error);
+	/** Creates a SSE response for a job */
+	createSSEJobResponse(request, runJob, options = {}) {
+		const connection = new SSEService.ResilientFetchConnection(request, null, {
+			statusCode: options.statusCode ?? 200,
+			headers: {
+				'Content-Type': 'text/event-stream; charset=utf-8',
+				Connection: 'keep-alive',
+				'Cache-Control': 'no-cache',
+				...(options.headers ?? {})
+			}
+		});
+
+		return createResponse(
+			connection,
+			{
+				retry: options.retry ?? null,
+				keepAlive: options.keepAlive ?? null
+			},
+			(session) => {
+				void (async () => {
+					try {
+						await runJob(session);
+					} finally {
+						this.closeSSESession(session);
+					}
+				})().catch((error) => console.error('[SSEOutbound] job task failed:', error));
+			}
+		);
+	}
+
+	/** Pushes a JSON payload to the browser as an SSE `message` event. */
+	pushSSEUpdate(session, clientUpdatePayload) {
+		session.push(clientUpdatePayload, 'message');
 	}
 }
-
-/** Creates a SSE response for a job */
-export function createSSEJobResponse(request, runJob, options = {}) {
-	const connection = new ResilientSSEFetchConnection(request, null, {
-		statusCode: options.statusCode ?? 200,
-		headers: {
-			'Content-Type': 'text/event-stream; charset=utf-8',
-			Connection: 'keep-alive',
-			'Cache-Control': 'no-cache',
-			...(options.headers ?? {})
-		}
-	});
-
-	return createResponse(
-		connection,
-		{
-			retry: options.retry ?? null,
-			keepAlive: options.keepAlive ?? null
-		},
-		(session) => {
-			void (async () => {
-				try {
-					await runJob(session);
-				} finally {
-					closeSSESession(session);
-				}
-			})().catch((error) => console.error('[SSEOutbound] job task failed:', error));
-		}
-	);
-}
-
-/** Pushes a JSON payload to the browser as an SSE `message` event. */
-export function pushSSEUpdate(session, clientUpdatePayload) {
-	session.push(clientUpdatePayload, 'message');
-}
-
 /** Consumes an upstream SSE stream, parses the blocks and calls handlers.*/
 export class SSEConsumer {
 	static #parseSSEMessageBlock(block) {
