@@ -94,7 +94,7 @@
 
 	<section class="text-container">
 		<h2>Contact opnemen?</h2>
-		<p>
+		<p class="form-subtext">
 			Indien u vragen heeft of mocht er nog enige onduidelijkheid bestaan, kunt u via onderstaand
 			formulier contact met ons opnemen.
 		</p>
@@ -135,7 +135,7 @@
         flex-direction: column;
         gap: 2em;
     }
-	
+
     .text-container {
         padding: 2em;
         color: var(--color-neutral-white);
@@ -210,6 +210,10 @@
         padding-top: 1.5rem;
         width: 100%;
     }
+
+	.form-subtext {
+		padding-top: 0.4rem;
+	}
 
     .form-vraag {
         display: flex;
