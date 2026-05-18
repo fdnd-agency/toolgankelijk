@@ -80,10 +80,14 @@
 			<p>
 				In Nederland zijn er ca. 2 miljoen mensen met een beperking. Als deze mensen uw website of
 				app niet kunnen gebruiken, dan zorgt dat dat deze mensen worden uitgesloten van de
-				samenleving. Medio 2025 wordt om die reden door. De Europese Unie de European Accessibility
-				Act (EAA) of Europese Toegankelijkheidswet ingevoerd. De wet zorgt ervoor dat digitale
-				barrières worden verwijderd voor mensen met een beperking. De eisen zijn gebaseerd op de Web
-				Content Accessibility Guidelines (WCAG) van het World Wide Web Consortium.
+				samenleving. Medio 2025 wordt om die reden door.
+
+				<br />
+				<br>
+				De Europese Unie de European Accessibility Act (EAA) of Europese Toegankelijkheidswet ingevoerd.
+				De wet zorgt ervoor dat digitale barrières worden verwijderd voor mensen met een beperking. De
+				eisen zijn gebaseerd op de Web Content Accessibility Guidelines (WCAG) van het World Wide Web
+				Consortium
 			</p>
 		</div>
 	</section>
@@ -130,6 +134,10 @@
 		gap: 2em;
 	}
 
+	.text-container {
+		height: 45vh;
+	}
+
 	.text-container:nth-of-type(1) {
 		color: #470026;
 		background-color: white;
@@ -154,6 +162,7 @@
 	.text-container:nth-of-type(4) {
 		display: flex;
 		align-items: center;
+		background-color: #0084C8;
 	}
 
 	.text-container p {
