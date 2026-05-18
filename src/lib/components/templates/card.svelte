@@ -297,6 +297,9 @@
 		border-radius: var(--border-radius);
 		width: 128px;
 		height: 128px;
+		display: flex;
+		background: white;
+		justify-content: center;
 	}
 
 	#partner-progress-container {
