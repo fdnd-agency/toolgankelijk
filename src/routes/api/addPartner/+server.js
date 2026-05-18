@@ -1,5 +1,5 @@
 import { partnerRepository, urlRepository } from '$lib/server/index.js';
-import { createSSEJobResponse, pushSSEUpdate } from '$lib/server/SSE.js';
+import { SSEService } from '$lib/server/SSE.js';
 import { delay } from '$lib/utils/delay.js';
 import {
 	formatUrl,
@@ -31,10 +31,10 @@ export async function POST({ request }) {
 		'robots.txt'
 	];
 
-	return createSSEJobResponse(request, async (session) => {
+	return SSEService.createSseResponse(request, async (session) => {
 		const pushProgressUpdateToClient = async (clientUpdatePayload) => {
 			try {
-				if (session.isConnected) pushSSEUpdate(session, clientUpdatePayload);
+				if (session.isConnected) SSEService.push(session, clientUpdatePayload);
 			} catch {}
 		};
 

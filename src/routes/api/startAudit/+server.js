@@ -1,5 +1,5 @@
 import { TOOLGANKELIJK_AUDIT_URL } from '$env/static/private';
-import { SSEConsumer, createSSEJobResponse, pushSSEUpdate } from '$lib/server/SSE.js';
+import { SSEConsumer, SSEService } from '$lib/server/SSE.js';
 import { delay } from '$lib/utils/delay.js';
 
 function toClientMessage(eventType, payload, fallbackWebsiteSlug, urlBySlug, requestTotalUrls) {
@@ -76,9 +76,9 @@ export async function POST({ request }) {
 	const urls = JSON.parse(formData.get('urls'));
 	const websiteSlug = formData.get('slug');
 
-	return createSSEJobResponse(request, async (session) => {
+	return SSEService.createSseResponse(request, async (session) => {
 		const pushClientUpdateThenWait = async (statusText, statusType, waitMilliseconds) => {
-			pushSSEUpdate(session, { status: statusText, type: statusType });
+			SSEService.push(session, { status: statusText, type: statusType });
 			await delay(waitMilliseconds);
 		};
 
@@ -143,7 +143,7 @@ export async function POST({ request }) {
 					clientMessage
 				});
 				try {
-					if (session.isConnected) pushSSEUpdate(session, clientMessage);
+					if (session.isConnected) SSEService.push(session, clientMessage);
 				} catch {}
 			};
 
@@ -158,7 +158,7 @@ export async function POST({ request }) {
 					});
 					try {
 						if (session.isConnected) {
-							pushSSEUpdate(session, {
+							SSEService.push(session, {
 								status: `Ongeldige audit update ontvangen${suffix}: ${parseError.message}`,
 								type: 'warning'
 							});

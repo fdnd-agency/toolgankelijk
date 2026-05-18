@@ -1,5 +1,5 @@
 import { urlRepository } from '$lib/server/index.js';
-import { createSSEJobResponse, pushSSEUpdate } from '$lib/server/SSE.js';
+import { SSEService } from '$lib/server/SSE.js';
 import { delay } from '$lib/utils/delay.js';
 
 export async function POST({ request }) {
@@ -9,9 +9,9 @@ export async function POST({ request }) {
 	const urlLink = formData.get('url');
 	const websiteSlug = formData.get('slug');
 
-	return createSSEJobResponse(request, async (session) => {
+	return SSEService.createSseResponse(request, async (session) => {
 		try {
-			pushSSEUpdate(session, { status: 'Toevoegen gestart', type: 'done' });
+			SSEService.push(session, { status: 'Toevoegen gestart', type: 'done' });
 			await delay(500);
 
 			const directusCall = await urlRepository.addUrl({
@@ -21,20 +21,20 @@ export async function POST({ request }) {
 				urlName: name
 			});
 			if (!directusCall) {
-				pushSSEUpdate(session, { status: 'Url kon niet worden opgeslagen.', type: 'error' });
+				SSEService.push(session, { status: 'Url kon niet worden opgeslagen.', type: 'error' });
 				await delay(500);
 				return;
 			}
 			await urlRepository.createEmptyCheckForUrl({ websiteSlug, urlSlug: slug });
 
-			pushSSEUpdate(session, {
+			SSEService.push(session, {
 				status: `${name} is toegevoegd.`,
 				type: 'done',
 				response: directusCall
 			});
 			await delay(500);
 		} catch (error) {
-			pushSSEUpdate(session, {
+			SSEService.push(session, {
 				status: error instanceof Error ? error.message : String(error),
 				type: 'error'
 			});
