@@ -366,6 +366,10 @@
 		align-items: center;
 	}
 
+	.card-icons-partner > :global(.navbutton) {
+			border: none !important;
+	}
+
 	.card-icons-url {
 		display: flex;
 		justify-content: flex-end;
