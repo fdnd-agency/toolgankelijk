@@ -1,8 +1,5 @@
 import { partnerRepository, urlRepository } from '$lib/server/index.js';
-import {
-	createSSEJobResponse,
-	pushSSEUpdate
-} from '$lib/server/SSE.js';
+import { createSSEJobResponse, pushSSEUpdate } from '$lib/server/SSE.js';
 import { delay } from '$lib/utils/delay.js';
 import {
 	formatUrl,
@@ -53,9 +50,7 @@ export async function POST({ request }) {
 				const sitemapUrls = await pickFirstSitemap(promises, pushProgressUpdateToClient);
 
 				urls =
-					sitemapUrls.length > 0
-						? sitemapUrls
-						: await crawlUrls(url, pushProgressUpdateToClient);
+					sitemapUrls.length > 0 ? sitemapUrls : await crawlUrls(url, pushProgressUpdateToClient);
 			}
 
 			await pushProgressUpdateToClient({ status: 'Partner data verwerken', type: 'done' });

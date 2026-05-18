@@ -156,11 +156,7 @@
 				if (error) {
 					logs = [...logs, { status: error, type: 'error' }];
 				} else {
-					if (
-						logs.length > 0 &&
-						logs[logs.length - 1].type === 'loading' &&
-						type !== 'loading'
-					) {
+					if (logs.length > 0 && logs[logs.length - 1].type === 'loading' && type !== 'loading') {
 						logs = logs.filter((logEntry) => logEntry.type !== 'loading');
 					}
 					logs = [...logs, { status, type }];
@@ -280,12 +276,7 @@
 			<div class="tip-message" aria-label="tip message">
 				<p><span>{formData.name}</span> wordt verwerkt, sluit de pagina niet.</p>
 			</div>
-			<Loader
-				logItems={logs}
-				{urlCount}
-				{urlTotal}
-				type={config.type}
-			/>
+			<Loader logItems={logs} {urlCount} {urlTotal} type={config.type} />
 		{/if}
 	</section>
 </dialog>
