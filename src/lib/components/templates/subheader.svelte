@@ -63,6 +63,10 @@
 				Principles
 			</NavButton>
 		</div>
+
+		<div class="subheader-dropdown-wrapper">
+			<NavButton size="small" showIcon={true} iconName="arrow" effect="disabled"></NavButton>
+		</div>
 	</div>
 </div>
 
@@ -75,11 +79,16 @@
 		display: flex;
 		justify-content: space-between;
 		width: 100vw;
-		grid-template-columns: 70% 30%;
+
+		@media (max-width: 1080px) {
+			margin-top: 1em;
+			margin-bottom: 1em;
+		}
 
 		@media (max-width: 720px) {
 			display: flex;
 			gap: 0.5em;
+			padding-right: 5em;
 		}
 	}
 
@@ -87,7 +96,9 @@
 		display: flex;
 		flex-direction: column;
 		gap: 0.5em;
+		width: 100%;
 	}
+	
 	.subheader-form {
 		display: flex;
 		gap: 0.5em;
@@ -100,6 +111,14 @@
 		display: flex;
 		justify-content: flex-end;
 		align-items: center;
+
+		@media (max-width: 1080px) { 
+			padding-left: 4em;
+		}
+
+		@media (max-width: 720px) {
+			display: none;
+		}
 	}
 
 	.subheader-form-down-wrapper {
@@ -107,5 +126,17 @@
 		gap: 1em;
 		align-items: center;
 		justify-content: flex-start;
+
+		@media (max-width: 720px) {
+			display: none;
+		}
+	}
+
+	.subheader-dropdown-wrapper {
+		padding-bottom: 1em;
+
+		@media (min-width: 720px) {
+			display: none;
+		}
 	}
 </style>

@@ -97,6 +97,8 @@
 				onclick={() => toggleDropdown('url')}
 				aria="breadcrumb of {selectedUrl}"
 				effect="dropdown"
+				showIcon={true}
+				iconName="arrow"
 			>
 				{#if selectedUrlItem}
 					<p>{selectedUrlItem.name || selectedUrlItem.title}</p>
@@ -106,7 +108,7 @@
 			</NavButton>
 
 			{#if activeDropdown === 'url'}
-				<ul id="dropdown-list-wrapper" transition:slide={{ duration: 200 }}>
+				<ul id="dropdown-list-wrapper" class="color-primary-light"  transition:slide={{ duration: 200 }}>
 							<div class="dropdown-controls">
 				<NavButton
 					effect="dropdown"
@@ -141,7 +143,8 @@
 
 	{#if selectedUrlItem && principles.length > 0}
 		<div class="breadcrumb-item">
-			<NavButton onclick={() => toggleDropdown('principle')} variant="primary" effect="dropdown">
+			<NavButton onclick={() => toggleDropdown('principle')} variant="primary" effect="dropdown" showIcon={true}
+				iconName="arrow">
 				{#if selectedPrinciple}
 					<span>{selectedPrinciple.title}</span>
 				{:else}
@@ -150,7 +153,7 @@
 			</NavButton>
 
 			{#if activeDropdown === 'principle'}
-				<ul id="dropdown-list-wrapper" transition:slide={{ duration: 200 }}>
+				<ul id="dropdown-list-wrapper" class="color-primary-light" transition:slide={{ duration: 200 }}>
 
 				<div class="dropdown-controls">
 					<NavButton
@@ -193,9 +196,9 @@
 		display: flex;
 		flex-direction: row;
 		gap: 0.5rem;
-		width: 50%;
+		width: 100%;
 
-		@media (max-width: 720px) {
+		@media (max-width: 1080px) {
 			display: flex;
 			flex-direction: column;
 			width: 100%;
@@ -212,6 +215,14 @@
 		border: var(--color-primary) solid 3px;
 		border-radius: var(--border-radius);
 		padding: 1em;
+
+		@media (max-width: 1320px) {
+			width: 12em;
+		}
+
+		@media (max-width: 720px) {
+			width: 100%;
+		}
 
 		&:target {
 			display: block;
@@ -259,7 +270,6 @@
 
 	.dropdown-controls {
 		display: flex;
-		justify-content: flex-end;
 		padding-bottom: 0.5em;
 		gap: 1em;
 	}
