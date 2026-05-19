@@ -2,8 +2,6 @@
 
 ![image](static/readme-images/vvr-logo.png)
 
-Live link: [http://toolgankelijk.agency.fdnd.nl/](http://toolgankelijk.agency.fdnd.nl/)
-
 ## Contents
 
 - [Description](#description)
@@ -27,42 +25,71 @@ With the application you can run a performance audit, to check the status of you
 
 ![image](static/readme-images/partners-overview.png)
 
+## Design System
+
+<img width="1640" height="930" alt="image" src="https://github.com/user-attachments/assets/3941c7de-52fa-4483-b160-72a68c2e2002" />
+
+Due to implenting the new design, we proposed the design system according the atomic design. The design system is made out of the Atomic Design where templates are build out of a hierarchy of components this is divided by: Atoms, Molecules, Organisms and Templates. 
+
+These are the components that are made inside the design system
+
+Atoms
+- Icons
+- Logo
+- Seperator
+
+Molecules
+- Alert
+- Checkbox
+- Heading
+- Input
+- Loader
+- NavButton
+- Progressbar
+- Search
+
+Organisms
+- Breadcrumbs
+- HamburgerMenu
+- Pages
+
+Templates
+- Header
+- Card
+- Checklist
+- Dialog
+- Sidebar
+- SubHeader
+
+The components are all composiitions of the code which can be reused everytime. The information will be loaded on each pages.
+
 ## New Features
 
 Since the last sprint review there are several changes in the application. We recognised that the design was bugging a lot so we simplified the code. Lots of code and component are refactored now. The header is simplified where you can navigate through all pages (info, account and partner overview). 
 
-<img width="2998" height="594" alt="image" src="https://github.com/user-attachments/assets/e0b115b9-a2e5-4bc9-bda8-3a317d458850" />
+**Subheader**
 
+<img width="3024" height="390" alt="image" src="https://github.com/user-attachments/assets/e989e8df-49ef-420a-9c63-1674256418c2" />
 
-**Header**
+In the subheader you will find the breadcrumbs which were in the header first. This was first placed in the header. You can navigate here through different urls and partners. You can also add a partner/url to the page with the add button. You can also search for the url/partners with the search tool in the right corner.
 
-The header has a update it is simplified and the logo of the header is responsive. It solves the bug of displaying the wrong colors in the design. Also there is an account page where you can logout when you are on that page. It also includes a hamburger button
+The subheader will be disabled on the principles page cause there only will be the filter function as a sidebar. On the subheader here is only the navigate back to the url oversight button.
 
-**Darkmode**
+**Login and Accountpage**
 
-The dark mode has been removed due to the soft launch that is coming up. This is a unnecesary function and collapse between the old and new design. The color system is still used.
+<img width="935" height="987" alt="Screenshot (177)" src="https://github.com/user-attachments/assets/635364e8-6707-42e4-9c4b-5fd53e2f2825" />
 
-**Consistent icons**
+The login page has seen an massive design overhaul, allowing for a more welcoming appeareance. The account page has seen an overhaul too, now an user can signout and see their account details like email and username.
 
-The icons are imported as svelte components and are all consistent, this can be added to the nav button or loose in the design.
+**Checklist fix**  
+  The checklist is fully functional again, allowing users to manually audit the audit results.
 
-<img width="396" height="120" alt="image" src="https://github.com/user-attachments/assets/9ac5f9ad-36f2-441f-87e2-8b1569169c81" />
+**Repository refactor**  
+  Repositories now inherit from a base repository class and use the Directus SDK client for REST and GraphQL queries.  
+  `UrlRepository` has been specifically refactored to use REST queries instead of the old GraphQL implementation.
 
-
-**NavButtons**
-
-The NavButtons is a component that can be used for navigation to a page or a button. It is build up out of a svelte element which can be defined with a link or a onclick function.
-
-**Design Overhaul**
-
-<img width="2704" height="322" alt="image" src="https://github.com/user-attachments/assets/bb0b9e04-7aff-4f02-abcd-cef6a71f0982" />
-
-
-The application has seen a major design overhaul in different areas. The toolboard has been overhauled with new colors, better contrast levels and a more consistent look.  Also, a new subheader has been added to make navigation more intuitive and responsive.  
-
-## New Design
-
-One of the epics of this project is to implent the new design over the old design which is working fully on the Responsive, Accesbillity, Perfromance and Progressive Enhancement principles. The styleguide we use for the design is imported from this [styleguide](https://github.com/fdnd-agency/toolgankelijk/blob/main/Vervoerregio%20Handboek_Huisstijl_v5_2025_LR.pdf).
+**Card component improvement**  
+  Progress bars in the card component are now validated correctly. If an invalid number is found, the percentage is set to `0` and a warning is thrown, this ensures that a user will never see infinity instead of a number.
 
 ## Datamodel 
 
@@ -87,8 +114,9 @@ Source: [`docs/ERD-public.mmd`](docs/ERD-public.mmd)
 
 ## Projectteam 2026
 
+- [Tom] - CMD student
 - [Maksim](https://github.com/MaksimH2O) – Backend Developer
-- [Rick](https://github.com/RickFDND) - Frontend Developer
+- [Joost](https://github.com/JoostVDL4) - Frontend Developer
 - [Miel](https://github.com/miel775) - Frontend Developer
 
 ## Sources 💡
