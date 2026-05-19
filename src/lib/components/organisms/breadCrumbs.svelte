@@ -62,7 +62,7 @@
 					<NavButton
 						onclick={() => toggleDropdown('partner')}
 						aria="breadcrumb of {selectedPartner}"
-						effect="dropdown"
+						effect="dropdown-wrap"
 					>
 						{#if selectedPartner}
 							<p>{selectedPartner.title}</p>
@@ -118,7 +118,7 @@
 					transition:slide={{ duration: 200 }}
 				>
 					<div class="dropdown-controls">
-						<NavButton effect="dropdown-wrap">URL dropdown</NavButton>
+						<NavButton size="medium" effect="dropdown-wrap">URL dropdown</NavButton>
 						<NavButton
 							variant="primary"
 							size="small"
@@ -152,7 +152,7 @@
 				effect="dropdown"
 				showIcon={true}
 				iconName="arrow"
-				aria="{selectedPrinciple.title} || Principe Overzicht"
+				aria="Principe Overzicht"
 			>
 				{#if selectedPrinciple}
 					<span>{selectedPrinciple.title}</span>

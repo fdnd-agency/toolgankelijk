@@ -161,6 +161,18 @@
 		}
 	}
 
+	.dropdown-wrap {
+		width: 80%;
+		font-size: 16px;
+		place-items: center;
+		margin: 0px auto;
+		justify-content: space-between;
+		flex-direction: row-reverse;
+		height: 2em;
+		display: inline-flex;
+
+	}
+
 	.full {
 		width: 100%;
 	}
