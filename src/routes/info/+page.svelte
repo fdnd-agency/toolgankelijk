@@ -32,7 +32,7 @@
 
 <div class="info-wrapper">
 	<section class="text-container">
-		<h2><span>Vervoerregio Amsterdam</span> HvA</h2>
+		<h2>Vervoerregio Amsterdam HvA</h2>
 		<br />
 		<p>
 			Wij hebben samen met studenten van de Hogeschool van Amsterdam een praktische en
