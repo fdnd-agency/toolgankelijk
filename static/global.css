@@ -161,6 +161,12 @@ button {
 	outline: inherit;
 }
 
+a:focus, button:focus {
+	outline: none;
+	border: 5px solid var(--color-neutral-white);
+	animation-duration: 0.3s;
+}
+
 @font-face {
 	font-family: 'Fira Sans Bold';
 	src:
