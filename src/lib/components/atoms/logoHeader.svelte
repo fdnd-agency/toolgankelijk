@@ -1,4 +1,4 @@
-<a class="logo-header" href="/">
+<a class="logo-header" href="/" aria-label="ga naar homepagina">
 	<svg
 		id="logo"
 		width="130"
