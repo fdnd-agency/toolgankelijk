@@ -1,3 +1,4 @@
+/** @vitest-environment node */
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { SSEService, SSEConsumer } from '$lib/server/SSE.js';
 
@@ -21,6 +22,46 @@ describe('SSEService', () => {
 		it('should return string representation for other types', () => {
 			expect(SSEService.errorMessage('string error')).toBe('string error');
 			expect(SSEService.errorMessage(123)).toBe('123');
+		});
+	});
+
+	describe('pushError', () => {
+		let mockSession;
+
+		beforeEach(() => {
+			mockSession = {
+				isConnected: true,
+				push: vi.fn(),
+				onDisconnected: vi.fn()
+			};
+		});
+
+		it('should push a sanitized message and not the actual error to the client', () => {
+			const detailedError = new Error('Error has occurred in ...');
+			const safeMessage = 'A safe error occurred';
+
+			SSEService.pushError(mockSession, detailedError, safeMessage, false);
+
+			expect(mockSession.push).toHaveBeenCalledWith(
+				{
+					status: safeMessage,
+					type: 'error'
+				},
+				'message'
+			);
+			// Verify the detailed error was NOT pushed
+			const pushCall = mockSession.push.mock.calls[0][0];
+			expect(JSON.stringify(pushCall)).not.toContain('Error has occurred in ...');
+		});
+
+		it('should close the session by default', () => {
+			SSEService.pushError(mockSession, new Error('error'), 'message');
+			expect(mockSession.onDisconnected).toHaveBeenCalled();
+		});
+
+		it('should NOT close the session if shouldClose is false', () => {
+			SSEService.pushError(mockSession, new Error('error'), 'message', false);
+			expect(mockSession.onDisconnected).not.toHaveBeenCalled();
 		});
 	});
 });
