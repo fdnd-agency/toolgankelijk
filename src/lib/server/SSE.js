@@ -59,8 +59,6 @@ import { DevEnvironment } from 'vite';
 
 /**
  * @typedef {{ isConnected: boolean; push: (data: unknown, eventName?: string) => unknown }} SseSessionLike
- * @typedef {AsyncIterable<{ type?: string } & Record<string, unknown>>} EventSource
- * @typedef {(err: unknown) => { type?: string } & Record<string, unknown>} SSEError
  */
 
 /**
@@ -77,17 +75,6 @@ export class SSEService {
 		if (error instanceof Error) return error.message;
 		if (error === undefined) return 'Stream writer rejected without a reason';
 		return String(error);
-	}
-	/** @param {unknown} err @param {{ phase: string; eventType?: string; session?: SseSessionLike }} ctx */
-	static handleSsePushError(err, ctx) {
-		if (ctx.session?.isConnected === false || err instanceof SseError) {
-			console.warn(
-				`[sse] ${ctx.phase} not delivered (session inactive)` +
-					(ctx.eventType ? ` [${ctx.eventType}]` : '')
-			);
-			return;
-		}
-		console.error(`[sse] ${ctx.phase} push failed:`, err);
 	}
 
 	/** Catches rejected writes after disconnect. */
@@ -154,14 +141,14 @@ export class SSEService {
 	}
 
 	/**
-	 /**
-	  * Pushes an error update. Sanitizes the error message to avoid leaking sensitive information.
-	  * Optionally closes the session after pushing the error.
-	  * @param {import('better-sse').Session} session
-	  * @param {unknown} [error]
-	  * @param {string} [customMessage]
-	  * @param {boolean} [shouldClose=true]
-	  */
+	 * Pushes an error update to the client. Sanitizes the message for safety,
+	 * while logging the full error to the server console in development mode.
+	 *
+	 * @param {import('better-sse').Session} session The active SSE session.
+	 * @param {unknown} [error] The original error object (logged in DEV).
+	 * @param {string} [customMessage] The user-facing status message.
+	 * @param {boolean} [shouldClose=true] Whether to close the session after pushing.
+	 */
 	static pushError(
 		session,
 		error,
@@ -186,27 +173,15 @@ export class SSEService {
 	}
 
 	/**
-	 * Pushes data to the session, handling errors and disconnection states.
+	 * Pushes data to the session if connected, else returns
 	 *
-	 * @param {SseSessionLike} session
-	 * @param {unknown} data
-	 * @param {string} eventName
+	 * @param {SseSessionLike} session The active session to push to.
+	 * @param {unknown} data The JSON-serializable data payload.
+	 * @param {string} [eventName='message'] The SSE event type.
 	 */
 	static push(session, data, eventName = 'message') {
 		if (!session.isConnected) return;
-		try {
-			session.push(data, eventName);
-		} catch (error) {
-			SSEService.handleSsePushError(error, { phase: 'event', eventType: eventName, session });
-		}
-	}
-	/**
-	 * Pushes a JSON payload to the browser as an SSE `message` event.
-	 * @param {unknown[]} session
-	 * @param {unknown} clientUpdatePayload
-	 */
-	pushSSEUpdate(session, clientUpdatePayload) {
-		session.push(clientUpdatePayload, 'message');
+		session.push(data, eventName);
 	}
 }
 /** Consumes an upstream SSE stream, parses the blocks and calls handlers.*/
