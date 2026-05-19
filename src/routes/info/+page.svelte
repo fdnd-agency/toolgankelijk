@@ -112,7 +112,7 @@
 					<input placeholder="email" id="email" type="email" name="email" required />
 					<label for="vraag">Uw vraag</label>
 					<textarea id="vraag" name="vraag" placeholder="Bericht..." required rows="3"></textarea>
-					<NavButton aria="Verzend Vraag" type="submit" size="medium" variant="secondary">
+					<NavButton aria="Verzend Vraag" type="submit" size="medium" variant="primary">
 						Verstuur
 					</NavButton>
 
@@ -277,14 +277,14 @@
         transition: 0.2s ease-out;
     }
 
-    .text-subcontainer :global(.navbutton) {
+    /* .text-subcontainer :global(.navbutton) {
         background-color: #B9005F !important;
         color: #FFFFFF !important;
         border-radius: 8px !important;
         font-weight: bold !important;
         margin-top: 2rem !important;
         padding: 0.75rem 2rem !important;
-    }
+    } */
 
     .success-message {
         color: green;
