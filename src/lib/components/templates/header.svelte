@@ -12,31 +12,31 @@
 
 	<Logo />
 
-	<nav id="header-navigation">
-	<div id="header-navigation-wrapper">
-		<NavButton
-			href="/"
-			size="large"
-			showIcon={true}
-			iconName="home"
-			variant="secondary"
-			effect="header"
-			active={$page.url.pathname === '/' ? 'active' : ''}
-		>
-			<p>Home</p>
-		</NavButton>
+	<nav class="header-navigation">
+		<div class="header-navigation-wrapper">
+			<NavButton
+				href="/"
+				size="large"
+				showIcon={true}
+				iconName="home"
+				variant="secondary"
+				effect="header"
+				active={$page.url.pathname === '/' ? 'active' : ''}
+			>
+				<p>Home</p>
+			</NavButton>
 
-		<NavButton
-			href="/info"
-			size="large"
-			showIcon={true}
-			iconName="info"
-			variant="secondary"
-			effect="header"
-			active={$page.url.pathname === '/info' ? 'active' : ''}
-		>
-			<p>Info</p>
-		</NavButton>
+			<NavButton
+				href="/info"
+				size="large"
+				showIcon={true}
+				iconName="info"
+				variant="secondary"
+				effect="header"
+				active={$page.url.pathname === '/info' ? 'active' : ''}
+			>
+				<p>Info</p>
+			</NavButton>
 		</div>
 
 		<div class="account-button">
@@ -69,9 +69,10 @@
 		padding-right: 5%;
 	}
 
-	#header-navigation {
+	.header-navigation {
 		display: flex;
-		justify-content: space-around;
+		justify-content: space-between;
+		width: 100%;
 
 
 		@media (max-width: 720px) {
@@ -79,13 +80,7 @@
 		}
 	}
 
-	.account-button {
-		position: absolute;
-		right: 5%;
-		top: 4%;
-	}
-
-	#header-navigation-wrapper {
+	.header-navigation-wrapper {
 		display: flex;
 		place-items: flex-end;
 		gap: 1em;
