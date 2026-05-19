@@ -15,9 +15,7 @@ describe('SSEService', () => {
 		});
 
 		it('should return default message if error is undefined', () => {
-			expect(SSEService.errorMessage(undefined)).toBe(
-				'Stream writer rejected without a reason'
-			);
+			expect(SSEService.errorMessage(undefined)).toBe('Stream writer rejected without a reason');
 		});
 
 		it('should return string representation for other types', () => {

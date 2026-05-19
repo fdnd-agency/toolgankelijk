@@ -34,7 +34,11 @@ export async function POST({ request }) {
 			});
 			await delay(500);
 		} catch (error) {
-			SSEService.pushError(session, error, 'Er is een fout opgetreden bij het toevoegen van de URL.');
+			SSEService.pushError(
+				session,
+				error,
+				'Er is een fout opgetreden bij het toevoegen van de URL.'
+			);
 		}
 	});
 }

@@ -161,7 +161,11 @@ export async function POST({ request }) {
 					});
 					try {
 						if (session.isConnected) {
-							SSEService.pushError(session, parseError, `Ongeldige audit update ontvangen${suffix}`);
+							SSEService.pushError(
+								session,
+								parseError,
+								`Ongeldige audit update ontvangen${suffix}`
+							);
 						}
 					} catch {}
 				},

@@ -168,8 +168,9 @@ export class SSEService {
 		customMessage = 'Er is een interne fout opgetreden.',
 		shouldClose = true
 	) {
-		if (DevEnvironment){
-		console.error('[sse] error thrown = ', error);}
+		if (DevEnvironment) {
+			console.error('[sse] error thrown = ', error);
+		}
 		SSEService.push(
 			session,
 			{
