@@ -131,31 +131,6 @@ export class PartnerRepository extends DirectusRepositoryBase {
 	}
 
 	/**
-	 * URL ids for a partner (e.g. cascading deletes or batch operations).
-	 *
-	 * @param {string} partnerId
-	 * @param {{ skip?: number; first?: number }} [options]
-	 * @returns {Promise<Array<Pick<WebsiteUrl, 'id'>>>}
-	 */
-	async getPartnerUrls(partnerId, { skip = 0, first = 100 } = {}) {
-		try {
-			const query = getQueryUrlsByPartnerId(partnerId, skip, first);
-			const raw = await this.client.query(query);
-			/** @type {WebsiteUrl[]} */
-			const urls = raw.toolgankelijk_url ?? [];
-			return urls.map(
-				/** @returns {Pick<WebsiteUrl, 'id'>} */
-				(u) => ({
-					id: u.id
-				})
-			);
-		} catch (error) {
-			console.error('partnerRepository.getPartnerUrls failed', error);
-			return [];
-		}
-	}
-
-	/**
 	 * Create a partner website row.
 	 *
 	 * @param {{ name: string; url: string; slug: string; totalUrls?: number }} input

@@ -31,16 +31,8 @@ export async function POST({ request }) {
 					await sendUpdate({ status: 'Partner verwijderen gestart', type: 'done' });
 
 					// 1. Verzamel alle urls van de partner
-					let allUrls = [];
-					let skip = 0;
-					const batchSize = 100;
-					while (true) {
-						const urls = await partnerRepository.getPartnerUrls(id, { skip, first: batchSize });
-						if (!urls || urls.length === 0) break;
-						allUrls.push(...urls);
-						skip += batchSize;
-						await delay(150);
-					}
+					const allUrls = await urlRepository.getPartnerUrls(id);
+
 					await sendUpdate({ status: `Aantal urls gevonden: ${allUrls.length}`, type: 'done' });
 
 					// 2. Verwijder alle urls en checks

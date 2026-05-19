@@ -1,5 +1,8 @@
 //@ts-check
 
+import { delay } from '$lib/utils/sitemap'; //TODO: Replace with proper util import later!
+import { readItems } from '@directus/sdk';
+
 /** @typedef {typeof import('$lib/utils/directus.js').directusClient} DirectusClient */
 /** @typedef {{ client: DirectusClient }} DirectusRepositoryDependencies */
 
@@ -30,21 +33,6 @@ class BaseRepository {
 	}
 
 	/**
-	 * Read a nested relation object from a junction or wrapper node (e.g. `toolgankelijk_guideline_id`).
-	 *
-	 * @template T
-	 * @param {unknown} source
-	 * @param {string} relationKey
-	 * @returns {T | null}
-	 */
-	unwrapRelation(source, relationKey) {
-		if (!source || typeof source !== 'object') return null;
-		const rel = /** @type {Record<string, unknown>} */ (source)[relationKey];
-		if (rel && typeof rel === 'object') return /** @type {T} */ (rel);
-		return null;
-	}
-
-	/**
 	 * If `value` is an array, return the first element (or null if empty); if it is a non-null object, return it; otherwise null.
 	 *
 	 * @template T
@@ -70,5 +58,75 @@ export class DirectusRepositoryBase extends BaseRepository {
 		if (!client) throw new Error('DirectusRepositoryBase requires a Directus client');
 		/** @type {DirectusClient} */
 		this.client = client;
+	}
+	/**
+	 * Generic helper to fetch *all* items from a collection with pagination.
+	 *
+	 * @param {Object} params
+	 * @param {string} params.collection      - Directus collection name
+	 * @param {Object} [params.filter]        - Directus filter object
+	 * @param {string[]} [params.fields]      - Fields to select
+	 * @param {string|string[]} [params.sort] - Sort order
+	 * @param {number} [params.batchSize=100] - Page size
+	 * @param {number} [params.delayMs=0]     - Optional delay between requests
+	 * @param {(item: any) => any} [params.mapFn] - Optional mapper per item
+	 */
+	async _fetchAllFromCollection({
+		collection,
+		filter = {},
+		fields,
+		sort,
+		batchSize = 100,
+		delayMs = 0,
+		mapFn
+	}) {
+		const allItems = [];
+		let offset = 0;
+
+		while (true) {
+			const response = await this.client.request(
+				readItems(collection, {
+					filter,
+					fields,
+					sort,
+					offset,
+					limit: batchSize
+				})
+			);
+
+			if (!response || response.length === 0) {
+				break;
+			}
+
+			const items = mapFn ? response.map(mapFn) : response;
+			allItems.push(...items);
+
+			if (response.length < batchSize) {
+				break;
+			}
+
+			offset += response.length;
+
+			if (delayMs > 0) {
+				await delay(delayMs);
+			}
+		}
+
+		return allItems;
+	}
+
+	/**
+	 * Read a nested relation object from a junction or wrapper node (e.g. `toolgankelijk_guideline_id`).
+	 *
+	 * @template T
+	 * @param {unknown} source
+	 * @param {string} relationKey
+	 * @returns {T | null}
+	 */
+	unwrapRelation(source, relationKey) {
+		if (!source || typeof source !== 'object') return null;
+		const rel = /** @type {Record<string, unknown>} */ (source)[relationKey];
+		if (rel && typeof rel === 'object') return /** @type {T} */ (rel);
+		return null;
 	}
 }

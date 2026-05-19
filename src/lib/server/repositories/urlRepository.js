@@ -15,6 +15,7 @@ import { DirectusRepositoryBase } from '$lib/server/repositories/baseRepository.
 import { normalizeHttpUrl } from '$lib/utils/url.js';
 
 /** @typedef {import('$lib/types').UrlWithWebsite} UrlWithWebsite */
+/** @typedef {import('$lib/types').WebsiteUrl} Url */
 
 const COLLECTION_URL = 'toolgankelijk_url';
 const COLLECTION_CHECK = 'toolgankelijk_check';
@@ -275,7 +276,7 @@ export class UrlRepository extends DirectusRepositoryBase {
 	}
 
 	/**
-	 * Junction row id + criterion id pairs for a check's success_criteria relation.
+	 * Gets paired succescriteria rows based on junctionid
 	 *
 	 * @param {string} checkId
 	 * @returns {Promise<Array<{ junctionId: string; criterionId: string }>>}
@@ -294,9 +295,51 @@ export class UrlRepository extends DirectusRepositoryBase {
 			}))
 			.filter((r) => r.junctionId !== '' && r.criterionId !== '');
 	}
+	/**
+	 * Fetches all URL records associated with a specific partner.
+	 * Uses internal pagination to retrieve all matching items from the collection.
+	 *
+	 * @param {string} partnerId The unique identifier of the partner (website_id).
+	 * @param {Object} [options] Optional configuration for the fetch operation.
+	 * @param {number} [options.batchSize=100] Number of items to fetch per request.
+	 * @param {number} [options.delayMs=0] Optional delay in milliseconds between paginated requests.
+	 * @returns {Promise<Array<Pick<Url, 'id'>>>} A promise that resolves to an array of objects containing at least the URL ID.
+	 */
+	async getAllPartnerUrls(partnerId, { batchSize = 100, delayMs = 0 } = {}) {
+		if (!partnerId) {
+			throw new TypeError('getPartnerUrls: "partnerId" is required');
+		}
+		if (typeof batchSize !== 'number' || batchSize <= 0) {
+			throw new TypeError('getPartnerUrls: "batchSize" must be a positive number');
+		}
+		if (typeof delayMs !== 'number' || delayMs < 0) {
+			throw new TypeError('getPartnerUrls: "delayMs" must be a non-negative number');
+		}
+
+		const filter = {
+			website_id: { _eq: partnerId }
+		};
+
+		const fields = ['id', 'name', 'url', 'slug', 'website_id.slug'];
+		try {
+			return await this._fetchAllFromCollection({
+				collection: COLLECTION_URL,
+				filter,
+				fields,
+				batchSize,
+				delayMs,
+				mapFn: (u) => ({
+					id: u.id
+				})
+			});
+		} catch (error) {
+			console.error('urlRepository.getPartnerUrls failed', error);
+			throw new Error('Failed to fetch partner URLS');
+		}
+	}
 
 	/**
-	 * Link a success criterion to a check (M2M: read current links, append id, replace relation set).
+	 * Link a success criterion to a check.
 	 *
 	 * @param {{ websiteSlug?: string; urlSlug?: string; checkId: string; successCriteriaId: string }} input
 	 * @returns {Promise<{ id: string } | null>}
