@@ -31,7 +31,7 @@ export async function POST({ request }) {
 					await sendUpdate({ status: 'Partner verwijderen gestart', type: 'done' });
 
 					// 1. Verzamel alle urls van de partner
-					const allUrls = await urlRepository.getPartnerUrls(id);
+					const allUrls = await urlRepository.getAllPartnerUrls(id);
 
 					await sendUpdate({ status: `Aantal urls gevonden: ${allUrls.length}`, type: 'done' });
 
