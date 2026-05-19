@@ -34,10 +34,7 @@ export async function POST({ request }) {
 					});
 					await urlRepository.deleteUrlWithChecks(link.id);
 				} catch (error) {
-					SSEService.push(session, {
-						status: `Fout bij verwijderen url ${link.id}: ${error instanceof Error ? error.message : String(error)}`,
-						type: 'error'
-					});
+					SSEService.pushError(session, error, `Fout bij verwijderen url ${link.id}`);
 				}
 				await delay(150);
 			}
@@ -50,10 +47,7 @@ export async function POST({ request }) {
 				response: deleteResponse
 			});
 		} catch (error) {
-			SSEService.push(session, {
-				status: error instanceof Error ? error.message : String(error),
-				type: 'error'
-			});
+			SSEService.pushError(session, error);
 		}
 	});
 }

@@ -76,10 +76,7 @@ export async function POST({ request }) {
 				await pushProgressUpdateToClient({ status: 'Alle urls zijn toegevoegd', type: 'done' });
 			}
 		} catch (error) {
-			await pushProgressUpdateToClient({
-				status: error instanceof Error ? error.message : String(error),
-				type: 'error'
-			});
+			SSEService.pushError(session, error);
 		}
 	});
 }

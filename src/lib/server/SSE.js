@@ -1,5 +1,6 @@
 //@ts-check
 import { FetchConnection, SseError, createResponse } from 'better-sse';
+import { DevEnvironment } from 'vite';
 
 /** SSE server and client */
 
@@ -117,7 +118,7 @@ export class SSEService {
 	static closeSession(session) {
 		if (!session.isConnected) return;
 		try {
-			// @ts-ignore - onDisconnected is private in Session
+			// @ts-ignore
 			session.onDisconnected?.();
 		} catch (err) {
 			console.error('[sse] failed to close session:', err);
@@ -150,6 +151,37 @@ export class SSEService {
 				SSEService.closeSession(session);
 			}
 		});
+	}
+
+	/**
+	 /**
+	  * Pushes an error update. Sanitizes the error message to avoid leaking sensitive information.
+	  * Optionally closes the session after pushing the error.
+	  * @param {import('better-sse').Session} session
+	  * @param {unknown} [error]
+	  * @param {string} [customMessage]
+	  * @param {boolean} [shouldClose=true]
+	  */
+	static pushError(
+		session,
+		error,
+		customMessage = 'Er is een interne fout opgetreden.',
+		shouldClose = true
+	) {
+		if (DevEnvironment){
+		console.error('[sse] error thrown = ', error);}
+		SSEService.push(
+			session,
+			{
+				status: customMessage,
+				type: 'error'
+			},
+			'message'
+		);
+
+		if (shouldClose) {
+			SSEService.closeSession(session);
+		}
 	}
 
 	/**

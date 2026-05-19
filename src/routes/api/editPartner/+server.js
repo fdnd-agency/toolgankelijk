@@ -82,10 +82,7 @@ export async function POST({ request }) {
 			await partnerRepository.updatePartnerById({ id, name, url, slug });
 			await pushProgressUpdateToClient({ status: 'Partner bijgewerkt', type: 'done' });
 		} catch (error) {
-			await pushProgressUpdateToClient({
-				status: error instanceof Error ? error.message : String(error),
-				type: 'error'
-			});
+			SSEService.pushError(session, error);
 		}
 	});
 }

@@ -84,7 +84,8 @@ export async function POST({ request }) {
 
 		try {
 			if (urls.length === 0) {
-				await pushClientUpdateThenWait("Geen URL's om te auditen", 'error', 2000);
+				SSEService.pushError(session, undefined, "Geen URL's om te auditen");
+				await delay(2000);
 				return;
 			}
 
@@ -112,12 +113,14 @@ export async function POST({ request }) {
 					auditErrorMessage = maybeJson?.message || maybeJson?.error || auditErrorMessage;
 				} catch {}
 
-				await pushClientUpdateThenWait(auditErrorMessage, 'error', 2000);
+				SSEService.pushError(session, undefined, auditErrorMessage);
+				await delay(2000);
 				return;
 			}
 
 			if (!response.body) {
-				await pushClientUpdateThenWait('Geen audit stream ontvangen', 'error', 2000);
+				SSEService.pushError(session, undefined, 'Geen audit stream ontvangen');
+				await delay(2000);
 				return;
 			}
 
@@ -158,10 +161,7 @@ export async function POST({ request }) {
 					});
 					try {
 						if (session.isConnected) {
-							SSEService.push(session, {
-								status: `Ongeldige audit update ontvangen${suffix}: ${parseError.message}`,
-								type: 'warning'
-							});
+							SSEService.pushError(session, parseError, `Ongeldige audit update ontvangen${suffix}`);
 						}
 					} catch {}
 				},
@@ -170,11 +170,8 @@ export async function POST({ request }) {
 
 			await pushClientUpdateThenWait('Audit afgerond', 'done', 1000);
 		} catch (error) {
-			await pushClientUpdateThenWait(
-				`Fout bij verbinden met audit server: ${error instanceof Error ? error.message : String(error)}`,
-				'error',
-				2000
-			);
+			SSEService.pushError(session, error, 'Fout bij verbinden met audit server.');
+			await delay(2000);
 		}
 	});
 }

@@ -21,7 +21,7 @@ export async function POST({ request }) {
 				urlName: name
 			});
 			if (!directusCall) {
-				SSEService.push(session, { status: 'Url kon niet worden opgeslagen.', type: 'error' });
+				SSEService.pushError(session, undefined, 'Url kon niet worden opgeslagen.');
 				await delay(500);
 				return;
 			}
@@ -34,10 +34,7 @@ export async function POST({ request }) {
 			});
 			await delay(500);
 		} catch (error) {
-			SSEService.push(session, {
-				status: error instanceof Error ? error.message : String(error),
-				type: 'error'
-			});
+			SSEService.pushError(session, error, 'Er is een fout opgetreden bij het toevoegen van de URL.');
 		}
 	});
 }

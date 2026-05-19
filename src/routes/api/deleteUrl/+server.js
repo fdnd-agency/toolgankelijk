@@ -16,10 +16,7 @@ export async function POST({ request }) {
 			SSEService.push(session, { status: 'Url succesvol verwijderd', type: 'done', response });
 			await delay(500);
 		} catch (error) {
-			SSEService.push(session, {
-				status: error instanceof Error ? error.message : String(error),
-				type: 'error'
-			});
+			SSEService.pushError(session, error);
 		}
 	});
 }

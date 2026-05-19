@@ -16,7 +16,7 @@ export async function POST({ request }) {
 
 			const response = await urlRepository.updateUrl({ id, slug, url, name });
 			if (!response) {
-				SSEService.push(session, { status: 'Url kon niet worden bijgewerkt', type: 'error' });
+				SSEService.pushError(session, undefined, 'Url kon niet worden bijgewerkt');
 				await delay(500);
 				return;
 			}
@@ -24,10 +24,7 @@ export async function POST({ request }) {
 			SSEService.push(session, { status: 'Url succesvol bijgewerkt', type: 'done', response });
 			await delay(500);
 		} catch (error) {
-			SSEService.push(session, {
-				status: error instanceof Error ? error.message : String(error),
-				type: 'error'
-			});
+			SSEService.pushError(session, error);
 		}
 	});
 }
