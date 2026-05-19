@@ -13,7 +13,7 @@ export async function POST({ request }) {
 
 			const response = await urlRepository.deleteUrlWithChecks(id);
 
-			SSEService.push(session, { status: 'Url succesvol verwijderd', type: 'done', response });
+			SSEService.push(session, { status: 'Url succesvol verwijderd.', type: 'done', response });
 			await delay(500);
 		} catch (error) {
 			SSEService.pushError(session, error);

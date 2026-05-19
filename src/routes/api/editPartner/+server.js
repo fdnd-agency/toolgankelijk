@@ -53,7 +53,7 @@ export async function POST({ request }) {
 					sitemapUrls.length > 0 ? sitemapUrls : await crawlUrls(url, pushProgressUpdateToClient);
 			}
 
-			await pushProgressUpdateToClient({ status: 'Partner data verwerken', type: 'done' });
+			await pushProgressUpdateToClient({ status: 'Partner data verwerkt.', type: 'done' });
 
 			if (toggle && urls.length) {
 				const { total } = await processUrls(urls, slug, pushProgressUpdateToClient);
@@ -77,7 +77,7 @@ export async function POST({ request }) {
 					}
 					await delay(1000);
 				}
-				await pushProgressUpdateToClient({ status: 'Alle urls zijn toegevoegd', type: 'done' });
+				await pushProgressUpdateToClient({ status: 'Alle urls zijn toegevoegd.', type: 'done' });
 			}
 			await partnerRepository.updatePartnerById({ id, name, url, slug });
 			await pushProgressUpdateToClient({ status: 'Partner bijgewerkt', type: 'done' });

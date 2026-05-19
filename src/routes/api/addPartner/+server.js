@@ -39,7 +39,7 @@ export async function POST({ request }) {
 		};
 
 		try {
-			await pushProgressUpdateToClient({ status: 'Partner data verwerken', type: 'done' });
+			await pushProgressUpdateToClient({ status: 'Partner data verwerkt.', type: 'done' });
 
 			let url = rawUrl;
 			let urls = [];

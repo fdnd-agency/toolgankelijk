@@ -38,7 +38,7 @@ export async function POST({ request }) {
 				}
 				await delay(150);
 			}
-			SSEService.push(session, { status: 'Alle urls verwijderd', type: 'done' });
+			SSEService.push(session, { status: 'Alle urls verwijderd.', type: 'done' });
 
 			const deleteResponse = await partnerRepository.deletePartnerById(id);
 			SSEService.push(session, {
