@@ -100,7 +100,6 @@
             margin: 0;
             inset: 0;
             padding: 1.5em;
-            inset: 6.2em 0 0 auto;
             background-color: var(--color-primary-light);
 
             transition: 
