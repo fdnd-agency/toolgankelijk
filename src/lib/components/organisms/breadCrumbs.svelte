@@ -280,7 +280,7 @@
 	.dropdown-controls {
 		display: flex;
 		padding-bottom: 0.5em;
-		gap: 1em;
+		gap: 0.5em;
 
 		@media (max-width: 1320px) {
 			gap: 0.2em;

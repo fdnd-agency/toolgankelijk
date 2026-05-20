@@ -11,7 +11,7 @@
 
 	/* neutral colors */
 	--color-neutral-white: #ffffff;
-	--color-neutral-black: #000000;
+	--color-neutral-black: #470026;
 	--color-neutral-darkgrey: #6d495a;
 	--color-neutral-grey: #a9999b;
 
@@ -149,6 +149,11 @@ p {
 
 .disabled {
 	display: none;
+}
+
+main {
+	margin-left: 5%;
+	margin-right: 5%;
 }
 
 button {
