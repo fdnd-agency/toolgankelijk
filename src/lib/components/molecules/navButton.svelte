@@ -4,6 +4,8 @@
 	let {
 		iconName,
 		showIcon = false,
+		target = null,
+		action = null,
 		type,
 		variant = 'primary',
 		size = 'medium',
@@ -25,6 +27,8 @@
 	{href}
 	{type}
 	class="navbutton {size} {variant} {active} {effect}"
+	popovertarget={target}
+	popovertargetaction={action}
 	{onclick}
 	{...rest}
 	aria-label={aria}
@@ -37,162 +41,141 @@
 		{@render children?.()}
 	</span>
 </svelte:element>
-
 <style>
-	.navbutton {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		border-radius: var(--border-radius);
-		transition: all 0.2s ease;
-		cursor: pointer;
-		text-decoration: none;
-		border: var(--border-white, 1px solid transparent);
-		height: 3em;
-		gap: 0.3em;
-	}
+    /* ================= BASE BUTTON ================= */
+    .navbutton {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: var(--border-radius);
+        transition: all 0.2s ease;
+        cursor: pointer;
+        text-decoration: none;
+        border: var(--border-white, 1px solid transparent);
+        height: 3em;
+        gap: 0.5em;
+        padding: 1em;
+        font-size: 1em;
+    }
 
-	.navbutton:hover {
-		filter: brightness(1.1);
-	}
+    .navbutton:hover {
+        filter: brightness(1.1);
+    }
 
-	.navbutton:focus {
-		border: white 1px solid;
-	}
+    .navbutton:focus {
+        border: white 1px solid;
+    }
 
-	.icon-wrapper {
-		display: inline-flex;
-		align-items: center;
-	}
+    .icon-wrapper {
+        display: inline-flex;
+        align-items: center;
+    }
 
-	.text {
-		flex: 1;
-		min-width: 0;
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		text-align: left;
-	}
+    /* ================= VARIANTS & STATES ================= */
+    .primary {
+        background-color: var(--color-primary);
+        color: var(--color-neutral-white);
+    }
 
-	.small {
-		width: 3em;
-		padding: 1em 1em;
-		font-size: 16px;
-		gap: 0;
-	}
-	.medium {
-		width: 8em;
-		padding: 1em 1em;
-		font-size: 16px;
+    .header {
+        background-color: var(--color-primary);
+        color: var(--color-neutral-white);
+        justify-content: space-between;
+        border: none;
+    }
 
-		@media (max-width: 1080px) {
-			width: 6em;
-		}
-	}
-	.large {
-		width: 12em;
-		padding: 1em 1em;
-		font-size: 16px;
-		justify-content: space-around;
+    .active {
+        transition-duration: 0.3s;
+        border-bottom: 5px solid var(--color-neutral-white);
+        border-radius: 12px 12px 0 0;
+    }
 
-		@media (max-width: 1080px) {
-			width: 8em;
-		}
-	}
-	.xlarge {
-		width: 16em;
-		padding: 1em 1em;
-		font-size: 16px;
-		justify-content: space-around;
-	}
+    .disabled {
+        filter: grayscale(100%);
+        opacity: 0.3;
+        height: 2em;
+        pointer-events: none;
+        cursor: not-allowed;
+    }
 
-	.primary {
-		background-color: var(--color-primary);
-		color: var(--color-neutral-white);
-		border: var(--color-neutral-lightgrey) 2px solid;
-	}
+    .small { width: 3em; }
+    .medium { width: 8em; }
+    .large { width: 12em; }
+    .xlarge { width: 16em; }
+    .full { 
+        width: 100%; 
+        justify-content: space-between;
+    }
 
-	.secondary {
-		background-color: var(--color-primary-light);
-		color: var(--color-neutral-black);
-		border: var(--color-neutral-darkgrey) 2px solid;
-	}
+    @media (max-width: 1080px) {
+        .medium { width: 6em; }
+        .large { width: 8em; }
+    }
 
-	.active {
-		background-color: var(--color-neutral-white);
-		color: var(--color-primary);
-	}
+    .select {
+        width: 100%;
+        font-size: 12px;
+        height: 2em;
+        display: inline-flex;
+        align-items: center;
+        justify-content: flex-start;
+        border: var(--color-neutral-white) 1px solid;
+    }
 
-	/* for the dropdowns */
-	.select {
-		width: 100%;
-		font-size: 12px;
-		height: 2em;
-		justify-content: flex-start;
-		align-items: center;
-		border: var(--color-neutral-white) 1px solid;
+    .select:focus {
+        transition-duration: 0.2s;
+        border: var(--color-neutral-white) 2px solid;
+    }
 
-		display: inline-flex;
+    .dropdown {
+        width: 16em;
+        font-size: 16px;
+        height: 2em;
+        margin: 0 auto;
+        display: inline-flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-direction: row-reverse;
+    }
 
-		&:focus {
-			transition-duration: 0.2s;
-			border: var(--color-neutral-white) 2px solid;
-		}
-	}
+    @media (max-width: 1320px) {
+        .dropdown { width: 12em; }
+    }
 
-	.dropdown {
-		width: 16em;
-		font-size: 16px;
-		place-items: center;
-		margin: 0px auto;
-		justify-content: space-between;
-		flex-direction: row-reverse;
-		height: 2em;
-		display: inline-flex;
+    @media (max-width: 1080px) {
+        .dropdown {
+            width: 100%;
+            justify-content: center;
+            gap: 1em;
+        }
+    }
 
-		@media (max-width: 1320px) {
-			width: 12em;
-		}
+    .dropdown-wrap {
+        width: 80%;
+        font-size: 16px;
+        height: 2em;
+        margin: 0 auto;
+        display: inline-flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-direction: row-reverse;
+    }
 
-		@media (max-width: 1080px) {
-			width: 100%;
-			justify-content: center;
-			gap: 1em;
-		}
-	}
+    .pages { 
+        align-content: center; 
+    }
 
-	.dropdown-wrap {
-		width: 80%;
-		font-size: 16px;
-		place-items: center;
-		margin: 0px auto;
-		justify-content: space-between;
-		flex-direction: row-reverse;
-		height: 2em;
-		display: inline-flex;
+    .invisible { 
+        display: none; 
+    }
 
-	}
+    .cross {
+        height: 2em;
+        width: 2em;
+    }
 
-	.full {
-		width: 100%;
-	}
-
-	.pages {
-		align-content: center;
-	}
-
-	.invisible {
-		display: none;
-	}
-
-	.cross {
-		height: 2em;
-		width: 2em;
-	}
-
-	.disabled {
-		filter: grayscale(100);
-		opacity: 0.3;
-		height: 2em;
-	}
+    .hamburger { 
+        justify-content: center;
+        color: var(--color-neutral-white);
+    }
 </style>

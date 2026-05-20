@@ -102,6 +102,7 @@
 
 	.subheader-heading {
 		display: flex;
+		margin-left: 2%;
 		flex-direction: column;
 		gap: 0.5em;
 		width: 100%;

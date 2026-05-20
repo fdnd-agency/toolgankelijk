@@ -1,8 +1,7 @@
-<a class="logo-header" href="/">
+<a class="logo-header" href="/" aria-label="ga naar homepagina">
 	<svg
 		id="logo"
-		width="179"
-		height="64"
+		width="130"
 		viewBox="0 0 179 64"
 		fill="none"
 		xmlns="http://www.w3.org/2000/svg"
@@ -20,7 +19,7 @@
 	<svg
 		id="line"
 		width="2"
-		height="65"
+		height="50"
 		viewBox="0 0 2 65"
 		fill="none"
 		xmlns="http://www.w3.org/2000/svg"
@@ -30,7 +29,7 @@
 
 	<svg
 		id="underline"
-		width="191"
+		width="160"
 		height="2"
 		viewBox="0 0 191 2"
 		fill="none"
@@ -57,7 +56,7 @@
 	p {
 		color: var(--color-neutral-white);
 		text-decoration: none;
-		font-size: 24px;
+		font-size: 20px;
 	}
 
 	#underline {
@@ -71,7 +70,7 @@
 
 	.logo-header {
 		display: flex;
-		gap: 0.5em;
+		gap: 0.4em;
 		flex-direction: row;
 
 		@media (max-width: 1080px) {
@@ -86,11 +85,12 @@
 				gap: 0.5em;
 
 				p {
-					font-size: 18px;
+					font-size: 14px;
 				}
 			}
 			#logo {
-				height: 3em;
+				height: 2em;
+				margin-left: 1em;
 			}
 		}
 	}
