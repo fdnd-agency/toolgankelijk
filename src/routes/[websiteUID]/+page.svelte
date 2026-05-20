@@ -4,7 +4,6 @@
 	import Dialog from '$lib/components/templates/dialog.svelte';
 	import Pages from '$lib/components/organisms/pages.svelte';
 	import SubHeader from '$lib/components/templates/subheader.svelte';
-	import Heading from '$lib/components/molecules/heading.svelte';
 
 	let { data, form } = $props();
 	let params = $derived($page.params);
@@ -35,19 +34,6 @@
 		dialogRef?.open();
 	}
 </script>
-
-<SubHeader
-	{params}
-	{partners}
-	websites={currentUrls}
-	{principles}
-	{overview}
-	user={data.user}
-	showAdd={true}
-	onAdd={openAddUrl}
-/>
-
-<Heading {heading} />
 
 <Dialog bind:this={dialogRef} params={params.websiteUID} isType="addUrl" />
 

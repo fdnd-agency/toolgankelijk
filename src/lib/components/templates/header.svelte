@@ -16,6 +16,7 @@
 	<nav id="header-navigation" class="color-primary-light">
 		<NavButton
 			href="/"
+			aria="home"
 			size="large"
 			showIcon={true}
 			iconName="home"
@@ -30,6 +31,7 @@
 			showIcon={true}
 			iconName="info"
 			variant="secondary"
+			aria="info"
 			active={$page.url.pathname === '/info' ? 'active' : ''}
 		>
 			<p>Info</p>
@@ -39,6 +41,7 @@
 			size="large"
 			showIcon={true}
 			iconName="account"
+			aira="account"
 			variant="secondary"
 			active={$page.url.pathname === '/account' ? 'active' : ''}
 		>

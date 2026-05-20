@@ -1,7 +1,7 @@
 <script>
 	import Checklist from '$lib/components/templates/checklist.svelte';
 	import Sidebar from '$lib/components/templates/sidebar.svelte';
-	import Heading from '$lib/components/molecules/heading.svelte';
+	import SubHeader from '$lib/components/templates/subheader.svelte';
 
 	let { data, form } = $props();
 
@@ -11,14 +11,16 @@
 		url: data.urlData.url.slug
 	});
 
+	function handleApplyFilters(newFilters) {
+		activeFilters = newFilters;
+	}
+
 	let toolboardData = $derived(data.toolboardData);
 	let urlData = $derived(data.urlData);
 	let guidelines = $derived(toolboardData.principle.guidelines);
 	let principles = $derived(data.toolboardData.principles);
 	let levels = $derived(data.levelsData.levels);
 </script>
-
-<Heading {heading} />
 
 <section>
 	{#if form?.success}
