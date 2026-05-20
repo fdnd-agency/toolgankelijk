@@ -1,9 +1,6 @@
 import { urlRepository } from '$lib/server/index.js';
-
-// Delay helper
-function delay(ms) {
-	return new Promise((resolve) => setTimeout(resolve, ms));
-}
+import { SSEService } from '$lib/server/SSE.js';
+import { delay } from '$lib/utils/delay.js';
 
 export async function POST({ request }) {
 	const formData = await request.formData();
@@ -12,65 +9,36 @@ export async function POST({ request }) {
 	const urlLink = formData.get('url');
 	const websiteSlug = formData.get('slug');
 
-	const stream = new ReadableStream({
-		start(controller) {
-			const enc = new TextEncoder();
-			let closed = false;
-			const safeClose = () => {
-				if (!closed) {
-					try {
-						controller.close();
-					} catch (error) {
-						console.error('Error closing stream:', error);
-					}
-					closed = true;
-				}
-			};
-			const sendUpdate = async (msg) =>
-				controller.enqueue(enc.encode(`data: ${JSON.stringify(msg)}\n\n`));
+	return SSEService.createSseResponse(request, async (session) => {
+		try {
+			SSEService.push(session, { status: 'Toevoegen gestart', type: 'done' });
+			await delay(500);
 
-			(async () => {
-				try {
-					await sendUpdate({ status: 'Toevoegen gestart', type: 'done' });
-					await delay(500);
+			const directusCall = await urlRepository.addUrl({
+				urlSlug: slug,
+				urlLink,
+				websiteSlug,
+				urlName: name
+			});
+			if (!directusCall) {
+				SSEService.pushError(session, undefined, 'Url kon niet worden opgeslagen.');
+				await delay(500);
+				return;
+			}
+			await urlRepository.createEmptyCheckForUrl({ websiteSlug, urlSlug: slug });
 
-					const directusCall = await urlRepository.addUrl({
-						urlSlug: slug,
-						urlLink,
-						websiteSlug,
-						urlName: name
-					});
-					if (!directusCall) {
-						await sendUpdate({
-							status: 'Url kon niet worden opgeslagen.',
-							type: 'error'
-						});
-						await delay(500);
-						return;
-					}
-					await urlRepository.createEmptyCheckForUrl({ websiteSlug, urlSlug: slug });
-
-					await sendUpdate({
-						status: `${name} is toegevoegd.`,
-						type: 'done',
-						response: directusCall
-					});
-					await delay(500);
-				} catch (err) {
-					await sendUpdate({ status: err.message, type: 'error' });
-				} finally {
-					safeClose();
-				}
-			})();
-		}
-	});
-
-	return new Response(stream, {
-		headers: {
-			'Content-Type': 'text/event-stream',
-			'Cache-Control': 'no-cache',
-			Connection: 'keep-alive',
-			'Transfer-Encoding': 'chunked'
+			SSEService.push(session, {
+				status: `${name} is toegevoegd.`,
+				type: 'done',
+				response: directusCall
+			});
+			await delay(500);
+		} catch (error) {
+			SSEService.pushError(
+				session,
+				error,
+				'Er is een fout opgetreden bij het toevoegen van de URL.'
+			);
 		}
 	});
 }

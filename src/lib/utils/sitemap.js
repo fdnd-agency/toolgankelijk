@@ -3,13 +3,10 @@ import Sitemapper from 'sitemapper';
 import axios from 'axios';
 import { parseHTML } from 'linkedom';
 import { urlRepository } from '$lib/server/index.js';
+import { delay } from './delay.js';
 
 export function isValidUrl(url) {
 	return !url.includes('/document') && !url.includes('/documents');
-}
-
-export function delay(ms) {
-	return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 export async function formatUrl(rawUrl, sendUpdate) {
