@@ -7,7 +7,6 @@
 	import Dialog from '$lib/components/templates/dialog.svelte';
 	import Pages from '$lib/components/organisms/pages.svelte';
 	import NavButton from '$lib/components/molecules/navButton.svelte';
-	import Heading from '$lib/components/molecules/heading.svelte';
 
 	let { data, form } = $props();
 
@@ -20,7 +19,6 @@
 	const websitesList = $derived(data.websites.allWebsites || []);
 	const currentPage = $derived(skip / first + 1);
 	let showRegistrationSuccess = $derived(data.showRegistrationSuccess);
-	let heading = { title: 'Partners overzicht' };
 	let dialogRef = $state();
 	const principles = $derived(data.principles);
 
@@ -45,19 +43,7 @@
 	}
 </script>
 
-<SubHeader
-	{params}
-	{partners}
-	websites={websitesList}
-	{principles}
-	user={data.user}
-	showAdd={true}
-	onAdd={openAddUrl}
-/>
-
 <Dialog bind:this={dialogRef} {params} isType="addPartner" />
-
-<Heading {heading} />
 
 {#if totalUrls > first}
 	<Pages amount={totalUrls} perPage={first} {currentPage} />
@@ -79,11 +65,17 @@
 	{/each}
 </section>
 
-<NavButton size="medium" variant="primary" showIcon={false} href="#main" aria="scroll naar boven">
-	<p>Scroll naar Boven</p>
-</NavButton>
-
-<a href="#main" class="btn-top" onclick={scrollToTop}>⬆</a>
+<div class="scroll-color-override">
+	<NavButton
+		size="medium"
+		variant="primary"
+		showIcon={true}
+		iconName="arrow"
+		href="#main"
+		aria-label="scroll naar boven"
+		onClick={scrollToTop}
+	></NavButton>
+</div>
 
 <style>
 	section {
@@ -134,6 +126,20 @@
 		cursor: pointer;
 		text-decoration: none;
 		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+	}
+
+	.scroll-color-override {
+		display: flex;
+		justify-content: flex-end;
+	}
+
+	.scroll-color-override > :global(.navbutton) {
+		background-color: #c7337f !important;
+	}
+
+	.scroll-color-override :global(svg),
+	.scroll-color-override :global(img) {
+		transform: rotate(180deg);
 	}
 
 	.btn-top:hover {

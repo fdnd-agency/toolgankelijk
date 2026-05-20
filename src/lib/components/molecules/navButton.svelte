@@ -37,7 +37,9 @@
 		<Icon showIcon={true} {iconName} />
 	</span>
 
-	{@render children?.()}
+	<span class="text">
+		{@render children?.()}
+	</span>
 </svelte:element>
 
 <style>
@@ -62,7 +64,7 @@
 	}
 
 	.navbutton:focus {
-		border: white 3px solid;
+		border: white 1px solid;
 	}
 
 	.icon-wrapper {
@@ -100,6 +102,8 @@
 
 	.select {
 		border: var(--color-neutral-white) 1px solid;
+
+		display: inline-flex;
 
 		&:focus {
 			border: var(--color-neutral-white) 2px solid;
