@@ -4,8 +4,6 @@
 	let {
 		iconName,
 		showIcon = false,
-		target = null,
-		action = null,
 		type,
 		variant = 'primary',
 		size = 'medium',
@@ -27,8 +25,6 @@
 	{href}
 	{type}
 	class="navbutton {size} {variant} {active} {effect}"
-	popovertarget={target}
-	popovertargetaction={action}
 	{onclick}
 	{...rest}
 	aria-label={aria}
@@ -53,10 +49,7 @@
 		text-decoration: none;
 		border: var(--border-white, 1px solid transparent);
 		height: 3em;
-		gap: 0.5em;
-
-		padding: 1em;
-		font-size: 1em;
+		gap: 0.3em;
 	}
 
 	.navbutton:hover {
@@ -72,74 +65,134 @@
 		align-items: center;
 	}
 
-	.select, .dropdown, .full, .header { 
-		justify-content: space-between;
+	.text {
+		flex: 1;
+		min-width: 0;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		text-align: left;
 	}
 
-	.select, .full {
-		width: 100%;
+	.small {
+		width: 3em;
+		padding: 1em 1em;
+		font-size: 16px;
+		gap: 0;
+	}
+	.medium {
+		width: 8em;
+		padding: 1em 1em;
+		font-size: 16px;
+
+		@media (max-width: 1080px) {
+			width: 6em;
+		}
+	}
+	.large {
+		width: 12em;
+		padding: 1em 1em;
+		font-size: 16px;
+		justify-content: space-around;
+
+		@media (max-width: 1080px) {
+			width: 8em;
+		}
+	}
+	.xlarge {
+		width: 16em;
+		padding: 1em 1em;
+		font-size: 16px;
+		justify-content: space-around;
 	}
 
-	.primary, .header {
+	.primary {
 		background-color: var(--color-primary);
-        color: var(--color-neutral-white);
+		color: var(--color-neutral-white);
+		border: var(--color-neutral-lightgrey) 2px solid;
 	}
 
-	/* sizes */
-	.small { width: 3em;}
-	.medium {width: 8em;}
-	.large {width: 12em;}
-	.xlarge {width: 16em;}
-
-	@media (max-width: 1080px) {
-        .medium { width: 6em; }
-        .large { width: 8em; }
-    }
-
-	.header {
-		border: none;
+	.secondary {
+		background-color: var(--color-primary-light);
+		color: var(--color-neutral-black);
+		border: var(--color-neutral-darkgrey) 2px solid;
 	}
 
+	.active {
+		background-color: var(--color-neutral-white);
+		color: var(--color-primary);
+	}
+
+	/* for the dropdowns */
 	.select {
+		width: 100%;
+		font-size: 12px;
+		height: 2em;
+		justify-content: flex-start;
+		align-items: center;
 		border: var(--color-neutral-white) 1px solid;
 
 		display: inline-flex;
 
 		&:focus {
+			transition-duration: 0.2s;
 			border: var(--color-neutral-white) 2px solid;
 		}
 	}
 
 	.dropdown {
-		width: 15em;
-		margin: 0 auto;
+		width: 16em;
+		font-size: 16px;
+		place-items: center;
+		margin: 0px auto;
+		justify-content: space-between;
+		flex-direction: row-reverse;
+		height: 2em;
+		display: inline-flex;
 
-		@media (max-width: 720px) {
-            width: 100%;
-            justify-content: center;
-            gap: 1em;
-        }
+		@media (max-width: 1320px) {
+			width: 12em;
+		}
+
+		@media (max-width: 1080px) {
+			width: 100%;
+			justify-content: center;
+			gap: 1em;
+		}
 	}
 
-	.pages { 
-		align-content: center; 
+	.dropdown-wrap {
+		width: 80%;
+		font-size: 16px;
+		place-items: center;
+		margin: 0px auto;
+		justify-content: space-between;
+		flex-direction: row-reverse;
+		height: 2em;
+		display: inline-flex;
+
 	}
 
-    .invisible { 
-		display: none; 
+	.full {
+		width: 100%;
 	}
 
-	.pages { 
-		align-content: center; 
+	.pages {
+		align-content: center;
 	}
 
-    .hamburger { 
-		justify-content: center;
+	.invisible {
+		display: none;
 	}
 
-    .active {
-        transition-duration: 0.3s;
-        border-bottom: 5px solid var(--color-neutral-white);
-        border-radius: 12px 12px 0 0;
-    }
+	.cross {
+		height: 2em;
+		width: 2em;
+	}
+
+	.disabled {
+		filter: grayscale(100);
+		opacity: 0.3;
+		height: 2em;
+	}
 </style>
