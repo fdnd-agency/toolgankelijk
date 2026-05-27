@@ -7,7 +7,6 @@
 	import Dialog from '$lib/components/templates/dialog.svelte';
 	import Pages from '$lib/components/organisms/pages.svelte';
 	import NavButton from '$lib/components/molecules/navButton.svelte';
-	import Heading from '$lib/components/molecules/heading.svelte';
 
 	let { data, form } = $props();
 
@@ -20,7 +19,6 @@
 	const websitesList = $derived(data.websites.allWebsites || []);
 	const currentPage = $derived(skip / first + 1);
 	let showRegistrationSuccess = $derived(data.showRegistrationSuccess);
-	let heading = { title: 'Partners overzicht' };
 	let dialogRef = $state();
 	const principles = $derived(data.principles);
 
@@ -45,19 +43,7 @@
 	}
 </script>
 
-<SubHeader
-	{params}
-	{partners}
-	websites={websitesList}
-	{principles}
-	user={data.user}
-	showAdd={true}
-	onAdd={openAddUrl}
-/>
-
 <Dialog bind:this={dialogRef} {params} isType="addPartner" />
-
-<Heading {heading} />
 
 {#if totalUrls > first}
 	<Pages amount={totalUrls} perPage={first} {currentPage} />

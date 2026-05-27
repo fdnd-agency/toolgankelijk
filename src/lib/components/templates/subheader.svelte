@@ -2,6 +2,8 @@
 	import { page } from '$app/stores';
 	import NavButton from '$lib/components/molecules/navButton.svelte';
 	import BreadCrumbs from '$lib/components/organisms/breadCrumbs.svelte';
+	import Heading from '$lib/components/molecules/heading.svelte';
+	import Search from '$lib/components/molecules/search.svelte';
 
 	let {
 		params,
@@ -11,245 +13,140 @@
 		principles = [],
 		overview,
 		showAdd = false,
-		onAdd
+		onAdd,
+		heading
 	} = $props();
 
-	// Internal state for the form fields
-	// let principle = $state('All');
-	// let level = $state('All');
-	// let showNotMet = $state(false);
-	// let showMet = $state(false);
+	let principle = $state('All');
+	let level = $state('All');
+	let showNotMet = $state(false);
+	let showMet = $state(false);
 
-	// function handleSubmit(e) {
-	// 	if (e) e.preventDefault();
+	function handleSubmit(e) {
+		if (e) e.preventDefault();
 
-	// 	if (onApply) {
-	// 		onApply({
-	// 			principle,
-	// 			level,
-	// 			showNotMet,
-	// 			showMet
-	// 		});
-	// 	}
-	// }
+		if (onApply) {
+			onApply({
+				principle,
+				level,
+				showNotMet,
+				showMet
+			});
+		}
+	}
 </script>
 
 <div class="subheader">
-	{#if user && user.isEmailVerified}
-		<BreadCrumbs {params} {partners} {websites} {overview} {principles} width="full" />
-	{/if}
-
-	<div class="subheader-form">
-		{#if showAdd}
-			<NavButton size="small" variant="primary" showIcon={true} iconName="add" onclick={onAdd}
-			></NavButton>
-
-			<form>
-				<NavButton size="small" variant="primary" showIcon={true} iconName="search"></NavButton>
-			</form>
+	<div class="subheader-heading">
+		<Heading {heading} />
+		{#if user && user.isEmailVerified}
+			<BreadCrumbs {params} {partners} {websites} {overview} {principles} width="full" />
 		{/if}
 	</div>
 
-	<!-- this will be placed on a sidebar of the principles page -->
-	<!-- <div class="brand"></div>
-	<form class="controls-container" onsubmit={handleSubmit}>
-		<div class="control-group">
-			<label class="group-label" for="principle">Selecteer principe:</label>
-			<div class="select-wrapper">
-				<select id="principle" bind:value={principle}>
-					<option value="All">Alle Principes</option>
-					<option value="Waarneembaar">Waarneembaar</option>
-					<option value="Bedienbaar">Bedienbaar</option>
-					<option value="Begrijpelijk">Begrijpelijk</option>
-					<option value="Robuust">Robuust</option>
-				</select>
-			</div>
+	<div class="subheader-form">
+		<!-- this will be placed on a sidebar of the principles page -->
+		<div class="subheader-form-up-wrapper">
+			<NavButton
+				size="small"
+				variant="primary"
+				showIcon={true}
+				iconName="add"
+				onclick={onAdd}
+				effect="disabled"
+			></NavButton>
+			<Search effect="disabled" />
 		</div>
 
-		<div class="control-group">
-			<label class="group-label" for="level">Selecteer niveau:</label>
-			<div class="select-wrapper">
-				<select id="level" bind:value={level}>
-					<option value="All">Alle Niveaus</option>
-					<option value="AA">Niveau AA</option>
-					<option value="AAA">Niveau AAA</option>
-				</select>
-			</div>
+		<div class="subheader-form-down-wrapper">
+			<p>Sorteren op</p>
+
+			<NavButton effect="disabled">Levels</NavButton>
+
+			<NavButton effect="disabled">Principles</NavButton>
 		</div>
 
-		<fieldset class="control-group" style="border: none; padding: 0; margin: 0; min-width: 0;">
-			<legend class="group-label">Principes tonen:</legend>
-			<div class="checkboxes">
-				<label class="checkbox-label">
-					<input type="checkbox" bind:checked={showNotMet} />
-					Niet voldaan
-				</label>
-				<label class="checkbox-label">
-					<input type="checkbox" bind:checked={showMet} />
-					Voldaan
-				</label>
-			</div>
-		</fieldset>
-
-		<div class="button-container">
-			<NavButton size="medium" type="submit" variant="secondary">Toepassen</NavButton>
+		<div class="subheader-dropdown-wrapper">
+			<NavButton
+				size="small"
+				showIcon={true}
+				iconName="arrow"
+				effect="disabled"
+				aria="dropdown menu"
+			></NavButton>
 		</div>
-	</form> -->
+	</div>
 </div>
-
-<!-- <style>
-
-	.brand {
-		flex: 1;
-		padding-right: 20px;
-	}
-
-	.controls-container {
-		display: flex;
-		align-items: flex-start;
-		gap: 24px;
-		padding: 0.3em;
-	}
-
-	.control-group {
-		display: flex;
-		flex-direction: column;
-		gap: 8px;
-	}
-
-	.group-label {
-		font-size: 0.9rem;
-		color: var(--color-neutral-white);
-	}
-
-	.select-wrapper {
-		position: relative;
-		display: inline-block;
-	}
-
-	select {
-		appearance: none;
-		-webkit-appearance: none;
-		background-color: var(--color-primary-light);
-		color: var(--color-neutral-black);
-		border: none;
-		padding: 10px 40px 10px 16px;
-		border-radius: 6px;
-		font-size: 0.95rem;
-		cursor: pointer;
-		min-width: 180px;
-	}
-
-	select:focus {
-		outline: 2px solid var(--color-neutral-black);
-	}
-
-	.select-wrapper::after {
-		content: '▼';
-		font-size: 0.6rem;
-		color: var(--color-primary);
-		position: absolute;
-		right: 14px;
-		top: 50%;
-		transform: translateY(-50%);
-		pointer-events: none;
-	}
-
-	label {
-		color: var(--color-neutral-white);
-	}
-
-	.checkboxes {
-		display: flex;
-		flex-direction: column;
-		gap: 6px;
-	}
-
-	.checkbox-label {
-		display: flex;
-		align-items: center;
-		gap: 10px;
-		font-size: 0.85rem;
-		cursor: pointer;
-		color: inherit;
-	}
-
-	input[type='checkbox'] {
-		appearance: none;
-		-webkit-appearance: none;
-		width: 16px;
-		height: 16px;
-		background-color: var(--color-neutral-white);
-		border-radius: 2px;
-		cursor: pointer;
-		margin: 0;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-	}
-
-	input[type='checkbox']:checked::after {
-		content: '✔';
-		/* Checkmark uses the background color to "cut out" */
-		color: var(--color-primary);
-		font-size: 12px;
-		font-weight: bold;
-	}
-
-	@media (max-width: 850px) {
-		.subheader {
-			flex-direction: column;
-			align-items: stretch;
-			gap: 1.5rem;
-		}
-
-		.brand {
-			display: none;
-		}
-
-		.controls-container {
-			flex-direction: column;
-			width: 100%;
-			gap: 16px;
-		}
-
-		.control-group {
-			width: 100%;
-		}
-
-		.select-wrapper {
-			display: block;
-		}
-
-		select {
-			width: 100%;
-			box-sizing: border-box;
-		}
-
-		.checkboxes {
-			flex-direction: row;
-			gap: 1.5rem;
-		}
-	}
-</style> -->
 
 <style>
 	.subheader {
-		height: fit-content;
-		background-color: var(--color-primary-light);
+		height: 10em;
+		padding-left: 5%;
+		padding-right: 5%;
+		align-items: center;
 		display: flex;
-		padding: 1em;
-		align-content: center;
 		justify-content: space-between;
+		width: 100vw;
+
+		@media (max-width: 1080px) {
+			margin-top: 1em;
+			margin-bottom: 1em;
+		}
 
 		@media (max-width: 720px) {
 			display: flex;
 			gap: 0.5em;
+			padding-right: 5em;
 		}
+	}
+
+	.subheader-heading {
+		display: flex;
+		margin-left: 2%;
+		flex-direction: column;
+		gap: 0.5em;
+		width: 100%;
 	}
 
 	.subheader-form {
 		display: flex;
+		gap: 0.5em;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.subheader-form-up-wrapper {
+		display: flex;
+		justify-content: flex-end;
+		align-items: center;
+
+		@media (max-width: 1080px) {
+			padding-left: 4em;
+		}
+
+		@media (max-width: 1080px) {
+			display: none;
+		}
+	}
+
+	.subheader-form-down-wrapper {
+		display: flex;
 		gap: 1em;
+		align-items: center;
+		justify-content: flex-start;
+
+		@media (max-width: 1080px) {
+			display: none;
+		}
+	}
+
+	.subheader-dropdown-wrapper {
+		padding-bottom: 1em;
+		margin-left: 1em;
+
+		@media (min-width: 1080px) {
+			display: none;
+		}
 	}
 </style>

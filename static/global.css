@@ -11,10 +11,10 @@
 
 	/* neutral colors */
 	--color-neutral-white: #ffffff;
-	--color-neutral-black: #000000;
+	--color-neutral-black: #470026;
 	--color-neutral-darkgrey: #6d495a;
 	--color-neutral-grey: #a9999b;
-	
+
 	/* Card Background */
 	--color-background-card: #fbf0f5;
 
@@ -151,6 +151,11 @@ p {
 	display: none;
 }
 
+main {
+	margin-left: 5%;
+	margin-right: 5%;
+}
+
 button {
 	background: none;
 	border: none;
@@ -160,6 +165,7 @@ button {
 	cursor: pointer;
 	outline: inherit;
 }
+
 
 @font-face {
 	font-family: 'Fira Sans Bold';

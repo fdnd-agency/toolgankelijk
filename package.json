@@ -33,6 +33,7 @@
 		"@oslojs/crypto": "^1.0.1",
 		"@oslojs/encoding": "^1.1.0",
 		"axios": "^1.8.4",
+		"better-sse": "^0.16.1",
 		"dotenv": "^17.2.3",
 		"fast-speedtest-api": "^0.3.2",
 		"fast-xml-parser": "^5.0.9",

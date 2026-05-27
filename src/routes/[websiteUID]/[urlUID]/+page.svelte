@@ -3,14 +3,14 @@
 	import Heading from '$lib/components/molecules/heading.svelte';
 	import { onMount } from 'svelte';
 	import NavButton from '$lib/components/molecules/navButton.svelte';
-	import Subheader from '$lib/components/templates/subheader.svelte';
+	import SubHeader from '$lib/components/templates/subheader.svelte';
 
 	let { data } = $props();
 
 	let heading = $derived({
-		title: data.websitesData.website.title,
-		homepage: data.urlData.url.url,
-		url: data.urlData.url.slug
+		title: data?.websitesData?.website?.title ?? 'Loading...',
+		homepage: data?.urlData?.url?.url ?? '',
+		url: data?.urlData?.url?.slug ?? ''
 	});
 	let progressData = $state({});
 
@@ -113,10 +113,6 @@
 	// Helper to calculate percentage safely
 	const getPercent = (achieved, total) => (total > 0 ? Math.round((achieved / total) * 100) : 0);
 </script>
-
-<Subheader partnerTitle={data.websitesData.website.title} onApply={handleApplyFilters} />
-
-<Heading {heading} />
 
 <section class="container-principles">
 	<ul>
