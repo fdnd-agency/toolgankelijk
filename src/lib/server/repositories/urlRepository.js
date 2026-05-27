@@ -11,8 +11,8 @@ import {
 	readItems,
 	updateItem
 } from '@directus/sdk';
-import { BaseDirectusRepository } from '$lib/server/repositories/baseRepository.js';
-import { normalizeHttpUrl } from '$lib/utils/url.js';
+import { BaseDirectusRepository } from '$lib/server/repositories/baseRepository';
+import { normalizeHttpUrl } from '$lib/utils/url';
 
 /** @typedef {import('$lib/types').UrlWithWebsite} UrlWithWebsite */
 /** @typedef {import('$lib/types').WebsiteUrl} Url */

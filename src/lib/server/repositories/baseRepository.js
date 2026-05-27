@@ -1,9 +1,9 @@
 //@ts-check
 
-import { delay } from '$lib/utils/sitemap'; //TODO: Replace with proper util import later!
+import { delay } from '$lib/utils/delay';
 import { readItems } from '@directus/sdk';
 
-/** @typedef {typeof import('$lib/utils/directus.js').directusClient} DirectusClient */
+/** @typedef {typeof import('$lib/utils/directus').directusClient} DirectusClient */
 /** @typedef {{ client: DirectusClient }} DirectusRepositoryDependencies */
 
 /**

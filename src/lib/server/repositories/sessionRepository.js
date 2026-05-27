@@ -4,7 +4,7 @@
  * Sessions: GraphQL for read/update/delete; REST POST to create rows (same collection as GraphQL).
  */
 import { createItem } from '@directus/sdk';
-import { BaseDirectusRepository } from '$lib/server/repositories/baseRepository.js';
+import { BaseDirectusRepository } from '$lib/server/repositories/baseRepository';
 import getQuerySession, {
 	getQueryUpdateSession,
 	getQueryDeleteSession

@@ -3,7 +3,7 @@
 /**
  * App users (`toolgankelijk_user`), email verification codes, and allow-list domains.
  */
-import { BaseDirectusRepository } from '$lib/server/repositories/baseRepository.js';
+import { BaseDirectusRepository } from '$lib/server/repositories/baseRepository';
 import {
 	getQueryCheckUsernameAvailability,
 	getMutationCreateUser,

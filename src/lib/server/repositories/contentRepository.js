@@ -3,7 +3,7 @@
 /**
  * WCAG principles, conformance levels, and toolboard page data (URL + principle + guidelines for checks).
  */
-import { BaseDirectusRepository } from '$lib/server/repositories/baseRepository.js';
+import { BaseDirectusRepository } from '$lib/server/repositories/baseRepository';
 import getQueryNiveaus from '../queries/niveaus.js';
 import getQueryPrincipes from '../queries/principes.js';
 import getQueryToolboard from '../queries/toolboard.js';
@@ -17,6 +17,8 @@ import getQueryToolboard from '../queries/toolboard.js';
 
 /**
  * Content and checklist mapping for principles list and per-URL toolboard views.
+ *
+ * @extends {BaseDirectusRepository}
  */
 export class ContentRepository extends BaseDirectusRepository {
 	// Helper functions
