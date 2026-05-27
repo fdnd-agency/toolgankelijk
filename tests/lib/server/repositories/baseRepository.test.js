@@ -53,9 +53,7 @@ describe('BaseRepository', () => {
 		it('paginates correctly across multiple pages', async () => {
 			const page1 = [{ id: 1 }, { id: 2 }];
 			const page2 = [{ id: 3 }];
-			const mockRequest = vi.fn()
-				.mockResolvedValueOnce(page1)
-				.mockResolvedValueOnce(page2);
+			const mockRequest = vi.fn().mockResolvedValueOnce(page1).mockResolvedValueOnce(page2);
 
 			baseRepository = createBaseRepository(mockRequest);
 
@@ -66,7 +64,11 @@ describe('BaseRepository', () => {
 
 			expect(result).toEqual([...page1, ...page2]);
 			expect(mockRequest).toHaveBeenCalledTimes(2);
-			expect(readItems).toHaveBeenNthCalledWith(2, 'test_collection', expect.objectContaining({ offset: 2 }));
+			expect(readItems).toHaveBeenNthCalledWith(
+				2,
+				'test_collection',
+				expect.objectContaining({ offset: 2 })
+			);
 		});
 
 		it('applies mapFn to items if provided', async () => {
