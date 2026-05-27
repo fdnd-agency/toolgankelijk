@@ -3,6 +3,7 @@
  */
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { PartnerRepository } from '$lib/server/repositories/partnerRepository.js';
+import { RepositoryError } from '$lib/server/repositories/baseRepository.js';
 
 describe('PartnerRepository', () => {
 	let client;
@@ -47,13 +48,11 @@ describe('PartnerRepository', () => {
 			});
 		});
 
-		it('returns empty structure on error', async () => {
+		it('throws RepositoryError on error', async () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-			client.query.mockRejectedValue(new Error('fail'));
+			client.query.mockRejectedValue(new Error());
 
-			const result = await repository.listPartners();
-
-			expect(result).toEqual({ websites: [], totalWebsites: 0, principles: [] });
+			await expect(repository.listPartners()).rejects.toThrow(RepositoryError);
 			spy.mockRestore();
 		});
 	});
@@ -78,18 +77,11 @@ describe('PartnerRepository', () => {
 			expect(result.principles).toEqual([]);
 		});
 
-		it('returns empty defaults on error', async () => {
+		it('throws RepositoryError on error', async () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-			client.query.mockRejectedValue(new Error('fail'));
+			client.query.mockRejectedValue(new Error());
 
-			const result = await repository.getWebsiteBySlug('x');
-
-			expect(result).toEqual({
-				website: null,
-				urls: [],
-				totalUrls: 0,
-				principles: []
-			});
+			await expect(repository.getWebsiteBySlug('x')).rejects.toThrow(RepositoryError);
 			spy.mockRestore();
 		});
 	});
@@ -130,17 +122,17 @@ describe('PartnerRepository', () => {
 			expect(result).toBeNull();
 		});
 
-		it('returns null when request fails', async () => {
+		it('throws RepositoryError on error', async () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-			client.query.mockRejectedValue(new Error('fail'));
+			client.query.mockRejectedValue(new Error());
 
-			const result = await repository.createPartner({
-				name: 'T',
-				url: 'https://h',
-				slug: 's'
-			});
-
-			expect(result).toBeNull();
+			await expect(
+				repository.createPartner({
+					name: 'T',
+					url: 'https://h',
+					slug: 's'
+				})
+			).rejects.toThrow(RepositoryError);
 			spy.mockRestore();
 		});
 	});
@@ -179,18 +171,18 @@ describe('PartnerRepository', () => {
 			expect(result).toBeNull();
 		});
 
-		it('returns null when request fails', async () => {
+		it('throws RepositoryError on error', async () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-			client.query.mockRejectedValue(new Error('fail'));
+			client.query.mockRejectedValue(new Error());
 
-			const result = await repository.updatePartnerById({
-				id: 'w1',
-				name: 'N',
-				url: 'https://n',
-				slug: 'ns'
-			});
-
-			expect(result).toBeNull();
+			await expect(
+				repository.updatePartnerById({
+					id: 'w1',
+					name: 'N',
+					url: 'https://n',
+					slug: 'ns'
+				})
+			).rejects.toThrow(RepositoryError);
 			spy.mockRestore();
 		});
 	});
@@ -214,13 +206,13 @@ describe('PartnerRepository', () => {
 			).resolves.toBeNull();
 		});
 
-		it('returns null when request fails', async () => {
+		it('throws RepositoryError on error', async () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-			client.query.mockRejectedValue(new Error('fail'));
+			client.query.mockRejectedValue(new Error());
 
-			await expect(
-				repository.updatePartnerTotalUrls({ slug: 's', totalUrls: 1 })
-			).resolves.toBeNull();
+			await expect(repository.updatePartnerTotalUrls({ slug: 's', totalUrls: 1 })).rejects.toThrow(
+				RepositoryError
+			);
 			spy.mockRestore();
 		});
 	});
@@ -242,11 +234,11 @@ describe('PartnerRepository', () => {
 			await expect(repository.deletePartnerById('w1')).resolves.toBeNull();
 		});
 
-		it('returns null when request fails', async () => {
+		it('throws RepositoryError on error', async () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-			client.query.mockRejectedValue(new Error('fail'));
+			client.query.mockRejectedValue(new Error());
 
-			await expect(repository.deletePartnerById('w1')).resolves.toBeNull();
+			await expect(repository.deletePartnerById('w1')).rejects.toThrow(RepositoryError);
 			spy.mockRestore();
 		});
 	});

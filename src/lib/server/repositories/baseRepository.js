@@ -6,6 +6,29 @@ import { readItems } from '@directus/sdk';
 /** @typedef {typeof import('$lib/utils/directus').directusClient} DirectusClient */
 /** @typedef {{ client: DirectusClient }} DirectusRepositoryDependencies */
 
+export class RepositoryError extends Error {
+	/**
+	 * Custom error standard
+	 *
+	 * @param {object} params
+	 * @param {string} params.repoName
+	 * @param {string} params.functionName
+	 * @param {number | string | null} [params.statusCode]
+	 * @param {string} params.message
+	 * @param {any} [params.originalError]
+	 */
+	constructor({ repoName: repositoryName, functionName, statusCode, message, originalError }) {
+		const statusPrefix = statusCode ? ` ${statusCode}` : '';
+		super(`[${repositoryName}]${statusPrefix} ${functionName}: ${message}`);
+
+		this.name = 'RepositoryError';
+		this.repoName = repositoryName;
+		this.functionName = functionName;
+		this.statusCode = statusCode ?? null;
+		this.originalError = originalError;
+	}
+}
+
 /**
  * Contains shared helpers for repositories
  */
@@ -43,6 +66,36 @@ class BaseRepository {
 		if (Array.isArray(value)) return /** @type {T|null} */ (value[0] ?? null);
 		if (value && typeof value === 'object') return /** @type {T} */ (value);
 		return null;
+	}
+
+	/**
+	 * Log an error and normalize it into a RepositoryError.
+	 *
+	 * @param {any} error          The original error object.
+	 * @param {string} functionName Name of the repository method where it occurred.
+	 * @returns {RepositoryError}   A normalized error to throw.
+	 */
+	logAndWrapError(error, functionName) {
+		const repoName = this.constructor.name;
+
+		const statusCode = error?.status ?? error?.response?.status ?? null;
+
+		const statusPrefix = statusCode ? ` ${statusCode}` : '';
+
+		const baseMessage =
+			error?.message ?? (typeof error === 'string' ? error : 'An unexpected error occurred');
+
+		const logMessage = `[${repoName}]${statusPrefix} Error in ${functionName}: ${baseMessage}`;
+
+		console.error(logMessage);
+
+		return new RepositoryError({
+			repoName,
+			functionName,
+			statusCode,
+			message: baseMessage,
+			originalError: error
+		});
 	}
 }
 

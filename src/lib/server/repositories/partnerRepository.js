@@ -100,8 +100,7 @@ export class PartnerRepository extends BaseDirectusRepository {
 				principles
 			};
 		} catch (error) {
-			console.error('partnerRepository.listPartners failed', error);
-			return { websites: [], totalWebsites: 0, principles: [] };
+			throw this.logAndWrapError(error, this.listPartners.name);
 		}
 	}
 
@@ -127,8 +126,7 @@ export class PartnerRepository extends BaseDirectusRepository {
 				principles
 			};
 		} catch (error) {
-			console.error('partnerRepository.getWebsiteBySlug failed', error);
-			return { website: null, urls: [], totalUrls: 0, principles: [] };
+			throw this.logAndWrapError(error, this.getWebsiteBySlug.name);
 		}
 	}
 
@@ -151,8 +149,7 @@ export class PartnerRepository extends BaseDirectusRepository {
 				slug: row.slug
 			};
 		} catch (error) {
-			console.error('partnerRepository.createPartner failed', error);
-			return null;
+			throw this.logAndWrapError(error, this.createPartner.name);
 		}
 	}
 
@@ -175,8 +172,7 @@ export class PartnerRepository extends BaseDirectusRepository {
 				slug
 			};
 		} catch (error) {
-			console.error('partnerRepository.updatePartnerById failed', error);
-			return null;
+			throw this.logAndWrapError(error, this.updatePartnerById.name);
 		}
 	}
 
@@ -197,8 +193,7 @@ export class PartnerRepository extends BaseDirectusRepository {
 				totalUrls
 			};
 		} catch (error) {
-			console.error('partnerRepository.updatePartnerTotalUrls failed', error);
-			return null;
+			throw this.logAndWrapError(error, this.updatePartnerTotalUrls.name);
 		}
 	}
 
@@ -215,8 +210,7 @@ export class PartnerRepository extends BaseDirectusRepository {
 			const row = raw.delete_toolgankelijk_website_item ?? null;
 			return row ? { id: row.id } : null;
 		} catch (error) {
-			console.error('partnerRepository.deletePartnerById failed', error);
-			return null;
+			throw this.logAndWrapError(error, this.deletePartnerById.name);
 		}
 	}
 }

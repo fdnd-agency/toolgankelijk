@@ -84,8 +84,7 @@ export class UrlRepository extends BaseDirectusRepository {
 				checks
 			};
 		} catch (error) {
-			console.error('urlRepository.getUrl failed', error);
-			return null;
+			throw this.logAndWrapError(error, 'getUrl');
 		}
 	}
 
@@ -130,8 +129,7 @@ export class UrlRepository extends BaseDirectusRepository {
 			);
 			return created?.id ? { id: created.id } : null;
 		} catch (error) {
-			console.error('urlRepository.addUrl failed', error);
-			return null;
+			throw this.logAndWrapError(error, 'addUrl');
 		}
 	}
 
@@ -156,8 +154,7 @@ export class UrlRepository extends BaseDirectusRepository {
 			);
 			return row?.id ? { id: row.id, slug, url: normalizedUrl, name } : null;
 		} catch (error) {
-			console.error('urlRepository.updateUrl failed', error);
-			return null;
+			throw this.logAndWrapError(error, 'updateUrl');
 		}
 	}
 
@@ -172,8 +169,7 @@ export class UrlRepository extends BaseDirectusRepository {
 			await this.client.request(deleteItem(COLLECTION_URL, id));
 			return { id };
 		} catch (error) {
-			console.error('urlRepository.deleteUrl failed', error);
-			return null;
+			throw this.logAndWrapError(error, 'deleteUrl');
 		}
 	}
 
@@ -193,8 +189,7 @@ export class UrlRepository extends BaseDirectusRepository {
 			await this.client.request(deleteItem(COLLECTION_URL, id));
 			return { id };
 		} catch (error) {
-			console.error('urlRepository.deleteUrlWithChecks failed', error);
-			return null;
+			throw this.logAndWrapError(error, 'deleteUrlWithChecks');
 		}
 	}
 
@@ -226,8 +221,7 @@ export class UrlRepository extends BaseDirectusRepository {
 			);
 			return created?.id ? { id: created.id } : null;
 		} catch (error) {
-			console.error('urlRepository.createEmptyCheckForUrl failed', error);
-			return null;
+			throw this.logAndWrapError(error, 'createEmptyCheckForUrl');
 		}
 	}
 
@@ -251,8 +245,7 @@ export class UrlRepository extends BaseDirectusRepository {
 			const checks = this.normalizeToArray(url?.checks, { allowSingleObject: false });
 			return checks[0]?.id ?? null;
 		} catch (error) {
-			console.error('urlRepository.getFirstCheck failed', error);
-			return null;
+			throw this.logAndWrapError(error, 'getFirstCheck');
 		}
 	}
 
@@ -333,8 +326,7 @@ export class UrlRepository extends BaseDirectusRepository {
 				})
 			});
 		} catch (error) {
-			console.error('urlRepository.getPartnerUrls failed', error);
-			throw new Error('Failed to fetch partner URLS');
+			throw this.logAndWrapError(error, 'getAllPartnerUrls');
 		}
 	}
 
@@ -365,8 +357,7 @@ export class UrlRepository extends BaseDirectusRepository {
 			);
 			return row?.id ? { id: row.id } : null;
 		} catch (error) {
-			console.error('urlRepository.addSuccessCriteriaToCheck failed', error);
-			return null;
+			throw this.logAndWrapError(error, 'addSuccessCriteriaToCheck');
 		}
 	}
 
@@ -391,8 +382,7 @@ export class UrlRepository extends BaseDirectusRepository {
 			);
 			return { id: String(checkId) };
 		} catch (error) {
-			console.error('urlRepository.removeSuccessCriteriaFromCheck failed', error);
-			return null;
+			throw this.logAndWrapError(error, 'removeSuccessCriteriaFromCheck');
 		}
 	}
 }

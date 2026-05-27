@@ -3,6 +3,7 @@
  */
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { UrlRepository } from '$lib/server/repositories/urlRepository.js';
+import { RepositoryError } from '$lib/server/repositories/baseRepository.js';
 
 describe('UrlRepository', () => {
 	let client;
@@ -69,11 +70,11 @@ describe('UrlRepository', () => {
 			await expect(repository.getUrl('missing')).resolves.toBeNull();
 		});
 
-		it('returns null on error', async () => {
+		it('throws RepositoryError on error', async () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-			client.request.mockRejectedValue(new Error('fail'));
+			client.request.mockRejectedValue(new Error());
 
-			await expect(repository.getUrl('x')).resolves.toBeNull();
+			await expect(repository.getUrl('x')).rejects.toThrow(RepositoryError);
 			spy.mockRestore();
 		});
 	});
@@ -105,18 +106,18 @@ describe('UrlRepository', () => {
 			expect(result).toBeNull();
 		});
 
-		it('returns null when request fails', async () => {
+		it('throws RepositoryError on error', async () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-			client.request.mockRejectedValue(new Error('fail'));
+			client.request.mockRejectedValue(new Error());
 
-			const result = await repository.addUrl({
-				urlSlug: 'p',
-				urlLink: 'https://x/p',
-				websiteSlug: 'site',
-				urlName: 'Page'
-			});
-
-			expect(result).toBeNull();
+			await expect(
+				repository.addUrl({
+					urlSlug: 'p',
+					urlLink: 'https://x/p',
+					websiteSlug: 'site',
+					urlName: 'Page'
+				})
+			).rejects.toThrow(RepositoryError);
 			spy.mockRestore();
 		});
 	});
@@ -148,18 +149,18 @@ describe('UrlRepository', () => {
 			expect(result).toBeNull();
 		});
 
-		it('returns null when request fails', async () => {
+		it('throws RepositoryError on error', async () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-			client.request.mockRejectedValue(new Error('fail'));
+			client.request.mockRejectedValue(new Error());
 
-			const result = await repository.updateUrl({
-				id: 'u1',
-				slug: 's',
-				url: 'https://z/',
-				name: 'N'
-			});
-
-			expect(result).toBeNull();
+			await expect(
+				repository.updateUrl({
+					id: 'u1',
+					slug: 's',
+					url: 'https://z/',
+					name: 'N'
+				})
+			).rejects.toThrow(RepositoryError);
 			spy.mockRestore();
 		});
 	});
@@ -171,11 +172,11 @@ describe('UrlRepository', () => {
 			await expect(repository.deleteUrl('d1')).resolves.toEqual({ id: 'd1' });
 		});
 
-		it('returns null when request fails', async () => {
+		it('throws RepositoryError on error', async () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-			client.request.mockRejectedValue(new Error('fail'));
+			client.request.mockRejectedValue(new Error());
 
-			await expect(repository.deleteUrl('d1')).resolves.toBeNull();
+			await expect(repository.deleteUrl('d1')).rejects.toThrow(RepositoryError);
 			spy.mockRestore();
 		});
 	});
@@ -190,26 +191,19 @@ describe('UrlRepository', () => {
 			expect(result).toEqual({ id: 'u1' });
 		});
 
-		it('returns null when deleting checks fails', async () => {
+		it('throws RepositoryError when deleting checks fails', async () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-			client.request.mockRejectedValueOnce(new Error('checks delete failed'));
+			client.request.mockRejectedValueOnce(new Error());
 
-			const result = await repository.deleteUrlWithChecks('u1');
-
-			expect(result).toBeNull();
-			expect(client.request).toHaveBeenCalledTimes(1);
+			await expect(repository.deleteUrlWithChecks('u1')).rejects.toThrow(RepositoryError);
 			spy.mockRestore();
 		});
 
-		it('returns null when URL delete fails', async () => {
+		it('throws RepositoryError when URL delete fails', async () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-			client.request
-				.mockResolvedValueOnce(undefined)
-				.mockRejectedValueOnce(new Error('url delete failed'));
+			client.request.mockResolvedValueOnce(undefined).mockRejectedValueOnce(new Error());
 
-			const result = await repository.deleteUrlWithChecks('u1');
-
-			expect(result).toBeNull();
+			await expect(repository.deleteUrlWithChecks('u1')).rejects.toThrow(RepositoryError);
 			spy.mockRestore();
 		});
 	});
@@ -241,16 +235,16 @@ describe('UrlRepository', () => {
 			expect(client.request).toHaveBeenCalledTimes(1);
 		});
 
-		it('returns null when request fails', async () => {
+		it('throws RepositoryError on error', async () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-			client.request.mockRejectedValue(new Error('fail'));
+			client.request.mockRejectedValue(new Error());
 
-			const result = await repository.createEmptyCheckForUrl({
-				websiteSlug: 'ws',
-				urlSlug: 'us'
-			});
-
-			expect(result).toBeNull();
+			await expect(
+				repository.createEmptyCheckForUrl({
+					websiteSlug: 'ws',
+					urlSlug: 'us'
+				})
+			).rejects.toThrow(RepositoryError);
 			spy.mockRestore();
 		});
 	});
@@ -272,13 +266,13 @@ describe('UrlRepository', () => {
 			).resolves.toBeNull();
 		});
 
-		it('returns null when request fails', async () => {
+		it('throws RepositoryError on error', async () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-			client.request.mockRejectedValue(new Error('fail'));
+			client.request.mockRejectedValue(new Error());
 
-			await expect(
-				repository.getFirstCheck({ websiteSlug: 'w', urlSlug: 'u' })
-			).resolves.toBeNull();
+			await expect(repository.getFirstCheck({ websiteSlug: 'w', urlSlug: 'u' })).rejects.toThrow(
+				RepositoryError
+			);
 			spy.mockRestore();
 		});
 	});
@@ -331,18 +325,18 @@ describe('UrlRepository', () => {
 			expect(result).toBeNull();
 		});
 
-		it('returns null when request fails', async () => {
+		it('throws RepositoryError on error', async () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-			client.request.mockRejectedValue(new Error('fail'));
+			client.request.mockRejectedValue(new Error());
 
-			const result = await repository.addSuccessCriteriaToCheck({
-				websiteSlug: 'w',
-				urlSlug: 'u',
-				checkId: 'c',
-				successCriteriaId: 'sc'
-			});
-
-			expect(result).toBeNull();
+			await expect(
+				repository.addSuccessCriteriaToCheck({
+					websiteSlug: 'w',
+					urlSlug: 'u',
+					checkId: 'c',
+					successCriteriaId: 'sc'
+				})
+			).rejects.toThrow(RepositoryError);
 			spy.mockRestore();
 		});
 	});
@@ -386,18 +380,18 @@ describe('UrlRepository', () => {
 			expect(result).toEqual({ id: 'c' });
 		});
 
-		it('returns null when request fails', async () => {
+		it('throws RepositoryError on error', async () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-			client.request.mockRejectedValue(new Error('fail'));
+			client.request.mockRejectedValue(new Error());
 
-			const result = await repository.removeSuccessCriteriaFromCheck({
-				websiteSlug: 'w',
-				urlSlug: 'u',
-				checkId: 'c',
-				successCriteriaId: 'sc'
-			});
-
-			expect(result).toBeNull();
+			await expect(
+				repository.removeSuccessCriteriaFromCheck({
+					websiteSlug: 'w',
+					urlSlug: 'u',
+					checkId: 'c',
+					successCriteriaId: 'sc'
+				})
+			).rejects.toThrow(RepositoryError);
 			spy.mockRestore();
 		});
 	});

@@ -3,6 +3,7 @@
  */
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { UserRepository } from '$lib/server/repositories/userRepository.js';
+import { RepositoryError } from '$lib/server/repositories/baseRepository.js';
 
 describe('UserRepository', () => {
 	let client;
@@ -27,11 +28,11 @@ describe('UserRepository', () => {
 			await expect(repository.checkUsernameAvailability('taken')).resolves.toBe(false);
 		});
 
-		it('returns false on error', async () => {
+		it('throws RepositoryError on error', async () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-			client.query.mockRejectedValue(new Error('fail'));
+			client.query.mockRejectedValue(new Error());
 
-			await expect(repository.checkUsernameAvailability('x')).resolves.toBe(false);
+			await expect(repository.checkUsernameAvailability('x')).rejects.toThrow(RepositoryError);
 			spy.mockRestore();
 		});
 	});
@@ -91,17 +92,17 @@ describe('UserRepository', () => {
 			expect(result).toBeNull();
 		});
 
-		it('returns null when request fails', async () => {
+		it('throws RepositoryError on error', async () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-			client.query.mockRejectedValue(new Error('graphql'));
+			client.query.mockRejectedValue(new Error());
 
-			const result = await repository.createUser({
-				email: 'e@x.com',
-				username: 'name',
-				passwordHash: 'h'
-			});
-
-			expect(result).toBeNull();
+			await expect(
+				repository.createUser({
+					email: 'e@x.com',
+					username: 'name',
+					passwordHash: 'h'
+				})
+			).rejects.toThrow(RepositoryError);
 			spy.mockRestore();
 		});
 	});
@@ -121,11 +122,11 @@ describe('UserRepository', () => {
 			await expect(repository.getUserPasswordHash('uid')).resolves.toBeNull();
 		});
 
-		it('returns null when request fails', async () => {
+		it('throws RepositoryError on error', async () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-			client.query.mockRejectedValue(new Error('fail'));
+			client.query.mockRejectedValue(new Error());
 
-			await expect(repository.getUserPasswordHash('uid')).resolves.toBeNull();
+			await expect(repository.getUserPasswordHash('uid')).rejects.toThrow(RepositoryError);
 			spy.mockRestore();
 		});
 	});
@@ -159,11 +160,11 @@ describe('UserRepository', () => {
 			await expect(repository.getUserByEmail('none@x.com')).resolves.toBeNull();
 		});
 
-		it('returns null when request fails', async () => {
+		it('throws RepositoryError on error', async () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-			client.query.mockRejectedValue(new Error('fail'));
+			client.query.mockRejectedValue(new Error());
 
-			await expect(repository.getUserByEmail('a@b.c')).resolves.toBeNull();
+			await expect(repository.getUserByEmail('a@b.c')).rejects.toThrow(RepositoryError);
 			spy.mockRestore();
 		});
 	});
@@ -176,11 +177,11 @@ describe('UserRepository', () => {
 			await expect(repository.markUserEmailVerified('1')).resolves.toEqual(updated);
 		});
 
-		it('returns null when request fails', async () => {
+		it('throws RepositoryError on error', async () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-			client.query.mockRejectedValue(new Error('fail'));
+			client.query.mockRejectedValue(new Error());
 
-			await expect(repository.markUserEmailVerified('1')).resolves.toBeNull();
+			await expect(repository.markUserEmailVerified('1')).rejects.toThrow(RepositoryError);
 			spy.mockRestore();
 		});
 	});
@@ -198,11 +199,11 @@ describe('UserRepository', () => {
 			await expect(repository.checkEmailAvailability('taken@x.com')).resolves.toBe(false);
 		});
 
-		it('returns false when request fails', async () => {
+		it('throws RepositoryError on error', async () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-			client.query.mockRejectedValue(new Error('fail'));
+			client.query.mockRejectedValue(new Error());
 
-			await expect(repository.checkEmailAvailability('x@y.z')).resolves.toBe(false);
+			await expect(repository.checkEmailAvailability('x@y.z')).rejects.toThrow(RepositoryError);
 			spy.mockRestore();
 		});
 	});
@@ -214,10 +215,10 @@ describe('UserRepository', () => {
 			await expect(repository.getValidEmailDomains()).resolves.toEqual(domains);
 		});
 
-		it('returns [] on error', async () => {
+		it('throws RepositoryError on error', async () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-			client.query.mockRejectedValue(new Error('fail'));
-			await expect(repository.getValidEmailDomains()).resolves.toEqual([]);
+			client.query.mockRejectedValue(new Error());
+			await expect(repository.getValidEmailDomains()).rejects.toThrow(RepositoryError);
 			spy.mockRestore();
 		});
 	});
@@ -250,10 +251,12 @@ describe('UserRepository', () => {
 			await expect(repository.getEmailVerificationRequestById('missing')).resolves.toBeNull();
 		});
 
-		it('returns null when request fails', async () => {
+		it('throws RepositoryError on error', async () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-			client.query.mockRejectedValue(new Error('fail'));
-			await expect(repository.getEmailVerificationRequestById('ev1')).resolves.toBeNull();
+			client.query.mockRejectedValue(new Error());
+			await expect(repository.getEmailVerificationRequestById('ev1')).rejects.toThrow(
+				RepositoryError
+			);
 			spy.mockRestore();
 		});
 	});
@@ -295,15 +298,16 @@ describe('UserRepository', () => {
 			expect(result).toBeNull();
 		});
 
-		it('returns null when request fails', async () => {
+		it('throws RepositoryError on error', async () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-			client.query.mockRejectedValue(new Error('fail'));
-			const result = await repository.createEmailVerificationRequestRecord({
-				code: 'c',
-				expiresAt: new Date(),
-				userId: 'u1'
-			});
-			expect(result).toBeNull();
+			client.query.mockRejectedValue(new Error());
+			await expect(
+				repository.createEmailVerificationRequestRecord({
+					code: 'c',
+					expiresAt: new Date(),
+					userId: 'u1'
+				})
+			).rejects.toThrow(RepositoryError);
 			spy.mockRestore();
 		});
 	});
@@ -316,10 +320,12 @@ describe('UserRepository', () => {
 			});
 		});
 
-		it('returns null when request fails', async () => {
+		it('throws RepositoryError on error', async () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-			client.query.mockRejectedValue(new Error('fail'));
-			await expect(repository.deleteEmailVerificationsForUser('u1')).resolves.toBeNull();
+			client.query.mockRejectedValue(new Error());
+			await expect(repository.deleteEmailVerificationsForUser('u1')).rejects.toThrow(
+				RepositoryError
+			);
 			spy.mockRestore();
 		});
 	});
