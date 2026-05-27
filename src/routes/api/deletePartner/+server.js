@@ -24,7 +24,7 @@ export async function POST({ request }) {
 						status: `Verwijderen url ${index + 1}/${allUrls.length}`,
 						type: 'done'
 					});
-					await urlRepository.deleteUrlWithChecks(link.id);
+					await urlRepository.deleteUrl(link.id);
 				} catch (error) {
 					SSEService.pushError(session, error, `Fout bij verwijderen url ${link.id}`);
 				}
