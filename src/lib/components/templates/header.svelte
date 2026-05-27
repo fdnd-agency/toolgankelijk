@@ -4,7 +4,6 @@
 	import Logo from '../atoms/logoHeader.svelte';
 	import Hamburger from '$lib/components/organisms/hamburgerMenu.svelte';
 	import NavButton from '../molecules/navButton.svelte';
-
 </script>
 
 <header>
@@ -74,7 +73,6 @@
 		justify-content: space-between;
 		width: 100%;
 
-
 		@media (max-width: 720px) {
 			display: none;
 		}
@@ -85,5 +83,4 @@
 		place-items: flex-end;
 		gap: 1em;
 	}
-
 </style>

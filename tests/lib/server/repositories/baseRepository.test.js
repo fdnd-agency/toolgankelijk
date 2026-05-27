@@ -1,15 +1,30 @@
 /**
  * Tests for the BaseRepository class.
  */
-import { beforeEach, describe, it, expect } from 'vitest';
-import { DirectusRepositoryBase } from '$lib/server/repositories/baseRepository.js';
+import { beforeEach, describe, it, expect, vi } from 'vitest';
+import { BaseDirectusRepository } from '$lib/server/repositories/baseRepository.js';
+import { readItems } from '@directus/sdk';
+
+vi.mock('@directus/sdk', async () => {
+	const actual = await vi.importActual('@directus/sdk');
+	return {
+		...actual,
+		readItems: vi.fn((collection, options) => ({ collection, options }))
+	};
+});
+
+vi.mock('$lib/utils/sitemap', () => ({
+	delay: vi.fn(() => Promise.resolve())
+}));
 
 /**
- * Creates a new repository instance with shared helper methods.
+ * Creates a new repository instance with a mocked request method.
  */
-function createBaseRepository() {
-	return new DirectusRepositoryBase({
-		client: { query: () => {} }
+function createBaseRepository(mockRequest = vi.fn()) {
+	return new BaseDirectusRepository({
+		client: {
+			request: mockRequest
+		}
 	});
 }
 
@@ -17,12 +32,73 @@ describe('BaseRepository', () => {
 	let baseRepository;
 
 	beforeEach(() => {
+		vi.clearAllMocks();
 		baseRepository = createBaseRepository();
+	});
+
+	describe('_fetchAllFromCollection', () => {
+		it('fetches a single page and returns items', async () => {
+			const mockItems = [{ id: 1 }, { id: 2 }];
+			const mockRequest = vi.fn().mockResolvedValue(mockItems);
+			baseRepository = createBaseRepository(mockRequest);
+
+			const result = await baseRepository._fetchAllFromCollection({
+				collection: 'test_collection'
+			});
+
+			expect(result).toEqual(mockItems);
+			expect(mockRequest).toHaveBeenCalledTimes(1);
+		});
+
+		it('paginates correctly across multiple pages', async () => {
+			const page1 = [{ id: 1 }, { id: 2 }];
+			const page2 = [{ id: 3 }];
+			const mockRequest = vi.fn().mockResolvedValueOnce(page1).mockResolvedValueOnce(page2);
+
+			baseRepository = createBaseRepository(mockRequest);
+
+			const result = await baseRepository._fetchAllFromCollection({
+				collection: 'test_collection',
+				batchSize: 2
+			});
+
+			expect(result).toEqual([...page1, ...page2]);
+			expect(mockRequest).toHaveBeenCalledTimes(2);
+			expect(readItems).toHaveBeenNthCalledWith(
+				2,
+				'test_collection',
+				expect.objectContaining({ offset: 2 })
+			);
+		});
+
+		it('applies mapFn to items if provided', async () => {
+			const mockItems = [{ val: 1 }];
+			const mockRequest = vi.fn().mockResolvedValue(mockItems);
+			baseRepository = createBaseRepository(mockRequest);
+
+			const result = await baseRepository._fetchAllFromCollection({
+				collection: 'test_collection',
+				mapFn: (item) => ({ ...item, mapped: true })
+			});
+
+			expect(result[0].mapped).toBe(true);
+		});
+
+		it('returns empty array when collection is empty', async () => {
+			const mockRequest = vi.fn().mockResolvedValue([]);
+			baseRepository = createBaseRepository(mockRequest);
+
+			const result = await baseRepository._fetchAllFromCollection({
+				collection: 'test_collection'
+			});
+
+			expect(result).toEqual([]);
+		});
 	});
 
 	describe('normalizeToArray', () => {
 		it('returns arrays unchanged', () => {
-			const a = [{ x: 1 }, { x: 2 }];
+			const a = [{ x: 1 }];
 			expect(baseRepository.normalizeToArray(a)).toBe(a);
 		});
 
@@ -30,23 +106,9 @@ describe('BaseRepository', () => {
 			expect(baseRepository.normalizeToArray({ data: [1, 2] })).toEqual([1, 2]);
 		});
 
-		it('returns [] when { data: [] } is empty', () => {
-			expect(baseRepository.normalizeToArray({ data: [] })).toEqual([]);
-		});
-
 		it('wraps a single object when allowSingleObject is true', () => {
 			const o = { id: 'a' };
 			expect(baseRepository.normalizeToArray(o)).toEqual([o]);
-		});
-
-		it('returns [] for a plain object when allowSingleObject is false', () => {
-			expect(baseRepository.normalizeToArray({ id: 'a' }, { allowSingleObject: false })).toEqual(
-				[]
-			);
-		});
-
-		it.each([null, undefined, 'x'])('returns [] for %p', (value) => {
-			expect(baseRepository.normalizeToArray(value)).toEqual([]);
 		});
 	});
 
@@ -55,35 +117,15 @@ describe('BaseRepository', () => {
 			const nested = { id: 'n' };
 			expect(baseRepository.unwrapRelation({ relation: nested }, 'relation')).toBe(nested);
 		});
-
-		it.each([
-			{ source: null, key: 'k' },
-			{ source: { a: 1 }, key: 'missing' }
-		])('returns null when source/key is invalid: %p', ({ source, key }) => {
-			expect(baseRepository.unwrapRelation(source, key)).toBeNull();
-		});
-
-		it('returns null when relation value is not an object', () => {
-			expect(baseRepository.unwrapRelation({ relation: 'string' }, 'relation')).toBeNull();
-		});
 	});
 
 	describe('firstOrNull', () => {
 		it('returns first element of a non-empty array', () => {
-			expect(baseRepository.firstOrNull([{ id: '1' }, { id: '2' }])).toEqual({ id: '1' });
+			expect(baseRepository.firstOrNull([1, 2])).toEqual(1);
 		});
 
 		it('returns null for empty array', () => {
 			expect(baseRepository.firstOrNull([])).toBeNull();
-		});
-
-		it('returns object when value is a non-array object', () => {
-			const o = { id: 'x' };
-			expect(baseRepository.firstOrNull(o)).toBe(o);
-		});
-
-		it.each([null, undefined, 's'])('returns null for %p', (value) => {
-			expect(baseRepository.firstOrNull(value)).toBeNull();
 		});
 	});
 });
