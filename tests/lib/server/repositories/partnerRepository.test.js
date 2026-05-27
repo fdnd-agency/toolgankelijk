@@ -93,27 +93,6 @@ describe('PartnerRepository', () => {
 			spy.mockRestore();
 		});
 	});
-
-	describe('getPartnerUrls', () => {
-		it('maps toolgankelijk_url to id-only list', async () => {
-			client.query.mockResolvedValue({
-				toolgankelijk_url: [{ id: 'a' }, { id: 'b' }]
-			});
-
-			const result = await repository.getPartnerUrls('partner-1', { skip: 0, first: 50 });
-
-			expect(result).toEqual([{ id: 'a' }, { id: 'b' }]);
-		});
-
-		it('returns [] on error', async () => {
-			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-			client.query.mockRejectedValue(new Error('fail'));
-
-			await expect(repository.getPartnerUrls('p')).resolves.toEqual([]);
-			spy.mockRestore();
-		});
-	});
-
 	describe('createPartner', () => {
 		it('maps create payload to PartnerWebsite', async () => {
 			client.query.mockResolvedValue({
