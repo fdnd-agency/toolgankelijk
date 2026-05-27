@@ -11,7 +11,7 @@ import {
 	readItems,
 	updateItem
 } from '@directus/sdk';
-import { DirectusRepositoryBase } from '$lib/server/repositories/baseRepository.js';
+import { BaseDirectusRepository } from '$lib/server/repositories/baseRepository.js';
 import { normalizeHttpUrl } from '$lib/utils/url.js';
 
 /** @typedef {import('$lib/types').UrlWithWebsite} UrlWithWebsite */
@@ -20,7 +20,7 @@ import { normalizeHttpUrl } from '$lib/utils/url.js';
 const COLLECTION_URL = 'toolgankelijk_url';
 const COLLECTION_CHECK = 'toolgankelijk_check';
 
-export class UrlRepository extends DirectusRepositoryBase {
+export class UrlRepository extends BaseDirectusRepository {
 	/**
 	 * @param {unknown} check
 	 */

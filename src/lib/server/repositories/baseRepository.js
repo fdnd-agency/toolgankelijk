@@ -49,7 +49,7 @@ class BaseRepository {
 /**
  * repository base for a Directus client.
  */
-export class DirectusRepositoryBase extends BaseRepository {
+export class BaseDirectusRepository extends BaseRepository {
 	/**
 	 * @param {DirectusRepositoryDependencies} deps
 	 */
@@ -60,7 +60,7 @@ export class DirectusRepositoryBase extends BaseRepository {
 		this.client = client;
 	}
 	/**
-	 * Generic helper to fetch *all* items from a collection with pagination.
+	 * Generic helper to fetch all items from a collection with pagination.
 	 *
 	 * @param {Object} params
 	 * @param {string} params.collection      - Directus collection name
@@ -116,7 +116,7 @@ export class DirectusRepositoryBase extends BaseRepository {
 	}
 
 	/**
-	 * Read a nested relation object from a junction or wrapper node (e.g. `toolgankelijk_guideline_id`).
+	 * Read a nested relation object from a junction or wrapper node
 	 *
 	 * @template T
 	 * @param {unknown} source

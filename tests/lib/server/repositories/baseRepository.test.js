@@ -2,13 +2,13 @@
  * Tests for the BaseRepository class.
  */
 import { beforeEach, describe, it, expect } from 'vitest';
-import { DirectusRepositoryBase } from '$lib/server/repositories/baseRepository.js';
+import { BaseDirectusRepository } from '$lib/server/repositories/baseRepository.js';
 
 /**
  * Creates a new repository instance with shared helper methods.
  */
 function createBaseRepository() {
-	return new DirectusRepositoryBase({
+	return new BaseDirectusRepository({
 		client: { query: () => {} }
 	});
 }

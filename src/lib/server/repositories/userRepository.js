@@ -3,7 +3,7 @@
 /**
  * App users (`toolgankelijk_user`), email verification codes, and allow-list domains.
  */
-import { DirectusRepositoryBase } from '$lib/server/repositories/baseRepository.js';
+import { BaseDirectusRepository } from '$lib/server/repositories/baseRepository.js';
 import {
 	getQueryCheckUsernameAvailability,
 	getMutationCreateUser,
@@ -23,7 +23,7 @@ import {
 /**
  * Account and verification persistence used by auth and email flows.
  */
-export class UserRepository extends DirectusRepositoryBase {
+export class UserRepository extends BaseDirectusRepository {
 	// Main functions
 
 	/**

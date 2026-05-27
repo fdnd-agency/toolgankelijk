@@ -3,7 +3,7 @@
 /**
  * Partner websites (`toolgankelijk_website`): overview list, detail by slug, URL ids, and CRUD.
  */
-import { DirectusRepositoryBase } from '$lib/server/repositories/baseRepository.js';
+import { BaseDirectusRepository } from '$lib/server/repositories/baseRepository.js';
 import getQueryPartner, {
 	getQueryWebsite,
 	getQueryUrlsByPartnerId,
@@ -21,7 +21,7 @@ import getQueryPartner, {
 /**
  * Maps partner GraphQL payloads (principles, guidelines, success-criteria junctions) to normalized app types.
  */
-export class PartnerRepository extends DirectusRepositoryBase {
+export class PartnerRepository extends BaseDirectusRepository {
 	// Helper functions
 
 	/**
