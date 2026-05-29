@@ -3,7 +3,6 @@ import fc from 'fast-check';
 import { actions } from '../../src/routes/[websiteUID]/addUrl/+page.server.js';
 import { urlRepository } from '$lib/server/index.js';
 
-// Mock the repository to avoid real network calls during the monkey test
 vi.mock('$lib/server/index.js', async (importOriginal) => {
 	const original = await importOriginal();
 	return {
@@ -35,7 +34,6 @@ describe('Monkey test: addUrl action with random input', () => {
 					locals: { session: {}, user: { isEmailVerified: true } }
 				};
 
-				// Reset mocks for each run
 				vi.mocked(urlRepository.addUrl).mockResolvedValue({ id: '123' });
 				vi.mocked(urlRepository.createEmptyCheckForUrl).mockResolvedValue({ id: '456' });
 
@@ -43,8 +41,6 @@ describe('Monkey test: addUrl action with random input', () => {
 				try {
 					result = await actions.addUrl(event);
 				} catch (err) {
-					// We expect the action to NOT throw, but if it does, it should be caught here
-					// SvelteKit actions can throw redirect or error, but this one doesn't seem to.
 					expect(err).toBeUndefined();
 				}
 
