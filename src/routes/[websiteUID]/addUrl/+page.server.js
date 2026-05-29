@@ -15,12 +15,19 @@ export async function load({ params, locals }) {
 
 export const actions = {
 	addUrl: async ({ request }) => {
-		const formData = await request.formData();
-		const name = formData.get('name').toLowerCase();
-		const formUrl = formData.get('url');
-		const formSlug = formData.get('slug');
-
 		try {
+			const formData = await request.formData();
+			const name = String(formData.get('name') ?? '').toLowerCase();
+			const formUrl = String(formData.get('url') ?? '');
+			const formSlug = String(formData.get('slug') ?? '');
+
+			if (!name || !formUrl) {
+				return {
+					message: 'Naam en URL zijn verplicht.',
+					success: false
+				};
+			}
+
 			const directusCall = await urlRepository.addUrl({
 				urlSlug: name,
 				urlLink: formUrl,
