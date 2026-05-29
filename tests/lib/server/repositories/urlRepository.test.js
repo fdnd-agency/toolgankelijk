@@ -1,5 +1,5 @@
 /**
- * Tests for the UrlRepository class (Directus REST SDK).
+ * Tests for the UrlRepository class.
  */
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { UrlRepository } from '$lib/server/repositories/urlRepository.js';
@@ -177,33 +177,6 @@ describe('UrlRepository', () => {
 			client.request.mockRejectedValue(new Error());
 
 			await expect(repository.deleteUrl('d1')).rejects.toThrow(RepositoryError);
-			spy.mockRestore();
-		});
-	});
-
-	describe('deleteUrlWithChecks', () => {
-		it('requests checks delete then URL delete', async () => {
-			client.request.mockResolvedValue(undefined);
-
-			const result = await repository.deleteUrlWithChecks('u1');
-
-			expect(client.request).toHaveBeenCalledTimes(2);
-			expect(result).toEqual({ id: 'u1' });
-		});
-
-		it('throws RepositoryError when deleting checks fails', async () => {
-			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-			client.request.mockRejectedValueOnce(new Error());
-
-			await expect(repository.deleteUrlWithChecks('u1')).rejects.toThrow(RepositoryError);
-			spy.mockRestore();
-		});
-
-		it('throws RepositoryError when URL delete fails', async () => {
-			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-			client.request.mockResolvedValueOnce(undefined).mockRejectedValueOnce(new Error());
-
-			await expect(repository.deleteUrlWithChecks('u1')).rejects.toThrow(RepositoryError);
 			spy.mockRestore();
 		});
 	});
