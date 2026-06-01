@@ -2,29 +2,23 @@ lighthouse:
   stage: test
   when: always
   image: node:22
-
-
   interruptible: true
-
+  
   needs:
     - build
-
   before_script:
-    - apt-get update && apt-get install -y chromium --no-install-recommends
-    - npm install -g @lhci/cli serve
-
+    # Chromium en benodigdheden installeren. 
+    # De font-packages voorkomen render-problemen in headless Chrome.
+    - apt-get update && apt-get install -y chromium fonts-liberation --no-install-recommends
+    - npm install -g @lhci/cli
   script:
     - export CHROME_PATH=$(which chromium)
-    - serve dist/web -p 8080 &
-    - sleep 3
-    - URLS=$(find dist/web -name "*.html" | sed 's|dist/web|http://localhost:8080|' | tr '\n' ' ')
-    - echo "Gevonden pagina's: $URLS"
-    - lhci autorun --collect.url=$URLS
-
+    # LHCI leest nu automatisch lighthouserc.json, start de server en checkt de scores!
+    - lhci autorun 
   artifacts:
+    when: always # Zorg dat rapporten ook bij een falende test worden bewaard
     paths:
       - .lighthouseci/
-
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH

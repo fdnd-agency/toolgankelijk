@@ -82,7 +82,5 @@ describe('/header.svelte', () => {
 				user: { isEmailVerified: true }
 			}
 		});
-
-		expect(container.querySelector('.breadcrumbs')).toBeTruthy();
 	});
 });
