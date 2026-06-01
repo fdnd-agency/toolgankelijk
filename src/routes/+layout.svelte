@@ -3,6 +3,9 @@
 	import { onNavigate } from '$app/navigation';
 	import Header from '$lib/components/templates/header.svelte';
 	import SubHeader from '$lib/components/templates/subheader.svelte';
+	import Dialog from '$lib/components/templates/dialog.svelte';
+
+	let dialogRef = $state();
 
 	let { data, children } = $props();
 
@@ -40,7 +43,14 @@
 			});
 		});
 	});
+
+
+
+	function openAddUrl() {
+		dialogRef?.open();
+	}
 </script>
+<Dialog bind:this={dialogRef} {params} isType="addPartner" />
 
 <Header />
 
@@ -50,6 +60,7 @@
 		{partners}
 		websites={websitesArray}
 		{principles}
+		onAdd={openAddUrl}
 		{heading}
 		user={data.user}
 		overview={data.urlData?.url?.website || data.websitesData?.website}
