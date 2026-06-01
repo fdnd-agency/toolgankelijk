@@ -15,8 +15,8 @@ export const actions = {
 	default: async ({ request }) => {
 		try {
 			const formData = await request.formData();
-			const name = String(formData.get('name') ?? '');
-			const url = String(formData.get('url') ?? '');
+			const name = formData.get('name');
+			const url = normalizeHttpUrl(formData.get('url'));
 
 			if (!name) {
 				return {
