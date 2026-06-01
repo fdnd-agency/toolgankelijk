@@ -4,6 +4,7 @@
  * Partner websites (`toolgankelijk_website`): overview list, detail by slug, URL ids, and CRUD.
  */
 import { BaseDirectusRepository } from '$lib/server/repositories/baseRepository';
+import { error } from '@sveltejs/kit';
 import getQueryPartner, {
 	getQueryWebsite,
 	getQueryUrlsByPartnerId,
@@ -136,12 +137,12 @@ export class PartnerRepository extends BaseDirectusRepository {
 	 * @param {{ name: string; url: string; slug: string; totalUrls?: number }} input
 	 * @returns {Promise<PartnerWebsite|null>}
 	 */
-	async createPartner({ name, url, slug, totalUrls = 0 }) {
+	async createPartner({ name, url, slug }) {
 		try {
-			const query = getQueryAddPartner(name, url, slug, totalUrls);
+			const query = getQueryAddPartner(name, url, slug);
 			const raw = await this.client.query(query);
 			const row = raw.create_toolgankelijk_website_item ?? null;
-			if (!row) return null;
+			if (!row) throw error;
 			return {
 				id: row.id,
 				title: row.title,
