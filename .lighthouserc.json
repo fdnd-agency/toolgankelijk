@@ -2,7 +2,8 @@
   "ci": {
     "collect": {
       "numberOfRuns": 1,
-      "staticDistDir": "dist/web",
+      "startServerCommand": "npm run preview",
+      "url": ["http://localhost:4173/"],
       "settings": {
         "chromeFlags": "--no-sandbox"
       }
