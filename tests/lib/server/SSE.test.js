@@ -34,6 +34,11 @@ describe('SSEService', () => {
 				push: vi.fn(),
 				onDisconnected: vi.fn()
 			};
+			vi.spyOn(console, 'error').mockImplementation(() => {});
+		});
+
+		afterEach(() => {
+			vi.restoreAllMocks();
 		});
 
 		it('should push a sanitized message and not the actual error to the client', () => {
