@@ -53,7 +53,6 @@
 				showIcon={true}
 				iconName="add"
 				onclick={onAdd}
-				effect="disabled"
 			></NavButton>
 			<Search effect="disabled" />
 		</div>
