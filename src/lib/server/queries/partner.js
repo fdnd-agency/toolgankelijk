@@ -109,7 +109,7 @@ export function getQueryUrlsByPartnerId(id, skip = 0, first = 100) {
 	`;
 }
 
-export function getQueryAddPartner(name, url, slug, totalUrls) {
+export function getQueryAddPartner(name, url, slug) {
 	return `
 		mutation {
 			create_toolgankelijk_website_item(
@@ -117,7 +117,6 @@ export function getQueryAddPartner(name, url, slug, totalUrls) {
 					title: "${name}"
 					homepage: "${url}"
 					slug: "${slug}"
-					totalUrls: ${totalUrls}
 				}
 			) {
 				id

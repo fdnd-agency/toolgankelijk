@@ -84,8 +84,7 @@ export class UrlRepository extends BaseDirectusRepository {
 				checks
 			};
 		} catch (error) {
-			console.error('urlRepository.getUrl failed', error);
-			return null;
+			throw this.logAndWrapError(error, this.getUrl.name);
 		}
 	}
 
@@ -130,8 +129,7 @@ export class UrlRepository extends BaseDirectusRepository {
 			);
 			return created?.id ? { id: created.id } : null;
 		} catch (error) {
-			console.error('urlRepository.addUrl failed', error);
-			return null;
+			throw this.logAndWrapError(error, this.addUrl.name);
 		}
 	}
 
@@ -156,24 +154,7 @@ export class UrlRepository extends BaseDirectusRepository {
 			);
 			return row?.id ? { id: row.id, slug, url: normalizedUrl, name } : null;
 		} catch (error) {
-			console.error('urlRepository.updateUrl failed', error);
-			return null;
-		}
-	}
-
-	/**
-	 * Delete a URL row by id (does not remove related checks first — use {@link deleteUrlWithChecks} if needed).
-	 *
-	 * @param {string} id
-	 * @returns {Promise<{ id: string } | null>}
-	 */
-	async deleteUrl(id) {
-		try {
-			await this.client.request(deleteItem(COLLECTION_URL, id));
-			return { id };
-		} catch (error) {
-			console.error('urlRepository.deleteUrl failed', error);
-			return null;
+			throw this.logAndWrapError(error, this.updateUrl.name);
 		}
 	}
 
@@ -183,7 +164,7 @@ export class UrlRepository extends BaseDirectusRepository {
 	 * @param {string} id
 	 * @returns {Promise<{ id: string } | null>}
 	 */
-	async deleteUrlWithChecks(id) {
+	async deleteUrl(id) {
 		try {
 			await this.client.request(
 				deleteItems(COLLECTION_CHECK, {
@@ -193,8 +174,7 @@ export class UrlRepository extends BaseDirectusRepository {
 			await this.client.request(deleteItem(COLLECTION_URL, id));
 			return { id };
 		} catch (error) {
-			console.error('urlRepository.deleteUrlWithChecks failed', error);
-			return null;
+			throw this.logAndWrapError(error, this.deleteUrl.name);
 		}
 	}
 
@@ -226,8 +206,7 @@ export class UrlRepository extends BaseDirectusRepository {
 			);
 			return created?.id ? { id: created.id } : null;
 		} catch (error) {
-			console.error('urlRepository.createEmptyCheckForUrl failed', error);
-			return null;
+			throw this.logAndWrapError(error, this.createEmptyCheckForUrl.name);
 		}
 	}
 
@@ -251,8 +230,7 @@ export class UrlRepository extends BaseDirectusRepository {
 			const checks = this.normalizeToArray(url?.checks, { allowSingleObject: false });
 			return checks[0]?.id ?? null;
 		} catch (error) {
-			console.error('urlRepository.getFirstCheck failed', error);
-			return null;
+			throw this.logAndWrapError(error, this.getFirstCheck.name);
 		}
 	}
 
@@ -333,8 +311,7 @@ export class UrlRepository extends BaseDirectusRepository {
 				})
 			});
 		} catch (error) {
-			console.error('urlRepository.getPartnerUrls failed', error);
-			throw new Error('Failed to fetch partner URLS');
+			throw this.logAndWrapError(error, this.getAllPartnerUrls.name);
 		}
 	}
 
@@ -365,8 +342,7 @@ export class UrlRepository extends BaseDirectusRepository {
 			);
 			return row?.id ? { id: row.id } : null;
 		} catch (error) {
-			console.error('urlRepository.addSuccessCriteriaToCheck failed', error);
-			return null;
+			throw this.logAndWrapError(error, this.addSuccessCriteriaToCheck.name);
 		}
 	}
 
@@ -391,8 +367,7 @@ export class UrlRepository extends BaseDirectusRepository {
 			);
 			return { id: String(checkId) };
 		} catch (error) {
-			console.error('urlRepository.removeSuccessCriteriaFromCheck failed', error);
-			return null;
+			throw this.logAndWrapError(error, this.removeSuccessCriteriaFromCheck.name);
 		}
 	}
 }

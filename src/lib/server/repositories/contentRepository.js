@@ -113,8 +113,7 @@ export class ContentRepository extends BaseDirectusRepository {
 
 			return principles;
 		} catch (error) {
-			console.error('contentRepository.getAllPrinciples failed', error);
-			return [];
+			throw this.logAndWrapError(error, 'getAllPrinciples');
 		}
 	}
 
@@ -139,8 +138,7 @@ export class ContentRepository extends BaseDirectusRepository {
 			}));
 			return levels;
 		} catch (error) {
-			console.error('contentRepository.getLevels failed', error);
-			return [];
+			throw this.logAndWrapError(error, this.getLevels.name);
 		}
 	}
 
@@ -210,12 +208,7 @@ export class ContentRepository extends BaseDirectusRepository {
 
 			return result;
 		} catch (error) {
-			console.error('contentRepository.getToolboard failed', error);
-			return {
-				url: null,
-				principle: null,
-				principles: []
-			};
+			throw this.logAndWrapError(error, this.getToolboard.name);
 		}
 	}
 }
