@@ -2,7 +2,7 @@
  * Tests for the SessionRepository class.
  */
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-
+import { RepositoryError } from '$lib/server/repositories/baseRepository.js';
 import { SessionRepository } from '$lib/server/repositories/sessionRepository.js';
 
 describe('SessionRepository', () => {
@@ -43,13 +43,11 @@ describe('SessionRepository', () => {
 			expect(client.query).toHaveBeenCalledWith(expect.any(String), { sessionId: 'hashed' });
 		});
 
-		it('returns null when request fails', async () => {
+		it('throws RepositoryError when request fails', async () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-			client.query.mockRejectedValue(new Error('network'));
+			client.query.mockRejectedValue(new Error());
 
-			const result = await repository.getSessionByTokenHash('x');
-
-			expect(result).toBeNull();
+			await expect(repository.getSessionByTokenHash('x')).rejects.toThrow(RepositoryError);
 			spy.mockRestore();
 		});
 
@@ -77,13 +75,13 @@ describe('SessionRepository', () => {
 			});
 		});
 
-		it('returns null on error', async () => {
+		it('throws RepositoryError on error', async () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-			client.query.mockRejectedValue(new Error('fail'));
+			client.query.mockRejectedValue(new Error());
 
-			expect(
-				await repository.updateSessionExpiry({ sessionId: 'sessionToken', expiresAt: new Date() })
-			).toBeNull();
+			await expect(
+				repository.updateSessionExpiry({ sessionId: 'sessionToken', expiresAt: new Date() })
+			).rejects.toThrow(RepositoryError);
 			spy.mockRestore();
 		});
 
@@ -111,11 +109,11 @@ describe('SessionRepository', () => {
 			await expect(repository.deleteSessionById('x')).resolves.toBeNull();
 		});
 
-		it('returns null on error', async () => {
+		it('throws RepositoryError on error', async () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-			client.query.mockRejectedValue(new Error('fail'));
+			client.query.mockRejectedValue(new Error());
 
-			expect(await repository.deleteSessionById('x')).toBeNull();
+			await expect(repository.deleteSessionById('x')).rejects.toThrow(RepositoryError);
 			spy.mockRestore();
 		});
 	});
@@ -134,8 +132,9 @@ describe('SessionRepository', () => {
 			expect(client.request).toHaveBeenCalledTimes(1);
 		});
 
-		it('throws when Directus request fails', async () => {
-			client.request.mockRejectedValue(new Error('offline'));
+		it('throws RepositoryError when Directus request fails', async () => {
+			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
+			client.request.mockRejectedValue(new Error());
 
 			await expect(
 				repository.createSessionRecord({
@@ -143,7 +142,8 @@ describe('SessionRepository', () => {
 					userId: '1',
 					expiresAt: new Date()
 				})
-			).rejects.toThrow('offline');
+			).rejects.toThrow(RepositoryError);
+			spy.mockRestore();
 		});
 	});
 });

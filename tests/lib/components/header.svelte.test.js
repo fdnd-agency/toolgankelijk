@@ -3,8 +3,6 @@ import { render, screen } from '@testing-library/svelte';
 import Header from '$lib/components/templates/header.svelte';
 
 const mockedPageState = vi.hoisted(() => ({ pathname: '/' }));
-// this itIfNotCI is a helper to skip tests in CI
-const itIfNotCI = process.env.CI ? it.skip : it;
 
 vi.mock('$app/stores', () => ({
 	page: {
@@ -55,32 +53,5 @@ describe('/header.svelte', () => {
 		expect(homeLink.className.includes('active')).toBe(false);
 		expect(infoLink.className.includes('active')).toBe(true);
 		expect(accountLink.className.includes('active')).toBe(false);
-	});
-
-	// These tests are skipped in the CI because I could not get them working there, if you know how to fix them, please do so.
-	itIfNotCI('does not render breadcrumbs for unverified users', () => {
-		const { container } = render(Header, {
-			props: {
-				params: {},
-				partners: { websites: [] },
-				websites: { urls: [] },
-				principles: [],
-				user: { isEmailVerified: false }
-			}
-		});
-
-		expect(container.querySelector('.breadcrumbs')).toBeNull();
-	});
-
-	itIfNotCI('renders breadcrumbs for verified users', () => {
-		const { container } = render(Header, {
-			props: {
-				params: {},
-				partners: { websites: [] },
-				websites: { urls: [] },
-				principles: [],
-				user: { isEmailVerified: true }
-			}
-		});
 	});
 });

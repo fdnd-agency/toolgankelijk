@@ -3,6 +3,7 @@
  */
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { ContentRepository } from '$lib/server/repositories/contentRepository.js';
+import { RepositoryError } from '$lib/server/repositories/baseRepository.js';
 
 describe('ContentRepository', () => {
 	let client;
@@ -60,11 +61,11 @@ describe('ContentRepository', () => {
 			});
 		});
 
-		it('returns [] on error', async () => {
+		it('throws RepositoryError on error', async () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-			client.query.mockRejectedValue(new Error('fail'));
+			client.query.mockRejectedValue(new Error());
 
-			await expect(repository.getAllPrinciples()).resolves.toEqual([]);
+			await expect(repository.getAllPrinciples()).rejects.toThrow(RepositoryError);
 			spy.mockRestore();
 		});
 	});
@@ -86,11 +87,11 @@ describe('ContentRepository', () => {
 			]);
 		});
 
-		it('returns [] on error', async () => {
+		it('throws RepositoryError on error', async () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-			client.query.mockRejectedValue(new Error('fail'));
+			client.query.mockRejectedValue(new Error());
 
-			await expect(repository.getLevels()).resolves.toEqual([]);
+			await expect(repository.getLevels()).rejects.toThrow(RepositoryError);
 			spy.mockRestore();
 		});
 	});
@@ -189,20 +190,16 @@ describe('ContentRepository', () => {
 			expect(result.principles).toEqual([]);
 		});
 
-		it('returns empty toolboard on error', async () => {
+		it('throws RepositoryError on error', async () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-			client.query.mockRejectedValue(new Error('fail'));
+			client.query.mockRejectedValue(new Error());
 
-			const result = await repository.getToolboard({
-				urlSlug: 'a',
-				principleSlug: 'b'
-			});
-
-			expect(result).toEqual({
-				url: null,
-				principle: null,
-				principles: []
-			});
+			await expect(
+				repository.getToolboard({
+					urlSlug: 'a',
+					principleSlug: 'b'
+				})
+			).rejects.toThrow(RepositoryError);
 			spy.mockRestore();
 		});
 	});

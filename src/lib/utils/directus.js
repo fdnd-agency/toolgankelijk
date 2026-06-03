@@ -1,3 +1,4 @@
+//@ts-check
 import { DIRECTUS_URL, VITE_DIRECTUS_KEY } from '$env/static/private';
 import { createDirectus, graphql, rest, staticToken } from '@directus/sdk';
 

@@ -11,7 +11,7 @@ export async function POST({ request }) {
 			SSEService.push(session, { status: 'Verwijderen gestart', type: 'done' });
 			await delay(500);
 
-			const response = await urlRepository.deleteUrlWithChecks(id);
+			const response = await urlRepository.deleteUrl(id);
 
 			SSEService.push(session, { status: 'Url succesvol verwijderd.', type: 'done', response });
 			await delay(500);

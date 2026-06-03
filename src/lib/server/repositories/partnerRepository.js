@@ -3,7 +3,8 @@
 /**
  * Partner websites (`toolgankelijk_website`): overview list, detail by slug, URL ids, and CRUD.
  */
-import { DirectusRepositoryBase } from '$lib/server/repositories/baseRepository.js';
+import { BaseDirectusRepository } from '$lib/server/repositories/baseRepository';
+import { error } from '@sveltejs/kit';
 import getQueryPartner, {
 	getQueryWebsite,
 	getQueryUrlsByPartnerId,
@@ -20,8 +21,10 @@ import getQueryPartner, {
 
 /**
  * Maps partner GraphQL payloads (principles, guidelines, success-criteria junctions) to normalized app types.
+ *
+ * @extends {BaseDirectusRepository}
  */
-export class PartnerRepository extends DirectusRepositoryBase {
+export class PartnerRepository extends BaseDirectusRepository {
 	// Helper functions
 
 	/**
@@ -98,8 +101,7 @@ export class PartnerRepository extends DirectusRepositoryBase {
 				principles
 			};
 		} catch (error) {
-			console.error('partnerRepository.listPartners failed', error);
-			return { websites: [], totalWebsites: 0, principles: [] };
+			throw this.logAndWrapError(error, this.listPartners.name);
 		}
 	}
 
@@ -125,33 +127,7 @@ export class PartnerRepository extends DirectusRepositoryBase {
 				principles
 			};
 		} catch (error) {
-			console.error('partnerRepository.getWebsiteBySlug failed', error);
-			return { website: null, urls: [], totalUrls: 0, principles: [] };
-		}
-	}
-
-	/**
-	 * URL ids for a partner (e.g. cascading deletes or batch operations).
-	 *
-	 * @param {string} partnerId
-	 * @param {{ skip?: number; first?: number }} [options]
-	 * @returns {Promise<Array<Pick<WebsiteUrl, 'id'>>>}
-	 */
-	async getPartnerUrls(partnerId, { skip = 0, first = 100 } = {}) {
-		try {
-			const query = getQueryUrlsByPartnerId(partnerId, skip, first);
-			const raw = await this.client.query(query);
-			/** @type {WebsiteUrl[]} */
-			const urls = raw.toolgankelijk_url ?? [];
-			return urls.map(
-				/** @returns {Pick<WebsiteUrl, 'id'>} */
-				(u) => ({
-					id: u.id
-				})
-			);
-		} catch (error) {
-			console.error('partnerRepository.getPartnerUrls failed', error);
-			return [];
+			throw this.logAndWrapError(error, this.getWebsiteBySlug.name);
 		}
 	}
 
@@ -161,12 +137,12 @@ export class PartnerRepository extends DirectusRepositoryBase {
 	 * @param {{ name: string; url: string; slug: string; totalUrls?: number }} input
 	 * @returns {Promise<PartnerWebsite|null>}
 	 */
-	async createPartner({ name, url, slug, totalUrls = 0 }) {
+	async createPartner({ name, url, slug }) {
 		try {
-			const query = getQueryAddPartner(name, url, slug, totalUrls);
+			const query = getQueryAddPartner(name, url, slug);
 			const raw = await this.client.query(query);
 			const row = raw.create_toolgankelijk_website_item ?? null;
-			if (!row) return null;
+			if (!row) throw error;
 			return {
 				id: row.id,
 				title: row.title,
@@ -174,8 +150,7 @@ export class PartnerRepository extends DirectusRepositoryBase {
 				slug: row.slug
 			};
 		} catch (error) {
-			console.error('partnerRepository.createPartner failed', error);
-			return null;
+			throw this.logAndWrapError(error, this.createPartner.name);
 		}
 	}
 
@@ -198,8 +173,7 @@ export class PartnerRepository extends DirectusRepositoryBase {
 				slug
 			};
 		} catch (error) {
-			console.error('partnerRepository.updatePartnerById failed', error);
-			return null;
+			throw this.logAndWrapError(error, this.updatePartnerById.name);
 		}
 	}
 
@@ -220,8 +194,7 @@ export class PartnerRepository extends DirectusRepositoryBase {
 				totalUrls
 			};
 		} catch (error) {
-			console.error('partnerRepository.updatePartnerTotalUrls failed', error);
-			return null;
+			throw this.logAndWrapError(error, this.updatePartnerTotalUrls.name);
 		}
 	}
 
@@ -238,8 +211,7 @@ export class PartnerRepository extends DirectusRepositoryBase {
 			const row = raw.delete_toolgankelijk_website_item ?? null;
 			return row ? { id: row.id } : null;
 		} catch (error) {
-			console.error('partnerRepository.deletePartnerById failed', error);
-			return null;
+			throw this.logAndWrapError(error, this.deletePartnerById.name);
 		}
 	}
 }

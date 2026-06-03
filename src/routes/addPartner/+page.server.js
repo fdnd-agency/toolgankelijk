@@ -13,12 +13,19 @@ export async function load({ locals }) {
 
 export const actions = {
 	default: async ({ request }) => {
-		const formData = await request.formData();
-		const name = formData.get('name');
-		const url = formData.get('url');
-		const slug = name.toLowerCase();
-
 		try {
+			const formData = await request.formData();
+			const name = formData.get('name');
+			const url = normalizeHttpUrl(formData.get('url'));
+
+			if (!name) {
+				return {
+					message: 'Naam is verplicht.',
+					success: false
+				};
+			}
+
+			const slug = name.toLowerCase();
 			const partner = await partnerRepository.createPartner({ name, url, slug });
 
 			return {

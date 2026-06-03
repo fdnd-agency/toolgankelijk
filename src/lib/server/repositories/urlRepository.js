@@ -11,15 +11,16 @@ import {
 	readItems,
 	updateItem
 } from '@directus/sdk';
-import { DirectusRepositoryBase } from '$lib/server/repositories/baseRepository.js';
-import { normalizeHttpUrl } from '$lib/utils/url.js';
+import { BaseDirectusRepository } from '$lib/server/repositories/baseRepository';
+import { normalizeHttpUrl } from '$lib/utils/url';
 
 /** @typedef {import('$lib/types').UrlWithWebsite} UrlWithWebsite */
+/** @typedef {import('$lib/types').WebsiteUrl} Url */
 
 const COLLECTION_URL = 'toolgankelijk_url';
 const COLLECTION_CHECK = 'toolgankelijk_check';
 
-export class UrlRepository extends DirectusRepositoryBase {
+export class UrlRepository extends BaseDirectusRepository {
 	/**
 	 * @param {unknown} check
 	 */
@@ -83,8 +84,7 @@ export class UrlRepository extends DirectusRepositoryBase {
 				checks
 			};
 		} catch (error) {
-			console.error('urlRepository.getUrl failed', error);
-			return null;
+			throw this.logAndWrapError(error, this.getUrl.name);
 		}
 	}
 
@@ -129,8 +129,7 @@ export class UrlRepository extends DirectusRepositoryBase {
 			);
 			return created?.id ? { id: created.id } : null;
 		} catch (error) {
-			console.error('urlRepository.addUrl failed', error);
-			return null;
+			throw this.logAndWrapError(error, this.addUrl.name);
 		}
 	}
 
@@ -155,24 +154,7 @@ export class UrlRepository extends DirectusRepositoryBase {
 			);
 			return row?.id ? { id: row.id, slug, url: normalizedUrl, name } : null;
 		} catch (error) {
-			console.error('urlRepository.updateUrl failed', error);
-			return null;
-		}
-	}
-
-	/**
-	 * Delete a URL row by id (does not remove related checks first — use {@link deleteUrlWithChecks} if needed).
-	 *
-	 * @param {string} id
-	 * @returns {Promise<{ id: string } | null>}
-	 */
-	async deleteUrl(id) {
-		try {
-			await this.client.request(deleteItem(COLLECTION_URL, id));
-			return { id };
-		} catch (error) {
-			console.error('urlRepository.deleteUrl failed', error);
-			return null;
+			throw this.logAndWrapError(error, this.updateUrl.name);
 		}
 	}
 
@@ -182,7 +164,7 @@ export class UrlRepository extends DirectusRepositoryBase {
 	 * @param {string} id
 	 * @returns {Promise<{ id: string } | null>}
 	 */
-	async deleteUrlWithChecks(id) {
+	async deleteUrl(id) {
 		try {
 			await this.client.request(
 				deleteItems(COLLECTION_CHECK, {
@@ -192,8 +174,7 @@ export class UrlRepository extends DirectusRepositoryBase {
 			await this.client.request(deleteItem(COLLECTION_URL, id));
 			return { id };
 		} catch (error) {
-			console.error('urlRepository.deleteUrlWithChecks failed', error);
-			return null;
+			throw this.logAndWrapError(error, this.deleteUrl.name);
 		}
 	}
 
@@ -225,8 +206,7 @@ export class UrlRepository extends DirectusRepositoryBase {
 			);
 			return created?.id ? { id: created.id } : null;
 		} catch (error) {
-			console.error('urlRepository.createEmptyCheckForUrl failed', error);
-			return null;
+			throw this.logAndWrapError(error, this.createEmptyCheckForUrl.name);
 		}
 	}
 
@@ -250,8 +230,7 @@ export class UrlRepository extends DirectusRepositoryBase {
 			const checks = this.normalizeToArray(url?.checks, { allowSingleObject: false });
 			return checks[0]?.id ?? null;
 		} catch (error) {
-			console.error('urlRepository.getFirstCheck failed', error);
-			return null;
+			throw this.logAndWrapError(error, this.getFirstCheck.name);
 		}
 	}
 
@@ -275,7 +254,7 @@ export class UrlRepository extends DirectusRepositoryBase {
 	}
 
 	/**
-	 * Junction row id + criterion id pairs for a check's success_criteria relation.
+	 * Gets paired succescriteria rows based on junctionid
 	 *
 	 * @param {string} checkId
 	 * @returns {Promise<Array<{ junctionId: string; criterionId: string }>>}
@@ -294,9 +273,50 @@ export class UrlRepository extends DirectusRepositoryBase {
 			}))
 			.filter((r) => r.junctionId !== '' && r.criterionId !== '');
 	}
+	/**
+	 * Fetches all URL records associated with a specific partner.
+	 * Uses internal pagination to retrieve all matching items from the collection.
+	 *
+	 * @param {string} partnerId The unique identifier of the partner (website_id).
+	 * @param {Object} [options] Optional configuration for the fetch operation.
+	 * @param {number} [options.batchSize=100] Number of items to fetch per request.
+	 * @param {number} [options.delayMs=0] Optional delay in milliseconds between paginated requests.
+	 * @returns {Promise<Array<Pick<Url, 'id'>>>} A promise that resolves to an array of objects containing at least the URL ID.
+	 */
+	async getAllPartnerUrls(partnerId, { batchSize = 100, delayMs = 0 } = {}) {
+		if (!partnerId) {
+			throw new TypeError('getPartnerUrls: "partnerId" is required');
+		}
+		if (typeof batchSize !== 'number' || batchSize <= 0) {
+			throw new TypeError('getPartnerUrls: "batchSize" must be a positive number');
+		}
+		if (typeof delayMs !== 'number' || delayMs < 0) {
+			throw new TypeError('getPartnerUrls: "delayMs" must be a non-negative number');
+		}
+
+		const filter = {
+			website_id: { _eq: partnerId }
+		};
+
+		const fields = ['id', 'name', 'url', 'slug', 'website_id.slug'];
+		try {
+			return await this._fetchAllFromCollection({
+				collection: COLLECTION_URL,
+				filter,
+				fields,
+				batchSize,
+				delayMs,
+				mapFn: (u) => ({
+					id: u.id
+				})
+			});
+		} catch (error) {
+			throw this.logAndWrapError(error, this.getAllPartnerUrls.name);
+		}
+	}
 
 	/**
-	 * Link a success criterion to a check (M2M: read current links, append id, replace relation set).
+	 * Link a success criterion to a check.
 	 *
 	 * @param {{ websiteSlug?: string; urlSlug?: string; checkId: string; successCriteriaId: string }} input
 	 * @returns {Promise<{ id: string } | null>}
@@ -322,8 +342,7 @@ export class UrlRepository extends DirectusRepositoryBase {
 			);
 			return row?.id ? { id: row.id } : null;
 		} catch (error) {
-			console.error('urlRepository.addSuccessCriteriaToCheck failed', error);
-			return null;
+			throw this.logAndWrapError(error, this.addSuccessCriteriaToCheck.name);
 		}
 	}
 
@@ -348,8 +367,7 @@ export class UrlRepository extends DirectusRepositoryBase {
 			);
 			return { id: String(checkId) };
 		} catch (error) {
-			console.error('urlRepository.removeSuccessCriteriaFromCheck failed', error);
-			return null;
+			throw this.logAndWrapError(error, this.removeSuccessCriteriaFromCheck.name);
 		}
 	}
 }

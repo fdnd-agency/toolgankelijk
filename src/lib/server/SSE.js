@@ -145,7 +145,7 @@ export class SSEService {
 	 * while logging the full error to the server console in development mode.
 	 *
 	 * @param {import('better-sse').Session} session The active SSE session.
-	 * @param {unknown} [error] The original error object (logged in DEV).
+	 * @param {any} [error] The original error object (logged in DEV).
 	 * @param {string} [customMessage] The user-facing status message.
 	 * @param {boolean} [shouldClose=true] Whether to close the session after pushing.
 	 */
@@ -155,8 +155,9 @@ export class SSEService {
 		customMessage = 'Er is een interne fout opgetreden.',
 		shouldClose = true
 	) {
-		if (DevEnvironment) {
-			console.error('[sse] error thrown = ', error);
+		if (DevEnvironment && error?.name !== 'RepositoryError') {
+			// Raw/unexpected error
+			console.error('[sse] error:', error);
 		}
 		SSEService.push(
 			session,
