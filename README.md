@@ -147,14 +147,14 @@ Source: `docs/ERD-public.mmd`
 
 ## Sources 💡
 
-- Svelte
-- FDND agency
-- Email verificatie setup met Nodemailer
-- SvelteKit
-- Directus
-- Figma
-- Netlify
-- Atomic Design System
+- [Svelte](https://svelte.dev/docs/svelte/overview)
+- [FDND agency](https://github.com/fdnd-agency/vervoerregio-amsterdam)
+- [Email verificatie setup met Nodemailer](https://www.youtube.com/watch?v=qa-Sh0iM-kM)
+- [SvelteKit](https://svelte.dev/docs/kit/introduction)
+- [Directus](https://directus.io/docs/)
+- [Figma](https://www.figma.com/design/AcoAfiRyevwqXLmdBrbxtG/Toolgankelijk?node-id=18-42&t=vePCwpOn8RYkWthI-1)
+- [Netlify](https://www.netlify.com/)
+- [Atomic Design System](https://atomicdesign.bradfrost.com/chapter-2/)
 
 ## License
 
