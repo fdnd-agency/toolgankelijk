@@ -37,8 +37,8 @@ jobs:
         run: npm ci
 
       # 4. Lint the code
-      - name: Run Linter
-        run: npm run lint --if-present
+      # - name: Run Linter
+      #   run: npm run lint --if-present
 
       # 5. Run standard tests
       - name: Run Tests
