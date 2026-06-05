@@ -25,16 +25,16 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # # 2. Setup Node.js (using current stable v4 and Node 22)
-      # - name: Setup Node.js
-      #   uses: actions/setup-node@v4
-      #   with:
-      #     node-version: '22'
-      #     cache: 'npm'
+      # 2. Setup Node.js (using current stable v4 and Node 22)
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
 
-      # # 3. Install dependencies
-      # - name: Install Dependencies
-      #   run: npm ci
+      # 3. Install dependencies
+      - name: Install Dependencies
+        run: npm ci
 
       # # 4. Lint the code
       # - name: Run Linter
@@ -44,9 +44,9 @@ jobs:
       # - name: Run Tests
       #   run: npm test --if-present
 
-      # # 6. Build the SvelteKit app
-      # - name: Build App
-      #   run: npm run build
+      # 6. Build the SvelteKit app
+      - name: Build App
+        run: npm run build
 
       # 7. Run Lighthouse CI 
       # (This relies on your .lighthouserc.json that we set up to use `npm run preview`)
