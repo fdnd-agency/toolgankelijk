@@ -3,7 +3,7 @@
 /**
  * WCAG principles, conformance levels, and toolboard page data (URL + principle + guidelines for checks).
  */
-import { DirectusRepositoryBase } from '$lib/server/repositories/baseRepository.js';
+import { BaseDirectusRepository } from '$lib/server/repositories/baseRepository';
 import getQueryNiveaus from '../queries/niveaus.js';
 import getQueryPrincipes from '../queries/principes.js';
 import getQueryToolboard from '../queries/toolboard.js';
@@ -17,8 +17,10 @@ import getQueryToolboard from '../queries/toolboard.js';
 
 /**
  * Content and checklist mapping for principles list and per-URL toolboard views.
+ *
+ * @extends {BaseDirectusRepository}
  */
-export class ContentRepository extends DirectusRepositoryBase {
+export class ContentRepository extends BaseDirectusRepository {
 	// Helper functions
 
 	/**
@@ -111,8 +113,7 @@ export class ContentRepository extends DirectusRepositoryBase {
 
 			return principles;
 		} catch (error) {
-			console.error('contentRepository.getAllPrinciples failed', error);
-			return [];
+			throw this.logAndWrapError(error, 'getAllPrinciples');
 		}
 	}
 
@@ -137,8 +138,7 @@ export class ContentRepository extends DirectusRepositoryBase {
 			}));
 			return levels;
 		} catch (error) {
-			console.error('contentRepository.getLevels failed', error);
-			return [];
+			throw this.logAndWrapError(error, this.getLevels.name);
 		}
 	}
 
@@ -208,12 +208,7 @@ export class ContentRepository extends DirectusRepositoryBase {
 
 			return result;
 		} catch (error) {
-			console.error('contentRepository.getToolboard failed', error);
-			return {
-				url: null,
-				principle: null,
-				principles: []
-			};
+			throw this.logAndWrapError(error, this.getToolboard.name);
 		}
 	}
 }

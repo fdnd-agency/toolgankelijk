@@ -30,7 +30,15 @@ describe('src/routes/api/startAudit/+server.js integration', () => {
 		vi.spyOn(SSEModule.SSEService, 'push').mockImplementation(ssePush);
 
 		global.fetch.mockResolvedValueOnce({ ok: true }); // isProjectRunning
-		global.fetch.mockResolvedValueOnce({ ok: true, body: {} }); // specifiedUrls
+		global.fetch.mockResolvedValueOnce({
+			ok: true,
+			body: new ReadableStream({
+				start(controller) {
+					controller.enqueue(new TextEncoder().encode('event: audit_completed\ndata: {}\n\n'));
+					controller.close();
+				}
+			})
+		}); // specifiedUrls
 
 		await POST({ request });
 

@@ -367,7 +367,7 @@
 	}
 
 	.card-icons-partner > :global(.navbutton) {
-			border: none !important;
+		border: none !important;
 	}
 
 	.card-icons-url {

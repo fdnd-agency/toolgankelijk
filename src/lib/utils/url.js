@@ -1,5 +1,6 @@
 /**
  * Normalize and validate an absolute http(s) URL.
+ * Returns null on failure
  *
  * @param {unknown} value
  * @returns {string | null}

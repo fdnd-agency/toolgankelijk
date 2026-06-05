@@ -19,6 +19,8 @@
 	let principles = $derived(data.principlesData?.principles || []);
 	let partners = $derived(data.partnersData || []);
 
+	let isPartnerPage = $derived(!!$page.params.partner || !!$page.params.slug);
+
 	let heading = $derived({
 		title: data.urlData?.url?.website?.title ?? data.websitesData?.website?.title ?? '',
 		homepage: data.urlData?.url?.url ?? '',
@@ -32,6 +34,9 @@
 			!$page.url.pathname.startsWith('/register') &&
 			!$page.url.pathname.startsWith('/logout')
 	);
+
+
+    let dialogType = $derived($page.url.pathname === '/' ? 'addPartner' : 'addUrl');
 
 	onNavigate((navigation) => {
 		if (!document.startViewTransition) return;
@@ -50,7 +55,7 @@
 		dialogRef?.open();
 	}
 </script>
-<Dialog bind:this={dialogRef} {params} isType="addPartner" />
+<Dialog bind:this={dialogRef} {params} isType={dialogType} />
 
 <Header />
 

@@ -10,16 +10,8 @@ export async function POST({ request }) {
 		try {
 			SSEService.push(session, { status: 'Partner verwijderen gestart', type: 'done' });
 
-			let allUrls = [];
-			let skip = 0;
-			const batchSize = 100;
-			while (true) {
-				const urls = await partnerRepository.getPartnerUrls(id, { skip, first: batchSize });
-				if (!urls || urls.length === 0) break;
-				allUrls.push(...urls);
-				skip += batchSize;
-				await delay(150);
-			}
+			// 1. Verzamel alle urls van de partner
+			const allUrls = await urlRepository.getAllPartnerUrls(id);
 			SSEService.push(session, {
 				status: `Aantal urls gevonden: ${allUrls.length}`,
 				type: 'done'
@@ -32,7 +24,7 @@ export async function POST({ request }) {
 						status: `Verwijderen url ${index + 1}/${allUrls.length}`,
 						type: 'done'
 					});
-					await urlRepository.deleteUrlWithChecks(link.id);
+					await urlRepository.deleteUrl(link.id);
 				} catch (error) {
 					SSEService.pushError(session, error, `Fout bij verwijderen url ${link.id}`);
 				}

@@ -1,13 +1,18 @@
 import { urlRepository } from '$lib/server/index.js';
 import { SSEService } from '$lib/server/SSE.js';
 import { delay } from '$lib/utils/delay.js';
+import { normalizeHttpUrl } from '$lib/utils/url.js';
 
 export async function POST({ request }) {
 	const formData = await request.formData();
 	const name = formData.get('name');
 	const slug = name.toLowerCase();
-	const urlLink = formData.get('url');
+	const urlLink = normalizeHttpUrl(formData.get('url'));
 	const websiteSlug = formData.get('slug');
+
+	if (!name || !urlLink) {
+		return new Response('Naam en een geldige URL zijn verplicht.', { status: 400 });
+	}
 
 	return SSEService.createSseResponse(request, async (session) => {
 		try {

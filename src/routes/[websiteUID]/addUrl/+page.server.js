@@ -1,5 +1,6 @@
 import { redirect } from '@sveltejs/kit';
 import { partnerRepository, urlRepository } from '$lib/server/index.js';
+import { normalizeHttpUrl } from '$lib/utils/url.js';
 
 export async function load({ params, locals }) {
 	const { websiteUID } = params;
@@ -15,12 +16,19 @@ export async function load({ params, locals }) {
 
 export const actions = {
 	addUrl: async ({ request }) => {
-		const formData = await request.formData();
-		const name = formData.get('name').toLowerCase();
-		const formUrl = formData.get('url');
-		const formSlug = formData.get('slug');
-
 		try {
+			const formData = await request.formData();
+			const name = formData.get('name').toLowerCase();
+			const formUrl = normalizeHttpUrl(formData.get('url'));
+			const formSlug =formData.get('slug');
+
+			if (!name || !formUrl) {
+				return {
+					message: 'Naam en een geldige URL zijn verplicht.',
+					success: false
+				};
+			}
+
 			const directusCall = await urlRepository.addUrl({
 				urlSlug: name,
 				urlLink: formUrl,

@@ -4,7 +4,7 @@
  * Sessions: GraphQL for read/update/delete; REST POST to create rows (same collection as GraphQL).
  */
 import { createItem } from '@directus/sdk';
-import { DirectusRepositoryBase } from '$lib/server/repositories/baseRepository.js';
+import { BaseDirectusRepository } from '$lib/server/repositories/baseRepository';
 import getQuerySession, {
 	getQueryUpdateSession,
 	getQueryDeleteSession
@@ -21,7 +21,7 @@ import getQuerySession, {
 /**
  * Persists opaque session tokens (hashed) and ties them to users for `locals.session`.
  */
-export class SessionRepository extends DirectusRepositoryBase {
+export class SessionRepository extends BaseDirectusRepository {
 	// Main functions
 
 	/**
@@ -66,8 +66,7 @@ export class SessionRepository extends DirectusRepositoryBase {
 
 			return mapped;
 		} catch (error) {
-			console.error('sessionRepository.getSessionByTokenHash failed', error);
-			return null;
+			throw this.logAndWrapError(error, this.getSessionByTokenHash.name);
 		}
 	}
 
@@ -81,8 +80,7 @@ export class SessionRepository extends DirectusRepositoryBase {
 			const raw = await this.client.query(mutation, { sessionId, expiresAt });
 			return raw.updateSessie ?? null;
 		} catch (error) {
-			console.error('sessionRepository.updateSessionExpiry failed', error);
-			return null;
+			throw this.logAndWrapError(error, this.updateSessionExpiry.name);
 		}
 	}
 
@@ -98,8 +96,7 @@ export class SessionRepository extends DirectusRepositoryBase {
 			const raw = await this.client.query(mutation, { sessionId });
 			return raw.deleteSessie ?? null;
 		} catch (error) {
-			console.error('sessionRepository.deleteSessionById failed', error);
-			return null;
+			throw this.logAndWrapError(error, this.deleteSessionById.name);
 		}
 	}
 
@@ -110,17 +107,21 @@ export class SessionRepository extends DirectusRepositoryBase {
 	 * @returns {Promise<Session>}
 	 */
 	async createSessionRecord({ sessionId, userId, expiresAt }) {
-		const created = await this.client.request(
-			createItem('toolgankelijk_session', {
-				session_id: sessionId,
-				expires_at: expiresAt.toISOString(),
-				user_id: userId
-			})
-		);
-		if (!created?.id) {
-			throw new Error('createSessionRecord failed: response not ok');
-		}
+		try {
+			const created = await this.client.request(
+				createItem('toolgankelijk_session', {
+					session_id: sessionId,
+					expires_at: expiresAt.toISOString(),
+					user_id: userId
+				})
+			);
+			if (!created?.id) {
+				throw new Error('createSessionRecord failed: response not ok');
+			}
 
-		return { id: sessionId, userId, expiresAt };
+			return { id: sessionId, userId, expiresAt };
+		} catch (error) {
+			throw this.logAndWrapError(error, this.createSessionRecord.name);
+		}
 	}
 }

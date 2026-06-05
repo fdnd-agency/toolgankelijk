@@ -3,7 +3,7 @@
 /**
  * App users (`toolgankelijk_user`), email verification codes, and allow-list domains.
  */
-import { DirectusRepositoryBase } from '$lib/server/repositories/baseRepository.js';
+import { BaseDirectusRepository } from '$lib/server/repositories/baseRepository';
 import {
 	getQueryCheckUsernameAvailability,
 	getMutationCreateUser,
@@ -23,7 +23,7 @@ import {
 /**
  * Account and verification persistence used by auth and email flows.
  */
-export class UserRepository extends DirectusRepositoryBase {
+export class UserRepository extends BaseDirectusRepository {
 	// Main functions
 
 	/**
@@ -38,8 +38,7 @@ export class UserRepository extends DirectusRepositoryBase {
 			const data = await this.client.query(query, { username });
 			return !(data.users && data.users.length);
 		} catch (error) {
-			console.error('userRepository.checkUsernameAvailability failed', error);
-			return false;
+			throw this.logAndWrapError(error, this.checkUsernameAvailability.name);
 		}
 	}
 
@@ -63,8 +62,7 @@ export class UserRepository extends DirectusRepositoryBase {
 				isEmailVerified: row.isEmailVerified ?? false
 			};
 		} catch (error) {
-			console.error('userRepository.createUser failed', error);
-			return null;
+			throw this.logAndWrapError(error, this.createUser.name);
 		}
 	}
 
@@ -81,8 +79,7 @@ export class UserRepository extends DirectusRepositoryBase {
 			const row = this.firstOrNull(data.user);
 			return row?.password ?? null;
 		} catch (error) {
-			console.error('userRepository.getUserPasswordHash failed', error);
-			return null;
+			throw this.logAndWrapError(error, this.getUserPasswordHash.name);
 		}
 	}
 
@@ -105,8 +102,7 @@ export class UserRepository extends DirectusRepositoryBase {
 				isEmailVerified: row.is_email_verified ?? false
 			};
 		} catch (error) {
-			console.error('userRepository.getUserByEmail failed', error);
-			return null;
+			throw this.logAndWrapError(error, this.getUserByEmail.name);
 		}
 	}
 
@@ -122,8 +118,7 @@ export class UserRepository extends DirectusRepositoryBase {
 			const data = await this.client.query(mutation);
 			return data.updateUser ?? null;
 		} catch (error) {
-			console.error('userRepository.markUserEmailVerified failed', error);
-			return null;
+			throw this.logAndWrapError(error, this.markUserEmailVerified.name);
 		}
 	}
 
@@ -140,8 +135,7 @@ export class UserRepository extends DirectusRepositoryBase {
 			const users = data.toolgankelijk_user ?? [];
 			return users.length === 0;
 		} catch (error) {
-			console.error('userRepository.checkEmailAvailability failed', error);
-			return false;
+			throw this.logAndWrapError(error, this.checkEmailAvailability.name);
 		}
 	}
 
@@ -154,8 +148,7 @@ export class UserRepository extends DirectusRepositoryBase {
 			const data = await this.client.query(query);
 			return data.toolgankelijk_email_domain ?? [];
 		} catch (error) {
-			console.error('userRepository.getValidEmailDomains failed', error);
-			return [];
+			throw this.logAndWrapError(error, this.getValidEmailDomains.name);
 		}
 	}
 
@@ -179,8 +172,7 @@ export class UserRepository extends DirectusRepositoryBase {
 				expiresAt: new Date(row.expiresAt)
 			};
 		} catch (error) {
-			console.error('userRepository.getEmailVerificationRequestById failed', error);
-			return null;
+			throw this.logAndWrapError(error, this.getEmailVerificationRequestById.name);
 		}
 	}
 
@@ -207,8 +199,7 @@ export class UserRepository extends DirectusRepositoryBase {
 				expiresAt: new Date(row.expiresAt)
 			};
 		} catch (error) {
-			console.error('userRepository.createEmailVerificationRequestRecord failed', error);
-			return null;
+			throw this.logAndWrapError(error, this.createEmailVerificationRequestRecord.name);
 		}
 	}
 
@@ -224,8 +215,7 @@ export class UserRepository extends DirectusRepositoryBase {
 			const data = await this.client.query(mutation, { userId });
 			return data.deleteEmailVerificationCodes ?? null;
 		} catch (error) {
-			console.error('userRepository.deleteEmailVerificationsForUser failed', error);
-			return null;
+			throw this.logAndWrapError(error, this.deleteEmailVerificationsForUser.name);
 		}
 	}
 }
