@@ -11,74 +11,52 @@ env:
   VITE_DIRECTUS_KEY: ${{ secrets.VITE_DIRECTUS_KEY }}
   TOOLGANKELIJK_AUDIT_URL: ${{ vars.TOOLGANKELIJK_AUDIT_URL }}
   SMTP_HOST: ''
-  SMTP_PORT:
+  SMTP_PORT: ''
   SMTP_USER: ''
   SMTP_PASS: ''
 
 jobs:
-  build:
+  pipeline:
+    name: Build, Test, Lint, and Audit
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-node@v6
+      # 1. Checkout the code (using the current stable v4)
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # 2. Setup Node.js (using current stable v4 and Node 22)
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: '25'
+          node-version: '22'
           cache: 'npm'
-      - run: npm ci
-      - run: npm run build
 
-  test:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-node@v6
+      # 3. Install dependencies
+      - name: Install Dependencies
+        run: npm ci
+
+      # 4. Lint the code
+      - name: Run Linter
+        run: npm run lint --if-present
+
+      # 5. Run standard tests
+      - name: Run Tests
+        run: npm test --if-present
+
+      # 6. Build the SvelteKit app
+      - name: Build App
+        run: npm run build
+
+      # 7. Run Lighthouse CI 
+      # (This relies on your .lighthouserc.json that we set up to use `npm run preview`)
+      - name: Run Lighthouse
+        run: npx lhci autorun
+
+      # 8. Save the reports so you can view them later
+      - name: Upload Lighthouse Reports
+        uses: actions/upload-artifact@v4
+        if: always() # Uploads the reports even if the Lighthouse score fails the pipeline
         with:
-          node-version: '25'
-          cache: 'npm'
-      - run: npm i
-      - run: npm test --if-present
-
-  lint:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-node@v6
-        with:
-          node-version: '25'
-          cache: 'npm'
-      - run: npm i
-      - run: npm run lint --if-present
-lighthouse:
-  stage: test
-  when: always
-  image: node:22
-
-
-  interruptible: true
-
-  needs:
-    - build
-
-  before_script:
-    - apt-get update && apt-get install -y chromium --no-install-recommends
-    - npm install -g @lhci/cli serve
-
-  script:
-    - export CHROME_PATH=$(which chromium)
-    - serve dist/web -p 8080 &
-    - sleep 3
-    - URLS=$(find dist/web -name "*.html" | sed 's|dist/web|http://localhost:8080|' | tr '\n' ' ')
-    - echo "Gevonden pagina's: $URLS"
-    - lhci autorun --collect.url=$URLS
-
-  artifacts:
-    paths:
-      - .lighthouseci/
-
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-    - when: manual
+          name: lighthouse-results
+          path: .lighthouseci/
