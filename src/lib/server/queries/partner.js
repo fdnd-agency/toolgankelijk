@@ -141,19 +141,6 @@ export function getQueryUpdatePartner(name, slug, url, id) {
 	`;
 }
 
-export function getQueryUpdatePartnerUrls(slug, totalUrls) {
-	return `
-		mutation {
-			update_toolgankelijk_website_item(
-				id: "${slug}"
-				data: { totalUrls: ${totalUrls} }
-			) {
-				id
-			}
-		}
-	`;
-}
-
 export function getQueryDeletePartner(id) {
 	return `
 		mutation {
