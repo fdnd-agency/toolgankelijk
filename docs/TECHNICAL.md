@@ -119,24 +119,6 @@ The project consists of two interacting applications:
 **Header**
 * **Bestand:** `src/lib/components/templates/header.svelte`
 * **Function:** The overarching top-level navigation template, combining organisms like the `HamburgerMenu` and atoms like the `LogoHeader` to construct the primary app header.
-
-
-- File: [`src/lib/components/templates/checklist.svelte`](../src/lib/components/templates/checklist.svelte)
-  - Function: Displays the accessibility checklist per principle.
-  - Operation: Receives `richtlijnen` (guidelines) and `toolboardData` as props and renders the checklist items.
-- File: [`src/lib/components/molecules/heading.svelte`](../src/lib/components/molecules/heading.svelte)
-  - Function: Displays the title and navigation of the current page.
-- File: [`src/lib/components/templates/sidebar.svelte`](../src/lib/components/templates/sidebar.svelte)
-  - Function: Navigation between principles and URLs within a website.
-- File: [`src/lib/components/templates/dialog.svelte`](../src/lib/components/templates/dialog.svelte)
-  - Function: Form component for adding, editing, and deleting partners and URLs, and initiating audits.
-- File: [`src/lib/components/templates/card.svelte`](../src/lib/components/templates/card.svelte)
-  - Function: Displays a card for a partner or a URL with relevant information, progress, and actions.
-- File: [`src/lib/components/organisms/pages.svelte`](../src/lib/components/organisms/pages.svelte)
-  - Function: Pagination component for navigating through lists of partners or URLs.
-- File: [`src/lib/components/molecules/loader.svelte`](../src/lib/components/molecules/loader.svelte)
-  - Function: Displays progress and status updates during lengthy operations (such as adding a partner/url).
-
 #### Server-side Logic (Repositories & Queries)
 
 The project uses the Repository pattern for data retrieval from Directus. Repositories are located in `src/lib/server/repositories/` and use REST or GraphQL queries from `src/lib/server/queries/`.
@@ -176,14 +158,14 @@ The project uses the Repository pattern for data retrieval from Directus. Reposi
 ### Content Types
 
 - **Check**: Link between a URL and the achieved success criteria.
-- **EmailDomein**: Allowed email domains for registration.
-- **EmailVerificatiecode**: Temporary code for email verification during registration.
-- **Gebruiker**: User account with email, username, password, and verification status.
-- **Niveau**: WCAG level (A, AA, AAA) to which success criteria are linked.
-- **Principe**: Main category within WCAG, contains multiple Guidelines.
-- **Richtlijn**: Subcategory within a Principle, contains multiple Success Criteria.
-- **Sessie**: Active login session of a user.
-- **Succescriterium**: Concrete assessment point, contains criteria and easy criteria (`makkelijkeCriteria`) (both as rich text).
+- **Checklist Item**: Item in the checklist belonging to a principle.
+- **Email Domain**: Allowed email domains for registration.
+- **Email Verification Code**: Temporary code for email verification during registration.
+- **User**: User account with email, username, password, and verification status.
+- **Principle**: Main category within WCAG, contains multiple Guidelines.
+- **Guideline**: Subcategory within a Principle, contains multiple Success Criteria.
+- **Session**: Active login session of a user.
+- **SuccessCriteria**: Concrete assessment point, contains criteria and easy criteria (both as rich text).
 - **Test**: Audit/test result of a URL at a specific moment.
 - **TestNode**: Detailed information about a specific finding within a Test.
 - **URL**: A specific page of a website, linked to a Website.
