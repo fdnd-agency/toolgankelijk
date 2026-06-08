@@ -164,7 +164,6 @@ export class PartnerRepository extends BaseDirectusRepository {
 			const query = getQueryUpdatePartner(name, slug, url, id);
 			const raw = await this.client.query(query);
 			const row = raw.update_toolgankelijk_website_item ?? null;
-			console.log(row);
 			if (!row) throw new Error(`Kon partner met ID '${id}' niet bijwerken.`);
 			return {
 				id: row.id,
