@@ -63,7 +63,6 @@ export async function POST({ request }) {
 
 			if (toggle && urls.length) {
 				const { total } = await processUrls(urls, slug, pushProgressUpdateToClient);
-				await partnerRepository.updatePartnerTotalUrls({ slug, totalUrls: total });
 				await delay(1000);
 				for (const urlEntry of urls) {
 					const path = new URL(urlEntry).pathname;

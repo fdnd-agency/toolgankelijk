@@ -10,7 +10,6 @@ import getQueryPartner, {
 	getQueryUrlsByPartnerId,
 	getQueryAddPartner,
 	getQueryUpdatePartner,
-	getQueryUpdatePartnerUrls,
 	getQueryDeletePartner
 } from '../queries/partner.js';
 
@@ -142,7 +141,7 @@ export class PartnerRepository extends BaseDirectusRepository {
 			const query = getQueryAddPartner(name, url, slug);
 			const raw = await this.client.query(query);
 			const row = raw.create_toolgankelijk_website_item ?? null;
-			if (!row) throw error;
+			if (!row) throw new Error(`Kon partner '${name}' niet aanmaken.`);
 			return {
 				id: row.id,
 				title: row.title,
@@ -165,7 +164,8 @@ export class PartnerRepository extends BaseDirectusRepository {
 			const query = getQueryUpdatePartner(name, slug, url, id);
 			const raw = await this.client.query(query);
 			const row = raw.update_toolgankelijk_website_item ?? null;
-			if (!row) return null;
+			console.log(row);
+			if (!row) throw new Error(`Kon partner met ID '${id}' niet bijwerken.`);
 			return {
 				id: row.id,
 				title: name,
@@ -174,27 +174,6 @@ export class PartnerRepository extends BaseDirectusRepository {
 			};
 		} catch (error) {
 			throw this.logAndWrapError(error, this.updatePartnerById.name);
-		}
-	}
-
-	/**
-	 * Persist the cached URL count on the website row (sitemap / listing).
-	 *
-	 * @param {{ slug: string; totalUrls: number }} input
-	 * @returns {Promise<{ id: string; totalUrls: number } | null>}
-	 */
-	async updatePartnerTotalUrls({ slug, totalUrls }) {
-		try {
-			const query = getQueryUpdatePartnerUrls(slug, totalUrls);
-			const raw = await this.client.query(query);
-			const row = raw.update_toolgankelijk_website_item ?? null;
-			if (!row) return null;
-			return {
-				id: row.id,
-				totalUrls
-			};
-		} catch (error) {
-			throw this.logAndWrapError(error, this.updatePartnerTotalUrls.name);
 		}
 	}
 
