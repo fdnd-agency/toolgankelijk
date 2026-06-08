@@ -48,15 +48,15 @@ jobs:
       - name: Build App
         run: npm run build
 
-      - name: List workspace
-        run: |
-          pwd
-          ls -R
-
       # 7. Run Lighthouse CI 
       # (This relies on your .lighthouserc.json that we set up to use `npm run preview`)
       - name: Run Lighthouse
         run: npx lhci autorun --verbose
+
+      - name: List workspace
+        run: |
+          pwd
+          ls -R
 
       # 8. Save the reports so you can view them later
       - name: Upload Lighthouse Reports
