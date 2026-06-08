@@ -53,11 +53,19 @@ jobs:
       - name: Run Lighthouse
         run: npx lhci autorun --verbose
 
-      - name: List workspace
+      - name: Check Lighthouse output
         if: always()
         run: |
+          echo "Current directory:"
           pwd
-          ls -R
+              
+          echo "Looking for .lighthouseci directories (excluding node_modules):"
+          find . -path "./node_modules" -prune -o -type d -name ".lighthouseci" -print
+              
+          if [ -d ".lighthouseci" ]; then
+            echo ".lighthouseci contents:"
+            ls -la .lighthouseci
+          fi
 
       # 8. Save the reports so you can view them later
       - name: Upload Lighthouse Reports
