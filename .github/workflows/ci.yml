@@ -21,13 +21,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout the code (using the current stable v4)
+      # 1. Checkout the code (using the current stable v6)
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
-      # 2. Setup Node.js (using current stable v4 and Node 22)
+      # 2. Setup Node.js (using current stable v6 and Node 22)
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: '22'
           cache: 'npm'
@@ -55,7 +55,7 @@ jobs:
 
       # 8. Save the reports so you can view them later
       - name: Upload Lighthouse Reports
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: always() # Uploads the reports even if the Lighthouse score fails the pipeline
         with:
           name: lighthouse-results
