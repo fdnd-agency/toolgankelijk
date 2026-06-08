@@ -54,6 +54,7 @@ jobs:
         run: npx lhci autorun --verbose
 
       - name: List workspace
+        if: always()
         run: |
           pwd
           ls -R
