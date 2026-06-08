@@ -1,172 +1,259 @@
-# Technische Documentatie
+# Technical Documentation
 
-## Projectstructuur
+## Project Structure
 
-Het project bestaat uit twee samenwerkende applicaties:
+The project consists of two interacting applications:
 
-- **toolgankelijk/**: De front-end applicatie voor partners en beheerders.
-- **toolgankelijk-audit/**: De backend auditservice voor automatische toegankelijkheidscontroles.
+- **toolgankelijk/**: The front-end application for partners and administrators.
+- **toolgankelijk-audit/**: The backend audit service for automated accessibility checks.
 
 ### toolgankelijk/
 
-- **src/routes/**: Bevat alle pagina's en route-logica (SvelteKit).
-- **src/lib/components/**: Herbruikbare Svelte-componenten, georganiseerd volgens Atomic Design (atoms, molecules, organisms, templates).
-- **src/lib/server/**: Bevat backend-logica zoals queries, repositories, authenticatie en sessiebeheer.
-- **static/**: Statische assets zoals afbeeldingen en fonts.
-- **docs/**: Documentatiebestanden.
+- **src/routes/**: Contains all pages and routing logic (SvelteKit).
+- **src/lib/components/**: Reusable Svelte components, organized according to Atomic Design (atoms, molecules, organisms, templates).
+- **src/lib/server/**: Contains backend logic such as queries, repositories, authentication, and session management.
+- **static/**: Static assets like images and fonts.
+- **docs/**: Documentation files.
 
 ### toolgankelijk-audit/
 
-- **src/lib/server/**: Backend-logica, repositories en auditservices.
-- **src/routes/api/**: REST API-endpoints voor audit-acties.
-- **src/routes/**: SvelteKit-routes voor statuspagina's en documentatie.
+- **src/lib/server/**: Backend logic, repositories, and audit services.
+- **src/routes/api/**: REST API endpoints for audit actions.
+- **src/routes/**: SvelteKit routes for status pages and documentation.
 
-## Samenwerking tussen de projecten
+## Collaboration Between the Projects
 
-- **toolgankelijk** beheert partners, websites, urls en toegankelijkheidschecks via een **Directus CMS**.
-- **toolgankelijk-audit** voert periodiek of op verzoek automatische WCAG-audits uit op URLs van partners.
-- De front-end start een audit via een API-call naar de auditservice in `toolgankelijk-audit`.
-- Auditresultaten worden teruggeschreven naar Directus, zodat de front-end direct de actuele status kan tonen.
+- **toolgankelijk** manages partners, websites, URLs, and accessibility checks via a **Directus CMS**.
+- **toolgankelijk-audit** performs automated WCAG audits periodically or on demand on partner URLs.
+- The front-end initiates an audit via an API call to the audit service in `toolgankelijk-audit`.
+- Audit results are written back to Directus so the front-end can immediately display the current status.
 
-## Belangrijke Componenten
+## Key Components
 
 ### toolgankelijk
 
-#### Componenten (Atomic Design)
+# Component Architecture Documentation
 
-- Bestand: [`src/lib/components/templates/checklist.svelte`](../src/lib/components/templates/checklist.svelte)
-  - Functie: Toont de toegankelijkheids-checklist per principe.
-  - Werking: Ontvangt `richtlijnen` en `toolboardData` as props en rendert de checklist-items.
-- Bestand: [`src/lib/components/molecules/heading.svelte`](../src/lib/components/molecules/heading.svelte)
-  - Functie: Toont de titel en navigatie van de huidige pagina.
-- Bestand: [`src/lib/components/templates/sidebar.svelte`](../src/lib/components/templates/sidebar.svelte)
-  - Functie: Navigatie tussen principes en urls binnen een website.
-- Bestand: [`src/lib/components/templates/dialog.svelte`](../src/lib/components/templates/dialog.svelte)
-  - Functie: Formuliercomponent voor het toevoegen, bewerken en verwijderen van partners en URLs, en het starten van audits.
-- Bestand: [`src/lib/components/templates/card.svelte`](../src/lib/components/templates/card.svelte)
-  - Functie: Toont een kaart voor een partner of een URL met relevante informatie, voortgang en acties.
-- Bestand: [`src/lib/components/organisms/pages.svelte`](../src/lib/components/organisms/pages.svelte)
-  - Functie: Paginering-component voor het navigeren door lijsten van partners of URLs.
-- Bestand: [`src/lib/components/molecules/loader.svelte`](../src/lib/components/molecules/loader.svelte)
-  - Functie: Toont voortgangs- en statusupdates tijdens lange bewerkingen (zoals partner/url toevoegen).
+### Atoms
 
-#### Server-side Logica (Repositories & Queries)
+**Icon**
+* **Bestand:** `src/lib/components/atoms/icon.svelte`
+* **Function:** Imports and renders specific vector icons from an icon pack.
 
-Het project gebruikt het Repository-patroon voor data-ontsluiting uit Directus. Repositories bevinden zich in `src/lib/server/repositories/` en gebruiken REST of GraphQL queries uit `src/lib/server/queries/`.
+**LogoHeader**
+* **Bestand:** `src/lib/components/atoms/logo-header.svelte`
+* **Function:** Displays the primary application or brand logo, typically used in navigation bars.
 
-- Bestand: [`src/lib/server/repositories/partnerRepository.js`](../src/lib/server/repositories/partnerRepository.js)
-  - Functie: Beheert partner- en websitegegevens (ophalen, toevoegen, bewerken, verwijderen).
-- Bestand: [`src/lib/server/repositories/urlRepository.js`](../src/lib/server/repositories/urlRepository.js)
-  - Functie: Beheert URL-gegevens en de bijbehorende handmatige checks.
-- Bestand: [`src/lib/server/repositories/contentRepository.js`](../src/lib/server/repositories/contentRepository.js)
-  - Functie: Ophalen van WCAG-content (principes, richtlijnen, succescriteria) en toolboard-data.
-- Bestand: [`src/lib/server/repositories/baseRepository.js`](../src/lib/server/repositories/baseRepository.js)
-  - Functie: Basisklasse voor repositories, bevat algemene Directus-interactielogica en foutafhandeling.
-- Bestand: [`src/lib/server/index.js`](../src/lib/server/index.js)
-  - Functie: Initialiseert de repositories met de Directus-client.
+**Separator**
+* **Bestand:** `src/lib/components/atoms/separator.svelte`
+* **Function:** A visual divider (horizontal or vertical line) used to separate content and group related UI elements.
+
+---
+
+### Molecules
+
+**Alert**
+* **Bestand:** `src/lib/components/molecules/alert.svelte`
+* **Function:** Displays a prominent message to the user, communicating states like success, error, warning, or information.
+
+**Checkbox**
+* **Bestand:** `src/lib/components/molecules/checkbox.svelte`
+* **Function:** A form control that allows a user to select one or multiple options from a set, often paired with a label.
+
+**Heading**
+* **Bestand:** `src/lib/components/molecules/heading.svelte`
+* **Function:** Renders standardized typographic headings (H1-H6) with consistent sizing, spacing, and brand styling.
+
+**Input**
+* **Bestand:** `src/lib/components/molecules/input.svelte`
+* **Function:** A text entry field for user data collection, usually combining a raw input HTML tag with labels, icons, or error messages.
+
+**Loader**
+* **Bestand:** `src/lib/components/molecules/loader.svelte`
+* **Function:** A visual indicator (such as a spinner or skeleton screen) that signals to the user that a background process or data fetch is occurring.
+
+**NavButton**
+* **Bestand:** `src/lib/components/molecules/nav-button.svelte`
+* **Function:** A specialized button component specifically styled and structured for navigation menus and routing links.
+
+**Progressbar**
+* **Bestand:** `src/lib/components/molecules/progressbar.svelte`
+* **Function:** Visually communicates the completion status of a specific task, process, or file upload.
+
+**Search**
+* **Bestand:** `src/lib/components/molecules/search.svelte`
+* **Function:** A composite search field, typically combining an input molecule with a search icon and a clear/submit button.
+
+---
+
+### Organisms
+
+**Breadcrumbs**
+* **Bestand:** `src/lib/components/organisms/breadcrumbs.svelte`
+* **Function:** A secondary navigation scheme that reveals the user's location in an application or website, allowing them to easily trace their path back.
+
+**HamburgerMenu**
+* **Bestand:** `src/lib/components/organisms/hamburger-menu.svelte`
+* **Function:** A collapsible navigation menu system containing multiple `NavButton` elements, commonly used for responsive mobile layouts.
+
+**Pages**
+* **Bestand:** `src/lib/components/organisms/pages.svelte`
+* **Function:** A high-level container component that orchestrates layout, data fetching, and nested components for specific application routes.
+
+---
+
+### Templates
+
+**Card**
+* **Bestand:** `src/lib/components/templates/card.svelte`
+* **Function:** A flexible content container used to group related information, interactive elements, and actions into a distinct visual block.
+
+**Checklist**
+* **Bestand:** `src/lib/components/templates/checklist.svelte`
+* **Function:** A structured layout template designed to display a series of `Checkbox` molecules and text, facilitating task tracking or bulk selections.
+
+**Dialog**
+* **Bestand:** `src/lib/components/templates/dialog.svelte`
+* **Function:** A modal window template that overlays the main interface, capturing user focus for critical decisions, forms, or acknowledgments.
+
+**Header**
+* **Bestand:** `src/lib/components/templates/header.svelte`
+* **Function:** The overarching top-level navigation template, combining organisms like the `HamburgerMenu` and atoms like the `LogoHeader` to construct the primary app header.
+
+
+- File: [`src/lib/components/templates/checklist.svelte`](../src/lib/components/templates/checklist.svelte)
+  - Function: Displays the accessibility checklist per principle.
+  - Operation: Receives `richtlijnen` (guidelines) and `toolboardData` as props and renders the checklist items.
+- File: [`src/lib/components/molecules/heading.svelte`](../src/lib/components/molecules/heading.svelte)
+  - Function: Displays the title and navigation of the current page.
+- File: [`src/lib/components/templates/sidebar.svelte`](../src/lib/components/templates/sidebar.svelte)
+  - Function: Navigation between principles and URLs within a website.
+- File: [`src/lib/components/templates/dialog.svelte`](../src/lib/components/templates/dialog.svelte)
+  - Function: Form component for adding, editing, and deleting partners and URLs, and initiating audits.
+- File: [`src/lib/components/templates/card.svelte`](../src/lib/components/templates/card.svelte)
+  - Function: Displays a card for a partner or a URL with relevant information, progress, and actions.
+- File: [`src/lib/components/organisms/pages.svelte`](../src/lib/components/organisms/pages.svelte)
+  - Function: Pagination component for navigating through lists of partners or URLs.
+- File: [`src/lib/components/molecules/loader.svelte`](../src/lib/components/molecules/loader.svelte)
+  - Function: Displays progress and status updates during lengthy operations (such as adding a partner/url).
+
+#### Server-side Logic (Repositories & Queries)
+
+The project uses the Repository pattern for data retrieval from Directus. Repositories are located in `src/lib/server/repositories/` and use REST or GraphQL queries from `src/lib/server/queries/`.
+
+- File: [`src/lib/server/repositories/partnerRepository.js`](../src/lib/server/repositories/partnerRepository.js)
+  - Function: Manages partner and website data (fetching, adding, editing, deleting).
+- File: [`src/lib/server/repositories/urlRepository.js`](../src/lib/server/repositories/urlRepository.js)
+  - Function: Manages URL data and the associated manual checks.
+- File: [`src/lib/server/repositories/contentRepository.js`](../src/lib/server/repositories/contentRepository.js)
+  - Function: Fetching WCAG content (principles, guidelines, success criteria) and toolboard data.
+- File: [`src/lib/server/repositories/baseRepository.js`](../src/lib/server/repositories/baseRepository.js)
+  - Function: Base class for repositories, contains general Directus interaction logic and error handling.
+- File: [`src/lib/server/index.js`](../src/lib/server/index.js)
+  - Function: Initializes the repositories with the Directus client.
 
 ### toolgankelijk-audit
 
-- Bestand: [`src/lib/server/repositories/AuditRepository.js`](../../toolgankelijk-audit/src/lib/server/repositories/AuditRepository.js)
-  - Functie: De `AuditRepository` klasse verzorgt de communicatie met Directus voor het opslaan en ophalen van auditresultaten.
-- Bestand: [`src/lib/server/services/AuditService.js`](../../toolgankelijk-audit/src/lib/server/services/AuditService.js)
-  - Functie: De `AuditService` klasse regelt de hoofdlogica voor het uitvoeren van audits, verwerken van resultaten en aanroepen van repository-methodes.
-- Bestand: [`src/routes/api/specifiedUrls/+server.js`](../../toolgankelijk-audit/src/routes/api/specifiedUrls/+server.js)
-  - Functie: Endpoint voor het uitvoeren van audits op specifieke partner-urls.
-- Bestand: [`src/routes/api/allUrls/+server.js`](../../toolgankelijk-audit/src/routes/api/allUrls/+server.js)
-  - Functie: Endpoint voor het uitvoeren van een periodieke audit op alle URLs van alle partners.
-- Bestand: [`src/routes/api/isProjectRunning/+server.js`](../../toolgankelijk-audit/src/routes/api/isProjectRunning/+server.js)
-  - Functie: Endpoint voor healthcheck van de audit-backend.
-- Bestand: [`src/lib/server/utils/ActiveAudits.js`](../../toolgankelijk-audit/src/lib/server/utils/ActiveAudits.js)
-  - Functie: De `ActiveAudits` singleton houdt bij welke partners momenteel worden geaudit om dubbele audits te voorkomen.
-- Bestand: [`src/lib/server/utils/AuditRunner.js`](../../toolgankelijk-audit/src/lib/server/utils/AuditRunner.js)
-  - Functie: De `AuditRunner` voert de daadwerkelijke toegankelijkheids-audit uit op een URL met Puppeteer en axe-core.
-- Bestand: [`src/lib/server/utils/RequestRetry.js`](../../toolgankelijk-audit/src/lib/server/utils/RequestRetry.js)
-  - Functie: Bevat logica om requests te herhalen bij rate limiting of netwerkfouten.
+- File: [`src/lib/server/repositories/AuditRepository.js`](../../toolgankelijk-audit/src/lib/server/repositories/AuditRepository.js)
+  - Function: The `AuditRepository` class handles communication with Directus for saving and retrieving audit results.
+- File: [`src/lib/server/services/AuditService.js`](../../toolgankelijk-audit/src/lib/server/services/AuditService.js)
+  - Function: The `AuditService` class manages the core logic for running audits, processing results, and calling repository methods.
+- File: [`src/routes/api/specifiedUrls/+server.js`](../../toolgankelijk-audit/src/routes/api/specifiedUrls/+server.js)
+  - Function: Endpoint for executing audits on specific partner URLs.
+- File: [`src/routes/api/allUrls/+server.js`](../../toolgankelijk-audit/src/routes/api/allUrls/+server.js)
+  - Function: Endpoint for executing a periodic audit on all URLs of all partners.
+- File: [`src/routes/api/isProjectRunning/+server.js`](../../toolgankelijk-audit/src/routes/api/isProjectRunning/+server.js)
+  - Function: Endpoint for health check of the audit backend.
+- File: [`src/lib/server/utils/ActiveAudits.js`](../../toolgankelijk-audit/src/lib/server/utils/ActiveAudits.js)
+  - Function: The `ActiveAudits` singleton tracks which partners are currently being audited to prevent duplicate audits.
+- File: [`src/lib/server/utils/AuditRunner.js`](../../toolgankelijk-audit/src/lib/server/utils/AuditRunner.js)
+  - Function: The `AuditRunner` performs the actual accessibility audit on a URL using Puppeteer and axe-core.
+- File: [`src/lib/server/utils/RequestRetry.js`](../../toolgankelijk-audit/src/lib/server/utils/RequestRetry.js)
+  - Function: Contains logic to retry requests in case of rate limiting or network errors.
 
-## CMS Configuratie (Directus)
+## CMS Configuration (Directus)
 
-### Contenttypes
+### Content Types
 
-- **Check**: Koppeling tussen een URL en de behaalde succescriteria.
-- **EmailDomein**: Toegestane e-maildomeinen voor registratie.
-- **EmailVerificatiecode**: Tijdelijke code voor e-mailverificatie bij registratie.
-- **Gebruiker**: Gebruikersaccount met e-mail, gebruikersnaam, wachtwoord en verificatiestatus.
-- **Niveau**: WCAG-niveau (A, AA, AAA) waaraan succescriteria zijn gekoppeld.
-- **Principe**: Hoofdcategorie binnen WCAG, bevat meerdere Richtlijnen.
-- **Richtlijn**: Subcategorie binnen een Principe, bevat meerdere Succescriteria.
-- **Sessie**: Actieve login-sessie van een gebruiker.
-- **Succescriterium**: Concreet toetsingspunt, bevat criteria en makkelijkeCriteria (beide als rich text).
-- **Test**: Audit/testresultaat van een URL op een bepaald moment.
-- **TestNode**: Detailinformatie over een specifieke bevinding binnen een Test.
-- **URL**: Een specifieke pagina van een website, gekoppeld aan een Website.
-- **Website**: Bevat algemene info over een partner/website.
+- **Check**: Link between a URL and the achieved success criteria.
+- **EmailDomein**: Allowed email domains for registration.
+- **EmailVerificatiecode**: Temporary code for email verification during registration.
+- **Gebruiker**: User account with email, username, password, and verification status.
+- **Niveau**: WCAG level (A, AA, AAA) to which success criteria are linked.
+- **Principe**: Main category within WCAG, contains multiple Guidelines.
+- **Richtlijn**: Subcategory within a Principle, contains multiple Success Criteria.
+- **Sessie**: Active login session of a user.
+- **Succescriterium**: Concrete assessment point, contains criteria and easy criteria (`makkelijkeCriteria`) (both as rich text).
+- **Test**: Audit/test result of a URL at a specific moment.
+- **TestNode**: Detailed information about a specific finding within a Test.
+- **URL**: A specific page of a website, linked to a Website.
+- **Website**: Contains general info about a partner/website.
 
-## API-documentatie
+## API Documentation
 
 ### toolgankelijk
 
-- **Directus API**: Voor het ophalen en muteren van content.
-  - Queries worden uitgevoerd via de repositories in `src/lib/server/repositories`.
-  - GraphQL queries zijn te vinden in [`src/lib/server/queries/`](../src/lib/server/queries/).
-  - Authenticatie gebeurt via een Bearer token (`VITE_DIRECTUS_KEY`), ingesteld in de `.env` configuratie.
-- **Audit API**: `/api/startAudit` stuurt een lijst van URLs en slug naar de audit-backend.
+- **Directus API**: For fetching and mutating content.
+  - Queries are executed via the repositories in `src/lib/server/repositories`.
+  - GraphQL queries can be found in [`src/lib/server/queries/`](../src/lib/server/queries/).
+  - Authentication is done via a Bearer token (`VITE_DIRECTUS_KEY`), set in the `.env` configuration.
+- **Audit API**: `/api/startAudit` sends a list of URLs and a slug to the audit backend.
   - Endpoint: [`src/routes/api/startAudit/+server.js`](../src/routes/api/startAudit/+server.js)
-  - Methode: `POST`
-  - Body: FormData met:
-    - `urls`: JSON-string van een array met URLs
-    - `slug`: slug van de website
-  - Werking: Stuurt een request naar de audit-backend (zie `TOOLGANKELIJK_AUDIT_URL` in `.env`).
-- **Partner/URL beheer API's**:
-  - Partner toevoegen: [`/api/addPartner`](../src/routes/api/addPartner/+server.js) (`POST`)
-  - Partner bewerken: [`/api/editPartner`](../src/routes/api/editPartner/+server.js) (`POST`)
-  - Partner verwijderen: [`/api/deletePartner`](../src/routes/api/deletePartner/+server.js) (`POST`)
-  - URL toevoegen: [`/api/addUrl`](../src/routes/api/addUrl/+server.js) (`POST`)
-  - URL bewerken: [`/api/editUrl`](../src/routes/api/editUrl/+server.js) (`POST`)
-  - URL verwijderen: [`/api/deleteUrl`](../src/routes/api/deleteUrl/+server.js) (`POST`)
-  - Al deze endpoints accepteren FormData en geven statusupdates terug via Server-Sent Events (SSE).
-- **Authenticatie en sessiebeheer**:
-  - Sessie wordt beheerd via cookies en gecontroleerd in [`src/hooks.server.js`](../src/hooks.server.js).
-  - Gebruikersdata en sessies worden opgeslagen in Directus.
+  - Method: `POST`
+  - Body: FormData with:
+    - `urls`: JSON string of an array of URLs
+    - `slug`: website slug
+  - Operation: Sends a request to the audit backend (see `TOOLGANKELIJK_AUDIT_URL` in `.env`).
+- **Partner/URL Management APIs**:
+  - Add Partner: [`/api/addPartner`](../src/routes/api/addPartner/+server.js) (`POST`)
+  - Edit Partner: [`/api/editPartner`](../src/routes/api/editPartner/+server.js) (`POST`)
+  - Delete Partner: [`/api/deletePartner`](../src/routes/api/deletePartner/+server.js) (`POST`)
+  - Add URL: [`/api/addUrl`](../src/routes/api/addUrl/+server.js) (`POST`)
+  - Edit URL: [`/api/editUrl`](../src/routes/api/editUrl/+server.js) (`POST`)
+  - Delete URL: [`/api/deleteUrl`](../src/routes/api/deleteUrl/+server.js) (`POST`)
+  - All these endpoints accept FormData and return status updates via Server-Sent Events (SSE).
+- **Authentication and Session Management**:
+  - Session is managed via cookies and checked in [`src/hooks.server.js`](../src/hooks.server.js).
+  - User data and sessions are stored in Directus.
 
 ### toolgankelijk-audit
 
 - **/api/specifiedUrls**
 
-  - Methode: `POST`
+  - Method: `POST`
   - Body:
     ```json
     {
-    	"urls": [
-    		{ "url": "https://voorbeeld.nl/pagina1", "urlSlug": "pagina1-slug" },
-    		{ "url": "https://voorbeeld.nl/pagina2", "urlSlug": "pagina2-slug" }
-    	],
-    	"websiteSlug": "voorbeeld"
+      "urls": [
+        { "url": "https://example.com/page1", "urlSlug": "page1-slug" },
+        { "url": "https://example.com/page2", "urlSlug": "page2-slug" }
+      ],
+      "websiteSlug": "example"
     }
     ```
-  - Functie: Ontvangt een lijst van URLs en een websiteSlug, voert audits uit op deze URLs met Puppeteer en axe-core, en schrijft de resultaten terug naar Directus.
+  - Function: Receives a list of URLs and a websiteSlug, performs audits on these URLs using Puppeteer and axe-core, and writes the results back to Directus.
   - Response:
-    - `200`: Audit succesvol uitgevoerd
-    - `409`: Audit is al bezig voor deze partner
-    - `500`: Fout tijdens uitvoeren audit
+    - `200`: Audit executed successfully
+    - `409`: Audit is already in progress for this partner
+    - `500`: Error while executing audit
 
 - **/api/allUrls**
 
-  - Methode: `POST`
-  - Functie: Start een periodieke audit op alle URLs van alle partners.
-  - Body: geen of optioneel configuratie-object
+  - Method: `POST`
+  - Function: Starts a periodic audit on all URLs of all partners.
+  - Body: None or optional configuration object
   - Response:
-    - `200`: Audit gestart
-    - `500`: Fout tijdens uitvoeren audit
+    - `200`: Audit started
+    - `500`: Error while executing audit
 
 - **/api/isProjectRunning**
-  - Methode: `GET`
-  - Functie: Healthcheck endpoint, geeft aan of de audit-backend actief is.
+  - Method: `GET`
+  - Function: Health check endpoint, indicates whether the audit backend is active.
   - Response:
-    - `200`: Backend is actief
-    - `503`: Backend is niet bereikbaar
+    - `200`: Backend is active
+    - `503`: Backend is unreachable
 
-## Overige
+## Miscellaneous
 
-- Zie [`README.md`](../README.md) voor een globale uitleg van het project en installatie-instructies.
-- Zie [`CONTRIBUTING.md`](../CONTRIBUTING.md) voor richtlijnen over het bijdragen aan dit project, zoals de workflow, code conventies, branching strategy, commit messages en het pull request proces.
+- See [`README.md`](../README.md) for a general explanation of the project and installation instructions.
+- See [`CONTRIBUTING.md`](../CONTRIBUTING.md) for guidelines on contributing to this project, such as the workflow, code conventions, branching strategy, commit messages, and the pull request process.
