@@ -20,7 +20,7 @@ export const actions = {
 			const formData = await request.formData();
 			const name = formData.get('name').toLowerCase();
 			const formUrl = normalizeHttpUrl(formData.get('url'));
-			const formSlug =formData.get('slug');
+			const formSlug = formData.get('slug');
 
 			if (!name || !formUrl) {
 				return {

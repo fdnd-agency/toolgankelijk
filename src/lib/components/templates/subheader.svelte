@@ -47,12 +47,7 @@
 	<div class="subheader-form">
 		<!-- this will be placed on a sidebar of the principles page -->
 		<div class="subheader-form-up-wrapper">
-			<NavButton
-				size="small"
-				variant="primary"
-				showIcon={true}
-				iconName="add"
-				onclick={onAdd}
+			<NavButton size="small" variant="primary" showIcon={true} iconName="add" onclick={onAdd}
 			></NavButton>
 			<Search effect="disabled" />
 		</div>
