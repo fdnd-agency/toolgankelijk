@@ -1,6 +1,7 @@
 import { generateEmailVerificationCode } from '../utils/generateEmailVerificationCode.js';
 import { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS } from '$env/static/private';
 import nodemailer from 'nodemailer';
+import { env } from '$env/dynamic/private';
 import { userRepository } from '$lib/server/index.js';
 
 // Deze functie haalt het e-mailverificatieverzoek op voor een gebruiker via het request ID
