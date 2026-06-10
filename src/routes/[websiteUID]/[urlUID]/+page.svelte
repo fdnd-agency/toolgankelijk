@@ -1,17 +1,18 @@
 <script>
 	import { page } from '$app/stores';
 	import Heading from '$lib/components/molecules/heading.svelte';
-	import { onMount } from 'svelte';
 	import NavButton from '$lib/components/molecules/navButton.svelte';
 	import SubHeader from '$lib/components/templates/subheader.svelte';
 
 	let { data } = $props();
 
+	// heading should be different on every page
 	let heading = $derived({
 		title: data?.websitesData?.website?.title ?? 'Loading...',
 		homepage: data?.urlData?.url?.url ?? '',
 		url: data?.urlData?.url?.slug ?? ''
 	});
+	
 	let progressData = $state({});
 
 	const principes = data.principlesData.principles;
@@ -114,6 +115,7 @@
 	const getPercent = (achieved, total) => (total > 0 ? Math.round((achieved / total) * 100) : 0);
 </script>
 
+<!-- all the principles containers (shows data of a principle) -->
 <section class="container-principles">
 	<ul>
 		{#each filteredPrincipes as principe (principe.index)}
@@ -155,6 +157,8 @@
 	</ul>
 </section>
 
+<!-- in the new design the sidebar will appear here -->
+
 <style>
 	.container-principles a {
 		text-decoration: none;
@@ -178,8 +182,7 @@
 	.h3-niveaus {
 		font-size: 24px;
 	}
-
-	/* responsive for mobile */
+	
 	@media (max-width: 768px) {
 		.container-principles ul {
 			grid-template-columns: 1fr;

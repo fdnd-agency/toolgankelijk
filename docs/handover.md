@@ -42,3 +42,24 @@ First, new developers should read the "Lokale setup installatie" (Local setup in
 ## Sprint Goal (Suggestion for the next sprint)
 
 Set up the local development environment, write concrete issues for the missing design elements, and fix the main blocking front-end bugs (like the partner form and pagination) to ensure a stable base for future development.
+
+
+## All The refactored components
+- Header
+- SubHeader
+- Breadcrumb
+- Card
+- Dialog
+- Navbutton
+- Icon
+- Logo
+
+## All the components that needs to be refactored
+- Alert
+- Seperator
+- Checklist
+- Checkbox
+- Sidebar
+- Loader
+- Search
+- Progressbar

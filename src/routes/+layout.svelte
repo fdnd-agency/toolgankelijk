@@ -7,6 +7,7 @@
 
 	let dialogRef = $state();
 
+	// give the variables to the pages
 	let { data, children } = $props();
 
 	let params = $derived($page.params);
@@ -38,6 +39,7 @@
 
     let dialogType = $derived($page.url.pathname === '/' ? 'addPartner' : 'addUrl');
 
+	// 
 	onNavigate((navigation) => {
 		if (!document.startViewTransition) return;
 
