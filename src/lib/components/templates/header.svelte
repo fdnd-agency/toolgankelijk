@@ -1,13 +1,18 @@
 <script>
 	import { page } from '$app/stores';
-
 	import Logo from '../atoms/logoHeader.svelte';
 	import Hamburger from '$lib/components/organisms/hamburgerMenu.svelte';
 	import NavButton from '../molecules/navButton.svelte';
 </script>
 
 <header>
-	<NavButton effect="invisible" href="#main">Jump directly to main content</NavButton>
+
+	<!-- button for fast forwards to the main content -->
+	<NavButton 
+		effect="invisible" 
+		href="#main">
+		Jump directly to main content
+	</NavButton>
 
 	<Logo />
 
@@ -48,6 +53,7 @@
 				variant="secondary"
 				active={$page.url.pathname === '/account' ? 'active' : ''}
 			>
+
 				<p>Account</p>
 			</NavButton>
 		</div>

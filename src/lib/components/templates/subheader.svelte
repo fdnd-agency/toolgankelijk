@@ -1,4 +1,5 @@
 <script>
+	// subheader in beneath the header
 	import { page } from '$app/stores';
 	import NavButton from '$lib/components/molecules/navButton.svelte';
 	import BreadCrumbs from '$lib/components/organisms/breadCrumbs.svelte';
@@ -47,6 +48,7 @@
 	<div class="subheader-form">
 		<!-- this will be placed on a sidebar of the principles page -->
 		<div class="subheader-form-up-wrapper">
+		<!-- only button working to add a new partner/url -->
 			<NavButton
 				size="small"
 				variant="primary"
@@ -59,7 +61,6 @@
 
 		<div class="subheader-form-down-wrapper">
 			<p>Sorteren op</p>
-
 			<NavButton effect="disabled">Levels</NavButton>
 
 			<NavButton effect="disabled">Principles</NavButton>

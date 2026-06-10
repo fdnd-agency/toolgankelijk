@@ -1,6 +1,7 @@
 <script>
 	let { iconName, showIcon = false } = $props();
 
+	// all the icons will be imported
 	import AccountIcon from '$lib/components/atoms/icons/accountIcon.svelte';
 	import AddIcon from '$lib/components/atoms/icons/addIcon.svelte';
 	import AlertIcon from '$lib/components/atoms/icons/alertIcon.svelte';
@@ -44,6 +45,7 @@
 	const ActiveIcon = $derived(iconName ? iconMap[iconName] : null);
 </script>
 
+<!-- it shows the icon -->
 {#if showIcon && ActiveIcon}
 	<ActiveIcon />
 {/if}

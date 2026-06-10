@@ -22,6 +22,7 @@
 	const tagname = $derived(as || (href ? 'a' : 'button'));
 </script>
 
+<!-- in this element which is replaced buttons and a tags in the project already fully processed -->
 <svelte:element
 	this={tagname}
 	{href}
@@ -43,7 +44,6 @@
 </svelte:element>
 
 <style>
-	/* ================= BASE BUTTON ================= */
 	.navbutton {
 		display: inline-flex;
 		align-items: center;
@@ -72,7 +72,6 @@
 		align-items: center;
 	}
 
-	/* ================= VARIANTS & STATES ================= */
 	.primary {
 		background-color: var(--color-primary);
 		color: var(--color-neutral-white);

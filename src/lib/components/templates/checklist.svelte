@@ -1,10 +1,16 @@
 <script>
+	// checklist is not refactored yet
 	import { onMount } from 'svelte';
 	import { enhance } from '$app/forms';
 	import loadingIcon from '$lib/assets/loading.svg';
 	import NavButton from '../molecules/navButton.svelte';
 
-	let { guidelines, toolboardData, levels, selectedLevel = $bindable(levels[0].level) } = $props();
+	let { 
+		guidelines, 
+		toolboardData, 
+		levels, 
+		selectedLevel = $bindable(levels[0].level) 
+	} = $props();
 
 	let loading = $state(false);
 	const getSuccessCriteriaByLevel = (level) =>

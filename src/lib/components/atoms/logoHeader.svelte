@@ -1,3 +1,4 @@
+<!-- svg logo imported -->
 <a class="logo-header" href="/" aria-label="ga naar homepagina">
 	<svg id="logo" width="130" viewBox="0 0 179 64" fill="none" xmlns="http://www.w3.org/2000/svg">
 		<path
