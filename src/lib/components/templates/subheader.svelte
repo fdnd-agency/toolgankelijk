@@ -48,13 +48,7 @@
 	<div class="subheader-form">
 		<!-- this will be placed on a sidebar of the principles page -->
 		<div class="subheader-form-up-wrapper">
-		<!-- only button working to add a new partner/url -->
-			<NavButton
-				size="small"
-				variant="primary"
-				showIcon={true}
-				iconName="add"
-				onclick={onAdd}
+			<NavButton size="small" variant="primary" showIcon={true} iconName="add" onclick={onAdd}
 			></NavButton>
 			<Search effect="disabled" />
 		</div>

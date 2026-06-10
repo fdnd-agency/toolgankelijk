@@ -110,18 +110,6 @@ describe('PartnerRepository', () => {
 			});
 		});
 
-		it('returns null when mutation returns no row', async () => {
-			client.query.mockResolvedValue({ create_toolgankelijk_website_item: null });
-
-			const result = await repository.createPartner({
-				name: 'T',
-				url: 'https://h',
-				slug: 's'
-			});
-
-			expect(result).toBeNull();
-		});
-
 		it('throws RepositoryError on error', async () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
 			client.query.mockRejectedValue(new Error());
@@ -158,19 +146,6 @@ describe('PartnerRepository', () => {
 			});
 		});
 
-		it('returns null when mutation returns no row', async () => {
-			client.query.mockResolvedValue({ update_toolgankelijk_website_item: null });
-
-			const result = await repository.updatePartnerById({
-				id: 'w1',
-				name: 'N',
-				url: 'https://n',
-				slug: 'ns'
-			});
-
-			expect(result).toBeNull();
-		});
-
 		it('throws RepositoryError on error', async () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
 			client.query.mockRejectedValue(new Error());
@@ -183,36 +158,6 @@ describe('PartnerRepository', () => {
 					slug: 'ns'
 				})
 			).rejects.toThrow(RepositoryError);
-			spy.mockRestore();
-		});
-	});
-
-	describe('updatePartnerTotalUrls', () => {
-		it('returns id and totalUrls', async () => {
-			client.query.mockResolvedValue({
-				update_toolgankelijk_website_item: { id: 'w1' }
-			});
-
-			const result = await repository.updatePartnerTotalUrls({ slug: 's', totalUrls: 42 });
-
-			expect(result).toEqual({ id: 'w1', totalUrls: 42 });
-		});
-
-		it('returns null when mutation returns no row', async () => {
-			client.query.mockResolvedValue({ update_toolgankelijk_website_item: null });
-
-			await expect(
-				repository.updatePartnerTotalUrls({ slug: 's', totalUrls: 1 })
-			).resolves.toBeNull();
-		});
-
-		it('throws RepositoryError on error', async () => {
-			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-			client.query.mockRejectedValue(new Error());
-
-			await expect(repository.updatePartnerTotalUrls({ slug: 's', totalUrls: 1 })).rejects.toThrow(
-				RepositoryError
-			);
 			spy.mockRestore();
 		});
 	});

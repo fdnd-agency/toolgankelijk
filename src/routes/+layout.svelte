@@ -36,8 +36,7 @@
 			!$page.url.pathname.startsWith('/logout')
 	);
 
-
-    let dialogType = $derived($page.url.pathname === '/' ? 'addPartner' : 'addUrl');
+	let dialogType = $derived($page.url.pathname === '/' ? 'addPartner' : 'addUrl');
 
 	// 
 	onNavigate((navigation) => {
@@ -51,12 +50,11 @@
 		});
 	});
 
-
-
 	function openAddUrl() {
 		dialogRef?.open();
 	}
 </script>
+
 <Dialog bind:this={dialogRef} {params} isType={dialogType} />
 
 <Header />
