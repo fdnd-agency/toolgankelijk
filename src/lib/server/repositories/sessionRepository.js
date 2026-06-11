@@ -1,7 +1,7 @@
 //@ts-check
 
 /**
- * Sessions: REST SDK for CRUD operations.
+ * This repository contains all CRUD functions for sessions.
  */
 import { createItem, readItems, updateItem, deleteItem } from '@directus/sdk';
 import { BaseDirectusRepository } from '$lib/server/repositories/baseRepository';
