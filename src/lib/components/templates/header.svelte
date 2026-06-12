@@ -6,8 +6,7 @@
 </script>
 
 <header>
-	<!-- button for fast forwards to the main content -->
-	<NavButton effect="invisible" href="#main">Jump directly to main content</NavButton>
+	<NavButton effect="invisible" class="disabled" href="#main">Jump directly to main content</NavButton>
 
 	<Logo />
 
@@ -15,7 +14,6 @@
 		<div class="header-navigation-wrapper">
 			<NavButton
 				href="/"
-				size="large"
 				showIcon={true}
 				iconName="home"
 				variant="secondary"
@@ -27,7 +25,6 @@
 
 			<NavButton
 				href="/info"
-				size="large"
 				showIcon={true}
 				iconName="info"
 				variant="secondary"
@@ -41,7 +38,6 @@
 		<div class="account-button">
 			<NavButton
 				href="/account"
-				size="large"
 				showIcon={true}
 				iconName="account"
 				effect="header"
@@ -58,20 +54,22 @@
 
 <style>
 	header {
-		width: 100vw;
+		width: 100%;
+		box-sizing: border-box;
 		height: 15vh;
 		background-color: var(--color-primary);
 		display: flex;
 		align-items: center;
 		gap: 1em;
-		padding-left: 5%;
-		padding-right: 5%;
+		padding: 0 5%;
 	}
 
 	.header-navigation {
 		display: flex;
 		justify-content: space-between;
 		width: 100%;
+		margin-left: 4em;
+		
 
 		@media (max-width: 720px) {
 			display: none;
@@ -80,7 +78,13 @@
 
 	.header-navigation-wrapper {
 		display: flex;
-		place-items: flex-end;
-		gap: 1em;
+		align-items: center;
+		gap: 2em;
+
 	}
+
+	p {
+        margin: 0;
+        padding: 0;
+    }
 </style>

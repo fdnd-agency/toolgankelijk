@@ -52,24 +52,28 @@
 		color: var(--color-neutral-white);
 		text-decoration: none;
 		font-size: 20px;
+		line-height: 1;
 	}
 
-	#underline {
-		fill: var(--color-neutral-white);
-		display: none;
+#underline {
+        fill: var(--color-neutral-white);
+        display: none;
 
-		@media (max-width: 1080px) {
-			display: block;
-		}
-	}
+        @media (max-width: 1080px) {
+            display: block;
+            margin-top: -0.2em;
+        }
+    }
 
 	.logo-header {
 		display: flex;
-		gap: 0.4em;
+		gap: 1em;
 		flex-direction: row;
+		align-items: center;
 
 		@media (max-width: 1080px) {
 			flex-direction: column;
+			gap: 0.5em;
 
 			#line {
 				display: none;
@@ -77,10 +81,14 @@
 
 			.logo-header-text {
 				display: flex;
-				gap: 0.5em;
+				flex-direction: row;
+				gap: 0.2em;
 
 				p {
 					font-size: 14px;
+					margin: 0;
+					font-size: 12px;
+					line-height: 1.15;
 				}
 			}
 			#logo {

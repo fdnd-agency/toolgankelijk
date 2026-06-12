@@ -118,7 +118,8 @@
 </script>
 
 <div class="card-wrapper">
-	<article
+	<a
+		href={typeConfig.link}
 		class="color-primary-light"
 		id={isUrl ? 'card-url' : 'card-partner'}
 		class:container-off={containerOff}
@@ -176,19 +177,11 @@
 				></NavButton>
 
 				<div class="custom-nav-override">
-					<NavButton
-						href={typeConfig.link}
-						aria-label={`open ${typeConfig.title}`}
-						size="medium"
-						variant="secondary"
-						showIcon={false}
-					>
-						Open
-					</NavButton>
+
 				</div>
 			</div>
 		</div>
-	</article>
+	</a>
 </div>
 
 <Dialog
@@ -222,11 +215,16 @@
 {/if}
 
 <style>
+	a {
+		text-decoration: none;
+	}
+	
 	.card-wrapper {
 		display: flex;
 		gap: 4em;
 		container-type: inline-size;
 		container-name: card-component;
+
 	}
 
 	#card-partner {
@@ -309,15 +307,15 @@
 	}
 
 	progress {
-		width: 100%;
+		width: 80%;
 		border-radius: 0.5rem;
-		background-color: var(--color-neutral-darkgrey);
+		background-color: var(--color-neutral-white);
 		border: none;
 		overflow: hidden;
 	}
 
 	progress::-webkit-progress-bar {
-		background-color: var(--color-neutral-darkgrey);
+		background-color: var(--color-neutral-white);
 		border-radius: var(--border-radius);
 	}
 
