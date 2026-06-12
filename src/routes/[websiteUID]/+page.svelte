@@ -49,7 +49,7 @@
 		<Card {website} {overview} {params} {principles} isUrl={true} />
 	{/each}
 
-<!-- this is the pagnation of the url/partners -->
+	<!-- this is the pagnation of the url/partners -->
 	{#if totalUrls > first}
 		<Pages amount={totalUrls} perPage={first} {currentPage} />
 	{/if}

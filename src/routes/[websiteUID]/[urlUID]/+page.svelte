@@ -12,7 +12,7 @@
 		homepage: data?.urlData?.url?.url ?? '',
 		url: data?.urlData?.url?.slug ?? ''
 	});
-	
+
 	let progressData = $state({});
 
 	const principes = data.principlesData.principles;
@@ -182,7 +182,7 @@
 	.h3-niveaus {
 		font-size: 24px;
 	}
-	
+
 	@media (max-width: 768px) {
 		.container-principles ul {
 			grid-template-columns: 1fr;

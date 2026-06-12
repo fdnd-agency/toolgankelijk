@@ -6,13 +6,8 @@
 </script>
 
 <header>
-
 	<!-- button for fast forwards to the main content -->
-	<NavButton 
-		effect="invisible" 
-		href="#main">
-		Jump directly to main content
-	</NavButton>
+	<NavButton effect="invisible" href="#main">Jump directly to main content</NavButton>
 
 	<Logo />
 
@@ -53,7 +48,6 @@
 				variant="secondary"
 				active={$page.url.pathname === '/account' ? 'active' : ''}
 			>
-
 				<p>Account</p>
 			</NavButton>
 		</div>

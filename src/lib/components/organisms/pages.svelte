@@ -1,11 +1,7 @@
 <script>
 	import NavButton from '../molecules/navButton.svelte';
 
-	let { 
-		amount, 
-		perPage, 
-		currentPage }
-		 = $props();
+	let { amount, perPage, currentPage } = $props();
 
 	// calculate the number of pages
 	let pageCount = $derived(Math.ceil(amount / perPage));
@@ -42,7 +38,6 @@
 	let prevSkip = $derived(Math.max((currentPage - 2) * perPage, 0));
 	let nextSkip = $derived(Math.min(currentPage * perPage, (pageCount - 1) * perPage));
 </script>
-
 
 <form method="GET" data-sveltekit-reload>
 	<ul class="pages-list">

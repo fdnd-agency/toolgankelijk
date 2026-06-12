@@ -22,7 +22,6 @@
 	--border-radius: 12px;
 }
 
-
 /* color system when you put a class to the html element you can specify color tone with class */
 /* Fixed @supports nesting structure so it actually works */
 @supports (color: color-mix(in hsl, white, black)) {

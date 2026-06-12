@@ -106,7 +106,7 @@
 				onsubmit={() => (isSubmitting = true)}
 				method="POST"
 			>
-			<!-- function to give feedback to the client -->
+				<!-- function to give feedback to the client -->
 				<fieldset class="form-vraag">
 					<label for="name">Naam</label>
 					<input id="name" placeholder="naam" type="text" name="name" required />

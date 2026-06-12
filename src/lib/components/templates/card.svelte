@@ -140,7 +140,7 @@
 				id={isUrl ? 'url-progress-container' : 'partner-progress-container'}
 				class="color-primary"
 			>
-			<!-- the progress component should be here -->
+				<!-- the progress component should be here -->
 				<progress id="progress-partner" max="100" value={stats.percent}></progress>
 				<label class="progress-percentage" for="progress-partner">{stats.percent}%</label>
 			</div>

@@ -4,13 +4,7 @@
 	// the slide function is a svelte best practise when you open the dropdown
 	import { slide } from 'svelte/transition';
 
-	let { 
-		params = {}, 
-		partners = [], 
-		websites = [], 
-		principles = [], 
-		overview }
-	= $props();
+	let { params = {}, partners = [], websites = [], principles = [], overview } = $props();
 
 	let activeDropdown = $state(null);
 	let partnerList = $derived(Array.isArray(partners) ? partners : partners?.websites || []);
@@ -57,7 +51,7 @@
 			showIcon={true}
 			iconName="arrow"
 		>
-		<!-- if there is a selected partner show that if not show partner overzicht -->
+			<!-- if there is a selected partner show that if not show partner overzicht -->
 			{#if selectedPartner}
 				<p>{selectedPartner.title}</p>
 			{:else}

@@ -1,11 +1,6 @@
 <script>
 	// loader component not yet refactored
-	let { 
-		logItems = [], 
-		urlCount, 
-		urlTotal, 
-		type
-	} = $props();
+	let { logItems = [], urlCount, urlTotal, type } = $props();
 
 	let logListElement = $state(null);
 	let previousLogItemCount = $state(0);

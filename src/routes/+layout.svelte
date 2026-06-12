@@ -38,7 +38,7 @@
 
 	let dialogType = $derived($page.url.pathname === '/' ? 'addPartner' : 'addUrl');
 
-	// 
+	//
 	onNavigate((navigation) => {
 		if (!document.startViewTransition) return;
 

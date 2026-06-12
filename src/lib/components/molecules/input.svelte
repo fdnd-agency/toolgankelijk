@@ -1,14 +1,7 @@
 <script>
 	import Icon from '$lib/components/atoms/icon.svelte';
 
-	let { 
-	iconName, 
-	showIcon = false, 
-	addFor, 
-	placeholderProp = '', 
-	size = 'full' 
-	} = $props();
-
+	let { iconName, showIcon = false, addFor, placeholderProp = '', size = 'full' } = $props();
 </script>
 
 <div class="input-wrapper {size}">

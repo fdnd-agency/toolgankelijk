@@ -4,14 +4,7 @@
 	import NavButton from '../molecules/navButton.svelte';
 	import Loader from '../molecules/loader.svelte';
 
-	let { params, 
-		isType, id = '', 
-		name = '', 
-		url = '', 
-		slug = '', 
-		website = {}, 
-		dialog 
-	} = $props();
+	let { params, isType, id = '', name = '', url = '', slug = '', website = {}, dialog } = $props();
 
 	let formData = $state({
 		id: id,
@@ -76,10 +69,7 @@
 	const config = $derived(typeConfig[isType] || {});
 
 	const showTextFields = $derived(
-		['addUrl', 
-		'addPartner', 
-		'editUrl', 
-		'editPartner'].includes(isType)
+		['addUrl', 'addPartner', 'editUrl', 'editPartner'].includes(isType)
 	);
 
 	const isEdit = $derived(isType === 'editUrl' || isType === 'editPartner');
