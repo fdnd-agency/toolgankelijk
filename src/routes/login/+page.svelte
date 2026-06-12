@@ -69,6 +69,7 @@
 
 	.form-login {
 		display: flex;
+		gap: 1em;
 		flex-direction: column;
 		align-items: center;
 		background-color: var(--color-neutral-white);
