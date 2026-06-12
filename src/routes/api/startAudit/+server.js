@@ -142,8 +142,7 @@ export async function POST({ request }) {
 				if (clientMessage === null) return;
 
 				console.info('[startAudit] forwarding Server-Sent Events update to client', {
-					eventType,
-					clientMessage
+					eventType
 				});
 				try {
 					if (session.isConnected) SSEService.push(session, clientMessage);
