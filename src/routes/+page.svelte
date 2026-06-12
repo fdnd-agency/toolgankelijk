@@ -67,7 +67,7 @@
 
 <div class="scroll-color-override">
 	<NavButton
-		size="medium"
+		size="small"
 		variant="primary"
 		showIcon={true}
 		iconName="arrow"
@@ -89,44 +89,7 @@
 		color: var(--color-accent-tertiary);
 	}
 
-	.add-partner {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		border-radius: var(--border-radius); /* Using global radius */
-		padding: 0.5em 1em;
-		/* Using neutral-black because it flips to white in dark mode automatically */
-		color: var(--color-neutral-black);
-		background-color: var(--color-primary-light);
-		border: none;
-		font-weight: 600;
-		font-size: 1em;
-		transition: 0.3s;
-		cursor: pointer;
-		text-decoration: none;
-	}
 
-	.add-partner:hover {
-		/* Using primary color for hover state */
-		background-color: var(--color-primary);
-	}
-
-	.btn-top {
-		position: fixed;
-		bottom: 1rem;
-		right: 1rem;
-		font-size: 1.3rem;
-		padding: 0.4rem 0.8rem;
-		/* Replaced var(--c-pink) with semantic primary */
-		background-color: var(--color-primary);
-		border: none;
-		color: var(--color-neutral-black);
-		margin-top: 1rem;
-		border-radius: 4px;
-		cursor: pointer;
-		text-decoration: none;
-		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-	}
 
 	.scroll-color-override {
 		display: flex;
@@ -142,14 +105,11 @@
 		transform: rotate(180deg);
 	}
 
-	.btn-top:hover {
-		filter: brightness(1.2);
-	}
 
 	.card-container {
 		display: grid;
 		grid-template-columns: 1fr 1fr;
-		gap: 1em;
+		gap: 3em;
 		list-style-type: none;
 		margin: 0 1em;
 		margin-bottom: 1em;
