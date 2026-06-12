@@ -99,10 +99,14 @@
 	--place-holder: var(--color-neutral-grey);
 }
 
-body {
+* {
 	padding: 0;
 	margin: 0;
 	font-family: 'Fira Sans Regular', 'Inter', 'Montserrat', sans-serif;
+}
+
+main {
+	margin: 0 5%;
 }
 
 /* Text styles */
