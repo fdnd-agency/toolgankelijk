@@ -50,7 +50,7 @@ export class SessionRepository extends BaseDirectusRepository {
 
 			const mapped = {
 				session: {
-					id: row.session_id ?? row.id ?? '',
+					id: row.id ?? row.session_id ?? '',
 					userId: row.user_id?.id ?? '',
 					expiresAt: row.expires_at ? new Date(row.expires_at) : new Date('')
 				},
@@ -133,7 +133,7 @@ export class SessionRepository extends BaseDirectusRepository {
 				throw new Error('Failed to create a new session!');
 			}
 
-			return { id: sessionId, userId, expiresAt };
+			return { id: response.id, userId, expiresAt };
 		} catch (error) {
 			throw this.logAndWrapError(error, this.createSessionRecord.name);
 		}

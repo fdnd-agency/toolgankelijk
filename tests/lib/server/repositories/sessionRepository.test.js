@@ -29,7 +29,7 @@ describe('SessionRepository', () => {
 
 			expect(result).toEqual({
 				session: {
-					id: 'sessionToken',
+					id: '1',
 					userId: '1',
 					expiresAt: new Date(row.expires_at)
 				},
@@ -116,7 +116,7 @@ describe('SessionRepository', () => {
 				expiresAt
 			});
 
-			expect(result).toEqual({ id: 'sessionToken', userId: '1', expiresAt });
+			expect(result).toEqual({ id: '1', userId: '1', expiresAt });
 			expect(client.request).toHaveBeenCalledTimes(1);
 		});
 
