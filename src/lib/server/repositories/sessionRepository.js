@@ -1,22 +1,18 @@
 //@ts-check
 
 /**
- * Sessions: GraphQL for read/update/delete; REST POST to create rows (same collection as GraphQL).
+ * This repository contains all CRUD functions for sessions.
  */
-import { createItem } from '@directus/sdk';
+import { createItem, readItems, updateItem, deleteItem } from '@directus/sdk';
 import { BaseDirectusRepository } from '$lib/server/repositories/baseRepository';
-import getQuerySession, {
-	getQueryUpdateSession,
-	getQueryDeleteSession
-} from '../queries/session.js';
 
 /** @typedef {import('$lib/types').Session} Session */
 /** @typedef {import('$lib/types').User} User */
 /**
- */
-/**
  * @typedef {{ session: Session; user: User }} SessionWithUser
  */
+
+const COLLECTION_SESSION = 'toolgankelijk_session';
 
 /**
  * Persists opaque session tokens (hashed) and ties them to users for `locals.session`.
@@ -32,16 +28,29 @@ export class SessionRepository extends BaseDirectusRepository {
 	 */
 	async getSessionByTokenHash(sessionId) {
 		try {
-			const query = getQuerySession();
-			const { session: sessionResult } = await this.client.query(query, { sessionId });
-			const row = this.firstOrNull(sessionResult);
+			const response = await this.client.request(
+				readItems(COLLECTION_SESSION, {
+					filter: { session_id: { _eq: sessionId } },
+					limit: 1,
+					fields: [
+						'id',
+						'session_id',
+						'expires_at',
+						'user_id.id',
+						'user_id.email',
+						'user_id.username',
+						'user_id.is_email_verified'
+					]
+				})
+			);
+			const row = this.firstOrNull(response);
 			if (!row) {
 				return null;
 			}
 
 			const mapped = {
 				session: {
-					id: row.session_id ?? row.id ?? '',
+					id: row.id ?? row.session_id ?? '',
 					userId: row.user_id?.id ?? '',
 					expiresAt: row.expires_at ? new Date(row.expires_at) : new Date('')
 				},
@@ -76,9 +85,15 @@ export class SessionRepository extends BaseDirectusRepository {
 	 */
 	async updateSessionExpiry({ sessionId, expiresAt }) {
 		try {
-			const mutation = getQueryUpdateSession();
-			const raw = await this.client.query(mutation, { sessionId, expiresAt });
-			return raw.updateSessie ?? null;
+			const response = await this.client.request(
+				updateItem(COLLECTION_SESSION, sessionId, {
+					expires_at: expiresAt.toISOString()
+				})
+			);
+			if (!response) {
+				throw new Error('Failed to update session expiry');
+			}
+			return { id: response.id };
 		} catch (error) {
 			throw this.logAndWrapError(error, this.updateSessionExpiry.name);
 		}
@@ -92,9 +107,8 @@ export class SessionRepository extends BaseDirectusRepository {
 	 */
 	async deleteSessionById(sessionId) {
 		try {
-			const mutation = getQueryDeleteSession();
-			const raw = await this.client.query(mutation, { sessionId });
-			return raw.deleteSessie ?? null;
+			await this.client.request(deleteItem(COLLECTION_SESSION, sessionId));
+			return { id: sessionId };
 		} catch (error) {
 			throw this.logAndWrapError(error, this.deleteSessionById.name);
 		}
@@ -108,18 +122,18 @@ export class SessionRepository extends BaseDirectusRepository {
 	 */
 	async createSessionRecord({ sessionId, userId, expiresAt }) {
 		try {
-			const created = await this.client.request(
-				createItem('toolgankelijk_session', {
+			const response = await this.client.request(
+				createItem(COLLECTION_SESSION, {
 					session_id: sessionId,
 					expires_at: expiresAt.toISOString(),
 					user_id: userId
 				})
 			);
-			if (!created?.id) {
-				throw new Error('createSessionRecord failed: response not ok');
+			if (!response?.id) {
+				throw new Error('Failed to create a new session!');
 			}
 
-			return { id: sessionId, userId, expiresAt };
+			return { id: response.id, userId, expiresAt };
 		} catch (error) {
 			throw this.logAndWrapError(error, this.createSessionRecord.name);
 		}

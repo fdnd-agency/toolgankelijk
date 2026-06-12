@@ -11,25 +11,25 @@ describe('SessionRepository', () => {
 
 	beforeEach(() => {
 		vi.clearAllMocks();
-		client = { query: vi.fn(), request: vi.fn() };
+		client = { request: vi.fn() };
 		repository = new SessionRepository({ client });
 	});
 
 	describe('getSessionByTokenHash', () => {
-		it('returns mapped session and user from GraphQL response', async () => {
+		it('returns mapped session and user from response', async () => {
 			const row = {
 				id: '1',
 				session_id: 'sessionToken',
 				expires_at: new Date().toISOString(),
 				user_id: { id: '1', email: 'a@b.c', username: 'u', is_email_verified: true }
 			};
-			client.query.mockResolvedValue({ session: [row] });
+			client.request.mockResolvedValue([row]);
 
 			const result = await repository.getSessionByTokenHash('hashed');
 
 			expect(result).toEqual({
 				session: {
-					id: 'sessionToken',
+					id: '1',
 					userId: '1',
 					expiresAt: new Date(row.expires_at)
 				},
@@ -40,44 +40,38 @@ describe('SessionRepository', () => {
 					isEmailVerified: true
 				}
 			});
-			expect(client.query).toHaveBeenCalledWith(expect.any(String), { sessionId: 'hashed' });
+			expect(client.request).toHaveBeenCalled();
 		});
 
 		it('throws RepositoryError when request fails', async () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-			client.query.mockRejectedValue(new Error());
+			client.request.mockRejectedValue(new Error());
 
 			await expect(repository.getSessionByTokenHash('x')).rejects.toThrow(RepositoryError);
 			spy.mockRestore();
 		});
 
 		it('returns null when session list is empty', async () => {
-			client.query.mockResolvedValue({ session: [] });
+			client.request.mockResolvedValue([]);
 
 			await expect(repository.getSessionByTokenHash('unknown')).resolves.toBeNull();
 		});
 	});
 
 	describe('updateSessionExpiry', () => {
-		it('returns update payload from GraphQL', async () => {
+		it('returns update payload from Directus', async () => {
 			const expiresAt = new Date('2000-01-01');
-			client.query.mockResolvedValue({ updateSessie: { id: '1' } });
+			client.request.mockResolvedValue({ id: '1' });
 
-			const result = await repository.updateSessionExpiry({
-				sessionId: 'hash',
-				expiresAt
-			});
+			const result = await repository.updateSessionExpiry({ sessionId: 'hash', expiresAt });
 
 			expect(result).toEqual({ id: '1' });
-			expect(client.query).toHaveBeenCalledWith(expect.any(String), {
-				sessionId: 'hash',
-				expiresAt
-			});
+			expect(client.request).toHaveBeenCalled();
 		});
 
-		it('throws RepositoryError on error', async () => {
+		it('throws RepositoryError on Directus error', async () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-			client.query.mockRejectedValue(new Error());
+			client.request.mockRejectedValue(new Error());
 
 			await expect(
 				repository.updateSessionExpiry({ sessionId: 'sessionToken', expiresAt: new Date() })
@@ -85,33 +79,27 @@ describe('SessionRepository', () => {
 			spy.mockRestore();
 		});
 
-		it('returns null when mutation returns no row', async () => {
-			client.query.mockResolvedValue({ updateSessie: null });
+		it('throws RepositoryError when mutation returns no row', async () => {
+			client.request.mockResolvedValue(null);
 
 			await expect(
 				repository.updateSessionExpiry({ sessionId: 'sessionToken', expiresAt: new Date() })
-			).resolves.toBeNull();
+			).rejects.toThrow(RepositoryError);
 		});
 	});
 
 	describe('deleteSessionById', () => {
-		it('returns delete payload from GraphQL', async () => {
-			client.query.mockResolvedValue({ deleteSessie: { id: '1' } });
+		it('returns delete payload from Directus', async () => {
+			client.request.mockResolvedValue({});
 
 			const result = await repository.deleteSessionById('sessionToken');
 
-			expect(result).toEqual({ id: '1' });
-		});
-
-		it('returns null when mutation returns no row', async () => {
-			client.query.mockResolvedValue({ deleteSessie: null });
-
-			await expect(repository.deleteSessionById('x')).resolves.toBeNull();
+			expect(result).toEqual({ id: 'sessionToken' });
 		});
 
 		it('throws RepositoryError on error', async () => {
 			const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-			client.query.mockRejectedValue(new Error());
+			client.request.mockRejectedValue(new Error());
 
 			await expect(repository.deleteSessionById('x')).rejects.toThrow(RepositoryError);
 			spy.mockRestore();
@@ -128,7 +116,7 @@ describe('SessionRepository', () => {
 				expiresAt
 			});
 
-			expect(result).toEqual({ id: 'sessionToken', userId: '1', expiresAt });
+			expect(result).toEqual({ id: '1', userId: '1', expiresAt });
 			expect(client.request).toHaveBeenCalledTimes(1);
 		});
 
