@@ -1,7 +1,9 @@
 <script>
+	// page checking the active page
 	import { page } from '$app/stores';
 	import NavButton from '../molecules/navButton.svelte';
 
+	// target funcition naming the mobile-nav-manu
 	const menuId = 'mobile-nav-menu';
 </script>
 
@@ -17,6 +19,7 @@
 	/>
 </div>
 
+<!-- popover function PE -->
 <div popover="auto" id={menuId} class="hamburger-menu">
 	<div class="menu-header">
 		<NavButton
@@ -139,6 +142,7 @@
 		width: 100%;
 	}
 
+	/* the background will have a backdrop to focus on the menu */
 	.hamburger-menu::backdrop {
 		background-color: var(--color-neutral-black);
 		opacity: 0.3;

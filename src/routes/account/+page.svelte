@@ -1,8 +1,10 @@
 <script>
+	// the account page shows info of your account you can sign out here
 	import AccountIcon from '$lib/components/atoms/icons/accountIcon.svelte';
 	import NavButton from '$lib/components/molecules/navButton.svelte';
 	let { data } = $props();
 
+	// signout function with preventdefault so the page won't refresh
 	async function handleSignOut(event) {
 		event.preventDefault();
 		await fetch('/logout', { method: 'POST' });

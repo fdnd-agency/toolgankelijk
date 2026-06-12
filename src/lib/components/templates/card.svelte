@@ -33,23 +33,6 @@
 				}
 	);
 
-	const lastTime = $derived.by(() => {
-		if (!website.updatedAt) return 'Zojuist';
-		const diffInMs = new Date() - new Date(website.updatedAt);
-		const mins = Math.floor(diffInMs / 60000);
-
-		if (mins < 1) return 'Zojuist';
-		if (mins < 60) return `${mins} min geleden`;
-
-		const hours = Math.floor(mins / 60);
-		if (hours < 24) return `${hours} uur en ${mins % 60} min geleden`;
-
-		const days = Math.floor(hours / 24);
-		if (days < 365) return days === 1 ? '1 dag geleden' : `${days} dagen geleden`;
-
-		return `${Math.floor(days / 365)} jaar geleden`;
-	});
-
 	function calculatePercentage(websiteCriteria, totalCriteria) {
 		// Validation
 		// Values must be finite
@@ -157,6 +140,7 @@
 				id={isUrl ? 'url-progress-container' : 'partner-progress-container'}
 				class="color-primary"
 			>
+				<!-- the progress component should be here -->
 				<progress id="progress-partner" max="100" value={stats.percent}></progress>
 				<label class="progress-percentage" for="progress-partner">{stats.percent}%</label>
 			</div>

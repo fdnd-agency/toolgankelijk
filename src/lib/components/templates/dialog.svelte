@@ -1,4 +1,5 @@
 <script>
+	// dialog component which is on every page
 	import Icon from '../atoms/icon.svelte';
 	import NavButton from '../molecules/navButton.svelte';
 	import Loader from '../molecules/loader.svelte';
@@ -18,6 +19,7 @@
 	let urlCount = $state(0);
 	let urlTotal = $state(0);
 
+	// typeconfig is a variable given with onclick function of the button
 	const typeConfig = {
 		addPartner: {
 			title: 'Partner toevoegen',
@@ -69,6 +71,7 @@
 	const showTextFields = $derived(
 		['addUrl', 'addPartner', 'editUrl', 'editPartner'].includes(isType)
 	);
+
 	const isEdit = $derived(isType === 'editUrl' || isType === 'editPartner');
 	const isDelete = $derived(isType === 'deleteUrl' || isType === 'deletePartner');
 
@@ -77,6 +80,7 @@
 		showTip = true;
 	}
 
+	// closing the dialog
 	function close(event) {
 		event?.preventDefault();
 		dialog?.close();
@@ -108,6 +112,7 @@
 		}
 	}
 
+	// handeformsubmit is to run an audit
 	async function handleFormSubmit(event) {
 		event.preventDefault();
 		sending = true;

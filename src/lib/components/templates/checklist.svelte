@@ -1,4 +1,5 @@
 <script>
+	// checklist is not refactored yet
 	import { onMount } from 'svelte';
 	import { enhance } from '$app/forms';
 	import loadingIcon from '$lib/assets/loading.svg';

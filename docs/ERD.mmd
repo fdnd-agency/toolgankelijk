@@ -1,0 +1,112 @@
+erDiagram
+    toolgankelijk_website {
+        uuid id PK
+        string slug
+        string title
+        string homepage
+        string preview_file_id FK
+    }
+
+    toolgankelijk_url {
+        uuid id PK
+        uuid website_id FK
+        string slug
+        string name
+        string url
+    }
+
+    toolgankelijk_check {
+        uuid id PK
+        uuid url_id FK
+        datetime date_created
+        datetime date_updated
+    }
+
+    toolgankelijk_test {
+        uuid id PK
+        uuid url_id FK
+        string test_id
+        string category
+        string description
+        string help_url
+        string tags
+    }
+
+    toolgankelijk_test_node {
+        uuid id PK
+        uuid test_id FK
+        string target
+        string failure_summary
+    }
+
+    toolgankelijk_principle {
+        uuid id PK
+        string index
+        string slug
+        string title
+        string description
+    }
+
+    toolgankelijk_guideline {
+        uuid id PK
+        string index
+        string slug
+        string title
+        string explanation
+    }
+
+    toolgankelijk_success_criteria {
+        uuid id PK
+        string index
+        string title
+        string level
+        string criteria
+        string easy_criteria
+    }
+
+    toolgankelijk_checklist_item {
+        uuid id PK
+        uuid principle_id FK
+        string question
+        string check
+        string tip
+        string explanation
+    }
+
+    toolgankelijk_user {
+        uuid id PK
+        string email
+        string username
+        string password
+        boolean is_email_verified
+    }
+
+    toolgankelijk_session {
+        uuid id PK
+        string session_id
+        datetime expires_at
+        uuid user_id FK
+    }
+
+    toolgankelijk_email_verification_code {
+        uuid id PK
+        string code
+        datetime expires_at
+        uuid user_id FK
+    }
+
+    toolgankelijk_email_domain {
+        string domain PK
+    }
+
+    toolgankelijk_website ||--o{ toolgankelijk_url : has
+    toolgankelijk_url ||--o{ toolgankelijk_check : has
+    toolgankelijk_url ||--o{ toolgankelijk_test : has
+    toolgankelijk_test ||--o{ toolgankelijk_test_node : has
+    toolgankelijk_principle ||--o{ toolgankelijk_checklist_item : contains
+    toolgankelijk_principle ||--o{ toolgankelijk_guideline : groups
+    toolgankelijk_guideline ||--o{ toolgankelijk_success_criteria : contains
+    toolgankelijk_checklist_item ||--o{ toolgankelijk_success_criteria : maps_to
+    toolgankelijk_check }o--o{ toolgankelijk_success_criteria : verifies
+    toolgankelijk_user ||--o{ toolgankelijk_session : has
+    toolgankelijk_user ||--o{ toolgankelijk_email_verification_code : has

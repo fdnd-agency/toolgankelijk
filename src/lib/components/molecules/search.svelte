@@ -1,4 +1,5 @@
 <script>
+	// not yet refactored should be in the subheader
 	import { onMount } from 'svelte';
 	import Icon from '$lib/components/atoms/icon.svelte';
 

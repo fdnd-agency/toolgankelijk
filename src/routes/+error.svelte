@@ -1,4 +1,5 @@
 <script>
+	// will be redirected to this page when it can not load the page
 	import { page } from '$app/state';
 	import NavButton from '$lib/components/molecules/navButton.svelte';
 </script>

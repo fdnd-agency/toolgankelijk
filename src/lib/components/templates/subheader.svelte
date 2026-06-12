@@ -1,4 +1,5 @@
 <script>
+	// subheader in beneath the header
 	import { page } from '$app/stores';
 	import NavButton from '$lib/components/molecules/navButton.svelte';
 	import BreadCrumbs from '$lib/components/organisms/breadCrumbs.svelte';
@@ -54,7 +55,6 @@
 
 		<div class="subheader-form-down-wrapper">
 			<p>Sorteren op</p>
-
 			<NavButton effect="disabled">Levels</NavButton>
 
 			<NavButton effect="disabled">Principles</NavButton>

@@ -1,4 +1,5 @@
 <script>
+	// page with checks manually audit
 	import Checklist from '$lib/components/templates/checklist.svelte';
 	import Sidebar from '$lib/components/templates/sidebar.svelte';
 	import SubHeader from '$lib/components/templates/subheader.svelte';
@@ -23,6 +24,7 @@
 </script>
 
 <section>
+	<!-- when you click on save it shows a toast must be refactored -->
 	{#if form?.success}
 		<div class="toast"><p>Checklist is opgeslagen!</p></div>
 	{/if}

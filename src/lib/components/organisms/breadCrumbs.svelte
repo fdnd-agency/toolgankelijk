@@ -1,5 +1,7 @@
 <script>
+	// mixture of breadcrumb and dropdown, shows all the variables of partner, url and principles
 	import NavButton from '../molecules/navButton.svelte';
+	// the slide function is a svelte best practise when you open the dropdown
 	import { slide } from 'svelte/transition';
 
 	let { params = {}, partners = [], websites = [], principles = [], overview } = $props();
@@ -7,6 +9,7 @@
 	let activeDropdown = $state(null);
 	let partnerList = $derived(Array.isArray(partners) ? partners : partners?.websites || []);
 
+	// when a partner is selected it shows the partner
 	let selectedPartner = $derived(
 		params.websiteUID ? partnerList.find(({ slug }) => slug === params.websiteUID) : null
 	);
@@ -23,9 +26,12 @@
 		params.principleUID ? principles.find(({ slug }) => slug === params.principleUID) : null
 	);
 
+	// function to open up the dropdown
 	function toggleDropdown(dropdownName) {
 		activeDropdown = activeDropdown === dropdownName ? null : dropdownName;
 	}
+
+	// the favicon is shown in the dropdown list
 	const faviconAPI =
 		'https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=';
 
@@ -45,6 +51,7 @@
 			showIcon={true}
 			iconName="arrow"
 		>
+			<!-- if there is a selected partner show that if not show partner overzicht -->
 			{#if selectedPartner}
 				<p>{selectedPartner.title}</p>
 			{:else}
