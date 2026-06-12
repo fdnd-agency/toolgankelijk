@@ -1,6 +1,5 @@
 <script>
 	import { page } from '$app/stores';
-
 	import Logo from '../atoms/logoHeader.svelte';
 	import Hamburger from '$lib/components/organisms/hamburgerMenu.svelte';
 	import NavButton from '../molecules/navButton.svelte';

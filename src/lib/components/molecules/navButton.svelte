@@ -22,6 +22,7 @@
     const tagname = $derived(as || (href ? 'a' : 'button'));
 </script>
 
+<!-- in this element which is replaced buttons and a tags in the project already fully processed -->
 <svelte:element
     this={tagname}
     {href}

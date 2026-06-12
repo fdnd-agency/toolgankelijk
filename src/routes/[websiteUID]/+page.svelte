@@ -13,7 +13,6 @@
 	// pages
 	let skip = $derived(data.skip);
 	const first = $derived(data.first);
-
 	const currentPage = $derived(skip / first + 1);
 	let totalUrls = $derived(data.websites.totalUrls);
 
@@ -35,6 +34,7 @@
 	}
 </script>
 
+<!-- This is the dialog component will be active when you click on the "add button" -->
 <Dialog bind:this={dialogRef} params={params.websiteUID} isType="addUrl" />
 
 {#if form?.success}
@@ -43,13 +43,13 @@
 	<div class="toast"><p>{form?.message}</p></div>
 {/if}
 
-<Dialog bind:this={dialogRef} {params} isType="addUrl" />
-
+<!-- all the cards are shown on this page -->
 <section class="cards-container">
 	{#each currentUrls as website}
 		<Card {website} {overview} {params} {principles} isUrl={true} />
 	{/each}
 
+	<!-- this is the pagnation of the url/partners -->
 	{#if totalUrls > first}
 		<Pages amount={totalUrls} perPage={first} {currentPage} />
 	{/if}

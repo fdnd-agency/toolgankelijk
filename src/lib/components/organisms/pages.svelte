@@ -79,8 +79,6 @@
 			{/if}
 		{/each}
 
-		<!-- <li class="button-disabled button">{pageCount}</li> -->
-
 		<li>
 			<NavButton
 				type="submit"

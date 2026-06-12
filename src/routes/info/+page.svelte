@@ -1,4 +1,5 @@
 <script>
+	// The info page where you can find info about the tool and why to use this
 	import { enhance } from '$app/forms';
 	import walking from '$lib/assets/walking_together.svg';
 	import knowledge from '$lib/assets/sharing_knowledge.svg';
@@ -105,6 +106,7 @@
 				onsubmit={() => (isSubmitting = true)}
 				method="POST"
 			>
+				<!-- function to give feedback to the client -->
 				<fieldset class="form-vraag">
 					<label for="name">Naam</label>
 					<input id="name" placeholder="naam" type="text" name="name" required />

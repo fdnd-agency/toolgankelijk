@@ -5,6 +5,7 @@
 
 {@render children?.()}
 
+<!-- scroll to top button -->
 <div class="scroll-to-top-wrapper">
 	<NavButton
 		size="small"

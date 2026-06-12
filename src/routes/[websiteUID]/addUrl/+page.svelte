@@ -1,6 +1,7 @@
 <script>
+	// this is an extra page but this is replaced by the dialog.svelte component
 	import { page } from '$app/stores';
-	import UrlForm from '$lib/components/urlForm.svelte';
+	import UrlForm from '$lib/components/organisms/urlForm.svelte';
 	import NavButton from '$lib/components/molecules/navButton.svelte';
 
 	let { form } = $props();

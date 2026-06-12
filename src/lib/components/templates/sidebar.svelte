@@ -1,4 +1,5 @@
 <script>
+	// side bar needs to be refactored
 	import NavButton from '../molecules/navButton.svelte';
 	let { principles, urlData } = $props();
 

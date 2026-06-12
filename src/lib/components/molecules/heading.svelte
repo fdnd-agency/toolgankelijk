@@ -18,6 +18,7 @@
 	{/if}
 </svelte:head>
 
+<!-- This is the heading which is in the subheader -->
 <h1>
 	{heading.title}{#if heading.url}/{heading.url}{/if}
 </h1>
