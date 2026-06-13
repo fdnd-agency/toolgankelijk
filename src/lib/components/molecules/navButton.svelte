@@ -94,7 +94,6 @@
     .disabled {
         filter: grayscale(100%);
         opacity: 0.3;
-        height: 2em;
         pointer-events: none;
         cursor: not-allowed;
     }
@@ -200,7 +199,8 @@
     .header {
         background-color: var(--color-primary);
         color: var(--color-neutral-white);
-        justify-content: space-between;
+        justify-content: center;
+        gap: 1em;
         width: 8em;
         border: none;
     }
