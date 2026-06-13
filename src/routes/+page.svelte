@@ -81,38 +81,19 @@
 	section {
 		display: flex;
 		justify-content: space-between;
-		margin: 0 0 1em 1em;
 	}
-
-	a {
-		/* Replaced hardcoded blue with accent-tertiary (closest match) */
-		color: var(--color-accent-tertiary);
-	}
-
-
 
 	.scroll-color-override {
 		display: flex;
 		justify-content: flex-end;
 	}
 
-	.scroll-color-override > :global(.navbutton) {
-		background-color: #c7337f !important;
-	}
-
-	.scroll-color-override :global(svg),
-	.scroll-color-override :global(img) {
-		transform: rotate(180deg);
-	}
-
 
 	.card-container {
 		display: grid;
 		grid-template-columns: 1fr 1fr;
-		gap: 3em;
+		gap: 2em;
 		list-style-type: none;
-		margin: 0 1em;
-		margin-bottom: 1em;
 
 		@media (max-width: 1080px) {
 			grid-template-columns: 1fr;
@@ -127,7 +108,6 @@
 		backdrop-filter: blur(8px);
 		border-radius: var(--border-radius);
 		padding: 0.75rem;
-		/* Removed hardcoded black shadow for better theme support */
 		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 		animation: fade-out 4s forwards;
 		z-index: 2;
@@ -139,7 +119,6 @@
 	}
 
 	.toast.success {
-		/* Using the green HSL values from your global CSS for consistency */
 		background-color: hsla(168, 65%, 41%, 0.2);
 		border: 1px solid var(--color-accent-primary);
 	}

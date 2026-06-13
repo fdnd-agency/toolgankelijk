@@ -29,8 +29,6 @@
 	}
 </script>
 
-<Heading {heading} />
-
 <div class="info-wrapper">
 	<section class="text-container">
 		<h2>Vervoerregio Amsterdam HvA</h2>
