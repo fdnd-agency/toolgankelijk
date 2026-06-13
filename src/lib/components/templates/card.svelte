@@ -361,7 +361,8 @@
 		grid-row: 3/4;
 		grid-column: 2/3;
 		display: flex;
-		justify-content: flex-end;
+		justify-content: flex-start;
+		margin-left: 1em;
 		gap: 0.5em;
 		align-items: center;
 	}
@@ -372,7 +373,8 @@
 
 	.card-icons-url {
 		display: flex;
-		justify-content: flex-end;
+		justify-content: flex-start;
+		margin-left: 1em;
 		gap: 0.5em;
 		align-items: center;
 	}
