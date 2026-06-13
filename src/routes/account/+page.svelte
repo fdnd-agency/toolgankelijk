@@ -12,7 +12,10 @@
 	}
 </script>
 
-<div class="account-card color-primary">
+<div class="banner-account">
+</div>
+
+<div class="account-elements">
 	<div class="logo-box">
 		<span class="logo-text">
 			<AccountIcon class="btn-icon"></AccountIcon>
@@ -21,27 +24,41 @@
 
 	<h2>{data.user.username}</h2>
 	<h2 class="user-title color-neutral-white">{data.user.email}</h2>
-	<NavButton onclick={handleSignOut} variant="secondary" size="large">Sign out</NavButton>
+
+	<NavButton 
+		onclick={handleSignOut} 
+		showIcon={true}
+		iconName="account"
+		variant="primary" 
+		size="large">
+		Sign out
+	</NavButton>
 </div>
 
 <style>
-	.account-card {
-		background-color: var(--light-2);
-		border-radius: var(--border-radius);
-		padding: 40px 124px;
-		margin: 10% auto 0 auto;
+
+	.banner-account {
+		background-color: var(--color-primary-light-2);
+		height: 30vh;
+		width: 100vw;
+		margin-left: -5.5%;
+	}
+
+	.account-elements {
+		width: 100%;
+		gap: 1em;
 		display: flex;
 		flex-direction: column;
+		justify-content: center;
 		align-items: center;
-		width: 70%;
-		box-sizing: border-box;
-		color: var(--color-neutral-white);
+		margin-top: -10em;
 	}
 
 	.logo-box {
 		background-color: var(--color-neutral-white);
-		width: 12vh;
-		height: 12vh;
+		width: 25vh;
+		height: 25vh;
+		border: var(--color-neutral-black) 1px solid;
 		border-radius: var(--border-radius);
 		display: flex;
 		justify-content: center;

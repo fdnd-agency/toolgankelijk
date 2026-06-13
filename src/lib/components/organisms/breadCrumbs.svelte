@@ -193,8 +193,7 @@
         background-color: var(--color-primary-light, #f8d7e8);
         color: var(--color-neutral-black);
         border: 2px solid transparent;
-        font-weight: bold;
-        border-radius: 12px;
+        border-radius: var(--border-radius);
         position: relative;
         z-index: 11;
         justify-content: space-between;
@@ -206,7 +205,6 @@
     }
 
     .trigger-text {
-        font-size: 1.1em;
         flex-grow: 1;
         text-align: center;
     }
@@ -219,7 +217,7 @@
         z-index: 10;
         box-sizing: border-box;
         width: 100%;
-        background-color: var(--color-primary, #b30059); /* Dark pink wrapper */
+        background-color: var(--color-primary, #b30059);
         padding: 0.5em;
         border-radius: 0 0 12px 12px;
     }
@@ -240,10 +238,9 @@
         display: block;
     }
 
-    /* Overriding NavButton inside the dropdown lists to match the layout items */
     .dropdown-list :global(.navbutton.select) {
-        background-color: var(--color-primary-light, #f8d7e8);
-        color: var(--color-primary, #b30059);
+        background-color: var(--color-primary-light);
+        color: var(--color-neutral-black);
         border: none;
         border-radius: 6px;
         height: 3.2em;
@@ -276,36 +273,16 @@
         justify-content: center;
     }
 
-    /* Logo / Icon container styling */
-    .icon-container {
-        width: 2.2em;
-        height: 2.2em;
-        background-color: white;
-        border-radius: 4px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-right: 0.8em;
-        overflow: hidden;
-        flex-shrink: 0;
-    }
-
-    .item-icon {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-    }
 
     .item-text {
         font-weight: bold;
-        font-size: 1.05em;
     }
 
-    /* Keep the text centered visually when there is an icon */
+
     .partner-item .item-text {
         flex-grow: 1;
         text-align: center;
-        padding-right: 3em; /* Balances the icon space on the left */
+        padding-right: 3em; 
     }
 
     @media print {

@@ -57,7 +57,9 @@
 
 <Dialog bind:this={dialogRef} {params} isType={dialogType} />
 
-<Header />
+<Header 
+	 user={data.user.username}
+ />
 
 {#if showSubHeader}
 	<SubHeader
@@ -69,6 +71,7 @@
 		{heading}
 		user={data.user}
 		overview={data.urlData?.url?.website || data.websitesData?.website}
+
 	/>
 {/if}
 

@@ -141,10 +141,25 @@
 				id={isUrl ? 'url-progress-container' : 'partner-progress-container'}
 				class="color-primary"
 			>
-				<!-- the progress component should be here -->
-				<progress id="progress-partner" max="100" value={stats.percent}></progress>
+			{#if !isUrl && typeConfig.audit}
+				<div class="automatic-tests">
+					<!-- automatic tests -->
+					<progress id="progress-partner" max="100" value={stats.percent}></progress>
+					<!-- manual tests -->
+					<label class="progress-percentage" for="progress-partner">{stats.percent}%</label>
+				</div>
+			{/if}
+
+
+
+			<div class="manual-tests">
+				<progress id="progress-partner" max="100" value='50'></progress>
+
 				<label class="progress-percentage" for="progress-partner">{stats.percent}%</label>
 			</div>
+
+			</div>
+
 
 			<div class={isUrl ? 'card-icons-url' : 'card-icons-partner'}>
 				{#if !isUrl && typeConfig.audit}
@@ -256,8 +271,8 @@
 		width: 100%;
 	}
 
-	article:hover {
-		opacity: 1;
+	#card-partner:hover {
+		background-color: var(--color-primary-light-2);
 		animation-duration: 0.2s;
 	}
 
@@ -272,7 +287,8 @@
 
 	.card-title-url {
 		font-size: 20px;
-		width: 50%;
+		width: 100%;
+		
 	}
 
 	.card-partner-logo {
@@ -286,6 +302,7 @@
 
 	#partner-progress-container {
 		display: flex;
+		flex-direction: column;
 		margin-left: 1em;
 		gap: 1em;
 		label {
@@ -294,20 +311,21 @@
 	}
 
 	#url-progress-container {
-		margin-left: 0.5em;
 		display: flex;
-		flex-direction: row;
-		justify-content: space-between;
-		justify-content: center;
-		align-items: center;
+		gap: 2em;
+		flex-direction: column;
+		width: 100%;
 
+		progress {
+			width: 95%;
+		}
 		label {
 			color: var(--color-neutral-black);
 		}
 	}
 
 	progress {
-		width: 80%;
+		width: 90%;
 		border-radius: 0.5rem;
 		background-color: var(--color-neutral-white);
 		border: none;
@@ -343,7 +361,8 @@
 		grid-row: 3/4;
 		grid-column: 2/3;
 		display: flex;
-		justify-content: flex-end;
+		justify-content: flex-start;
+		margin-left: 1em;
 		gap: 0.5em;
 		align-items: center;
 	}
@@ -354,7 +373,8 @@
 
 	.card-icons-url {
 		display: flex;
-		justify-content: flex-end;
+		justify-content: flex-start;
+		margin-left: 1em;
 		gap: 0.5em;
 		align-items: center;
 	}

@@ -3,12 +3,15 @@
 	import Logo from '../atoms/logoHeader.svelte';
 	import Hamburger from '$lib/components/organisms/hamburgerMenu.svelte';
 	import NavButton from '../molecules/navButton.svelte';
+
+	export let user
 </script>
 
 <header>
-	<NavButton effect="invisible" class="disabled" href="#main">Jump directly to main content</NavButton>
 
 	<Logo />
+
+	<NavButton effect="invisible" href="#main">Jump directly to main content</NavButton>
 
 	<nav class="header-navigation">
 		<div class="header-navigation-wrapper">
@@ -44,7 +47,7 @@
 				variant="secondary"
 				active={$page.url.pathname === '/account' ? 'active' : ''}
 			>
-				<p>Account</p>
+				<p>{user}</p>
 			</NavButton>
 		</div>
 	</nav>

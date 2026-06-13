@@ -2,6 +2,7 @@
 	color-scheme: light;
 	--color-primary: #b9005f;
 	--color-primary-light: #f1ccdf;
+	--color-primary-light-2: #fcb3d7;
 
 	/* accent colors */
 	--color-accent-primary: #7b8f0c;
@@ -151,7 +152,7 @@ p {
 	letter-spacing: 0.0025rem;
 }
 
-.disabled {
+.hide {
 	display: none;
 }
 
