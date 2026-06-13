@@ -36,7 +36,7 @@ Progress tracking: Users can clearly see the current status and progress of an a
 
 ## What is recommended as a first step for the next team?
 
-First, new developers should read the "Lokale setup installatie" (Local setup installation) section in the documentation to properly set up their development environment. After that, it is highly recommended to study the new design, compare it with the live application, and write down the missing parts and known bugs as clear, small issues on the backlog. This will give everyone a clear overview of the work left to do.
+First, new developers should read the "Lokale setup installatie" (Local setup installation) section in the documentation to properly set up their development environment. After that, it is highly recommended to study the new design, compare it with the live application, and write down the missing parts and known bugs as clear, small issues on the backlog. This will give everyone a clear overview of the work left to do. Also fix the small bugs that are in the project, some alligmments are incorrect, some icons are not clear for the user.
 
 
 ## Sprint Goal (Suggestion for the next sprint)
@@ -63,3 +63,34 @@ Set up the local development environment, write concrete issues for the missing 
 - Loader
 - Search
 - Progressbar
+
+## User Test
+This document contains the results of the conducted user test. The focus was on adding a website, navigation through icons, and the functionality of the audit task lists.
+
+
+### 1. Adding a Website
+* **Result:** Positive.
+* **Feedback:** The user found it easy to add their own website.
+
+### 2. UI & Navigation (Icons)
+* **Result:** Area for improvement.
+* **Feedback:** The purpose of the icons is not immediately clear. The hover function (pop-up) works for the audit icon, but it did not work for the other icons.
+* **Advice:** Implement consistent tooltips for all icons.
+
+### 3. Audit Task Lists
+* **Result:** Very positive.
+* **Feedback:** The lists are easy to find, open, and execute. The inclusion of a "simple version" of the texts is highly appreciated, given the varying levels of technical knowledge among users.
+
+### 4. General Feedback & Styling
+* **Feedback:** The user suggests finishing the final styling details.
+* **Compliment:** "Keep up the good work, Miel!" and the user is available for future testing.
+
+## Technical Issue (Investigation Required)
+* **Problem:** Website results were not loading or displaying correctly.
+* **Hypothesis:** Likely a backend issue or a flaw in the data-fetching logic.
+* **Action Plan:**
+    * Execute `npm run build` to check for build errors.
+    * Inspect browser console/network requests to verify if API endpoints are returning the expected data.
+
+
+
