@@ -38,7 +38,6 @@
 </script>
 
 <div class="subheader">
-    <!-- Top Row: Heading and Search/Add Actions -->
     <div class="subheader-row top-row">
         <div class="subheader-heading">
             <Heading {heading} />
@@ -56,13 +55,11 @@
             />
             
             <div class="search-wrapper">
-                <input class="search-tool-subheader" type="text" placeholder="Search..."> 
-                <!-- If you are using the <Search /> component instead, place it here -->
+                <input class="search-tool-subheader" type="text" placeholder="Search."> 
             </div>
         </div>
     </div>
 
-    <!-- Bottom Row: Breadcrumbs and Sorting -->
     <div class="subheader-row bottom-row">
         <div class="subheader-breadcrumbs">
             {#if user && user.isEmailVerified}
@@ -71,9 +68,8 @@
         </div>
 
         <div class="subheader-filters">
-            <p class="filter-label">Sorteren op:</p>
-            <NavButton effect="dropdown" size="medium" showIcon={true} iconName="arrow">Levels</NavButton>
-            <NavButton effect="dropdown" size="medium" showIcon={true} iconName="arrow">Principles</NavButton>
+            <NavButton effect="disabled" size="medium" showIcon={true} iconName="arrow">Levels</NavButton>
+            <NavButton effect="disabled" size="medium" showIcon={true} iconName="arrow">Principles</NavButton>
         </div>
     </div>
 </div>
@@ -136,7 +132,7 @@
 
     .search-tool-subheader {
         height: 3em;
-        border-radius: 1.5em; /* Creates the pill-shape from the design */
+        border-radius: var(--border-radius);
         border: 2px solid var(--color-neutral-black, #000);
         padding: 0 1em;
         font-size: 1em;
@@ -149,14 +145,13 @@
         border-color: var(--color-primary, #b30059);
     }
 
-    /* Mobile Responsiveness */
     @media (max-width: 1080px) {
         .subheader {
             gap: 1em;
         }
 
         .subheader-filters {
-            display: none; /* Keep sorting hidden on smaller screens as in original code */
+            display: none;
         }
     }
 
