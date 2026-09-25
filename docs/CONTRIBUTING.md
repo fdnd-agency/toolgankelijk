@@ -23,18 +23,20 @@ Dankjewel voor je interesse in bijdragen aan dit project! Deze richtlijnen zorge
 ## Team afspraken
 - Houd je aan de afspraken/code conventies gemaakt in de contributing.md
 - We organiseren dagelijks een stand ups.
-- Rick werkt woensdag, donderdag, vrijdag mee aan het project.
 - Alle branches worden gemerged naar de dev-branch
 - Documentatie van de Sprint Reviews word genoteerd in issues
 - We gebruiken 1 taal in het project.
 - Aan het einde van elke sprint een retrospect (retromat).
-- We streven naar 60 punten per sprint
+
+**Teamcanvas**
+
+<img width="905" height="639" alt="image" src="https://github.com/user-attachments/assets/e3a7ad68-53d8-4924-b987-f951f553de34" />
 
 ---
 
 ## Quick Start
 We volgen de **Git Flow workflow** als branching strategie. Dit betekent dat:
-- Maak een feature branch aan vanaf `dev` (commit nooit direct naar `main` of `dev`).
+- Maak een feature branch aan vanaf `dev` (commit nooit direct naar `main`).
 - Gebruik duidelijke branchnamen: `feature/...`, `fix/...`, `docs/...`.
 - Gebruik altijd kleine letters voor je branche bijv: "feature/component-name".
 - Gebruik [Conventional Commits](https://www.conventionalcommits.org) voor commit messages.
