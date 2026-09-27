@@ -4,6 +4,7 @@
 	import { enhance } from '$app/forms';
 	import loadingIcon from '$lib/assets/loading.svg';
 	import NavButton from '../molecules/navButton.svelte';
+	import Checkbox from '../molecules/checkbox.svelte';
 
 	let { guidelines, toolboardData, levels, selectedLevel = $bindable(levels[0].level) } = $props();
 
@@ -97,11 +98,10 @@
 												{simpleTranslation ? 'Officiële beschrijving' : 'Simpele beschrijving'}
 											</NavButton>
 
-											<input
+											<Checkbox
 												name="check"
 												value={succescriterium.id}
-												type="checkbox"
-												checked={checkedSuccessCriteria.find((e) => e.id === succescriterium.id)}
+												checked={checkedSuccessCriteria.some((e) => e.id === succescriterium.id)}
 											/>
 										</div>
 									</div>
@@ -292,38 +292,6 @@
 	details > div {
 		font-size: 0.9em !important;
 		padding-top: 1em;
-	}
-
-	input[type='checkbox'] {
-		-webkit-appearance: none;
-		appearance: none;
-		margin: 0;
-		color: var(--color-primary);
-		min-width: 2em;
-		width: 2em;
-		height: 2em;
-		border: 0.15em solid currentColor;
-		border-radius: 0.3em;
-		transform: translateY(-0.075em);
-		display: grid;
-		place-content: center;
-	}
-
-	input[type='checkbox']::before {
-		content: '';
-		width: 1em;
-		height: 1em;
-		clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
-		transform: scale(0);
-		background-color: var(--color-primary);
-	}
-
-	input[type='checkbox']:checked::before {
-		transform: scale(1);
-	}
-
-	input[type='checkbox']:checked {
-		background-color: var(--color-primary);
 	}
 
 	#niveau-toggle {
