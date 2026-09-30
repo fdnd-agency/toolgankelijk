@@ -20,6 +20,11 @@
         cursor: pointer;
 	}
 
+	input:hover {
+		filter: brightness(1.1);
+		background-color: var(--color-primary);
+	}
+
 	input::before {
 		content: '';
 		width: 1em;
