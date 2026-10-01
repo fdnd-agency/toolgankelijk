@@ -1,7 +1,6 @@
 <script>
 	import { page } from '$app/stores';
 	import Card from '$lib/components/templates/card.svelte';
-	import Dialog from '$lib/components/templates/dialog.svelte';
 	import Pages from '$lib/components/organisms/pages.svelte';
 	import SubHeader from '$lib/components/templates/subheader.svelte';
 	import FormOverlay from '$lib/components/templates/formOverlay.svelte';
@@ -29,18 +28,9 @@
 		homepage: overview?.homepage ?? ''
 	});
 
-	let dialogRef = $state();
-
 	// ?add in the url opens the add form, it stays open when saving failed
 	let showAddForm = $derived($page.url.searchParams.has('add') || form?.success === false);
-
-	function openAddUrl() {
-		dialogRef?.open();
-	}
 </script>
-
-<!-- This is the dialog component will be active when you click on the "add button" -->
-<Dialog bind:this={dialogRef} params={params.websiteUID} isType="addUrl" />
 
 {#if showAddForm}
 	<FormOverlay title="Url toevoegen" closeHref="/{params.websiteUID}">

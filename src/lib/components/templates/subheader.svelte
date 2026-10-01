@@ -14,7 +14,6 @@
         principles = [],
         overview,
         showAdd = false,
-        onAdd,
         onApply,
         heading
     } = $props();
