@@ -1,5 +1,6 @@
 import { redirect } from '@sveltejs/kit';
 import { partnerRepository } from '$lib/server/index.js';
+import { normalizeHttpUrl } from '$lib/utils/url.js';
 
 // test the page without client-side JavaScript (progressive enhancement, step 2)
 export const csr = false;
@@ -33,3 +34,37 @@ export async function load(event) {
 		showRegistrationSuccess
 	};
 }
+
+export const actions = {
+	addPartner: async ({ request, locals }) => {
+		if (!locals?.user?.isEmailVerified) {
+			throw redirect(302, '/login');
+		}
+		try {
+			const formData = await request.formData();
+			const name = formData.get('name');
+			const url = normalizeHttpUrl(formData.get('url'));
+
+			if (!name || !url) {
+				return {
+					message: 'Naam en een geldige URL zijn verplicht.',
+					success: false
+				};
+			}
+
+			const slug = name.toLowerCase();
+			const partner = await partnerRepository.createPartner({ name, url, slug });
+
+			return {
+				partner,
+				success: true,
+				message: name + ' is toegevoegd.'
+			};
+		} catch (error) {
+			return {
+				message: 'Er ging wat mis, probeer het opnieuw.',
+				success: false
+			};
+		}
+	}
+};

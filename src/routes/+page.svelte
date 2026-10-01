@@ -7,6 +7,8 @@
 	import Dialog from '$lib/components/templates/dialog.svelte';
 	import Pages from '$lib/components/organisms/pages.svelte';
 	import NavButton from '$lib/components/molecules/navButton.svelte';
+	import FormOverlay from '$lib/components/templates/formOverlay.svelte';
+	import AddForm from '$lib/components/organisms/addForm.svelte';
 
 	let { data, form } = $props();
 
@@ -21,6 +23,9 @@
 	let showRegistrationSuccess = $derived(data.showRegistrationSuccess);
 	let dialogRef = $state();
 	const principles = $derived(data.principles);
+
+	// ?add in the url opens the add form, it stays open when saving failed
+	let showAddForm = $derived($page.url.searchParams.has('add') || form?.success === false);
 
 	function handleDialog() {
 		dialogRef.open();
@@ -44,6 +49,12 @@
 </script>
 
 <Dialog bind:this={dialogRef} {params} isType="addPartner" />
+
+{#if showAddForm}
+	<FormOverlay title="Partner toevoegen" closeHref="/">
+		<AddForm action="?/addPartner" nameLabel="Partner naam" urlLabel="Website url" />
+	</FormOverlay>
+{/if}
 
 {#if totalUrls > first}
 	<Pages amount={totalUrls} perPage={first} {currentPage} />

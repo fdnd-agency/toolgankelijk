@@ -25,7 +25,7 @@
     let showMet = $state(false);
 
     // inside a partner you add a url, otherwise you add a partner
-    let addHref = $derived(params?.websiteUID ? `/${params.websiteUID}/addUrl` : '/addPartner');
+    let addHref = $derived(params?.websiteUID ? `/${params.websiteUID}?add` : '/?add');
     let addLabel = $derived(params?.websiteUID ? 'Url toevoegen' : 'Partner toevoegen');
 
     function handleSubmit(e) {

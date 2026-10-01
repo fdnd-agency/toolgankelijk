@@ -1,5 +1,6 @@
 import { redirect } from '@sveltejs/kit';
-import { partnerRepository } from '$lib/server/index.js';
+import { partnerRepository, urlRepository } from '$lib/server/index.js';
+import { normalizeHttpUrl } from '$lib/utils/url.js';
 
 // test the page without client-side JavaScript (progressive enhancement, step 2)
 export const csr = false;
@@ -34,3 +35,48 @@ export async function load(event) {
 		showRegistrationSuccess
 	};
 }
+
+export const actions = {
+	addUrl: async ({ request, locals, params }) => {
+		if (!locals?.user?.isEmailVerified) {
+			throw redirect(302, '/login');
+		}
+		try {
+			const formData = await request.formData();
+			const name = formData.get('name')?.toLowerCase();
+			const formUrl = normalizeHttpUrl(formData.get('url'));
+			const websiteSlug = params.websiteUID;
+
+			if (!name || !formUrl) {
+				return {
+					message: 'Naam en een geldige URL zijn verplicht.',
+					success: false
+				};
+			}
+
+			const directusCall = await urlRepository.addUrl({
+				urlSlug: name,
+				urlLink: formUrl,
+				websiteSlug,
+				urlName: name
+			});
+			if (!directusCall) {
+				return {
+					message: 'Url kon niet worden opgeslagen.',
+					success: false
+				};
+			}
+			await urlRepository.createEmptyCheckForUrl({ websiteSlug, urlSlug: name });
+
+			return {
+				success: true,
+				message: name + ' is toegevoegd.'
+			};
+		} catch (error) {
+			return {
+				message: 'Er ging wat mis, probeer het opnieuw.',
+				success: false
+			};
+		}
+	}
+};

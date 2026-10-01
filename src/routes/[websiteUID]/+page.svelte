@@ -4,6 +4,8 @@
 	import Dialog from '$lib/components/templates/dialog.svelte';
 	import Pages from '$lib/components/organisms/pages.svelte';
 	import SubHeader from '$lib/components/templates/subheader.svelte';
+	import FormOverlay from '$lib/components/templates/formOverlay.svelte';
+	import AddForm from '$lib/components/organisms/addForm.svelte';
 
 	let { data, form } = $props();
 	let params = $derived($page.params);
@@ -29,6 +31,9 @@
 
 	let dialogRef = $state();
 
+	// ?add in the url opens the add form, it stays open when saving failed
+	let showAddForm = $derived($page.url.searchParams.has('add') || form?.success === false);
+
 	function openAddUrl() {
 		dialogRef?.open();
 	}
@@ -36,6 +41,12 @@
 
 <!-- This is the dialog component will be active when you click on the "add button" -->
 <Dialog bind:this={dialogRef} params={params.websiteUID} isType="addUrl" />
+
+{#if showAddForm}
+	<FormOverlay title="Url toevoegen" closeHref="/{params.websiteUID}">
+		<AddForm action="?/addUrl" nameLabel="Pagina titel" urlLabel="Pagina url" />
+	</FormOverlay>
+{/if}
 
 {#if form?.success}
 	<div class="toast"><p>{form?.message}</p></div>
