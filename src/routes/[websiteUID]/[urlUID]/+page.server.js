@@ -2,9 +2,6 @@ import { redirect, error } from '@sveltejs/kit';
 import { contentRepository, urlRepository } from '$lib/server/index.js';
 import { createFilter } from '$lib/utils/filters.js';
 
-// test the page without client-side JavaScript (progressive enhancement, step 2)
-export const csr = false;
-
 export const load = async ({ params, locals, url: pageUrl }) => {
 	const { websiteUID, urlUID } = params;
 	if (!locals?.session || !locals?.user) {

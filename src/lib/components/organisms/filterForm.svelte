@@ -1,13 +1,34 @@
 <script>
 	// filters for the main content, every page gives its own filters from its load function
 	// GET form: the choices end up in the url and the server filters the data (works without JavaScript)
+	import { onMount } from 'svelte';
 	import SelectField from '../molecules/selectField.svelte';
 
 	let { filters = [] } = $props();
+
+	// enhancement: once JavaScript runs, a choice filters right away and the "Toepassen" button disappears
+	let enhanced = $state(false);
+
+	onMount(() => {
+		enhanced = true;
+	});
+
+	// SvelteKit handles a GET form as a client-side navigation, so submitting only updates the page data
+	function handleChange(event) {
+		event.currentTarget.requestSubmit();
+	}
 </script>
 
 {#if filters.length > 0}
-	<form method="GET" class="filters" aria-label="Filters">
+	<!-- noscroll + keepfocus: the page doesn't jump to the top and focus stays on the select -->
+	<form
+		method="GET"
+		class="filters"
+		aria-label="Filters"
+		onchange={handleChange}
+		data-sveltekit-noscroll
+		data-sveltekit-keepfocus
+	>
 		{#each filters as filter (filter.name)}
 			<!-- keeps a label and its select together when the filters wrap -->
 			<div class="filter">
@@ -20,7 +41,9 @@
 				/>
 			</div>
 		{/each}
-		<button type="submit">Toepassen</button>
+		{#if !enhanced}
+			<button type="submit">Toepassen</button>
+		{/if}
 	</form>
 {/if}
 

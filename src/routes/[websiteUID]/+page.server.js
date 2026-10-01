@@ -3,9 +3,6 @@ import { partnerRepository, urlRepository } from '$lib/server/index.js';
 import { normalizeHttpUrl } from '$lib/utils/url.js';
 import { createFilter, sortByText, sortOptions } from '$lib/utils/filters.js';
 
-// test the page without client-side JavaScript (progressive enhancement, step 2)
-export const csr = false;
-
 export async function load(event) {
 	const { url, locals, cookies, params } = event;
 	if (locals.session === null || locals.user === null) {

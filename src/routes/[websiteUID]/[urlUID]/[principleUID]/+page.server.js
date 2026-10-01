@@ -3,9 +3,6 @@ import { contentRepository, urlRepository } from '$lib/server/index.js';
 import { requireAuthenticatedVerifiedUser } from '$lib/server/auth.js';
 import { createFilter } from '$lib/utils/filters.js';
 
-// test the page without client-side JavaScript (progressive enhancement, step 2)
-export const csr = false;
-
 /**
  * Derives the currently stored checklist selection for a specific WCAG level.
  *
