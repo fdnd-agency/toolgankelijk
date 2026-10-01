@@ -315,7 +315,7 @@
 		}
 	}
 
-	:global(.navbutton:focus) {
+	/* :global(.navbutton:focus) {
 		transition: border-color 0.2s ease-in-out !important;
 		border: transparent 2px solid !important;
 	}
@@ -326,7 +326,7 @@
 
 	:global(.navbutton:hover) {
 		border-color: white !important;
-	}
+	} */
 
 	dialog[open] {
 		display: block;

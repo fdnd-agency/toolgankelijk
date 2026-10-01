@@ -254,11 +254,6 @@
         text-decoration: none;
     }
 
-    .dropdown-list :global(.navbutton.select:hover) {
-        filter: brightness(0.95);
-        transform: scale(0.99);
-    }
-
     .item-content {
         display: flex;
         align-items: center;

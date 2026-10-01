@@ -43,7 +43,7 @@
         <div class="subheader-heading">
             <Heading {heading} />
         </div>
-
+ 
         <div class="subheader-actions">
             <NavButton 
                 size="small" 
