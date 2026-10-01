@@ -28,13 +28,20 @@
 		homepage: overview?.homepage ?? ''
 	});
 
-	// ?add in the url opens the add form, it stays open when saving failed
-	let showAddForm = $derived($page.url.searchParams.has('add') || form?.success === false);
+	// ?add in the url opens the add form, it closes after a successful save and stays open when saving failed
+	let showAddForm = $derived(
+		($page.url.searchParams.has('add') && !form?.success) || form?.success === false
+	);
 </script>
 
 {#if showAddForm}
 	<FormOverlay title="Url toevoegen" closeHref="/{params.websiteUID}">
-		<AddForm action="?/addUrl" nameLabel="Pagina titel" urlLabel="Pagina url" />
+		<AddForm
+			action="?/addUrl"
+			nameLabel="Pagina titel"
+			urlLabel="Pagina url"
+			closeHref="/{params.websiteUID}"
+		/>
 	</FormOverlay>
 {/if}
 

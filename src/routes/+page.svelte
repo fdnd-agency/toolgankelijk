@@ -22,8 +22,10 @@
 	let showRegistrationSuccess = $derived(data.showRegistrationSuccess);
 	const principles = $derived(data.principles);
 
-	// ?add in the url opens the add form, it stays open when saving failed
-	let showAddForm = $derived($page.url.searchParams.has('add') || form?.success === false);
+	// ?add in the url opens the add form, it closes after a successful save and stays open when saving failed
+	let showAddForm = $derived(
+		($page.url.searchParams.has('add') && !form?.success) || form?.success === false
+	);
 
 	function scrollToTop(event) {
 		event.preventDefault();
@@ -40,7 +42,7 @@
 
 {#if showAddForm}
 	<FormOverlay title="Partner toevoegen" closeHref="/">
-		<AddForm action="?/addPartner" nameLabel="Partner naam" urlLabel="Website url" />
+		<AddForm action="?/addPartner" nameLabel="Partner naam" urlLabel="Website url" closeHref="/" />
 	</FormOverlay>
 {/if}
 

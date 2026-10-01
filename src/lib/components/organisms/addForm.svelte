@@ -1,9 +1,30 @@
 <script>
 	// server-side form to add a partner or url, posts to the given form action of the current page
-	let { action, nameLabel, urlLabel } = $props();
+	import { enhance } from '$app/forms';
+	import { replaceState } from '$app/navigation';
+
+	let { action, nameLabel, urlLabel, closeHref } = $props();
+
+	let submitting = $state(false);
+
+	// enhancement: submit without a page reload and close the overlay when saving worked
+	function handleSubmit() {
+		submitting = true;
+
+		return async ({ result, update }) => {
+			const saved = result.type === 'success' && result.data?.success;
+
+			// keep the typed values when saving failed so the user can fix them
+			await update({ reset: saved });
+			submitting = false;
+
+			// remove ?add from the url without a new navigation, so the toast stays visible
+			if (saved) replaceState(closeHref, {});
+		};
+	}
 </script>
 
-<form method="POST" {action}>
+<form method="POST" {action} use:enhance={handleSubmit} aria-busy={submitting}>
 	<label for="name">{nameLabel}</label>
 	<!-- svelte-ignore a11y_autofocus -->
 	<input id="name" name="name" required type="text" autofocus />
@@ -11,7 +32,9 @@
 	<label for="url">{urlLabel}</label>
 	<input id="url" name="url" required type="url" placeholder="https://" />
 
-	<button type="submit">Toevoegen</button>
+	<button type="submit" disabled={submitting}>
+		{submitting ? 'Bezig met toevoegen...' : 'Toevoegen'}
+	</button>
 </form>
 
 <style>
@@ -48,6 +71,11 @@
 		font-size: 1em;
 		font-weight: bold;
 		cursor: pointer;
+	}
+
+	button:disabled {
+		opacity: 0.6;
+		cursor: wait;
 	}
 
 	button:hover {
