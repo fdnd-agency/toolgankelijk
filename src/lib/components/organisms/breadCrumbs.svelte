@@ -1,9 +1,24 @@
 <script>
 	// breadcrumbs to choose a partner, url and principle
 	// every level is a GET form to /navigate, which redirects to the chosen page (works without JavaScript)
+	import { onMount } from 'svelte';
+	import { goto } from '$app/navigation';
+	import { breadcrumbPath } from '$lib/utils/breadcrumbPath.js';
 	import SelectField from '../molecules/selectField.svelte';
 
 	let { params = {}, partners = [], websites = [], principles = [] } = $props();
+
+	// enhancement: once JavaScript runs, a choice navigates right away and the "Ga" buttons disappear
+	let enhanced = $state(false);
+
+	onMount(() => {
+		enhanced = true;
+	});
+
+	// the change event of the select bubbles up to its form
+	function handleChange(event) {
+		goto(breadcrumbPath(new FormData(event.currentTarget)));
+	}
 
 	let partnerList = $derived(Array.isArray(partners) ? partners : partners?.websites || []);
 
@@ -41,7 +56,7 @@
 <nav aria-label="Kruimelpad">
 	<ol class="breadcrumbs">
 		<li>
-			<form method="GET" action="/navigate">
+			<form method="GET" action="/navigate" onchange={handleChange}>
 				<SelectField
 					id="breadcrumb-partner"
 					name="partner"
@@ -50,13 +65,15 @@
 					options={partnerOptions}
 					value={params.websiteUID ?? ''}
 				/>
-				<button type="submit">Ga</button>
+				{#if !enhanced}
+					<button type="submit">Ga</button>
+				{/if}
 			</form>
 		</li>
 
 		{#if selectedPartner && websites.length > 0}
 			<li>
-				<form method="GET" action="/navigate">
+				<form method="GET" action="/navigate" onchange={handleChange}>
 					<input type="hidden" name="partner" value={selectedPartner.slug} />
 					<SelectField
 						id="breadcrumb-url"
@@ -66,14 +83,16 @@
 						options={urlOptions}
 						value={params.urlUID ?? ''}
 					/>
-					<button type="submit">Ga</button>
+					{#if !enhanced}
+						<button type="submit">Ga</button>
+					{/if}
 				</form>
 			</li>
 		{/if}
 
 		{#if selectedUrl && principles.length > 0}
 			<li>
-				<form method="GET" action="/navigate">
+				<form method="GET" action="/navigate" onchange={handleChange}>
 					<input type="hidden" name="partner" value={selectedPartner.slug} />
 					<input type="hidden" name="url" value={selectedUrl.slug} />
 					<SelectField
@@ -84,7 +103,9 @@
 						options={principleOptions}
 						value={params.principleUID ?? ''}
 					/>
-					<button type="submit">Ga</button>
+					{#if !enhanced}
+						<button type="submit">Ga</button>
+					{/if}
 				</form>
 			</li>
 		{/if}
@@ -95,7 +116,7 @@
 	.breadcrumbs {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 1em;
+		gap: 2em;
 		margin: 0;
 		padding: 0;
 		list-style: none;
@@ -105,7 +126,6 @@
 		display: flex;
 		align-items: center;
 		gap: 0.5em;
-		width: 14em;
 	}
 
 	button {

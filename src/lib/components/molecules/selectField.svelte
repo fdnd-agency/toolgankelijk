@@ -33,7 +33,6 @@
 		appearance: none;
 		box-sizing: border-box;
 		width: 100%;
-		max-width: 8.25rem; /* including the picker icon */
 		height: 2.2em;
 		padding: 0 2em 0 0.6em;
 		border: none;
@@ -114,11 +113,15 @@
 			rotate: 180deg;
 		}
 
+		/* the options get the width of their content, at least as wide as the select */
 		select::picker(select) {
-			width: anchor-size(width);
+			width: max-content;
+			min-width: anchor-size(width);
+			max-width: 20rem;
 			margin: 0;
 			border: none;
-			border-radius: 0 0 4px 4px;
+			/* flat top left so it flows out of the select, round top right when it's wider */
+			border-radius: 0 4px 4px 4px;
 			background-color: var(--color-primary-light);
 			color: var(--color-neutral-black);
 		}
