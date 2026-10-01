@@ -71,6 +71,8 @@
 			gap: 0.5em;
 			padding: 0 0.6em;
 			background-image: none;
+			/* round again only after the options are gone */
+			transition: border-radius 0s 0.2s;
 		}
 
 		/* the button holds the chosen option, it takes the space next to the picker icon */
@@ -107,6 +109,7 @@
 		/* open: flat bottom so the select flows into the options */
 		select:open {
 			border-radius: 4px 4px 0 0;
+			transition-delay: 0s; /* flat right away when opening */
 		}
 
 		select:open::picker-icon {
@@ -121,9 +124,34 @@
 			margin: 0;
 			border: none;
 			/* flat top left so it flows out of the select, round top right when it's wider */
-			border-radius: 0 4px 4px 4px;
+			border-radius: 0 0 4px 4px;
 			background-color: var(--color-primary-light);
 			color: var(--color-neutral-black);
+			/* closed state of the options, also where they animate back to */
+			opacity: 0;
+			transition:
+				opacity 0.2s ease,
+				display 0.2s allow-discrete,
+				overlay 0.2s allow-discrete;
+		}
+
+		select:open::picker(select) {
+			opacity: 1;
+		}
+
+		/* starting point when the options open */
+		@starting-style {
+			select:open::picker(select) {
+				opacity: 0;
+			}
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			select,
+			select::picker(select),
+			select::picker-icon {
+				transition: none;
+			}
 		}
 
 		/* long names wrap in the list, so the full name stays readable */
