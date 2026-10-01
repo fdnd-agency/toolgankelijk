@@ -62,7 +62,7 @@
     <div class="subheader-row bottom-row">
         <div class="subheader-breadcrumbs">
             {#if user && user.isEmailVerified}
-                <BreadCrumbs {params} {partners} {websites} {overview} {principles} />
+                <BreadCrumbs {params} {partners} {websites} {principles} />
             {/if}
         </div>
 
