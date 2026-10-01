@@ -1,8 +1,8 @@
 <script>
     import { page } from '$app/stores';
-    import NavButton from '$lib/components/molecules/navButton.svelte';
     import AddButton from '$lib/components/molecules/addButton.svelte';
     import BreadCrumbs from '$lib/components/organisms/breadCrumbs.svelte';
+    import FilterForm from '$lib/components/organisms/filterForm.svelte';
     import Heading from '$lib/components/molecules/heading.svelte';
     import Search from '$lib/components/molecules/search.svelte';
 
@@ -14,31 +14,13 @@
         principles = [],
         overview,
         showAdd = false,
-        onApply,
-        heading
+        heading,
+        filters = []
     } = $props();
-
-    let principle = $state('All');
-    let level = $state('All');
-    let showNotMet = $state(false);
-    let showMet = $state(false);
 
     // inside a partner you add a url, otherwise you add a partner
     let addHref = $derived(params?.websiteUID ? `/${params.websiteUID}?add` : '/?add');
     let addLabel = $derived(params?.websiteUID ? 'Url toevoegen' : 'Partner toevoegen');
-
-    function handleSubmit(e) {
-        if (e) e.preventDefault();
-
-        if (onApply) {
-            onApply({
-                principle,
-                level,
-                showNotMet,
-                showMet
-            });
-        }
-    }
 </script>
 
 <div class="subheader">
@@ -67,9 +49,8 @@
         </div>
 
         <div class="subheader-filters">
-            <p class="filter-label">Sorteren op:</p>
-            <NavButton effect="dropdown" size="medium" showIcon={true} iconName="arrow">Levels</NavButton>
-            <NavButton effect="dropdown" size="medium" showIcon={true} iconName="arrow">Principles</NavButton>
+            <!-- every page gives its own filters from its load function -->
+            <FilterForm {filters} />
         </div>
     </div>
 </div>
@@ -118,13 +99,6 @@
         align-items: center;
     }
 
-    .filter-label {
-        font-size: 0.9em;
-        margin: 0;
-        color: var(--color-neutral-black, #000);
-        white-space: nowrap;
-    }
-
     .search-wrapper {
         display: flex;
         align-items: center;
@@ -149,10 +123,6 @@
     @media (max-width: 1080px) {
         .subheader {
             gap: 1em;
-        }
-
-        .subheader-filters {
-            display: none; /* Keep sorting hidden on smaller screens as in original code */
         }
     }
 

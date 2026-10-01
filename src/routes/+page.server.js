@@ -1,6 +1,10 @@
 import { redirect } from '@sveltejs/kit';
 import { partnerRepository } from '$lib/server/index.js';
 import { normalizeHttpUrl } from '$lib/utils/url.js';
+import { createFilter, sortByText, sortOptions } from '$lib/utils/filters.js';
+
+// test the page without client-side JavaScript (progressive enhancement, step 2)
+export const csr = false;
 
 export async function load(event) {
 	const { url, locals, cookies } = event;
@@ -24,8 +28,13 @@ export async function load(event) {
 		cookies.delete('show_registration_success', { path: '/' });
 	}
 
+	// filters from the url (?sort=z-a), shown in the subheader
+	const sort = createFilter(url, { name: 'sort', label: 'Sorteren op:', options: sortOptions });
+
 	return {
 		...data,
+		websites: sortByText(data.websites, 'title', sort.value),
+		filters: [sort],
 		first,
 		skip,
 		showRegistrationSuccess

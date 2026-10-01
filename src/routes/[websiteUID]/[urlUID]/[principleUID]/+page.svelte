@@ -12,15 +12,16 @@
 		url: data.urlData.url.slug
 	});
 
-	function handleApplyFilters(newFilters) {
-		activeFilters = newFilters;
-	}
-
 	let toolboardData = $derived(data.toolboardData);
 	let urlData = $derived(data.urlData);
 	let guidelines = $derived(toolboardData.principle.guidelines);
 	let principles = $derived(data.toolboardData.principles);
-	let levels = $derived(data.levelsData.levels);
+
+	// the chosen filters come from the url via the load function (?beschrijving=...&niveau=...)
+	const filterValue = (name) => data.filters.find((filter) => filter.name === name)?.value;
+
+	let selectedLevel = $derived(filterValue('niveau'));
+	let description = $derived(filterValue('beschrijving'));
 </script>
 
 <section>
@@ -28,7 +29,7 @@
 	{#if form?.success}
 		<div class="toast"><p>Checklist is opgeslagen!</p></div>
 	{/if}
-	<Checklist {guidelines} {toolboardData} {levels} />
+	<Checklist {guidelines} {toolboardData} {selectedLevel} {description} />
 	<Sidebar {principles} {urlData} />
 </section>
 

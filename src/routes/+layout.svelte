@@ -55,6 +55,7 @@
 		websites={websitesArray}
 		{principles}
 		{heading}
+		filters={$page.data.filters ?? []}
 		user={data.user}
 		overview={data.urlData?.url?.website || data.websitesData?.website}
 	/>
