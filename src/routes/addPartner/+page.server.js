@@ -1,5 +1,9 @@
 import { redirect } from '@sveltejs/kit';
 import { partnerRepository } from '$lib/server/index.js';
+import { normalizeHttpUrl } from '$lib/utils/url.js';
+
+// test the page without client-side JavaScript (progressive enhancement, step 2)
+export const csr = false;
 
 export async function load({ locals }) {
 	if (!locals?.session || !locals?.user) {

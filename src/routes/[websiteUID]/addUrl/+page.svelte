@@ -1,8 +1,7 @@
 <script>
-	// this is an extra page but this is replaced by the dialog.svelte component
+	// server-side page to add a url to a partner, works without JavaScript
 	import { page } from '$app/stores';
 	import UrlForm from '$lib/components/organisms/urlForm.svelte';
-	import NavButton from '$lib/components/molecules/navButton.svelte';
 
 	let { form } = $props();
 
@@ -18,10 +17,8 @@
 	<UrlForm {params} />
 </section>
 
-{#if form?.success}
-	<div class="toast"><p>{form?.message}</p></div>
-{:else if form?.success == false}
-	<div class="toast"><p>{form?.message}</p></div>
+{#if form?.message}
+	<div class="toast" role="status"><p>{form.message}</p></div>
 {/if}
 
 <style>
@@ -30,14 +27,14 @@
 		flex-direction: row;
 		justify-content: flex-start;
 		align-items: flex-start;
-		margin: 0.5em;
+		gap: 0.5em;
+		margin: 0.5em 5%;
 	}
 
 	article {
-		background-color: var(--c-container);
-		border-radius: 4px;
-		margin-right: 0.5em;
-		margin-bottom: 0.5em;
+		background-color: var(--color-background-card);
+		color: var(--color-neutral-black);
+		border-radius: var(--border-radius, 8px);
 		display: flex;
 		flex-direction: column;
 		justify-content: flex-start;
@@ -46,7 +43,8 @@
 	}
 
 	.tip {
-		color: var(--c-orange);
+		color: var(--color-primary);
+		font-weight: bold;
 		line-height: 1.5em;
 	}
 
@@ -54,14 +52,12 @@
 		position: fixed;
 		bottom: 5rem;
 		right: 1rem;
-		height: 4rem;
-		width: 10rem;
-		background-color: #a0004025;
-		backdrop-filter: blur(3px);
-		border: 1px solid var(--c-pink);
+		min-width: 10rem;
+		background-color: var(--color-primary-light);
+		color: var(--color-neutral-black);
+		border: 1px solid var(--color-primary);
 		border-radius: 4px;
 		padding: 0.5rem;
-		text-shadow: 0px 0px 10px black;
 		animation: fade-out 4s forwards;
 		z-index: 2;
 	}

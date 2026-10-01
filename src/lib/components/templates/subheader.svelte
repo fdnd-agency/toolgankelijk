@@ -1,6 +1,7 @@
 <script>
     import { page } from '$app/stores';
     import NavButton from '$lib/components/molecules/navButton.svelte';
+    import AddButton from '$lib/components/molecules/addButton.svelte';
     import BreadCrumbs from '$lib/components/organisms/breadCrumbs.svelte';
     import Heading from '$lib/components/molecules/heading.svelte';
     import Search from '$lib/components/molecules/search.svelte';
@@ -22,6 +23,10 @@
     let level = $state('All');
     let showNotMet = $state(false);
     let showMet = $state(false);
+
+    // inside a partner you add a url, otherwise you add a partner
+    let addHref = $derived(params?.websiteUID ? `/${params.websiteUID}/addUrl` : '/addPartner');
+    let addLabel = $derived(params?.websiteUID ? 'Url toevoegen' : 'Partner toevoegen');
 
     function handleSubmit(e) {
         if (e) e.preventDefault();
@@ -45,16 +50,8 @@
         </div>
  
         <div class="subheader-actions">
-            <NavButton 
-                size="small" 
-                variant="primary" 
-                showIcon={true} 
-                iconName="add" 
-                effect="add"
-                onclick={onAdd}
-                aria="Add Partner"
-            />
-            
+            <AddButton href={addHref} label={addLabel} />
+
             <div class="search-wrapper">
                 <input class="search-tool-subheader" type="text" placeholder="Search..."> 
                 <!-- If you are using the <Search /> component instead, place it here -->

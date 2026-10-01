@@ -1,13 +1,8 @@
 <script>
-	import Dialog from '$lib/components/templates/dialog.svelte';
-	import NavButton from '$lib/components/molecules/navButton.svelte';
+	// server-side page to add a partner, works without JavaScript
+	import PartnerForm from '$lib/components/organisms/partnerForm.svelte';
 
 	let { form } = $props();
-	let dialogRef;
-
-	function handleDialog() {
-		dialogRef.open();
-	}
 </script>
 
 <section class="content-container">
@@ -16,24 +11,11 @@
 		<p>Probeer een partner toe te voegen die nog niet in de lijst bestaat!</p>
 	</article>
 
-	<NavButton
-		size="xlarge"
-		variant="primary"
-		showIcon={true}
-		onclick={handleDialog}
-		iconName="add"
-		aria="Partner Toevoegen"
-	>
-		<p>Partner Toevoegen</p>
-	</NavButton>
-
-	<Dialog bind:this={dialogRef} isType="addPartner" />
+	<PartnerForm />
 </section>
 
-{#if form?.success}
-	<div class="toast"><p>{form?.message}</p></div>
-{:else if form?.success == false}
-	<div class="toast"><p>{form?.message}</p></div>
+{#if form?.message}
+	<div class="toast" role="status"><p>{form.message}</p></div>
 {/if}
 
 <style>
@@ -42,14 +24,14 @@
 		flex-direction: row;
 		justify-content: flex-start;
 		align-items: flex-start;
-		margin: 0.5em;
+		gap: 0.5em;
+		margin: 0.5em 5%;
 	}
 
 	article {
-		background-color: var(--c-container);
-		border-radius: 4px;
-		margin-right: 0.5em;
-		margin-bottom: 0.5em;
+		background-color: var(--color-background-card);
+		color: var(--color-neutral-black);
+		border-radius: var(--border-radius, 8px);
 		display: flex;
 		flex-direction: column;
 		justify-content: flex-start;
@@ -58,7 +40,8 @@
 	}
 
 	.tip {
-		color: var(--c-orange);
+		color: var(--color-primary);
+		font-weight: bold;
 		line-height: 1.5em;
 	}
 
@@ -66,14 +49,12 @@
 		position: fixed;
 		bottom: 5rem;
 		right: 1rem;
-		height: 4rem;
-		width: 10rem;
-		background-color: #a0004025;
-		backdrop-filter: blur(3px);
-		border: 1px solid var(--c-pink);
+		min-width: 10rem;
+		background-color: var(--color-primary-light);
+		color: var(--color-neutral-black);
+		border: 1px solid var(--color-primary);
 		border-radius: 4px;
 		padding: 0.5rem;
-		text-shadow: 0px 0px 10px black;
 		animation: fade-out 4s forwards;
 		z-index: 2;
 	}
