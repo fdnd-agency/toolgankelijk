@@ -146,39 +146,25 @@
 <div class="changed"></div>
 
 <style>
-	.richtlijn-criteria-2 {
-		display: none;
+	section {
+		flex-basis: 0;
+		flex-grow: 999;
 	}
 
-	.submit {
-		position: fixed;
-		bottom: 5rem;
-		right: 1rem;
-		font-size: 1.3rem;
-		padding: 0.4rem 0.8rem;
-		background-color: var(--color-primary);
-		border: none;
-		color: white;
-		margin-top: 1rem;
-		border-radius: 4px;
-		cursor: pointer;
-		z-index: 2;
+	#niveau-toggle {
+		margin-bottom: 1em;
 	}
 
-	.submit:hover {
-		filter: saturate(1.2);
+	#niveau-toggle label {
+		width: 100%;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		font-weight: 600;
 	}
 
-	.submit:not(button) {
-		cursor: auto;
-		background-color: #a0004025;
-		backdrop-filter: blur(3px);
-		border: 1px solid var(--color-primary);
-		border-radius: 4px;
-	}
-
-	.submit img {
-		animation: 0.8s rotate infinite;
+	#niveau-toggle p {
+		color: var(--color-neutral-black);
 	}
 
 	select {
@@ -192,107 +178,80 @@
 		cursor: pointer;
 	}
 
-	.richtlijn-uitleg {
-		padding-left: 1rem;
-	}
-
-	section {
-		flex-basis: 0;
-		flex-grow: 999;
-	}
-
-	form article:not(:first-child) {
-		margin-top: 1.5em;
-	}
-
-	form article {
-		background-color: var(--color-primary-light);
-		border-radius: 0.5em;
-		border: solid 1px var(--color-neutral-black);
-	}
-
-	h3,
-	h3 {
-		font-size: 1.2rem;
-		font-weight: 600;
-		margin-top: 1rem;
-	}
-
-	span {
-		font-weight: 300;
-		font-family: 1em;
-	}
-
-	label {
-		width: 100%;
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		font-weight: 600;
-	}
-
-	label p {
-		color: var(--color-neutral-black);
+	ul {
+		list-style: '';
 	}
 
 	details {
 		padding: 1em;
 	}
 
+	summary {
+		cursor: pointer;
+	}
+
 	summary::marker {
 		color: var(--color-primary);
-		cursor: pointer;
+	}
+
+	summary hgroup {
+		display: inline;
+	}
+
+	/* Small label in summary*/
+	hgroup > p:first-child {
+		display: inline;
+		font-weight: 300;
+		margin-left: 0.3rem;
 	}
 
 	details[open] summary ~ * {
 		animation: sweep 0.25s ease-in-out;
 	}
 
-	section details:not(:nth-child(2)) {
+	/* Guideline detail and summary */
+	form > ul > li {
 		border-top: 1px solid var(--color-neutral-black);
 	}
 
-	.collapsible-summary:hover {
-		cursor: pointer;
+	.collapsible-summary h2,
+	.collapsible-summary p:not(:first-child){
+		margin-left: 1.2rem;
+		margin-bottom: 0.8rem;
 	}
 
 	.collapsible-summary h2 {
-		margin-left: 1.2rem;
-		margin-bottom: 0.8rem;
 		margin-top: 0.8rem;
 	}
 
-	.collapsible-summary h3 {
-		margin-left: 1.2rem;
-		margin-bottom: 0.8rem;
+	/* Criteria details and summary */
+	.criteria {
+		background-color: var(--color-primary-light);
+		border-radius: 0.5em;
+		border: solid 1px var(--color-neutral-black);
+		margin-top: 1.5em;
 	}
 
-	span {
-		margin-left: 0.3rem;
+	.criteria > li:not(:first-child) {
+		border-top: 1px solid var(--color-neutral-black);
 	}
 
-	.criteria-uitklapbaar {
-		flex-direction: row;
+	.title-and-checkmark {
+		display: grid;
+		grid-template-columns: 1fr auto;
 		align-items: center;
+		gap: 0.5em;
 	}
 
-	.row {
-		display: flex;
-		flex-direction: row;
-		justify-content: space-between;
-		align-items: center;
+	h3 {
+		font-size: 1.2rem;
+		font-weight: 600;
+		margin-top: 1rem;
 	}
 
-	.column {
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		gap: 1rem;
-	}
-
-	details > div {
-		font-size: 0.9em !important;
-		padding-top: 1em;
+	.visually-hidden {
+		position: absolute;
+		left: 99999em;
 	}
 
 	input[type='checkbox'] {
@@ -327,8 +286,10 @@
 		background-color: var(--color-primary);
 	}
 
-	#niveau-toggle {
-		margin-bottom: 1em;
+	/* Criterion text */
+	.richtlijn-uitleg {
+		padding: 1em 0 0 1rem;
+		font-size: 0.9em;
 	}
 
 	.richtlijn-criteria-2 {
@@ -339,22 +300,36 @@
 		display: none;
 	}
 
-	:global(.richtlijn-uitleg.moeiluk div.richtlijn-criteria-2) {
-		display: block !important;
+	:global(.richtlijn-uitleg.moeiluk .richtlijn-criteria-2) {
+		display: block;
 	}
 
-	:global(#uitleg p) {
+	:global(#uitleg p),
+	:global(#uitleg ul) {
 		line-height: 1.5;
-		margin-top: 1em;
-		margin-bottom: 1em;
+		margin-block: 1em;
 		max-width: 30em;
 	}
 
 	:global(#uitleg ul) {
-		line-height: 1.5;
-		margin-top: 1em;
-		margin-bottom: 1em;
-		max-width: 30em;
+		list-style: disc;
+	}
+
+	/* Loading state */
+	.submit {
+		position: fixed;
+		bottom: 5rem;
+		right: 1rem;
+		padding: 0.4rem 0.8rem;
+		background-color: #a0004025;
+		backdrop-filter: blur(3px);
+		border: 1px solid var(--color-primary);
+		border-radius: 4px;
+		z-index: 2;
+	}
+
+	.submit img {
+		animation: 0.8s rotate infinite;
 	}
 
 	@media print {
@@ -364,20 +339,14 @@
 	}
 
 	@keyframes rotate {
-		from {
-			transform: rotate(0deg);
-		}
 		to {
 			transform: rotate(360deg);
 		}
 	}
 
 	@keyframes sweep {
-		0% {
+		from {
 			opacity: 0;
-		}
-		100% {
-			opacity: 1;
 		}
 	}
 </style>
