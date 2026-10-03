@@ -67,65 +67,66 @@
 		<input type="hidden" name="niveau" value={selectedLevel} />
 		<input type="hidden" name="principe" value={toolboardData.principle.index} />
 
-		<!-- guidelines en successcriteria tekst wordt hier ingeladen! -->
-		{#each guidelines as guideline}
-			<details>
-				<summary class="collapsible-summary">
-					<span>Richtlijn {guideline.index}</span>
-					<div>
-						<h2>{guideline.title}</h2>
-						<h3>{@html guideline.explanation.html}</h3>
-					</div>
-				</summary>
-				<article>
-					{#each guideline.successCriteria as succescriterium}
-						{#if succescriterium.level === selectedLevel}
-							<details>
-								<summary class="criteria-uitklapbaar">
-									<span>Criteria {succescriterium.index} ({succescriterium.level})</span>
-									<div class="row">
-										<div class="column">
-											<h3>{succescriterium.title}</h3>
-										</div>
+		<ul>
+			<!-- guidelines en successcriteria text are being loaded in! -->
+			{#each guidelines as guideline}
+				<li>
+					<details>
+						<summary class="collapsible-summary">
+							<hgroup>
+								<p>Richtlijn {guideline.index}</p>
+								<h2>{guideline.title}</h2>
+								<p>{@html guideline.explanation.html}</p>
+							</hgroup>
+						</summary>
+						<ul class="criteria">
+							{#each guideline.successCriteria as succescriterium}
+								{#if succescriterium.level === selectedLevel}
+									<li>
+										<details>
+											<summary class="collapsible-criteria">
+												<hgroup>
+													<p>Criteria {succescriterium.index} ({succescriterium.level})</p>
+													<div class="title-and-checkmark">
+														<h3>{succescriterium.title}</h3>
+														<label class="column">
+															<span class="visually-hidden">Criteria {succescriterium.index} ({succescriterium.level}) voldoet</span>
+															<input
+																name="check"
+																value={succescriterium.id}
+																type="checkbox"
+																checked={checkedSuccessCriteria.find(
+																	(e) => e.id === succescriterium.id
+																)}
+															/>
+														</label>
+													</div>
+												</hgroup>
+											</summary>
 
-										<div class="column">
-											<NavButton
-												size="large"
-												type="button"
-												onclick={(event) => translate(event, succescriterium.index)}
-											>
-												{simpleTranslation ? 'Officiële beschrijving' : 'Simpele beschrijving'}
-											</NavButton>
-
-											<input
-												name="check"
-												value={succescriterium.id}
-												type="checkbox"
-												checked={checkedSuccessCriteria.find((e) => e.id === succescriterium.id)}
-											/>
-										</div>
-									</div>
-								</summary>
-
-								<!-- tekuitleg voor succescriterium -->
-								<div class="richtlijn-uitleg" aria-live="polite" dataindex="0">
-									<div class="richtlijn-criteria-1">
-										<p id="uitleg" class="tekst-criteria-1">
-											{@html succescriterium.easyCriteria && succescriterium.easyCriteria.html}
-										</p>
-									</div>
-									<div class="richtlijn-criteria-2">
-										<p id="uitleg" class="tekst-criteria-2">
-											{@html succescriterium.criteria && succescriterium.criteria.html}
-										</p>
-									</div>
-								</div>
-							</details>
-						{/if}
-					{/each}
-				</article>
-			</details>
-		{/each}
+											<!-- text explanation for success criteria -->
+											<div class="richtlijn-uitleg" aria-live="polite" dataindex="0">
+												<div class="richtlijn-criteria-1">
+													<p id="uitleg" class="tekst-criteria-1">
+														{@html succescriterium.easyCriteria &&
+															succescriterium.easyCriteria.html}
+													</p>
+												</div>
+												<div class="richtlijn-criteria-2">
+													<p id="uitleg" class="tekst-criteria-2">
+														{@html succescriterium.criteria && succescriterium.criteria.html}
+													</p>
+												</div>
+											</div>
+										</details>
+									</li>
+								{/if}
+							{/each}
+						</ul>
+					</details>
+				</li>
+			{/each}
+		</ul>
 		{#if loading}
 			<div class="submit">
 				<img src={loadingIcon} alt="laadt icoontje" height="32" width="32" />
