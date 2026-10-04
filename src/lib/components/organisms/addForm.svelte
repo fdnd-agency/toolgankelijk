@@ -26,8 +26,7 @@
 
 <form method="POST" {action} use:enhance={handleSubmit} aria-busy={submitting}>
 	<label for="name">{nameLabel}</label>
-	<!-- svelte-ignore a11y_autofocus -->
-	<input id="name" name="name" required type="text" autofocus />
+	<input id="name" name="name" required type="text" />
 
 	<label for="url">{urlLabel}</label>
 	<input id="url" name="url" required type="url" placeholder="https://" />

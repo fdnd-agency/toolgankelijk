@@ -109,7 +109,6 @@
 		/* open: flat bottom so the select flows into the options */
 		select:open {
 			border-radius: 4px 4px 0 0;
-			transition-delay: 0s; /* flat right away when opening */
 		}
 
 		select:open::picker-icon {
@@ -129,21 +128,11 @@
 			color: var(--color-neutral-black);
 			/* closed state of the options, also where they animate back to */
 			opacity: 0;
-			transition:
-				opacity 0.2s ease,
-				display 0.2s allow-discrete,
-				overlay 0.2s allow-discrete;
+			transition: opacity 0.2s ease;
 		}
 
 		select:open::picker(select) {
 			opacity: 1;
-		}
-
-		/* starting point when the options open */
-		@starting-style {
-			select:open::picker(select) {
-				opacity: 0;
-			}
 		}
 
 		@media (prefers-reduced-motion: reduce) {
