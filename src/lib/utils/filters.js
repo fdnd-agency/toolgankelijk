@@ -16,22 +16,7 @@ export function createFilter(url, { name, label, options }) {
 	return { name, label, options, value };
 }
 
-/**
- * Sorts items alphabetically on a text field, `z-a` reverses the order.
- *
- * @template T
- * @param {T[]} items
- * @param {string} field
- * @param {string} order `a-z` or `z-a`
- * @returns {T[]}
- */
-export function sortByText(items = [], field, order) {
-	const sorted = [...items].sort((a, b) =>
-		String(a?.[field] ?? '').localeCompare(String(b?.[field] ?? ''), 'nl')
-	);
-	return order === 'z-a' ? sorted.reverse() : sorted;
-}
-
+// sort options for the overview pages, the repository turns them into a Directus sort
 export const sortOptions = [
 	{ value: 'a-z', label: 'A-Z' },
 	{ value: 'z-a', label: 'Z-A' }

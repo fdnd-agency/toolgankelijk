@@ -116,7 +116,7 @@
 	.breadcrumbs {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 2em;
+		gap: .5em 2em;
 		margin: 0;
 		padding: 0;
 		list-style: none;
