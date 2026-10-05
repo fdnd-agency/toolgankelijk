@@ -4,9 +4,10 @@
 	import { onMount } from 'svelte';
 	import Card from '$lib/components/templates/card.svelte';
 	import SubHeader from '$lib/components/templates/subheader.svelte';
-	import Dialog from '$lib/components/templates/dialog.svelte';
 	import Pages from '$lib/components/organisms/pages.svelte';
 	import NavButton from '$lib/components/molecules/navButton.svelte';
+	import FormOverlay from '$lib/components/templates/formOverlay.svelte';
+	import AddForm from '$lib/components/organisms/addForm.svelte';
 
 	let { data, form } = $props();
 
@@ -19,12 +20,12 @@
 	const websitesList = $derived(data.websites.allWebsites || []);
 	const currentPage = $derived(skip / first + 1);
 	let showRegistrationSuccess = $derived(data.showRegistrationSuccess);
-	let dialogRef = $state();
 	const principles = $derived(data.principles);
 
-	function handleDialog() {
-		dialogRef.open();
-	}
+	// ?add in the url opens the add form, it closes after a successful save and stays open when saving failed
+	let showAddForm = $derived(
+		($page.url.searchParams.has('add') && !form?.success) || form?.success === false
+	);
 
 	function scrollToTop(event) {
 		event.preventDefault();
@@ -37,13 +38,13 @@
 			invalidateAll();
 		}
 	});
-
-	function openAddUrl() {
-		dialogRef?.open();
-	}
 </script>
 
-<Dialog bind:this={dialogRef} {params} isType="addPartner" />
+{#if showAddForm}
+	<FormOverlay title="Partner toevoegen" closeHref="/">
+		<AddForm action="?/addPartner" nameLabel="Partner naam" urlLabel="Website url" closeHref="/" />
+	</FormOverlay>
+{/if}
 
 {#if totalUrls > first}
 	<Pages amount={totalUrls} perPage={first} {currentPage} />

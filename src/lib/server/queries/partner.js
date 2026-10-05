@@ -1,9 +1,10 @@
 // Partner & website related queries
 
-export default function getQueryPartner(limit = 20, offset = 0) {
+// sort is a Directus field name, a leading "-" sorts descending (e.g. "title" or "-title")
+export default function getQueryPartner(limit = 20, offset = 0, sort = 'title') {
 	return `
 		query GetPartners {
-			toolgankelijk_website(limit: ${limit}, offset: ${offset}) {
+			toolgankelijk_website(limit: ${limit}, offset: ${offset}, sort: ["${sort}"]) {
 				id
 				title
 				slug
@@ -48,13 +49,14 @@ export default function getQueryPartner(limit = 20, offset = 0) {
 	`;
 }
 
-export function getQueryWebsite(slug, limit = 20, offset = 0) {
+// sort is a Directus field name of the urls, a leading "-" sorts descending (e.g. "name" or "-name")
+export function getQueryWebsite(slug, limit = 20, offset = 0, sort = 'name') {
 	return `
 		query Website {
 			toolgankelijk_website(filter: { slug: { _eq: "${slug}" } }, limit: 1) {
 				title
 				homepage
-				urls(limit: ${limit}, offset: ${offset}) {
+				urls(limit: ${limit}, offset: ${offset}, sort: ["${sort}"]) {
 					id
 					url
 					name

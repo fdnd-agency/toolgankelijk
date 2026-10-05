@@ -1,61 +1,26 @@
 <script>
 	// checklist is not refactored yet
-	import { onMount } from 'svelte';
 	import { enhance } from '$app/forms';
 	import loadingIcon from '$lib/assets/loading.svg';
 	import NavButton from '../molecules/navButton.svelte';
 
-	let { guidelines, toolboardData, levels, selectedLevel = $bindable(levels[0].level) } = $props();
+	// selectedLevel and description come from the filters in the subheader (?niveau=...&beschrijving=...)
+	let { guidelines, toolboardData, selectedLevel, description = 'simpel' } = $props();
 
 	let loading = $state(false);
-	const getSuccessCriteriaByLevel = (level) =>
-		toolboardData.url.checks[0].successCriteria.filter((item) => item.level === level);
-
-	let filteredSuccessCriteria = getSuccessCriteriaByLevel(selectedLevel);
-
-	const handleLevelChange = (event) => {
-		selectedLevel = event.target.value;
-		filteredSuccessCriteria = getSuccessCriteriaByLevel(selectedLevel);
-	};
-
-	let simpleTranslation = $state(true);
 
 	const checkedSuccessCriteria = $derived(toolboardData.url.checks[0].successCriteria);
 
-	function translate(event) {
-		const button = event.target;
-		const activeSection = button.closest('details');
-		const uitleg = activeSection.querySelector('.richtlijn-uitleg');
-
-		/** De simpele vertaling wordt omgezet in true of false. op basis van de button die geklikt is en welke waarde die dan heeft. */
-		simpleTranslation = !simpleTranslation;
-
-		/** De tekst en button worden ook steeds omgedraaid op basis van de button (van officieel naar simpel) */
-		uitleg.classList.toggle('moeiluk');
-		button.classList.toggle('moeiluk');
-	}
-
-	onMount(() => {
-		const levelToggle = document.querySelector('#niveau-toggle');
-		levelToggle.classList.toggle('disabled');
-	});
+	// keep the chosen filters in the url when saving, also without JavaScript
+	let formAction = $derived(
+		`?${new URLSearchParams({ niveau: selectedLevel, beschrijving: description })}&/updateChecklist`
+	);
 </script>
 
 <section>
-	<div id="niveau-toggle" class="disabled">
-		<label>
-			<p>Selecteer niveau</p>
-			<select bind:value={selectedLevel} onchange={handleLevelChange}>
-				{#each levels as level}
-					<option value={level.level}>Niveau {level.level}</option>
-				{/each}
-			</select>
-		</label>
-	</div>
-
 	<form
 		method="POST"
-		action="?/updateChecklist"
+		action={formAction}
 		use:enhance={() => {
 			loading = true;
 			return async ({ update }) => {
@@ -105,18 +70,20 @@
 											</summary>
 
 											<!-- text explanation for success criteria -->
-											<div class="richtlijn-uitleg" aria-live="polite" dataindex="0">
-												<div class="richtlijn-criteria-1">
-													<p id="uitleg" class="tekst-criteria-1">
-														{@html succescriterium.easyCriteria &&
-															succescriterium.easyCriteria.html}
-													</p>
-												</div>
-												<div class="richtlijn-criteria-2">
-													<p id="uitleg" class="tekst-criteria-2">
-														{@html succescriterium.criteria && succescriterium.criteria.html}
-													</p>
-												</div>
+											<div class="richtlijn-uitleg">
+												{#if description === 'officieel'}
+													<div class="richtlijn-criteria-2">
+														<p id="uitleg" class="tekst-criteria-2">
+															{@html succescriterium.criteria && succescriterium.criteria.html}
+														</p>
+													</div>
+												{:else}
+													<div class="richtlijn-criteria-1">
+														<p id="uitleg" class="tekst-criteria-1">
+															{@html succescriterium.easyCriteria && succescriterium.easyCriteria.html}
+														</p>
+													</div>
+												{/if}
 											</div>
 										</details>
 									</li>
@@ -127,6 +94,7 @@
 				</li>
 			{/each}
 		</ul>
+
 		{#if loading}
 			<div class="submit">
 				<img src={loadingIcon} alt="laadt icoontje" height="32" width="32" />
@@ -149,33 +117,6 @@
 	section {
 		flex-basis: 0;
 		flex-grow: 999;
-	}
-
-	#niveau-toggle {
-		margin-bottom: 1em;
-	}
-
-	#niveau-toggle label {
-		width: 100%;
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		font-weight: 600;
-	}
-
-	#niveau-toggle p {
-		color: var(--color-neutral-black);
-	}
-
-	select {
-		border-radius: var(--border-radius);
-		padding: 0.5em 1em;
-		color: var(--c-white);
-		background-color: var(--color-primary-light);
-		border: none;
-		font-weight: 600;
-		font-size: 1em;
-		cursor: pointer;
 	}
 
 	ul {
@@ -215,7 +156,7 @@
 	}
 
 	.collapsible-summary h2,
-	.collapsible-summary p:not(:first-child){
+	.collapsible-summary p:not(:first-child) {
 		margin-left: 1.2rem;
 		margin-bottom: 0.8rem;
 	}
@@ -290,18 +231,6 @@
 	.richtlijn-uitleg {
 		padding: 1em 0 0 1rem;
 		font-size: 0.9em;
-	}
-
-	.richtlijn-criteria-2 {
-		display: none;
-	}
-
-	:global(.richtlijn-uitleg.moeiluk .richtlijn-criteria-1) {
-		display: none;
-	}
-
-	:global(.richtlijn-uitleg.moeiluk .richtlijn-criteria-2) {
-		display: block;
 	}
 
 	:global(#uitleg p),

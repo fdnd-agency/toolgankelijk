@@ -80,17 +80,29 @@ export class PartnerRepository extends BaseDirectusRepository {
 		});
 	}
 
+	/**
+	 * Sort order from the filter (`a-z` / `z-a`) → Directus sort on a field (`title` / `-title`).
+	 * Only these two fixed values reach the query, so nothing from the url ends up in it.
+	 *
+	 * @param {string} field
+	 * @param {string} order
+	 * @returns {string}
+	 */
+	#toDirectusSort(field, order) {
+		return order === 'z-a' ? `-${field}` : field;
+	}
+
 	// Main functions
 
 	/**
-	 * Paginated website list for the overview, plus principles (for filters) and total count.
+	 * Paginated website list for the overview, sorted on title, plus principles (for filters) and total count.
 	 *
-	 * @param {{ limit?: number; offset?: number }} [options]
+	 * @param {{ limit?: number; offset?: number; order?: string }} [options]
 	 * @returns {Promise<PartnerOverviewData>}
 	 */
-	async listPartners({ limit = 20, offset = 0 } = {}) {
+	async listPartners({ limit = 20, offset = 0, order = 'a-z' } = {}) {
 		try {
-			const query = getQueryPartner(limit, offset);
+			const query = getQueryPartner(limit, offset, this.#toDirectusSort('title', order));
 			const raw = await this.client.query(query);
 			const principles = this.#normalizePartnerPrinciples(raw.toolgankelijk_principle ?? []);
 
@@ -105,15 +117,15 @@ export class PartnerRepository extends BaseDirectusRepository {
 	}
 
 	/**
-	 * One website by slug with its URLs, URL total count, and normalized principles.
+	 * One website by slug with its URLs sorted on name, URL total count, and normalized principles.
 	 *
 	 * @param {string} slug
-	 * @param {{ limit?: number; offset?: number }} [options]
+	 * @param {{ limit?: number; offset?: number; order?: string }} [options]
 	 * @returns {Promise<WebsiteDetails>}
 	 */
-	async getWebsiteBySlug(slug, { limit = 20, offset = 0 } = {}) {
+	async getWebsiteBySlug(slug, { limit = 20, offset = 0, order = 'a-z' } = {}) {
 		try {
-			const query = getQueryWebsite(slug, limit, offset);
+			const query = getQueryWebsite(slug, limit, offset, this.#toDirectusSort('name', order));
 			const raw = await this.client.query(query);
 
 			const websiteNode = raw.toolgankelijk_website?.[0] ?? null;

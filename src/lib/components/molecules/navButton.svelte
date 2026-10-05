@@ -49,7 +49,7 @@
     {/if}
 </svelte:element>
 
-<style>
+<style> 
     .navbutton {
         display: inline-flex;
         align-items: center;
@@ -67,10 +67,6 @@
 
     .navbutton:hover {
         filter: brightness(1.1);
-    }
-
-    .navbutton:focus {
-        border: white 1px solid;
     }
 
     .icon-wrapper {
