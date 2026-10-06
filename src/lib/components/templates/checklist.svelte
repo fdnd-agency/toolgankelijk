@@ -61,23 +61,26 @@
 														<h3>{succescriterium.title}</h3>
 													</hgroup>
 												</summary>
-											
+
 												<!-- text explanation for success criteria -->
 												<div class="richtlijn-uitleg">
 													{#if description === 'officieel'}
 														{@html succescriterium.criteria && succescriterium.criteria.html}
 													{:else}
-														{@html succescriterium.easyCriteria && succescriterium.easyCriteria.html}
+														{@html succescriterium.easyCriteria &&
+															succescriterium.easyCriteria.html}
 													{/if}
 												</div>
 											</details>
 											<label>
-												<span class="visually-hidden">Criteria {succescriterium.index} ({succescriterium.level}) voldoet</span>
+												<span class="visually-hidden"
+													>Criteria {succescriterium.index} ({succescriterium.level}) voldoet</span
+												>
 												<Checkbox
-												  name="check"
-												  value={succescriterium.id}
-												  checked={checkedSuccessCriteria.some((e) => e.id === succescriterium.id)}
-											  />
+													name="check"
+													value={succescriterium.id}
+													checked={checkedSuccessCriteria.some((e) => e.id === succescriterium.id)}
+												/>
 											</label>
 										</li>
 									{/if}
@@ -88,7 +91,7 @@
 				{/if}
 			{/each}
 		</ul>
-    
+
 		{#if loading}
 			<div class="submit">
 				<img src={loadingIcon} alt="laadt icoontje" height="32" width="32" />
@@ -179,7 +182,7 @@
 	.criteria > li > label {
 		grid-area: 1 / 1;
 		justify-self: end;
-		align-self: start;   
+		align-self: start;
 		margin-top: calc(1lh + 1rem);
 	}
 
@@ -206,7 +209,7 @@
 		clip-path: inset(50%);
 		white-space: nowrap;
 	}
-  
+
 	/* Criterion text */
 	.richtlijn-uitleg {
 		padding: 1em 0 0 1rem;

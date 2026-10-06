@@ -58,7 +58,7 @@
 	.filter {
 		display: flex;
 		align-items: center;
-		gap: .5em;
+		gap: 0.5em;
 	}
 
 	/* selects fit their content, so the filters stay next to each other */

@@ -16,8 +16,8 @@
 		border-radius: 0.3em;
 		display: grid;
 		place-content: center;
-        transition: .1s;
-        cursor: pointer;
+		transition: 0.1s;
+		cursor: pointer;
 	}
 
 	input:hover {

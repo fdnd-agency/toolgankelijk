@@ -176,9 +176,7 @@
 					iconName="delete"
 				></NavButton>
 
-				<div class="custom-nav-override">
-
-				</div>
+				<div class="custom-nav-override"></div>
 			</div>
 		</div>
 	</a>
@@ -218,13 +216,12 @@
 	a {
 		text-decoration: none;
 	}
-	
+
 	.card-wrapper {
 		display: flex;
 		gap: 4em;
 		container-type: inline-size;
 		container-name: card-component;
-
 	}
 
 	#card-partner {
