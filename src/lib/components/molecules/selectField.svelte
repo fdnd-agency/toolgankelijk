@@ -42,7 +42,7 @@
 		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6'%3E%3Cpath d='M0 0h10L5 6z' fill='%23b9005f'/%3E%3C/svg%3E");
 		background-repeat: no-repeat;
 		background-position: right 0.6em center;
-		background-size: 0.7em;
+		background-size: 0.9em;
 		color: var(--color-neutral-black);
 		font-size: 1em;
 		font-weight: bold;
