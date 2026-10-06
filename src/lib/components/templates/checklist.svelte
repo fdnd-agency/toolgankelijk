@@ -35,7 +35,7 @@
 			<!-- guidelines and successcriteria text are being loaded in! -->
 			{#each guidelines as guideline}
 				<li>
-					<details>
+					<details name="guideline">
 						<summary class="collapsible-summary">
 							<hgroup>
 								<p>Richtlijn {guideline.index}</p>
@@ -47,7 +47,7 @@
 							{#each guideline.successCriteria as succescriterium}
 								{#if succescriterium.level === selectedLevel}
 									<li>
-										<details>
+										<details name="criterion">
 											<summary class="collapsible-criteria">
 												<hgroup>
 													<p>Criteria {succescriterium.index} ({succescriterium.level})</p>
