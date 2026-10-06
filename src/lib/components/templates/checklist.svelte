@@ -34,53 +34,60 @@
 		<ul>
 			<!-- guidelines and successcriteria text are being loaded in! -->
 			{#each guidelines as guideline}
-				<li>
-					<details name="guideline">
-						<summary class="collapsible-summary">
-							<hgroup>
-								<p>Richtlijn {guideline.index}</p>
-								<h2>{guideline.title}</h2>
-								{@html guideline.explanation.html}
-							</hgroup>
-						</summary>
-						<ul class="criteria">
-							{#each guideline.successCriteria as succescriterium}
-								{#if succescriterium.level === selectedLevel}
-									<li>
-										<details name="criterion">
-											<summary class="collapsible-criteria">
-												<hgroup>
-													<p>Criteria {succescriterium.index} ({succescriterium.level})</p>
-													<h3>{succescriterium.title}</h3>
-												</hgroup>
-											</summary>
+				<!-- true if at least one criterion of this guideline has the selected level -->
+				{@const hasCriteriaAtThisLevel = guideline.successCriteria.some(
+					(criterion) => criterion.level === selectedLevel
+				)}
 
-											<!-- text explanation for success criteria -->
-											<div class="richtlijn-uitleg">
-												{#if description === 'officieel'}
-													{@html succescriterium.criteria && succescriterium.criteria.html}
-												{:else}
-													{@html succescriterium.easyCriteria && succescriterium.easyCriteria.html}
-												{/if}
-											</div>
-										</details>
-										<label>
-											<span class="visually-hidden">Criteria {succescriterium.index} ({succescriterium.level}) voldoet</span>
-											<input
-												name="check"
-												value={succescriterium.id}
-												type="checkbox"
-												checked={checkedSuccessCriteria.find(
-													(e) => e.id === succescriterium.id
-												)}
-											/>
-										</label>
-									</li>
-								{/if}
-							{/each}
-						</ul>
-					</details>
-				</li>
+				{#if hasCriteriaAtThisLevel}
+					<li>
+						<details name="guideline">
+							<summary class="collapsible-summary">
+								<hgroup>
+									<p>Richtlijn {guideline.index}</p>
+									<h2>{guideline.title}</h2>
+									{@html guideline.explanation.html}
+								</hgroup>
+							</summary>
+							<ul class="criteria">
+								{#each guideline.successCriteria as succescriterium}
+									{#if succescriterium.level === selectedLevel}
+										<li>
+											<details name="criterion">
+												<summary class="collapsible-criteria">
+													<hgroup>
+														<p>Criteria {succescriterium.index} ({succescriterium.level})</p>
+														<h3>{succescriterium.title}</h3>
+													</hgroup>
+												</summary>
+											
+												<!-- text explanation for success criteria -->
+												<div class="richtlijn-uitleg">
+													{#if description === 'officieel'}
+														{@html succescriterium.criteria && succescriterium.criteria.html}
+													{:else}
+														{@html succescriterium.easyCriteria && succescriterium.easyCriteria.html}
+													{/if}
+												</div>
+											</details>
+											<label>
+												<span class="visually-hidden">Criteria {succescriterium.index} ({succescriterium.level}) voldoet</span>
+												<input
+													name="check"
+													value={succescriterium.id}
+													type="checkbox"
+													checked={checkedSuccessCriteria.find(
+														(e) => e.id === succescriterium.id
+													)}
+												/>
+											</label>
+										</li>
+									{/if}
+								{/each}
+							</ul>
+						</details>
+					</li>
+				{/if}
 			{/each}
 		</ul>
 
