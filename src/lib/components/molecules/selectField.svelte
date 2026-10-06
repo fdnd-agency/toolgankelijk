@@ -123,12 +123,13 @@
 			margin: 0;
 			border: none;
 			/* flat top left so it flows out of the select, round top right when it's wider */
-			border-radius: 0 0 4px 4px;
+			border-radius: 0 4px 4px 4px;
 			background-color: var(--color-primary-light);
 			color: var(--color-neutral-black);
 			/* closed state of the options, also where they animate back to */
 			opacity: 0;
 			transition: opacity 0.2s ease;
+			box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.234);
 		}
 
 		select:open::picker(select) {
