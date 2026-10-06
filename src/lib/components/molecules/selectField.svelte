@@ -68,11 +68,12 @@
 		select {
 			display: flex;
 			align-items: center;
-			gap: 0.5em;
-			padding: 0 0.6em;
+			gap: .5em;
+			padding: 0 .6em;
 			background-image: none;
 			/* round again only after the options are gone */
 			transition: border-radius 0s 0.2s;
+			max-width: 20rem;
 		}
 
 		/* the button holds the chosen option, it takes the space next to the picker icon */
@@ -87,12 +88,15 @@
 			font: inherit;
 		}
 
-		/* cut off long names with three dots */
+		/* cut off long names with three dots at the start, so the end of the name stays visible */
 		selectedcontent {
 			min-width: 0;
 			overflow: hidden;
 			text-overflow: ellipsis;
 			white-space: nowrap;
+			/* rtl puts the dots on the left, text-align keeps short names on the left */
+			direction: rtl;
+			text-align: left;
 		}
 
 		select::picker-icon {
