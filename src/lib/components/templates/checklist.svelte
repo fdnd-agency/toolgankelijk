@@ -1,5 +1,4 @@
 <script>
-	// checklist is not refactored yet
 	import { enhance } from '$app/forms';
 	import loadingIcon from '$lib/assets/loading.svg';
 	import NavButton from '../molecules/navButton.svelte';
@@ -33,7 +32,7 @@
 		<input type="hidden" name="principe" value={toolboardData.principle.index} />
 
 		<ul>
-			<!-- guidelines en successcriteria text are being loaded in! -->
+			<!-- guidelines and successcriteria text are being loaded in! -->
 			{#each guidelines as guideline}
 				<li>
 					<details>
@@ -41,7 +40,7 @@
 							<hgroup>
 								<p>Richtlijn {guideline.index}</p>
 								<h2>{guideline.title}</h2>
-								<p>{@html guideline.explanation.html}</p>
+								{@html guideline.explanation.html}
 							</hgroup>
 						</summary>
 						<ul class="criteria">
@@ -52,40 +51,30 @@
 											<summary class="collapsible-criteria">
 												<hgroup>
 													<p>Criteria {succescriterium.index} ({succescriterium.level})</p>
-													<div class="title-and-checkmark">
-														<h3>{succescriterium.title}</h3>
-														<label class="column">
-															<span class="visually-hidden">Criteria {succescriterium.index} ({succescriterium.level}) voldoet</span>
-															<input
-																name="check"
-																value={succescriterium.id}
-																type="checkbox"
-																checked={checkedSuccessCriteria.find(
-																	(e) => e.id === succescriterium.id
-																)}
-															/>
-														</label>
-													</div>
+													<h3>{succescriterium.title}</h3>
 												</hgroup>
 											</summary>
 
 											<!-- text explanation for success criteria -->
 											<div class="richtlijn-uitleg">
 												{#if description === 'officieel'}
-													<div class="richtlijn-criteria-2">
-														<p id="uitleg" class="tekst-criteria-2">
-															{@html succescriterium.criteria && succescriterium.criteria.html}
-														</p>
-													</div>
+													{@html succescriterium.criteria && succescriterium.criteria.html}
 												{:else}
-													<div class="richtlijn-criteria-1">
-														<p id="uitleg" class="tekst-criteria-1">
-															{@html succescriterium.easyCriteria && succescriterium.easyCriteria.html}
-														</p>
-													</div>
+													{@html succescriterium.easyCriteria && succescriterium.easyCriteria.html}
 												{/if}
 											</div>
 										</details>
+										<label>
+											<span class="visually-hidden">Criteria {succescriterium.index} ({succescriterium.level}) voldoet</span>
+											<input
+												name="check"
+												value={succescriterium.id}
+												type="checkbox"
+												checked={checkedSuccessCriteria.find(
+													(e) => e.id === succescriterium.id
+												)}
+											/>
+										</label>
 									</li>
 								{/if}
 							{/each}
@@ -123,10 +112,6 @@
 		list-style: '';
 	}
 
-	details {
-		padding: 1em;
-	}
-
 	summary {
 		cursor: pointer;
 	}
@@ -155,8 +140,12 @@
 		border-top: 1px solid var(--color-neutral-black);
 	}
 
+	form > ul > li > details {
+		padding: 1em;
+	}
+
 	.collapsible-summary h2,
-	.collapsible-summary p:not(:first-child) {
+	.collapsible-summary h2 ~ :global(p) {
 		margin-left: 1.2rem;
 		margin-bottom: 0.8rem;
 	}
@@ -173,15 +162,28 @@
 		margin-top: 1.5em;
 	}
 
-	.criteria > li:not(:first-child) {
-		border-top: 1px solid var(--color-neutral-black);
+	.criteria > li {
+		display: grid;
+		padding: 1em;
 	}
 
-	.title-and-checkmark {
-		display: grid;
-		grid-template-columns: 1fr auto;
-		align-items: center;
-		gap: 0.5em;
+	.criteria > li > details {
+		grid-area: 1 / 1;
+	}
+
+	.criteria > li > label {
+		grid-area: 1 / 1;
+		justify-self: end;
+		align-self: start;   
+		margin-top: calc(1lh + 1rem);
+	}
+
+	.collapsible-criteria {
+		padding-right: 2.5em;
+	}
+
+	.criteria > li:not(:first-child) {
+		border-top: 1px solid var(--color-neutral-black);
 	}
 
 	h3 {
@@ -192,11 +194,15 @@
 
 	.visually-hidden {
 		position: absolute;
-		left: 99999em;
+		width: 1px;
+		height: 1px;
+		margin: -1px;
+		overflow: hidden;
+		clip-path: inset(50%);
+		white-space: nowrap;
 	}
 
 	input[type='checkbox'] {
-		-webkit-appearance: none;
 		appearance: none;
 		margin: 0;
 		color: var(--color-primary);
@@ -205,7 +211,6 @@
 		height: 2em;
 		border: 0.15em solid currentColor;
 		border-radius: 0.3em;
-		transform: translateY(-0.075em);
 		display: grid;
 		place-content: center;
 	}
@@ -231,17 +236,6 @@
 	.richtlijn-uitleg {
 		padding: 1em 0 0 1rem;
 		font-size: 0.9em;
-	}
-
-	:global(#uitleg p),
-	:global(#uitleg ul) {
-		line-height: 1.5;
-		margin-block: 1em;
-		max-width: 30em;
-	}
-
-	:global(#uitleg ul) {
-		list-style: disc;
 	}
 
 	/* Loading state */
