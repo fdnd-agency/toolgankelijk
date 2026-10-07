@@ -51,6 +51,7 @@
 		overflow: hidden;
 		text-overflow: ellipsis;
 		cursor: pointer;
+		max-width: 20rem;
 	}
 
 	select:focus-visible {
@@ -73,7 +74,6 @@
 			background-image: none;
 			/* round again only after the options are gone */
 			transition: border-radius 0s 0.2s;
-			max-width: 20rem;
 		}
 
 		/* the button holds the chosen option, it takes the space next to the picker icon */
@@ -152,6 +152,18 @@
 		option {
 			padding: 0.4em 0.6em;
 			white-space: normal;
+
+			/* urls have no spaces, so allow breaking anywhere */
+			overflow-wrap: anywhere;
+			
+
+			/* Option to discuss. Shows the end of the name of a title. */
+			/* direction: rtl;
+			text-align: left;
+
+			&:first-of-type{
+				direction: ltr;
+			} */
 		}
 
 		option::checkmark {
