@@ -137,18 +137,19 @@ p {
 	letter-spacing: 0.0025rem;
 }
 
-/* Default layout */
-.richtlijn-uitleg > ul {
-	margin-left: 1.5em;
-	padding-top: 0.5em;
-	padding-bottom: 0.5em;
+/* Text from the CMS inside an opened criterion */
+.richtlijn-uitleg p,
+.richtlijn-uitleg ul,
+.richtlijn-uitleg li {
+	margin: 0 0 1em 0;
+	padding: 0;
+	font-size: inherit;
+	line-height: 1.5;
+	max-width: 30em;
 }
 
-.richtlijn-uitleg > ul li {
-	padding: 0.3em 0;
-	font-size: 0.9rem;
-	line-height: 141.667%;
-	letter-spacing: 0.0025rem;
+.richtlijn-uitleg ul {
+	list-style: disc;
 }
 
 .disabled {
