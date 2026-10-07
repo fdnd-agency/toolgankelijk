@@ -70,7 +70,7 @@
     .subheader-row {
         display: flex;
         justify-content: space-between;
-        align-items: center;
+        align-items: start;
         width: 100%;
         gap: 1em;
     }
