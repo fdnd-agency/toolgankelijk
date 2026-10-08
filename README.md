@@ -120,9 +120,8 @@ The info page displaying information about how to tool work and why you should a
 
 ## Datamodel
 
-<a href="docs/ERD.svg">
-  <img src="docs/ERD.svg" alt="Public ERD for Toolgankelijk" width="900">
-</a>
+<img width="1477" height="911" alt="image" src="https://github.com/user-attachments/assets/db53cc2d-d6fb-4852-ba97-6fdaa9dbdc7a" />
+
 
 Full size: `docs/ERD.svg`
 
@@ -131,12 +130,18 @@ Source: `docs/ERD-public.mmd`
 ## Installation
 
 ```
-1. Clone de repository
-2. Open de repo in een IDE
-3. Installeer npm packages d.m.v. npm install
-4. Maak een `.env` bestand aan in de root van het project en vul de benodigde variabelen in (zie `example.env` voor de juiste namen en structuur)
-5. Run de localhost d.m.v. npm run dev
+1. Clone the repository
+2. Open the repository in an IDE
+3. Install the npm packages d.m.v. npm install
+4. Create an `.env` file in the root of the project and fill in the required variabels (read `example.env` for the right naming en structure)
+5. Run the localhost d.m.v. npm run dev
 ```
+
+## Projectteam 2026/2027
+
+- Seb - Frontend Developer
+- Sieuwke - Frontend Developer
+- Tin - Frontend Developer
 
 ## Projectteam 2026
 
