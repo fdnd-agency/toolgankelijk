@@ -42,7 +42,7 @@
 		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6'%3E%3Cpath d='M0 0h10L5 6z' fill='%23b9005f'/%3E%3C/svg%3E");
 		background-repeat: no-repeat;
 		background-position: right 0.6em center;
-		background-size: 0.7em;
+		background-size: 0.9em;
 		color: var(--color-neutral-black);
 		font-size: 1em;
 		font-weight: bold;
@@ -51,6 +51,7 @@
 		overflow: hidden;
 		text-overflow: ellipsis;
 		cursor: pointer;
+		max-width: 20rem;
 	}
 
 	select:focus-visible {
@@ -68,8 +69,8 @@
 		select {
 			display: flex;
 			align-items: center;
-			gap: 0.5em;
-			padding: 0 0.6em;
+			gap: .5em;
+			padding: 0 .6em;
 			background-image: none;
 			/* round again only after the options are gone */
 			transition: border-radius 0s 0.2s;
@@ -87,12 +88,15 @@
 			font: inherit;
 		}
 
-		/* cut off long names with three dots */
+		/* cut off long names with three dots at the start, so the end of the name stays visible */
 		selectedcontent {
 			min-width: 0;
 			overflow: hidden;
 			text-overflow: ellipsis;
 			white-space: nowrap;
+			/* rtl puts the dots on the left, text-align keeps short names on the left */
+			direction: rtl;
+			text-align: left;
 		}
 
 		select::picker-icon {
@@ -123,12 +127,13 @@
 			margin: 0;
 			border: none;
 			/* flat top left so it flows out of the select, round top right when it's wider */
-			border-radius: 0 0 4px 4px;
+			border-radius: 0 4px 4px 4px;
 			background-color: var(--color-primary-light);
 			color: var(--color-neutral-black);
 			/* closed state of the options, also where they animate back to */
 			opacity: 0;
 			transition: opacity 0.2s ease;
+			box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.234);
 		}
 
 		select:open::picker(select) {
@@ -147,6 +152,18 @@
 		option {
 			padding: 0.4em 0.6em;
 			white-space: normal;
+
+			/* urls have no spaces, so allow breaking anywhere */
+			overflow-wrap: anywhere;
+			
+
+			/* Option to discuss. Shows the end of the name of a title. */
+			/* direction: rtl;
+			text-align: left;
+
+			&:first-of-type{
+				direction: ltr;
+			} */
 		}
 
 		option::checkmark {
