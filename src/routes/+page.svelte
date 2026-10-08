@@ -90,8 +90,6 @@
 		color: var(--color-accent-tertiary);
 	}
 
-
-
 	.scroll-color-override {
 		display: flex;
 		justify-content: flex-end;
@@ -105,7 +103,6 @@
 	.scroll-color-override :global(img) {
 		transform: rotate(180deg);
 	}
-
 
 	.card-container {
 		display: grid;

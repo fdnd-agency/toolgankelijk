@@ -52,10 +52,10 @@
 		display: flex;
 		flex-wrap: wrap;
 		align-items: flex-start;
-		gap: .5em 1em;
+		gap: 0.5em 1em;
 		flex-direction: column;
 
-		@media (width > 740px){
+		@media (width > 740px) {
 			flex-direction: row;
 		}
 	}
@@ -63,7 +63,7 @@
 	.filter {
 		display: flex;
 		align-items: center;
-		gap: .5em;
+		gap: 0.5em;
 	}
 
 	/* selects fit their content, so the filters stay next to each other */

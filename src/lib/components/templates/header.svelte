@@ -6,7 +6,9 @@
 </script>
 
 <header>
-	<NavButton effect="invisible" class="disabled" href="#main">Jump directly to main content</NavButton>
+	<NavButton effect="invisible" class="disabled" href="#main"
+		>Jump directly to main content</NavButton
+	>
 
 	<Logo />
 
@@ -69,7 +71,6 @@
 		justify-content: space-between;
 		width: 100%;
 		margin-left: 4em;
-		
 
 		@media (max-width: 720px) {
 			display: none;
@@ -80,11 +81,10 @@
 		display: flex;
 		align-items: center;
 		gap: 2em;
-
 	}
 
 	p {
-        margin: 0;
-        padding: 0;
-    }
+		margin: 0;
+		padding: 0;
+	}
 </style>

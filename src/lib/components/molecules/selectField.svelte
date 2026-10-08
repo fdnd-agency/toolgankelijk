@@ -69,8 +69,8 @@
 		select {
 			display: flex;
 			align-items: center;
-			gap: .5em;
-			padding: 0 .6em;
+			gap: 0.5em;
+			padding: 0 0.6em;
 			background-image: none;
 			/* round again only after the options are gone */
 			transition: border-radius 0s 0.2s;
@@ -155,7 +155,6 @@
 
 			/* urls have no spaces, so allow breaking anywhere */
 			overflow-wrap: anywhere;
-			
 
 			/* Option to discuss. Shows the end of the name of a title. */
 			/* direction: rtl;

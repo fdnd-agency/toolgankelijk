@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import fc from 'fast-check';
-import { actions } from '../../src/routes/[websiteUID]/addUrl/+page.server.js';
+import { actions } from '../../src/routes/[websiteUID]/+page.server.js';
 import { urlRepository } from '$lib/server/index.js';
 
 vi.mock('$lib/server/index.js', async (importOriginal) => {

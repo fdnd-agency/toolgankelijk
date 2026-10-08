@@ -55,15 +55,15 @@
 		line-height: 1;
 	}
 
-#underline {
-        fill: var(--color-neutral-white);
-        display: none;
+	#underline {
+		fill: var(--color-neutral-white);
+		display: none;
 
-        @media (max-width: 1080px) {
-            display: block;
-            margin-top: -0.2em;
-        }
-    }
+		@media (max-width: 1080px) {
+			display: block;
+			margin-top: -0.2em;
+		}
+	}
 
 	.logo-header {
 		display: flex;

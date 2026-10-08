@@ -11,7 +11,7 @@ export function createFilter(url, { name, label, options }) {
 	const requested = url.searchParams.get(name);
 	const value = options.some((option) => option.value === requested)
 		? requested
-		: options[0]?.value ?? '';
+		: (options[0]?.value ?? '');
 
 	return { name, label, options, value };
 }
