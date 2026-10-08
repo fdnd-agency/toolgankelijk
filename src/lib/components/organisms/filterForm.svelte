@@ -51,8 +51,13 @@
 	.filters {
 		display: flex;
 		flex-wrap: wrap;
-		align-items: center;
-		gap: 1em;
+		align-items: flex-start;
+		gap: .5em 1em;
+		flex-direction: column;
+
+		@media (width > 740px){
+			flex-direction: row;
+		}
 	}
 
 	.filter {
