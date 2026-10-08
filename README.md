@@ -127,9 +127,9 @@ Source: `docs/ERD-public.mmd`
 ```
 1. Clone the repository
 2. Open the repository in an IDE
-3. Install the npm packages d.m.v. npm install
+3. Install the npm packages with npm install
 4. Create an `.env` file in the root of the project and fill in the required variabels (read `example.env` for the right naming en structure)
-5. Run the localhost d.m.v. npm run dev
+5. Run the localhost with npm run dev
 ```
 
 ## Projectteam 2026/2027
