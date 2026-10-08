@@ -6,15 +6,17 @@
 
 ## Contents
 
-- Description
-- Features
-- Design Choices
-- Component Library
-- Datamodel
-- Installation
-- Projectteam 2026
-- Sources
-- Licence
+- [Description](#description)
+- [Design System](#design-system)
+- [Design Choices](#design-choices)
+- [Component Library](#component-library)
+- [Other Pages](#other-pages)
+- [Datamodel](#datamodel)
+- [Installation](#installation)
+- [Projectteam 2026/2027](#projectteam-20262027)
+- [Projectteam 2026](#projectteam-2026)
+- [Sources](#sources-)
+- [License](#license)
 
 ## Description
 
@@ -24,7 +26,7 @@ Vervoerregio is a client of the public transportation per bus, tram, metro.
 
 Toolgankelijk is an ongoing project at FDND-agency that has been developed by alternating teams since 2023. Within this project, a website with an audit tool has been developed, allowing partners of Vervoer Regio Amsterdam to test their websites for accessibility according to EAA legislation.
 
-With the application you can run a performance audit, to check the status of your website. After you run the test it you will see the results of the automatically tests. There are some audits you have to check manually. There is a second repositry. When you need to run a performance audit make sure you run this in the background.
+With the application you can run a performance audit, to check the status of your website. After you run the test it you will see the results of the automatically tests. There are some audits you have to check manually. There is a second repositry. When you need to run a performance audit make sure you run this in the background.
 
 <img width="1440" height="1047" alt="ss-1" src="https://github.com/user-attachments/assets/7081892e-c2bb-454a-b21e-a1baa9466636" />
 
@@ -38,7 +40,7 @@ This design system serves as the blueprint for the visual direction of the appli
 
 [Design System figma file](https://www.figma.com/design/u9GyhD6jIajigsWlHYBuWj/Design-System---Vervoerregio-Amsterdam?node-id=1-830&t=IC3XiL7krvLuWoKn-1)
 
-## Design Choises
+## Design Choices
 
 This is the most up to date design of the application with the design system implemented in Figma. It reflects the current visual direction and the agreed design choices for the project. However, the design still needs to be implemented into the official application, meaning the next step is to translate these Figma components and styles into the working product so that the interface fully aligns with the defined design system.
 
@@ -125,9 +127,9 @@ The info page displaying information about how to tool work and why you should a
 <img width="1477" height="911" alt="image" src="https://github.com/user-attachments/assets/db53cc2d-d6fb-4852-ba97-6fdaa9dbdc7a" />
 
 
-Full size: `docs/ERD.svg`
+Full size: `docs/ERD.svg`
 
-Source: `docs/ERD-public.mmd`
+Source: `docs/ERD-public.mmd`
 
 ## Installation
 
@@ -148,9 +150,9 @@ Source: `docs/ERD-public.mmd`
 ## Projectteam 2026
 
 - Tom - CMD student
-- Maksim – Backend Developer
-- Joost - Frontend Developer
-- Miel - Frontend Developer
+- Maksim – Backend Developer
+- Joost - Frontend Developer
+- Miel - Frontend Developer
 
 ## Sources 💡
 
@@ -165,4 +167,4 @@ Source: `docs/ERD-public.mmd`
 
 ## License
 
-This project is licensed under the terms of the MIT license.
+This project is licensed under the terms of the MIT license.
