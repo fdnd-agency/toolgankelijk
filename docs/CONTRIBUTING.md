@@ -1,104 +1,104 @@
 # Contributing Guidelines
 
-Dankjewel voor je interesse in bijdragen aan dit project! Deze richtlijnen zorgen ervoor dat de codekwaliteit hoog blijft en dat iedereen op een gestandaardiseerde manier samenwerkt. Lees dit document door voordat je begint!
+Thank you for your interest in contributing to this project! These guidelines help keep code quality high and make sure everyone collaborates in a standardized way. Please read this document before you get started!
 
 ---
 
-## Inhoudsopgave
+## Table of Contents
 
-- [Team afspraken](#team-afspraken)
+- [Team Agreements](#team-agreements)
 - [Quick Start](#quick-start)
 - [Commit Messages](#commit-messages)
 - [Pull Requests](#pull-requests)
-- [Issues & Projectbord](#issues--projectbord)
-- [Testen](#testen)
+- [Issues & Project Board](#issues--project-board)
+- [Testing](#testing)
 - [Definition of Ready](#definition-of-ready)
 - [Definition of Done](#definition-of-done)
-- [Post Mortem](#post-mortem)
+- [Post-mortem](#post-mortem)
 - [Code Conventions](#code-conventions)
-- [Tot slot](#tot-slot)
+- [Wrapping Up](#wrapping-up)
 
 ---
 
-## Team afspraken
-- Houd je aan de afspraken/code conventies gemaakt in de contributing.md
-- We organiseren dagelijks een stand ups.
-- Alle branches worden gemerged naar de dev-branch
-- Documentatie van de Sprint Reviews word genoteerd in issues
-- We gebruiken 1 taal in het project.
-- Aan het einde van elke sprint een retrospect (retromat).
+## Team Agreements
+- Stick to the agreements and code conventions defined in this CONTRIBUTING.md.
+- We hold daily stand-ups.
+- All branches are merged into the `dev` branch.
+- Sprint Review documentation is recorded in issues.
+- We use one language throughout the project.
+- At the end of every sprint we hold a retrospective (Retromat).
 
-**Teamcanvas**
+**Team Canvas**
 
 <img width="905" height="639" alt="image" src="https://github.com/user-attachments/assets/e3a7ad68-53d8-4924-b987-f951f553de34" />
 
 ---
 
 ## Quick Start
-We volgen de **Git Flow workflow** als branching strategie. Dit betekent dat:
-- Maak een feature branch aan vanaf `dev` (commit nooit direct naar `main`).
-- Gebruik duidelijke branchnamen: `feature/...`, `fix/...`, `docs/...`.
-- Gebruik altijd kleine letters voor je branche bijv: "feature/component-name".
-- Gebruik [Conventional Commits](https://www.conventionalcommits.org) voor commit messages.
-- Open Pull Requests (PR’s) altijd naar `dev`, niet naar `main`.
-- Koppel je werk aan een issue op het projectbord.
-- Houd Pull Requests klein en zorg dat ze worden gereviewd en goedgekeurd voordat ze worden gemerged.
+We follow the **Git Flow workflow** as our branching strategy. This means:
+- Create a feature branch from `dev` (never commit directly to `main`).
+- Use clear branch names: `feature/...`, `fix/...`, `docs/...`.
+- Always use lowercase for your branch names, e.g. `feature/component-name`.
+- Use [Conventional Commits](https://www.conventionalcommits.org) for commit messages.
+- Always open Pull Requests (PRs) against `dev`, not `main`.
+- Link your work to an issue on the project board.
+- Keep Pull Requests small and make sure they are reviewed and approved before they are merged.
 
-Voor meer visuele informatie over de Git Flow workflow, zie [GitKraken Git Flow](https://www.gitkraken.com/learn/git/git-flow#the-git-flow-workflow).
+For a more visual explanation of the Git Flow workflow, see [GitKraken Git Flow](https://www.gitkraken.com/learn/git/git-flow#the-git-flow-workflow).
 
 ---
 
 ## Commit Messages
 
-We hanteren conventionele commits die niet alleen helpen bij een overzichtelijke historie, maar ook bij het automatisch bepalen van versienummers volgens Semantic Versioning. Houd bij het schrijven van commitberichten de volgende structuur aan:
+We use conventional commits, which not only keep the history clear but also help automatically determine version numbers according to Semantic Versioning. Use the following structure when writing commit messages:
 
 ```plain
-[commit-type]: [beschrijving-van-commit-inhoud] #[issue-nummer]
+[commit-type]: [description-of-commit-content] #[issue-number]
 ```
 
-### Toegestane Commit Types
+### Allowed Commit Types
 
-- **build:** Veranderingen die het build systeem of externe dependencies beïnvloeden.
-- **chore:** Updates aan de build process of extra tools en bibliotheken, zoals documentatie generatie.
-- **ci:** Wijzigingen aan CI-configuratiebestanden en scripts (bijv. GitHub Actions, netlify.toml).
-- **docs:** Aanpassingen aan documentatie (bijv. README.md, Handover.md, design rationale).
-- **feat:** Toevoegen van een nieuwe feature.
-- **fix:** Oplossen van bugs, stijl- of layout-problemen.
-- **perf:** Wijzigingen die de performance verbeteren.
-- **refactor:** Aanpassingen die de structuur of leesbaarheid verbeteren zonder functionaliteit toe te voegen of te repareren.
-- **style:** Wijzigingen die de leesbaarheid of de vormgeving verbeteren (zoals formatteren, inspringen, nieuwe regels).
-- **test:** Toevoegen of corrigeren van tests.
+- **build:** Changes that affect the build system or external dependencies.
+- **chore:** Updates to the build process or auxiliary tools and libraries, such as documentation generation.
+- **ci:** Changes to CI configuration files and scripts (e.g. GitHub Actions, netlify.toml).
+- **docs:** Changes to documentation (e.g. README.md, Handover.md, design rationale).
+- **feat:** Adding a new feature.
+- **fix:** Fixing bugs, styling or layout issues.
+- **perf:** Changes that improve performance.
+- **refactor:** Changes that improve structure or readability without adding or fixing functionality.
+- **style:** Changes that improve readability or formatting (such as formatting, indentation, new lines).
+- **test:** Adding or correcting tests.
 
-### Commit Strategie
+### Commit Strategy
 
-- **Frequent committen:** Commit vaak en op een logisch punt, zodat iedere belangrijke verandering vastgelegd wordt.
-- **Referentie naar issues:** Verwijs in je commitmessage naar de betreffende issue door `#[issue-nummer]` toe te voegen.
-- **Optionele Gitmoji:** Gebruik gitmoji's als visuele aanvulling op je commit message. Bijvoorbeeld:
+- **Commit frequently:** Commit often and at logical points, so every significant change is recorded.
+- **Reference issues:** Reference the relevant issue in your commit message by adding `#[issue-number]`.
+- **Optional Gitmoji:** Use gitmojis as a visual addition to your commit message. For example:
 
   ```plaintext
   refactor: Deduplicated marker popup creation to helper function 🧑‍💻 #23
-  style: Formatting toegepast in src bestanden #91
-  feat: animals uit de database worden nu opgehaald en weergegeven in de dropdown #213
-  fix: header font maat veranderd 🐛 #394
+  style: Applied formatting to src files #91
+  feat: animals are now fetched from the database and shown in the dropdown #213
+  fix: changed header font size 🐛 #394
   ```
 
-Meer info:
+More info:
 
 - [Conventional Commits](https://www.conventionalcommits.org/)
-- [use gitmoji in commit messages](https://gitmoji.dev/)
-- [Semantic versioning](https://semver.org/)
+- [Use gitmoji in commit messages](https://gitmoji.dev/)
+- [Semantic Versioning](https://semver.org/)
 - [Mastering commit messages](https://www.madewiththeforce.com/commit-messages/)
 
 ---
 
 ## Pull Requests
-- Open altijd een PR naar de `dev`-branch.
-- Houd PR’s klein en gefocust.
-- Review je eigen code voordat je om een review vraagt.
-- Geef context in de beschrijving (wat en waarom).
-- Teamgenoten moeten de PR reviewen en goedkeuren voordat deze wordt gemerged.
+- Always open a PR against the `dev` branch.
+- Keep PRs small and focused.
+- Review your own code before requesting a review.
+- Provide context in the description (what and why).
+- Teammates must review and approve the PR before it is merged.
 
-## Pull request template
+## Pull Request Template
 - What does this change?
 - How Has This Been Tested?
     - [ ] [User test]()
@@ -110,121 +110,122 @@ Meer info:
 - Images
 - How to review
 
-Meer info:  
+More info:  
 [Helping others review your changes](https://github.com/isaacs/github/issues/29)
 
 ---
 
-## Issues & Projectbord
-We beheren al het werk via GitHub issues die zijn gekoppeld aan het projectbord.
+## Issues & Project Board
+We manage all work through GitHub issues linked to the project board.
 
-**Soorten issues:**
-- **Feature** – nieuwe functionaliteit of component
-- **Bug** – fix voor een fout
-- **Taak** – ondersteunend werk (refactoring, styling, setup)
-- **Documentatie** – README-updates, overdracht, notities
+**Issue types:**
+- **Feature** – new functionality or component
+- **Bug** – fix for an error
+- **Task** – supporting work (refactoring, styling, setup)
+- **Documentation** – README updates, handover, notes
 
-**Structuur:**
-- Grote doelen → opgesplitst in **epics → user stories → taken**
-- Elke issue moet:
-  - Duidelijk zijn en klein genoeg om snel af te ronden
-  - Toegewezen zijn aan een teamlid
-  - Gekoppeld zijn aan het projectbord
- 
+**Structure:**
+- Large goals → broken down into **epics → user stories → tasks**
+- Every issue must:
+  - Be clear and small enough to complete quickly
+  - Be assigned to a team member
+  - Be linked to the project board
+
 ---
 
-## Testen
+## Testing
 
-Testen is een essentieel onderdeel van bijdragen aan dit project. Elke wijziging moet worden getest om kwaliteit, performance en toegankelijkheid te waarborgen.
+Testing is an essential part of contributing to this project. Every change must be tested to ensure quality, performance and accessibility.
 
-### Functioneel testen
-- Controleer of nieuwe en bestaande functionaliteiten correct werken.
-- Voeg unit- en/of integratietests toe of werk deze bij waar van toepassing.
-- Zorg dat er geen regressies worden geïntroduceerd.
+### Functional testing
+- Check that new and existing functionality works correctly.
+- Add or update unit and/or integration tests where applicable.
+- Make sure no regressions are introduced.
 
 ### Performance
-- Houd rekening met de impact op performance (bijv. grote afbeeldingen, zware scripts).
-- Voer performancechecks uit wanneer relevant.
-- Optimaliseer assets waar mogelijk.
+- Consider the impact on performance (e.g. large images, heavy scripts).
+- Run performance checks when relevant.
+- Optimize assets where possible.
 
-### Toegankelijkheid (A11y)
-- Volg basisrichtlijnen voor toegankelijkheid (WCAG).
-- Zorg dat keyboard-navigatie correct werkt.
-- Controleer kleurcontrast en leesbaarheid.
-- Voorzie afbeeldingen van betekenisvolle alt-teksten.
+### Accessibility (A11y)
+- Follow basic accessibility guidelines (WCAG).
+- Make sure keyboard navigation works correctly.
+- Check color contrast and readability.
+- Provide images with meaningful alt text.
 
-### Responsiveness & browser-tests
-- Test layouts op verschillende schermformaten.
-- Controleer functionaliteit in gangbare browsers.
-- Los layout- of interactieproblemen op wanneer deze worden gevonden.
+### Responsiveness & browser testing
+- Test layouts on different screen sizes.
+- Check functionality in common browsers.
+- Fix layout or interaction issues when they are found.
 
-### Validatie
-- Valideer HTML/CSS waar van toepassing.
-- Los validatiefouten en waarschuwingen op.
+### Validation
+- Validate HTML/CSS where applicable.
+- Resolve validation errors and warnings.
 
-### Gebruikersonderzoek / UX
-- Controleer of content en interacties duidelijk en intuïtief zijn.
-- Zorg voor een logische opbouw en flow.
-- Voeg context of begeleiding toe waar nodig.
+### User research / UX
+- Check that content and interactions are clear and intuitive.
+- Ensure a logical structure and flow.
+- Add context or guidance where needed.
 
 ---
 
-## Definition of Ready 
+## Definition of Ready
 
-De Definition of Ready beschrijft de afspraken binnen het Scrumteam die bepalen wanneer een item klaar is om opgepakt te worden tijdens een sprint. Dit helpt het team om efficiënter te werken en sneller waarde te leveren, doordat user stories van voldoende kwaliteit zijn voordat de ontwikkeling start.
+The Definition of Ready describes the agreements within the Scrum team that determine when an item is ready to be picked up during a sprint. This helps the team work more efficiently and deliver value faster, because user stories are of sufficient quality before development starts.
 
-Bron: [Wat is de Definition of Ready? | Agile Scrum Group](https://agilescrumgroup.nl/wat-is-definition-of-ready/)
+Source: [What is the Definition of Ready? | Agile Scrum Group (Dutch)](https://agilescrumgroup.nl/wat-is-definition-of-ready/)
 
-Een item is *Ready* wanneer:
-- Er een (globaal) ontwerp beschikbaar is in Figma, indien nodig
-- De story is besproken en ingeschat (story poker gepland)
-- De MoSCoW-methode is toegepast
-- De user story het juiste format gebruikt  
-  *(Als [rol] wil ik [functionaliteit], zodat [doel])*
+An item is *Ready* when:
+- A (rough) design is available in Figma, if needed
+- The story has been discussed and estimated (story poker scheduled)
+- The MoSCoW method has been applied
+- The user story uses the correct format  
+  *(As a [role] I want [functionality], so that [goal])*
 
 
-## Definition of Done 
+## Definition of Done
 
-De Definition of Done is een checklist die aangeeft wanneer een taak, user story of feature als afgerond wordt beschouwd. Dit voorkomt discussie over wat “klaar” betekent en zorgt voor consistente kwaliteit binnen het team.
+The Definition of Done is a checklist that indicates when a task, user story or feature is considered complete. This prevents discussion about what "done" means and ensures consistent quality within the team.
 
-Bron: [Wat is Definition of Done? | Agile Scrum Group](https://agilescrumgroup.nl/wat-is-definition-of-done/)
+Source: [What is the Definition of Done? | Agile Scrum Group (Dutch)](https://agilescrumgroup.nl/wat-is-definition-of-done/)
 
-Een item is *Done* wanneer:
-- De functionaliteit is getest
-- De taak volledig is afgerond
-- De code voldoet aan de afgesproken code conventies
-- De wijzigingen zijn gemerged naar de `dev`-branch
-- Er een werkende live-link is naar de `dev`-omgeving
+An item is *Done* when:
+- The functionality has been tested
+- The task has been fully completed
+- The code follows the agreed code conventions
+- The changes have been merged into the `dev` branch
+- There is a working live link to the `dev` environment
 
 ---
 
 ## Post-mortem
 
-Een post-mortem wordt uitgevoerd wanneer het team moet reflecteren op samenwerkings- of procesproblemen.
+A post-mortem is held when the team needs to reflect on collaboration or process issues.
 
-We doen een post-mortem wanneer:
-- Een teamlid afspraken niet nakomt
-- Een teamlid onvoldoende communiceert
-- Een teamlid structureel geen werk oplevert
+We hold a post-mortem when:
+- A team member does not keep to agreements
+- A team member does not communicate sufficiently
+- A team member structurally does not deliver work
+
 ---
 
 ## Code Conventions
 
-Volg in dit project de code conventies zoals die ook worden toegepast binnen het project. Enkele belangrijke punten:
+Follow the code conventions already applied within this project. Some key points:
 
-- **The Girl / Boy Scout Rule:** Zorg ervoor dat je bij elke commit de code achterlaat in een iets betere staat dan je hem aantrof. Zelfs kleine verbeteringen zijn waardevol.
-- **Leesbaarheid en onderhoudbaarheid:** Schrijf code met het oog op toekomstige wijzigingen en zorg dat nieuwe code altijd consistent is met de bestaande codebase.
-- **Documentatie:** Zorg dat alle belangrijke methodes en logica gedocumenteerd zijn zodat andere ontwikkelaars makkelijk de code kunnen begrijpen.
+- **The Girl / Boy Scout Rule:** With every commit, leave the code in a slightly better state than you found it. Even small improvements are valuable.
+- **Readability and maintainability:** Write code with future changes in mind and make sure new code is always consistent with the existing codebase.
+- **Documentation:** Make sure all important methods and logic are documented so other developers can easily understand the code.
 
 ---
 
-## Tot slot
+## Wrapping Up
 
-Wij waarderen iedere bijdrage die leidt tot een betere codebase en een verbeterde werkomgeving voor het team. Volg deze richtlijnen zorgvuldig om ervoor te zorgen dat jouw bijdragen naadloos integreren in het project.
+We value every contribution that leads to a better codebase and an improved working environment for the team. Follow these guidelines carefully to make sure your contributions integrate seamlessly into the project.
 
-Voor alle conventies en de volledige werkwijze van FDND Agency, zie ook de [FDND Agency conventies](https://github.com/fdnd-agency/.github/wiki/Workflow-conventions).
+For all conventions and the full workflow of FDND Agency, see also the [FDND Agency conventions](https://github.com/fdnd-agency/.github/wiki/Workflow-conventions).
 
-Bedankt voor je inzet en veel succes met bijdragen!
+Thanks for your effort and good luck contributing!
 
 Happy coding!  
 _FDND Agency_
