@@ -182,6 +182,7 @@ An item is *Ready* when:
 - The user story uses the correct format  
   *(As a [role] I want [functionality], so that [goal])*
 
+When the item is ready, you can place the item from the `Backlog` column to the `ToDo` column in the project board.
 
 ## Definition of Done
 
@@ -195,6 +196,9 @@ An item is *Done* when:
 - The code follows the agreed code conventions
 - The changes have been merged into the `dev` branch
 - There is a working live link to the `dev` environment
+
+
+When the item is ready, you can place the item from the `To review` column to the `Done` column in the project board.
 
 ---
 
