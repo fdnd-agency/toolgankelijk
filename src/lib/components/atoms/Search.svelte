@@ -34,7 +34,7 @@
 		display: flex;
 		justify-content: flex-end;
 		align-items: center;
-		gap: 1em;
+		gap: var(--gap-medium);
 		font-weight: 600;
 	}
 

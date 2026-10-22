@@ -2,7 +2,6 @@
 	// page with checks manually audit
 	import Checklist from '$lib/components/templates/checklist.svelte';
 	import Sidebar from '$lib/components/templates/sidebar.svelte';
-	import SubHeader from '$lib/components/templates/subheader.svelte';
 
 	let { data, form } = $props();
 

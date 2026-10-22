@@ -2,7 +2,7 @@
 	// filters for the main content, every page gives its own filters from its load function
 	// GET form: the choices end up in the url and the server filters the data (works without JavaScript)
 	import { onMount } from 'svelte';
-	import SelectField from '../molecules/selectField.svelte';
+	import SelectField from '$lib/components/atoms/SelectField.svelte';
 
 	let { filters = [] } = $props();
 
@@ -52,7 +52,7 @@
 		display: flex;
 		flex-wrap: wrap;
 		align-items: flex-start;
-		gap: 0.5em 1em;
+		gap: var(--gap-small) var(--gap-big);
 		flex-direction: column;
 
 		@media (width > 740px) {
@@ -63,7 +63,7 @@
 	.filter {
 		display: flex;
 		align-items: center;
-		gap: 0.5em;
+		gap: var(--gap-small);
 	}
 
 	/* selects fit their content, so the filters stay next to each other */

@@ -2,7 +2,7 @@
 	import { page } from '$app/stores';
 	import { onNavigate } from '$app/navigation';
 	import Header from '$lib/components/templates/header.svelte';
-	import SubHeader from '$lib/components/templates/subheader.svelte';
+	import SubHeader from '$lib/components/organisms/SubHeader.svelte';
 
 	// give the variables to the pages
 	let { data, children } = $props();

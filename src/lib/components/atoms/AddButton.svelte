@@ -5,12 +5,26 @@
 	let { href, label } = $props();
 </script>
 
-<!-- data-sveltekit-noscroll: with JavaScript the page keeps its scroll position when the overlay opens -->
-<a {href} class="add-button" aria-label={label} data-sveltekit-noscroll>
-	<Icon showIcon={true} iconName="add" />
-</a>
+<div>
+	<p aria-hidden="true">{label}</p>
+
+	<!-- data-sveltekit-noscroll: with JavaScript the page keeps its scroll position when the overlay opens -->
+	<a {href} class="add-button" aria-label={label} data-sveltekit-noscroll>
+		<Icon showIcon={true} iconName="add" />
+	</a>
+</div>
 
 <style>
+	div{
+		display: flex;
+		align-items: center;
+		gap: var(--gap-small);
+	}
+
+	p::after{
+		content: ':' / '';
+	}
+
 	.add-button {
 		display: inline-flex;
 		align-items: center;

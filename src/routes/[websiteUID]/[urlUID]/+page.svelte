@@ -2,7 +2,6 @@
 	import { page } from '$app/stores';
 	import Heading from '$lib/components/molecules/heading.svelte';
 	import NavButton from '$lib/components/molecules/navButton.svelte';
-	import SubHeader from '$lib/components/templates/subheader.svelte';
 
 	let { data } = $props();
 
