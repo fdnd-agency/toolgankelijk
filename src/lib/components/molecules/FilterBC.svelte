@@ -116,7 +116,7 @@
 	.breadcrumbs {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 0.5em 2em;
+		gap: var(--gap-small) var(--gap-big);
 		margin: 0;
 		padding: 0;
 		list-style: none;
@@ -125,7 +125,7 @@
 	form {
 		display: flex;
 		align-items: center;
-		gap: 0.5em;
+		gap: var(--gap-small);
 	}
 
 	button {
