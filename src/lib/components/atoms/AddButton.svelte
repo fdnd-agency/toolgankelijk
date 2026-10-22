@@ -19,6 +19,11 @@
 		display: flex;
 		align-items: center;
 		gap: var(--gap-small);
+		grid-area: addbtn;
+
+		@container (width > 740px){
+			justify-content: flex-end;
+		}
 	}
 
 	p::after{

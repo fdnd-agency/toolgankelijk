@@ -52,8 +52,11 @@
 		display: flex;
 		flex-wrap: wrap;
 		align-items: flex-start;
+		align-content: flex-start;
+		justify-content: flex-end;
 		gap: var(--gap-small) var(--gap-big);
 		flex-direction: column;
+		grid-area: filter;
 
 		@media (width > 740px) {
 			flex-direction: row;

@@ -22,3 +22,9 @@
 <h1>
 	{heading.title}{#if heading.url}/{heading.url}{/if}
 </h1>
+
+<style>
+	h1{
+		grid-area: heading;
+	}
+</style>
