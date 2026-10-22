@@ -136,8 +136,12 @@
 	/* Small label in summary*/
 	hgroup > p:first-child {
 		display: inline;
-		font-weight: 300;
+		font-weight: 700;
 		margin-left: 0.3rem;
+	}
+
+	hgroup > h3 {
+		font-weight: 500;
 	}
 
 	details[open] summary ~ * {
@@ -217,7 +221,7 @@
 
 	/* Criterion text */
 	.richtlijn-uitleg {
-		padding: 1em 0 0 1rem;
+		padding: 1em 0 0;
 		font-size: 0.9em;
 	}
 
