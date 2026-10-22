@@ -1,7 +1,7 @@
 <script>
 	import { page } from '$app/stores';
-	import AddButton from '$lib/components/molecules/addButton.svelte';
-	import BreadCrumbs from '$lib/components/organisms/breadCrumbs.svelte';
+	import AddButton from '$lib/components/atoms/AddButton.svelte';
+	import BreadCrumbs from '$lib/components/molecules/FilterBC.svelte';
 	import FilterForm from '$lib/components/organisms/filterForm.svelte';
 	import Heading from '$lib/components/molecules/heading.svelte';
 	import Search from '$lib/components/atoms/Search.svelte';
@@ -38,5 +38,13 @@
 </section>
 
 <style>
-
+.subheader-layout{
+	margin: var(--margin-inline);
+	display: grid;
+	grid-template-areas: 
+	'heading add'
+	'breadcr breadcr'
+	'filter  filter'
+	'search  search';
+}
 </style>
