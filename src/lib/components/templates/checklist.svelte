@@ -114,6 +114,7 @@
 	section {
 		flex-basis: 0;
 		flex-grow: 999;
+		color: var(--color-primary-darkest);
 	}
 
 	ul {
@@ -145,7 +146,7 @@
 
 	/* Guideline detail and summary */
 	form > ul > li {
-		border-top: 1px solid var(--color-neutral-black);
+		border-top: 1px solid var(--color-primary-darkest);
 	}
 
 	form > ul > li > details {
@@ -164,9 +165,8 @@
 
 	/* Criteria details and summary */
 	.criteria {
-		background-color: var(--color-primary-light);
+		background-color: var(--color-primary-lightest);
 		border-radius: 0.5em;
-		border: solid 1px var(--color-neutral-black);
 		margin-top: 1.5em;
 	}
 
@@ -191,7 +191,7 @@
 	}
 
 	.criteria > li:not(:first-child) {
-		border-top: 1px solid var(--color-neutral-black);
+		border-top: 1px solid var(--color-neutral-grey);
 	}
 
 	h3 {
