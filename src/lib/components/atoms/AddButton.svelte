@@ -6,7 +6,7 @@
 </script>
 
 <div>
-	<p>Voeg partner toe:</p>
+	<p>{label}:</p>
 
 	<!-- data-sveltekit-noscroll: with JavaScript the page keeps its scroll position when the overlay opens -->
 	<a {href} class="add-button" aria-label={label} data-sveltekit-noscroll>
@@ -18,7 +18,9 @@
 	div{
 		display: flex;
 		align-items: center;
+		gap: var(--gap-small);
 	}
+
 	.add-button {
 		display: inline-flex;
 		align-items: center;
