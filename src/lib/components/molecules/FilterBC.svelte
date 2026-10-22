@@ -4,7 +4,7 @@
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { breadcrumbPath } from '$lib/utils/breadcrumbPath.js';
-	import SelectField from '../molecules/selectField.svelte';
+	import SelectField from '$lib/components/atoms/SelectField.svelte';
 
 	let { params = {}, partners = [], websites = [], principles = [] } = $props();
 

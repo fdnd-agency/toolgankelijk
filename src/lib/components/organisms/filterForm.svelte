@@ -2,7 +2,7 @@
 	// filters for the main content, every page gives its own filters from its load function
 	// GET form: the choices end up in the url and the server filters the data (works without JavaScript)
 	import { onMount } from 'svelte';
-	import SelectField from '../molecules/selectField.svelte';
+	import SelectField from '$lib/components/atoms/SelectField.svelte';
 
 	let { filters = [] } = $props();
 
