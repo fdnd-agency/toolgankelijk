@@ -3,7 +3,6 @@
 	import { invalidateAll } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import Card from '$lib/components/templates/card.svelte';
-	import SubHeader from '$lib/components/templates/subheader.svelte';
 	import Pages from '$lib/components/organisms/pages.svelte';
 	import NavButton from '$lib/components/molecules/navButton.svelte';
 	import FormOverlay from '$lib/components/templates/formOverlay.svelte';

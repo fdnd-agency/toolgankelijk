@@ -2,7 +2,6 @@
 	import { page } from '$app/stores';
 	import Card from '$lib/components/templates/card.svelte';
 	import Pages from '$lib/components/organisms/pages.svelte';
-	import SubHeader from '$lib/components/templates/subheader.svelte';
 	import FormOverlay from '$lib/components/templates/formOverlay.svelte';
 	import AddForm from '$lib/components/organisms/addForm.svelte';
 
