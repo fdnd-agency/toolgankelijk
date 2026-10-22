@@ -114,6 +114,7 @@
 	section {
 		flex-basis: 0;
 		flex-grow: 999;
+		color: var(--color-primary-darkest);
 	}
 
 	ul {
@@ -135,17 +136,26 @@
 	/* Small label in summary*/
 	hgroup > p:first-child {
 		display: inline;
-		font-weight: 300;
+		font-weight: 700;
 		margin-left: 0.3rem;
+	}
+
+	hgroup > h3 {
+		font-weight: 500;
 	}
 
 	details[open] summary ~ * {
 		animation: sweep 0.25s ease-in-out;
 	}
 
+	summary:focus-visible {
+		outline: 2px solid var(--color-primary);
+  		outline-offset: 4px;
+	}
+
 	/* Guideline detail and summary */
 	form > ul > li {
-		border-top: 1px solid var(--color-neutral-black);
+		border-top: 1px solid var(--color-primary-darkest);
 	}
 
 	form > ul > li > details {
@@ -164,9 +174,8 @@
 
 	/* Criteria details and summary */
 	.criteria {
-		background-color: var(--color-primary-light);
+		background-color: var(--color-primary-lightest);
 		border-radius: 0.5em;
-		border: solid 1px var(--color-neutral-black);
 		margin-top: 1.5em;
 	}
 
@@ -191,7 +200,7 @@
 	}
 
 	.criteria > li:not(:first-child) {
-		border-top: 1px solid var(--color-neutral-black);
+		border-top: 1px solid var(--color-neutral-grey);
 	}
 
 	h3 {
@@ -212,7 +221,7 @@
 
 	/* Criterion text */
 	.richtlijn-uitleg {
-		padding: 1em 0 0 1rem;
+		padding: 1em 0 0;
 		font-size: 0.9em;
 	}
 

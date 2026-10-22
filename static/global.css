@@ -2,6 +2,8 @@
 	color-scheme: light;
 	--color-primary: #b9005f;
 	--color-primary-light: #f1ccdf;
+	--color-primary-lightest: #fbeff5;
+	--color-primary-darkest: #470025;
 
 	/* accent colors */
 	--color-accent-primary: #7b8f0c;
@@ -141,7 +143,6 @@ p {
 .richtlijn-uitleg p,
 .richtlijn-uitleg ul,
 .richtlijn-uitleg li {
-	margin: 0 0 1em 0;
 	padding: 0;
 	font-size: inherit;
 	line-height: 1.5;
@@ -150,6 +151,11 @@ p {
 
 .richtlijn-uitleg ul {
 	list-style: disc;
+	padding: 1em 0 0 1em;
+}
+
+.richtlijn-uitleg li:not(:first-child) {
+	padding-top: 0.5em;
 }
 
 .disabled {
