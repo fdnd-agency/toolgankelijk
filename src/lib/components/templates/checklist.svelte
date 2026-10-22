@@ -144,6 +144,11 @@
 		animation: sweep 0.25s ease-in-out;
 	}
 
+	summary:focus-visible {
+		outline: 2px solid var(--color-primary);
+  		outline-offset: 4px;
+	}
+
 	/* Guideline detail and summary */
 	form > ul > li {
 		border-top: 1px solid var(--color-primary-darkest);
