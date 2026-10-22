@@ -12,8 +12,6 @@
 		partners = [],
 		websites = [],
 		principles = [],
-		overview,
-		showAdd = false,
 		heading,
 		filters = []
 	} = $props();
