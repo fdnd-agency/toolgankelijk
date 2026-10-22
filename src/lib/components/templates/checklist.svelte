@@ -5,8 +5,9 @@
 	import loadingIcon from '$lib/assets/loading.svg';
 	import NavButton from '../molecules/navButton.svelte';
 
-	let { guidelines, toolboardData, levels, selectedLevel = $bindable(levels[0].level) } = $props();
-
+	let { guidelines, toolboardData, levels, success, selectedLevel = $bindable(levels[0].level) } = $props();
+	
+	let showSuccess = $state(false);
 	let loading = $state(false);
 	const getSuccessCriteriaByLevel = (level) =>
 		toolboardData.url.checks[0].successCriteria.filter((item) => item.level === level);
@@ -58,9 +59,13 @@
 		action="?/updateChecklist"
 		use:enhance={() => {
 			loading = true;
-			return async ({ update }) => {
+			showSuccess = false;
+			return async ({ result, update }) => {
 				loading = false;
-				update({ reset: false });
+			if (result.type === 'success') {
+						showSuccess = true;
+					}
+        		await update({ reset: false });
 			};
 		}}
 	>
