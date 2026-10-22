@@ -52,7 +52,7 @@
 		display: flex;
 		flex-wrap: wrap;
 		align-items: flex-start;
-		gap: 0.5em 1em;
+		gap: 0.5em 2em;
 		flex-direction: column;
 
 		@media (width > 740px) {
