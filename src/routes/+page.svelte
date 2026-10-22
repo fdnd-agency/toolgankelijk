@@ -5,8 +5,8 @@
 	import Card from '$lib/components/templates/card.svelte';
 	import Pages from '$lib/components/organisms/pages.svelte';
 	import NavButton from '$lib/components/molecules/navButton.svelte';
-	import FormOverlay from '$lib/components/templates/formOverlay.svelte';
-	import AddForm from '$lib/components/organisms/addForm.svelte';
+	import FormOverlay from '$lib/components/organisms/FormOverlay.svelte';
+	import AddForm from '$lib/components/molecules/AddForm.svelte';
 
 	let { data, form } = $props();
 

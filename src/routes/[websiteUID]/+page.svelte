@@ -2,8 +2,8 @@
 	import { page } from '$app/stores';
 	import Card from '$lib/components/templates/card.svelte';
 	import Pages from '$lib/components/organisms/pages.svelte';
-	import FormOverlay from '$lib/components/templates/formOverlay.svelte';
-	import AddForm from '$lib/components/organisms/addForm.svelte';
+	import FormOverlay from '$lib/components/organisms/FormOverlay.svelte';
+	import AddForm from '$lib/components/molecules/AddForm.svelte';
 
 	let { data, form } = $props();
 	let params = $derived($page.params);

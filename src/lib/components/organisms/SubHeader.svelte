@@ -2,8 +2,8 @@
 	import { page } from '$app/stores';
 	import AddButton from '$lib/components/atoms/AddButton.svelte';
 	import BreadCrumbs from '$lib/components/molecules/FilterBreadCrumbs.svelte';
-	import FilterForm from '$lib/components/organisms/filterForm.svelte';
-	import Heading from '$lib/components/molecules/heading.svelte';
+	import FilterForm from '$lib/components/molecules/FilterForm.svelte';
+	import Heading from '$lib/components/atoms/Heading.svelte';
 	import Search from '$lib/components/atoms/Search.svelte';
 
 	let {
