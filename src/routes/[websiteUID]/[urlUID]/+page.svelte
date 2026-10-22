@@ -20,59 +20,19 @@
 
 	const checks = data.urlData.url.checks;
 
-	let activeFilters = $state({
-		principle: 'All',
-		level: 'All',
-		showNotMet: false,
-		showMet: false
-	});
+	// the chosen filters come from the url via the load function (?principe=...&niveau=...)
+	const filterValue = (name) => data.filters.find((filter) => filter.name === name)?.value;
+
+	let selectedPrinciple = $derived(filterValue('principe'));
+	let selectedLevel = $derived(filterValue('niveau'));
 
 	let filteredPrincipes = $derived(
-		principes.filter((p) => {
-			if (activeFilters.principle !== 'All' && p.title !== activeFilters.principle) {
-				return false;
-			}
-
-			const filteringVoldaan = activeFilters.showMet && !activeFilters.showNotMet;
-			const filteringNietVoldaan = activeFilters.showNotMet && !activeFilters.showMet;
-
-			if (filteringVoldaan || filteringNietVoldaan) {
-				let total = 0;
-				let behaald = 0;
-
-				// Check progress against the currently active Niveau (or all of them if "All" is selected)
-				const niveausToCheck =
-					activeFilters.level === 'All' ? niveaus.map((n) => n.level) : [activeFilters.level];
-
-				niveausToCheck.forEach((niv) => {
-					if (progressData[p.index] && progressData[p.index].levels[niv]) {
-						total += progressData[p.index].levels[niv].total;
-						behaald += progressData[p.index].levels[niv].achieved;
-					}
-				});
-
-				// A principle is 'Voldaan' if it has required checks, and the achieved matches the total
-				const isVoldaan = total > 0 && total === behaald;
-
-				if (filteringVoldaan && !isVoldaan) return false; // Hide if we want Voldaan, but it isn't
-				if (filteringNietVoldaan && isVoldaan) return false; // Hide if we want Niet Voldaan, but it is
-			}
-
-			return true;
-		})
+		principes.filter((p) => selectedPrinciple === 'alle' || p.slug === selectedPrinciple)
 	);
+
 	let filteredNiveaus = $derived(
-		niveaus.filter((n) => {
-			if (activeFilters.level === 'All') {
-				return true;
-			}
-			return n.level === activeFilters.level;
-		})
+		niveaus.filter((n) => selectedLevel === 'alle' || n.level === selectedLevel)
 	);
-
-	function handleApplyFilters(newFilters) {
-		activeFilters = newFilters;
-	}
 
 	principes.forEach((principe) => {
 		const pIndex = principe.index;

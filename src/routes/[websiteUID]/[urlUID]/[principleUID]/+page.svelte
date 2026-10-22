@@ -5,27 +5,29 @@
 	import SubHeader from '$lib/components/templates/subheader.svelte';
 
 	let { data, form } = $props();
-	let success = $derived(form?.success)
 
+	let success = $derived(form?.success);
+	
 	let heading = $derived({
 		title: data.websitesData.website.title,
 		homepage: data.urlData.url.url,
 		url: data.urlData.url.slug
 	});
 
-	function handleApplyFilters(newFilters) {
-		activeFilters = newFilters;
-	}
-
 	let toolboardData = $derived(data.toolboardData);
 	let urlData = $derived(data.urlData);
 	let guidelines = $derived(toolboardData.principle.guidelines);
 	let principles = $derived(data.toolboardData.principles);
-	let levels = $derived(data.levelsData.levels);
+
+	// the chosen filters come from the url via the load function (?beschrijving=...&niveau=...)
+	const filterValue = (name) => data.filters.find((filter) => filter.name === name)?.value;
+
+	let selectedLevel = $derived(filterValue('niveau'));
+	let description = $derived(filterValue('beschrijving'));
 </script>
 
 <section>
-	<Checklist {guidelines} {toolboardData} {levels} {success} />
+	<Checklist {guidelines} {toolboardData} {selectedLevel} {description} {success}/>
 	<Sidebar {principles} {urlData} />
 </section>
 
@@ -36,5 +38,4 @@
 		margin: 1em;
 		gap: 1em;
 	}
-
 </style>

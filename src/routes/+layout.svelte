@@ -3,9 +3,6 @@
 	import { onNavigate } from '$app/navigation';
 	import Header from '$lib/components/templates/header.svelte';
 	import SubHeader from '$lib/components/templates/subheader.svelte';
-	import Dialog from '$lib/components/templates/dialog.svelte';
-
-	let dialogRef = $state();
 
 	// give the variables to the pages
 	let { data, children } = $props();
@@ -36,8 +33,6 @@
 			!$page.url.pathname.startsWith('/logout')
 	);
 
-	let dialogType = $derived($page.url.pathname === '/' ? 'addPartner' : 'addUrl');
-
 	//
 	onNavigate((navigation) => {
 		if (!document.startViewTransition) return;
@@ -49,13 +44,7 @@
 			});
 		});
 	});
-
-	function openAddUrl() {
-		dialogRef?.open();
-	}
 </script>
-
-<Dialog bind:this={dialogRef} {params} isType={dialogType} />
 
 <Header />
 
@@ -65,8 +54,8 @@
 		{partners}
 		websites={websitesArray}
 		{principles}
-		onAdd={openAddUrl}
 		{heading}
+		filters={$page.data.filters ?? []}
 		user={data.user}
 		overview={data.urlData?.url?.website || data.websitesData?.website}
 	/>

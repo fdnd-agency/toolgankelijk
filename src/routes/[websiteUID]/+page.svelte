@@ -1,9 +1,10 @@
 <script>
 	import { page } from '$app/stores';
 	import Card from '$lib/components/templates/card.svelte';
-	import Dialog from '$lib/components/templates/dialog.svelte';
 	import Pages from '$lib/components/organisms/pages.svelte';
 	import SubHeader from '$lib/components/templates/subheader.svelte';
+	import FormOverlay from '$lib/components/templates/formOverlay.svelte';
+	import AddForm from '$lib/components/organisms/addForm.svelte';
 
 	let { data, form } = $props();
 	let params = $derived($page.params);
@@ -27,15 +28,22 @@
 		homepage: overview?.homepage ?? ''
 	});
 
-	let dialogRef = $state();
-
-	function openAddUrl() {
-		dialogRef?.open();
-	}
+	// ?add in the url opens the add form, it closes after a successful save and stays open when saving failed
+	let showAddForm = $derived(
+		($page.url.searchParams.has('add') && !form?.success) || form?.success === false
+	);
 </script>
 
-<!-- This is the dialog component will be active when you click on the "add button" -->
-<Dialog bind:this={dialogRef} params={params.websiteUID} isType="addUrl" />
+{#if showAddForm}
+	<FormOverlay title="Url toevoegen" closeHref="/{params.websiteUID}">
+		<AddForm
+			action="?/addUrl"
+			nameLabel="Pagina titel"
+			urlLabel="Pagina url"
+			closeHref="/{params.websiteUID}"
+		/>
+	</FormOverlay>
+{/if}
 
 {#if form?.success}
 	<div class="toast"><p>{form?.message}</p></div>
