@@ -6,7 +6,7 @@
 </script>
 
 <div>
-	<p>{label}:</p>
+	<p aria-hidden="true">{label}:</p>
 
 	<!-- data-sveltekit-noscroll: with JavaScript the page keeps its scroll position when the overlay opens -->
 	<a {href} class="add-button" aria-label={label} data-sveltekit-noscroll>
