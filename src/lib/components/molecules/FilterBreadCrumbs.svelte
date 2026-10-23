@@ -113,6 +113,10 @@
 </nav>
 
 <style>
+	nav{
+		grid-area: breadcr;
+	}
+	
 	.breadcrumbs {
 		display: flex;
 		flex-wrap: wrap;

@@ -2,8 +2,8 @@
 	import { page } from '$app/stores';
 	import AddButton from '$lib/components/atoms/AddButton.svelte';
 	import BreadCrumbs from '$lib/components/molecules/FilterBreadCrumbs.svelte';
-	import FilterForm from '$lib/components/organisms/filterForm.svelte';
-	import Heading from '$lib/components/molecules/heading.svelte';
+	import FilterForm from '$lib/components/molecules/FilterForm.svelte';
+	import Heading from '$lib/components/atoms/Heading.svelte';
 	import Search from '$lib/components/atoms/Search.svelte';
 
 	let {
@@ -12,8 +12,6 @@
 		partners = [],
 		websites = [],
 		principles = [],
-		overview,
-		showAdd = false,
 		heading,
 		filters = []
 	} = $props();
@@ -23,28 +21,46 @@
 	let addLabel = $derived(params?.websiteUID ? 'Url toevoegen' : 'Partner toevoegen');
 </script>
 
-<section class="subheader-layout">
-	<Heading {heading}/>
+<div class="subheader-container">
+	<section class="subheader-layout">
+		<Heading {heading}/>
 
-	<AddButton href={addHref} label={addLabel}/>
+		<AddButton href={addHref} label={addLabel}/>
 
-	<Search/>
+		<Search/>
 
-	{#if user && user.isEmailVerified}
-		<BreadCrumbs {params} {partners} {websites} {principles} />
-	{/if}
+		{#if user && user.isEmailVerified}
+			<BreadCrumbs {params} {partners} {websites} {principles} />
+		{/if}
 
-	<FilterForm {filters} />
-</section>
+		<FilterForm {filters} />
+	</section>
+</div>
 
 <style>
-.subheader-layout{
-	margin: var(--margin-inline);
-	display: grid;
-	grid-template-areas: 
-	'heading add'
-	'breadcr breadcr'
-	'filter  filter'
-	'search  search';
-}
+	.subheader-container{
+		container-type: inline-size;
+	}
+
+	.subheader-layout{
+		margin: var(--margin-inline);
+		display: grid;
+		grid-template-areas: 
+		'heading'
+		'addbtn'
+		'breadcr'
+		'filter'
+		'search';
+		gap: var(--gap-small);
+	}
+
+	@container (width > 740px) {
+		.subheader-layout {
+			grid-template-columns: 1fr auto auto;
+			grid-template-areas:
+				'heading addbtn  search'
+				'breadcr filter  filter';
+		}
+	}
+
 </style>

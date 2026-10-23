@@ -1,6 +1,6 @@
 <script>
 	import { page } from '$app/stores';
-	import Heading from '$lib/components/molecules/heading.svelte';
+	import Heading from '$lib/components/atoms/Heading.svelte';
 	import NavButton from '$lib/components/molecules/navButton.svelte';
 
 	let { data } = $props();
