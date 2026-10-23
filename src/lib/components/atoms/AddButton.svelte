@@ -26,6 +26,10 @@
 		}
 	}
 
+	p{
+		font-weight: bold;
+	}
+
 	p::after{
 		content: ':' / '';
 	}
