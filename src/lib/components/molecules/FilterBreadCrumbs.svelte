@@ -53,7 +53,7 @@
 	]);
 </script>
 
-<nav aria-label="Kruimelpad">
+<!-- <nav aria-label="Kruimelpad">
 	<ol class="breadcrumbs">
 		<li>
 			<form method="GET" action="/navigate" onchange={handleChange}>
@@ -110,7 +110,56 @@
 			</li>
 		{/if}
 	</ol>
-</nav>
+</nav> -->
+
+<details>
+	<summary>Filter pagina</summary>
+		<form method="GET" action="/navigate" onchange={handleChange}>
+			<SelectField
+				id="breadcrumb-partner"
+				name="partner"
+				label="Kies een partner"
+				hideLabel={true}
+				options={partnerOptions}
+				value={params.websiteUID ?? ''}
+			/>
+			{#if !enhanced}
+				<button type="submit">Ga</button>
+			{/if}
+
+			{#if selectedPartner && websites.length > 0}
+				<input type="hidden" name="partner" value={selectedPartner.slug} />
+				<SelectField
+					id="breadcrumb-url"
+					name="url"
+					label="Kies een url"
+					hideLabel={true}
+					options={urlOptions}
+					value={params.urlUID ?? ''}
+				/>
+				{#if !enhanced}
+					<button type="submit">Ga</button>
+				{/if}
+			{/if}
+
+			{#if selectedUrl && principles.length > 0}
+				<input type="hidden" name="partner" value={selectedPartner.slug} />
+				<input type="hidden" name="url" value={selectedUrl.slug} />
+				<SelectField
+					id="breadcrumb-principle"
+					name="principle"
+					label="Kies een principe"
+					hideLabel={true}
+					options={principleOptions}
+					value={params.principleUID ?? ''}
+				/>
+				{#if !enhanced}
+					<button type="submit">Ga</button>
+				{/if}
+			{/if}
+		</form>
+</details>
+
 
 <style>
 	nav{
