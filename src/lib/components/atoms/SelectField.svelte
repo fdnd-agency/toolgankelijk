@@ -51,7 +51,7 @@
 		overflow: hidden;
 		text-overflow: ellipsis;
 		cursor: pointer;
-		max-width: 20rem;
+		max-width: 12rem;
 	}
 
 	select:focus-visible {
