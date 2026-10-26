@@ -16,9 +16,11 @@
 		enhanced = true;
 	});
 
-	// the change event of the select bubbles up to its form
+	// the change event of the select bubbles up to its form; the select's name tells which level changed
 	function handleChange(event) {
-		goto(breadcrumbPath(new FormData(event.currentTarget)));
+		const formData = new FormData(event.currentTarget);
+		formData.set('level', event.target.name);
+		goto(breadcrumbPath(formData));
 	}
 
 	let partnerList = $derived(Array.isArray(partners) ? partners : partners?.websites || []);
@@ -69,7 +71,7 @@
 		value={params.websiteUID ?? ''}
 	/>
 	{#if !enhanced}
-		<button type="submit">Ga</button>
+		<button type="submit" name="level" value="partner">Ga</button>
 	{/if}
 
 	{#if selectedPartner && websites.length > 0}
@@ -82,7 +84,7 @@
 			value={params.urlUID ?? ''}
 		/>
 		{#if !enhanced}
-			<button type="submit">Ga</button>
+			<button type="submit" name="level" value="url">Ga</button>
 		{/if}
 	{/if}
 
@@ -96,7 +98,7 @@
 			value={params.principleUID ?? ''}
 		/>
 		{#if !enhanced}
-			<button type="submit">Ga</button>
+			<button type="submit" name="level" value="principle">Ga</button>
 		{/if}
 	{/if}
 </form>
@@ -136,6 +138,7 @@
 		background-color: var(--color-primary-light);
 		border-radius: 0 4px 4px 4px;
 		box-shadow: 1px 3px 3px rgba(0, 0, 0, 0.234);
+		min-width: 9.5em;
 
 		button {
 			height: 2.2em;
