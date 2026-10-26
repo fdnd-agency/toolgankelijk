@@ -135,6 +135,7 @@
 		border: none;
 		background-color: var(--color-primary-light);
 		border-radius: 0 4px 4px 4px;
+		box-shadow: 1px 3px 3px rgba(0, 0, 0, 0.234);
 
 		button {
 			height: 2.2em;

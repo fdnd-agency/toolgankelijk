@@ -133,7 +133,6 @@
 			/* closed state of the options, also where they animate back to */
 			opacity: 0;
 			transition: opacity 0.2s ease;
-			box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.234);
 		}
 
 		select:open::picker(select) {

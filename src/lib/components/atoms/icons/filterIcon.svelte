@@ -11,7 +11,7 @@
 <style>
 	svg path {
 		fill: none;
-		color: none;
+		color: var(--color-primary);
 
 		@media (max-width: 720px) {
 			height: 24px;
