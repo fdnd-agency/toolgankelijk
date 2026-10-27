@@ -17,6 +17,37 @@
 	let formAction = $derived(
 		`?${new URLSearchParams({ niveau: selectedLevel, beschrijving: description })}&/updateChecklist`
 	);
+
+	// counts how many criteria of one guideline are checked, at the selected level
+	function countChecked(guideline) {
+
+		// answers the question: "is this criterion at the selected level?" (true or false)
+		function isAtSelectedLevel(criterion) {
+			return criterion.level === selectedLevel
+		}
+
+		// answers the question: "is this criterion checked?" (true or false)
+		function isChecked(criterion) {
+			for (const checkedCriterion of checkedSuccessCriteria) {
+				if (checkedCriterion.id === criterion.id) {
+					return true
+				}
+			}
+			return false
+		}
+
+		// the criteria that are shown at the selected level
+		const criteriaAtLevel = guideline.successCriteria.filter(isAtSelectedLevel)
+
+		// from those, the criteria that are saved as checked
+		const checkedCriteria = criteriaAtLevel.filter(isChecked)
+
+		// give back the number of checked criteria and the total number of criteria, at the selected level
+		return { 
+			checkedCount: checkedCriteria.length,
+			totalCount: criteriaAtLevel.length
+		}
+	}
 </script>
 
 <section>
