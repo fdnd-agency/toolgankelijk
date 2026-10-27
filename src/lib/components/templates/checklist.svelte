@@ -249,12 +249,12 @@
 	}
 
 	.progress-text.complete {
-		display: inline-flex;
-		gap: .3rem;
 		color: var(--color-accent-success);
 
-		&::before {
-			padding-right: 0;
+		& svg {
+			display: inline-block;
+			vertical-align: -0.2em;
+			margin-left: 0.3em;
 		}
 	}
 
