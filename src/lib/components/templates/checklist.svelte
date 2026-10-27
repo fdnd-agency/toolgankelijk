@@ -94,6 +94,14 @@
 							</ul>
 						</details>
 					</li>
+				{:else}
+					<li class="guideline-without-criteria">
+						<hgroup>
+							<p>Richtlijn {guideline.index}</p>
+							<h2>{guideline.title}</h2>
+						</hgroup>
+						<p>Er zijn geen criteria voor deze richtlijn op niveau {selectedLevel}.</p>
+					</li>
 				{/if}
 			{/each}
 		</ul>
@@ -172,17 +180,22 @@
 		border-top: 1px solid var(--color-primary-darkest);
 	}
 
-	form > ul > li > details {
+	form > ul > li > details,
+	.guideline-without-criteria {
 		padding: 1em;
 	}
 
 	.collapsible-summary h2,
-	.collapsible-summary h2 ~ :global(p) {
+	.collapsible-summary h2 ~ :global(p),
+	.guideline-without-criteria h2,
+	.guideline-without-criteria p,
+	.guideline-without-criteria hgroup p {
 		margin-left: 1.2rem;
 		margin-bottom: 0.8rem;
 	}
 
-	.collapsible-summary h2 {
+	.collapsible-summary h2,
+	.guideline-without-criteria h2 {
 		margin-top: 0.8rem;
 	}
 
