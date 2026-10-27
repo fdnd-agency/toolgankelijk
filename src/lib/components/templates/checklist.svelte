@@ -84,7 +84,12 @@
 						<details name="guideline">
 							<summary class="collapsible-summary">
 								<hgroup>
-									<p>Richtlijn {guideline.index}</p>
+									<p>
+										Richtlijn {guideline.index}
+										<span class="progress-text" class:complete={isComplete}>
+											{progress.checkedCount} / {progress.totalCount} criteria opgeslagen als voldaan
+										</span>
+									</p>
 									<h2>{guideline.title}</h2>
 									{@html guideline.explanation.html}
 								</hgroup>
@@ -232,6 +237,13 @@
 		margin-top: 0.8rem;
 	}
 
+	.progress-text {
+		font-weight: 500;
+		&::before {
+			content: '—';
+			padding-inline: .3rem;
+		}
+	}
 	/* Criteria details and summary */
 	.criteria {
 		background-color: var(--color-primary-lightest);
