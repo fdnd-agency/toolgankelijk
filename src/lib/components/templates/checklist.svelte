@@ -78,6 +78,8 @@
 				)}
 
 				{#if hasCriteriaAtThisLevel}
+					{@const progress = countChecked(guideline)}
+					{@const isComplete = progress.checkedCount === progress.totalCount}
 					<li>
 						<details name="guideline">
 							<summary class="collapsible-summary">
