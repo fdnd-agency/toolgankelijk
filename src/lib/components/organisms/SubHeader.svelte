@@ -52,6 +52,7 @@
 		'filter'
 		'search';
 		gap: var(--gap-small);
+		align-items: center;
 	}
 
 	@container (width > 740px) {
