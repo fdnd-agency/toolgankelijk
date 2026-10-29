@@ -17,6 +17,37 @@
 	let formAction = $derived(
 		`?${new URLSearchParams({ niveau: selectedLevel, beschrijving: description })}&/updateChecklist`
 	);
+
+	// counts how many criteria of one guideline are checked, at the selected level
+	function countChecked(guideline) {
+
+		// answers the question: "is this criterion at the selected level?" (true or false)
+		function isAtSelectedLevel(criterion) {
+			return criterion.level === selectedLevel
+		}
+
+		// answers the question: "is this criterion checked?" (true or false)
+		function isChecked(criterion) {
+			for (const checkedCriterion of checkedSuccessCriteria) {
+				if (checkedCriterion.id === criterion.id) {
+					return true
+				}
+			}
+			return false
+		}
+
+		// the criteria that are shown at the selected level
+		const criteriaAtLevel = guideline.successCriteria.filter(isAtSelectedLevel)
+
+		// from those, the criteria that are saved as checked
+		const checkedCriteria = criteriaAtLevel.filter(isChecked)
+
+		// give back the number of checked criteria and the total number of criteria, at the selected level
+		return { 
+			checkedCount: checkedCriteria.length,
+			totalCount: criteriaAtLevel.length
+		}
+	}
 </script>
 
 <section>
@@ -47,11 +78,21 @@
 				)}
 
 				{#if hasCriteriaAtThisLevel}
+					{@const progress = countChecked(guideline)}
+					{@const isComplete = progress.checkedCount === progress.totalCount}
 					<li>
 						<details name="guideline">
 							<summary class="collapsible-summary">
 								<hgroup>
-									<p>Richtlijn {guideline.index}</p>
+									<p>
+										Richtlijn {guideline.index}
+										<span class="progress-text" class:complete={isComplete}>
+											{progress.checkedCount} / {progress.totalCount} criteria opgeslagen als voldaan
+											{#if isComplete}
+												<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="20" viewBox="0 0 256 256" xml:space="preserve"><g style="stroke: none; stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: none; fill-rule: nonzero; opacity: 1;" transform="translate(1.4065934065934016 1.4065934065934016) scale(2.81 2.81)"><polygon points="37.95,64.44 23.78,50.27 30.85,43.2 37.95,50.3 59.15,29.1 66.22,36.17 " style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(22,118,51); fill-rule: nonzero; opacity: 1;" transform="  matrix(1 0 0 1 0 0) "/><path d="M 45 90 C 20.187 90 0 69.813 0 45 C 0 20.187 20.187 0 45 0 c 24.813 0 45 20.187 45 45 C 90 69.813 69.813 90 45 90 z M 45 10 c -19.299 0 -35 15.701 -35 35 s 15.701 35 35 35 s 35 -15.701 35 -35 S 64.299 10 45 10 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(22,118,51); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round"/></g></svg>
+											{/if}
+										</span>
+									</p>
 									<h2>{guideline.title}</h2>
 									{@html guideline.explanation.html}
 								</hgroup>
@@ -93,6 +134,14 @@
 								{/each}
 							</ul>
 						</details>
+					</li>
+				{:else}
+					<li class="guideline-without-criteria">
+						<hgroup>
+							<p>Richtlijn {guideline.index}</p>
+							<h2>{guideline.title}</h2>
+						</hgroup>
+						<p>Er zijn geen criteria voor deze richtlijn op niveau {selectedLevel}.</p>
 					</li>
 				{/if}
 			{/each}
@@ -172,18 +221,41 @@
 		border-top: 1px solid var(--color-primary-darkest);
 	}
 
-	form > ul > li > details {
+	form > ul > li > details,
+	.guideline-without-criteria {
 		padding: 1em;
 	}
 
 	.collapsible-summary h2,
-	.collapsible-summary h2 ~ :global(p) {
+	.collapsible-summary h2 ~ :global(p),
+	.guideline-without-criteria h2,
+	.guideline-without-criteria p,
+	.guideline-without-criteria hgroup p {
 		margin-left: 1.2rem;
 		margin-bottom: 0.8rem;
 	}
 
-	.collapsible-summary h2 {
+	.collapsible-summary h2,
+	.guideline-without-criteria h2 {
 		margin-top: 0.8rem;
+	}
+
+	.progress-text {
+		font-weight: 500;
+		&::before {
+			content: '—';
+			padding-inline: .3rem;
+		}
+	}
+
+	.progress-text.complete {
+		color: var(--color-accent-success);
+
+		& svg {
+			display: inline-block;
+			vertical-align: -0.2em;
+			margin-left: 0.3em;
+		}
 	}
 
 	/* Criteria details and summary */
