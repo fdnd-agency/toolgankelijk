@@ -34,7 +34,7 @@
 </script>
 
 <aside>
-	<ol>
+	<ol role="list">
 		{#each principles as principle}
 			<li>
 				<h3>{principle.title}</h3>
@@ -75,9 +75,19 @@
 		max-width: 18.5rem;
 	}
 
+	ol {
+		/* list-style-position: inside; */
+		list-style: none;
+		counter-reset: principle;
+	}
+
 	li {
 		padding: 1em;
-		list-style: none;
+		counter-increment: principle;
+	}
+
+	h3::before {
+		content: counter(principle) '. ';
 	}
 
 	.progress-container {
