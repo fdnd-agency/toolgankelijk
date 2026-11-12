@@ -1,6 +1,6 @@
 <script>
 	// side bar needs to be refactored
-	import NavButton from '../molecules/navButton.svelte';
+	import NavButton from './navButton.svelte';
 	let { principles, urlData } = $props();
 
 	let baseUrl = $derived(`/${urlData.url.website.slug}/${urlData.url.slug}`);

@@ -1,7 +1,7 @@
 <script>
 	// page with checks manually audit
 	import Checklist from '$lib/components/templates/checklist.svelte';
-	import Sidebar from '$lib/components/templates/sidebar.svelte';
+	import Sidebar from '$lib/components/molecules/Sidebar.svelte';
 
 	let { data, form } = $props();
 
