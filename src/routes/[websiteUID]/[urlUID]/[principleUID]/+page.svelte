@@ -34,7 +34,6 @@
 	section {
 		display: flex;
 		flex-wrap: wrap;
-		margin: 1em;
-		gap: 1em;
+		gap: var(--gap-medium);
 	}
 </style>

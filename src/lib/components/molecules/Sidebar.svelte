@@ -40,22 +40,22 @@
 				<h3>{principle.title}</h3>
 				<div class="progress-container">
 					{#each getLevelsForPrinciple(principle) as level}
-						<p>{level}</p>
+							<p>{level}</p>
 
-						<progress
-							id="progress-partner-{level}"
-							max={getProgress(principle, level).total || 1}
-							value={getProgress(principle, level).achieved || 0}
-						></progress>
+							<progress
+								id="progress-partner-{level}"
+								max={getProgress(principle, level).total || 1}
+								value={getProgress(principle, level).achieved || 0}
+							></progress>
 
-						<label class="progress-percentage" for="progress-partner-{level}">
-							{getProgress(principle, level).total
-								? Math.round(
-										(getProgress(principle, level).achieved / getProgress(principle, level).total) *
-											100
-									)
-								: 0}%
-						</label>
+							<label class="progress-percentage" for="progress-partner-{level}">
+								{getProgress(principle, level).total
+									? Math.round(
+											(getProgress(principle, level).achieved / getProgress(principle, level).total) *
+												100
+										)
+									: 0}%
+							</label>
 					{/each}
 				</div>
 			</li>
@@ -65,41 +65,26 @@
 
 <style>
 	aside {
-		display: block;
-		position: -webkit-sticky;
 		position: sticky;
-		top: calc(90px + 1em);
-		height: 100%;
-		background-color: var(--color-primary);
+		top: 1em;
+		background-color: var(--color-primary-lightest);
 		border-radius: var(--border-radius);
-		border: solid 1px var(--color-neutral-white);
 		flex-grow: 400;
 		flex-basis: 0;
-		align-self: start;
+		height: fit-content;
+		max-width: 18.5rem;
 	}
 
 	li {
-		width: 100%;
-		height: 100%;
-		border-bottom: 1px solid var(--c-container-stroke);
 		padding: 1em;
-		color: white;
-		text-decoration: none;
+		list-style: none;
 	}
 
 	.progress-container {
-		display: flex;
-		gap: 1em;
-		flex-direction: column;
-	}
-
-	div {
-		display: flex;
-		flex-direction: row;
-		justify-content: space-between;
-		align-items: flex-end;
-		gap: 1em;
-		margin-top: 0.25em;
+		display: grid;
+		grid-template-columns: auto 1fr auto;
+		gap: var(--gap-small);
+		align-items: center;
 	}
 
 	progress {
@@ -108,8 +93,7 @@
 
 	progress[value] {
 		-webkit-appearance: none;
-		appearance: none;
-		height: 10px;
+		height: .5em;
 	}
 
 	progress[value]::-webkit-progress-bar {
@@ -118,11 +102,7 @@
 	}
 
 	progress[value]::-webkit-progress-value {
-		background-color: var(--color-primary-light);
+		background-color: var(--color-primary);
 		border-radius: 0.5em;
-	}
-
-	label {
-		height: 85%;
 	}
 </style>
