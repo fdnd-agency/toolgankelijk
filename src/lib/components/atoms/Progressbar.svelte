@@ -1,19 +1,18 @@
-<div>
-	<!-- not yet refactored, look at the new design, seperated in manually and automatic checks-->
-	<progress id="progress-partner" max="100" value="35"></progress>
-	<label for="progress-partner">8/25</label>
-</div>
+<script>
+	// Progress for one level: renders <p>, <progress> and <label> without a wrapper,
+	// so the parent decides the layout (e.g. a 3-column grid).
+	let { id, level, achieved = 0, total = 0 } = $props();
+
+	let percentage = $derived(total ? Math.round((achieved / total) * 100) : 0);
+</script>
+
+<p>{level}</p>
+
+<progress {id} max={total || 1} value={achieved}></progress>
+
+<label class="progress-percentage" for={id}>{percentage}%</label>
 
 <style>
-	div {
-		display: flex;
-		flex-direction: row;
-		justify-content: space-between;
-		align-items: flex-end;
-		gap: 1em;
-		margin-top: 0.25em;
-	}
-
 	progress {
 		width: 100%;
 	}
@@ -21,20 +20,16 @@
 	progress[value] {
 		-webkit-appearance: none;
 		appearance: none;
-		height: 10px;
+		height: 0.5em;
 	}
 
 	progress[value]::-webkit-progress-bar {
-		background-color: var(--c-container-stroke);
+		background-color: var(--color-neutral-white);
 		border-radius: 0.5em;
 	}
 
 	progress[value]::-webkit-progress-value {
-		background-color: var(--c-pink);
+		background-color: var(--color-primary);
 		border-radius: 0.5em;
-	}
-
-	label {
-		height: 85%;
 	}
 </style>

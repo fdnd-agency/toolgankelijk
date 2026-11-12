@@ -1,6 +1,7 @@
 <script>
 	// side bar needs to be refactored
 	import NavButton from './navButton.svelte';
+	import Progressbar from '$lib/components/atoms/Progressbar.svelte';
 	let { principles, urlData } = $props();
 
 	let baseUrl = $derived(`/${urlData.url.website.slug}/${urlData.url.slug}`);
@@ -40,22 +41,8 @@
 				<h3>{principle.title}</h3>
 				<div class="progress-container">
 					{#each getLevelsForPrinciple(principle) as level}
-							<p>{level}</p>
-
-							<progress
-								id="progress-partner-{level}"
-								max={getProgress(principle, level).total || 1}
-								value={getProgress(principle, level).achieved || 0}
-							></progress>
-
-							<label class="progress-percentage" for="progress-partner-{level}">
-								{getProgress(principle, level).total
-									? Math.round(
-											(getProgress(principle, level).achieved / getProgress(principle, level).total) *
-												100
-										)
-									: 0}%
-							</label>
+						{@const { achieved, total } = getProgress(principle, level)}
+						<Progressbar id="progress-{principle.index}-{level}" {level} {achieved} {total} />
 					{/each}
 				</div>
 			</li>
@@ -95,24 +82,5 @@
 		grid-template-columns: auto 1fr auto;
 		gap: var(--gap-small);
 		align-items: center;
-	}
-
-	progress {
-		width: 100%;
-	}
-
-	progress[value] {
-		-webkit-appearance: none;
-		height: .5em;
-	}
-
-	progress[value]::-webkit-progress-bar {
-		background-color: var(--color-neutral-white);
-		border-radius: 0.5em;
-	}
-
-	progress[value]::-webkit-progress-value {
-		background-color: var(--color-primary);
-		border-radius: 0.5em;
 	}
 </style>
