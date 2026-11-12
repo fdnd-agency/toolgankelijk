@@ -25,16 +25,16 @@
 			.filter((sc) => sc.level === level).length;
 
 		// All successcriteria that are achieved for this principle and level
-		const behaald = urlData.url.checks
+		const achieved = urlData.url.checks
 			.flatMap((check) => check.successCriteria)
 			.filter((sc) => sc.level === level && sc.index.startsWith(principle.index + '.')).length;
 
-		return { total, behaald };
+		return { total, achieved };
 	}
 </script>
 
 <aside>
-	<ul>
+	<ol>
 		{#each principles as principle}
 			<li>
 				<h3>{principle.title}</h3>
@@ -45,13 +45,13 @@
 						<progress
 							id="progress-partner-{level}"
 							max={getProgress(principle, level).total || 1}
-							value={getProgress(principle, level).behaald || 0}
+							value={getProgress(principle, level).achieved || 0}
 						></progress>
 
 						<label class="progress-percentage" for="progress-partner-{level}">
 							{getProgress(principle, level).total
 								? Math.round(
-										(getProgress(principle, level).behaald / getProgress(principle, level).total) *
+										(getProgress(principle, level).achieved / getProgress(principle, level).total) *
 											100
 									)
 								: 0}%
@@ -60,7 +60,7 @@
 				</div>
 			</li>
 		{/each}
-	</ul>
+	</ol>
 </aside>
 
 <style>
@@ -76,11 +76,6 @@
 		flex-grow: 400;
 		flex-basis: 0;
 		align-self: start;
-	}
-
-	li:hover {
-		background-color: var(--color-neutral-black);
-		border-radius: var(--border-radius);
 	}
 
 	li {
