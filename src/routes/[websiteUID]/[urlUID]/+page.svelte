@@ -127,7 +127,7 @@
 
 	.container-principles {
 		gap: 1rem;
-		border-radius: var(--border-radius);
+		border-radius: var(--border-radius-l);
 		color: var(--color-neutral-white);
 	}
 
@@ -135,7 +135,7 @@
 		list-style: none;
 		display: grid;
 		grid-template-columns: repeat(2, 1fr);
-		border-radius: var(--border-radius);
+		border-radius: var(--border-radius-l);
 	}
 
 	.h3-niveaus {
@@ -150,7 +150,7 @@
 
 	.principle-card {
 		background-color: var(--color-background-card);
-		border-radius: var(--border-radius);
+		border-radius: var(--border-radius-l);
 		padding: 1em;
 		color: var(--color-neutral-black);
 		font-family: sans-serif;
@@ -207,13 +207,13 @@
 
 	progress::-webkit-progress-bar {
 		background-color: var(--color-neutral-white);
-		border-radius: var(--border-radius);
+		border-radius: var(--border-radius-l);
 		border: var(--color-neutral-black) solid 1px;
 	}
 
 	progress::-webkit-progress-value {
 		background-color: var(--color-primary);
-		border-radius: var(--border-radius);
+		border-radius: var(--border-radius-l);
 	}
 
 	.custom-nav-override :global(button),

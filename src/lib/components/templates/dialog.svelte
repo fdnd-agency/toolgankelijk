@@ -365,7 +365,7 @@
 		padding: 1em;
 		color: var(--color-neutral-black);
 		background-color: var(--dark-2);
-		border-radius: var(--border-radius);
+		border-radius: var(--border-radius-l);
 		align-items: center;
 		margin-bottom: 1em;
 

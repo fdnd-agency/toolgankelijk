@@ -71,7 +71,7 @@
 		top: calc(90px + 1em);
 		height: 100%;
 		background-color: var(--color-primary);
-		border-radius: var(--border-radius);
+		border-radius: var(--border-radius-l);
 		border: solid 1px var(--color-neutral-white);
 		flex-grow: 400;
 		flex-basis: 0;
@@ -80,7 +80,7 @@
 
 	li:hover {
 		background-color: var(--color-neutral-black);
-		border-radius: var(--border-radius);
+		border-radius: var(--border-radius-l);
 	}
 
 	li {
