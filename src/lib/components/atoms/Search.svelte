@@ -25,7 +25,7 @@
 </script>
 
 <form class="form-off" oninput={submitPartner}>
-	<input type="search" id="partner-search" placeholder="zoeken" bind:value={input} />
+	<input type="search" id="partner-search" bind:value={input} />
 	<button>
 		<Icon showIcon={true} iconName="search"/>
 	</button>
@@ -87,6 +87,7 @@
 
 	button{
 		margin: 0.5em;
+		display: flex;
 	}
 
 	button:focus-visible {
