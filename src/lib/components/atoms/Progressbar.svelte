@@ -14,22 +14,28 @@
 
 <style>
 	progress {
-		width: 100%;
+			width: 100%;
+			-webkit-appearance: none;
+			appearance: none;
+			border: none;
+			height: 0.5em;
 	}
 
-	progress[value] {
-		-webkit-appearance: none;
-		appearance: none;
-		height: 0.5em;
+	progress[value]::-webkit-progress-bar,
+	progress {
+			background-color: var(--color-neutral-white);
+			border-radius: 0.5em;
 	}
 
-	progress[value]::-webkit-progress-bar {
-		background-color: var(--color-neutral-white);
-		border-radius: 0.5em;
-	}
-
+	/* value color for Chrome, Safari and Edge */
 	progress[value]::-webkit-progress-value {
-		background-color: var(--color-primary);
-		border-radius: 0.5em;
+			background-color: var(--color-primary);
+			border-radius: 0.5em;
+	}
+
+	/* value color for Firefox */
+	progress::-moz-progress-bar {
+			background-color: var(--color-primary);
+			border-radius: 0.5em;
 	}
 </style>
