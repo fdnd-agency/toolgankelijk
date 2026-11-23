@@ -136,6 +136,7 @@
 		display: grid;
 		grid-template-columns: repeat(2, 1fr);
 		border-radius: var(--border-radius-l);
+		gap: var(--gap-big);
 	}
 
 	.h3-niveaus {
@@ -154,8 +155,6 @@
 		padding: 1em;
 		color: var(--color-neutral-black);
 		font-family: sans-serif;
-		margin: 1em 1em;
-		box-shadow: 0px 4px 10px -2px rgba(0, 0, 0, 0.25);
 	}
 
 	.progress-row {

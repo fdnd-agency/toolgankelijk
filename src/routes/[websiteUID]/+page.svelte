@@ -66,7 +66,6 @@
 	section {
 		display: flex;
 		justify-content: space-between;
-		margin: 0 0 1em 1em;
 	}
 
 	.cards-container {
@@ -74,7 +73,6 @@
 		flex-direction: column;
 		gap: 1em;
 		list-style-type: none;
-		margin: 0 1em;
 	}
 
 	.toast {
