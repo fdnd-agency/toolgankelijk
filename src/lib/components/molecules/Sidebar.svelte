@@ -78,7 +78,7 @@
 	}
 
 	h3::before {
-		content: counter(principle) '. ';
+		content: counter(principle) ' - ';
 	}
 
 	.progress-container {
