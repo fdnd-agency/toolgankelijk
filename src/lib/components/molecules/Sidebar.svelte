@@ -73,6 +73,10 @@
 		counter-increment: principle;
 	}
 
+	h3 {
+		text-wrap: nowrap;
+	}
+
 	h3::before {
 		content: counter(principle) '. ';
 	}
