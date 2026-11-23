@@ -35,6 +35,7 @@
 	form {
 		display: flex;
 		align-items: center;
+		justify-content: space-between;
 		gap: var(--gap-medium);
 		font-weight: 600;
 		grid-area: search;
@@ -75,10 +76,13 @@
 		opacity: 0.8;
 	}
 
-	input:focus-visible {
+	form:has(input:focus-visible) {
 		outline: 2px solid var(--color-primary);
 		outline-offset: 2px;
-		border-radius: inherit;
+	}
+
+	input:focus-visible {
+		outline: none;
 	}
 
 	button{

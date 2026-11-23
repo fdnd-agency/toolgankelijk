@@ -22,12 +22,12 @@
 	--color-background-card: #fbf0f5;
 
 	/* border radius */
-	--border-radius-s: 4px;
-	--border-radius-m: 8px;
-	--border-radius-l: 12px;
+	--border-radius-s: .25em;
+	--border-radius-m: .5em;
+	--border-radius-l: .75em;
 
 	/* margin */
-	--margin-inline: 5%;
+	--margin-page-inline: 5%;
 
 	/* gap */
 
