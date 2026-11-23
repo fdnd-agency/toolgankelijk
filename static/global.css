@@ -121,7 +121,7 @@
 }
 
 main {
-	margin: 0 var(--margin-inline);
+	margin: 0 var(--margin-page-inline);
 }
 
 /* Text styles */

@@ -81,7 +81,6 @@
 	section {
 		display: flex;
 		justify-content: space-between;
-		margin: 0 0 1em 1em;
 	}
 
 	a {
@@ -108,8 +107,6 @@
 		grid-template-columns: 1fr 1fr;
 		gap: 3em;
 		list-style-type: none;
-		margin: 0 1em;
-		margin-bottom: 1em;
 
 		@media (max-width: 1080px) {
 			grid-template-columns: 1fr;
