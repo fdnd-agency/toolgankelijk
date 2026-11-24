@@ -126,11 +126,6 @@ export const actions = {
 	 * @type {import('./$types').Actions['updateChecklist']}
 	 */
 	updateChecklist: async ({ request, params }) => {
-			return fail(400, {
-				statusCode: 400,
-				message: 'Dit is een test error'
-			});
-
 		const { websiteUID, urlUID, principleUID } = params;
 		const toolboardData = await contentRepository.getToolboard({
 			urlSlug: urlUID,
