@@ -7,7 +7,7 @@
 	import ErrorToast from '../molecules/ErrorToast.svelte'
 
 	// selectedLevel and description come from the filters in the subheader (?niveau=...&beschrijving=...)
-	let { guidelines, toolboardData, selectedLevel, description = 'simpel', success = false } = $props();
+	let { guidelines, toolboardData, selectedLevel, description = 'simpel', success = false, serverError = null } = $props();
 
 	let loading = $state(false);
 
@@ -63,7 +63,11 @@
 		500: 'Er is iets misgegaan op onze server. Probeer het later opnieuw.'
 	};
 
-	let errorDescription = $state('');
+	let errorStatus = $state(serverError);
+
+	let errorDescription = $derived(
+		errorMessages[errorStatus] ?? 'Something went wrong. Please try again.'
+	);
 </script>
 
 <section>
@@ -81,10 +85,7 @@
 
 				else if (result.type === 'failure') {
 					showError = true;
-
-					errorDescription =
-						errorMessages[result.status] ??
-						'Er is iets misgegaan. Probeer het opnieuw.';
+					errorStatus = result.status;
 				}
 
 				await update({ reset: false });
@@ -186,8 +187,8 @@
 			<!-- when you click on save it shows a toast must be refactored -->
 			{#if !loading && (showSuccess || success)}
 				<SuccessToast/>
-			{:else if !loading && showError}
-				<ErrorToast description={errorDescription}/>
+			{:else if !loading && (showError || errorStatus)}
+				<ErrorToast description={errorDescription} />
 			{/if}
 		</div>
 	</form>
