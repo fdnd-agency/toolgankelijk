@@ -12,6 +12,8 @@
 
 	let showSuccess = $state(false);
 
+	let showError = $state(false);
+
 	const checkedSuccessCriteria = $derived(toolboardData.url.checks[0].successCriteria);
 
 	// keep the chosen filters in the url when saving, also without JavaScript
@@ -49,6 +51,18 @@
 			totalCount: criteriaAtLevel.length
 		}
 	}
+
+	const errorMessages = {
+		400: 'De ingevulde gegevens zijn ongeldig. Controleer je invoer.',
+		401: 'Je bent niet ingelogd. Log opnieuw in en probeer het opnieuw.',
+		403: 'Je hebt geen toestemming om deze wijzigingen op te slaan.',
+		404: 'De opgevraagde gegevens zijn niet gevonden.',
+		409: 'Er is een conflict opgetreden. Probeer het opnieuw.',
+		422: 'De gegevens konden niet worden verwerkt.',
+		500: 'Er is iets misgegaan op onze server. Probeer het later opnieuw.'
+	};
+
+	let errorDescription = $state('');
 </script>
 
 <section>
