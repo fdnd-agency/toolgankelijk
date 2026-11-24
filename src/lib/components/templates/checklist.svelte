@@ -4,6 +4,7 @@
 	import NavButton from '../molecules/navButton.svelte';
 	import Checkbox from '../molecules/checkbox.svelte';
 	import SuccessToast from '../molecules/SuccessToast.svelte';
+	import ErrorToast from '../molecules/ErrorToast.svelte'
 
 	// selectedLevel and description come from the filters in the subheader (?niveau=...&beschrijving=...)
 	let { guidelines, toolboardData, selectedLevel, description = 'simpel', success = false } = $props();
@@ -77,6 +78,15 @@
 				if (result.type === 'success') {
 					showSuccess = true;   // set before update() runs
 				}
+
+				else if (result.type === 'failure') {
+					showError = true;
+
+					errorDescription =
+						errorMessages[result.status] ??
+						'Er is iets misgegaan. Probeer het opnieuw.';
+				}
+
 				await update({ reset: false });
 			};
 		}}
@@ -176,6 +186,8 @@
 			<!-- when you click on save it shows a toast must be refactored -->
 			{#if !loading && (showSuccess || success)}
 				<SuccessToast/>
+			{:else if !loading && showError}
+				<ErrorToast description={errorDescription}/>
 			{/if}
 		</div>
 	</form>
