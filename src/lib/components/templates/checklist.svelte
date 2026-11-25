@@ -19,7 +19,7 @@
 
 	// keep the chosen filters in the url when saving, also without JavaScript
 	let formAction = $derived(
-		`?${new URLSearchParams({ niveau: selectedLevel, beschrijving: description })}&/updateChecklist`
+		`?${new URLSearchParams({ niveau: selectedLevel, beschrijving: description })}&/updateChecklist#save-status`
 	);
 
 	// counts how many criteria of one guideline are checked, at the selected level
@@ -173,7 +173,7 @@
 			{/each}
 		</ul>
 
-		<div class="action">
+		<div class="action" id="save-status" tabindex="-1">
 			<div class="action-content">
 				{#if loading}
 					<div class="submit">
