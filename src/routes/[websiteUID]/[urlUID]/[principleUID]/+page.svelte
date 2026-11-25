@@ -32,8 +32,13 @@
 
 <style>
 	section {
-		display: flex;
-		flex-wrap: wrap;
-		gap: var(--gap-medium);
+		display: grid;
+		width: 100%;
+		
+
+		@container main (min-width: 690px) {
+			grid-template-columns: 2fr 1fr;
+			gap: clamp(3em,5dvw,8em);
+		}
 	}
 </style>

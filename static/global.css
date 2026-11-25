@@ -121,6 +121,7 @@
 }
 
 main {
+	container: main / inline-size;
 	margin: 0 var(--margin-page-inline);
 }
 

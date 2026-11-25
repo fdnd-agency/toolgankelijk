@@ -56,10 +56,10 @@
 		top: 1em;
 		background-color: var(--color-primary-lightest);
 		border-radius: var(--border-radius-l);
-		flex-grow: 400;
-		flex-basis: 0;
 		height: fit-content;
-		max-width: 18.5rem;
+		max-width: 23rem;
+		justify-self: end;
+  		width: 100%;
 	}
 
 	ol {
