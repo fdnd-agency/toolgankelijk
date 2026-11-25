@@ -174,22 +174,23 @@
 		</ul>
 
 		<div class="action">
-			{#if loading}
-				<div class="submit">
-					<img src={loadingIcon} alt="laadt icoontje" height="32" width="32" />
-				</div>
-			{:else}
-				<div class="form-btn">
-					<NavButton type="submit" size="medium" aria="opslaan checklist">Opslaan</NavButton>
-				</div>
-			{/if}
-
-			<!-- when you click on save it shows a toast must be refactored -->
-			{#if !loading && (showSuccess || success)}
-				<SuccessToast/>
-			{:else if !loading && (showError || errorStatus)}
-				<ErrorToast description={errorDescription} />
-			{/if}
+			<div class="action-content">
+				{#if loading}
+					<div class="submit">
+						<img src={loadingIcon} alt="laadt icoontje" height="32" width="32" />
+					</div>
+				{:else}
+					<div class="form-btn">
+						<NavButton type="submit" size="medium" aria="opslaan checklist">Opslaan</NavButton>
+					</div>
+				{/if}
+				<!-- when you click on save it shows a toast must be refactored -->
+				{#if !loading && (showSuccess || success)}
+					<SuccessToast/>
+				{:else if !loading && (showError || errorStatus)}
+					<ErrorToast description={errorDescription} />
+				{/if}
+			</div>
 		</div>
 	</form>
 </section>
@@ -370,7 +371,26 @@
 	}
 
 	.action {
+		width: 100%;
 		display: flex;
+		align-items: center;
 		gap: .8em;
+
+		container-type: inline-size;
+		container-name: action;
 	}
-</style>
+
+	.action-content {
+		display: flex;
+		align-items: center;
+		gap: .8rem;
+	}
+
+	@container action (max-width: 600px) {
+		.action-content {
+			flex-direction: column;
+			align-items: flex-start;
+			padding-bottom: 1em;
+		}
+	}
+</style>	

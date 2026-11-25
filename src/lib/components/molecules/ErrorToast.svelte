@@ -20,15 +20,10 @@
             border-radius: 4px;
             padding: 0.5rem;
             animation: bounce .8s ease-in-out;
-            z-index: 2;
             gap: .3em;
 
 
             .toast-content {
-                display: flex;
-                flex-direction: column;
-                bottom: 5rem;
-                right: 1rem;
                 height: 1.5rem;
                 width: 19rem;
                 
