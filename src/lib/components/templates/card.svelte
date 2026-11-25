@@ -215,6 +215,7 @@
 <style>
 	a {
 		text-decoration: none;
+		color: var(--color-neutral-black);
 	}
 
 	.card-wrapper {
