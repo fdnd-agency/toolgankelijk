@@ -167,12 +167,12 @@
 	</form>
 </section>
 
-<div class="changed"></div>
+<!-- If something breaks on the checklist page, turn this one on again. We don't know what it does -->
+<!-- <div class="changed"></div> -->
 
 <style>
 	section {
-		flex-basis: 0;
-		flex-grow: 999;
+		max-width: 80ch;
 		color: var(--color-primary-darkest);
 	}
 
@@ -219,7 +219,7 @@
 
 	form > ul > li > details,
 	.guideline-without-criteria {
-		padding: 1em;
+		padding: 1em 0;
 	}
 
 	.collapsible-summary h2,
@@ -227,7 +227,7 @@
 	.guideline-without-criteria h2,
 	.guideline-without-criteria p,
 	.guideline-without-criteria hgroup p {
-		margin-left: 1.2rem;
+		margin-left: 1.3rem;
 		margin-bottom: 0.8rem;
 	}
 
@@ -258,12 +258,12 @@
 	.criteria {
 		background-color: var(--color-primary-lightest);
 		border-radius: 0.5em;
-		margin-top: 1.5em;
+		margin: 1.5em 1.3em 0;
 	}
 
 	.criteria > li {
 		display: grid;
-		padding: 1em;
+		padding: 1em clamp(1em, 5dvw, 2em) ;
 	}
 
 	.criteria > li > details {

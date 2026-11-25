@@ -1,6 +1,6 @@
 <script>
 	// side bar needs to be refactored
-	import NavButton from './navButton.svelte';
+	import NavButton from '../molecules/navButton.svelte';
 	import Progressbar from '$lib/components/atoms/Progressbar.svelte';
 	let { principles, urlData } = $props();
 
