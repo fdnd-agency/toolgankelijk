@@ -58,10 +58,10 @@
 		flex-direction: column;
 		grid-area: filter;
 
-		/* the fixed height only on wide screens: in a column it would wrap the filters into a new column next to each other */
+		/* min-height instead of a fixed height: when the filters wrap to a second row the form grows with them instead of overflowing */
 		@container subheader (width > 740px) {
 			flex-direction: row;
-			height: var(--height-elements-medium);
+			min-height: var(--height-elements-medium);
 		}
 	}
 
