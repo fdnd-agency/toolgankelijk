@@ -26,7 +26,7 @@
 </script>
 
 <section>
-	<Checklist {guidelines} {toolboardData} {selectedLevel} {description} {success}/>
+	<Checklist {guidelines} {toolboardData} {selectedLevel} {description} {success} serverError={form?.statusCode}/>
 	<Sidebar {principles} {urlData} />
 </section>
 

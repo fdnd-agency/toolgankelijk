@@ -1,8 +1,7 @@
-import { error } from '@sveltejs/kit';
+import { error, fail } from '@sveltejs/kit';
 import { contentRepository, urlRepository } from '$lib/server/index.js';
 import { requireAuthenticatedVerifiedUser } from '$lib/server/auth.js';
 import { createFilter } from '$lib/utils/filters.js';
-
 /**
  * Derives the currently stored checklist selection for a specific WCAG level.
  *

@@ -4,19 +4,22 @@
 	import NavButton from '../molecules/navButton.svelte';
 	import Checkbox from '../molecules/checkbox.svelte';
 	import SuccessToast from '../molecules/SuccessToast.svelte';
+	import ErrorToast from '../molecules/ErrorToast.svelte'
 
 	// selectedLevel and description come from the filters in the subheader (?niveau=...&beschrijving=...)
-	let { guidelines, toolboardData, selectedLevel, description = 'simpel', success = false } = $props();
+	let { guidelines, toolboardData, selectedLevel, description = 'simpel', success = false, serverError = null } = $props();
 
 	let loading = $state(false);
 
 	let showSuccess = $state(false);
 
+	let showError = $state(false);
+
 	const checkedSuccessCriteria = $derived(toolboardData.url.checks[0].successCriteria);
 
 	// keep the chosen filters in the url when saving, also without JavaScript
 	let formAction = $derived(
-		`?${new URLSearchParams({ niveau: selectedLevel, beschrijving: description })}&/updateChecklist`
+		`?${new URLSearchParams({ niveau: selectedLevel, beschrijving: description })}&/updateChecklist#save-status`
 	);
 
 	// counts how many criteria of one guideline are checked, at the selected level
@@ -49,6 +52,22 @@
 			totalCount: criteriaAtLevel.length
 		}
 	}
+
+	const errorMessages = {
+		400: 'De ingevulde gegevens zijn ongeldig. Controleer je invoer.',
+		401: 'Je bent niet ingelogd. Log opnieuw in en probeer het opnieuw.',
+		403: 'Je hebt geen toestemming om deze wijzigingen op te slaan.',
+		404: 'De opgevraagde gegevens zijn niet gevonden.',
+		409: 'Er is een conflict opgetreden. Probeer het opnieuw.',
+		422: 'De gegevens konden niet worden verwerkt.',
+		500: 'Er is iets misgegaan op onze server. Probeer het later opnieuw.'
+	};
+
+	let errorStatus = $state(serverError);
+
+	let errorDescription = $derived(
+		errorMessages[errorStatus] ?? 'Something went wrong. Please try again.'
+	);
 </script>
 
 <section>
@@ -63,6 +82,12 @@
 				if (result.type === 'success') {
 					showSuccess = true;   // set before update() runs
 				}
+
+				else if (result.type === 'failure') {
+					showError = true;
+					errorStatus = result.status;
+				}
+
 				await update({ reset: false });
 			};
 		}}
@@ -148,21 +173,24 @@
 			{/each}
 		</ul>
 
-		<div class="action">
-			{#if loading}
-				<div class="submit">
-					<img src={loadingIcon} alt="laadt icoontje" height="32" width="32" />
-				</div>
-			{:else}
-				<div class="form-btn">
-					<NavButton type="submit" size="medium" aria="opslaan checklist">Opslaan</NavButton>
-				</div>
-			{/if}
-
-			<!-- when you click on save it shows a toast must be refactored -->
-			{#if !loading && (showSuccess || success)}
-				<SuccessToast/>
-			{/if}
+		<div class="action" id="save-status" tabindex="-1">
+			<div class="action-content">
+				{#if loading}
+					<div class="submit">
+						<img src={loadingIcon} alt="laadt icoontje" height="32" width="32" />
+					</div>
+				{:else}
+					<div class="form-btn">
+						<NavButton type="submit" size="medium" aria="opslaan checklist">Opslaan</NavButton>
+					</div>
+				{/if}
+				<!-- when you click on save it shows a toast must be refactored -->
+				{#if !loading && (showSuccess || success)}
+					<SuccessToast/>
+				{:else if !loading && (showError || errorStatus)}
+					<ErrorToast description={errorDescription} />
+				{/if}
+			</div>
 		</div>
 	</form>
 </section>
@@ -343,7 +371,26 @@
 	}
 
 	.action {
+		width: 100%;
 		display: flex;
+		align-items: center;
 		gap: .8em;
+
+		container-type: inline-size;
+		container-name: action;
 	}
-</style>
+
+	.action-content {
+		display: flex;
+		align-items: center;
+		gap: .8rem;
+	}
+
+	@container action (max-width: 600px) {
+		.action-content {
+			flex-direction: column;
+			align-items: flex-start;
+			padding-bottom: 1em;
+		}
+	}
+</style>	
