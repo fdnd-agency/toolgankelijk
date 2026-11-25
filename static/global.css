@@ -150,9 +150,11 @@ p {
 	letter-spacing: 0.0025rem;
 }
 
-.small-icon {
-	height: var(--icon-small);
-	aspect-ratio: 1/1;
+.progress-container {
+	display: grid;
+	grid-template-columns: auto 1fr auto;
+	gap: var(--gap-small);
+	align-items: center;
 }
 
 /* Text from the CMS inside an opened criterion */

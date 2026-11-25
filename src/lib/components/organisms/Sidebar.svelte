@@ -80,11 +80,4 @@
 	h3::before {
 		content: counter(principle) ' - ';
 	}
-
-	.progress-container {
-		display: grid;
-		grid-template-columns: auto 1fr auto;
-		gap: var(--gap-small);
-		align-items: center;
-	}
 </style>
