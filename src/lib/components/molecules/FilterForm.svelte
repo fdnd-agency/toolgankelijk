@@ -57,6 +57,7 @@
 		gap: var(--gap-small) var(--gap-big);
 		flex-direction: column;
 		grid-area: filter;
+		height: var(--height-elements-medium);
 
 		@media (width > 740px) {
 			flex-direction: row;

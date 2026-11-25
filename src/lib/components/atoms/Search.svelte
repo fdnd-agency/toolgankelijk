@@ -27,7 +27,7 @@
 <form class="form-off" oninput={submitPartner}>
 	<input type="search" id="partner-search" placeholder="Zoeken..." bind:value={input} />
 	<button>
-		<Icon showIcon={true} iconName="search"/>
+		<Icon showIcon={true} iconName="search" size="small"/>
 	</button>
 </form>
 
@@ -43,7 +43,7 @@
 		border-radius: var(--border-radius-m);
 		width: clamp(12em, 100%, 20em);
 		box-sizing: border-box;
-		height: 3em;
+		height: var(--height-elements-medium);
 
 		@container (width > 740px){
 			justify-content: flex-end;

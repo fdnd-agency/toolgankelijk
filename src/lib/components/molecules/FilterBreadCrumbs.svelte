@@ -58,7 +58,7 @@
 
 <button popovertarget="filter-menu">
 	Filter pagina
-	<Icon iconName="filter" showIcon={true}/>
+	<Icon iconName="filter" showIcon={true} size="small"/>
 </button>
 
 <form method="GET" action="/navigate" onchange={handleChange} popover="auto" id="filter-menu">
@@ -109,7 +109,7 @@
 		border-radius: 4px;
 		background-color: var(--color-primary-light);
 		color: var(--color-neutral-black);
-		height: 2.2em;
+		height: var(--height-elements-medium);
 		font-weight: bold;
 		padding: 0 0.6em;
 		width: fit-content;

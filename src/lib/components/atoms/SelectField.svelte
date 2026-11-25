@@ -33,7 +33,7 @@
 		appearance: none;
 		box-sizing: border-box;
 		width: 100%;
-		height: 2.2em;
+		height: var(--height-elements-medium);
 		padding: 0 2em 0 0.6em;
 		border: none;
 		border-radius: 4px;
