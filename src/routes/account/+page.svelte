@@ -27,7 +27,7 @@
 <style>
 	.account-card {
 		background-color: var(--light-2);
-		border-radius: var(--border-radius);
+		border-radius: var(--border-radius-l);
 		padding: 40px 124px;
 		margin: 10% auto 0 auto;
 		display: flex;
@@ -42,7 +42,7 @@
 		background-color: var(--color-neutral-white);
 		width: 12vh;
 		height: 12vh;
-		border-radius: var(--border-radius);
+		border-radius: var(--border-radius-l);
 		display: flex;
 		justify-content: center;
 		align-items: center;

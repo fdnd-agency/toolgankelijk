@@ -81,7 +81,6 @@
 	section {
 		display: flex;
 		justify-content: space-between;
-		margin: 0 0 1em 1em;
 	}
 
 	a {
@@ -108,8 +107,6 @@
 		grid-template-columns: 1fr 1fr;
 		gap: 3em;
 		list-style-type: none;
-		margin: 0 1em;
-		margin-bottom: 1em;
 
 		@media (max-width: 1080px) {
 			grid-template-columns: 1fr;
@@ -122,7 +119,7 @@
 		right: 1rem;
 		width: 12rem;
 		backdrop-filter: blur(8px);
-		border-radius: var(--border-radius);
+		border-radius: var(--border-radius-l);
 		padding: 0.75rem;
 		/* Removed hardcoded black shadow for better theme support */
 		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);

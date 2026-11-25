@@ -19,15 +19,21 @@
 	// inside a partner you add a url, otherwise you add a partner
 	let addHref = $derived(params?.websiteUID ? `/${params.websiteUID}?add` : '/?add');
 	let addLabel = $derived(params?.websiteUID ? 'Url toevoegen' : 'Partner toevoegen');
+
+	// routes where the search bar and add partner button are shown
+	const topSubHeader = ['/', '/[websiteUID]'];
+	let showTopSubHeader = $derived(topSubHeader.includes($page.route.id));
 </script>
 
 <div class="subheader-container">
 	<section class="subheader-layout">
 		<Heading {heading}/>
 
-		<AddButton href={addHref} label={addLabel}/>
+		{#if showTopSubHeader}
+			<AddButton href={addHref} label={addLabel}/>
 
-		<Search/>
+			<Search/>
+		{/if}
 
 		{#if user && user.isEmailVerified}
 			<BreadCrumbs {params} {partners} {websites} {principles} />
@@ -43,7 +49,7 @@
 	}
 
 	.subheader-layout{
-		margin: var(--margin-inline);
+		margin: var(--margin-page-inline);
 		display: grid;
 		grid-template-areas: 
 		'heading'
@@ -52,6 +58,7 @@
 		'filter'
 		'search';
 		gap: var(--gap-small);
+		align-items: center;
 	}
 
 	@container (width > 740px) {

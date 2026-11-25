@@ -58,7 +58,7 @@
 		padding: 4rem 2rem;
 		width: 100%;
 		max-width: 45rem;
-		border-radius: var(--border-radius);
+		border-radius: var(--border-radius-l);
 	}
 
 	form {
@@ -74,7 +74,7 @@
 		align-items: center;
 		background-color: var(--color-neutral-white);
 		border: none;
-		border-radius: var(--border-radius);
+		border-radius: var(--border-radius-l);
 		padding: 3rem 2.5rem;
 		width: 100%;
 		max-width: 26rem;

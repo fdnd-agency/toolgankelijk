@@ -22,10 +22,12 @@
 	--color-background-card: #fbf0f5;
 
 	/* border radius */
-	--border-radius: 12px;
+	--border-radius-s: .25em;
+	--border-radius-m: .5em;
+	--border-radius-l: .75em;
 
 	/* margin */
-	--margin-inline: 5%;
+	--margin-page-inline: 5%;
 
 	/* gap */
 
@@ -119,7 +121,7 @@
 }
 
 main {
-	margin: 0 var(--margin-inline);
+	margin: 0 var(--margin-page-inline);
 }
 
 /* Text styles */
@@ -166,11 +168,6 @@ p {
 
 .disabled {
 	display: none;
-}
-
-main {
-	margin-left: 5%;
-	margin-right: 5%;
 }
 
 button {

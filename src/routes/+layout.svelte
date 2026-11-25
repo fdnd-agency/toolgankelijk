@@ -20,7 +20,10 @@
 	let isPartnerPage = $derived(!!$page.params.partner || !!$page.params.slug);
 
 	let heading = $derived({
-		title: data.urlData?.url?.website?.title ?? data.websitesData?.website?.title ?? '',
+		title:
+			data.urlData?.url?.website?.title ??
+			data.websitesData?.website?.title ??
+			($page.route.id === '/' ? 'Partners' : ''),
 		homepage: data.urlData?.url?.url ?? '',
 		url: data.urlData?.url?.slug ?? ''
 	});

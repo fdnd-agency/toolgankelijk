@@ -55,7 +55,7 @@
 		position: sticky;
 		top: 1em;
 		background-color: var(--color-primary-lightest);
-		border-radius: var(--border-radius);
+		border-radius: var(--border-radius-l);
 		flex-grow: 400;
 		flex-basis: 0;
 		height: fit-content;

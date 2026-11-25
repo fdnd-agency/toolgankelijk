@@ -25,16 +25,25 @@
 </script>
 
 <form class="form-off" oninput={submitPartner}>
-	<input type="search" id="partner-search" placeholder="zoeken" bind:value={input} />
+	<input type="search" id="partner-search" placeholder="Zoeken..." bind:value={input} />
+	<button>
+		<Icon showIcon={true} iconName="search"/>
+	</button>
 </form>
 
 <style>
 	form {
 		display: flex;
 		align-items: center;
+		justify-content: space-between;
 		gap: var(--gap-medium);
 		font-weight: 600;
 		grid-area: search;
+		border: 2px solid var(--color-neutral-black);
+		border-radius: var(--border-radius-m);
+		width: clamp(12em, 100%, 20em);
+		box-sizing: border-box;
+		height: 3em;
 
 		@container (width > 740px){
 			justify-content: flex-end;
@@ -54,18 +63,37 @@
 
 	input {
 		padding: 0.5em;
-		height: 2.5em;
-		border: 2px solid var(--color-neutral-black);
-		background-color: var(--color-neutral-white);
-		border-radius: var(--border-radius);
+		border: none;
 		color: var(--color-neutral-black);
 		font-size: 1em;
 		font-weight: 600;
-		opacity: 0.3;
+		height: 100%;
+		background: transparent;
 	}
 
 	input::placeholder {
-		color: var(--color-primary);
+		color: var(--color-neutral-black);
 		opacity: 0.8;
+	}
+
+	form:has(input:focus-visible) {
+		outline: 2px solid var(--color-primary);
+		outline-offset: 2px;
+	}
+
+	input:focus-visible {
+		outline: none;
+	}
+
+	button{
+		margin: 0.5em;
+		display: flex;
+		outline: none;
+	}
+
+	button:focus-visible {
+		outline: 2px solid var(--color-primary);
+		outline-offset: 2px;
+		border-radius: inherit;
 	}
 </style>

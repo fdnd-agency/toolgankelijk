@@ -227,7 +227,7 @@
 	#card-partner {
 		background-color: var(--color-background-card);
 		padding: 1em;
-		border-radius: var(--border-radius);
+		border-radius: var(--border-radius-l);
 		width: 100%;
 		transition: 0.25s ease;
 		display: flex;
@@ -237,7 +237,7 @@
 	#card-url {
 		background-color: var(--color-background-card);
 		padding: 1em;
-		border-radius: var(--border-radius);
+		border-radius: var(--border-radius-l);
 		width: 100%;
 		transition: 0.25s ease;
 		display: flex;
@@ -273,7 +273,7 @@
 	}
 
 	.card-partner-logo {
-		border-radius: var(--border-radius);
+		border-radius: var(--border-radius-l);
 		width: 128px;
 		height: 128px;
 		display: flex;
@@ -313,7 +313,7 @@
 
 	progress::-webkit-progress-bar {
 		background-color: var(--color-neutral-white);
-		border-radius: var(--border-radius);
+		border-radius: var(--border-radius-l);
 	}
 
 	progress::-webkit-progress-value {
