@@ -57,10 +57,11 @@
 		gap: var(--gap-small) var(--gap-big);
 		flex-direction: column;
 		grid-area: filter;
-		height: var(--height-elements-medium);
 
-		@media (width > 740px) {
+		/* the fixed height only on wide screens: in a column it would wrap the filters into a new column next to each other */
+		@container subheader (width > 740px) {
 			flex-direction: row;
+			height: var(--height-elements-medium);
 		}
 	}
 

@@ -45,7 +45,7 @@
 		box-sizing: border-box;
 		height: var(--height-elements-medium);
 
-		@container (width > 740px){
+		@container subheader (width > 740px){
 			justify-content: flex-end;
 		}
 	}
