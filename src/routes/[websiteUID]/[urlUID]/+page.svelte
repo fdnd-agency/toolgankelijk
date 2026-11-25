@@ -80,24 +80,22 @@
 
 			<li class="principle-card">
 				<a href="{$page.url.pathname}/{principe.slug}" class="principle-link">
-					<div class="principle-header">
-						<h2>{principe.title}</h2>
-					</div>
-
-					<div class="levels-list">
-						{#each filteredNiveaus as n}
-							{@const nData = pData.levels[n.level]}
-							<div class="progress-container">
-								<Progressbar
-									id="progress-{principe.index}-{n.level}"
-									level="Niveau {n.level}"
-									achieved={nData.achieved}
-									total={nData.total}
-								/>
-							</div>
-						{/each}
-					</div>
+					<h2>{principe.title}</h2>
 				</a>
+
+				<div class="levels-list">
+					{#each filteredNiveaus as n}
+						{@const nData = pData.levels[n.level]}
+						<div class="progress-container">
+							<Progressbar
+								id="progress-{principe.index}-{n.level}"
+								level="Niveau {n.level}"
+								achieved={nData.achieved}
+								total={nData.total}
+							/>
+						</div>
+					{/each}
+				</div>
 
 				<div class="custom-nav-override">
 					<NavButton
@@ -154,13 +152,15 @@
 		padding: 1em;
 		color: var(--color-neutral-black);
 		font-family: sans-serif;
+
+		display: grid;
+		gap: var(--gap-medium);
 	}
 
 	.levels-list {
-		margin-top: 1.5rem;
 		display: flex;
 		flex-direction: column;
-		gap: 0.75rem;
+		gap: var(--gap-small);
 		background-color: var(--color-background-card);
 	}
 
