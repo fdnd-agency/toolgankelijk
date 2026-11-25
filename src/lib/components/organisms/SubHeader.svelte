@@ -49,7 +49,8 @@
 	}
 
 	.subheader-layout{
-		margin: var(--margin-page-inline);
+		margin-inline: var(--margin-page-inline);
+		margin-block: 2% 5%;
 		display: grid;
 		grid-template-areas: 
 		'heading'
