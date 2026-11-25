@@ -30,10 +30,13 @@
 	--margin-page-inline: 5%;
 
 	/* gap */
-
 	--gap-small: .5em;
 	--gap-medium: 1em;
 	--gap-big: 2em;
+
+	/* Interactive elements values */
+	--height-elements-medium: 2em;
+	--icon-small: 1.5em;
 }
 
 /* color system when you put a class to the html element you can specify color tone with class */
@@ -145,6 +148,11 @@ p {
 	font-weight: 400;
 	line-height: 141.667%;
 	letter-spacing: 0.0025rem;
+}
+
+.small-icon {
+	height: var(--icon-small);
+	aspect-ratio: 1/1;
 }
 
 /* Text from the CMS inside an opened criterion */
