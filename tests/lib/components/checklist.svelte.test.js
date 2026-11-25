@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/svelte';
-import Checklist from '$lib/components/templates/checklist.svelte';
+import Checklist from '$lib/components/organisms/Checklist.svelte';
 
 describe('/checklist.svelte', () => {
 	it('toont de juiste beschrijving', () => {
