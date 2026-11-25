@@ -57,14 +57,13 @@
 		background-color: var(--color-primary-lightest);
 		border-radius: var(--border-radius-l);
 		height: fit-content;
-		
+		max-width: 23rem;
 		margin-top: 2em;
   		width: 100%;
 
 		@container main (min-width: 690px) {
 			justify-self: end;
 			margin-top: 0;
-			max-width: 23rem;
 		}
 	}
 
