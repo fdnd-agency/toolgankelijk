@@ -167,12 +167,12 @@
 	</form>
 </section>
 
-<div class="changed"></div>
+<!-- If something breaks on the checklist page, turn this one on again. We don't know what it does -->
+<!-- <div class="changed"></div> -->
 
 <style>
 	section {
-		flex-basis: 0;
-		flex-grow: 999;
+		max-width: 80ch;
 		color: var(--color-primary-darkest);
 	}
 
@@ -263,7 +263,7 @@
 
 	.criteria > li {
 		display: grid;
-		padding: 1em;
+		padding: 1em clamp(1em, 5dvw, 2em) ;
 	}
 
 	.criteria > li > details {
