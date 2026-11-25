@@ -46,6 +46,7 @@
 <style>
 	.subheader-container{
 		container-type: inline-size;
+		container-name: subheader;
 	}
 
 	.subheader-layout{
@@ -62,7 +63,7 @@
 		align-items: center;
 	}
 
-	@container (width > 740px) {
+	@container subheader (width > 740px) {
 		.subheader-layout {
 			grid-template-columns: 1fr auto auto;
 			grid-template-areas:
