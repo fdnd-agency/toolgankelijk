@@ -1,6 +1,6 @@
 <script>
 	// side bar needs to be refactored
-	import NavButton from './navButton.svelte';
+	import NavButton from '../molecules/navButton.svelte';
 	import Progressbar from '$lib/components/atoms/Progressbar.svelte';
 	let { principles, urlData } = $props();
 
@@ -56,10 +56,15 @@
 		top: 1em;
 		background-color: var(--color-primary-lightest);
 		border-radius: var(--border-radius-l);
-		flex-grow: 400;
-		flex-basis: 0;
 		height: fit-content;
-		max-width: 18.5rem;
+		max-width: 23rem;
+		margin-top: 2em;
+  		width: 100%;
+
+		@container main (min-width: 690px) {
+			justify-self: end;
+			margin-top: 0;
+		}
 	}
 
 	ol {
@@ -79,12 +84,5 @@
 
 	h3::before {
 		content: counter(principle) ' - ';
-	}
-
-	.progress-container {
-		display: grid;
-		grid-template-columns: auto 1fr auto;
-		gap: var(--gap-small);
-		align-items: center;
 	}
 </style>

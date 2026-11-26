@@ -10,7 +10,7 @@
 
 	<!-- data-sveltekit-noscroll: with JavaScript the page keeps its scroll position when the overlay opens -->
 	<a {href} class="add-button" aria-label={label} data-sveltekit-noscroll>
-		<Icon showIcon={true} iconName="add" />
+		<Icon showIcon={true} iconName="add" size="small"/>
 	</a>
 </div>
 
@@ -21,7 +21,7 @@
 		gap: var(--gap-small);
 		grid-area: addbtn;
 
-		@container (width > 740px){
+		@container subheader (width > 740px){
 			justify-content: flex-end;
 		}
 	}
@@ -38,8 +38,8 @@
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		width: 3em;
-		height: 3em;
+		height: var(--height-elements-medium);
+		aspect-ratio: 1/1;
 		box-sizing: border-box;
 		border-radius: var(--border-radius, 8px);
 		background-color: var(--color-primary);

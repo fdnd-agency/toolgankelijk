@@ -30,10 +30,13 @@
 	--margin-page-inline: 5%;
 
 	/* gap */
-
 	--gap-small: .5em;
 	--gap-medium: 1em;
 	--gap-big: 2em;
+
+	/* Interactive elements values */
+	--height-elements-medium: 2em;
+	--icon-small: 1.5em;
 }
 
 /* color system when you put a class to the html element you can specify color tone with class */
@@ -121,6 +124,7 @@
 }
 
 main {
+	container: main / inline-size;
 	margin: 0 var(--margin-page-inline);
 }
 
@@ -145,6 +149,13 @@ p {
 	font-weight: 400;
 	line-height: 141.667%;
 	letter-spacing: 0.0025rem;
+}
+
+.progress-container {
+	display: grid;
+	grid-template-columns: auto 1fr auto;
+	gap: var(--gap-small);
+	align-items: center;
 }
 
 /* Text from the CMS inside an opened criterion */

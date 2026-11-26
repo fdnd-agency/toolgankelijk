@@ -2,6 +2,7 @@
 	import { page } from '$app/stores';
 	import Heading from '$lib/components/atoms/Heading.svelte';
 	import NavButton from '$lib/components/molecules/navButton.svelte';
+	import Progressbar from '$lib/components/atoms/Progressbar.svelte';
 
 	let { data } = $props();
 
@@ -69,9 +70,6 @@
 			progressData[pIndex].achieved += successChecks.length;
 		});
 	});
-
-	// Helper to calculate percentage safely
-	const getPercent = (achieved, total) => (total > 0 ? Math.round((achieved / total) * 100) : 0);
 </script>
 
 <!-- all the principles containers (shows data of a principle) -->
@@ -82,23 +80,22 @@
 
 			<li class="principle-card">
 				<a href="{$page.url.pathname}/{principe.slug}" class="principle-link">
-					<div class="principle-header">
-						<h2>{principe.title}</h2>
-					</div>
-
-					<div class="levels-list">
-						{#each filteredNiveaus as n}
-							{@const nData = pData.levels[n.level]}
-							<div class="level-sub-card">
-								<h3 class="h3-niveaus">Niveau {n.level}</h3>
-								<div class="progress-row">
-									<progress max={nData.total || 1} value={nData.achieved || 0}> </progress>
-									<p class="percentage-text">{getPercent(nData.achieved, nData.total)}%</p>
-								</div>
-							</div>
-						{/each}
-					</div>
+					<h2>{principe.title}</h2>
 				</a>
+
+				<div class="levels-list">
+					{#each filteredNiveaus as n}
+						{@const nData = pData.levels[n.level]}
+						<div class="progress-container">
+							<Progressbar
+								id="progress-{principe.index}-{n.level}"
+								level="Niveau {n.level}"
+								achieved={nData.achieved}
+								total={nData.total}
+							/>
+						</div>
+					{/each}
+				</div>
 
 				<div class="custom-nav-override">
 					<NavButton
@@ -155,64 +152,16 @@
 		padding: 1em;
 		color: var(--color-neutral-black);
 		font-family: sans-serif;
-	}
 
-	.progress-row {
-		display: flex;
-		align-items: center;
-		gap: 1rem;
-
-		p {
-			display: flex;
-			align-items: center;
-			font-size: 24px;
-			margin-top: 0.2em;
-		}
-	}
-
-	progress {
-		flex-grow: 1;
-		height: 8px;
-		appearance: none;
-		-webkit-appearance: none;
-	}
-
-	.percentage-text {
-		font-size: 0.9rem;
-		min-width: 35px;
-		color: var(--color-neutral-darkgrey);
+		display: grid;
+		gap: var(--gap-medium);
 	}
 
 	.levels-list {
-		margin-top: 1.5rem;
 		display: flex;
 		flex-direction: column;
-		gap: 0.75rem;
+		gap: var(--gap-small);
 		background-color: var(--color-background-card);
-	}
-
-	.percentage-text {
-		font-weight: bold;
-		font-size: 0.9rem;
-	}
-
-	progress {
-		width: 100%;
-		height: 10px;
-		appearance: none;
-		-webkit-appearance: none;
-		height: 1em;
-	}
-
-	progress::-webkit-progress-bar {
-		background-color: var(--color-neutral-white);
-		border-radius: var(--border-radius-l);
-		border: var(--color-neutral-black) solid 1px;
-	}
-
-	progress::-webkit-progress-value {
-		background-color: var(--color-primary);
-		border-radius: var(--border-radius-l);
 	}
 
 	.custom-nav-override :global(button),

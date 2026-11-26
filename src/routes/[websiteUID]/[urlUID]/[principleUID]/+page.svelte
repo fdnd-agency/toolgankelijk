@@ -1,7 +1,7 @@
 <script>
 	// page with checks manually audit
-	import Checklist from '$lib/components/templates/checklist.svelte';
-	import Sidebar from '$lib/components/molecules/Sidebar.svelte';
+	import Checklist from '$lib/components/organisms/Checklist.svelte';
+	import Sidebar from '$lib/components/organisms/Sidebar.svelte';
 
 	let { data, form } = $props();
 
@@ -32,8 +32,13 @@
 
 <style>
 	section {
-		display: flex;
-		flex-wrap: wrap;
-		gap: var(--gap-medium);
+		display: grid;
+		width: 100%;
+		
+
+		@container main (min-width: 690px) {
+			grid-template-columns: 2fr 1fr;
+			gap: clamp(3em,5dvw,8em);
+		}
 	}
 </style>

@@ -1,5 +1,5 @@
 <script>
-	let { iconName, showIcon = false } = $props();
+	let { iconName, showIcon = false, size = 'default' } = $props();
 
 	// all the icons will be imported
 	import AccountIcon from '$lib/components/atoms/icons/accountIcon.svelte';
@@ -47,5 +47,23 @@
 
 <!-- it shows the icon -->
 {#if showIcon && ActiveIcon}
-	<ActiveIcon />
+	<span class="icon" class:small={size === 'small'}>
+		<ActiveIcon />
+	</span>
 {/if}
+
+<style>
+	.icon {
+		display: contents;
+	}
+
+	.icon :global(svg) {
+		width: 2em;
+		height: 2em;
+	}
+
+	.icon.small :global(svg) {
+		width: var(--icon-small);
+		height: var(--icon-small);
+	}
+</style>
